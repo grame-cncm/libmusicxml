@@ -508,14 +508,14 @@ class EXP mxmlTree2msrTranslator :
     // public services
     // ------------------------------------------------------
 
-    void populateMsrSkeletonFromMxmlTree (
-        const Sxmlelement mxmlTree);
+    void                  populateMsrSkeletonFromMxmlTree (
+                            const Sxmlelement mxmlTree);
 
     // visitors
     // ------------------------------------------------------
 
-    void browseMxmlTree (
-        const Sxmlelement& mxmlTree);
+    void                  browseMxmlTree (
+                            const Sxmlelement& mxmlTree);
 
   protected:
 
@@ -1230,7 +1230,7 @@ class EXP mxmlTree2msrTranslator :
     int                       fCurrentKeyStaffNumber;
     int                       fCurrentKeyFifths;
     int                       fCurrentKeyCancelFifths;
-    msrModeKind            fCurrentModeKind;
+    msrModeKind               fCurrentModeKind;
 
     S_msrKey                  handleTraditionalKey (
                                 int inputLineNumber);

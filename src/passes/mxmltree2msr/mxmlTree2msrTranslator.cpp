@@ -6827,7 +6827,8 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
             inputLineNumber,
             slurNumber,
             fCurrentSlurTypeKind,
-            slurLineTypeKind);
+            slurLineTypeKind,
+            fCurrentDirectionPlacementKind);
 
       fPendingSlursList.push_back (slur);
 
@@ -6997,7 +6998,7 @@ void mxmlTree2msrTranslator::visitStart (S_bracket& elt )
     case msrLigature::kLigatureStart:
       // remember this ligature spanner start
       switch (fCurrentDirectionPlacementKind) {
-        case msrPlacementKind::kPlacementNone:
+        case msrPlacementKind::k_NoPlacement:
           {
 #ifdef TRACING_IS_ENABLED
             if (gGlobalTraceOahGroup->getTraceLigatures ()) {
@@ -7033,7 +7034,7 @@ void mxmlTree2msrTranslator::visitStart (S_bracket& elt )
       // between both ends of the ligature spanner
 
       switch (fCurrentDirectionPlacementKind) {
-        case msrPlacementKind::kPlacementNone:
+        case msrPlacementKind::k_NoPlacement:
           {
 #ifdef TRACING_IS_ENABLED
             if (gGlobalTraceOahGroup->getTraceLigatures ()) {
@@ -11819,7 +11820,7 @@ void mxmlTree2msrTranslator::visitStart ( S_fret& elt )
     string placementString = elt->getAttributeValue ("placement");
 
     msrPlacementKind
-      fretPlacementKind =  kPlacementNone;
+      fretPlacementKind =  k_NoPlacement;
 
     // color JMI ???
 
@@ -12761,10 +12762,10 @@ void mxmlTree2msrTranslator::visitStart ( S_tremolo& elt )
   string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    singleTremoloPlacementKind = kPlacementNone;
+    singleTremoloPlacementKind = k_NoPlacement;
 
   msrPlacementKind
-    doubleTremoloPlacementKind = kPlacementNone;
+    doubleTremoloPlacementKind = k_NoPlacement;
 
 /* JMI ???
   msrPlacementKind
@@ -18984,7 +18985,7 @@ void mxmlTree2msrTranslator::attachPendingLigaturesToNote (
 
         // handle ligature placement kind
         switch (ligaturePlacementKind) {
-          case msrPlacementKind::kPlacementNone:
+          case msrPlacementKind::k_NoPlacement:
             // should not occur
             break;
 

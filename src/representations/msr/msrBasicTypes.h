@@ -1423,7 +1423,7 @@ string msrPrintObjectKindAsString (
 // placement
 //______________________________________________________________________________
 enum msrPlacementKind {
-  kPlacementNone,
+  k_NoPlacement,
   kPlacementAbove, kPlacementBelow
 };
 

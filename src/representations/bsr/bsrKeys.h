@@ -27,20 +27,20 @@ class EXP bsrKey : public bsrLineContentsElement
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<bsrKey> create (
-      int        inputLineNumber,
-      bsrKeyKind keyKind,
-      int        numberOfAlterations);
+                          static SMARTP<bsrKey> create (
+                            int          inputLineNumber,
+                            bsrKeyKind   keyKind,
+                            unsigned int numberOfAlterations);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrKey (
-      int        inputLineNumber,
-      bsrKeyKind keyKind,
-      int        numberOfAlterations);
+                          bsrKey (
+                            int          inputLineNumber,
+                            bsrKeyKind   keyKind,
+                            unsigned int numberOfAlterations);
 
     virtual               ~bsrKey ();
 
@@ -49,10 +49,16 @@ class EXP bsrKey : public bsrLineContentsElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setKeyKind (bsrKeyKind keyKind)
+                              { fKeyKind = keyKind; }
+
     bsrKeyKind            getKeyKind () const
                               { return fKeyKind; }
 
-    int                   getNumberOfAlterations () const
+    void                  setNumberOfAlterations (unsigned int numberOfAlterations)
+                              { fNumberOfAlterations = numberOfAlterations; }
+
+    unsigned int          getNumberOfAlterations () const
                               { return fNumberOfAlterations; }
 
   public:
@@ -101,7 +107,7 @@ class EXP bsrKey : public bsrLineContentsElement
     // ------------------------------------------------------
 
     bsrKeyKind            fKeyKind;
-    int                   fNumberOfAlterations;
+    unsigned int          fNumberOfAlterations;
 
     S_bsrCellsList        fKeyCellsList;
 };

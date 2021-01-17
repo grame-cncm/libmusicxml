@@ -2604,7 +2604,7 @@ void msr2lpsrTranslator::visitStart (S_msrSyllable& elt)
           words =
             msrWords::create (
               inputLineNumber,
-              kPlacementNone,                // default value
+              k_NoPlacement,                // default value
               wordsValue,
               kJustifyNone,                  // default value
               kHorizontalAlignmentNone,      // default value

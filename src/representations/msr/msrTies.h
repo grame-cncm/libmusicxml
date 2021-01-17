@@ -40,9 +40,9 @@ class EXP msrTie : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrTie> create (
-      int        inputLineNumber,
-      msrTieKind tieKind);
+                          static SMARTP<msrTie> create (
+                            int        inputLineNumber,
+                            msrTieKind tieKind);
 
   protected:
 

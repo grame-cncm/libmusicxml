@@ -62,13 +62,13 @@ class EXP generatorOutputKindAtom : public oahAtomWithValue
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<generatorOutputKindAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      generatorOutputKind& generatorOutputKindVariable);
+                          static SMARTP<generatorOutputKindAtom> create (
+                            string               shortName,
+                            string               longName,
+                            string               description,
+                            string               valueSpecification,
+                            string               variableName,
+                            generatorOutputKind& generatorOutputKindVariable);
 
   protected:
 
@@ -76,11 +76,11 @@ class EXP generatorOutputKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
                           generatorOutputKindAtom (
-                            string             shortName,
-                            string             longName,
-                            string             description,
-                            string             valueSpecification,
-                            string             variableName,
+                            string               shortName,
+                            string               longName,
+                            string               description,
+                            string               valueSpecification,
+                            string               variableName,
                             generatorOutputKind& generatorOutputKindVariable);
 
     virtual               ~generatorOutputKindAtom ();

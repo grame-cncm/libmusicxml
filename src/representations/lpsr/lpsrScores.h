@@ -330,6 +330,10 @@ class EXP lpsrScore : public lpsrElement
 
     void                  addMergeRestsToScore ();
 
+    // spanner with centered text
+
+    void                  addTextSpannerWithCenteredTextToScore ();
+
   public:
 
     // visitors

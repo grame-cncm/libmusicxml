@@ -106,141 +106,142 @@ class EXP msrNote : public msrTupletElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrNote> create (
-      int                        inputLineNumber,
-      string                     noteMeasureNumber,
+                          static SMARTP<msrNote> create (
+                            int                        inputLineNumber,
+                            string                     noteMeasureNumber,
 
-      msrNoteKind                noteKind,
+                            msrNoteKind                noteKind,
 
-      msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
-      msrOctaveKind              noteOctaveKind,
+                            msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
+                            msrOctaveKind              noteOctaveKind,
 
-      rational                   noteSoundingWholeNotes,
-      rational                   noteDisplayWholeNotes,
+                            rational                   noteSoundingWholeNotes,
+                            rational                   noteDisplayWholeNotes,
 
-      int                        noteDotsNumber,
+                            int                        noteDotsNumber,
 
-      msrDurationKind            noteGraphicDurationKind,
+                            msrDurationKind            noteGraphicDurationKind,
 
-      msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
-      msrOctaveKind              noteDisplayOctaveKind,
+                            msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
+                            msrOctaveKind              noteDisplayOctaveKind,
 
-      msrNoteIsACueNoteKind      noteIsACueNoteKind,
+                            msrNoteIsACueNoteKind      noteIsACueNoteKind,
 
-      msrPrintObjectKind         notePrintObjectKind,
+                            msrPrintObjectKind         notePrintObjectKind,
 
-      msrNoteHeadKind            noteHeadKind,
-      msrNoteHeadFilledKind      noteHeadFilledKind,
-      msrNoteHeadParenthesesKind noteHeadParenthesesKind);
+                            msrNoteHeadKind            noteHeadKind,
+                            msrNoteHeadFilledKind      noteHeadFilledKind,
+                            msrNoteHeadParenthesesKind noteHeadParenthesesKind);
 
-    SMARTP<msrNote> createNoteNewbornClone (
-      S_msrPart containingPart);
+                          SMARTP<msrNote> createNoteNewbornClone (
+                            S_msrPart containingPart);
 
-    SMARTP<msrNote> createNoteDeepCopy (
-      S_msrVoice containingVoice);
+                          SMARTP<msrNote> createNoteDeepCopy (
+                            S_msrVoice containingVoice);
 
     // creation from the applications
     // ------------------------------------------------------
 
-    static SMARTP<msrNote> createRestNote (
-      int       inputLineNumber,
-      string    noteMeasureNumber,
-      rational  soundingWholeNotes,
-      rational  displayWholeNotes,
-      int       dotsNumber);
+                          static SMARTP<msrNote> createRestNote (
+                            int       inputLineNumber,
+                            string    noteMeasureNumber,
+                            rational  soundingWholeNotes,
+                            rational  displayWholeNotes,
+                            int       dotsNumber);
 
-    static SMARTP<msrNote> createRestNoteWithOctave (
-      int           inputLineNumber,
-      string        noteMeasureNumber,
-      msrOctaveKind noteOctave,
-      rational      soundingWholeNotes,
-      rational      displayWholeNotes,
-      int           dotsNumber);
+                          static SMARTP<msrNote> createRestNoteWithOctave (
+                            int           inputLineNumber,
+                            string        noteMeasureNumber,
+                            msrOctaveKind noteOctave,
+                            rational      soundingWholeNotes,
+                            rational      displayWholeNotes,
+                            int           dotsNumber);
 
-    static SMARTP<msrNote> createSkipNote (
-      int         inputLineNumber,
-      string      noteMeasureNumber,
-      rational    soundingWholeNotes,
-      rational    displayWholeNotes,
-      int         dotsNumberr);
+                          static SMARTP<msrNote> createSkipNote (
+                            int         inputLineNumber,
+                            string      noteMeasureNumber,
+                            rational    soundingWholeNotes,
+                            rational    displayWholeNotes,
+                            int         dotsNumberr);
 
-    static SMARTP<msrNote> createSkipNoteWithOctave (
-      int           inputLineNumber,
-      string        noteMeasureNumber,
-      msrOctaveKind noteOctave,
-      rational      soundingWholeNotes,
-      rational      displayWholeNotes,
-      int           dotsNumber);
+                          static SMARTP<msrNote> createSkipNoteWithOctave (
+                            int           inputLineNumber,
+                            string        noteMeasureNumber,
+                            msrOctaveKind noteOctave,
+                            rational      soundingWholeNotes,
+                            rational      displayWholeNotes,
+                            int           dotsNumber);
 
-    static SMARTP<msrNote> createGraceSkipNote ( // above with MusicXML??? JMI
-      int      inputLineNumber,
-      string   noteMeasureNumber,
-      rational soundingWholeNotes,
-      rational displayWholeNotes,
-      int      dotsNumber);
+                          static SMARTP<msrNote> createGraceSkipNote (
+                            // above with MusicXML??? JMI
+                            int      inputLineNumber,
+                            string   noteMeasureNumber,
+                            rational soundingWholeNotes,
+                            rational displayWholeNotes,
+                            int      dotsNumber);
 
-    static SMARTP<msrNote> createRegularNote (
-      int                      inputLineNumber,
-      string                   noteMeasureNumber,
-      msrQuarterTonesPitchKind quarterTonesPitchKind,
-      msrOctaveKind            noteOctaveKind,
-      rational                 soundingWholeNotes,
-      rational                 displayWholeNotes,
-      int                      dotsNumber);
+                          static SMARTP<msrNote> createRegularNote (
+                            int                      inputLineNumber,
+                            string                   noteMeasureNumber,
+                            msrQuarterTonesPitchKind quarterTonesPitchKind,
+                            msrOctaveKind            noteOctaveKind,
+                            rational                 soundingWholeNotes,
+                            rational                 displayWholeNotes,
+                            int                      dotsNumber);
 
-    static SMARTP<msrNote> createRestFromString (
-      int    inputLineNumber,
-      string restString,
-      string restMeasureNumber);
+                          static SMARTP<msrNote> createRestFromString (
+                            int    inputLineNumber,
+                            string restString,
+                            string restMeasureNumber);
 
-    static SMARTP<msrNote> createSkipFromString (
-      int    inputLineNumber,
-      string skipString,
-      string skipMeasureNumber);
+                          static SMARTP<msrNote> createSkipFromString (
+                            int    inputLineNumber,
+                            string skipString,
+                            string skipMeasureNumber);
 
-    static SMARTP<msrNote> createNoteFromString (
-      int    inputLineNumber,
-      string noteString,
-      string noteMeasureNumber);
+                          static SMARTP<msrNote> createNoteFromString (
+                            int    inputLineNumber,
+                            string noteString,
+                            string noteMeasureNumber);
 
     // creation from the options
     // ------------------------------------------------------
 
-    static SMARTP<msrNote> createNoteFromSemiTonesPitchAndOctave (
-      int                          inputLineNumber,
-      S_msrSemiTonesPitchAndOctave semiTonesPitchAndOctave);
+                          static SMARTP<msrNote> createNoteFromSemiTonesPitchAndOctave (
+                            int                          inputLineNumber,
+                            S_msrSemiTonesPitchAndOctave semiTonesPitchAndOctave);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrNote (
-      int                        inputLineNumber,
-      string                     noteMeasureNumber,
+                          msrNote (
+                            int                        inputLineNumber,
+                            string                     noteMeasureNumber,
 
-      msrNoteKind                noteKind,
+                            msrNoteKind                noteKind,
 
-      msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
-      msrOctaveKind              noteOctaveKind,
+                            msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
+                            msrOctaveKind              noteOctaveKind,
 
-      rational                   noteSoundingWholeNotes,
-      rational                   noteDisplayWholeNotes,
+                            rational                   noteSoundingWholeNotes,
+                            rational                   noteDisplayWholeNotes,
 
-      int                        noteDotsNumber,
+                            int                        noteDotsNumber,
 
-      msrDurationKind            noteGraphicDurationKind,
+                            msrDurationKind            noteGraphicDurationKind,
 
-      msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
-      msrOctaveKind              noteDisplayOctaveKind,
+                            msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
+                            msrOctaveKind              noteDisplayOctaveKind,
 
-      msrNoteIsACueNoteKind      noteIsACueNoteKind,
+                            msrNoteIsACueNoteKind      noteIsACueNoteKind,
 
-      msrPrintObjectKind         notePrintObjectKind,
+                            msrPrintObjectKind         notePrintObjectKind,
 
-      msrNoteHeadKind            noteHeadKind,
-      msrNoteHeadFilledKind      noteHeadFilledKind,
-      msrNoteHeadParenthesesKind noteHeadParenthesesKind);
+                            msrNoteHeadKind            noteHeadKind,
+                            msrNoteHeadFilledKind      noteHeadFilledKind,
+                            msrNoteHeadParenthesesKind noteHeadParenthesesKind);
 
     virtual               ~msrNote ();
 

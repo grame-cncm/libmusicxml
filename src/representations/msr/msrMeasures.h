@@ -91,10 +91,10 @@ class EXP msrMeasure : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMeasure (
-      int          inputLineNumber,
-      string       measureNumber,
-      S_msrSegment measureSegmentUpLink);
+                          msrMeasure (
+                            int          inputLineNumber,
+                            string       measureNumber,
+                            S_msrSegment measureSegmentUpLink);
 
     virtual               ~msrMeasure ();
 

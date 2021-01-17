@@ -16652,7 +16652,7 @@ msrPlacementKind msrPlacementKindFromString (
   int    inputLineNumber,
   string placementString)
 {
-  msrPlacementKind result = kPlacementNone; // default value
+  msrPlacementKind result = k_NoPlacement; // default value
 
   if      (placementString == "above")
     result = kPlacementAbove;
@@ -16683,8 +16683,8 @@ string msrPlacementKindAsString (
   string result;
 
   switch (placementKind) {
-    case msrPlacementKind::kPlacementNone:
-      result = "placementNone";
+    case msrPlacementKind::k_NoPlacement:
+      result = "*k_NoPlacement*";
       break;
     case msrPlacementKind::kPlacementAbove:
       result = "placementAbove";

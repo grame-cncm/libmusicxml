@@ -37,9 +37,9 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_bsrKey bsrKey::create (
-  int        inputLineNumber,
-  bsrKeyKind keyKind,
-  int        numberOfAlterations)
+  int          inputLineNumber,
+  bsrKeyKind   keyKind,
+  unsigned int numberOfAlterations)
 {
   bsrKey* o =
     new bsrKey (
@@ -50,9 +50,9 @@ S_bsrKey bsrKey::create (
 }
 
 bsrKey::bsrKey (
-  int        inputLineNumber,
-  bsrKeyKind keyKind,
-  int        numberOfAlterations)
+  int          inputLineNumber,
+  bsrKeyKind   keyKind,
+  unsigned int numberOfAlterations)
     : bsrLineContentsElement (inputLineNumber)
 {
   fKeyKind             = keyKind;
@@ -267,12 +267,74 @@ string bsrKey::asDebugString () const
 {
   stringstream s;
 
-  s <<
-    "[KEY " <<
-    ", " << keyKindAsString (fKeyKind) <<
-    ", numberOfAlterations: " << fNumberOfAlterations <<
-    ", spacesBefore: " << fSpacesBefore <<
-    "]";
+  s << "[KEY ";
+
+  if (fNumberOfAlterations > 0) {
+    switch (fKeyKind) {
+      case bsrKey::kKeyKindNone:
+        break;
+
+      case bsrKey::kKeyKindFlats:
+        switch (fNumberOfAlterations) {
+          case 1:
+            s << "F major";
+            break;
+          case 2:
+            s << "Bb major";
+            break;
+          case 3:
+            s << "Eb major";
+            break;
+          case 4:
+            s << "Ab major";
+            break;
+          case 5:
+            s << "Db major";
+            break;
+          case 6:
+            s << "Gb major";
+            break;
+          case 7:
+            s << "Cb major";
+            break;
+        } // switch
+        break;
+
+      case bsrKey::kKeyKindNaturals:
+        break;
+
+      case bsrKey::kKeyKindSharps:
+        switch (fNumberOfAlterations) {
+          case 1:
+            s << "G major";
+            break;
+          case 2:
+            s << "D major";
+            break;
+          case 3:
+            s << "A major";
+            break;
+          case 4:
+            s << "E major";
+            break;
+          case 5:
+            s << "B major";
+            break;
+          case 6:
+            s << "F# major";
+            break;
+          case 7:
+            s << "C# major";
+            break;
+        } // switch
+        break;
+    } // switch
+  }
+  else {
+    s << "C major";
+  }
+
+  s << "]";
 
   return s.str ();
 }

@@ -35,10 +35,10 @@ class EXP Mikrokosmos3WanderingInsiderHandler : public oahInsiderHandler
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<Mikrokosmos3WanderingInsiderHandler> create (
-      const string&       executableName,
-      const string&       handlerHeader,
-      generatorOutputKind generatorOutputKind);
+                          static SMARTP<Mikrokosmos3WanderingInsiderHandler> create (
+                            const string&       executableName,
+                            const string&       handlerHeader,
+                            generatorOutputKind generatorOutputKind);
 
   protected:
 

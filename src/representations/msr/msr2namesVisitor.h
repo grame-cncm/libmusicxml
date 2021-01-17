@@ -43,50 +43,61 @@ class EXP msr2namesVisitor :
 {
   public:
 
-    msr2namesVisitor (
-      S_msrOahGroup& msrOpts);
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          msr2namesVisitor (
+                            S_msrOahGroup& msrOpts);
 
     virtual               ~msr2namesVisitor ();
 
-    void printNamesFromMsrScore (
-      const S_msrScore& score);
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+
+    void                  printNamesFromMsrScore (
+                            const S_msrScore& score);
 
   protected:
 
-    virtual void visitStart (S_msrScore& elt);
-    virtual void visitEnd   (S_msrScore& elt);
+    // visitors
+    // ------------------------------------------------------
 
-    virtual void visitStart (S_msrPartGroup& elt);
-    virtual void visitEnd   (S_msrPartGroup& elt);
+    virtual void          visitStart (S_msrScore& elt);
+    virtual void          visitEnd   (S_msrScore& elt);
 
-    virtual void visitStart (S_msrPart& elt);
-    virtual void visitEnd   (S_msrPart& elt);
+    virtual void          visitStart (S_msrPartGroup& elt);
+    virtual void          visitEnd   (S_msrPartGroup& elt);
 
-    virtual void visitStart (S_msrStaff& elt);
-    virtual void visitEnd   (S_msrStaff& elt);
+    virtual void          visitStart (S_msrPart& elt);
+    virtual void          visitEnd   (S_msrPart& elt);
 
-    virtual void visitStart (S_msrVoice& elt);
-    virtual void visitEnd   (S_msrVoice& elt);
+    virtual void          visitStart (S_msrStaff& elt);
+    virtual void          visitEnd   (S_msrStaff& elt);
+
+    virtual void          visitStart (S_msrVoice& elt);
+    virtual void          visitEnd   (S_msrVoice& elt);
 
   private:
+
+    // private fields
+    // ------------------------------------------------------
 
     S_msrOahGroup         fMsrOahGroup;
 
     // score
-    // ------------------------------------------------------
 
     // part groups
-    // ------------------------------------------------------
 
     int                   fPartGroupsCounter;
 
     // parts
-    // ------------------------------------------------------
 
     int                   fPartsCounter;
 
     // staves
-    // ------------------------------------------------------
 
     int                   fStavesCounter;
 
@@ -94,7 +105,6 @@ class EXP msr2namesVisitor :
     bool                  fOnGoingStaff;
 
     // voices
-    // ------------------------------------------------------
 
     int                   fVoicesCounter;
 };

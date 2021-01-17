@@ -35,26 +35,26 @@ class EXP msrSpanner : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrSpanner> create (
-      int                inputLineNumber,
-      int                spannerNumber,
-      msrSpannerKind     spannerKind,
-      msrSpannerTypeKind spannerTypeKind,
-      msrPlacementKind   spannerPlacementKind,
-      S_msrNote          spannerNoteUpLink);
+                          static SMARTP<msrSpanner> create (
+                            int                inputLineNumber,
+                            int                spannerNumber,
+                            msrSpannerKind     spannerKind,
+                            msrSpannerTypeKind spannerTypeKind,
+                            msrPlacementKind   spannerPlacementKind,
+                            S_msrNote          spannerNoteUpLink);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSpanner (
-      int                inputLineNumber,
-      int                spannerNumber,
-      msrSpannerKind     spannerKind,
-      msrSpannerTypeKind spannerTypeKind,
-      msrPlacementKind   spannerPlacementKind,
-      S_msrNote          spannerNoteUpLink);
+                          msrSpanner (
+                            int                inputLineNumber,
+                            int                spannerNumber,
+                            msrSpannerKind     spannerKind,
+                            msrSpannerTypeKind spannerTypeKind,
+                            msrPlacementKind   spannerPlacementKind,
+                            S_msrNote          spannerNoteUpLink);
 
     virtual               ~msrSpanner ();
 
@@ -78,17 +78,49 @@ class EXP msrSpanner : public msrElement
     S_msrSpanner          getSpannerOtherEndSideLink () const
                               { return fSpannerOtherEndSideLink; }
 
+    // fields
+    void                  setSpannerNumber (int spannerNumber)
+                              { fSpannerNumber = spannerNumber; }
+
     int                   getSpannerNumber () const
                               { return fSpannerNumber; }
+
+    void                  setSpannerKind (msrSpannerKind spannerKind)
+                              { fSpannerKind = spannerKind; }
 
     msrSpannerKind        getSpannerKind () const
                               { return fSpannerKind; }
 
+    void                  setSpannerTypeKind (msrSpannerTypeKind spannerTypeKind)
+                              { fSpannerTypeKind = spannerTypeKind; }
+
     msrSpannerTypeKind    getSpannerTypeKind () const
                               { return fSpannerTypeKind; }
 
+    void                  setSpannerPlacementKind (msrPlacementKind placementKind)
+                              { fSpannerPlacementKind = placementKind; }
+
     msrPlacementKind      getSpannerPlacementKind () const
                               { return fSpannerPlacementKind; }
+
+    void                  setSpannerBeginText (string beginText)
+                              { fSpannerBeginText = beginText; }
+
+    string                getSpannerBeginText () const
+                              { return fSpannerBeginText; }
+
+    void                  setSpannerMiddleText (string middleText)
+                              { fSpannerMiddleText = middleText; }
+
+    string                getSpannerMiddleText () const
+                              { return fSpannerMiddleText; }
+
+    void                  setSpannerEndText (string endText)
+                              { fSpannerEndText = endText; }
+
+    string                getSpannerEndText () const
+                              { return fSpannerEndText; }
+
 
   public:
 
@@ -140,6 +172,10 @@ class EXP msrSpanner : public msrElement
     msrSpannerTypeKind    fSpannerTypeKind;
 
     msrPlacementKind      fSpannerPlacementKind;
+
+    string                fSpannerBeginText;
+    string                fSpannerMiddleText;
+    string                fSpannerEndText;
 };
 typedef SMARTP<msrSpanner> S_msrSpanner;
 EXP ostream& operator<< (ostream& os, const S_msrSpanner& elt);

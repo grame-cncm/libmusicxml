@@ -225,7 +225,7 @@ msrFermata::msrFermata (
     : msrArticulation (
       inputLineNumber,
       msrArticulation::kFermata,
-      kPlacementNone) // temporary, JMI TEMP
+      k_NoPlacement) // temporary, JMI TEMP
 {
   fFermataKind = fermataKind;
   fFermataTypeKind = fermataTypeKind;

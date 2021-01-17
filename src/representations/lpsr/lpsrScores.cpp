@@ -2012,6 +2012,112 @@ R"(
     schemeFunction;
 }
 
+void lpsrScore::addTextSpannerWithCenteredTextToScore ()
+{
+  stringstream s;
+
+  s <<
+R"###(
+% Annotation bracket with centred text.
+% Andrew Bernard and Thomas Morley
+
+#(define-music-function (text) (string?)
+   "Use TextSpanner semantics to create spanner brackets with centred text"
+   #{
+     \once \override TextSpanner.after-line-breaking =
+     #(lambda (grob)
+        (let* (
+                ;; get stencil of grob
+                (stil (ly:grob-property grob 'stencil))
+                ;; get spanner length
+                (spanner-len (interval-length (ly:stencil-extent stil X)))
+                ;; make stencil from text arg
+                (text-stil (grob-interpret-markup grob (markup text)))
+                ;; get text length
+                (text-len (interval-length (ly:stencil-extent text-stil X))))
+          ;; if text length exceeds the spanner length we cannot really proceed.
+          ;; do nothing - make an ordinary text spanner and warn.
+          (if (>= text-len spanner-len)
+              (begin
+               (ly:warning "text length longer than spanner")
+               #f
+               )
+              (let* (
+                      ;; get direction, up or down
+                      (dir (ly:grob-property grob 'direction))
+                      ;; some padding
+                      (padding 1)
+                      ;; line thickness
+                      (thickness 0.25)
+                      ;; calculate length considering text length
+                      (path-part-len (/ (- spanner-len text-len) 2))
+                      ;; make left bracket stencil
+                      (path-left-part-stil
+                       (make-path-stencil
+                        `(
+                           moveto 0 ,(* -1 dir)
+                           lineto 0 0
+                           lineto ,path-part-len 0
+                           )
+                        thickness 1 1 #f))
+                      ;; make right bracket stencil
+                      (path-right-part-stil
+                       (make-path-stencil
+                        `(
+                           moveto ,path-part-len ,(* -1 dir)
+                           lineto ,path-part-len 0
+                           lineto 0 0
+                           )
+                        thickness 1 1 #f))
+                      ;; make complete stencil combining left and right parts
+                      ;; and text
+                      (full-stil
+                       (stack-stencils X RIGHT padding
+                         (list
+                          path-left-part-stil
+                          (centered-stencil text-stil)
+                          path-right-part-stil)))
+                      )
+                ;; set grob stencil to fully constructed stencil
+                (ly:grob-set-property! grob 'stencil full-stil)
+                ))))
+   #}
+   )
+)###";
+
+  string
+    schemeFunctionName =
+      "TextSpannerWithCenteredText",
+
+  schemeFunctionDescription =
+R"(
+% Function to create text spanners with text centered in it
+)",
+
+  schemeFunctionCode = s.str ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceSchemeFunctions ()) {
+    gLogStream <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+#endif
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
 /* JMI
 void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)
 {

@@ -165,7 +165,7 @@ R"()",
   S_oahMacroAtom
     guidoMacroAtom =
       oahMacroAtom::create (
-        "guido", "",
+        K_GENERATED_OUTPUT_KIND_GUIDO_NAME, "",
         "Generate Guido output");
   guidoMacroAtom->
     appendAtomStringPairToMacro (
@@ -178,7 +178,7 @@ R"()",
   S_oahMacroAtom
     lilypondMacroAtom =
       oahMacroAtom::create (
-        "lilypond", "",
+        K_GENERATED_OUTPUT_KIND_LIlYPOND_NAME, "",
         "Generate LilyPond output");
   lilypondMacroAtom->
     appendAtomStringPairToMacro (
@@ -190,11 +190,11 @@ R"()",
   S_oahMacroAtom
     brailleMacroAtom =
       oahMacroAtom::create (
-        "braille", "",
+        K_GENERATED_OUTPUT_KIND_BRAILLE_NAME, "",
         "Generate braille music output");
   brailleMacroAtom->
     appendAtomStringPairToMacro (
-      fGeneratorOutputKindAtom, "braille");
+      fGeneratorOutputKindAtom, K_GENERATED_OUTPUT_KIND_BRAILLE_NAME);
   subGroup->
     appendAtomToSubGroup (
       brailleMacroAtom);
@@ -202,7 +202,7 @@ R"()",
   S_oahMacroAtom
     musicxmlMacroAtom =
       oahMacroAtom::create (
-        "musicxml", "",
+        K_GENERATED_OUTPUT_KIND_MUSICXML_NAME, "",
         "Generate MusicXML output");
   musicxmlMacroAtom->
     appendAtomStringPairToMacro (
@@ -215,7 +215,7 @@ R"()",
   S_oahMacroAtom
     midiMacroAtom =
       oahMacroAtom::create (
-        "midi", "",
+        K_GENERATED_OUTPUT_KIND_MIDI_NAME, "",
         "Generate MIDI output");
   midiMacroAtom->
     appendAtomStringPairToMacro (

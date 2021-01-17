@@ -1853,7 +1853,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
 
         {
           switch (wordsPlacementKind) {
-            case kPlacementNone:
+            case k_NoPlacement:
               break;
             case kPlacementAbove:
               break;
@@ -3298,7 +3298,7 @@ void msr2bsrTranslator::visitStart (S_msrSyllable& elt)
           words =
             msrWords::create (
               inputLineNumber,
-              kPlacementNone,                // default value
+              k_NoPlacement,                // default value
               wordsValue,
               kJustifyNone,                  // default value
               kVerticalAlignmentNone,        // default value

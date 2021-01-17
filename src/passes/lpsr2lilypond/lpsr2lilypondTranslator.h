@@ -377,11 +377,11 @@ class EXP lpsr2lilypondTranslator :
 {
   public:
 
-    lpsr2lilypondTranslator (
-      S_lpsrScore     lpsrScore,
-      S_msrOahGroup&  msrOpts,
-      S_lpsrOahGroup& lpsrOpts,
-      ostream&        lilypondCodeStream);
+                          lpsr2lilypondTranslator (
+                            S_lpsrScore     lpsrScore,
+                            S_msrOahGroup&  msrOpts,
+                            S_lpsrOahGroup& lpsrOpts,
+                            ostream&        lilypondCodeStream);
 
     virtual               ~lpsr2lilypondTranslator ();
 
@@ -806,6 +806,7 @@ class EXP lpsr2lilypondTranslator :
 
     void                  generateNoteBeams (S_msrNote note);
 
+    void                  generateNoteSlurDirection (S_msrNote note);
     void                  generateNoteSlurs (S_msrNote note);
 
     void                  generateNoteHeadColor (S_msrNote note);

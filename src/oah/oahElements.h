@@ -240,9 +240,9 @@ A better approach might be to use a function class type (a.k.a. functor type); t
 */
 
 struct compareOahElements {
-  bool operator() (
-    const S_oahElement firstElement,
-    const S_oahElement secondElement) const;
+                          bool operator() (
+                            const S_oahElement firstElement,
+                            const S_oahElement secondElement) const;
 };
 
 //______________________________________________________________________________
@@ -253,20 +253,20 @@ class EXP oahElementUse : public smartable
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<oahElementUse> create (
-      S_oahElement elementUsed,
-      string       nameUsed,
-      string       valueUsed);
+                          static SMARTP<oahElementUse> create (
+                            S_oahElement elementUsed,
+                            string       nameUsed,
+                            string       valueUsed);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahElementUse (
-      S_oahElement elementUsed,
-      string       nameUsed,
-      string       valueUsed);
+                          oahElementUse (
+                            S_oahElement elementUsed,
+                            string       nameUsed,
+                            string       valueUsed);
 
     virtual               ~oahElementUse ();
 

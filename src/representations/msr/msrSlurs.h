@@ -37,16 +37,17 @@ class EXP msrSlur : public msrElement
     };
 
     static string slurTypeKindAsString (
-      msrSlurTypeKind slurKind);
+      msrSlurTypeKind slurTypeKind);
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrSlur> create (
-      int             inputLineNumber,
-      int             slurNumber,
-      msrSlurTypeKind slurKind,
-      msrLineTypeKind slurLineTypeKind);
+                          static SMARTP<msrSlur> create (
+                            int              inputLineNumber,
+                            int              slurNumber,
+                            msrSlurTypeKind  slurTypeKind,
+                            msrLineTypeKind  slurLineTypeKind,
+                            msrPlacementKind slurPlacementKind);
 
   protected:
 
@@ -54,10 +55,11 @@ class EXP msrSlur : public msrElement
     // ------------------------------------------------------
 
                           msrSlur (
-                            int             inputLineNumber,
-                            int             slurNumber,
-                            msrSlurTypeKind slurKind,
-                            msrLineTypeKind slurLineTypeKind);
+                            int              inputLineNumber,
+                            int              slurNumber,
+                            msrSlurTypeKind  slurTypeKind,
+                            msrLineTypeKind  slurLineTypeKind,
+                            msrPlacementKind slurPlacementKind);
 
     virtual               ~msrSlur ();
 
@@ -65,6 +67,9 @@ class EXP msrSlur : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    void                  setSlurNumber (int slurNumber)
+                              { fSlurNumber = slurNumber; }
 
     int                   getSlurNumber () const
                               { return fSlurNumber; }
@@ -75,8 +80,17 @@ class EXP msrSlur : public msrElement
     msrSlurTypeKind       getSlurTypeKind () const
                               { return fSlurTypeKind; }
 
+    void                  setSlurLineTypeKind (msrLineTypeKind slurLineTypeKind)
+                              { fSlurLineTypeKind = slurLineTypeKind; }
+
     msrLineTypeKind       getSlurLineTypeKind () const
                               { return fSlurLineTypeKind; }
+
+    void                  setSlurPlacementKind (msrPlacementKind slurPlacementKind)
+                              { fSlurPlacementKind = slurPlacementKind; }
+
+    msrPlacementKind      getSlurPlacementKind () const
+                              { return fSlurPlacementKind; }
 
   public:
 
@@ -114,6 +128,8 @@ class EXP msrSlur : public msrElement
     msrSlurTypeKind       fSlurTypeKind;
 
     msrLineTypeKind       fSlurLineTypeKind;
+
+    msrPlacementKind      fSlurPlacementKind;
 };
 typedef SMARTP<msrSlur> S_msrSlur;
 EXP ostream& operator<< (ostream& os, const S_msrSlur& elt);

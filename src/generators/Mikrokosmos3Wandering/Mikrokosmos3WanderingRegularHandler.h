@@ -32,12 +32,12 @@ class EXP Mikrokosmos3WanderingRegularHandler : public oahRegularHandler
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<Mikrokosmos3WanderingRegularHandler> create (
-      string               executableName,
-      string               handlerHeader,
-      S_Mikrokosmos3WanderingInsiderHandler
-                           insiderOahHandler,
-      generatorOutputKind theGeneratorOutputKind);
+                          static SMARTP<Mikrokosmos3WanderingRegularHandler> create (
+                            string              executableName,
+                            string              handlerHeader,
+                            S_Mikrokosmos3WanderingInsiderHandler
+                                                insiderOahHandler,
+                            generatorOutputKind theGeneratorOutputKind);
 
   protected:
 
@@ -45,10 +45,10 @@ class EXP Mikrokosmos3WanderingRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
                           Mikrokosmos3WanderingRegularHandler (
-                            string               executableName,
-                            string               handlerHeader,
+                            string              executableName,
+                            string              handlerHeader,
                             S_Mikrokosmos3WanderingInsiderHandler
-                                                 insiderOahHandler,
+                                                insiderOahHandler,
                             generatorOutputKind theGeneratorOutputKind);
 
     virtual               ~Mikrokosmos3WanderingRegularHandler ();

@@ -31,28 +31,35 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_msrSlur msrSlur::create (
-  int             inputLineNumber,
-  int             slurNumber,
-  msrSlurTypeKind slurTypeKind,
-  msrLineTypeKind slurLineTypeKind)
+  int              inputLineNumber,
+  int              slurNumber,
+  msrSlurTypeKind  slurTypeKind,
+  msrLineTypeKind  slurLineTypeKind,
+  msrPlacementKind slurPlacementKind)
 {
   msrSlur* o =
     new msrSlur (
-      inputLineNumber, slurNumber, slurTypeKind, slurLineTypeKind);
+      inputLineNumber,
+      slurNumber,
+      slurTypeKind,
+      slurLineTypeKind,
+      slurPlacementKind);
   assert (o != nullptr);
   return o;
 }
 
 msrSlur::msrSlur (
-  int             inputLineNumber,
-  int             slurNumber,
-  msrSlurTypeKind slurTypeKind,
-  msrLineTypeKind slurLineTypeKind)
+  int              inputLineNumber,
+  int              slurNumber,
+  msrSlurTypeKind  slurTypeKind,
+  msrLineTypeKind  slurLineTypeKind,
+  msrPlacementKind slurPlacementKind)
     : msrElement (inputLineNumber)
 {
-  fSlurNumber       = slurNumber;
-  fSlurTypeKind     = slurTypeKind;
-  fSlurLineTypeKind = slurLineTypeKind;
+  fSlurNumber        = slurNumber;
+  fSlurTypeKind      = slurTypeKind;
+  fSlurLineTypeKind  = slurLineTypeKind;
+  fSlurPlacementKind = slurPlacementKind;
 }
 
 msrSlur::~msrSlur ()
@@ -146,11 +153,14 @@ string msrSlur::asString () const
 
   s <<
     "[Slur " <<
+    ", slurNumber: " << fSlurNumber <<
     slurTypeKindAsString () <<
     ", slurLineTypeKind: " <<
     msrLineTypeKindAsString (
       fSlurLineTypeKind) <<
-    ", slurNumber: " << fSlurNumber <<
+    ", slurLineTypeKind: " <<
+    msrPlacementKindAsString (
+      fSlurPlacementKind) <<
     ", line " << fInputLineNumber <<
     "]";
 

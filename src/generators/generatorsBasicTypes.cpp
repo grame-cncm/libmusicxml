@@ -146,11 +146,11 @@ string existingGeneratorOutputKinds (
 
 //______________________________________________________________________________
 S_generatorOutputKindAtom generatorOutputKindAtom::create (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
+  string               shortName,
+  string               longName,
+  string               description,
+  string               valueSpecification,
+  string               variableName,
   generatorOutputKind& generatorOutputKindVariable)
 {
   generatorOutputKindAtom* o = new
@@ -166,11 +166,11 @@ S_generatorOutputKindAtom generatorOutputKindAtom::create (
 }
 
 generatorOutputKindAtom::generatorOutputKindAtom (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
+  string               shortName,
+  string               longName,
+  string               description,
+  string               valueSpecification,
+  string               variableName,
   generatorOutputKind& generatorOutputKindVariable)
   : oahAtomWithValue (
       shortName,

@@ -263,7 +263,7 @@ class EXP msr2mxmlTreeTranslator :
 
     virtual               ~msr2mxmlTreeTranslator ();
 
-    Sxmlelement buildMxmltreeFromMsrScore ();
+    Sxmlelement           buildMxmltreeFromMsrScore ();
 
   protected:
 

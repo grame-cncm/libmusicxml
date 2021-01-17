@@ -328,7 +328,7 @@ string msr2mxmlTreeTranslator::msrPlacementKindAsMusicXMLString (
   string result;
 
   switch (placementKind) {
-    case msrPlacementKind::kPlacementNone:
+    case msrPlacementKind::k_NoPlacement:
       result = "";
       break;
     case msrPlacementKind::kPlacementAbove:
@@ -624,7 +624,7 @@ void msr2mxmlTreeTranslator::appendToNoteNotationsOrnaments (
     // append it to fCurrentNoteNotationsElement
     appendToNoteNotations (
       fCurrentNoteNotationsOrnamentsElement,
-      kPlacementNone); // no placement for '<ornaments />'
+      k_NoPlacement); // no placement for '<ornaments />'
   }
 
   // set elem's "placement" attribute if relevant
@@ -4804,7 +4804,6 @@ void msr2mxmlTreeTranslator::appendABackupToMeasure (
     createMxmlIntegerElement (k_duration, backupDurationDivisions));
 
   // append it to the current measure element
-if (true) // QUIT
   appendOtherToMeasure (backupElement);
 
   // reset the cumulated skip durations informations
@@ -5718,7 +5717,7 @@ void msr2mxmlTreeTranslator:: appendNoteTieIfAny (
     // append it to the current note notations element
     appendToNoteNotations (
       tiedElement,
-      kPlacementNone); // no placement for '<tied />'
+      k_NoPlacement); // no placement for '<tied />'
   }
 }
 
@@ -5791,7 +5790,7 @@ void msr2mxmlTreeTranslator:: appendNoteSlursIfAny (
       // append the slur element to the current note note notations element
       appendToNoteNotations (
         slurElement,
-        kPlacementNone); // no placement for '<slur />'
+        k_NoPlacement); // no placement for '<slur />'
     } // for
   }
 }
@@ -5866,7 +5865,7 @@ void msr2mxmlTreeTranslator:: appendNoteTupletIfRelevant (
           // append it to the current note notations elements
           appendToNoteNotations (
             tupletElement,
-            kPlacementNone);
+            k_NoPlacement);
         }
       }
       break;
@@ -7961,7 +7960,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSyllable& elt)
           words =
             msrWords::create (
               inputLineNumber,
-              kPlacementNone,                // default value
+              k_NoPlacement,                // default value
               wordsValue,
               kJustifyNone,                  // default value
               kHorizontalAlignmentNone,      // default value

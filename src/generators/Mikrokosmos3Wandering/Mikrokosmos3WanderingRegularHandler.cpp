@@ -49,10 +49,10 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_Mikrokosmos3WanderingRegularHandler Mikrokosmos3WanderingRegularHandler::create (
-  string               executableName,
-  string               handlerHeader,
+  string              executableName,
+  string              handlerHeader,
   S_Mikrokosmos3WanderingInsiderHandler
-                       insiderOahHandler,
+                      insiderOahHandler,
   generatorOutputKind theGeneratorOutputKind)
 {
   // create the regular handler
@@ -68,10 +68,10 @@ S_Mikrokosmos3WanderingRegularHandler Mikrokosmos3WanderingRegularHandler::creat
 }
 
 Mikrokosmos3WanderingRegularHandler::Mikrokosmos3WanderingRegularHandler (
-  string               executableName,
-  string               handlerHeader,
+  string              executableName,
+  string              handlerHeader,
   S_Mikrokosmos3WanderingInsiderHandler
-                       insiderOahHandler,
+                      insiderOahHandler,
   generatorOutputKind theGeneratorOutputKind)
   : oahRegularHandler (
       executableName,
@@ -395,8 +395,8 @@ void Mikrokosmos3WanderingRegularHandler::createBrailleRegularGroup ()
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Braille",
-        "braille", "",
+        "Braille output",
+        "braille-output", "",
         "",
         kElementVisibilityWhole,
         group);

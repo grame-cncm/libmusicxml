@@ -212,8 +212,29 @@ void msrSpanner::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "spannerNoteUpLink" << " : " <<
+    fSpannerNoteUpLink->asShortString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "spannerBeginText" << " : \"" <<
+    fSpannerBeginText <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "spannerMiddleText" << " : \"" <<
+    fSpannerMiddleText <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "spannerEndText" << " : \"" <<
+    fSpannerEndText <<
+    "\"" <<
     endl;
 
+  os << left <<
+    setw (fieldWidth) <<
+    "spannerNoteUpLink" << " : " <<
+    spannerPlacementKindAsString () <<
+    endl;
   ++gIndenter;
     os <<
       fSpannerNoteUpLink->asString () <<
