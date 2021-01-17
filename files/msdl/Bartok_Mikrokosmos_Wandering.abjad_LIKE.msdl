@@ -1,0 +1,67 @@
+%First let’s create an empty score with a pair of staves connected by a brace:
+
+score = Score
+
+pianoStaff = PianoStaff
+
+score.append pianoStaff
+
+upperStaff = Staff
+lowerStaff = Staff
+
+pianoStaff.append upperStaff
+pianoStaff.append lowerStaff
+
+
+%Now let’s add some empty measures:
+
+uppperMeasures = MeasuresList
+
+uppperMeasures.append Measure (2/4)
+uppperMeasures.append Measure (3/4)
+uppperMeasures.append Measure (2/4)
+uppperMeasures.append Measure (2/4)
+uppperMeasures.append Measure (2/4)
+
+lowerMeasures = uppperMeasures.copy
+
+uppserStaff.extend uppperMeasures
+uppserStaff.extend lowerMeasures
+
+
+%Now let’s add some notes.
+%We begin with the upper staff:
+
+uppperMeasures [1].append { a'8 g'8 f'8 e'8 }
+upper_measures [2].extend { d'4 g'8 f'8 e'8 d'8 }
+upper_measures [3].extend { c'8 d'16 e'16 f'8 e'8 }
+upper_measures [4].append { d'2 }
+upper_measures [5].append { d'2 }
+
+
+%The first three measures of the lower staff contain only one voice:
+
+lowerMeasures [1].append { b4 d'8 c'8 }
+lowerMeasures [2].append { b8 a8 af4 c'8 bf8 }
+lowerMeasures [3].append { a8 g8 fs8 g16 a16 }
+
+%The last two measures of the lower staff contain two voices each.
+%We use LilyPond \voiceOne and \voiceTwo literals to set the direction of stems in %different voices. And we set is_simltaneous to true for each of the last two measures:
+
+upperVoice = abjad.Voice ("b2", name='upper voice')
+
+literal = abjad.LilyPondLiteral (r'\voiceOne')
+
+abjad.attach (literal, upperVoice)
+lowerVoice = Voice ( { b4 a4 }, name='lower voice')
+
+literal = abjad.LilyPondLiteral (r'\voiceTwo')
+abjad.attach (literal, lowerVoice)
+lower_measures [3].extend ([upperVoice, lowerVoice])
+lower_measures [3].is_simultaneous = True
+
+
+%Here’s our work so far:
+
+show (score)
+
