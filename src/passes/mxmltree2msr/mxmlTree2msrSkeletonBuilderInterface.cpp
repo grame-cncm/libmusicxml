@@ -123,7 +123,7 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
       message <<
       endl;
 
-    throw msrScoreToBsrScoreException (message);
+    throw msgMsrScoreToBsrScoreException (message);
   }
 
   if (msrOpts->getDisplayMsrSkeleton ()) {

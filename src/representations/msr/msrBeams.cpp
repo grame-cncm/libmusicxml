@@ -115,47 +115,13 @@ void msrBeam::acceptOut (basevisitor* v)
 void msrBeam::browseData (basevisitor* v)
 {}
 
-string msrBeam::beamKindAsString (
-  msrBeamKind beamKind)
-{
-  string result;
-
-  switch (beamKind) {
-    case msrBeam::k_NoBeam:
-      result = "*NoBeam";
-      break;
-    case msrBeam::kBeamBegin:
-      result = "beamBegin";
-      break;
-    case msrBeam::kBeamContinue:
-      result = "beamContinue";
-      break;
-    case msrBeam::kBeamEnd:
-      result = "beamEnd";
-      break;
-    case msrBeam::kBeamForwardHook:
-      result = "beamForwardHook";
-      break;
-    case msrBeam::kBeamBackwardHook:
-      result = "beamBackwardHook";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrBeam::beamKindAsString () const
-{
-  return beamKindAsString (fBeamKind);
-}
-
 string msrBeam::asString () const
 {
   stringstream s;
 
   s <<
     "[Beam " <<
-    beamKindAsString () <<
+    msrBeamKindAsString (fBeamKind) <<
     ", number: " << fBeamNumber <<
     ", line " << fInputLineNumber <<
     "]";

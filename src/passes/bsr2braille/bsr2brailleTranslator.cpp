@@ -47,7 +47,7 @@ bsr2brailleTranslator::bsr2brailleTranslator (
   if (gGlobalBsrOahGroup->getTraceBsr ()) {
     gLogStream <<
       "gGlobalBsr2brailleOahGroup->getBrailleOutputKind (): " <<
-      brailleOutputKindAsString (
+      bsrBrailleOutputKindAsString (
         gGlobalBsr2brailleOahGroup->getBrailleOutputKind ()) <<
       ", gGlobalBsr2brailleOahGroup->getByteOrderingKind (): " <<
       bsrByteOrderingKindAsString (
@@ -93,7 +93,7 @@ bsr2brailleTranslator::bsr2brailleTranslator (
               __FILE__, __LINE__,
               message);
 
-            throw msrScoreToBsrScoreException (message);
+            throw msgMsrScoreToBsrScoreException (message);
           }
           break;
 

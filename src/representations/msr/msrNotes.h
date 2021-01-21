@@ -1227,6 +1227,12 @@ class EXP msrNote : public msrTupletElement
     // color
     msrAlphaRGBColor      fNoteAlphaRGBColor;
     bool                  fNoteAlphaRGBColorHasBenSet;
+
+  private:
+
+    // private work fields
+    // ------------------------------------------------------
+// JMI
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);

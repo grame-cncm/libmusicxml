@@ -277,7 +277,7 @@ void extraShowAllHarmoniesContentsAtom::applyAtomWithValue (
           "'" << theString <<
           "' is no diatonic (semitones) pitch" <<
           " in pitch language '" <<
-          quarterTonesPitchesLanguageKindAsString (
+          msrQuarterTonesPitchesLanguageKindAsString (
             gGlobalLpsrOahGroup->
               getLpsrQuarterTonesPitchesLanguageKind ()) <<
           "'" <<
@@ -581,7 +581,7 @@ void extraShowHarmonyDetailsAtom::applyAtomWithValue (
           "'" << rootName <<
           "' is no diatonic (semitones) root pitch" <<
           " in pitch language '" <<
-          quarterTonesPitchesLanguageKindAsString (
+          msrQuarterTonesPitchesLanguageKindAsString (
             gGlobalLpsrOahGroup->
               getLpsrQuarterTonesPitchesLanguageKind ()) <<
           "'" <<
@@ -898,7 +898,7 @@ void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
           "'" << rootName <<
           "' is no diatonic (semitones) root pitch" <<
           " in pitch language '" <<
-          quarterTonesPitchesLanguageKindAsString (
+          msrQuarterTonesPitchesLanguageKindAsString (
             gGlobalLpsrOahGroup->
               getLpsrQuarterTonesPitchesLanguageKind ()) <<
           "'" <<

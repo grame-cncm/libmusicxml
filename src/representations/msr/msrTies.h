@@ -26,23 +26,17 @@ class EXP msrTie : public msrElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
-    enum msrTieKind {
-      kTieNone,
-      kTieStart, kTieContinue, kTieStop
-    };
-
-    static string tieKindAsString (
-      msrTieKind tieKind);
-
     // creation from MusicXML
     // ------------------------------------------------------
 
                           static SMARTP<msrTie> create (
-                            int        inputLineNumber,
-                            msrTieKind tieKind);
+                            int              inputLineNumber,
+                            msrTieKind       tieKind,
+                            msrPlacementKind placementKind);
+
+                          static SMARTP<msrTie> create (
+                            int              inputLineNumber,
+                            msrTieKind       tieKind);
 
   protected:
 
@@ -50,8 +44,9 @@ class EXP msrTie : public msrElement
     // ------------------------------------------------------
 
                           msrTie (
-                            int        inputLineNumber,
-                            msrTieKind tieKind);
+                            int              inputLineNumber,
+                            msrTieKind       tieKind,
+                            msrPlacementKind placementKind);
 
     virtual               ~msrTie ();
 
@@ -60,9 +55,19 @@ class EXP msrTie : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setTieKind (msrTieKind tieKind)
+                              { fTieKind = tieKind; }
+
     msrTieKind            getTieKind () const
                               { return fTieKind; }
 
+    void                  setTiePlacementKind (msrPlacementKind placementKind)
+                              { fTiePlacementKind = placementKind; }
+
+    msrPlacementKind      getTiePlacementKind () const
+                              { return fTiePlacementKind; }
+
+          ;
   public:
 
     // public services
@@ -83,8 +88,6 @@ class EXP msrTie : public msrElement
     // print
     // ------------------------------------------------------
 
-    string                tieKindAsString () const;
-
     string                asString () const override;
 
     void                  print (ostream& os) const override;
@@ -95,6 +98,8 @@ class EXP msrTie : public msrElement
     // ------------------------------------------------------
 
     msrTieKind            fTieKind;
+
+    msrPlacementKind      fTiePlacementKind;
 };
 typedef SMARTP<msrTie> S_msrTie;
 EXP ostream& operator<< (ostream& os, const S_msrTie& elt);

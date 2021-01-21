@@ -115,7 +115,7 @@ S_bsrScore convertMsrScoreToBsrScore (
       message <<
       endl;
 
-    throw msrScoreToBsrScoreException (message);
+    throw msgMsrScoreToBsrScoreException (message);
   }
 
   // check indentation

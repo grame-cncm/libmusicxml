@@ -178,7 +178,7 @@ int main (int argc, char *argv[])
         break;
     } // switch
   }
-  catch (msrOahException& e) {
+  catch (msgOahException& e) {
     displayException (e, gOutputStream);
     return kInvalidOption;
   }

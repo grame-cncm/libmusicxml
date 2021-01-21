@@ -125,7 +125,7 @@ clock_t startClock = clock ();
       message <<
       endl;
 
-    throw msrScoreToLpsrScoreException (message);
+    throw msgScoreToLpsrScoreException (message);
   }
 
   // check indentation

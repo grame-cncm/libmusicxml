@@ -148,7 +148,7 @@ void generateGuidoFromMxmlTree (
         message <<
         endl;
 
-      throw msrScoreToGuidoException (message);
+      throw msgMsrScoreToGuidoException (message);
     }
 
     // write the Guido data to the output file stream

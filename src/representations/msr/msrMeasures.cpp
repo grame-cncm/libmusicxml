@@ -1294,7 +1294,7 @@ void msrMeasure::setMeasureKind (
         "Setting measure kind of measure " <<
         this->asShortString ()<<
         " to '" <<
-        measureKindAsString (measureKind) <<
+        msrMeasureKindAsString (measureKind) <<
         "' in segment " <<
         fMeasureSegmentUpLink->asString () <<
         " in voice \"" <<
@@ -3847,7 +3847,7 @@ void msrMeasure::finalizeRegularMeasure_BIS (
   // the regular part's PartMeasuresWholeNotesDurationsVector
   // has not been populated yet JMI
 
-/* JMI
+/* JMI OVER COMPLETE ???
   // fetch the voiceClone's current time
   S_msrTime
     voiceCurrentTime =
@@ -5810,10 +5810,10 @@ void msrMeasure::finalizeMeasureClone (
       "*********>> measure clone '" <<
       fMeasureElementMeasureNumber <<
       "': measure kind '" <<
-      measureKindAsString (
+      msrMeasureKindAsString (
         fMeasureKind) <<
       "' differs from original measure measure kind '" <<
-      measureKindAsString (
+      msrMeasureKindAsString (
         originalMeasureMeasureKind) <<
       "' in voice \"" <<
       voiceClone->getVoiceName () <<
@@ -6173,7 +6173,7 @@ string msrMeasure::asShortString () const
     "[Measure " <<
     fMeasureElementMeasureNumber <<
     ", measureKind: " <<
-    measureKindAsString (fMeasureKind) <<
+    msrMeasureKindAsString (fMeasureKind) <<
     ", voice: " <<
     voice->getVoiceName () <<
     ", measureOrdinalNumberInVoice: " <<
@@ -6209,7 +6209,7 @@ string msrMeasure::asString () const
     "[Measure '" <<
     fMeasureElementMeasureNumber <<
     ", measureKind: " <<
-    measureKindAsString (fMeasureKind) <<
+    msrMeasureKindAsString (fMeasureKind) <<
     ", voice: " <<
     voice->getVoiceName () <<
     ", measureOrdinalNumberInVoice: " <<
@@ -6262,7 +6262,7 @@ void msrMeasure::print (ostream& os) const
   os <<
     "Measure '" <<
     fMeasureElementMeasureNumber <<
-    "', " << measureKindAsString (fMeasureKind) <<
+    "', " << msrMeasureKindAsString (fMeasureKind) <<
     ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
@@ -6493,7 +6493,7 @@ void msrMeasure::printShort (ostream& os) const
   os <<
     "Measure '" <<
     fMeasureElementMeasureNumber <<
-    "', " << measureKindAsString (fMeasureKind) <<
+    "', " << msrMeasureKindAsString (fMeasureKind) <<
     ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
@@ -6547,7 +6547,7 @@ void msrMeasure::printShort (ostream& os) const
 
     setw (fieldWidth) <<
     "measureImplicitKind" << " : " <<
-    measureImplicitKindAsString (
+    msrMeasureImplicitKindAsString (
       fMeasureImplicitKind) <<
     endl <<
 

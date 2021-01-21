@@ -29,22 +29,39 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_msrTie msrTie::create (
-  int        inputLineNumber,
-  msrTieKind tieKind)
+  int              inputLineNumber,
+  msrTieKind       tieKind,
+  msrPlacementKind placementKind)
 {
   msrTie* o =
     new msrTie (
-      inputLineNumber, tieKind);
+      inputLineNumber,
+      tieKind,
+      placementKind);
   assert (o != nullptr);
   return o;
 }
 
+S_msrTie msrTie::create (
+  int              inputLineNumber,
+  msrTieKind       tieKind)
+{
+  return
+    msrTie::create (
+      inputLineNumber,
+      tieKind,
+      k_NoPlacement);
+}
+
 msrTie::msrTie (
-  int        inputLineNumber,
-  msrTieKind tieKind)
+  int              inputLineNumber,
+  msrTieKind       tieKind,
+  msrPlacementKind placementKind)
     : msrElement (inputLineNumber)
 {
   fTieKind = tieKind;
+
+  fTiePlacementKind = placementKind;
 }
 
 msrTie::~msrTie ()
@@ -97,39 +114,12 @@ void msrTie::acceptOut (basevisitor* v)
 void msrTie::browseData (basevisitor* v)
 {}
 
-string msrTie::tieKindAsString (msrTieKind tieKind)
-{
-  stringstream s;
-
-  switch (tieKind) {
-    case msrTie::kTieNone:
-      s << "tieNone";
-      break;
-    case msrTie::kTieStart:
-      s << "tieStart";
-      break;
-    case msrTie::kTieContinue:
-      s << "tieContinue";
-      break;
-    case msrTie::kTieStop:
-      s << "tieStop";
-      break;
-  } // switch
-
-  return s.str ();
-}
-
-string msrTie::tieKindAsString () const
-{
-  return tieKindAsString (fTieKind);
-}
-
 string msrTie::asString () const
 {
   stringstream s;
 
   s <<
-    "Tie" << " " << tieKindAsString () <<
+    "Tie" << " " << msrTieKindAsString (fTieKind) <<
     ", line " << fInputLineNumber;
 
   return s.str ();

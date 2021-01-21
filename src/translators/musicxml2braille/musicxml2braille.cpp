@@ -116,7 +116,7 @@ static xmlErr xmlFile2brailleWithHandler (
         "Pass 2a",
         "Create an MSR skeleton from the mxmlTree");
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -147,7 +147,7 @@ static xmlErr xmlFile2brailleWithHandler (
         "Pass 2b",
         "Populate the MSR skeleton from MusicXML data");
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -184,7 +184,7 @@ static xmlErr xmlFile2brailleWithHandler (
           "Pass 3a",
           "Create a first BSR from the MSR");
     }
-    catch (msrScoreToBsrScoreException& e) {
+    catch (msgMsrScoreToBsrScoreException& e) {
       displayException (e, gOutputStream);
       return kInvalidFile;
     }
@@ -238,7 +238,7 @@ static xmlErr xmlFile2brailleWithHandler (
           "Pass 3b",
           "Create the finalized BSR from the first BSR");
     }
-    catch (bsrScoreToFinalizedBsrScoreException& e) {
+    catch (msgBsrScoreToFinalizedBsrScoreException& e) {
       displayException (e, gOutputStream);
       return kInvalidFile;
     }
@@ -314,7 +314,7 @@ static xmlErr xmlFile2brailleWithHandler (
           "Convert the finalized BSR into braille text",
           out);
       }
-      catch (lpsrScoreToLilypondException& e) {
+      catch (msgLpsrScoreToLilypondException& e) {
       displayException (e, gOutputStream);
         return kInvalidFile;
       }
@@ -363,7 +363,7 @@ static xmlErr xmlFile2brailleWithHandler (
           message <<
           endl;
 
-        throw bsrScoreToBrailleTextException (message);
+        throw msgBsrScoreToBrailleTextException (message);
       }
 
       // convert the finalized BSR to braille text
@@ -375,7 +375,7 @@ static xmlErr xmlFile2brailleWithHandler (
           "Convert the finalized BSR into braille text",
           brailleCodeFileOutputStream);
       }
-      catch (lpsrScoreToLilypondException& e) {
+      catch (msgLpsrScoreToLilypondException& e) {
         displayException (e, gOutputStream);
         return kInvalidFile;
       }
@@ -543,7 +543,7 @@ static xmlErr xmlFile2brailleWithOptionsVector (
         break;
     } // switch
   }
-  catch (msrOahException& e) {
+  catch (msgOahException& e) {
     displayException (e, gOutputStream);
     return kInvalidOption;
   }

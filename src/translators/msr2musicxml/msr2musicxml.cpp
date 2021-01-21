@@ -102,7 +102,7 @@ EXP xmlErr msrScore2musicxmlWithHandler (
         passNumber1,
         passDescription1);
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -125,7 +125,7 @@ EXP xmlErr msrScore2musicxmlWithHandler (
         passDescription2,
         timingItem::kMandatory);
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -172,7 +172,7 @@ EXP xmlErr msrScore2musicxmlWithHandler (
       passNumber3,
       passDescription3);
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }

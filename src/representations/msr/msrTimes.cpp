@@ -908,7 +908,7 @@ string msrTime::asString () const
   s <<
     "[Time " <<
     ", timeSymbolKind: " <<
-    timeSymbolKindAsString (fTimeSymbolKind) <<
+    msrTimeSymbolKindAsString (fTimeSymbolKind) <<
     ", timeIsCompound: " <<
     booleanAsString (fTimeIsCompound) <<
     ", fTimeItemsVector.size(): " <<
@@ -956,7 +956,7 @@ string msrTime::asShortString () const
   s <<
     "Time, " <<
     ", timeSymbolKind: " <<
-    timeSymbolKindAsString (fTimeSymbolKind) <<
+    msrTimeSymbolKindAsString (fTimeSymbolKind) <<
     ", compound " <<
     booleanAsString (
       fTimeIsCompound) <<
@@ -985,7 +985,7 @@ void msrTime::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "timeSymbolKind" << " : " <<
-    timeSymbolKindAsString (fTimeSymbolKind) <<
+    msrTimeSymbolKindAsString (fTimeSymbolKind) <<
     endl <<
     setw (fieldWidth) <<
     "timeIsCompound" << " : " <<
@@ -1032,7 +1032,7 @@ void msrTime::printShort (ostream& os) const
   os <<
     "Time " <<
     ", timeSymbolKind: " <<
-    timeSymbolKindAsString (fTimeSymbolKind) <<
+    msrTimeSymbolKindAsString (fTimeSymbolKind) <<
     ", timeIsCompound: " <<
     booleanAsString (fTimeIsCompound) <<
     ", fTimeItemsVector.size(): " <<

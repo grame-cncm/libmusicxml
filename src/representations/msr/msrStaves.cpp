@@ -630,7 +630,7 @@ S_msrVoice msrStaff::createRegularVoiceInStaffByItsNumber (
           "Creating harmony voice number '" <<
           voiceNumber <<
           "', voiceKind '" <<
-          voiceKindAsString (voiceKind) <<
+          msrVoiceKindAsString (voiceKind) <<
           "' in staff \"" << getStaffName () <<
           "\", line " << inputLineNumber <<
           "\", current measure number: " <<
@@ -648,7 +648,7 @@ S_msrVoice msrStaff::createRegularVoiceInStaffByItsNumber (
           "Creating figured bass voice number '" <<
           voiceNumber <<
           "', voiceKind '" <<
-          voiceKindAsString (voiceKind) <<
+          msrVoiceKindAsString (voiceKind) <<
           "' in staff \"" << getStaffName () <<
           "\", line " << inputLineNumber <<
           "\", current measure number: " <<
@@ -1869,7 +1869,7 @@ void msrStaff::handleRepeatEndingEndInStaff (
   if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     gLogStream <<
       "Handling a " <<
-      repeatEndingKindAsString (
+      msrRepeatEndingKindAsString (
         repeatEndingKind) <<
       " repeat ending end in staff \"" <<
       getStaffName () <<
@@ -2400,7 +2400,7 @@ void msrStaff::appendStaffDetailsToStaff (
   if (gGlobalTraceOahGroup->getTraceStaves ()) {
     gLogStream <<
       "Setting staff kind to '" <<
-      staffKindAsString (fStaffKind) <<
+      msrStaffKindAsString (fStaffKind) <<
       "' in staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -2878,7 +2878,7 @@ void msrStaff::print (ostream& os) const
     "Staff number '" <<
     fStaffNumber <<
     "', \"" << getStaffName () <<
-    "\", " << staffKindAsString (fStaffKind) <<
+    "\", " << msrStaffKindAsString (fStaffKind) <<
     ", " <<
     singularOrPlural (
       fStaffVoiceNumbersToAllVoicesMap.size (), "voice", "voices") <<
@@ -3028,7 +3028,7 @@ void msrStaff::print (ostream& os) const
 
       os <<
         "voiceKind: " <<
-        voiceKindAsString (voice->getVoiceKind ()) <<
+        msrVoiceKindAsString (voice->getVoiceKind ()) <<
         ", regularVoiceStaffSequentialNumber: " <<
         voice->getRegularVoiceStaffSequentialNumber () <<
         endl;
@@ -3082,7 +3082,7 @@ void msrStaff::print (ostream& os) const
 
       os <<
         "voiceKind: " <<
-        voiceKindAsString (voice->getVoiceKind ()) <<
+        msrVoiceKindAsString (voice->getVoiceKind ()) <<
         ", regularVoiceStaffSequentialNumber: " <<
         voice->getRegularVoiceStaffSequentialNumber () <<
         endl;
@@ -3138,7 +3138,7 @@ void msrStaff::print (ostream& os) const
 
       os <<
         "voiceKind: " <<
-        voiceKindAsString (voice->getVoiceKind ()) <<
+        msrVoiceKindAsString (voice->getVoiceKind ()) <<
         ", regularVoiceStaffSequentialNumber: " <<
         voice->getRegularVoiceStaffSequentialNumber () <<
         endl;
@@ -3222,7 +3222,7 @@ void msrStaff::printShort (ostream& os) const
     "Staff number '" <<
     fStaffNumber <<
     "', \"" << getStaffName () <<
-    "\", " << staffKindAsString (fStaffKind) <<
+    "\", " << msrStaffKindAsString (fStaffKind) <<
     ", " <<
     singularOrPlural (
       fStaffVoiceNumbersToAllVoicesMap.size (), "voice", "voices") <<
@@ -3301,7 +3301,7 @@ void msrStaff::printSummary (ostream& os) const
     "Staff number '" <<
     fStaffNumber <<
     "', \"" << getStaffName () <<
-    "\", " << staffKindAsString (fStaffKind) <<
+    "\", " << msrStaffKindAsString (fStaffKind) <<
     " (" <<
     singularOrPlural (
       fStaffVoiceNumbersToAllVoicesMap.size (), "voice", "voices") <<

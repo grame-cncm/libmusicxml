@@ -61,7 +61,7 @@ enum msrDiatonicPitchKind {
 EXP msrDiatonicPitchKind msrDiatonicPitchKindFromString (
   char diatonicNoteName);
 
-string diatonicPitchKindAsString (
+string msrDiatonicPitchKindAsString (
   msrDiatonicPitchKind diatonicPitchKind);
 
 // alterations
@@ -111,10 +111,10 @@ enum msrAccidentalKind {
   kAccidentalOther
 };
 
-string accidentalKindAsString (
+string msrAccidentalKindAsString (
   msrAccidentalKind accidentalKind);
 
-string accidentalKindAsMusicXMLString (
+string msrAccidentalKindAsMusicXMLString (
   msrAccidentalKind accidentalKind);
 
 // editorial accidentals
@@ -124,7 +124,7 @@ enum msrEditorialAccidentalKind {
   kEditorialAccidentalYes, kEditorialAccidentalNo
 };
 
-string editorialAccidentalKindAsString (
+string msrEditorialAccidentalKindAsString (
   msrEditorialAccidentalKind noteEditorialAccidentalKind);
 
 // cautionary accidentals
@@ -134,7 +134,7 @@ enum msrCautionaryAccidentalKind {
   kCautionaryAccidentalYes, kCautionaryAccidentalNo
 };
 
-string cautionaryAccidentalKindAsString (
+string msrCautionaryAccidentalKindAsString (
   msrCautionaryAccidentalKind noteCautionaryAccidentalKind);
 
 // semi tones pitches
@@ -238,7 +238,7 @@ enum msrQuarterTonesPitchKind {
   kG_TripleSharp_QTP
 };
 
-EXP string quarterTonesPitchKindAsString (
+EXP string msrQuarterTonesPitchKindAsString (
   msrQuarterTonesPitchKind quarterTonesPitchKind);
 
 EXP void fetchDiatonicPitchKindAndAlterationKindFromQuarterTonesPitchKind (
@@ -278,6 +278,62 @@ enum msrAlterationPreferenceKind {
 EXP msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
+
+// beams
+//______________________________________________________________________________
+
+/*
+  MusicXML beam hooks:
+    see https://forums.makemusic.com/viewtopic.php?f=12&t=1397
+    and the examples at https://github.com/grame-cncm/libmusicxml/tree/lilypond/files
+
+  Michael Good Recordare LLC:
+    An example of a "backward hook" is the 16th-note beam when a dotted eighth is beamed to a 16th.
+    A "forward hook" would be the 16th note beam when a 16th is beamed to a dotted eighth.
+    So in both these cases, the hook would be beam number 2 (the 16th beam).
+
+    In most cases, the hooks follow what would be "normal" beaming for the given durations.
+    But this is not always true, especially when there are secondary beam breaks.
+    The Ave Maria example has both hooks and secondary beam breaks in measure 6 of the voice part,
+    though not simultaneously.
+
+    Say you beamed a dotted-eighth, sixteenth, sixteenth, dotted-eighth pattern together.
+    If you broke the 16th beam, you would use "backward hook" followed by "forward hook".
+    If not, you would use "begin" followed by "end".
+*/
+
+enum msrBeamKind {
+  k_NoBeam,
+  kBeamBegin, kBeamContinue, kBeamEnd,
+  kBeamForwardHook, kBeamBackwardHook
+};
+
+EXP string msrBeamKindAsString (
+  msrBeamKind beamKind);
+
+// ties
+// ------------------------------------------------------
+
+enum msrTieKind {
+  kTieNone,
+  kTieStart, kTieContinue, kTieStop
+};
+
+string msrTieKindAsString (
+  msrTieKind tieKind);
+
+// slurs
+// ------------------------------------------------------
+
+enum msrSlurTypeKind {
+  k_NoSlur,
+  kRegularSlurStart, kPhrasingSlurStart,
+  kSlurContinue,
+  kRegularSlurStop, kPhrasingSlurStop
+};
+
+string msrSlurTypeKindAsString (
+  msrSlurTypeKind slurTypeKind);
 
 // intervals
 //______________________________________________________________________________
@@ -362,7 +418,7 @@ enum msrStaffKind {
   kStaffRythmic
 };
 
-string staffKindAsString (
+string msrStaffKindAsString (
   msrStaffKind staffKind);
 
 // voices
@@ -373,7 +429,7 @@ enum msrVoiceKind {
   kVoiceFiguredBass // for MusicXML <figured-bass/>, LilyPond FiguredBass
 };
 
-string voiceKindAsString (
+string msrVoiceKindAsString (
   msrVoiceKind voiceKind);
 
 // measures
@@ -394,7 +450,7 @@ enum msrMeasureKind {
   kMeasureKindMusicallyEmpty
 };
 
-string measureKindAsString (
+string msrMeasureKindAsString (
   msrMeasureKind measureKind);
 
 enum msrMeasureImplicitKind {
@@ -402,7 +458,7 @@ enum msrMeasureImplicitKind {
   kMeasureImplicitKindNo
 };
 
-string measureImplicitKindAsString (
+string msrMeasureImplicitKindAsString (
   msrMeasureImplicitKind measureImplicitKind);
 
 // clefs
@@ -421,7 +477,7 @@ enum msrClefKind {
   kJianpuClef
 };
 
-string clefKindAsString (
+string msrClefKindAsString (
   msrClefKind clefKind);
 
 EXP msrClefKind clefKindFromString (
@@ -446,7 +502,7 @@ enum msrKeyKind {
   kTraditionalKind, kHumdrumScotKind
 };
 
-string keyKindAsString (
+string msrKeyKindAsString (
   msrKeyKind keyKind);
 
 enum msrModeKind {
@@ -456,12 +512,12 @@ enum msrModeKind {
   kMixolydianMode, kAeolianMode, kLocrianMode
 };
 
+string msrModeKindAsString (
+  msrModeKind modeKind);
+
 msrModeKind modeKindFromString (
   int   inputLineNumber,
   string modeString);
-
-string modeKindAsString (
-  msrModeKind modeKind);
 
 // times
 //______________________________________________________________________________
@@ -475,7 +531,7 @@ enum msrTimeSymbolKind {
   kTimeSymbolSenzaMisura
 };
 
-string timeSymbolKindAsString (
+string msrTimeSymbolKindAsString (
   msrTimeSymbolKind timeSymbolKind);
 
 enum msrTimeSeparatorKind {
@@ -486,7 +542,7 @@ enum msrTimeSeparatorKind {
   kTimeSeparatorAdjacent
 };
 
-string timeSeparatorKindAsString (
+string msrTimeSeparatorKindAsString (
   msrTimeSeparatorKind timeSeparatorKind);
 
 enum msrTimeRelationKind {
@@ -499,7 +555,7 @@ enum msrTimeRelationKind {
   kTimeRelationHyphen
 };
 
-string timeRelationKindAsString (
+string msrTimeRelationKindAsString (
   msrTimeRelationKind timeRelationKind);
 
 // repeats
@@ -509,7 +565,7 @@ enum msrRepeatEndingKind {
   kHooklessEnding
 };
 
-string repeatEndingKindAsString (
+string msrRepeatEndingKindAsString (
   msrRepeatEndingKind repeatEndingKind);
 
 // harmonies
@@ -596,14 +652,14 @@ enum msrQuarterTonesPitchesLanguageKind {
   kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams
 };
 
-string quarterTonesPitchesLanguageKindAsString (
+string msrQuarterTonesPitchesLanguageKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind);
 
-string diatonicPitchKindAsString ( // JMI
+string msrDiatonicPitchKindAsString ( // JMI
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrDiatonicPitchKind               diatonicPitchKind);
 
-string quarterTonesPitchKindAsStringInLanguage (
+string msrQuarterTonesPitchKindAsStringInLanguage (
   msrQuarterTonesPitchKind           quarterTonesPitchKind,
   msrQuarterTonesPitchesLanguageKind languageKind);
 
@@ -836,9 +892,6 @@ class EXP msrSemiTonesPitchAndOctave : public smartable
 
     // public services
     // ------------------------------------------------------
-
-    string                semiTonesPitchKindAsString () const;
-    string                semiTonesPitchKindAsShortString () const;
 
     string                asString () const;
 
@@ -1246,23 +1299,23 @@ EXP ostream& operator<< (ostream& os, const S_msrMarginsGroup& elt);
 
 // fonts
 //______________________________________________________________________________
+// data types
+// ------------------------------------------------------
+
+enum msrFontSizeKind {
+  kFontSizeNone,
+  kFontSizeXXSmall, kFontSizeXSmall, kFontSizeSmall,
+  kFontSizeMedium,
+  kFontSizeLarge, kFontSizeXLarge, kFontSizeXXLarge,
+  kFontSizeNumeric
+};
+
+string msrFontSizeKindAsString (
+  msrFontSizeKind fontSizeKind);
+
 class EXP msrFontSize : public smartable
 {
   public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum msrFontSizeKind {
-      kFontSizeNone,
-      kFontSizeXXSmall, kFontSizeXSmall, kFontSizeSmall,
-      kFontSizeMedium,
-      kFontSizeLarge, kFontSizeXLarge, kFontSizeXXLarge,
-      kFontSizeNumeric
-    };
-
-    static string fontSizeKindAsString (
-      msrFontSizeKind fontSizeKind);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -1300,8 +1353,6 @@ class EXP msrFontSize : public smartable
 
     // public services
     // ------------------------------------------------------
-
-    string                fontSizeKindAsString () const;
 
     string                fontSizeAsString () const;
 
@@ -1451,10 +1502,10 @@ enum msrDynamicsKind {
   kDynamicsSFPP, kDynamicsSFFZ
 };
 
-msrDynamicsKind dynamicsFromString (string theString);
-
-string dynamicsKindAsString (
+string msrDynamicsKindAsString (
   msrDynamicsKind dynamicsKind);
+
+msrDynamicsKind dynamicsFromString (string theString);
 
 // measure style
 //______________________________________________________________________________
@@ -1769,9 +1820,6 @@ class EXP msrHarmonyInterval : public smartable
                                   msrIntervalKindAsSemiTones (
                                     fHarmonyIntervalIntervalKind);
                               }
-
-    string                harmonyIntervalIntervalKindAsString () const;
-    string                harmonyIntervalIntervalKindAsShortString () const;
 
     string                harmonyIntervalAsString () const;
     string                harmonyIntervalAsShortString () const;

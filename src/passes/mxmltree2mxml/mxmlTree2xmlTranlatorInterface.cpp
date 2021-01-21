@@ -146,7 +146,7 @@ EXP void generateMusicXMLFromMxmlTree (
         message <<
         endl;
 
-      throw msrScoreToMusicXMLException (message);
+      throw msgMsrScoreToMusicXMLException (message);
     }
 
     // write the MusicXML data to the output file stream

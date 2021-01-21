@@ -277,7 +277,7 @@ string bsrDynamics::asString () const
   s <<
     "Dynamics" <<
     ", dynamicsKind: " <<
-    dynamicsKindAsString (fDynamicsKind) <<
+    msrDynamicsKindAsString (fDynamicsKind) <<
     ", dynamicsCellsList: " <<
     fDynamicsCellsList->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
@@ -293,7 +293,7 @@ string bsrDynamics::asDebugString () const
   s <<
     "Dyn" <<
     ", dynamicsKind: " <<
-    dynamicsKindAsString (fDynamicsKind) <<
+    msrDynamicsKindAsString (fDynamicsKind) <<
     ", dynamicsCellsList: " <<
     fDynamicsCellsList->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
@@ -316,7 +316,7 @@ void bsrDynamics::print (ostream& os) const
   os <<
     setw (fieldWidth) <<
     "dynamicsKind" << " : " <<
-    dynamicsKindAsString (fDynamicsKind) <<
+    msrDynamicsKindAsString (fDynamicsKind) <<
     endl <<
     setw (fieldWidth) <<
     "noteCellsList" << " : " <<

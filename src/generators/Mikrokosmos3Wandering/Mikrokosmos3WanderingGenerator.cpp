@@ -75,12 +75,14 @@ S_msrScore Mikrokosmos3WanderingGenerator::createAndPopulateTheScore (
       createPartInScore (theMsrScore);
 
   // create and populate the two staves in part
+if (true) // for tests JMI
   S_msrStaff
     upperStaff =
       createAndPopulateUpperStaffInPart (
         part,
         generationAPIKind);
 
+if (true) // for tests JMI
   S_msrStaff
     lowerStaff =
       createAndPopulateLowerStaffInPart (
@@ -420,17 +422,17 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            msrSlur::kRegularSlurStart,
+            kRegularSlurStart,
             kLineTypeSolid,
             kPlacementBelow));
 
-      // append the beam begin to the note
+      // append the first beam begin to the note
       note1->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamBegin));
+            kBeamBegin));
 
       // append the note to the measure
       measure1->
@@ -438,8 +440,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
     }
 
     {
-      measure1->
-        appendNoteOrPaddingToMeasure (
+      S_msrNote
+        note2 =
           msrNote::createRegularNote (
             __LINE__,
             measure1number,
@@ -447,12 +449,24 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
-            0));             // dotsNumber
+            0);              // dotsNumber
+
+      // append the first beam continue to the note
+      note2->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            kBeamContinue));
+
+      // append the note to the measure
+      measure1->
+        appendNoteOrPaddingToMeasure (note2);
     }
 
     {
-      measure1->
-        appendNoteOrPaddingToMeasure (
+      S_msrNote
+        note3 =
           msrNote::createRegularNote (
             __LINE__,
             measure1number,
@@ -460,7 +474,26 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
-            0));             // dotsNumber
+            0);              // dotsNumber
+
+      // append the first beam continue to the note
+      note3->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            kBeamContinue));
+
+      note3->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            kBeamContinue));
+
+      // append the note to the measure
+      measure1->
+        appendNoteOrPaddingToMeasure (note3);
     }
 
     {
@@ -475,13 +508,13 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
 
-      // append the beam end to the note
+      // append the first beam end to the note
       note1->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamEnd));
+            kBeamEnd));
 
       // append the note to the measure
       measure1->
@@ -531,9 +564,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            msrSlur::kRegularSlurStop,
-            kLineTypeSolid,
-            kPlacementBelow));
+            kRegularSlurStop,
+            kLineTypeSolid));
 
       // append the note to the measure
       measure2->
@@ -566,17 +598,17 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            msrSlur::kRegularSlurStart,
+            kRegularSlurStart,
             kLineTypeSolid,
             kPlacementBelow));
 
-      // append the beam begin to the note
+      // append the first beam begin to the note
       note2->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamBegin));
+            kBeamBegin));
 
       // append the note to the measure
       measure2->
@@ -584,8 +616,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
     }
 
     {
-      measure2->
-        appendNoteOrPaddingToMeasure (
+      S_msrNote
+        note3 =
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
@@ -593,12 +625,31 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
-            0));             // dotsNumber
+            0);              // dotsNumber
+
+      // append the first beam continue to the note
+      note3->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            kBeamContinue));
+
+      note3->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            kBeamContinue));
+
+      // append the note to the measure
+      measure2->
+        appendNoteOrPaddingToMeasure (note3);
     }
 
     {
-      measure2->
-        appendNoteOrPaddingToMeasure (
+      S_msrNote
+        note4 =
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
@@ -606,12 +657,24 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
-            0));             // dotsNumber
+            0);              // dotsNumber
+
+      // append the first beam continue to the note
+      note4->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            kBeamContinue));
+
+      // append the note to the measure
+      measure2->
+        appendNoteOrPaddingToMeasure (note4);
     }
 
     {
       S_msrNote
-        note4 =
+        note5 =
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
@@ -621,16 +684,16 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
 
-      // append the beam end to the note
-      note4->
+      // append the first beam end to the note
+      note5->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamEnd));
+            kBeamEnd));
 
       measure2->
-        appendNoteOrPaddingToMeasure (note4);
+        appendNoteOrPaddingToMeasure (note5);
     }
   }
 
@@ -671,13 +734,23 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
 
+      if (false) { // for tests JMI
+        // append the dynamics to the note
+        note1->
+          appendDynamicsToNote (
+            msrDynamics::create (
+              __LINE__,
+              kDynamicsPPP,
+              kPlacementBelow));
+      }
+
       // append the first beam begin to the note
       note1->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamBegin));
+            kBeamBegin));
 
       // append the crescendo wedge to it
       note1->
@@ -703,6 +776,16 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
       spannerStart->
         setSpannerBeginText ("ritard.");
 
+      if (false) { // for tests JMI
+        spannerStart->
+          setSpannerMiddleText ("middle");
+      }
+
+      if (false) { // for tests JMI
+        spannerStart->
+          setSpannerEndText ("end");
+      }
+
       note1->
         appendSpannerToNote (spannerStart);
 
@@ -721,7 +804,15 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             kOctave4,
             rational (1, 16), // soundingWholeNotes
             rational (1, 16), // displayWholeNotes
-            0);              // dotsNumber
+            0);               // dotsNumber
+
+      // append the first beam continue to the note
+      note2->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            kBeamContinue));
 
       // append the second beam begin to the note
       note2->
@@ -729,7 +820,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             2, // beamNumber
-            msrBeam::kBeamBegin));
+            kBeamBegin));
 
       // append the note to the measure
       measure3->
@@ -754,7 +845,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             2, // beamNumber
-            msrBeam::kBeamEnd));
+            kBeamEnd));
 
       // append the first beam end to the note
       note3->
@@ -762,7 +853,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamEnd));
+            kBeamEnd));
 
       // append the note to the measure
       measure3->
@@ -781,13 +872,13 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
 
-      // append the beam begin to the note
+      // append the first beam begin to the note
       note4->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamBegin));
+            kBeamBegin));
 
       // append the note to the measure
       measure3->
@@ -816,13 +907,13 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             kLineTypeSolid,
             kPlacementBelow));
 
-      // append the beam end to the note
+      // append the first beam end to the note
       note5->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamEnd));
+            kBeamEnd));
 
       // append the note to the measure
       measure3->
@@ -865,7 +956,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
         setNoteTie (
           msrTie::create (
             __LINE__,
-            msrTie::kTieStart));
+            kTieStart,
+            kPlacementBelow));
 
       // append the decrescendo wedge to the note
       note1->
@@ -918,7 +1010,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
         setNoteTie (
           msrTie::create (
             __LINE__,
-            msrTie::kTieStop));
+            kTieStop));
 
       // append the slur stop to the note
       note1->
@@ -926,9 +1018,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            msrSlur::kRegularSlurStop,
-            kLineTypeSolid,
-            kPlacementBelow));
+            kRegularSlurStop,
+            kLineTypeSolid));
 
       // append the wedge stop to the note
       note1->
@@ -971,6 +1062,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
   S_msrVoice upperVoice1)
 //------------------------------------------------------------------------
 {
+/* JMI
   // measure 1
   // ----------------------------------
 
@@ -1243,6 +1335,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
         msrBarline::createFinalBarline (
           __LINE__));
   }
+*/
 }
 
 //------------------------------------------------------------------------
@@ -1327,13 +1420,13 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             kDynamicsPP,
             kPlacementBelow));
 
-      // append the beam begin to the note
+      // append the first beam begin to the note
       note2->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamBegin));
+            kBeamBegin));
 
       // append the slur start to the note
       note2->
@@ -1341,7 +1434,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            msrSlur::kRegularSlurStart,
+            kRegularSlurStart,
             kLineTypeSolid,
             kPlacementAbove));
 
@@ -1351,8 +1444,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
     }
 
     {
-      measure1->
-        appendNoteOrPaddingToMeasure (
+      S_msrNote
+        note3 =
           msrNote::createRegularNote (
             __LINE__,
             measure1number,
@@ -1360,7 +1453,19 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
-            0));             // dotsNumber
+            0);              // dotsNumber
+
+      // append the first beam continue to the note
+      note3->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            kBeamContinue));
+
+      // append the note to the measure
+      measure1->
+        appendNoteOrPaddingToMeasure (note3);
     }
   }
 
@@ -1390,8 +1495,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
     // append the notes
 
     {
-      measure2->
-        appendNoteOrPaddingToMeasure (
+      S_msrNote
+        note1 =
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
@@ -1399,7 +1504,19 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
-            0));             // dotsNumber
+            0);              // dotsNumber
+
+      // append the first beam continue to the note
+      note1->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            kBeamContinue));
+
+      // append the note to the measure
+      measure2->
+        appendNoteOrPaddingToMeasure (note1);
     }
 
     {
@@ -1414,13 +1531,13 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
 
-      // append the beam end to the note
+      // append the first beam end to the note
       note2->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamEnd));
+            kBeamEnd));
 
       // append the note to the measure
       measure2->
@@ -1445,9 +1562,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            msrSlur::kRegularSlurStop,
-            kLineTypeSolid,
-            kPlacementBelow));
+            kRegularSlurStop,
+            kLineTypeSolid));
 
       // append the note to the measure
       measure2->
@@ -1474,13 +1590,13 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             kDynamicsMP,
             kPlacementBelow));
 
-      // append the beam begin to the note
+      // append the first beam begin to the note
       note4->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamBegin));
+            kBeamBegin));
 
       // append the note to the measure
       measure2->
@@ -1488,8 +1604,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
     }
 
     {
-      measure2->
-        appendNoteOrPaddingToMeasure (
+      S_msrNote
+        note5 =
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
@@ -1497,7 +1613,19 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
-            0));             // dotsNumber
+            0);              // dotsNumber
+
+      // append the first beam continue to the note
+      note5->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            kBeamContinue));
+
+      // append the note to the measure
+      measure2->
+        appendNoteOrPaddingToMeasure (note5);
     }
   }
 
@@ -1527,8 +1655,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
     // append the notes
 
     {
-      measure3->
-        appendNoteOrPaddingToMeasure (
+      S_msrNote
+        note1 =
           msrNote::createRegularNote (
             __LINE__,
             measure3number,
@@ -1536,7 +1664,19 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
-            0));             // dotsNumber
+            0);              // dotsNumber
+
+      // append the first beam continue to the note
+      note1->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            kBeamContinue));
+
+      // append the note to the measure
+      measure3->
+        appendNoteOrPaddingToMeasure (note1);
     }
 
     {
@@ -1549,16 +1689,17 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
-            0);             // dotsNumber
+            0);              // dotsNumber
 
-      // append the beam end to the note
+      // append the first beam end to the note
       note2->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamEnd));
+            kBeamEnd));
 
+      // append the note to the measure
       measure3->
         appendNoteOrPaddingToMeasure (note2);
     }
@@ -1575,13 +1716,13 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
 
-      // append the beam begin to the note
+      // append the first beam begin to the note
       note3->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamBegin));
+            kBeamBegin));
 
       measure3->
         appendNoteOrPaddingToMeasure (note3);
@@ -1599,13 +1740,21 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             rational (1, 16), // displayWholeNotes
             0);               // dotsNumber
 
+      // append the first beam continue to the note
+      note4->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            kBeamContinue));
+
       // append the second beam begin to the note
       note4->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             2, // beamNumber
-            msrBeam::kBeamBegin));
+            kBeamBegin));
 
       // append the note to the measure
       measure3->
@@ -1630,7 +1779,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             2, // beamNumber
-            msrBeam::kBeamEnd));
+            kBeamEnd));
 
       // append the first beam end to the note
       note5->
@@ -1638,7 +1787,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            msrBeam::kBeamEnd));
+            kBeamEnd));
 
       // append the note to the measure
       measure3->
@@ -1718,6 +1867,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheStringsAPI (
   S_msrVoice lowerVoice1)
 //------------------------------------------------------------------------
 {
+/* JMI
   // measure 1
   // ----------------------------------
 
@@ -1963,6 +2113,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheStringsAPI (
         msrBarline::createFinalBarline (
           __LINE__));
   }
+*/
 }
 
 //------------------------------------------------------------------------
@@ -2127,7 +2278,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
         setNoteTie (
           msrTie::create (
             __LINE__,
-            msrTie::kTieStart));
+            kTieStart,
+            kPlacementAbove));
 
       measure4->
         appendNoteOrPaddingToMeasure (note1);
@@ -2169,7 +2321,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
         setNoteTie (
           msrTie::create (
             __LINE__,
-            msrTie::kTieStop));
+            kTieStop));
 
       // append the note to the measure
       measure5->

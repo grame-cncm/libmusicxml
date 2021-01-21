@@ -132,7 +132,7 @@ void msrDynamics::print (ostream& os) const
 {
   os <<
     "Dynamics" " " <<
-    dynamicsKindAsString (fDynamicsKind) <<
+    msrDynamicsKindAsString (fDynamicsKind) <<
     ", dynamicsPlacementKind: " <<
     msrPlacementKindAsString (fDynamicsPlacementKind) <<
     ", line " << fInputLineNumber <<

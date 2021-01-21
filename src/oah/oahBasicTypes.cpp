@@ -3265,7 +3265,7 @@ void oahHandler::checkNoInputSourceInArgumentsVector () const
           message <<
           endl;
 
-        throw msrOahException (message);
+        throw msgOahException (message);
       }
   } //  switch
 }
@@ -3336,7 +3336,7 @@ void oahHandler::checkSingleInputSourceInArgumentsVector () const
           message <<
           endl;
 
-        throw msrOahException (message);
+        throw msgOahException (message);
       }
       break;
 

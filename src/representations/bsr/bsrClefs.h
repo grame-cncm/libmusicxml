@@ -31,7 +31,7 @@ class EXP bsrClef : public bsrLineContentsElement
       kClefKindModifiedTrebleForLeftHandPart
     };
 
-    static string clefKindAsString (
+    static string msrClefKindAsString (
       bsrClefKind clefKind);
 
     static string clefKindAsDebugString (

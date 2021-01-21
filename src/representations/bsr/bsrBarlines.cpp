@@ -202,7 +202,7 @@ string bsrBarline::barlineKindAsDebugString (
 
   switch (barlineKind) {
     case bsrBarline::kBarlineKindNone:
-      result = "_";
+      result = "***None***";
       break;
     case bsrBarline::kBarlineKindSpecial:
       result = "Special";
@@ -211,7 +211,7 @@ string bsrBarline::barlineKindAsDebugString (
       result = "Unusual";
       break;
     case bsrBarline::kBarlineKindFinalDouble:
-      result = "Final";
+      result = "FinalDouble";
       break;
     case bsrBarline::kBarlineKindSectionalDouble:
       result = "||"; // L'\u2016' ??? JMI

@@ -1133,7 +1133,7 @@ void msrPart::handleRepeatEndingEndInPart (
   if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     gLogStream <<
       "Handling a " <<
-      repeatEndingKindAsString (
+      msrRepeatEndingKindAsString (
         repeatEndingKind) <<
       " repeat ending end in part \"" <<
       getPartCombinedName () <<
@@ -1438,7 +1438,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   if (gGlobalTraceOahGroup->getTraceStaves ()) {
     gLogStream <<
       "Adding " <<
-      staffKindAsString (staffKind) <<
+      msrStaffKindAsString (staffKind) <<
       " staff " << staffNumber <<
       " to part " << getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -1511,7 +1511,7 @@ S_msrStaff msrPart::addPartLevelStaffToPart (
   if (gGlobalTraceOahGroup->getTraceStaves ()) {
     gLogStream <<
       "Adding " <<
-      staffKindAsString (staffKind) <<
+      msrStaffKindAsString (staffKind) <<
       " staff " << staffNumber <<
       " to part " << getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -1709,7 +1709,7 @@ void msrPart::appendHarmonyToPart (
 
         s <<
           "figured bass cannot by supplied to part by " <<
-          voiceKindAsString (
+          msrVoiceKindAsString (
             harmonySupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
           harmonySupplierVoice->getVoiceName () <<
@@ -1758,7 +1758,7 @@ void msrPart::appendHarmonyToPartClone (
 
         s <<
           "figured bass cannot by supplied to part clone by " <<
-          voiceKindAsString (
+          msrVoiceKindAsString (
             harmonySupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
           harmonySupplierVoice->getVoiceName () <<
@@ -1887,7 +1887,7 @@ void msrPart::appendFiguredBassToPart (
 
         s <<
           "figured bass cannot by supplied to part by " <<
-          voiceKindAsString (
+          msrVoiceKindAsString (
             figuredBassSupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
           figuredBassSupplierVoice->getVoiceName () <<
@@ -1936,7 +1936,7 @@ void msrPart::appendFiguredBassToPartClone (
 
         s <<
           "figured bass cannot by supplied to part clone by " <<
-          voiceKindAsString (
+          msrVoiceKindAsString (
             figuredBassSupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
           figuredBassSupplierVoice->getVoiceName () <<

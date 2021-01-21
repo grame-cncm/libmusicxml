@@ -865,7 +865,7 @@ The default is 'DEFAULT_VALUE'.)",
             gIndenter.indentMultiLineString (
               existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
           regex ("DEFAULT_VALUE"),
-          quarterTonesPitchesLanguageKindAsString (
+          msrQuarterTonesPitchesLanguageKindAsString (
             msrQuarterTonesPitchesLanguageKindDefaultValue)),
         "LANGUAGE",
         "lpsrPitchesLanguage",

@@ -92,7 +92,7 @@ EXP xmlErr msrScore2guidoWithHandler (
         passNumber1,
         passDescription1);
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -115,7 +115,7 @@ EXP xmlErr msrScore2guidoWithHandler (
         passDescription2,
         timingItem::kMandatory);
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -162,7 +162,7 @@ EXP xmlErr msrScore2guidoWithHandler (
       passNumber3,
       passDescription3);
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }

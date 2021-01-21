@@ -247,6 +247,9 @@ lpsrScore::lpsrScore (
   // merge rests
   fMergeRestsIsNeeded = false;
 
+  // spanners with centered text
+  fTextSpannerWithCenteredTextIsNeeded = false;
+
   if (gGlobalLpsr2lilypondOahGroup->getLilypondCompileDate ()) {
     // create the date and time functions
     addDateAndTimeSchemeFunctionsToScore ();
@@ -640,6 +643,15 @@ void lpsrScore::setMergeRestsIsNeeded ()
     addMergeRestsToScore ();
 
     fMergeRestsIsNeeded = true;
+  }
+}
+
+void lpsrScore::setTextSpannerWithCenteredTextIsNeeded ()
+{
+  if (! fTextSpannerWithCenteredTextIsNeeded) {
+    addTextSpannerWithCenteredTextToScore ();
+
+    fTextSpannerWithCenteredTextIsNeeded = true;
   }
 }
 
@@ -2021,6 +2033,7 @@ R"###(
 % Annotation bracket with centred text.
 % Andrew Bernard and Thomas Morley
 
+TextSpannerWithCenteredText =
 #(define-music-function (text) (string?)
    "Use TextSpanner semantics to create spanner brackets with centred text"
    #{

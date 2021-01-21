@@ -91,7 +91,7 @@ void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
   if (gGlobalTraceOahGroup->getTraceKeys ()) {
     gLogStream <<
       "Setting Humdrum/Scot key item diatonic pitch to '" <<
-      diatonicPitchKindAsString (diatonicPitchKind) <<
+      msrDiatonicPitchKindAsString (diatonicPitchKind) <<
       "'" <<
       endl;
   }
@@ -185,7 +185,7 @@ string msrHumdrumScotKeyItem::asString () const
   s <<
     "HumdrumScotKeyItem" <<
     ", KeyDiatonicPitch" << ": " <<
-    diatonicPitchKindAsString (fKeyDiatonicPitchKind) <<
+    msrDiatonicPitchKindAsString (fKeyDiatonicPitchKind) <<
     ", KeyAlteration" << ": " <<
     msrAlterationKindAsString (fKeyAlterationKind) <<
     ", KeyOctaveKind" << ": " << fKeyOctaveKind <<
@@ -517,7 +517,7 @@ S_msrKey msrKey::createTraditionalKeyFromString (
       "\"" <<
       endl <<
       "keyTonicPitchKind = \"" <<
-      quarterTonesPitchKindAsString (keyTonicPitchKind) <<
+      msrQuarterTonesPitchKindAsString (keyTonicPitchKind) <<
       "\"" <<
       endl <<
       "keyMode = \"" <<
@@ -525,7 +525,7 @@ S_msrKey msrKey::createTraditionalKeyFromString (
       "\"" <<
       endl <<
       "keyModeKind = \"" <<
-      modeKindAsString (keyModeKind) <<
+      msrModeKindAsString (keyModeKind) <<
       "\"" <<
       endl;
   }
@@ -595,18 +595,18 @@ string msrKey::asString () const
 
   s <<
     "[Key " <<
-    keyKindAsString (fKeyKind) <<
+    msrKeyKindAsString (fKeyKind) <<
     ", ";
 
   switch (fKeyKind) {
     case kTraditionalKind:
       s <<
-        quarterTonesPitchKindAsStringInLanguage (
+        msrQuarterTonesPitchKindAsStringInLanguage (
           fKeyTonicQuarterTonesPitchKind,
           gGlobalMsrOahGroup->
             getMsrQuarterTonesPitchesLanguageKind ()) <<
         " " <<
-        modeKindAsString (fModeKind);
+        msrModeKindAsString (fModeKind);
       break;
 
     case kHumdrumScotKind:
@@ -629,19 +629,19 @@ void msrKey::print (ostream& os) const
 {
   os <<
     "Key" <<
-    ", " << keyKindAsString (fKeyKind) <<
+    ", " << msrKeyKindAsString (fKeyKind) <<
     ",";
 
   switch (fKeyKind) {
     case kTraditionalKind:
       os <<
         " " <<
-        quarterTonesPitchKindAsStringInLanguage (
+        msrQuarterTonesPitchKindAsStringInLanguage (
           fKeyTonicQuarterTonesPitchKind,
           gGlobalMsrOahGroup->
             getMsrQuarterTonesPitchesLanguageKind ()) <<
         " " <<
-        modeKindAsString (fModeKind) <<
+        msrModeKindAsString (fModeKind) <<
         ", line " << fInputLineNumber <<
         endl;
       break;

@@ -32,21 +32,6 @@ EXP void msgAssert (
   string messageIfFalse);
 
 //______________________________________________________________________________
-EXP void msgWarning (
-  string context,
-  string inputSourceName,
-  int    inputLineNumber,
-  string message);
-
-EXP void msgError (
-  string context,
-  string inputSourceName,
-  int    inputLineNumber,
-  string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  string message);
-
-//______________________________________________________________________________
 EXP void oahWarning (string warningMessage);
 
 EXP void oahError (string errorMessage);
@@ -68,6 +53,32 @@ EXP void msrInternalWarning (
   string message);
 
 EXP void msrInternalError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message);
+
+//______________________________________________________________________________
+EXP void msrWarning (
+  string inputSourceName,
+  int    inputLineNumber,
+  string message);
+
+EXP void msrError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message);
+
+//______________________________________________________________________________
+EXP void msrMusicXMLWarning (
+  string inputSourceName,
+  int    inputLineNumber,
+  string message);
+
+EXP void msrMusicXMLError (
   string inputSourceName,
   int    inputLineNumber,
   string sourceCodeFileName,

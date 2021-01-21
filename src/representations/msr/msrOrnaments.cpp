@@ -162,7 +162,7 @@ string msrOrnament::ornamentPlacementKindAsString () const
 string msrOrnament::ornamentAccidentalKindAsString () const
 {
   return
-    accidentalKindAsString (
+    msrAccidentalKindAsString (
       fOrnamentAccidentalKind);
 }
 
@@ -174,7 +174,7 @@ string msrOrnament::asString () const
     "[Ornament" <<
     ", ornamentKind: " << ornamentKindAsString () <<
     ", ornamentPlacementKind: " << msrPlacementKindAsString (fOrnamentPlacementKind) <<
-    ", ornamentAccidentalKind: " << accidentalKindAsString (fOrnamentAccidentalKind) <<
+    ", ornamentAccidentalKind: " << msrAccidentalKindAsString (fOrnamentAccidentalKind) <<
     "]";
 
   return s.str ();

@@ -21,7 +21,7 @@ class EXP bsrKey : public bsrLineContentsElement
       kKeyKindFlats, kKeyKindNaturals, kKeyKindSharps
     };
 
-    static string keyKindAsString (
+    static string msrKeyKindAsString (
       bsrKeyKind keyKind);
 
     // creation

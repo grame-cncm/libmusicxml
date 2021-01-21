@@ -621,6 +621,11 @@ void bsrUTF8DebugBrailleGenerator::generateCodeForLineContents (
       lineContents->
         fetchCellsList ());
 
+if (true) // JMI TESTS
+  this->
+    generateCodeForBrailleCell (
+      kCellEOL);
+
   this->
     generateCodeForBrailleCell (
       kCellEOL);
@@ -628,6 +633,11 @@ void bsrUTF8DebugBrailleGenerator::generateCodeForLineContents (
   fBrailleOutputStream <<
     lineContents->
       asDebugString ();
+
+if (true) // JMI TESTS
+  this->
+    generateCodeForBrailleCell (
+      kCellEOL);
 
   this->
     generateCodeForBrailleCell (

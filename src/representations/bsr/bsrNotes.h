@@ -173,7 +173,7 @@ class EXP bsrNote : public bsrLineContentsElement
       kAccidentalThreeQuarterSharp, kAccidentalThreeQuarterFlat
     };
 
-    static string accidentalKindAsString (
+    static string msrAccidentalKindAsString (
       bsrAccidentalKind accidentalKind);
 
     static string accidentalKindAsDebugString (

@@ -258,7 +258,7 @@ string msrClef::asString () const
 
   s <<
     "[Clef " <<
-    clefKindAsString (fClefKind) <<
+    msrClefKindAsString (fClefKind) <<
     ", clefStaffNumber: " << fClefStaffNumber <<
     "], line " << fInputLineNumber;
 
@@ -269,7 +269,7 @@ void msrClef::print (ostream& os) const
 {
   os <<
     "Clef " <<
-    clefKindAsString (fClefKind) <<
+    msrClefKindAsString (fClefKind) <<
     ", clefStaffNumber: " << fClefStaffNumber <<
     ", line " << fInputLineNumber <<
     endl;

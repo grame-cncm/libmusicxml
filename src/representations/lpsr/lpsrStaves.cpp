@@ -453,7 +453,7 @@ void lpsrStaffBlock::print (ostream& os) const
   os <<
     "StaffBlock for staff \"" <<
     fStaff->getStaffName () <<
-    "\" (" << staffKindAsString (fStaff->getStaffKind ()) <<
+    "\" (" << msrStaffKindAsString (fStaff->getStaffKind ()) <<
     "), " <<
     singularOrPlural (
       fStaffBlockElements.size (), "element", "elements") <<

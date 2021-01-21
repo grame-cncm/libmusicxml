@@ -212,7 +212,7 @@ void bsrClef::browseData (basevisitor* v)
 {}
 
 
-string bsrClef::clefKindAsString (
+string bsrClef::msrClefKindAsString (
   bsrClefKind clefKind)
 {
   string result;
@@ -307,7 +307,7 @@ string bsrClef::asString () const
   s <<
     "Clef" <<
     ", clefKind: " <<
-    clefKindAsString (fClefKind) <<
+    msrClefKindAsString (fClefKind) <<
     "clefCellsList: " << fClefCellsList <<
     ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
@@ -341,7 +341,7 @@ void bsrClef::print (ostream& os) const
   os <<
     setw (fieldWidth) <<
     "clefKind" << " : " <<
-    clefKindAsString (fClefKind) <<
+    msrClefKindAsString (fClefKind) <<
     endl <<
     setw (fieldWidth) <<
     "clefCellsList" << " : " << fClefCellsList <<

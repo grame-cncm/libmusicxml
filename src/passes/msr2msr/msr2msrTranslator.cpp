@@ -1988,7 +1988,7 @@ void msr2msrTranslator::visitStart (S_msrSyllable& elt)
               kVerticalAlignmentNone,        // default value
               kFontStyleNone,                // default value
               msrFontSize::create (
-                msrFontSize::kFontSizeNone), // default value
+                kFontSizeNone), // default value
               kFontWeightNone,               // default value
               kXMLLangIt,                    // default value
               elt->

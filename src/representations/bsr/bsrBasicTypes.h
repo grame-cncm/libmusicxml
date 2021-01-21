@@ -219,7 +219,7 @@ enum bsrBrailleOutputKind {
   kBrailleOutputUTF16
 };
 
-string brailleOutputKindAsString (
+string bsrBrailleOutputKindAsString (
   bsrBrailleOutputKind brailleOutputKind);
 
 extern map<string, bsrBrailleOutputKind>

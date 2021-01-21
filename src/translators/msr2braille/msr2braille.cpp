@@ -93,7 +93,7 @@ EXP xmlErr msrScore2brailleWithHandler (
           passNumber1a,
           passDescription1a);
     }
-    catch (msrScoreToBsrScoreException& e) {
+    catch (msgMsrScoreToBsrScoreException& e) {
       displayException (e, gOutputStream);
       return kInvalidFile;
     }
@@ -147,7 +147,7 @@ EXP xmlErr msrScore2brailleWithHandler (
           passNumber1b,
           passDescription1b);
     }
-    catch (bsrScoreToFinalizedBsrScoreException& e) {
+    catch (msgBsrScoreToFinalizedBsrScoreException& e) {
       displayException (e, gOutputStream);
       return kInvalidFile;
     }
@@ -223,7 +223,7 @@ EXP xmlErr msrScore2brailleWithHandler (
           passDescription2,
           out);
       }
-      catch (lpsrScoreToLilypondException& e) {
+      catch (msgLpsrScoreToLilypondException& e) {
       displayException (e, gOutputStream);
         return kInvalidFile;
       }
@@ -272,7 +272,7 @@ EXP xmlErr msrScore2brailleWithHandler (
           message <<
           endl;
 
-        throw bsrScoreToBrailleTextException (message);
+        throw msgBsrScoreToBrailleTextException (message);
       }
 
       // convert the finalized BSR score to braille text
@@ -284,7 +284,7 @@ EXP xmlErr msrScore2brailleWithHandler (
           passDescription2,
           brailleCodeFileOutputStream);
       }
-      catch (lpsrScoreToLilypondException& e) {
+      catch (msgLpsrScoreToLilypondException& e) {
         displayException (e, gOutputStream);
         return kInvalidFile;
       }

@@ -41,11 +41,12 @@ void msgAssert (
 
     gIndenter.setIndent (saveIndent);
 
-    throw msrAssertException (messageIfFalse);
+    throw msgAssertException (messageIfFalse);
   }
 }
 
 //______________________________________________________________________________
+// private function
 void msgWarning (
   string context,
   string inputSourceName,
@@ -101,6 +102,7 @@ void msgErrorWithoutException (
   }
 }
 
+// private function
 void msgError (
   string context,
   string inputSourceName,
@@ -117,7 +119,7 @@ void msgError (
     sourceCodeLineNumber,
     message);
 
-  throw msrMsrException (message);
+  throw msgMsrException (message);
 }
 
 //______________________________________________________________________________
@@ -152,7 +154,7 @@ void oahError (string errorMessage)
 
   gIndenter.setIndent (saveIndent);
 
-  throw msrOahException (errorMessage);
+  throw msgOahException (errorMessage);
 }
 
 void oahInternalError (string errorMessage)
@@ -172,7 +174,7 @@ void oahInternalError (string errorMessage)
 
   gIndenter.setIndent (saveIndent);
 
-  throw msrOahException (errorMessage);
+  throw msgOahException (errorMessage);
 }
 
 //______________________________________________________________________________
@@ -202,7 +204,7 @@ void msrUnsupported (
     gIndenter.setIndent (saveIndent);
   }
 
-  throw msrMsrUnsupportedException (message);
+  throw msgMsrUnsupportedException (message);
 }
 
 //______________________________________________________________________________
@@ -243,7 +245,45 @@ void msrInternalError (
 
   gIndenter.setIndent (saveIndent);
 
-  throw msrMsrInternalException (message);
+  throw msgMsrInternalException (message);
+}
+
+//______________________________________________________________________________
+void msrWarning (
+  string inputSourceName,
+  int    inputLineNumber,
+  string message)
+{
+  msgWarning (
+    "MSR",
+    inputSourceName,
+    inputLineNumber,
+    message);
+}
+
+void msrError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msgError (
+    "MSR",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  if (! gGlobalGeneralOahGroup->getDontShowErrors ()) {
+    if (! gGlobalGeneralOahGroup->getDontQuitOnErrors ()) { // JMI
+      throw msgMsrException (message);
+    }
+    else {
+      throw msgMsrException (message);
+    }
+  }
 }
 
 //______________________________________________________________________________
@@ -276,10 +316,10 @@ void msrMusicXMLError (
 
   if (! gGlobalGeneralOahGroup->getDontShowErrors ()) {
     if (! gGlobalGeneralOahGroup->getDontQuitOnErrors ()) { // JMI
-      throw msrMusicXMLException (message);
+      throw msgMusicXMLException (message);
     }
     else {
-      throw msrMusicXMLException (message);
+      throw msgMusicXMLException (message);
     }
   }
 }
@@ -314,10 +354,10 @@ void lpsrLilypondError (
 
   if (! gGlobalGeneralOahGroup->getDontShowErrors ()) {
     if (! gGlobalGeneralOahGroup->getDontQuitOnErrors ()) { // JMI
-      throw lpsrScoreToLilypondException (message);
+      throw msgLpsrScoreToLilypondException (message);
     }
     else {
-      throw lpsrScoreToLilypondException (message);
+      throw msgLpsrScoreToLilypondException (message);
     }
   }
 }
@@ -351,10 +391,10 @@ void lpsrMusicXMLError (
     message);
 
   if (! gGlobalGeneralOahGroup->getDontShowErrors ()) { // JMI
-    throw lpsrMusicXMLException (message);
+    throw msgLpsrMusicXMLException (message);
   }
 
-  throw lpsrMusicXMLException (message);
+  throw msgLpsrMusicXMLException (message);
 }
 
 //______________________________________________________________________________
@@ -395,7 +435,7 @@ void bsrInternalError (
 
   gIndenter.setIndent (saveIndent);
 
-  throw bsrInternalException (message);
+  throw msgBsrInternalException (message);
 }
 
 //______________________________________________________________________________
@@ -428,10 +468,10 @@ EXP void msplError (
     message);
 
   if (! gGlobalGeneralOahGroup->getDontShowErrors ()) { // JMI
-    throw msplException (message);
+    throw msgMsplException (message);
   }
 
-  throw msplException (message);
+  throw msgMsplException (message);
 }
 
 EXP void msplInternalError (
@@ -459,7 +499,7 @@ EXP void msplInternalError (
 
   gIndenter.setIndent (saveIndent);
 
-  throw msplInternalException (message);
+  throw msgMsplInternalException (message);
 }
 
 //______________________________________________________________________________
@@ -491,10 +531,10 @@ void bmmlError (
     message);
 
   if (! gGlobalGeneralOahGroup->getDontShowErrors ()) { // JMI
-    throw bmmlException (message);
+    throw msgBmmlException (message);
   }
 
-  throw bmmlException (message);
+  throw msgBmmlException (message);
 }
 
 void bmmlInternalError (
@@ -522,7 +562,7 @@ void bmmlInternalError (
 
   gIndenter.setIndent (saveIndent);
 
-  throw bmmlInternalException (message);
+  throw msgBmmlInternalException (message);
 }
 
 //______________________________________________________________________________
@@ -554,10 +594,10 @@ void meiError (
     message);
 
   if (! gGlobalGeneralOahGroup->getDontShowErrors ()) { // JMI
-    throw meiException (message);
+    throw msgMeiException (message);
   }
 
-  throw meiException (message);
+  throw msgMeiException (message);
 }
 
 void meiInternalError (
@@ -585,7 +625,7 @@ void meiInternalError (
 
   gIndenter.setIndent (saveIndent);
 
-  throw meiInternalException (message);
+  throw msgMeiInternalException (message);
 }
 
 //______________________________________________________________________________
@@ -688,7 +728,7 @@ void msrStreamsError (
       endl;
   }
 
-  throw msrStreamsException (message);
+  throw msgStreamsException (message);
 }
 */
 

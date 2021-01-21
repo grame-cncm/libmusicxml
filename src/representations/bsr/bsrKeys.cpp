@@ -64,7 +64,7 @@ bsrKey::bsrKey (
 
     s <<
       "BSR key inconsistency:" <<
-      "keyKind: " << keyKindAsString (fKeyKind) <<
+      "keyKind: " << msrKeyKindAsString (fKeyKind) <<
       "numberOfAlterations: " << fNumberOfAlterations;
 
     bsrInternalError (
@@ -225,7 +225,7 @@ void bsrKey::acceptOut (basevisitor* v)
 void bsrKey::browseData (basevisitor* v)
 {}
 
-string bsrKey::keyKindAsString (
+string bsrKey::msrKeyKindAsString (
   bsrKeyKind keyKind)
 {
   string result;
@@ -254,7 +254,7 @@ string bsrKey::asString () const
 
   s <<
     "Key" <<
-    ", " << keyKindAsString (fKeyKind) <<
+    ", " << msrKeyKindAsString (fKeyKind) <<
     ", numberOfAlterations: " << fNumberOfAlterations <<
     ", keyCellsList: " << fKeyCellsList->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
@@ -352,7 +352,7 @@ void bsrKey::print (ostream& os) const
 
   os <<
     setw (fieldWidth) <<
-    "keyKind" << " : " << keyKindAsString (fKeyKind) <<
+    "keyKind" << " : " << msrKeyKindAsString (fKeyKind) <<
     endl <<
     setw (fieldWidth) <<
     "numberOfAlterations" << " : " << fNumberOfAlterations <<

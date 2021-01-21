@@ -194,7 +194,7 @@ string brailleOutputKindAtom::asShortNamedOptionString () const
 
   s <<
     "-" << fShortName << " " <<
-    brailleOutputKindAsString (fBrailleOutputKindVariable);
+    bsrBrailleOutputKindAsString (fBrailleOutputKindVariable);
 
   return s.str ();
 }
@@ -205,7 +205,7 @@ string brailleOutputKindAtom::asActualLongNamedOptionString () const
 
   s <<
     "-" << fLongName << " " <<
-    brailleOutputKindAsString (fBrailleOutputKindVariable);
+    bsrBrailleOutputKindAsString (fBrailleOutputKindVariable);
 
   return s.str ();
 }
@@ -230,7 +230,7 @@ void brailleOutputKindAtom::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "brailleUTFKindVariable" << " : \"" <<
-    brailleOutputKindAsString (
+    bsrBrailleOutputKindAsString (
       fBrailleOutputKindVariable) <<
       "\"" <<
     endl;
@@ -246,7 +246,7 @@ void brailleOutputKindAtom::printAtomWithValueOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : \"" <<
-    brailleOutputKindAsString (
+    bsrBrailleOutputKindAsString (
       fBrailleOutputKindVariable) <<
     "\"";
   if (fVariableHasBeenSet) {
@@ -765,7 +765,7 @@ The default is 'DEFAULT_VALUE'.)",
           regex ("BRAILLE_OUTPUT_KINDS"),
           existingBsrBrailleOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
         regex ("DEFAULT_VALUE"),
-        brailleOutputKindAsString (
+        bsrBrailleOutputKindAsString (
           bsrBrailleOutputKindDefaultValue)),
       "OUTPUT_KIND",
       "brailleOutputKind",

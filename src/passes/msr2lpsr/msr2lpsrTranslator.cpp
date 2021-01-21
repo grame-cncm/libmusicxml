@@ -2611,7 +2611,7 @@ void msr2lpsrTranslator::visitStart (S_msrSyllable& elt)
               kVerticalAlignmentNone,        // default value
               kFontStyleNone,                // default value
               msrFontSize::create (
-                msrFontSize::kFontSizeNone), // default value
+                kFontSizeNone), // default value
               kFontWeightNone,               // default value
               kXMLLangIt,                    // default value
               elt->
@@ -3420,6 +3420,13 @@ void msr2lpsrTranslator::visitStart (S_msrSpanner& elt)
     case k_NoSpannerType:
       break;
   } // switch
+
+  // is a spanner with centered text needed?
+  if (elt->getSpannerMiddleText ().size ()) {
+    fResultingLpsrScore->
+      // this score needs the 'TextSpannerWithCenteredText' Scheme function
+      setTextSpannerWithCenteredTextIsNeeded ();
+  }
 
   if (fOnGoingNonGraceNote) {
     fCurrentNonGraceNoteClone->

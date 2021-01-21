@@ -119,7 +119,7 @@ S_bsrScore convertBsrFirstScoreToFinalizedBsrScore (
       message <<
       endl << endl;
 
-    throw bsrScoreToFinalizedBsrScoreException (message);
+    throw msgBsrScoreToFinalizedBsrScoreException (message);
   }
 
   // check indentation

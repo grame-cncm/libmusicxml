@@ -26,18 +26,6 @@ class EXP msrBeam : public msrElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
-    enum msrBeamKind {
-      k_NoBeam,
-      kBeamBegin, kBeamContinue, kBeamEnd,
-      kBeamForwardHook, kBeamBackwardHook
-    };
-
-    static string beamKindAsString (
-      msrBeamKind beamKind);
-
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -88,8 +76,6 @@ class EXP msrBeam : public msrElement
 
     // print
     // ------------------------------------------------------
-
-    string                beamKindAsString () const;
 
     string                asString () const override;
 

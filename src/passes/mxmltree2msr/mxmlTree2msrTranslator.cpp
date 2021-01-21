@@ -4511,48 +4511,48 @@ void mxmlTree2msrTranslator::visitStart (S_words& elt)
   // font size
   string wordsFontSizeString = elt->getAttributeValue ("font-size");
 
-  msrFontSize::msrFontSizeKind
+  msrFontSizeKind
     fontSizeKind =
-      msrFontSize::kFontSizeNone; // default value
+      kFontSizeNone; // default value
 
   float fontSizeFloatValue = 0.0;
 
   if      (wordsFontSizeString == "xx-smal")
-    fontSizeKind = msrFontSize::kFontSizeXXSmall;
+    fontSizeKind = kFontSizeXXSmall;
   else if (wordsFontSizeString == "x-small")
-    fontSizeKind = msrFontSize::kFontSizeXSmall;
+    fontSizeKind = kFontSizeXSmall;
   else if (wordsFontSizeString == "small")
-    fontSizeKind = msrFontSize::kFontSizeSmall;
+    fontSizeKind = kFontSizeSmall;
   else if (wordsFontSizeString == "medium")
-    fontSizeKind = msrFontSize::kFontSizeMedium;
+    fontSizeKind = kFontSizeMedium;
   else if (wordsFontSizeString == "large")
-    fontSizeKind = msrFontSize::kFontSizeLarge;
+    fontSizeKind = kFontSizeLarge;
   else if (wordsFontSizeString == "x-large")
-    fontSizeKind = msrFontSize::kFontSizeXLarge;
+    fontSizeKind = kFontSizeXLarge;
   else if (wordsFontSizeString == "xx-large")
-    fontSizeKind = msrFontSize::kFontSizeXXLarge;
+    fontSizeKind = kFontSizeXXLarge;
   else {
     fontSizeFloatValue =
       elt->getAttributeFloatValue ("font-size", 0.0);
-    fontSizeKind = msrFontSize::kFontSizeNumeric;
+    fontSizeKind = kFontSizeNumeric;
   }
 
   S_msrFontSize fontSize;
 
   switch (fontSizeKind) {
-    case msrFontSize::kFontSizeNone:
-    case msrFontSize::kFontSizeXXSmall:
-    case msrFontSize::kFontSizeXSmall:
-    case msrFontSize::kFontSizeSmall:
-    case msrFontSize::kFontSizeMedium:
-    case msrFontSize::kFontSizeLarge:
-    case msrFontSize::kFontSizeXLarge:
-    case msrFontSize::kFontSizeXXLarge:
+    case kFontSizeNone:
+    case kFontSizeXXSmall:
+    case kFontSizeXSmall:
+    case kFontSizeSmall:
+    case kFontSizeMedium:
+    case kFontSizeLarge:
+    case kFontSizeXLarge:
+    case kFontSizeXXLarge:
       fontSize =
         msrFontSize::create (fontSizeKind);
       break;
 
-    case msrFontSize::kFontSizeNumeric:
+    case kFontSizeNumeric:
       fontSize =
         msrFontSize::create (fontSizeFloatValue);
       break;
@@ -5011,22 +5011,22 @@ void mxmlTree2msrTranslator::visitStart ( S_metronome_beam& elt )
 
   fCurrentMetronomeBeamValue = elt->getValue();
 
-  msrBeam::msrBeamKind beamKind = msrBeam::k_NoBeam;
+  msrBeamKind beamKind = k_NoBeam;
 
   if      (fCurrentMetronomeBeamValue == "begin") {
-    beamKind = msrBeam::kBeamBegin;
+    beamKind = kBeamBegin;
   }
   else if (fCurrentMetronomeBeamValue == "continue") {
-    beamKind = msrBeam::kBeamContinue;
+    beamKind = kBeamContinue;
   }
   else if (fCurrentMetronomeBeamValue == "end") {
-    beamKind = msrBeam::kBeamEnd;
+    beamKind = kBeamEnd;
   }
   else if (fCurrentMetronomeBeamValue == "forward hook") {
-    beamKind = msrBeam::kBeamForwardHook;
+    beamKind = kBeamForwardHook;
   }
   else if (fCurrentMetronomeBeamValue == "backward hook") {
-    beamKind = msrBeam::kBeamBackwardHook;
+    beamKind = kBeamBackwardHook;
   }
   else {
     stringstream s;
@@ -6150,7 +6150,7 @@ void mxmlTree2msrTranslator::visitEnd (S_staff_tuning& elt )
       endl <<
       setw (fieldWidth) <<
       "fCurrentStaffTuningDiatonicPitch" << " = " <<
-      diatonicPitchKindAsString (
+      msrDiatonicPitchKindAsString (
         gGlobalMsrOahGroup->
           getMsrQuarterTonesPitchesLanguageKind (),
         fCurrentStaffTuningDiatonicPitchKind) <<
@@ -6162,7 +6162,7 @@ void mxmlTree2msrTranslator::visitEnd (S_staff_tuning& elt )
       endl <<
       setw (fieldWidth) <<
       "quarterTonesPitch" << " = " <<
-      quarterTonesPitchKindAsStringInLanguage (
+      msrQuarterTonesPitchKindAsStringInLanguage (
         quarterTonesPitchKind,
         gGlobalMsrOahGroup->
           getMsrQuarterTonesPitchesLanguageKind ()) <<
@@ -6433,16 +6433,16 @@ void mxmlTree2msrTranslator::visitStart (S_tied& elt )
   fCurrentTiedOrientation =
     elt->getAttributeValue ("orientation");
 
-  fCurrentTieKind = msrTie::kTieNone;
+  fCurrentTieKind = kTieNone;
 
   if      (tiedType == "start") {
-    fCurrentTieKind = msrTie::kTieStart;
+    fCurrentTieKind = kTieStart;
   }
   else if (tiedType == "continue") {
-    fCurrentTieKind = msrTie::kTieContinue;
+    fCurrentTieKind = kTieContinue;
   }
   else if (tiedType == "stop") {
-    fCurrentTieKind = msrTie::kTieStop;
+    fCurrentTieKind = kTieStop;
   }
   else {
     // inner tied notes may miss the "continue" type:
@@ -6481,7 +6481,7 @@ void mxmlTree2msrTranslator::visitStart (S_tied& elt )
 
   // color JMI
 
-  if (fCurrentTieKind != msrTie::kTieNone) {
+  if (fCurrentTieKind != kTieNone) {
     if (! gGlobalMxmlTree2msrOahGroup->getOmitTies ()) {
       fCurrentTie =
         msrTie::create (
@@ -6636,7 +6636,7 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
     if (fCurrentSlurType == "start") {
       switch (slurStartsStackSize) {
         case 0:
-          fCurrentSlurTypeKind = msrSlur::kRegularSlurStart;
+          fCurrentSlurTypeKind = kRegularSlurStart;
           break;
 
         case 1:
@@ -6645,7 +6645,7 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
               containingSlur =
                 fSlurStartsStack.front ();
 
-            fCurrentSlurTypeKind = msrSlur::kRegularSlurStart;
+            fCurrentSlurTypeKind = kRegularSlurStart;
 
 /* JMI BUGGED?
             // the stack top is in fact a phrasing slur start
@@ -6662,7 +6662,7 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
 
             containingSlur->
               setSlurTypeKind (
-                msrSlur::kPhrasingSlurStart);
+                kPhrasingSlurStart);
                 */
           }
           break;
@@ -6687,11 +6687,11 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
     }
 
     else if (fCurrentSlurType == "continue") {
-      fCurrentSlurTypeKind = msrSlur::kSlurContinue;
+      fCurrentSlurTypeKind = kSlurContinue;
     }
 
     else if (fCurrentSlurType == "stop") {
-      fCurrentSlurTypeKind = msrSlur::kRegularSlurStop;
+      fCurrentSlurTypeKind = kRegularSlurStop;
       switch (slurStartsStackSize) {
         case 0:
           {
@@ -6710,7 +6710,7 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
         case 1:
         /* JMI
           // the current slur stop is regular
-          fCurrentSlurTypeKind = msrSlur::kRegularSlurStop;
+          fCurrentSlurTypeKind = kRegularSlurStop;
 
           // pop the top element off the stack
           fSlurStartsStack.pop_front ();
@@ -6719,11 +6719,11 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
         case 2:
           // the current slur stop kind depends on that of the stack's top
           switch (fSlurStartsStack.front ()->getSlurTypeKind ()) {
-            case msrSlur::kRegularSlurStart:
-              fCurrentSlurTypeKind = msrSlur::kRegularSlurStop;
+            case kRegularSlurStart:
+              fCurrentSlurTypeKind = kRegularSlurStop;
               break;
 
-            case msrSlur::kPhrasingSlurStart:
+            case kPhrasingSlurStart:
               // the stack top is in fact a phrasing slur start
 #ifdef TRACING_IS_ENABLED
               if (gGlobalTraceOahGroup->getTraceSlurs ()) {
@@ -6734,7 +6734,7 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
               }
 #endif
 
-              fCurrentSlurTypeKind = msrSlur::kPhrasingSlurStop;
+              fCurrentSlurTypeKind = kPhrasingSlurStop;
               break;
 
             default:
@@ -6811,7 +6811,7 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
         ", slurNumber: " <<
         slurNumber <<
         ", slurTypeKind: " <<
-        msrSlur::slurTypeKindAsString (
+        msrSlurTypeKindAsString (
           fCurrentSlurTypeKind) <<
         ", slurLineType: " <<
         msrLineTypeKindAsString (
@@ -6834,8 +6834,8 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
 
       // push slurs starts onto the stack
       switch (fCurrentSlurTypeKind) {
-        case msrSlur::kRegularSlurStart:
-        case msrSlur::kPhrasingSlurStart:
+        case kRegularSlurStart:
+        case kPhrasingSlurStart:
           fSlurStartsStack.push_front (slur);
           break;
         default:
@@ -7686,14 +7686,14 @@ void mxmlTree2msrTranslator::visitEnd ( S_lyric& elt )
       gLogStream << left <<
         setw (fieldWidth) <<
         "fCurrentTieKind" << " = \"" <<
-        msrTie::tieKindAsString (fCurrentTieKind) <<
+        msrTieKindAsString (fCurrentTieKind) <<
         "\"" <<
         endl;
 
       gLogStream << left <<
         setw (fieldWidth) <<
         "fCurrentSlurTypeKind" << " = \"" <<
-        msrSlur::slurTypeKindAsString (fCurrentSlurTypeKind) <<
+        msrSlurTypeKindAsString (fCurrentSlurTypeKind) <<
         "\"" <<
         endl;
 
@@ -9563,7 +9563,7 @@ void mxmlTree2msrTranslator::visitStart ( S_note& elt )
   // slurs
 
   fCurrentSlurType = "";
-  fCurrentSlurTypeKind = msrSlur::k_NoSlur;
+  fCurrentSlurTypeKind = k_NoSlur;
 
   // ligatures
 
@@ -10354,22 +10354,22 @@ void mxmlTree2msrTranslator::visitStart ( S_beam& elt )
 
   fCurrentBeamValue = elt->getValue();
 
-  msrBeam::msrBeamKind beamKind = msrBeam::k_NoBeam;
+  msrBeamKind beamKind = k_NoBeam;
 
   if      (fCurrentBeamValue == "begin") {
-    beamKind = msrBeam::kBeamBegin;
+    beamKind = kBeamBegin;
   }
   else if (fCurrentBeamValue == "continue") {
-    beamKind = msrBeam::kBeamContinue;
+    beamKind = kBeamContinue;
   }
   else if (fCurrentBeamValue == "end") {
-    beamKind = msrBeam::kBeamEnd;
+    beamKind = kBeamEnd;
   }
   else if (fCurrentBeamValue == "forward hook") {
-    beamKind = msrBeam::kBeamForwardHook;
+    beamKind = kBeamForwardHook;
   }
   else if (fCurrentBeamValue == "backward hook") {
-    beamKind = msrBeam::kBeamBackwardHook;
+    beamKind = kBeamBackwardHook;
   }
   else {
     stringstream s;
@@ -16574,7 +16574,7 @@ void mxmlTree2msrTranslator::copyNoteDynamicsToChord (
     if (gGlobalTraceOahGroup->getTraceDynamics ()) {
       gLogStream <<
         "Copying dynamics '" <<
-        dynamicsKindAsString ((*i)->getDynamicsKind ()) <<
+        msrDynamicsKindAsString ((*i)->getDynamicsKind ()) <<
         "' from note " << note->asString () <<
         " to chord" <<
         endl;
@@ -21143,17 +21143,17 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 
   // take care of slurs JMI ???
   switch (fCurrentSlurTypeKind) {
-    case msrSlur::kRegularSlurStart:
-    case msrSlur::kPhrasingSlurStart:
+    case kRegularSlurStart:
+    case kPhrasingSlurStart:
       fFirstSyllableInSlurKind = fCurrentSyllableKind;
       break;
-    case msrSlur::kSlurContinue:
+    case kSlurContinue:
       break;
-    case msrSlur::kRegularSlurStop:
-    case msrSlur::kPhrasingSlurStop:
+    case kRegularSlurStop:
+    case kPhrasingSlurStop:
       fFirstSyllableInSlurKind = msrSyllable::kSyllableNone;
       break;
-    case msrSlur::k_NoSlur:
+    case k_NoSlur:
       ;
   } // switch
 
@@ -23649,7 +23649,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_harmony& elt )
 
     s <<
       "harmony root and bass notes are both equal to '" <<
-      diatonicPitchKindAsString (
+      msrDiatonicPitchKindAsString (
         gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
         diatonicPitchKindFromQuarterTonesPitchKind (
           inputLineNumber,
@@ -23700,7 +23700,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_harmony& elt )
         */
 
         setw (fieldWidth) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
-        diatonicPitchKindAsString (
+        msrDiatonicPitchKindAsString (
           gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
           fCurrentHarmonyRootDiatonicPitchKind) <<
         endl <<
@@ -23722,7 +23722,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_harmony& elt )
         endl <<
 
         setw (fieldWidth) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
-        diatonicPitchKindAsString (
+        msrDiatonicPitchKindAsString (
           gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
           fCurrentHarmonyBassDiatonicPitchKind) <<
         endl <<
@@ -24595,7 +24595,7 @@ void mxmlTree2msrTranslator::visitEnd (S_pedal_tuning& elt )
     gLogStream << left <<
       setw (fieldWidth) <<
       "fCurrentHarpPedalDiatonicPitch" << " = " <<
-      diatonicPitchKindAsString (
+      msrDiatonicPitchKindAsString (
         gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
         fCurrentHarpPedalDiatonicPitchKind) <<
       endl <<

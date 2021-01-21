@@ -95,7 +95,7 @@ EXP xmlErr msrScore2lilypondWithHandler (
           passNumber1,
           passDescription1);
     }
-    catch (msrScoreToLpsrScoreException& e) {
+    catch (msgScoreToLpsrScoreException& e) {
       displayException (e, gOutputStream);
       return kInvalidFile;
     }
@@ -179,7 +179,7 @@ EXP xmlErr msrScore2lilypondWithHandler (
           passDescription2,
           lilypondStandardOutputStream);
       }
-      catch (lpsrScoreToLilypondException& e) {
+      catch (msgLpsrScoreToLilypondException& e) {
         displayException (e, gOutputStream);
         return kInvalidFile;
       }
@@ -228,7 +228,7 @@ EXP xmlErr msrScore2lilypondWithHandler (
           message <<
           endl;
 
-        throw lpsrScoreToLilypondException (message);
+        throw msgLpsrScoreToLilypondException (message);
       }
 
       // create an indented output stream for the LilyPond code
@@ -248,7 +248,7 @@ EXP xmlErr msrScore2lilypondWithHandler (
           passDescription2,
           lilypondFileOutputStream);
       }
-      catch (lpsrScoreToLilypondException& e) {
+      catch (msgLpsrScoreToLilypondException& e) {
         displayException (e, gOutputStream);
         return kInvalidFile;
       }

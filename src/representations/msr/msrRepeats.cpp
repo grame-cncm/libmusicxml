@@ -707,7 +707,7 @@ string msrRepeatEnding::asString () const
   s <<
     "RepeatEnding" <<
     ", " <<
-    repeatEndingKindAsString (
+    msrRepeatEndingKindAsString (
       fRepeatEndingKind) <<
     ", repeatEndingRepeatUpLink: '";
 
@@ -735,7 +735,7 @@ void msrRepeatEnding::print (ostream& os) const
     endl <<
     "RepeatEnding" <<
     ", repeatEndingKind" << " : " <<
-    repeatEndingKindAsString (
+    msrRepeatEndingKindAsString (
       fRepeatEndingKind) <<
     ", line " << fInputLineNumber <<
     endl;

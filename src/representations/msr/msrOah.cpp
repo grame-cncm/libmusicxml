@@ -43,7 +43,7 @@ S_msrPitchesLanguageAtom msrPitchesLanguageAtom::create (
   string             valueSpecification,
   string             variableName,
   msrQuarterTonesPitchesLanguageKind&
-                     optionsMsrPitchesLanguageKindVariable)
+                     quarterTonesPitchesLanguageKind)
 {
   msrPitchesLanguageAtom* o = new
     msrPitchesLanguageAtom (
@@ -52,7 +52,7 @@ S_msrPitchesLanguageAtom msrPitchesLanguageAtom::create (
       description,
       valueSpecification,
       variableName,
-      optionsMsrPitchesLanguageKindVariable);
+      quarterTonesPitchesLanguageKind);
   assert (o != nullptr);
   return o;
 }
@@ -64,7 +64,7 @@ msrPitchesLanguageAtom::msrPitchesLanguageAtom (
   string             valueSpecification,
   string             variableName,
   msrQuarterTonesPitchesLanguageKind&
-                     optionsMsrPitchesLanguageKindVariable)
+                     quarterTonesPitchesLanguageKind)
   : oahAtomWithValue (
       shortName,
       longName,
@@ -72,7 +72,7 @@ msrPitchesLanguageAtom::msrPitchesLanguageAtom (
       valueSpecification,
       variableName),
     fMsrQuarterTonesPitchesLanguageKindVariable (
-      optionsMsrPitchesLanguageKindVariable)
+      quarterTonesPitchesLanguageKind)
 {}
 
 msrPitchesLanguageAtom::~msrPitchesLanguageAtom ()
@@ -203,7 +203,7 @@ string msrPitchesLanguageAtom::asShortNamedOptionString () const
 
   s <<
     "-" << fShortName << " " <<
-    quarterTonesPitchesLanguageKindAsString (
+    msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable);
 
   return s.str ();
@@ -215,7 +215,7 @@ string msrPitchesLanguageAtom::asActualLongNamedOptionString () const
 
   s <<
     "-" << fLongName << " " <<
-    quarterTonesPitchesLanguageKindAsString (
+    msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable);
 
   return s.str ();
@@ -241,7 +241,7 @@ void msrPitchesLanguageAtom::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "fmsrPitchesLanguageVariable" << " : \"" <<
-    quarterTonesPitchesLanguageKindAsString (
+    msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable) <<
       "\"" <<
     endl;
@@ -257,7 +257,7 @@ void msrPitchesLanguageAtom::printAtomWithValueOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : \"" <<
-    quarterTonesPitchesLanguageKindAsString (
+    msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable) <<
     "\"";
   if (fVariableHasBeenSet) {
@@ -850,7 +850,7 @@ The default is 'DEFAULT_VALUE'.)",
             gIndenter.indentMultiLineString (
               existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
           regex ("DEFAULT_VALUE"),
-          quarterTonesPitchesLanguageKindAsString (
+          msrQuarterTonesPitchesLanguageKindAsString (
             msrQuarterTonesPitchesLanguageKindDefaultValue)),
         "LANGUAGE",
         "msrPitchesLanguage",
@@ -1204,7 +1204,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
 
   gLogStream << left <<
     setw (valueFieldWidth) << "msrPitchesLanguage" << " : \"" <<
-    quarterTonesPitchesLanguageKindAsString (
+    msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKind) <<
       "\"" <<
     endl;

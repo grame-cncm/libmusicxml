@@ -40,21 +40,21 @@ class EXP msrPitchesLanguageAtom : public oahAtomWithValue
       string             valueSpecification,
       string             variableName,
       msrQuarterTonesPitchesLanguageKind&
-                         msrMsrPitchesLanguageKindVariable);
+                         quarterTonesPitchesLanguageKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPitchesLanguageAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      msrQuarterTonesPitchesLanguageKind&
-                         msrMsrPitchesLanguageKindVariable);
+                          msrPitchesLanguageAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            msrQuarterTonesPitchesLanguageKind&
+                                               quarterTonesPitchesLanguageKind);
 
     virtual               ~msrPitchesLanguageAtom ();
 

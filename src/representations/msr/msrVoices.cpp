@@ -263,7 +263,7 @@ void msrVoice::setVoiceNameFromNumber (
   if (gGlobalTraceOahGroup->getTraceVoices ()) {
     gLogStream <<
       "Setting the name of '" <<
-      voiceKindAsString (fVoiceKind) <<
+      msrVoiceKindAsString (fVoiceKind) <<
       "' voice from voice number '" << voiceNumber <<
       "'" <<
       endl;
@@ -2022,7 +2022,7 @@ void msrVoice::appendHarmonyToVoice (
 
         s <<
           "cannot append a harmony to " <<
-          voiceKindAsString (fVoiceKind) <<
+          msrVoiceKindAsString (fVoiceKind) <<
           " voice \"" <<
           getVoiceName () <<
           "\"";
@@ -2110,7 +2110,7 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 
         s <<
           "cannot append a harmony to " <<
-          voiceKindAsString (fVoiceKind) <<
+          msrVoiceKindAsString (fVoiceKind) <<
           " voice clone \"" <<
           getVoiceName () <<
           "\"";
@@ -2154,7 +2154,7 @@ void msrVoice::appendFiguredBassToVoice (
 
         s <<
           "cannot append a figured bass to " <<
-          voiceKindAsString (fVoiceKind) <<
+          msrVoiceKindAsString (fVoiceKind) <<
           " voice \"" <<
           getVoiceName () <<
           "\"";
@@ -2198,7 +2198,7 @@ void msrVoice::appendFiguredBassToVoiceClone (
 
         s <<
           "cannot append a figured bass to " <<
-          voiceKindAsString (fVoiceKind) <<
+          msrVoiceKindAsString (fVoiceKind) <<
           " voice clone \"" <<
           getVoiceName () <<
           "\"";
@@ -5524,7 +5524,7 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
               if (gGlobalTraceOahGroup->getTraceRepeats ()) {
                 gLogStream <<
                   "Creating a " <<
-                  repeatEndingKindAsString (
+                  msrRepeatEndingKindAsString (
                     repeatEndingKind) <<
                   " repeat ending in current repeat in voice clone \"" <<
                   fVoiceName <<
@@ -5546,7 +5546,7 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
               if (gGlobalTraceOahGroup->getTraceRepeats ()) {
                 gLogStream <<
                   "Appending a " <<
-                  repeatEndingKindAsString (
+                  msrRepeatEndingKindAsString (
                     repeatEndingKind) <<
                   " repeat ending to current repeat in voice \"" <<
                   fVoiceName <<
@@ -7935,7 +7935,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
   if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     gLogStream <<
       "Appending a " <<
-      repeatEndingKindAsString (
+      msrRepeatEndingKindAsString (
         repeatEndingKind) <<
       " repeat ending to current repeat in voice \"" <<
       fVoiceName <<
@@ -8040,7 +8040,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
   if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     gLogStream <<
       "Appending a " <<
-      repeatEndingKindAsString (
+      msrRepeatEndingKindAsString (
         repeatEndingKind) <<
       " repeat ending to current repeat in voice \"" <<
       fVoiceName <<
@@ -8878,7 +8878,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
         if (gGlobalTraceOahGroup->getTraceRepeats ()) {
           gLogStream <<
             "Appending a " <<
-            repeatEndingKindAsString (
+            msrRepeatEndingKindAsString (
               repeatEndingClone->getRepeatEndingKind ()) <<
             " repeat ending clone to current repeat in voice \"" <<
             fVoiceName <<
@@ -8897,7 +8897,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
 
           s <<
             "repeats stack is empty when attempting to append a " <<
-            repeatEndingKindAsString (
+            msrRepeatEndingKindAsString (
               repeatEndingClone->getRepeatEndingKind ()) <<
             " repeat ending to voice '" <<
             asShortString () <<
@@ -9687,6 +9687,163 @@ void msrVoice::finalizeVoiceAndAllItsMeasures (
   } // for
 }
 
+void msrVoice::checkBeamNumber (S_msrBeam beam, S_msrNote note)
+{
+  int inputLineNumber =
+    beam->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceBeams ()) {
+    gLogStream <<
+      "Checking the order of the beams begins, continues and ends" <<
+      " upon beam '" <<
+      beam->asShortString () <<
+      "' and note '" <<
+      note->asString () <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  msrBeamKind beamKind   = beam->getBeamKind ();
+  int         beamNumber = beam->getBeamNumber ();
+
+  unsigned int
+    noteBeamNumbersStackSize =
+      fVoiceBeamNumbersStack.size ();
+
+  switch (beamKind) {
+    case k_NoBeam:
+      {
+        stringstream s;
+
+        s <<
+          "appending unknown beam " <<
+          beam->asShortString () <<
+          " to note " <<
+          note->asShortString ();
+
+        msrError (
+          gGlobalOahOahGroup->getInputSourceName (),
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+
+    case kBeamBegin:
+      if (noteBeamNumbersStackSize) {
+        // the stack is not empty
+        int voiceBeamNumbersStackTop =
+          fVoiceBeamNumbersStack.top ();
+
+        if (beamNumber != voiceBeamNumbersStackTop + 1) {
+          stringstream s;
+
+          s <<
+            "appending beam begin " <<
+            beam->asShortString () <<
+            " to note " <<
+            note->asShortString () <<
+            "whilst the current beam began with number '" <<
+            voiceBeamNumbersStackTop <<
+            "'";
+
+          msrError (
+            gGlobalOahOahGroup->getInputSourceName (),
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
+        }
+      }
+
+      fVoiceBeamNumbersStack.push (beamNumber);
+      break;
+
+    case kBeamContinue:
+      if (! noteBeamNumbersStackSize) {
+        // the stack is empty
+        stringstream s;
+
+        s <<
+          "appending beam continue " <<
+          beam->asShortString () <<
+          " to note " <<
+          note->asShortString () <<
+          "whilst there is no preceding beam begin with number '" <<
+          beamNumber <<
+          "'";
+
+        msrError (
+          gGlobalOahOahGroup->getInputSourceName (),
+          beam->getInputLineNumber (),
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      else {
+        // the stack is not empty
+        int voiceBeamNumbersStackTop =
+          fVoiceBeamNumbersStack.top ();
+
+        if (beamNumber != voiceBeamNumbersStackTop) {
+          stringstream s;
+
+          s <<
+            "appending beam continue " <<
+            beam->asShortString () <<
+            " to note " <<
+            note->asShortString () <<
+            "whilst the current beam began with number '" <<
+            voiceBeamNumbersStackTop <<
+            "'";
+
+          msrError (
+            gGlobalOahOahGroup->getInputSourceName (),
+            beam->getInputLineNumber (),
+            __FILE__, __LINE__,
+            s.str ());
+        }
+      }
+      break;
+
+    case kBeamEnd:
+      if (noteBeamNumbersStackSize) {
+        // the stack is not empty
+        int voiceBeamNumbersStackTop =
+          fVoiceBeamNumbersStack.top ();
+
+        if (beamNumber != voiceBeamNumbersStackTop) {
+          stringstream s;
+
+          s <<
+            "appending beam end " <<
+            beam->asShortString () <<
+            " to note " <<
+            note->asShortString () <<
+            "whilst the current beam began with number '" <<
+            voiceBeamNumbersStackTop <<
+            "'";
+
+          msrError (
+            gGlobalOahOahGroup->getInputSourceName (),
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
+        }
+      }
+
+      fVoiceBeamNumbersStack.pop ();
+      break;
+
+    case kBeamForwardHook:
+      // JMI ???
+      break;
+    case kBeamBackwardHook:
+      // JMI ???
+      break;
+  } // switch
+}
+
 void msrVoice::acceptIn (basevisitor* v)
 {
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -9862,7 +10019,7 @@ string msrVoice::asShortString () const
 
   s <<
     "Voice \"" << getVoiceName () << "\", " <<
-    voiceKindAsString (fVoiceKind) <<
+    msrVoiceKindAsString (fVoiceKind) <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -9874,7 +10031,7 @@ string msrVoice::asString () const
 
   s <<
     "Voice \"" << getVoiceName () << "\", " <<
-    voiceKindAsString (fVoiceKind) <<
+    msrVoiceKindAsString (fVoiceKind) <<
      ", " <<
     singularOrPlural (
       fVoiceActualNotesCounter, "actual note", "actual notes") <<
@@ -9935,7 +10092,7 @@ void msrVoice::print (ostream& os) const
     "Voice number '" <<
     fVoiceNumber <<
     "', \"" << getVoiceName () <<
-    "\", " << voiceKindAsString (fVoiceKind) <<
+    "\", " << msrVoiceKindAsString (fVoiceKind) <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -10334,7 +10491,7 @@ void msrVoice::printShort (ostream& os) const
     "Voice number '" <<
     fVoiceNumber <<
     "', \"" << getVoiceName () <<
-    "\", " << voiceKindAsString (fVoiceKind) <<
+    "\", " << msrVoiceKindAsString (fVoiceKind) <<
     ", line " << fInputLineNumber <<
     endl;
 

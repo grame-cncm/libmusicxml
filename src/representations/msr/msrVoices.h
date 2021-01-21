@@ -848,6 +848,10 @@ class EXP msrVoice : public msrElement
     const msrMoment&      getCurrentMomentInVoice () const
                               { return fCurrentMomentInVoice; }
 
+    // beams begin, continue and end check
+
+    void                  checkBeamNumber (S_msrBeam beam, S_msrNote note);
+
     // finalization
 
     void                  finalizeLastAppendedMeasureInVoice (
@@ -1343,6 +1347,10 @@ class EXP msrVoice : public msrElement
     // voice finalization
 
     bool                  fVoiceHasBeenFinalized;
+
+    // beams begin, continue and end check
+
+    stack<int>            fVoiceBeamNumbersStack;
 };
 typedef SMARTP<msrVoice> S_msrVoice;
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);

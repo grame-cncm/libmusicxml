@@ -2163,7 +2163,7 @@ class EXP mxmlTree2msrTranslator :
     // ------------------------------------------------------
 
 // JMI    string                    fCurrentTiedType;
-    msrTie::msrTieKind        fCurrentTieKind;
+    msrTieKind                fCurrentTieKind;
     string                    fCurrentTiedOrientation; // JMI
     S_msrTie                  fCurrentTie;
 
@@ -2171,7 +2171,7 @@ class EXP mxmlTree2msrTranslator :
     // ------------------------------------------------------
 
     string                    fCurrentSlurType;
-    msrSlur::msrSlurTypeKind  fCurrentSlurTypeKind;
+    msrSlurTypeKind  fCurrentSlurTypeKind;
     bool                      fOnGoingSlur;
     bool                      fOnGoingSlurHasStanza;
 

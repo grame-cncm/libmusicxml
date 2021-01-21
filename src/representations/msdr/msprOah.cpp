@@ -205,7 +205,7 @@ string msprPitchesLanguageAtom::asShortNamedOptionString () const
 
   s <<
     "-" << fShortName << " " <<
-    quarterTonesPitchesLanguageKindAsString (
+    msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable);
 
   return s.str ();
@@ -217,7 +217,7 @@ string msprPitchesLanguageAtom::asActualLongNamedOptionString () const
 
   s <<
     "-" << fLongName << " " <<
-    quarterTonesPitchesLanguageKindAsString (
+    msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable);
 
   return s.str ();
@@ -243,7 +243,7 @@ void msprPitchesLanguageAtom::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "fOptionsLpsrPitchesLanguageVariable" << " : \"" <<
-    quarterTonesPitchesLanguageKindAsString (
+    msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable) <<
     "\"" <<
     endl;
@@ -259,7 +259,7 @@ void msprPitchesLanguageAtom::printAtomWithValueOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : \"" <<
-    quarterTonesPitchesLanguageKindAsString (
+    msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable) <<
     "\"";
   if (fVariableHasBeenSet) {
@@ -1371,7 +1371,7 @@ The default is 'DEFAULT_VALUE'.)",
             gIndenter.indentMultiLineString (
               existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
           regex ("DEFAULT_VALUE"),
-          quarterTonesPitchesLanguageKindAsString (
+          msrQuarterTonesPitchesLanguageKindAsString (
             msrQuarterTonesPitchesLanguageKindDefaultValue)),
         "LANGUAGE",
         "msprPitchesLanguage",
@@ -1444,7 +1444,7 @@ The default is 'DEFAULT_VALUE'.)",
             gIndenter.indentMultiLineString (
               existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
           regex ("DEFAULT_VALUE"),
-          quarterTonesPitchesLanguageKindAsString (
+          msrQuarterTonesPitchesLanguageKindAsString (
             msrQuarterTonesPitchesLanguageKindDefaultValue)),
         "LANGUAGE",
         "msprPitchesLanguage",
@@ -1927,7 +1927,7 @@ void msprOahGroup::printLpsrOahValues (unsigned int fieldWidth)
 
   gLogStream << left <<
     setw (fieldWidth) << "msprQuarterTonesPitchesLanguage" << " : \"" <<
-    quarterTonesPitchesLanguageKindAsString (
+    msrQuarterTonesPitchesLanguageKindAsString (
       fLpsrQuarterTonesPitchesLanguageKind) <<
     "\"" <<
     endl <<

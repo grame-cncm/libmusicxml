@@ -26,19 +26,6 @@ class EXP msrSlur : public msrElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
-    enum msrSlurTypeKind {
-      k_NoSlur,
-      kRegularSlurStart, kPhrasingSlurStart,
-      kSlurContinue,
-      kRegularSlurStop, kPhrasingSlurStop
-    };
-
-    static string slurTypeKindAsString (
-      msrSlurTypeKind slurTypeKind);
-
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -48,6 +35,12 @@ class EXP msrSlur : public msrElement
                             msrSlurTypeKind  slurTypeKind,
                             msrLineTypeKind  slurLineTypeKind,
                             msrPlacementKind slurPlacementKind);
+
+                          static SMARTP<msrSlur> create (
+                            int              inputLineNumber,
+                            int              slurNumber,
+                            msrSlurTypeKind  slurTypeKind,
+                            msrLineTypeKind  slurLineTypeKind);
 
   protected:
 
@@ -111,8 +104,6 @@ class EXP msrSlur : public msrElement
 
     // print
     // ------------------------------------------------------
-
-    string                slurTypeKindAsString () const;
 
     string                asString () const override;
 

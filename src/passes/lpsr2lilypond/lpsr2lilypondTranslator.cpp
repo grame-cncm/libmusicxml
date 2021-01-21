@@ -724,7 +724,7 @@ string lpsr2lilypondTranslator::stringTuningAsLilypondString (
       getStringTuningNumber <<
       endl <<
       "%stringTuningDiatonicPitchKind = " <<
-      diatonicPitchKindAsString (
+      msrDiatonicPitchKindAsString (
         stringTuningDiatonicPitchKind) <<
       endl <<
       "%stringTuningAlterationKind = " <<
@@ -737,8 +737,8 @@ string lpsr2lilypondTranslator::stringTuningAsLilypondString (
       "%quarterTonesPitchKind = " <<
       quarterTonesPitchKind <<
       endl <<
-      "%quarterTonesPitchKindAsString: " <<
-      quarterTonesPitchKindAsStringInLanguage (
+      "%msrQuarterTonesPitchKindAsString: " <<
+      msrQuarterTonesPitchKindAsStringInLanguage (
         quarterTonesPitchKind,
         gGlobalLpsrOahGroup->
           getLpsrQuarterTonesPitchesLanguageKind ()) <<
@@ -749,7 +749,7 @@ string lpsr2lilypondTranslator::stringTuningAsLilypondString (
   stringstream s;
 
   s <<
-    quarterTonesPitchKindAsStringInLanguage (
+    msrQuarterTonesPitchKindAsStringInLanguage (
       quarterTonesPitchKind,
       gGlobalLpsrOahGroup->
         getLpsrQuarterTonesPitchesLanguageKind ()) <<
@@ -789,7 +789,7 @@ stringstream s;
   // fetch the quarter tones pitch as string
   string
     noteQuarterTonesPitchKindAsString =
-      quarterTonesPitchKindAsStringInLanguage (
+      msrQuarterTonesPitchKindAsStringInLanguage (
         noteQuarterTonesPitchKind,
         gGlobalLpsrOahGroup->
           getLpsrQuarterTonesPitchesLanguageKind ());
@@ -803,7 +803,7 @@ stringstream s;
   // fetch the quarter tones display pitch as string
   string
     quarterTonesDisplayPitchKindAsString =
-      quarterTonesPitchKindAsStringInLanguage (
+      msrQuarterTonesPitchKindAsStringInLanguage (
         noteQuarterTonesDisplayPitchKind,
         gGlobalLpsrOahGroup->
           getLpsrQuarterTonesPitchesLanguageKind ());
@@ -1000,7 +1000,7 @@ string lpsr2lilypondTranslator::pitchedRestAsLilypondString (
   // fetch the quarter tones pitch as string
   string
     noteQuarterTonesPitchKindAsString =
-      quarterTonesPitchKindAsStringInLanguage (
+      msrQuarterTonesPitchKindAsStringInLanguage (
         noteQuarterTonesPitchKind,
         gGlobalLpsrOahGroup->getLpsrQuarterTonesPitchesLanguageKind ());
 
@@ -1013,7 +1013,7 @@ string lpsr2lilypondTranslator::pitchedRestAsLilypondString (
   // fetch the quarter tones display pitch as string
   string
     quarterTonesDisplayPitchKindAsString =
-      quarterTonesPitchKindAsStringInLanguage (
+      msrQuarterTonesPitchKindAsStringInLanguage (
         noteQuarterTonesDisplayPitchKind,
         gGlobalLpsrOahGroup->
           getLpsrQuarterTonesPitchesLanguageKind ());
@@ -1575,6 +1575,9 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeNote (S_msrNote note)
 
   // handling note head
   generateNoteHead (note);
+
+  // generate note spanners if any
+  generateBeforeNoteSpannersIfAny (note);
 }
 
 void lpsr2lilypondTranslator::generateCodeForNote (
@@ -1762,7 +1765,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
           S_msrTie noteTie = note->getNoteTie ();
 
           if (noteTie) {
-            if (noteTie->getTieKind () == msrTie::kTieStart) {
+            if (noteTie->getTieKind () == kTieStart) {
               fLilypondCodeStream <<
                 "%{line " << inputLineNumber << "%}" <<
                 " ~  %{kUnpitchedNote%}"; // JMI spaces???
@@ -1810,7 +1813,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
           S_msrTie noteTie = note->getNoteTie ();
 
           if (noteTie) {
-            if (noteTie->getTieKind () == msrTie::kTieStart) {
+            if (noteTie->getTieKind () == kTieStart) {
       //        fLilypondCodeStream << " ~ %{kRegularNote%}"; // JMI
             }
           }
@@ -1854,7 +1857,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
         S_msrTie noteTie = note->getNoteTie ();
 
         if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kTieStart) {
+          if (noteTie->getTieKind () == kTieStart) {
             fLilypondCodeStream <<
               "%{line " << inputLineNumber << "%}" <<
               " ~ %{kDoubleTremoloMemberNote%}";
@@ -1897,7 +1900,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
         S_msrTie noteTie = note->getNoteTie ();
 
         if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kTieStart) {
+          if (noteTie->getTieKind () == kTieStart) {
             fLilypondCodeStream <<
               "%{line " << inputLineNumber << "%}" <<
               "~  %{kGraceNote%}";
@@ -1963,7 +1966,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
         S_msrTie noteTie = note->getNoteTie ();
 
         if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kTieStart) {
+          if (noteTie->getTieKind () == kTieStart) {
             fLilypondCodeStream <<
               "%{line " << inputLineNumber << "%}" <<
               "~  %{kGraceChordMemberNote%}";
@@ -2060,7 +2063,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
         S_msrTie noteTie = note->getNoteTie ();
 
         if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kTieStart) {
+          if (noteTie->getTieKind () == kTieStart) {
             fLilypondCodeStream <<
               "%{line " << inputLineNumber << "%}" <<
               "~  %{kTupletMemberNote%}"; // JMI spaces???
@@ -2106,7 +2109,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
         S_msrTie noteTie = note->getNoteTie ();
 
         if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kTieStart) {
+          if (noteTie->getTieKind () == kTieStart) {
             fLilypondCodeStream <<
               "%{line " << inputLineNumber << "%}" <<
               "~  %{kTupletMemberNote%}"; // JMI spaces???
@@ -2140,7 +2143,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
         S_msrTie noteTie = note->getNoteTie ();
 
         if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kTieStart) {
+          if (noteTie->getTieKind () == kTieStart) {
             fLilypondCodeStream <<
               "%{line " << inputLineNumber << "%}" <<
               "~  %{kTupletUnpitchedMemberNote%}";
@@ -2180,7 +2183,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
         S_msrTie noteTie = note->getNoteTie ();
 
         if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kTieStart) {
+          if (noteTie->getTieKind () == kTieStart) {
             fLilypondCodeStream <<
               "%{line " << inputLineNumber << "%}" <<
               "~  %{kGraceTupletMemberNote%}"; // JMI spaces???
@@ -3054,19 +3057,22 @@ string result; // JMI
 void lpsr2lilypondTranslator::generateCodeForSpannerBeforeNote (
   S_msrSpanner spanner)
 {
+  msrSpannerTypeKind
+    spannerTypeKind =
+      spanner->getSpannerTypeKind ();
+
   switch (spanner->getSpannerKind ()) {
 
     case msrSpanner::kSpannerDashes:
-      switch (spanner->getSpannerTypeKind ()) {
+      switch (spannerTypeKind) {
         case kSpannerTypeStart:
           fLilypondCodeStream <<
             "\\once \\override TextSpanner.style = #'dashed-line" <<
             endl;
           fOnGoingTrillSpanner = true;
           break;
-        case kSpannerTypeStop: // JMI ???
-//          fLilypondCodeStream <<
-//            "\\stopTextSpan ";
+
+        case kSpannerTypeStop:
           break;
         case kSpannerTypeContinue:
           break;
@@ -3076,7 +3082,7 @@ void lpsr2lilypondTranslator::generateCodeForSpannerBeforeNote (
       break;
 
     case msrSpanner::kSpannerWavyLine:
-      switch (spanner->getSpannerTypeKind ()) {
+      switch (spannerTypeKind) {
         case kSpannerTypeStart:
           if (spanner->getSpannerNoteUpLink ()->getNoteTrillOrnament ()) {
             // don't generate anything, the trill will display the wavy line
@@ -3088,6 +3094,7 @@ void lpsr2lilypondTranslator::generateCodeForSpannerBeforeNote (
               endl;
           }
           break;
+
         case kSpannerTypeStop:
           break;
         case kSpannerTypeContinue:
@@ -3118,80 +3125,80 @@ void lpsr2lilypondTranslator::generateCodeForSpannerBeforeNote (
       }
       break;
   } // switch
-
-  // handle spanner end text if not empty
-  string spannerBeginText = spanner->getSpannerBeginText ();
-
-  if (false && spannerBeginText.size ()) {
-    fLilypondCodeStream <<
-       "- \\tweak bound-details.left.text \\markup { \"" <<
-       spannerBeginText <<
-       "\" }" <<
-      endl;
-  }
-
-  // handle spanner middle text if not empty
-  string spannerMiddleText = spanner->getSpannerMiddleText ();
-
-  if (spannerMiddleText.size ()) {
-    fLilypondCodeStream <<
-       "\\TextSpannerWithCenteredText \"" << // JMI
-       spannerMiddleText <<
-       "\"" <<
-      endl;
-  }
-
-  // handle spanner end text if not empty
-  string spannerEndText = spanner->getSpannerEndText ();
-
-  if (spannerEndText.size ()) {
-    fLilypondCodeStream <<
-       "- \\tweak bound-details.right.text \\markup { \"" <<
-       spannerEndText <<
-       "\" }" <<
-      endl;
-  }
-
-
-/*
-\version "2.19.25"
-
-
-
-
-{
-  c' d' ees' fis'
-  \once \override TextSpanner.direction = #DOWN
-
-  \TextSpannerWithCenteredText "6\""
-  g' \startTextSpan
-  a' bes' c'' \stopTextSpan
-
-  \TextSpannerWithCenteredText "x3"
-  bes'\startTextSpan a' g' c' | r1 \stopTextSpan
-}
-*/
-
 }
 
 //________________________________________________________________________
 void lpsr2lilypondTranslator::generateCodeForSpannerAfterNote (
   S_msrSpanner spanner)
 {
-  switch (spanner->getSpannerKind ()) {
+  msrSpannerTypeKind
+    spannerTypeKind =
+      spanner->getSpannerTypeKind ();
 
+  // should tweaks be generated for the various spanner texts?
+  switch (spannerTypeKind) {
+    case kSpannerTypeStart:
+      {
+        // handle spanner begin text if not empty
+        string spannerBeginText = spanner->getSpannerBeginText ();
+
+        if (spannerBeginText.size ()) {
+          fLilypondCodeStream <<
+             "-\\tweak bound-details.left.text \\markup { \"" <<
+             spannerBeginText <<
+             "\" }" <<
+            endl;
+        }
+
+        // handle spanner middle text if not empty
+        string spannerMiddleText = spanner->getSpannerMiddleText ();
+
+        if (spannerMiddleText.size ()) {
+          fLilypondCodeStream <<
+             "\\TextSpannerWithCenteredText \"" << // JMI
+             spannerMiddleText <<
+             "\"" <<
+            endl;
+        }
+
+        // handle spanner end text if not empty
+        string spannerEndText = spanner->getSpannerEndText ();
+
+        if (spannerEndText.size ()) {
+          fLilypondCodeStream <<
+             "-\\tweak bound-details.right.text \\markup { \"" <<
+             spannerEndText <<
+             "\" }" <<
+            endl;
+        }
+      }
+      break;
+
+    case kSpannerTypeStop:
+      break;
+    case kSpannerTypeContinue:
+      break;
+    case k_NoSpannerType:
+      break;
+  } // switch
+
+  switch (spanner->getSpannerKind ()) {
     case msrSpanner::kSpannerDashes:
-      switch (spanner->getSpannerTypeKind ()) {
+      switch (spannerTypeKind) {
         case kSpannerTypeStart:
           fLilypondCodeStream <<
-            "\\startTextSpan ";
+            "\\startTextSpan" <<
+            endl;
           fOnGoingTrillSpanner = true;
           break;
+
         case kSpannerTypeStop:
           fLilypondCodeStream <<
-            "\\stopTextSpan ";
+            "\\stopTextSpan" <<
+            endl;
           fOnGoingTrillSpanner = false;
           break;
+
         case kSpannerTypeContinue:
           break;
         case k_NoSpannerType:
@@ -3200,7 +3207,7 @@ void lpsr2lilypondTranslator::generateCodeForSpannerAfterNote (
       break;
 
     case msrSpanner::kSpannerWavyLine:
-      switch (spanner->getSpannerTypeKind ()) {
+      switch (spannerTypeKind) {
         case kSpannerTypeStart:
           if (spanner->getSpannerNoteUpLink ()->getNoteTrillOrnament ()) {
             // don't generate anything, the trill will display the wavy line
@@ -3208,10 +3215,11 @@ void lpsr2lilypondTranslator::generateCodeForSpannerAfterNote (
           }
           else {
             fLilypondCodeStream <<
-              "\\startTextSpan " <<
+              "\\startTextSpan" <<
               endl;
           }
           break;
+
         case kSpannerTypeStop:
           {
             // get spanner start end
@@ -3242,32 +3250,24 @@ void lpsr2lilypondTranslator::generateCodeForSpannerAfterNote (
         case k_NoSpannerType:
           break;
       } // switch
-
-/* JMI
-      msrPlacementKind
-        spannerPlacementKind =
-          spanner->getSpannerPlacementKind ();
-
-      if (spannerPlacementKind != fCurrentSpannerPlacementKind) {
-        switch (spannerPlacementKind) {
-          case msrPlacementKind::k_NoPlacement:
-            break;
-          case msrPlacementKind::kPlacementAbove:
-            fLilypondCodeStream <<
-              "\\textSpannerUp ";
-            break;
-          case msrPlacementKind::kPlacementBelow:
-            fLilypondCodeStream <<
-              "\\textSpannerDown ";
-            break;
-          } // switch
-
-        fCurrentSpannerPlacementKind = spannerPlacementKind;
-      }
-      */
-
       break;
   } // switch
+
+/*
+\version "2.19.25"
+
+{
+  c' d' ees' fis'
+  \once \override TextSpanner.direction = #DOWN
+
+  \TextSpannerWithCenteredText "6\""
+  g' \startTextSpan
+  a' bes' c'' \stopTextSpan
+
+  \TextSpannerWithCenteredText "x3"
+  bes'\startTextSpan a' g' c' | r1 \stopTextSpan
+}
+*/
 }
 
 //________________________________________________________________________
@@ -3275,7 +3275,7 @@ string lpsr2lilypondTranslator::dynamicsAsLilypondString (
   S_msrDynamics dynamics)
 {
   string result =
-    "\\" + dynamicsKindAsString (dynamics->getDynamicsKind ());
+    "\\" + msrDynamicsKindAsString (dynamics->getDynamicsKind ());
 
   return result;
 }
@@ -3485,7 +3485,7 @@ string lpsr2lilypondTranslator::harmonyAsLilypondString (
 
   // generate harmony pitch
   s <<
-    quarterTonesPitchKindAsStringInLanguage (
+    msrQuarterTonesPitchKindAsStringInLanguage (
       harmony->
         getHarmonyRootQuarterTonesPitchKind (),
       gGlobalMsrOahGroup->
@@ -3793,7 +3793,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
   if (harmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
     s <<
       "/" <<
-      quarterTonesPitchKindAsStringInLanguage (
+      msrQuarterTonesPitchKindAsStringInLanguage (
         harmonyBassQuarterTonesPitchKind,
         gGlobalMsrOahGroup->
           getMsrQuarterTonesPitchesLanguageKind ());
@@ -7027,7 +7027,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
           staffTuning = (*i);
 
         fLilypondCodeStream <<
-          quarterTonesPitchKindAsStringInLanguage (
+          msrQuarterTonesPitchKindAsStringInLanguage (
             staffTuning->
               getStaffTuningQuarterTonesPitchKind (),
             gGlobalLpsrOahGroup->
@@ -8228,7 +8228,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
   if (! gGlobalLpsr2lilypondOahGroup->getUseLilypondDefaultLanguages ()) { // JMI HasBeenSet???
     fLilypondCodeStream <<
       "\\language \"" <<
-      quarterTonesPitchesLanguageKindAsString (
+      msrQuarterTonesPitchesLanguageKindAsString (
         gGlobalLpsrOahGroup->
           getLpsrQuarterTonesPitchesLanguageKind ()) <<
       "\"" <<
@@ -8835,7 +8835,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasure& elt)
       "% --> Start visiting msrMeasure '" <<
       measureNumber <<
       "', " <<
-      measureKindAsString (measureKind) <<
+      msrMeasureKindAsString (measureKind) <<
       ", " <<
       msrMeasure::measureEndRegularKindAsString (
         measureEndRegularKind) <<
@@ -8947,7 +8947,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasure& elt)
       setw (commentFieldWidth) <<
       "" <<
       "% start of " <<
-      measureKindAsString (elt->getMeasureKind ()) <<
+      msrMeasureKindAsString (elt->getMeasureKind ()) <<
       " measure " <<
       measureNumber <<
       ", line " << inputLineNumber <<
@@ -9261,7 +9261,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMeasure& elt)
       "% --> End visiting msrMeasure '" <<
       measureNumber <<
       "', " <<
-      measureKindAsString (measureKind) <<
+      msrMeasureKindAsString (measureKind) <<
       ", " <<
       msrMeasure::measureEndRegularKindAsString (
         measureEndRegularKind) <<
@@ -9362,7 +9362,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMeasure& elt)
         setw (commentFieldWidth) <<
         "" <<
         "% end of " <<
-        measureKindAsString (elt->getMeasureKind ()) <<
+        msrMeasureKindAsString (elt->getMeasureKind ()) <<
         " measure " <<
         measureNumber <<
         ", line " << inputLineNumber <<
@@ -10097,7 +10097,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrKey& elt)
             {
               fLilypondCodeStream <<
                 "\\key " <<
-                quarterTonesPitchKindAsStringInLanguage (
+                msrQuarterTonesPitchKindAsStringInLanguage (
                   elt->getKeyTonicQuarterTonesPitchKind (),
                   gGlobalLpsrOahGroup->
                     getLpsrQuarterTonesPitchesLanguageKind ()) <<
@@ -10116,7 +10116,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrKey& elt)
                 } // switch
 
               fLilypondCodeStream <<
-                modeKindAsString (
+                msrModeKindAsString (
                   modeKindToBeUsed) <<
                 endl;
               }
@@ -10867,7 +10867,7 @@ If the double element is present, it indicates that the music is doubled one oct
 
   string
     transpositionPitchKindAsString =
-      quarterTonesPitchKindAsStringInLanguage (
+      msrQuarterTonesPitchKindAsStringInLanguage (
         transpositionPitchKind,
         gGlobalLpsrOahGroup->
           getLpsrQuarterTonesPitchesLanguageKind ());
@@ -12149,7 +12149,7 @@ void lpsr2lilypondTranslator::generateNoteBeams (S_msrNote note)
       // so we need only generate code for the first number (level)
       switch (beam->getBeamKind ()) {
 
-        case msrBeam::kBeamBegin:
+        case kBeamBegin:
           if (beam->getBeamNumber () == 1) {
             if (! gGlobalLpsr2lilypondOahGroup->getNoBeams ()) {
  #ifdef TRACING_IS_ENABLED
@@ -12174,10 +12174,10 @@ void lpsr2lilypondTranslator::generateNoteBeams (S_msrNote note)
           }
           break;
 
-        case msrBeam::kBeamContinue:
+        case kBeamContinue:
           break;
 
-        case msrBeam::kBeamEnd:
+        case kBeamEnd:
           if (beam->getBeamNumber () == 1) {
             if (! gGlobalLpsr2lilypondOahGroup->getNoBeams ()) {
               fLilypondCodeStream << "] ";
@@ -12191,13 +12191,13 @@ void lpsr2lilypondTranslator::generateNoteBeams (S_msrNote note)
           }
           break;
 
-        case msrBeam::kBeamForwardHook:
+        case kBeamForwardHook:
           break;
 
-        case msrBeam::kBeamBackwardHook:
+        case kBeamBackwardHook:
           break;
 
-        case msrBeam::k_NoBeam:
+        case k_NoBeam:
           break;
       } // switch
     } // for
@@ -12280,10 +12280,10 @@ void lpsr2lilypondTranslator::generateNoteSlurs (S_msrNote note)
       */
 
       switch (slur->getSlurTypeKind ()) {
-        case msrSlur::k_NoSlur:
+        case k_NoSlur:
           break;
 
-        case msrSlur::kRegularSlurStart:
+        case kRegularSlurStart:
  #ifdef TRACING_IS_ENABLED
           if (gGlobalTraceOahGroup->getTraceSlurs ()) {
             gLogStream <<
@@ -12304,7 +12304,7 @@ void lpsr2lilypondTranslator::generateNoteSlurs (S_msrNote note)
           }
           break;
 
-        case msrSlur::kPhrasingSlurStart:
+        case kPhrasingSlurStart:
           fLilypondCodeStream << "\\( ";
 
           if (gGlobalLpsr2lilypondOahGroup->getInputLineNumbers ()) {
@@ -12314,10 +12314,10 @@ void lpsr2lilypondTranslator::generateNoteSlurs (S_msrNote note)
           }
           break;
 
-        case msrSlur::kSlurContinue:
+        case kSlurContinue:
           break;
 
-        case msrSlur::kRegularSlurStop:
+        case kRegularSlurStop:
           fLilypondCodeStream << ") ";
 
           if (gGlobalLpsr2lilypondOahGroup->getInputLineNumbers ()) {
@@ -12336,7 +12336,7 @@ void lpsr2lilypondTranslator::generateNoteSlurs (S_msrNote note)
           } // switch
           break;
 
-        case msrSlur::kPhrasingSlurStop:
+        case kPhrasingSlurStop:
           fLilypondCodeStream << "\\) ";
 
           if (gGlobalLpsr2lilypondOahGroup->getInputLineNumbers ()) {
@@ -13278,10 +13278,6 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           break;
 
         case msrWedge::kWedgeStop:
-        /* JMI
-          fLilypondCodeStream <<
-            "\\! ";
-            */
           break;
       } // switch
     } // for
@@ -13309,8 +13305,8 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
         */
 
         switch (slur->getSlurTypeKind ()) {
-          case msrSlur::kRegularSlurStart:
-          case msrSlur::kPhrasingSlurStart:
+          case kRegularSlurStart:
+          case kPhrasingSlurStart:
             switch (slur->getSlurLineTypeKind ()) {
               case kLineTypeSolid:
                 /* JMI ???
@@ -13519,9 +13515,6 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     } // for
   }
 
-  // generate the 'before note' spanners if any
-//  generateBeforeNoteSpannersIfAny (elt);
-
   // should the note be parenthesized?
   msrNote::msrNoteHeadParenthesesKind
     noteHeadParenthesesKind =
@@ -13637,7 +13630,6 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
   }
 
   // generate things before the note
-  generateBeforeNoteSpannersIfAny (elt);
   generateCodeRightBeforeNote (elt);
 
   ////////////////////////////////////////////////////////////////////
@@ -13649,8 +13641,8 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
   generateCodeForNote (elt);
 
   // generate things after the note
-  generateCodeRightAfterNote (elt);
   generateAfterNoteSpannersIfAny (elt);
+  generateCodeRightAfterNote (elt);
 
 /* JMI
   // get the note's grace notes group after ??? JMI
@@ -13870,37 +13862,37 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
           } // switch
 
           switch (wordsFontSize->getFontSizeKind ()) {
-            case msrFontSize::kFontSizeNone:
+            case kFontSizeNone:
               break;
-            case msrFontSize::kFontSizeXXSmall:
+            case kFontSizeXXSmall:
               s <<
                 "\\tiny ";
               break;
-            case msrFontSize::kFontSizeXSmall:
+            case kFontSizeXSmall:
               s <<
                 "\\smaller ";
               break;
-            case msrFontSize::kFontSizeSmall:
+            case kFontSizeSmall:
               s <<
                 "\\small ";
               break;
-            case msrFontSize::kFontSizeMedium:
+            case kFontSizeMedium:
               s <<
                 "\\normalsize ";
               break;
-            case msrFontSize::kFontSizeLarge:
+            case kFontSizeLarge:
               s <<
                 "\\large ";
               break;
-            case msrFontSize::kFontSizeXLarge:
+            case kFontSizeXLarge:
               s <<
                 "\\larger ";
               break;
-            case msrFontSize::kFontSizeXXLarge:
+            case kFontSizeXXLarge:
               s <<
                 "\\huge ";
               break;
-            case msrFontSize::kFontSizeNumeric:
+            case kFontSizeNumeric:
             /* JMI
               s <<
                 "%{ " <<
@@ -14263,16 +14255,6 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
     generateNoteBeams (elt);
   }
 
-  // generate the note slurs if any,
-  // unless the note is chord member
-  bool doGenerateSlurs = true;
-  if (elt->getNoteBelongsToAChord ()) {
-     doGenerateSlurs = false;
-  }
-  if (doGenerateSlurs) {
-    generateNoteSlurs (elt);
-  }
-
   // generate the note ligatures if any
   const list<S_msrLigature>&
     noteLigatures =
@@ -14358,6 +14340,16 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
           break;
       } // switch
     } // for
+  }
+
+  // generate the note slurs if any,
+  // unless the note is chord member
+  bool doGenerateSlurs = true;
+  if (elt->getNoteBelongsToAChord ()) {
+     doGenerateSlurs = false;
+  }
+  if (doGenerateSlurs) {
+    generateNoteSlurs (elt);
   }
 
   // generate the note articulations if any,
@@ -14505,51 +14497,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
-  // generate the note spanners if any
-  const list<S_msrSpanner>&
-    noteSpanners =
-      elt->getNoteSpanners ();
-
-  if (noteSpanners.size ()) {
-    list<S_msrSpanner>::const_iterator i;
-    for (
-      i=noteSpanners.begin ();
-      i!=noteSpanners.end ();
-      ++i
-    ) {
-      S_msrSpanner
-        spanner = (*i);
-
-      bool doGenerateSpannerCode = true;
-
-      switch (spanner->getSpannerKind ()) {
-        case msrSpanner::kSpannerDashes:
-          break;
-        case msrSpanner::kSpannerWavyLine:
-          if (spanner->getSpannerNoteUpLink ()->getNoteTrillOrnament ()) {
-            // don't generate anything, the trill will display the wavy line
-            doGenerateSpannerCode = false;
-          }
-          break;
-      } // switch
-
-      if (doGenerateSpannerCode) {
-        switch (spanner->getSpannerPlacementKind ()) {
-          case k_NoPlacement:
-     // JMI       fLilypondCodeStream << "-3";
-            break;
-          case kPlacementAbove:
-            fLilypondCodeStream << "^";
-            break;
-          case kPlacementBelow:
-            // this is done by LilyPond by default
-            break;
-        } // switch
-
-        generateCodeForSpannerAfterNote (spanner);
-      }
-    } // for
-  }
+  // the note spanners if any are handled in visitStart (S_msrNote&)
 
   // are there note scordaturas?
   const list<S_msrScordatura>&
@@ -15522,26 +15470,26 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
       // so we need only generate code for the first number (level)
       switch (originalBeam->getBeamKind ()) {
 
-        case msrBeam::kBeamBegin:
+        case kBeamBegin:
           if (originalBeam->getBeamNumber () == 1)
             fLilypondCodeStream << "[ ";
           break;
 
-        case msrBeam::kBeamContinue:
+        case kBeamContinue:
           break;
 
-        case msrBeam::kBeamEnd:
+        case kBeamEnd:
           if (originalBeam->getBeamNumber () == 1)
             fLilypondCodeStream << "] ";
           break;
 
-        case msrBeam::kBeamForwardHook:
+        case kBeamForwardHook:
           break;
 
-        case msrBeam::kBeamBackwardHook:
+        case kBeamBackwardHook:
           break;
 
-        case msrBeam::k_NoBeam:
+        case k_NoBeam:
           break;
       } // switch
     } // for
@@ -15564,20 +15512,20 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
       S_msrSlur originalSlur = chordSlurLink->getOriginalSlur ();
 
       switch (originalSlur->getSlurTypeKind ()) {
-        case msrSlur::k_NoSlur:
+        case k_NoSlur:
           break;
-        case msrSlur::kRegularSlurStart:
+        case kRegularSlurStart:
           fLilypondCodeStream << "( ";
           break;
-        case msrSlur::kPhrasingSlurStart:
+        case kPhrasingSlurStart:
           fLilypondCodeStream << "\\( ";
           break;
-        case msrSlur::kSlurContinue:
+        case kSlurContinue:
           break;
-        case msrSlur::kRegularSlurStop:
+        case kRegularSlurStop:
           fLilypondCodeStream << ") ";
           break;
-        case msrSlur::kPhrasingSlurStop:
+        case kPhrasingSlurStop:
           fLilypondCodeStream << "\\) ";
           break;
       } // switch
@@ -15611,7 +15559,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     S_msrTie chordTie = chord->getChordTie ();
 
     if (chordTie) {
-      if (chordTie->getTieKind () == msrTie::kTieStart) {
+      if (chordTie->getTieKind () == kTieStart) {
         fLilypondCodeStream <<
           "%{line " << inputLineNumber << "%}" <<
           "~ ";
@@ -16083,9 +16031,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrTie& elt)
 #endif
 
   switch (elt->getTieKind ()) {
-    case msrTie::kTieNone:
+    case kTieNone:
       break;
-    case msrTie::kTieStart:
+    case kTieStart:
       if (fOnGoingNotesStack.size () > 0) {
         // this precludes generating for the chords' ties,
         // since the last of its notes sets fOnGoingNotesStack.size > 0 to false
@@ -16095,9 +16043,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrTie& elt)
           " ~ ";
       }
       break;
-    case msrTie::kTieContinue:
+    case kTieContinue:
       break;
-    case msrTie::kTieStop:
+    case kTieStop:
       break;
    } // switch
 }

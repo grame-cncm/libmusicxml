@@ -216,7 +216,7 @@ void msrNote::initializeNote ()
       left <<
         setw (fieldWidth) <<
         "noteQuarterTonesPitch" << " = " <<
-        quarterTonesPitchKindAsStringInLanguage (
+        msrQuarterTonesPitchKindAsStringInLanguage (
           fNoteQuarterTonesPitchKind,
           gGlobalMsrOahGroup->
             getMsrQuarterTonesPitchesLanguageKind ()) <<
@@ -308,19 +308,19 @@ void msrNote::initializeNote ()
       left <<
         setw (fieldWidth) <<
         "noteAccidentalKind" << " = " <<
-        accidentalKindAsString (
+        msrAccidentalKindAsString (
           fNoteAccidentalKind) <<
         endl <<
       left <<
         setw (fieldWidth) <<
         "noteEditorialAccidentalKind" << " = " <<
-        editorialAccidentalKindAsString (
+        msrEditorialAccidentalKindAsString (
           fNoteEditorialAccidentalKind) <<
         endl <<
       left <<
         setw (fieldWidth) <<
         "noteCautionaryAccidentalKind" << " = " <<
-        cautionaryAccidentalKindAsString (
+        msrCautionaryAccidentalKindAsString (
           fNoteCautionaryAccidentalKind) <<
         endl <<
 
@@ -1938,7 +1938,7 @@ S_msrNote msrNote::createNoteFromString (
   if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "quarterTonesPitchKind = " <<
-      quarterTonesPitchKindAsString (quarterTonesPitchKind) <<
+      msrQuarterTonesPitchKindAsString (quarterTonesPitchKind) <<
       endl <<
       "octaveKind = " <<
       msrOctaveKindAsString (octaveKind) <<
@@ -2496,6 +2496,15 @@ void msrNote::appendBeamToNote (S_msrBeam beam)
   }
 #endif
 
+  // check the order of the beams begins, continues and ends
+if (false) { // JMI, note not yet append to anything....
+  S_msrVoice
+    voice = fetchNoteVoiceUpLink ();
+
+  voice->checkBeamNumber (beam, this);
+}
+
+  // now append the beam
   fNoteBeams.push_back (beam);
 }
 
@@ -3684,7 +3693,7 @@ string msrNote::notePitchAsString () const
     case msrNote::kTupletRestMemberNote:
     case msrNote::kGraceTupletMemberNote:
       s <<
-        quarterTonesPitchKindAsStringInLanguage (
+        msrQuarterTonesPitchKindAsStringInLanguage (
           fNoteQuarterTonesPitchKind,
           gGlobalMsrOahGroup->
             getMsrQuarterTonesPitchesLanguageKind ());
@@ -3704,7 +3713,7 @@ string msrNote::noteDisplayPitchKindAsString () const
   stringstream s;
 
   s <<
-    quarterTonesPitchKindAsStringInLanguage (
+    msrQuarterTonesPitchKindAsStringInLanguage (
       fNoteQuarterTonesDisplayPitchKind,
       gGlobalMsrOahGroup->
         getMsrQuarterTonesPitchesLanguageKind ());
@@ -3747,7 +3756,7 @@ string msrNote::noteDiatonicPitchKindAsString (
   int inputLineNumber) const
 {
   return
-    diatonicPitchKindAsString (
+    msrDiatonicPitchKindAsString (
       gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
       noteDiatonicPitchKind (
         fInputLineNumber));
@@ -4524,7 +4533,7 @@ string msrNote::asString () const
 
   if (fNoteTie) {
     s <<
-      ", " << fNoteTie->tieKindAsString ();
+      ", " << msrTieKindAsString (fNoteTie->getTieKind ());
   }
 
   s <<
@@ -4844,19 +4853,19 @@ void msrNote::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "noteAccidentalKind" << " : " <<
-    accidentalKindAsString (
+    msrAccidentalKindAsString (
       fNoteAccidentalKind) <<
     endl;
 
   os << left <<
     setw (fieldWidth) <<
     "noteEditorialAccidentalKind" << " : " <<
-    editorialAccidentalKindAsString (
+    msrEditorialAccidentalKindAsString (
       fNoteEditorialAccidentalKind) <<
     endl <<
     setw (fieldWidth) <<
     "noteCautionaryAccidentalKind" << " : " <<
-    cautionaryAccidentalKindAsString (
+    msrCautionaryAccidentalKindAsString (
       fNoteCautionaryAccidentalKind) <<
     endl;
 
@@ -6473,19 +6482,19 @@ void msrNote::printShort (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "noteAccidentalKind" << " : " <<
-    accidentalKindAsString (
+    msrAccidentalKindAsString (
       fNoteAccidentalKind) <<
     endl;
 
   os << left <<
     setw (fieldWidth) <<
     "noteEditorialAccidentalKind" << " : " <<
-    editorialAccidentalKindAsString (
+    msrEditorialAccidentalKindAsString (
       fNoteEditorialAccidentalKind) <<
     endl <<
     setw (fieldWidth) <<
     "noteCautionaryAccidentalKind" << " : " <<
-    cautionaryAccidentalKindAsString (
+    msrCautionaryAccidentalKindAsString (
       fNoteCautionaryAccidentalKind) <<
     endl;
 

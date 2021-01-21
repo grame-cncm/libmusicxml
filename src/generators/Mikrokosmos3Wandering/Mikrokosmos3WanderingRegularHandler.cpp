@@ -509,11 +509,14 @@ void Mikrokosmos3WanderingRegularHandler::createOahRegularGroup ()
       break;
 
     case kLilyPondOutput:
+      registerAtomInRegularSubgroup ("lilypond-comments", subGroup);
+      registerAtomInRegularSubgroup ("xml2ly-infos", subGroup);
       registerAtomInRegularSubgroup ("input-line-numbers", subGroup);
       registerAtomInRegularSubgroup ("global-staff-size", subGroup);
       break;
 
     case kBrailleOutput:
+      registerAtomInRegularSubgroup ("display-bsr", subGroup);
       break;
 
     case kMusicXMLOutput:

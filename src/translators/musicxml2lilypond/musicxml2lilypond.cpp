@@ -114,7 +114,7 @@ static xmlErr xmlFile2lilypondWithHandler (
         "Pass 2a",
         "Create an MSR skeleton from the mxmlTree");
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -145,7 +145,7 @@ static xmlErr xmlFile2lilypondWithHandler (
         "Pass 2b",
         "Populate the MSR skeleton from MusicXML data");
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -182,7 +182,7 @@ static xmlErr xmlFile2lilypondWithHandler (
           "Pass 3",
           "Convert the MSR into an LPSR");
     }
-    catch (msrScoreToLpsrScoreException& e) {
+    catch (msgScoreToLpsrScoreException& e) {
       displayException (e, gOutputStream);
       return kInvalidFile;
     }
@@ -266,7 +266,7 @@ static xmlErr xmlFile2lilypondWithHandler (
           "Convert the LPSR score to LilyPond code",
           lilypondStandardOutputStream);
       }
-      catch (lpsrScoreToLilypondException& e) {
+      catch (msgLpsrScoreToLilypondException& e) {
         displayException (e, gOutputStream);
         return kInvalidFile;
       }
@@ -315,7 +315,7 @@ static xmlErr xmlFile2lilypondWithHandler (
           message <<
           endl;
 
-        throw lpsrScoreToLilypondException (message);
+        throw msgLpsrScoreToLilypondException (message);
       }
 
       // create an indented output stream for the LilyPond code
@@ -335,7 +335,7 @@ static xmlErr xmlFile2lilypondWithHandler (
           "Convert the LPSR score to LilyPond code",
           lilypondFileOutputStream);
       }
-      catch (lpsrScoreToLilypondException& e) {
+      catch (msgLpsrScoreToLilypondException& e) {
         displayException (e, gOutputStream);
         return kInvalidFile;
       }
@@ -504,7 +504,7 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
         break;
     } // switch
   }
-  catch (msrOahException& e) {
+  catch (msgOahException& e) {
     displayException (e, gOutputStream);
     return kInvalidOption;
   }

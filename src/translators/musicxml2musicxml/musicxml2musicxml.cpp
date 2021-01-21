@@ -117,7 +117,7 @@ static xmlErr xmlFile2musicxmlWithHandler (
         "Pass 2a",
         "Create an MSR skeleton from the mxmlTree");
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -148,7 +148,7 @@ static xmlErr xmlFile2musicxmlWithHandler (
       "Pass 2b",
       "Populate the MSR skeletonfrom MusicXML data");
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -183,7 +183,7 @@ static xmlErr xmlFile2musicxmlWithHandler (
         "Pass 3",
         "Convert the first MSR into a second MSR");
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -206,7 +206,7 @@ static xmlErr xmlFile2musicxmlWithHandler (
         "Convert the second MSR into a second mxmlTree",
         timingItem::kMandatory);
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -231,7 +231,7 @@ static xmlErr xmlFile2musicxmlWithHandler (
       "Pass 5",
       "Convert the second mxmlTree into MusicXML text");
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -383,7 +383,7 @@ static xmlErr xmlFile2musicxmlWithOptionsVector (
         break;
     } // switch
   }
-  catch (msrOahException& e) {
+  catch (msgOahException& e) {
     displayException (e, gOutputStream);
     return kInvalidOption;
   }

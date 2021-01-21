@@ -151,7 +151,7 @@ EXP void convertLpsrScoreToLilypondCodeWithHandler (
         passDescription,
         lilypondStandardOutputStream);
     }
-    catch (lpsrScoreToLilypondException& e) {
+    catch (msgLpsrScoreToLilypondException& e) {
       displayException (e, gOutputStream);
       return;
     }
@@ -200,7 +200,7 @@ EXP void convertLpsrScoreToLilypondCodeWithHandler (
         message <<
         endl;
 
-      throw lpsrScoreToLilypondException (message);
+      throw msgLpsrScoreToLilypondException (message);
     }
 
     // create an indented output stream for the LilyPond code
@@ -220,7 +220,7 @@ EXP void convertLpsrScoreToLilypondCodeWithHandler (
         passDescription,
         lilypondFileOutputStream);
     }
-    catch (lpsrScoreToLilypondException& e) {
+    catch (msgLpsrScoreToLilypondException& e) {
       displayException (e, gOutputStream);
       return;
     }

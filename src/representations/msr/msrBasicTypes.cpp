@@ -904,7 +904,7 @@ S_msrQuarterTonesPitchAndOctave msrQuarterTonesPitchAndOctave::createFromString 
     if (gGlobalTraceOahGroup->getTraceOah ()) {
       gLogStream <<
         "--> quarterTonesPitchKind = \"" <<
-          quarterTonesPitchKindAsString (
+          msrQuarterTonesPitchKindAsString (
             quarterTonesPitchKind) <<
         "\", " <<
         "--> octaveKind = " << octaveKind <<
@@ -1023,7 +1023,7 @@ string msrQuarterTonesPitchAndOctave::asString () const
     "QuarterTonesPitchAndOctave" <<
     ": " <<
     "quarterTonesPitchKind: " <<
-    quarterTonesPitchKindAsString (
+    msrQuarterTonesPitchKindAsString (
       fQuarterTonesPitchKind) <<
     ", octave: " << msrOctaveKindAsString (fOctaveKind);
 
@@ -1043,7 +1043,7 @@ void msrQuarterTonesPitchAndOctave::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "quarterTonesPitchKind" << " : " <<
-      quarterTonesPitchKindAsString (fQuarterTonesPitchKind) <<
+      msrQuarterTonesPitchKindAsString (fQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
     "octave: " << " : " <<
@@ -2119,8 +2119,11 @@ string msrMoment::asString () const
   stringstream s;
 
   s <<
-    "[Moment [" <<
-    fWrittenPositionInMeseasure << ", " << fSoundingRelativeOffset <<
+    "[Moment" <<
+    " writtenPositionInMeseasure: " <<
+    fWrittenPositionInMeseasure <<
+    ", soundingRelativeOffset: " <<
+    fSoundingRelativeOffset <<
     "]";
 
   return s.str ();
@@ -9493,7 +9496,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
         s <<
           "Sorry, computing intervals from quartertones pitch '" <<
-          quarterTonesPitchKindAsStringInLanguage (
+          msrQuarterTonesPitchKindAsStringInLanguage (
             quarterTonesPitchKind,
             gGlobalMsrOahGroup->
               getMsrQuarterTonesPitchesLanguageKind ()) <<
@@ -10074,7 +10077,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
 
 // staves
 //______________________________________________________________________________
-string staffKindAsString (
+string msrStaffKindAsString (
   msrStaffKind staffKind)
 {
   string result;
@@ -10105,7 +10108,7 @@ string staffKindAsString (
 
 // voices
 //______________________________________________________________________________
-string voiceKindAsString (
+string msrVoiceKindAsString (
   msrVoiceKind voiceKind)
 {
   string result;
@@ -10127,7 +10130,7 @@ string voiceKindAsString (
 
 // measures
 //______________________________________________________________________________
-string measureKindAsString (
+string msrMeasureKindAsString (
   msrMeasureKind measureKind)
 {
   string result;
@@ -10177,7 +10180,7 @@ string measureKindAsString (
   return result;
 }
 
-string measureImplicitKindAsString (
+string msrMeasureImplicitKindAsString (
   msrMeasureImplicitKind measureImplicitKind)
 {
   string result;
@@ -10202,7 +10205,7 @@ map<string, msrClefKind>
 list<string>
   gClefKindsNamesList;
 
-string clefKindAsString (
+string msrClefKindAsString (
   msrClefKind clefKind)
 {
   string result;
@@ -10506,7 +10509,7 @@ string existingClefKindsNames (unsigned int namesListMaxLength)
 // keys
 // ------------------------------------------------------
 
-string keyKindAsString (
+string msrKeyKindAsString (
   msrKeyKind keyKind)
 {
   string result;
@@ -10567,7 +10570,7 @@ msrModeKind modeKindFromString (
   return result;
 }
 
-string modeKindAsString (
+string msrModeKindAsString (
   msrModeKind modeKind)
 {
   string result;
@@ -10610,7 +10613,7 @@ string modeKindAsString (
 
 // times
 //______________________________________________________________________________
-string timeSymbolKindAsString (
+string msrTimeSymbolKindAsString (
   msrTimeSymbolKind timeSymbolKind)
 {
   string result;
@@ -10642,7 +10645,7 @@ string timeSymbolKindAsString (
   return result;
 }
 
-string timeSeparatorKindAsString (
+string msrTimeSeparatorKindAsString (
   msrTimeSeparatorKind timeSeparatorKind)
 {
   string result;
@@ -10668,7 +10671,7 @@ string timeSeparatorKindAsString (
   return result;
 }
 
-string timeRelationKindAsString (
+string msrTimeRelationKindAsString (
   msrTimeRelationKind timeRelationKind)
 {
   string result;
@@ -10702,7 +10705,7 @@ string timeRelationKindAsString (
 
 // repeats
 //______________________________________________________________________________
-string repeatEndingKindAsString (
+string msrRepeatEndingKindAsString (
   msrRepeatEndingKind repeatEndingKind)
 {
   string result;
@@ -12533,7 +12536,7 @@ void initializeVlaamsPitchNamesMap ()
   gGlobalVlaamsPitchesNamesMap [kG_DoubleSharp_QTP] = "solkk";
 }
 
-string diatonicPitchKindAsString (
+string msrDiatonicPitchKindAsString (
   msrDiatonicPitchKind diatonicPitchKind)
 {
   string result;
@@ -12609,7 +12612,7 @@ msrDiatonicPitchKind msrDiatonicPitchKindFromString (
   return result;
 }
 
-string diatonicPitchKindAsString (
+string msrDiatonicPitchKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind, // JMI
   msrDiatonicPitchKind               diatonicPitchKind)
 {
@@ -12646,7 +12649,7 @@ string diatonicPitchKindAsString (
   return result;
 }
 
-string quarterTonesPitchesLanguageKindAsString (
+string msrQuarterTonesPitchesLanguageKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind)
 {
   string result;
@@ -12854,7 +12857,7 @@ string msrAlterationKindAsString (
 
 // accidentals
 //______________________________________________________________________________
-string accidentalKindAsString (
+string msrAccidentalKindAsString (
   msrAccidentalKind accidentalKind)
 {
   string result;
@@ -12976,7 +12979,7 @@ string accidentalKindAsString (
   return result;
 }
 
-string accidentalKindAsMusicXMLString (
+string msrAccidentalKindAsMusicXMLString (
   msrAccidentalKind accidentalKind)
 {
   string result;
@@ -13100,7 +13103,7 @@ string accidentalKindAsMusicXMLString (
 // editorial accidentals
 //______________________________________________________________________________
 
-string editorialAccidentalKindAsString (
+string msrEditorialAccidentalKindAsString (
   msrEditorialAccidentalKind noteEditorialAccidentalKind)
 {
   string result;
@@ -13120,7 +13123,7 @@ string editorialAccidentalKindAsString (
 // cautionary accidentals
 //______________________________________________________________________________
 
-string cautionaryAccidentalKindAsString (
+string msrCautionaryAccidentalKindAsString (
   msrCautionaryAccidentalKind noteCautionaryAccidentalKind)
 {
   string result;
@@ -13472,7 +13475,7 @@ void setDiatonicPitchAndAlterationKind (
   } // switch
 }
 
-string quarterTonesPitchKindAsString (
+string msrQuarterTonesPitchKindAsString (
   msrQuarterTonesPitchKind quarterTonesPitchKind)
 {
   string result;
@@ -14738,7 +14741,7 @@ msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
   return result;
 }
 
-string quarterTonesPitchKindAsStringInLanguage (
+string msrQuarterTonesPitchKindAsStringInLanguage (
   msrQuarterTonesPitchKind           quarterTonesPitchKind,
   msrQuarterTonesPitchesLanguageKind languageKind)
 {
@@ -15454,9 +15457,93 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   } // switch
   */
 
+  return result;
+}
 
+// beams
+//______________________________________________________________________________
+string msrBeamKindAsString (
+  msrBeamKind beamKind)
+{
+  string result;
+
+  switch (beamKind) {
+    case k_NoBeam:
+      result = "*NoBeam*";
+      break;
+    case kBeamBegin:
+      result = "beamBegin";
+      break;
+    case kBeamContinue:
+      result = "beamContinue";
+      break;
+    case kBeamEnd:
+      result = "beamEnd";
+      break;
+    case kBeamForwardHook:
+      result = "beamForwardHook";
+      break;
+    case kBeamBackwardHook:
+      result = "beamBackwardHook";
+      break;
+  } // switch
 
   return result;
+}
+
+// ties
+// ------------------------------------------------------
+string msrTieKindAsString (msrTieKind tieKind)
+{
+  stringstream s;
+
+  switch (tieKind) {
+    case kTieNone:
+      s << "tieNone";
+      break;
+    case kTieStart:
+      s << "tieStart";
+      break;
+    case kTieContinue:
+      s << "tieContinue";
+      break;
+    case kTieStop:
+      s << "tieStop";
+      break;
+  } // switch
+
+  return s.str ();
+}
+
+// slurs
+// ------------------------------------------------------
+string msrSlurTypeKindAsString (
+  msrSlurTypeKind slurTypeKind)
+{
+  stringstream s;
+
+  switch (slurTypeKind) {
+    case k_NoSlur:
+      s << "*NoSlur*";
+      break;
+    case kRegularSlurStart:
+      s << "regularSlurStart";
+      break;
+    case kPhrasingSlurStart:
+      s << "phrasingSlurStart";
+      break;
+    case kSlurContinue:
+      s << "slurContinue";
+      break;
+    case kRegularSlurStop:
+      s << "regularSlurStop";
+      break;
+    case kPhrasingSlurStop:
+      s << "phrasingSlurStop";
+      break;
+  } // switch
+
+  return s.str ();
 }
 
 // enharmonies
@@ -16138,6 +16225,44 @@ ostream& operator<< (ostream& os, const S_msrMarginsGroup& elt)
 
 // font size
 //______________________________________________________________________________
+string msrFontSizeKindAsString (
+  msrFontSizeKind fontSizeKind)
+{
+  string result;
+
+  switch (fontSizeKind) {
+    case kFontSizeNone:
+      result = "fontSizeNone";
+      break;
+    case kFontSizeXXSmall:
+      result = "fontSizeXXSmall";
+      break;
+    case kFontSizeXSmall:
+      result = "fontSizeXSmall";
+      break;
+    case kFontSizeSmall:
+      result = "fontSizeSmall";
+      break;
+    case kFontSizeMedium:
+      result = "fontSizeMedium";
+      break;
+    case kFontSizeLarge:
+      result = "fontSizeLarge";
+      break;
+    case kFontSizeXLarge:
+      result = "fontSizeXLarge";
+      break;
+    case kFontSizeXXLarge:
+      result = "fontSizeXXLarge";
+      break;
+    case kFontSizeNumeric:
+      result = "fontSizeNumeric";
+      break;
+    } // switch
+
+  return result;
+}
+
 S_msrFontSize msrFontSize::create (
   msrFontSizeKind fontSizeKind)
 {
@@ -16169,74 +16294,30 @@ msrFontSize::msrFontSize (
 msrFontSize::msrFontSize (
   float fontNumericSize)
 {
-  fFontSizeKind = kFontSizeNumeric;
+  fFontSizeKind    = kFontSizeNumeric;
   fFontNumericSize = fontNumericSize;
 }
 
 msrFontSize::~msrFontSize ()
 {}
 
-string msrFontSize::fontSizeKindAsString (
-  msrFontSize::msrFontSizeKind fontSizeKind)
-{
-  string result;
-
-  switch (fontSizeKind) {
-    case msrFontSize::kFontSizeNone:
-      result = "fontSizeNone";
-      break;
-    case msrFontSize::kFontSizeXXSmall:
-      result = "fontSizeXXSmall";
-      break;
-    case msrFontSize::kFontSizeXSmall:
-      result = "fontSizeXSmall";
-      break;
-    case msrFontSize::kFontSizeSmall:
-      result = "fontSizeSmall";
-      break;
-    case msrFontSize::kFontSizeMedium:
-      result = "fontSizeMedium";
-      break;
-    case msrFontSize::kFontSizeLarge:
-      result = "fontSizeLarge";
-      break;
-    case msrFontSize::kFontSizeXLarge:
-      result = "fontSizeXLarge";
-      break;
-    case msrFontSize::kFontSizeXXLarge:
-      result = "fontSizeXXLarge";
-      break;
-    case msrFontSize::kFontSizeNumeric:
-      result = "fontSizeNumeric";
-      break;
-    } // switch
-
-  return result;
-}
-
-string msrFontSize::fontSizeKindAsString () const
-{
-  return
-    fontSizeKindAsString (fFontSizeKind);
-}
-
 string msrFontSize::fontSizeAsString () const
 {
   string result;
 
   switch (fFontSizeKind) {
-    case msrFontSize::kFontSizeNone:
-    case msrFontSize::kFontSizeXXSmall:
-    case msrFontSize::kFontSizeXSmall:
-    case msrFontSize::kFontSizeSmall:
-    case msrFontSize::kFontSizeMedium:
-    case msrFontSize::kFontSizeLarge:
-    case msrFontSize::kFontSizeXLarge:
-    case msrFontSize::kFontSizeXXLarge:
-      result = fontSizeKindAsString (fFontSizeKind);
+    case kFontSizeNone:
+    case kFontSizeXXSmall:
+    case kFontSizeXSmall:
+    case kFontSizeSmall:
+    case kFontSizeMedium:
+    case kFontSizeLarge:
+    case kFontSizeXLarge:
+    case kFontSizeXXLarge:
+      result = msrFontSizeKindAsString (fFontSizeKind);
       break;
 
-    case msrFontSize::kFontSizeNumeric:
+    case kFontSizeNumeric:
       result =
         to_string (fFontNumericSize);
       break;
@@ -16250,20 +16331,20 @@ float msrFontSize::getFontNumericSize () const
   float result = 12; // JMI
 
   switch (fFontSizeKind) {
-    case msrFontSize::kFontSizeNone:
-    case msrFontSize::kFontSizeXXSmall:
-    case msrFontSize::kFontSizeXSmall:
-    case msrFontSize::kFontSizeSmall:
-    case msrFontSize::kFontSizeMedium:
-    case msrFontSize::kFontSizeLarge:
-    case msrFontSize::kFontSizeXLarge:
-    case msrFontSize::kFontSizeXXLarge:
+    case kFontSizeNone:
+    case kFontSizeXXSmall:
+    case kFontSizeXSmall:
+    case kFontSizeSmall:
+    case kFontSizeMedium:
+    case kFontSizeLarge:
+    case kFontSizeXLarge:
+    case kFontSizeXXLarge:
       {
         stringstream s;
 
         s <<
           "attempting to get font numeric size for a " <<
-          fontSizeKindAsString (fFontSizeKind);
+          msrFontSizeKindAsString (fFontSizeKind);
 
         msrInternalError (
           gGlobalOahOahGroup->getInputSourceName (),
@@ -16273,7 +16354,7 @@ float msrFontSize::getFontNumericSize () const
       }
       break;
 
-    case msrFontSize::kFontSizeNumeric:
+    case kFontSizeNumeric:
       result = fFontNumericSize;
       break;
     } // switch
@@ -16284,19 +16365,19 @@ float msrFontSize::getFontNumericSize () const
 void msrFontSize::print (ostream& os) const
 {
   switch (fFontSizeKind) {
-    case msrFontSize::kFontSizeNone:
-    case msrFontSize::kFontSizeXXSmall:
-    case msrFontSize::kFontSizeXSmall:
-    case msrFontSize::kFontSizeSmall:
-    case msrFontSize::kFontSizeMedium:
-    case msrFontSize::kFontSizeLarge:
-    case msrFontSize::kFontSizeXLarge:
-    case msrFontSize::kFontSizeXXLarge:
+    case kFontSizeNone:
+    case kFontSizeXXSmall:
+    case kFontSizeXSmall:
+    case kFontSizeSmall:
+    case kFontSizeMedium:
+    case kFontSizeLarge:
+    case kFontSizeXLarge:
+    case kFontSizeXXLarge:
       os <<
-        msrFontSize::fontSizeKindAsString (fFontSizeKind);
+        msrFontSizeKindAsString (fFontSizeKind);
       break;
 
-    case msrFontSize::kFontSizeNumeric:
+    case kFontSizeNumeric:
       os <<
         fFontNumericSize;
       break;
@@ -16779,7 +16860,7 @@ msrDynamicsKind dynamicsFromString (string theString)
   return result;
 }
 
-string dynamicsKindAsString (
+string msrDynamicsKindAsString (
   msrDynamicsKind dynamicsKind)
 {
   string result;
@@ -21280,7 +21361,7 @@ void msrHarmonyContents::printAllHarmoniesContents (
 
   os <<
     "All the known harmonies contents with diatonic root '" <<
-    quarterTonesPitchKindAsStringInLanguage (
+    msrQuarterTonesPitchKindAsStringInLanguage (
       rootQuarterTonesPitchKind,
       gGlobalLpsrOahGroup->
         getLpsrQuarterTonesPitchesLanguageKind ()) <<
@@ -21291,7 +21372,7 @@ void msrHarmonyContents::printAllHarmoniesContents (
     ")" <<
     */
     "' in language '" <<
-    quarterTonesPitchesLanguageKindAsString (
+    msrQuarterTonesPitchesLanguageKindAsString (
       gGlobalLpsrOahGroup->
         getLpsrQuarterTonesPitchesLanguageKind ()) <<
     "' 'are:" <<
@@ -21359,7 +21440,7 @@ void msrHarmonyContents::printAllHarmoniesContents (
 
         os << left <<
           setw (fieldWidth2) <<
-          quarterTonesPitchKindAsStringInLanguage (
+          msrQuarterTonesPitchKindAsStringInLanguage (
             noteQuarterTonesPitchKind,
             gGlobalLpsrOahGroup->
               getLpsrQuarterTonesPitchesLanguageKind ()) <<
@@ -21499,7 +21580,7 @@ void printHarmonyDetails (
 
   string
     rootQuarterTonesPitchKindAsString =
-      quarterTonesPitchKindAsStringInLanguage (
+      msrQuarterTonesPitchKindAsStringInLanguage (
         rootQuarterTonesPitchKind,
         gGlobalLpsrOahGroup->
           getLpsrQuarterTonesPitchesLanguageKind ());
@@ -21637,7 +21718,7 @@ void printHarmonyDetails (
 
         os << left <<
           setw (fieldWidth2) <<
-          quarterTonesPitchKindAsStringInLanguage (
+          msrQuarterTonesPitchKindAsStringInLanguage (
             noteQuarterTonesPitchKind,
             gGlobalLpsrOahGroup->
               getLpsrQuarterTonesPitchesLanguageKind ()) <<
@@ -21679,7 +21760,7 @@ void printHarmonyAnalysis (
 
   string
     rootQuarterTonesPitchKindAsString =
-      quarterTonesPitchKindAsStringInLanguage (
+      msrQuarterTonesPitchKindAsStringInLanguage (
         rootQuarterTonesPitchKind,
         gGlobalLpsrOahGroup->
           getLpsrQuarterTonesPitchesLanguageKind ());
@@ -21807,7 +21888,7 @@ void printHarmonyAnalysis (
 
           os << left <<
             setw (fieldWidth2) <<
-            quarterTonesPitchKindAsStringInLanguage (
+            msrQuarterTonesPitchKindAsStringInLanguage (
               noteQuarterTonesPitchKind,
               gGlobalLpsrOahGroup->
                 getLpsrQuarterTonesPitchesLanguageKind ()) <<
@@ -21939,7 +22020,7 @@ void printHarmonyAnalysis (
 
             os << left <<
               setw (fieldWidth1) <<
-              quarterTonesPitchKindAsStringInLanguage (
+              msrQuarterTonesPitchKindAsStringInLanguage (
                 noteQuarterTonesPitchKind1,
                 gGlobalLpsrOahGroup->
                   getLpsrQuarterTonesPitchesLanguageKind ()) <<
@@ -21947,7 +22028,7 @@ void printHarmonyAnalysis (
               " -> " <<
 
               setw (fieldWidth1) <<
-              quarterTonesPitchKindAsStringInLanguage (
+              msrQuarterTonesPitchKindAsStringInLanguage (
                 noteQuarterTonesPitchKind2,
                 gGlobalLpsrOahGroup->
                   getLpsrQuarterTonesPitchesLanguageKind ()) <<

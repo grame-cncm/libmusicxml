@@ -552,7 +552,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       message <<
       endl;
 
-    throw musicXMLFile2mxmlTreeException (message);
+    throw msgMusicXMLFile2mxmlTreeException (message);
   }
 
   // read the input MusicXML data from the file
@@ -942,7 +942,7 @@ EXP S_msrScore mxmlTreeToMsrScoreSkeleton (
         passNumber,
         passDescription);
   }
-  catch (mxmlTreeToMsrException& e) {
+  catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }

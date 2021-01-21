@@ -859,7 +859,7 @@ void msr2bsrTranslator::visitStart (S_msrClef& elt)
 
       s <<
         "MSR clef kind '" <<
-        clefKindAsString (mClefKind) <<
+        msrClefKindAsString (mClefKind) <<
         "' is not supported in Braille music";
 
       notSupportedMessage (
@@ -1391,7 +1391,7 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
     if (gGlobalTraceOahGroup->getTraceKeys ()) {
       gLogStream <<
         "MSR key kind is absent, ignoring '" <<
-        keyKindAsString (theMsrKeyKind) <<
+        msrKeyKindAsString (theMsrKeyKind) <<
         ", " <<
        msrSemiTonesPitchKindAsString (mSemiTonesPitchKind) <<
        endl;
@@ -1880,23 +1880,23 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
           } // switch
 
           switch (wordsFontSize->getFontSizeKind ()) {
-            case msrFontSize::kFontSizeNone:
+            case kFontSizeNone:
               break;
-            case msrFontSize::kFontSizeXXSmall:
+            case kFontSizeXXSmall:
               break;
-            case msrFontSize::kFontSizeXSmall:
+            case kFontSizeXSmall:
               break;
-            case msrFontSize::kFontSizeSmall:
+            case kFontSizeSmall:
               break;
-            case msrFontSize::kFontSizeMedium:
+            case kFontSizeMedium:
               break;
-            case msrFontSize::kFontSizeLarge:
+            case kFontSizeLarge:
               break;
-            case msrFontSize::kFontSizeXLarge:
+            case kFontSizeXLarge:
               break;
-            case msrFontSize::kFontSizeXXLarge:
+            case kFontSizeXXLarge:
               break;
-            case msrFontSize::kFontSizeNumeric:
+            case kFontSizeNumeric:
               break;
           } // switch
 
@@ -3304,7 +3304,7 @@ void msr2bsrTranslator::visitStart (S_msrSyllable& elt)
               kVerticalAlignmentNone,        // default value
               kFontStyleNone,                // default value
               msrFontSize::create (
-                msrFontSize::kFontSizeNone), // default value
+                kFontSizeNone), // default value
               kFontWeightNone,               // default value
               msrWords::kItLang);            // default value
 

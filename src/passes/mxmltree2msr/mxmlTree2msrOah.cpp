@@ -633,9 +633,9 @@ void msrReplaceClefAtom::print (ostream& os) const
       i      = iBegin;
     for ( ; ; ) {
       os <<
-        "\"" << clefKindAsString ((*i).first) << "\"" <<
+        "\"" << msrClefKindAsString ((*i).first) << "\"" <<
         " --> " <<
-        "\"" << clefKindAsString ((*i).second) << "\"";
+        "\"" << msrClefKindAsString ((*i).second) << "\"";
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -669,9 +669,9 @@ void msrReplaceClefAtom::printAtomWithValueOptionsValues (
       i      = iBegin;
     for ( ; ; ) {
       os <<
-        "\"" << clefKindAsString ((*i).first) << "\"" <<
+        "\"" << msrClefKindAsString ((*i).first) << "\"" <<
         " --> " <<
-        "\"" << clefKindAsString ((*i).second) << "\"" <<
+        "\"" << msrClefKindAsString ((*i).second) << "\"" <<
         endl;
       if (++i == iEnd) break;
     } // for

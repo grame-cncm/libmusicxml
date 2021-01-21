@@ -248,6 +248,17 @@ class EXP lpsrScore : public lpsrElement
                                   fMergeRestsIsNeeded;
                               }
 
+    // spanners with centered text
+
+    void                  setTextSpannerWithCenteredTextIsNeeded ();
+
+    bool                  getTextSpannerWithCenteredTextIsNeeded () const
+                              {
+                                return
+                                  fTextSpannerWithCenteredTextIsNeeded;
+                              }
+
+
   public:
 
     // public services
@@ -330,7 +341,7 @@ class EXP lpsrScore : public lpsrElement
 
     void                  addMergeRestsToScore ();
 
-    // spanner with centered text
+    // spanners with centered text
 
     void                  addTextSpannerWithCenteredTextToScore ();
 
@@ -418,6 +429,15 @@ class EXP lpsrScore : public lpsrElement
 
     // merge rests
     bool                  fMergeRestsIsNeeded;
+
+    // spanners with centered text
+
+    bool                  fTextSpannerWithCenteredTextIsNeeded;
+
+  private:
+
+    // private work fields
+    // ------------------------------------------------------
 
     // the Scheme functions map
     map<string, S_lpsrSchemeFunction>

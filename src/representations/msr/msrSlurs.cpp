@@ -48,6 +48,21 @@ S_msrSlur msrSlur::create (
   return o;
 }
 
+S_msrSlur msrSlur::create (
+  int              inputLineNumber,
+  int              slurNumber,
+  msrSlurTypeKind  slurTypeKind,
+  msrLineTypeKind  slurLineTypeKind)
+{
+  return
+    msrSlur::create (
+      inputLineNumber,
+      slurNumber,
+      slurTypeKind,
+      slurLineTypeKind,
+      k_NoPlacement);
+}
+
 msrSlur::msrSlur (
   int              inputLineNumber,
   int              slurNumber,
@@ -113,54 +128,27 @@ void msrSlur::acceptOut (basevisitor* v)
 void msrSlur::browseData (basevisitor* v)
 {}
 
-string msrSlur::slurTypeKindAsString (
-  msrSlurTypeKind slurTypeKind)
-{
-  stringstream s;
-
-  switch (slurTypeKind) {
-    case msrSlur::k_NoSlur:
-      s << "Slur" << slurTypeKind << "???";
-      break;
-    case msrSlur::kRegularSlurStart:
-      s << "regularSlurStart";
-      break;
-    case msrSlur::kPhrasingSlurStart:
-      s << "phrasingSlurStart";
-      break;
-    case msrSlur::kSlurContinue:
-      s << "slurContinue";
-      break;
-    case msrSlur::kRegularSlurStop:
-      s << "regularSlurStop";
-      break;
-    case msrSlur::kPhrasingSlurStop:
-      s << "phrasingSlurStop";
-      break;
-  } // switch
-
-  return s.str ();
-}
-
-string msrSlur::slurTypeKindAsString () const
-{
-  return slurTypeKindAsString (fSlurTypeKind);
-}
-
 string msrSlur::asString () const
 {
   stringstream s;
 
   s <<
-    "[Slur " <<
-    ", slurNumber: " << fSlurNumber <<
-    slurTypeKindAsString () <<
+    "[Slur" <<
+    ", slurNumber: " <<
+    fSlurNumber <<
+
+    ", slurTypeKind: " <<
+    msrSlurTypeKindAsString (
+      fSlurTypeKind) <<
+
     ", slurLineTypeKind: " <<
     msrLineTypeKindAsString (
       fSlurLineTypeKind) <<
-    ", slurLineTypeKind: " <<
+
+    ", slurPlacementKind: " <<
     msrPlacementKindAsString (
       fSlurPlacementKind) <<
+
     ", line " << fInputLineNumber <<
     "]";
 

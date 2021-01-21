@@ -624,7 +624,7 @@ void msr2mxmlTreeTranslator::appendToNoteNotationsOrnaments (
     // append it to fCurrentNoteNotationsElement
     appendToNoteNotations (
       fCurrentNoteNotationsOrnamentsElement,
-      k_NoPlacement); // no placement for '<ornaments />'
+      k_NoPlacement); // no placement for '<ornaments/>', only <trill-mark> has JMI ???
   }
 
   // set elem's "placement" attribute if relevant
@@ -3824,7 +3824,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrKey& elt)
             fKeyElement->push (
               createMxmlElement (
                 k_mode,
-                modeKindAsString (elt->getModeKind ())));
+                msrModeKindAsString (elt->getModeKind ())));
           }
 
           else {
@@ -5175,7 +5175,7 @@ void msr2mxmlTreeTranslator:: appendNoteOrnaments (
             Sxmlelement ornamentElement =
               createMxmlElement (
                 ornamentType,
-                accidentalKindAsMusicXMLString (
+                msrAccidentalKindAsMusicXMLString (
                   ornament->getOrnamentAccidentalKind ()));
 
             appendToNoteNotations (
@@ -5696,15 +5696,15 @@ void msr2mxmlTreeTranslator:: appendNoteTieIfAny (
     string typeString;
 
     switch (noteTie->getTieKind ()) {
-      case msrTie::kTieNone:
+      case kTieNone:
         break;
-      case msrTie::kTieStart:
+      case kTieStart:
         typeString = "start";
         break;
-      case msrTie::kTieContinue:
+      case kTieContinue:
         typeString = "continue";
         break;
-      case msrTie::kTieStop:
+      case kTieStop:
         typeString = "stop";
         break;
     } // switch
@@ -5717,7 +5717,7 @@ void msr2mxmlTreeTranslator:: appendNoteTieIfAny (
     // append it to the current note notations element
     appendToNoteNotations (
       tiedElement,
-      k_NoPlacement); // no placement for '<tied />'
+      noteTie->getTiePlacementKind ());
   }
 }
 
@@ -5746,10 +5746,6 @@ void msr2mxmlTreeTranslator:: appendNoteSlursIfAny (
       S_msrSlur
         slur = (*i);
 
-      msrSlur::msrSlurTypeKind
-        slurTypeKind =
-          slur->getSlurTypeKind ();
-
       // create the slur element
       Sxmlelement slurElement = createMxmlElement (k_slur, "");
 
@@ -5761,24 +5757,28 @@ void msr2mxmlTreeTranslator:: appendNoteSlursIfAny (
       }
 
       // create the slur type attribute
+      msrSlurTypeKind
+        slurTypeKind =
+          slur->getSlurTypeKind ();
+
       string slurTypeString;
 
       switch (slurTypeKind) {
-        case msrSlur::k_NoSlur:
+        case k_NoSlur:
           break;
-        case msrSlur::kRegularSlurStart:
+        case kRegularSlurStart:
           slurTypeString = "start";
           break;
-        case msrSlur::kPhrasingSlurStart:
+        case kPhrasingSlurStart:
           slurTypeString = "start";
           break;
-        case msrSlur::kSlurContinue:
+        case kSlurContinue:
           slurTypeString = "slurContinue";
           break;
-        case msrSlur::kRegularSlurStop:
+        case kRegularSlurStop:
           slurTypeString = "stop";
           break;
-        case msrSlur::kPhrasingSlurStop:
+        case kPhrasingSlurStop:
           slurTypeString = "stop";
           break;
       } // switch
@@ -5787,10 +5787,15 @@ void msr2mxmlTreeTranslator:: appendNoteSlursIfAny (
         slurElement->add (createMxmlAttribute ("type", slurTypeString));
       }
 
+      // get the slur placement kind
+      msrPlacementKind
+        slurPlacementKind =
+          slur->getSlurPlacementKind ();
+
       // append the slur element to the current note note notations element
       appendToNoteNotations (
         slurElement,
-        k_NoPlacement); // no placement for '<slur />'
+        slurPlacementKind);
     } // for
   }
 }
@@ -6165,7 +6170,7 @@ void msr2mxmlTreeTranslator::appendBeamsToNote (
     for (i=noteBeams.begin (); i!=noteBeams.end (); ++i) {
       S_msrBeam beam = (*i);
 
-      msrBeam::msrBeamKind
+      msrBeamKind
         beamKind =
           beam->getBeamKind ();
 
@@ -6173,21 +6178,21 @@ void msr2mxmlTreeTranslator::appendBeamsToNote (
       string beamString;
 
       switch (beamKind) {
-        case msrBeam::k_NoBeam:
+        case k_NoBeam:
           break;
-        case msrBeam::kBeamBegin:
+        case kBeamBegin:
           beamString = "begin";
           break;
-        case msrBeam::kBeamContinue:
+        case kBeamContinue:
           beamString = "continue";
           break;
-        case msrBeam::kBeamEnd:
+        case kBeamEnd:
           beamString = "end";
           break;
-        case msrBeam::kBeamForwardHook:
+        case kBeamForwardHook:
           beamString = "forward hook";
           break;
-        case msrBeam::kBeamBackwardHook:
+        case kBeamBackwardHook:
           beamString = "backward hook";
           break;
       } // switch
@@ -6243,14 +6248,14 @@ void msr2mxmlTreeTranslator:: appendStaffToNoteIfRelevant (
   }
 #endif
 
-  // append the voice attribute if relevant
+  // append the staff attribute if relevant
   if (noteStaff) {
     int
       noteStaffNumber =
         noteStaff->
           getStaffNumber ();
 
-    if (noteStaffNumber != 1) { // options ? JMI
+    if (true || noteStaffNumber != 1) { // options ? JMI
       fCurrentNoteElement->push (
         createMxmlIntegerElement (
           k_staff,
@@ -6574,7 +6579,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
       "-->  noteOctaveKind: " <<
       msrOctaveKindAsString (noteOctaveKind) <<
       "-->  noteDiatonicPitchKind: " <<
-      diatonicPitchKindAsString (noteDiatonicPitchKind) <<
+      msrDiatonicPitchKindAsString (noteDiatonicPitchKind) <<
       endl;
   }
 #endif
@@ -6626,7 +6631,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
         pitchElement->push (
           createMxmlElement (
             k_step,
-            diatonicPitchKindAsString (noteDiatonicPitchKind)));
+            msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
 
         if (noteMusicXMLAlter != 0.0) {
           // append the alter element
@@ -6665,7 +6670,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
         pitchElement->push (
           createMxmlElement (
             k_step,
-            diatonicPitchKindAsString (noteDiatonicPitchKind)));
+            msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
 
         if (noteMusicXMLAlter != 0.0) {
           // append the alter element
@@ -7074,7 +7079,7 @@ void msr2mxmlTreeTranslator::appendMsrNoteToMesureIfRelevant (
 
     string
       accidentalString =
-        accidentalKindAsMusicXMLString (
+        msrAccidentalKindAsMusicXMLString (
           accidentalKind);
 
     if (accidentalString.size ()) {
@@ -7967,7 +7972,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSyllable& elt)
               kVerticalAlignmentNone,        // default value
               kFontStyleNone,                // default value
               msrFontSize::create (
-                msrFontSize::kFontSizeNone), // default value
+                kFontSizeNone), // default value
               kFontWeightNone,               // default value
               kXMLLangIt,                    // default value
               elt->getSyllableNoteUpLink ()->getNoteStaffNumber ());

@@ -131,7 +131,7 @@ void msrStringTuning::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "stringTuningDiatonicPitchKind" << " : " <<
-    diatonicPitchKindAsString (
+    msrDiatonicPitchKindAsString (
       fStringTuningDiatonicPitchKind) <<
     endl <<
     setw (fieldWidth) <<
@@ -442,7 +442,7 @@ void msrHarpPedalsTuning::addPedalTuning (
 
     s <<
       "pedal tuning '" <<
-      diatonicPitchKindAsString (
+      msrDiatonicPitchKindAsString (
         diatonicPitchKind) <<
       msrAlterationKindAsString (
         alterationKind) <<
@@ -525,7 +525,7 @@ string msrHarpPedalsTuning::asString () const
     for ( ; ; ) {
       // print the pedal and its alteration
       s <<
-        diatonicPitchKindAsString (
+        msrDiatonicPitchKindAsString (
           (*i).first) <<
         " " <<
         msrAlterationKindAsString (
@@ -564,7 +564,7 @@ void msrHarpPedalsTuning::print (ostream& os) const
     for ( ; ; ) {
       // print the pedal and its alteration
       os <<
-        diatonicPitchKindAsString (
+        msrDiatonicPitchKindAsString (
           (*i).first) <<
         " " <<
         msrAlterationKindAsString (

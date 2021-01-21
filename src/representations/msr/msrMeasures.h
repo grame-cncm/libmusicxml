@@ -576,6 +576,24 @@ class EXP msrMeasure : public msrElement
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                       context);
 
+    void                  finalizeMeasureClone (
+                            int          inputLineNumber,
+                            S_msrMeasure originalMeasure,
+                            S_msrVoice   voiceClone);
+
+    void                  finalizeMeasure_BIS (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context);
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    void                  appendElementToMeasure (
+                            S_msrMeasureElement elem);
+
     void                  finalizeRegularMeasure (
                             int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
@@ -587,16 +605,6 @@ class EXP msrMeasure : public msrElement
                             string                       context);
 
     void                  finalizeFiguredBassMeasure (
-                            int                          inputLineNumber,
-                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
-                            string                       context);
-
-    void                  finalizeMeasureClone (
-                            int          inputLineNumber,
-                            S_msrMeasure originalMeasure,
-                            S_msrVoice   voiceClone);
-
-    void                  finalizeMeasure_BIS (
                             int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                       context);
@@ -615,14 +623,6 @@ class EXP msrMeasure : public msrElement
                             int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                       context);
-
-  private:
-
-    // private services
-    // ------------------------------------------------------
-
-    void                  appendElementToMeasure (
-                            S_msrMeasureElement elem);
 
   public:
 

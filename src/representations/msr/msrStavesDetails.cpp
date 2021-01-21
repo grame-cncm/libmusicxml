@@ -143,7 +143,7 @@ string msrStaffTuning::asString () const
     "StaffTuning" <<
     ", line " << fStaffTuningLineNumber <<
     ", " <<
-    quarterTonesPitchKindAsStringInLanguage (
+    msrQuarterTonesPitchKindAsStringInLanguage (
       fStaffTuningQuarterTonesPitchKind,
       gGlobalMsrOahGroup->
         getMsrQuarterTonesPitchesLanguageKind ()) <<
@@ -171,7 +171,7 @@ void msrStaffTuning::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "staffTuningQuarterTonesPitch" << " : " <<
-    quarterTonesPitchKindAsStringInLanguage (
+    msrQuarterTonesPitchKindAsStringInLanguage (
       fStaffTuningQuarterTonesPitchKind,
       gGlobalMsrOahGroup->
         getMsrQuarterTonesPitchesLanguageKind ()) <<

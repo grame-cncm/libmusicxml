@@ -217,7 +217,7 @@ void initializeBsrBrailleOutputKindsMap ()
   gGlobalBsrBrailleOutputKindsMap ["utf16"] = kBrailleOutputUTF16;
 }
 
-string brailleOutputKindAsString (
+string bsrBrailleOutputKindAsString (
   bsrBrailleOutputKind brailleOutputKind)
 {
   string result;

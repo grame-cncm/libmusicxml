@@ -1166,7 +1166,7 @@ string bsrNote::noteOctaveIsNeededAsString (
   return result;
 }
 
-string bsrNote::accidentalKindAsString (
+string bsrNote::msrAccidentalKindAsString (
   bsrAccidentalKind accidentalKind)
 {
   string result;
@@ -1273,8 +1273,8 @@ string bsrNote::asString () const
     booleanAsString (fNoteValueSizeIsNeeded) <<
     ", noteOctaveIsNeeded: " <<
     noteOctaveIsNeededAsString (fNoteOctaveIsNeeded) <<
-    ", accidentalKindAsString: " <<
-    accidentalKindAsString (fAccidentalKind) <<
+    ", msrAccidentalKindAsString: " <<
+    msrAccidentalKindAsString (fAccidentalKind) <<
     ", cellsList (): " <<
     buildCellsList ()->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
@@ -1298,8 +1298,8 @@ string bsrNote::asShortString () const // finalize this JMI
     booleanAsString (fNoteValueSizeIsNeeded) <<
     ", noteOctaveIsNeeded: " <<
     noteOctaveIsNeededAsString (fNoteOctaveIsNeeded) <<
-    ", accidentalKindAsString: " <<
-    accidentalKindAsString (fAccidentalKind) <<
+    ", msrAccidentalKindAsString: " <<
+    msrAccidentalKindAsString (fAccidentalKind) <<
     ", cellsList (): " <<
     buildCellsList ()->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
@@ -1365,7 +1365,7 @@ void bsrNote::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "accidentalKind" << " : " <<
-    accidentalKindAsString (fAccidentalKind) <<
+    msrAccidentalKindAsString (fAccidentalKind) <<
     endl <<
     setw (fieldWidth) <<
     "cellsList" << " : " <<
