@@ -92,17 +92,23 @@ voice upperStaffVoice1 = {
   c'8 d'16 e'16 f'8 e'8 |4
   d'2 ~ |5
   d'2 |6
+
+  finalBar
 }
 
 voice lowerStaffVoice1 = {
   lowerStaffVoice1FirstTreeMeasures |4
   b2 ~ |5
   b2 |6
+
+  finalBar
 }
 
 voice lowerStaffVoice2 = {
   lowerStaffVoice2FirstTreeMeasures |5
   b4 a |5
   g2 |6
+
+  finalBar
 }
 

@@ -136,7 +136,7 @@ S_bsrCellsList bsrKey::buildCellsList () const
     case 2:
     case 3:
       // create as many flat or sharp signs as needed
-      for (int i = 1; i <= fNumberOfAlterations; ++i) {
+      for (unsigned int i = 1; i <= fNumberOfAlterations; ++i) {
         result->appendCellsListToCellsList (
           keyKindAsCellsList ());
       } // for

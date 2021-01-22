@@ -21,9 +21,9 @@
 #include <string.h>
 #include <iostream>
 
-#include "reader.h"
+#include "msdlReader.h"
 
-#include "msdlLex.hpp"
+#include "msdlFlexLexer.h"
 
 
 using namespace std;
@@ -39,9 +39,9 @@ void	yyerror(const char *s);
 
 int		msdlwrap();
 
-bool	readfile   (const char * file, reader * r);
-bool	readstream (FILE * file, reader * r);
-bool	readbuffer (const char * buffer, reader * r);
+bool	readMsdlFile   (const char * file, msdlReader * theMsdlReader);
+bool	readMsdlStream (FILE * file, msdlReader * theMsdlReader);
+bool	readMsdlBuffer (const char * buffer, msdlReader * theMsdlReader);
 
 #ifdef __cplusplus
 }
@@ -68,10 +68,10 @@ char doctypeStart[MAXLEN];
 char doctypePub[MAXLEN];
 char doctypeSys[MAXLEN];
 
-reader * gReader;
+msdlReader * gMsplReader;
 
-static void init (reader * r) {
-	gReader = r;
+static void init (msdlReader * theMsdlReader) {
+	gMsplReader = theMsdlReader;
 	msdlStandalone = -1;
 	eltName[0]		= 0;
 	attributeName[0] = 0;
@@ -146,64 +146,77 @@ CommentOrOther	:
 #define yy_delete_buffer	msdl_delete_buffer
 #define yy_scan_string		msdl_scan_string
 
-bool readbuffer (const char * buffer, reader * r)
+bool readMsdlBuffer (const char * buffer, msdlReader * theMsdlReader)
 {
-	if (!buffer) return false;		// error for empty buffers
+	if (! buffer) return false;		// error for empty buffers
 
-	init(r);
+	init (theMsdlReader);
 	YY_BUFFER_STATE b;
+
     // Copy string into new buffer and Switch buffers
     b = yy_scan_string (buffer);
+
     // Parse the string
-	int ret = yyparse();
+	int ret = yyparse ();
+
     // Delete the new buffer
-	yy_delete_buffer(b);
-// JMI	BEGIN(INITIAL);
+	yy_delete_buffer (b);
+	BEGIN(INITIAL);
  	return ret==0;
 }
 
-bool readfile (const char * file, reader * r)
+bool readMsdlFile (const char * file, msdlReader * theMsdlReader)
 {
 	FILE * fd = fopen (file, "r");
 	if (!fd) {
 		cerr << "can't open file '" << file << "'" << endl;
 		return false;
 	}
-	init(r);
+	init (theMsdlReader);
 	msdlrestart(fd);
 	msdlin = fd;
 
   int ret;
 
 #ifdef LEX_ONLY
-  while (yylex()) {};
+
+  FlexLexer* lexer = new yyFlexLexer;
+  while (lexer->yylex () != 0);
   ret = 0;
+
 #else
+
  	ret = yyparse();
+
 #endif
+
 
  	fclose (fd);
 // JMI	BEGIN(INITIAL);
  	return ret==0;
 }
 
-bool readstream (FILE * fd, reader * r)
+bool readMsdlStream (FILE * fd, msdlReader * theMsdlReader)
 {
-	if (!fd) return false;
-	init(r);
-	msdlrestart(fd);
+	if (! fd) return false;
+
+	init( theMsdlReader);
+
+	msdlrestart (fd);
 	msdlin = fd;
+
  	int ret = yyparse();
+
 // JMI	BEGIN(INITIAL);
  	return ret==0;
 }
 
-void	yyerror(const char *s)	{ gReader->error (s, msdllineno); }
+void	yyerror(const char *s)	{ gMsplReader->error (s, msdllineno); }
 
 
 #ifdef MAIN
 
-class testreader : public reader
+class testMsdlReader : public msdlReader
 {
 	public:
 		bool	msdlDecl (const char* version, const char *encoding, int standalone) {
@@ -240,8 +253,8 @@ class testreader : public reader
 int main (int argc, char * argv[])
 {
 	if (argc > 1) {
-		testreader r;
-		return readfile (argv[1], &r) ? 0 : 1;
+		testMsdlReader theMsdlReader;
+		return readMsdlFile (argv[1], &theMsdlReader) ? 0 : 1;
 	}
  	return 0;
 }

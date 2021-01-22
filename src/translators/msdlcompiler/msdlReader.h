@@ -10,14 +10,14 @@
   research@grame.fr
 */
 
-#ifndef __reader__
-#define __reader__
+#ifndef __msdlReader__
+#define __msdlReader__
 
-class reader
+class msdlReader
 {
 	public:
-				 reader() {}
-		virtual ~reader() {};
+				 msdlReader() {}
+		virtual ~msdlReader() {};
 
 		virtual bool	msdlDecl (const char* version, const char *encoding, int standalone) = 0;
 		virtual bool	docType (const char* start, bool status, const char *pub, const char *sys) = 0;

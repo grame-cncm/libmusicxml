@@ -192,7 +192,7 @@ ostream& operator<< (ostream& os, const msrDottedDuration& elt)
 //______________________________________________________________________________
 EXP int octaveNumberFromOctaveKind (msrOctaveKind octaveKind)
 {
-  int result;
+  int result = -2;
 
   switch (octaveKind) {
     case k_NoOctave:

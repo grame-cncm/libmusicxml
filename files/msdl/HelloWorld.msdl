@@ -16,7 +16,7 @@ score helloWorld = "Hello World in MSPL" {
 
   voice {
     c1 |2
-    finalbar
+    finalBar
   }
 
 } % helloWorld

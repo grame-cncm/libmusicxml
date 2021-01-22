@@ -1,31 +1,39 @@
 
 APPL = msdl
 
-OUT  = msdlLex.cpp msdlParse.cpp msdlParse.hpp
-OBJ  = msdlLex.o msdlParse.o
-EXE  = msdl
+OUT  = msdlFlexLexer.h msdlFlexLexer.cpp msdlParser.hpp msdlParser.cpp msdlFlexLexer
+OBJ  = msdlFlexLexer.o msdlParser.o
 
+target : $(OUT)
+
+# flex
+FLEX = flex # --c++  # --trace --verbose # --debug
+
+msdlFlexLexer.h : msdl.ll msdlParser.hpp
+	flex -+ -o msdlFlexLexer.cpp msdl.ll
+
+msdlFlexLexer.cpp : msdl.ll msdlParser.hpp
+	flex -+ -o msdlFlexLexer.cpp msdl.ll
+
+# bison
+BISON = bison # -Wcounterexamples
+PREFIX = msdl
+
+msdlParser.cpp : msdl.y
+	$(BISON) -d -o msdlParser.cpp  -p $(PREFIX) msdl.y
+
+msdlParser.hpp : msdl.y
+	$(BISON) -d -o msdlParser.cpp  -p $(PREFIX) msdl.y
+
+# g++
 CXXFLAGS = -I.. -DMAIN -DLEX_ONLY
 
-LEX = flex   # --trace --verbose # --debug
-
-YACC = bison # -Wcounterexamples
-
-PREFIX := msdl
-
-code : $(EXE)
-
-msdlLex.cpp : msdl.l msdlParse.hpp
-	$(LEX)     --header-file=msdlLex.hpp -o msdlLex.cpp -I -P$(PREFIX) msdl.l
-
-msdlParse.cpp : msdl.y
-	$(YACC) -d -o msdlParse.cpp  -p $(PREFIX) msdl.y
-
-msdlParse.hpp : msdl.y
-	$(YACC) -d -o msdlParse.cpp  -p $(PREFIX) msdl.y
+msdlFlexLexer : msdlFlexLexer.cpp
+	g++ -o msdlFlexLexer msdlFlexLexer.cpp -DMAIN
 
 msdl : $(OBJ)
 	g++ $(DEBUG) $(OBJ) -lstdc++ -o $(APPL)
 
+# clean
 clean:
 	rm -f $(APPL) $(OUT) $(OBJ)
