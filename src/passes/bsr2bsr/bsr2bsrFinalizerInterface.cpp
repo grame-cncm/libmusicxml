@@ -43,7 +43,8 @@ S_bsrScore convertBsrFirstScoreToFinalizedBsrScore (
 
   if (! gGlobalBsr2brailleOahGroup->getNoBrailleCode ()) {
     // sanity check
-    msgAssert (
+      msgAssert (
+        __FILE__, __LINE__,
       originalBsrScore != nullptr,
       "originalBsrScore is null");
 
@@ -144,6 +145,7 @@ void displayFirstBsrScore (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     originalBsrScore != nullptr,
     "originalBsrScore is null");
 
@@ -183,6 +185,7 @@ void displayFirstBsrScoreShort (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     originalBsrScore != nullptr,
     "originalBsrScore is null");
 
@@ -285,6 +288,7 @@ void displayFinalizedBsrScore (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     originalBsrScore != nullptr,
     "originalBsrScore is null");
 
@@ -324,6 +328,7 @@ void displayFinalizedBsrScoreShort (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     originalBsrScore != nullptr,
     "originalBsrScore is null");
 

@@ -51,6 +51,7 @@ S_msrScore convertMsrScoreToMsrScore (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     originalMsrScore != nullptr,
     "originalMsrScore is null");
 
@@ -145,6 +146,7 @@ void displayResultingMsrScore_OptionalPass (
   // display it
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     originalMsrScore != nullptr,
     "originalMsrScore is null");
 
@@ -201,6 +203,7 @@ void displayResultingMsrScoreShort_OptionalPass (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     originalMsrScore != nullptr,
     "originalMsrScore is null");
 

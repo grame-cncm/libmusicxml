@@ -13,6 +13,7 @@
 #ifndef __msdlKeywords__
 #define __msdlKeywords__
 
+#include <string>
 #include <map>
 
 #include "smartpointer.h"
@@ -23,16 +24,11 @@ using namespace std;
 namespace MusicXML2
 {
 
-// the MSDL keywords languages
-//______________________________________________________________________________
-enum msdlKeywordLanguagesKind {
-	kEnglish,
-	kFrancais
-};
-
 // the MSDL keywords
 //______________________________________________________________________________
 enum msdlKeywordKind {
+  k_NoMsdlKeywordKind,
+
 	kMsdlKeywordPitches,
 
 	kMsdlKeywordScore,
@@ -59,16 +55,14 @@ enum msdlKeywordKind {
 	kMsdlKeywordFinalBar
 };
 
-/*
-// the current token description
-// -------------------------------
-union msdlTokenDescription
-{
-	double							    fDoubleNumber;
-	string						    	fIdent;
-	string						    	fString;
+msdlKeywordKind msdlKeywordKindFromString (std::string theString);
+
+// the MSDL keywords languages
+//______________________________________________________________________________
+enum msdlKeywordLanguagesKind {
+	kEnglish,
+	kFrancais
 };
-*/
 
 // global variables
 //______________________________________________________________________________

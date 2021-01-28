@@ -47,6 +47,7 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     mxmlTree != nullptr,
     "convertMxmlTreeToMsrScoreSkeleton(): mxmlTree is null");
 
@@ -147,6 +148,7 @@ void displayMsrSkeleton (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     theMsrScore != nullptr,
     "theMsrScore is null");
 

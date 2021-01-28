@@ -94,6 +94,7 @@ Sxmlelement msr2mxmlTreeTranslator::buildMxmltreeFromMsrScore ()
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fVisitedMsrScore != nullptr,
     "fVisitedMsrScore is null");
 

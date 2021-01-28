@@ -267,6 +267,7 @@ outputIndenter& outputIndenter::operator-- ()
 
 #ifdef DEBUG_INDENTER
     msgAssert (
+      __FILE__, __LINE__,
       false,
       "indentation has become negative");
 #endif
@@ -310,6 +311,7 @@ outputIndenter outputIndenter::outputIndenter::operator-- (int)
 
 #ifdef DEBUG_INDENTER
     msgAssert (
+      __FILE__, __LINE__,
       false,
       "indentation has become negative");
 #endif
@@ -338,6 +340,7 @@ outputIndenter& outputIndenter::increment (int value)
 
 #ifdef DEBUG_INDENTER
     msgAssert (
+      __FILE__, __LINE__,
       false,
       "indentation has become negative");
 #endif
@@ -366,6 +369,7 @@ outputIndenter& outputIndenter::decrement (int value)
 
 #ifdef DEBUG_INDENTER
     msgAssert (
+      __FILE__, __LINE__,
       false,
       "indentation has become negative");
 #endif

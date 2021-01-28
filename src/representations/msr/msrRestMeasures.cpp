@@ -67,7 +67,8 @@ S_msrRestMeasuresContents msrRestMeasuresContents::createRestMeasuresContentsNew
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     restMeasures != nullptr,
     "restMeasures is null");
 
@@ -99,6 +100,7 @@ void msrRestMeasuresContents::setRestMeasuresContentsSegment (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     restMeasuresContentsSegment != nullptr,
     "restMeasuresContentsSegment is null");
 
@@ -324,7 +326,8 @@ S_msrRestMeasures msrRestMeasures::createRestMeasuresNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -362,6 +365,7 @@ void msrRestMeasures::setRestMeasuresContents (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     restMeasuresContents != nullptr,
     "restMeasuresContents is null");
 
@@ -390,6 +394,7 @@ void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fRestMeasuresContents != nullptr,
     "fRestMeasuresContents is null");
 
@@ -400,6 +405,7 @@ void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     restMeasuresContentsSegment != nullptr,
     "restMeasuresContentsSegment is null");
 

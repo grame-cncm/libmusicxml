@@ -68,6 +68,7 @@ msrRepeatCommonPart::msrRepeatCommonPart (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     repeatUpLink != nullptr,
     "repeatUpLink is null");
 
@@ -96,6 +97,7 @@ void msrRepeatCommonPart::appendSegmentToRepeatCommonPart (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     segment != nullptr,
     "segment is null");
 
@@ -122,6 +124,7 @@ void msrRepeatCommonPart::appendRepeatToRepeatCommonPart (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     repeat != nullptr,
     "repeat is null");
 
@@ -147,6 +150,7 @@ void msrRepeatCommonPart::appendMeasuresRepeatToRepeatCommonPart (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeat != nullptr,
     "measuresRepeat is null");
 
@@ -172,6 +176,7 @@ void msrRepeatCommonPart::appendRestMeasuresToRepeatCommonPart (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     restMeasures != nullptr,
     "restMeasures is null");
 
@@ -197,6 +202,7 @@ void msrRepeatCommonPart::appendVoiceElementToRepeatCommonPart (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     voiceElement != nullptr,
     "voiceElement is null");
 
@@ -536,6 +542,7 @@ void msrRepeatEnding::appendSegmentToRepeatEnding (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     segment != nullptr,
     "segment is null");
 
@@ -560,6 +567,7 @@ void msrRepeatEnding::appendRepeatToRepeatEnding (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     repeat != nullptr,
     "repeat is null");
 
@@ -585,6 +593,7 @@ void msrRepeatEnding::appendMeasuresRepeatToRepeatEnding (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeat != nullptr,
     "measuresRepeat is null");
 
@@ -610,6 +619,7 @@ void msrRepeatEnding::appendRestMeasuresToRepeatEnding (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     restMeasures != nullptr,
     "restMeasures is null");
 
@@ -634,6 +644,7 @@ void msrRepeatEnding::appendVoiceElementToRepeatEnding (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     voiceElement != nullptr,
     "voiceElement is null");
 
@@ -915,7 +926,8 @@ msrRepeat::msrRepeat (
     : msrVoiceElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     voiceUpLink != nullptr,
     "voiceUpLink is null");
 
@@ -944,7 +956,8 @@ S_msrRepeat msrRepeat::createRepeatNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -965,7 +978,8 @@ void msrRepeat::setRepeatCommonPart (
   S_msrRepeatCommonPart repeatCommonPart)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     repeatCommonPart != nullptr,
     "repeatCommonPart is null");
 
@@ -994,7 +1008,8 @@ void msrRepeat::addRepeatEndingToRepeat (
   S_msrRepeatEnding repeatEnding)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     repeatEnding != nullptr,
     "repeatEnding is null");
 
@@ -1935,6 +1950,7 @@ msrRepeatElement::msrRepeatElement (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     repeatUpLink != nullptr,
     "repeatUpLink is null");
 
@@ -1962,6 +1978,7 @@ void msrRepeatElement::appendSegmentToRepeatElementsList ( // JMI ???
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     segment != nullptr,
     "segment is null");
 
@@ -1986,6 +2003,7 @@ void msrRepeatElement::appendRepeatToRepeatElementsList (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     repeat != nullptr,
     "repeat is null");
 
@@ -2010,6 +2028,7 @@ void msrRepeatElement::appendVoiceElementToRepeatElementsList (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     voiceElement != nullptr,
     "voiceElement is null");
 

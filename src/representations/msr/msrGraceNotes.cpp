@@ -63,7 +63,8 @@ msrGraceNotesGroup::msrGraceNotesGroup (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     graceNotesGroupVoiceUpLink != nullptr,
     "graceNotesGroupVoiceUpLink is null");
 
@@ -101,7 +102,8 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -126,6 +128,12 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
 
 S_msrPart msrGraceNotesGroup::fetchGraceNotesGroupPartUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fGraceNotesGroupVoiceUpLink != nullptr,
+    "fGraceNotesGroupVoiceUpLink is null");
+
   return
     fGraceNotesGroupVoiceUpLink->
       fetchVoicePartUpLink ();
@@ -163,6 +171,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -324,6 +333,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fGraceNotesGroupElementsList.size () != 0,
     "fGraceNotesGroupElementsList.size () == 0");
 

@@ -44,6 +44,7 @@ lpsrPartBlock::lpsrPartBlock (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     part != nullptr,
     "part is null");
 

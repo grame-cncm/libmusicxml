@@ -75,6 +75,7 @@ void msrSpanner::setSpannerOtherEndSideLink (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     otherEndSideLink != nullptr,
     "otherEndSideLink is null");
 

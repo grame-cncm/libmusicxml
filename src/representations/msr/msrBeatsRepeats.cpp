@@ -52,6 +52,7 @@ msrBeatsRepeatElement::msrBeatsRepeatElement (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     beatsRepeatUpLink != nullptr,
     "beatsRepeatUpLink is null");
 
@@ -79,6 +80,7 @@ void msrBeatsRepeatElement::appendSegmentToBeatsRepeatElementsList ( // JMI ???
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     segment != nullptr,
     "segment is null");
 
@@ -103,6 +105,7 @@ void msrBeatsRepeatElement::appendBeatsRepeatToBeatsRepeatElementsList (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     beatsRepeat != nullptr,
     "beatsRepeat is null");
 
@@ -127,6 +130,7 @@ void msrBeatsRepeatElement::appendVoiceElementToBeatsRepeatElementsList (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     voiceElement != nullptr,
     "voiceElement is null");
 
@@ -432,6 +436,7 @@ msrBeatsRepeatPattern::msrBeatsRepeatPattern (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     beatsRepeatUpLink != nullptr,
     "beatsRepeatUpLink is null");
 
@@ -458,6 +463,7 @@ void msrBeatsRepeatPattern::setBeatsRepeatPatternSegment (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     beatsRepeatPatternSegment != nullptr,
     "beatsRepeatPatternSegment is null");
 
@@ -616,6 +622,7 @@ msrBeatsRepeatReplicas::msrBeatsRepeatReplicas (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     beatsRepeatUpLink != nullptr,
     "beatsRepeatUpLink is null");
 
@@ -642,6 +649,7 @@ void msrBeatsRepeatReplicas::setBeatsRepeatReplicasSegment (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     beatsRepeatReplicasSegment != nullptr,
     "beatsRepeatReplicasSegment is null");
 
@@ -806,6 +814,7 @@ msrBeatsRepeat::msrBeatsRepeat (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     beatsRepeatMeasuresNumber > 0,
     "beatsRepeatMeasuresNumber is not positive");
 
@@ -813,6 +822,7 @@ msrBeatsRepeat::msrBeatsRepeat (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     beatsRepeatSlashesNumber > 0,
     "beatsRepeatSlashesNumber is not positive");
 
@@ -842,7 +852,8 @@ S_msrBeatsRepeat msrBeatsRepeat::createBeatsRepeatNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -875,6 +886,7 @@ void msrBeatsRepeat::setBeatsRepeatPattern (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     beatsRepeatPattern != nullptr,
     "beatsRepeatPattern is null");
 
@@ -903,6 +915,7 @@ void msrBeatsRepeat::setBeatsRepeatReplicas (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     beatsRepeatReplicas != nullptr,
     "beatsRepeatReplicas is null");
 
@@ -920,6 +933,7 @@ int msrBeatsRepeat::fetchBeatsRepeatReplicasNumber () const
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     patternMeasuresNumber > 0,
     "patternMeasuresNumber is not positive");
 
@@ -933,6 +947,7 @@ int msrBeatsRepeat::fetchBeatsRepeatPatternMeasuresNumber () const
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fBeatsRepeatPattern != nullptr,
     "fBeatsRepeatPattern is null");
 
@@ -945,6 +960,7 @@ int msrBeatsRepeat::fetchBeatsRepeatReplicasMeasuresNumber () const
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fBeatsRepeatReplicas != nullptr,
     "fBeatsRepeatReplicas is null");
 

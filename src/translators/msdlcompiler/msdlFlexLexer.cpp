@@ -189,8 +189,27 @@ extern int yyleng;
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
     
-    #define YY_LESS_LINENO(n)
-    #define YY_LINENO_REWIND_TO(ptr)
+    /* Note: We specifically omit the test for yy_rule_can_match_eol because it requires
+     *       access to the local variable yy_act. Since yyless() is a macro, it would break
+     *       existing scanners that call yyless() from OUTSIDE yylex.
+     *       One obvious solution it to make yy_act a global. I tried that, and saw
+     *       a 5% performance hit in a non-yylineno scanner, because yy_act is
+     *       normally declared as a register variable-- so it is not worth it.
+     */
+    #define  YY_LESS_LINENO(n) \
+            do { \
+                int yyl;\
+                for ( yyl = n; yyl < yyleng; ++yyl )\
+                    if ( yytext[yyl] == '\n' )\
+                        --yylineno;\
+            }while(0)
+    #define YY_LINENO_REWIND_TO(dst) \
+            do {\
+                const char *p;\
+                for ( p = yy_cp-1; p >= (dst); --p)\
+                    if ( *p == '\n' )\
+                        --yylineno;\
+            }while(0)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -332,8 +351,8 @@ int yyFlexLexer::yywrap() { return 1; }
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 19
-#define YY_END_OF_BUFFER 20
+#define YY_NUM_RULES 25
+#define YY_END_OF_BUFFER 26
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -341,16 +360,21 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[78] =
+static const flex_int16_t yy_accept[117] =
     {   0,
-        0,    0,    3,    3,    6,    6,   20,   18,    9,   10,
-       10,   18,    4,   18,    8,   13,    7,   14,   16,   15,
-        3,    3,    3,    3,    3,    4,    3,    3,    3,    3,
-        3,    3,    3,    6,    6,    5,    5,    6,    4,    6,
-        6,    6,    6,    6,    6,    6,    9,    0,   12,    1,
-        0,   11,    8,    7,    3,    0,    3,    3,    3,    0,
-        1,    2,    3,    0,    3,    3,    3,    6,    6,    6,
-        6,    1,    6,    6,    6,    6,    0
+        0,    0,    3,    3,    6,    6,   26,   24,   11,   12,
+       12,   24,    4,   24,   16,   15,    8,   18,   19,   17,
+        7,   20,   23,   21,    3,    3,    3,    3,    3,    4,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    6,    6,    5,    5,    6,    4,    6,    6,    6,
+        6,    6,    6,    6,    6,    6,    6,    6,   11,    0,
+       14,    1,    0,   13,    0,    8,    0,    7,   22,    3,
+        0,    3,    3,    3,    0,    1,    2,    3,    0,    3,
+        3,    3,    3,    3,    3,    6,    6,    6,    6,    1,
+        6,    6,    6,    6,    6,    6,    6,    9,    0,   10,
+
+        3,    3,    3,    6,    6,    6,    0,    3,    6,    0,
+        9,    3,    3,    6,    6,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -359,16 +383,16 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    4,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    2,    1,    5,    1,    1,    6,    1,    7,    1,
-        1,    1,    1,    1,    1,    1,    1,    8,    8,    8,
-        8,    8,    8,    8,    8,    8,    8,    1,    1,    1,
-        9,    1,    1,    1,   10,   10,   10,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
-        1,    1,    1,    1,   10,    1,   10,   10,   10,   10,
+        1,    1,    8,    9,    8,   10,    1,   11,   11,   11,
+       11,   11,   11,   11,   11,   11,   11,   12,   13,    1,
+       14,    1,    1,    1,   15,   15,   15,   15,   16,   15,
+       15,   15,   15,   15,   15,   15,   15,   15,   15,   15,
+       15,   15,   15,   15,   15,   15,   15,   15,   15,   15,
+        1,    1,    1,    1,   15,    1,   15,   15,   15,   15,
 
-       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
-       10,   10,   11,   12,   13,    1,    1,    1,    1,    1,
+       16,   15,   15,   15,   15,   15,   15,   15,   15,   15,
+       15,   15,   15,   15,   15,   15,   15,   15,   15,   15,
+       15,   15,   17,   18,   19,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -385,77 +409,111 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static const YY_CHAR yy_meta[14] =
+static const YY_CHAR yy_meta[20] =
     {   0,
-        1,    1,    2,    1,    1,    1,    1,    3,    1,    3,
-        1,    1,    1
+        1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
+        3,    1,    1,    1,    3,    3,    1,    1,    1
     } ;
 
-static const flex_int16_t yy_base[87] =
+static const flex_int16_t yy_base[126] =
     {   0,
-        0,    0,   13,    0,   26,    0,   97,  134,   92,  134,
-      134,   88,   81,   84,   82,  134,    0,  134,  134,  134,
-       79,   38,   78,   77,   40,   36,   44,   46,   76,   49,
-       75,   74,   73,    0,   72,  134,    0,   57,   62,   60,
-       64,    0,   60,    0,    0,    0,   67,   61,  134,  134,
-       58,  134,   56,    0,   55,   45,   69,   71,   50,   73,
-       47,  134,   81,   82,   42,   90,    0,    0,   41,   96,
-        0,    0,   99,    0,   34,   99,  134,  109,  112,   38,
-      115,  118,  121,  124,  127,  130
+        0,    0,   19,    0,   38,    0,  202,  203,  199,  203,
+      203,  195,  182,  191,  203,  203,   48,  203,  203,  203,
+        0,  203,  179,  203,  190,   59,  189,  188,   57,   49,
+       63,  187,  186,   65,  185,  184,  183,   76,  182,   54,
+      181,    0,  184,  203,    0,   74,  168,   71,    0,    0,
+       83,    0,    0,    0,   89,    0,  166,    0,  181,  177,
+      203,  203,  174,  203,  169,    0,   72,    0,  203,  173,
+      159,   82,   80,  171,   84,  170,  203,   89,   83,  169,
+       95,    0,  101,    0,  168,    0,  171,  105,    0,    0,
+      108,    0,  154,  106,  110,  112,    0,  103,  136,  135,
+
+      123,  114,  120,  119,  133,  113,  125,  134,  130,  102,
+       87,  126,  137,   86,   62,  203,  148,  151,   64,  154,
+      157,  160,  163,  166,  169
     } ;
 
-static const flex_int16_t yy_def[87] =
+static const flex_int16_t yy_def[126] =
     {   0,
-       77,    1,   77,    3,   77,    5,   77,   77,   77,   77,
-       77,   78,   77,   79,   77,   77,   80,   77,   77,   77,
-       81,   81,   81,   81,   82,   81,   83,   81,   81,   81,
-       81,   81,   81,   84,   84,   77,   84,   85,   84,   86,
-       84,   84,   84,   84,   84,   84,   77,   78,   77,   77,
-       79,   77,   77,   80,   81,   81,   81,   82,   81,   82,
-       81,   77,   83,   83,   81,   81,   30,   84,   84,   85,
-       84,   84,   86,   84,   84,   84,    0,   77,   77,   77,
-       77,   77,   77,   77,   77,   77
+      116,    1,  116,    3,  116,    5,  116,  116,  116,  116,
+      116,  117,  116,  118,  116,  116,  116,  116,  116,  116,
+      119,  116,  116,  116,  120,  120,  120,  120,  121,  120,
+      122,  120,  120,  120,  120,  120,  120,  120,  120,  120,
+      120,  123,  123,  116,  123,  124,  123,  125,  123,  123,
+      123,  123,  123,  123,  123,  123,  123,  123,  116,  117,
+      116,  116,  118,  116,  116,   17,  116,  119,  116,  120,
+      120,  120,  121,  120,  121,  120,  116,  122,  122,  120,
+      120,   34,  120,   38,  120,  123,  123,  124,  123,  123,
+      125,  123,  123,  123,  123,  123,  123,  116,  116,  116,
+
+      120,  120,  120,  123,  123,  123,  116,  120,  123,  116,
+      116,  120,  120,  123,  123,    0,  116,  116,  116,  116,
+      116,  116,  116,  116,  116
     } ;
 
-static const flex_int16_t yy_nxt[148] =
+static const flex_int16_t yy_nxt[223] =
     {   0,
-        8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
-       18,   19,   20,   21,   22,   23,   24,   25,   26,   27,
-       28,   29,   30,   31,   32,   33,   34,   35,   36,   37,
-       38,   39,   40,   41,   42,   43,   44,   45,   46,   57,
-       54,   75,   69,   56,   59,   60,   61,   56,   62,   64,
-       65,   56,   56,   66,   56,   56,   67,   77,   67,   48,
-       56,   71,   51,   53,   52,   49,   74,   76,   47,   76,
-       57,   75,   72,   69,   56,   59,   60,   59,   56,   56,
-       56,   56,   56,   56,   56,   48,   64,   65,   65,   53,
-       52,   50,   49,   47,   51,   56,   77,   66,   48,   77,
+        8,    9,   10,   11,   12,   13,   14,    8,   15,   16,
+       17,   18,   19,   20,   21,   21,   22,   23,   24,   25,
+       26,   27,   28,   29,   30,   31,   25,   32,   33,   34,
+       35,   36,   37,   38,   38,   39,   40,   41,   42,   43,
+       44,   45,   46,   47,   48,   42,   49,   50,   51,   52,
+       53,   54,   55,   55,   56,   57,   58,   65,   66,   71,
+       72,   74,   75,   67,   71,   76,   68,   77,   79,   80,
+       71,   85,  115,   63,   81,   82,   60,   92,   89,   99,
+       83,   71,  100,   72,   74,   75,   84,   71,   74,   80,
+       84,   84,   93,   94,   79,   80,  115,  111,   95,   96,
 
-       71,   51,   77,   77,   77,   74,   76,   77,   76,   48,
-       48,   48,   51,   51,   51,   55,   55,   55,   58,   58,
-       58,   63,   63,   63,   68,   77,   68,   70,   70,   70,
-       73,   73,   73,    7,   77,   77,   77,   77,   77,   77,
-       77,   77,   77,   77,   77,   77,   77
+       71,   63,   60,   96,   96,  101,   71,   60,  102,   89,
+       63,  103,  111,   98,   92,   93,   94,  105,  107,   71,
+      106,   95,   96,  106,  103,   71,   96,   96,   71,  104,
+      103,   71,  110,  101,  109,  111,  113,  114,  108,   71,
+      115,  112,   71,  106,  113,  100,  100,  113,   60,   60,
+       60,   63,   63,   63,   70,   70,   70,   73,   73,   73,
+       78,   78,   78,   86,  104,   86,   88,   88,   88,   91,
+       91,   91,   87,   71,   71,   71,   71,  116,   71,   98,
+       64,   61,   59,   97,   90,   87,   71,   71,   71,   71,
+       71,   71,   71,   71,   71,   71,   69,   64,   62,   61,
+
+       59,  116,    7,  116,  116,  116,  116,  116,  116,  116,
+      116,  116,  116,  116,  116,  116,  116,  116,  116,  116,
+      116,  116
     } ;
 
-static const flex_int16_t yy_chk[148] =
+static const flex_int16_t yy_chk[223] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    3,    3,    3,    3,    3,    3,    3,
-        3,    3,    3,    3,    3,    3,    5,    5,    5,    5,
-        5,    5,    5,    5,    5,    5,    5,    5,    5,   22,
-       80,   75,   69,   22,   25,   25,   26,   65,   26,   27,
-       27,   28,   61,   28,   30,   59,   30,   56,   30,   38,
-       55,   38,   40,   53,   51,   48,   40,   43,   47,   43,
-       57,   41,   39,   35,   57,   58,   58,   60,   33,   32,
-       31,   29,   24,   23,   21,   60,   63,   63,   64,   15,
-       14,   13,   12,    9,   64,   66,    7,   66,   70,    0,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    5,    5,
+        5,    5,    5,    5,    5,    5,    5,    5,    5,    5,
+        5,    5,    5,    5,    5,    5,    5,   17,   17,   40,
+       26,   29,   29,   17,   26,   30,  119,   30,   31,   31,
+       34,   40,  115,   48,   34,   34,   46,   48,   46,   67,
+       34,   38,   67,   72,   73,   73,   38,   72,   75,   79,
+       38,   38,   51,   51,   78,   78,  114,  111,   51,   55,
 
-       70,   73,    0,    0,    0,   73,   76,    0,   76,   78,
-       78,   78,   79,   79,   79,   81,   81,   81,   82,   82,
-       82,   83,   83,   83,   84,    0,   84,   85,   85,   85,
-       86,   86,   86,   77,   77,   77,   77,   77,   77,   77,
-       77,   77,   77,   77,   77,   77,   77
+       81,   79,   75,   55,   55,   81,   83,   88,   83,   88,
+       91,   83,  110,   98,   91,   94,   94,   95,   98,  102,
+       95,   94,   96,  106,  102,  103,   96,   96,  101,  104,
+      103,  112,  107,  101,  104,  107,  112,  109,  101,  108,
+      109,  108,  113,  105,  108,  100,   99,  113,  117,  117,
+      117,  118,  118,  118,  120,  120,  120,  121,  121,  121,
+      122,  122,  122,  123,   93,  123,  124,  124,  124,  125,
+      125,  125,   87,   85,   80,   76,   74,   71,   70,   65,
+       63,   60,   59,   57,   47,   43,   41,   39,   37,   36,
+       35,   33,   32,   28,   27,   25,   23,   14,   13,   12,
+
+        9,    7,  116,  116,  116,  116,  116,  116,  116,  116,
+      116,  116,  116,  116,  116,  116,  116,  116,  116,  116,
+      116,  116
     } ;
+
+/* Table of booleans, true if rule could match eol. */
+static const flex_int32_t yy_rule_can_match_eol[26] =
+    {   0,
+0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0,     };
 
 /* The intent behind this definition is that it'll catch
  * any uses of REJECT which flex missed.
@@ -466,6 +524,9 @@ static const flex_int16_t yy_chk[148] =
 #define YY_RESTORE_YY_MORE_OFFSET
 #line 1 "msdl.ll"
 #line 2 "msdl.ll"
+/* ---------------------------------------------------------------------- */
+/* Code global to "yylex"                                                 */
+/* ---------------------------------------------------------------------- */
 
 /*
   MusicXML Library
@@ -483,15 +544,37 @@ static const flex_int16_t yy_chk[148] =
 	MSDL lexical definition.
 */
 
+/*
+From FlexLexer.h:
+
+// This file defines FlexLexer, an abstract class which specifies the
+// external interface provided to flex C++ lexer objects, and yyFlexLexer,
+// which defines a particular lexer class.
+//
+// If you want to create multiple lexer classes, you use the -P flag
+// to rename each yyFlexLexer to some other xxFlexLexer.  You then
+// include <FlexLexer.h> in your other sources once per lexer class:
+//
+//      #undef yyFlexLexer
+//      #define yyFlexLexer xxFlexLexer
+//      #include <FlexLexer.h>
+//
+//      #undef yyFlexLexer
+//      #define yyFlexLexer zzFlexLexer
+//      #include <FlexLexer.h>
+//      ...
+*/
+
+#include <iomanip>
 #include <iostream>
 
-#include <stdio.h>
+// JMI #include "msdlKeywords.h"
 
 #include "msdlParser.hpp"
 
-unsigned int inputLineNumber = 0;
 
 using namespace std;
+// JMI using namespace MusicXML2;
 
 
 #define YY_NO_UNISTD_H
@@ -502,75 +585,169 @@ static int utf16     = 0;
 static int bigendian = 1;
 static int start     = 1;
 
-static int wgetc (FILE * fd) {
-	int c = getc(fd);
-	if (start) {
-		if (c == 0xff) {
-			utf16 = 1; bigendian = 0;
-			getc(fd); c = getc(fd);
-		}
-		else if (c == 0xfe) {
-			utf16 = 1; bigendian = 1;
-			getc(fd); c = getc(fd);
-		}
-		start = 0;
-	}
-	if (utf16) {
-		if (bigendian) c = getc(fd);
-		else getc(fd);
-	}
-
-	return c;
-}
+/* ---------------------------------------------------------------------- */
+/* The current token description                                          */
+/* ---------------------------------------------------------------------- */
 
 /* JMI
-static size_t wfread (void * buf, size_t size, size_t nmemb, FILE * fd) {
-	char * ptr = (char *) buf;
-	size_t n = 0;
-	while (nmemb--) {
-		*ptr++ = wgetc(fd);
-		if (feof (fd) || ferror (fd) ) break;
-		n++;
-	}
-	return n;
-}
 
-void lexinit(FILE* fd) {
-	utf16 = 0;
-	bigendian = 1;
-	start = 1;
-	yyrestart(fd);
-}
-
-void lexend() {
-	if (YY_CURRENT_BUFFER) {
-		msdl_delete_buffer (YY_CURRENT_BUFFER);
-	}
-}
-
-#define getc	wgetc
-#define fread	wfread
-#define register		// to get rid of the -Wdeprecated-register
-
-#undef yyFlexLexer
-#define yyFlexLexer msdlFlexLexer
-//#include <FlexLexer.h>
+union msdlTokenDescription
+{
+	double							    fDoubleNumber;
+	string						    	fIdent;
+	string						    	fString;
+};
 
 */
 
-#line 561 "msdlFlexLexer.cpp"
+#undef yyFlexLexer
+#define yyFlexLexer msdlFlexLexer
+// NO JMI #include <FlexLexer.h>
+
+bool gTraduire =  true;
+
+int returnToken (
+  int    inputLineNumber,
+  string tokenText,
+  int    tokenNumber)
+{
+  // write a trace of the token?
+  if (gTraduire) {
+    const unsigned int lineNumberWidth =  4;
+    const unsigned int tokenNameWidth  = 23;
+
+    cout <<
+      "--> line " <<
+      right <<
+      setw (lineNumberWidth) <<
+      inputLineNumber <<
+      ": ";
+
+    bool doWriteTokenText = tokenText.size () > 0;
+
+    cout <<
+      left <<
+      setw (tokenNameWidth);
+
+    switch (tokenNumber) {
+      case PARENTHESIZED_COMMENT:
+        cout << "PARENTHESIZED_COMMENT";
+        break;
+      case COMMENT_TO_END_OF_LINE:
+        cout << "COMMENT_TO_END_OF_LINE";
+        break;
+
+      case LEFT_BRACKET:
+        cout << "LEFT_BRACKET";
+        doWriteTokenText = false;
+        break;
+      case RIGHT_BRACKET:
+        cout << "RIGHT_BRACKET";
+        doWriteTokenText = false;
+        break;
+
+      case DOT:
+        cout << "DOT";
+        doWriteTokenText = false;
+        break;
+
+      case KEYWORD:
+        cout << "KEYWORD";
+        break;
+
+      case NAME:
+        cout << "NAME";
+        break;
+
+      case INTEGER:
+        cout << "INTEGER";
+        break;
+      case DOUBLE:
+        cout << "DOUBLE";
+        break;
+
+      case SINGLE_QUOTED_STRING:
+        cout << "SINGLE_QUOTED_STRING";
+        break;
+      case DOUBLE_QUOTED_STRING:
+        cout << "DOUBLE_QUOTED_STRING";
+        break;
+
+      case SPACES:
+        cout << "SPACES";
+        break;
+
+      case END_OF_LINE:
+        cout << "END_OF_LINE";
+        doWriteTokenText = false;
+        break;
+
+      case EQUAL_SIGN:
+        cout << "EQUAL_SIGN";
+        doWriteTokenText = false;
+        break;
+
+      case COMMA:
+        cout << "COMMA";
+        doWriteTokenText = false;
+        break;
+      case COLON:
+        cout << "COLON";
+        doWriteTokenText = false;
+        break;
+      case SEMI_COLON:
+        cout << "SEMI_COLON";
+        doWriteTokenText = false;
+        break;
+
+      case END_OF_MEASURE:
+        cout << "END_OF_MEASURE";
+        doWriteTokenText = false;
+        break;
+
+      case DOUBLE_BAR:
+        cout << "DOUBLE_BAR";
+        doWriteTokenText = false;
+        break;
+
+      case OTHER_CHARACTER:
+        cout << "OTHER_CHARACTER";
+        break;
+
+      default:
+        ; // don't care, those are flex internals
+    } // switch
+
+    if (doWriteTokenText) {
+      cout << left <<
+        "\"" << tokenText << "\"";
+    }
+
+    cout << endl;
+    }
+
+  return tokenNumber;
+}
+
+#line 732 "msdlFlexLexer.cpp"
 /* ---------------------------------------------------------------------- */
-/* Options */
+/* Options                                                                */
 /* ---------------------------------------------------------------------- */
 #define YY_NO_INPUT 1
+#line 229 "msdl.ll"
+#line 738 "msdlFlexLexer.cpp"
 /* ---------------------------------------------------------------------- */
-/* Regular expressions */
+/* Regular expressions                                                    */
 /* ---------------------------------------------------------------------- */
 /* ---------------------------------------------------------------------- */
-/* Modes */
+/* Start conditions                                                       */
 /* ---------------------------------------------------------------------- */
 
-#line 573 "msdlFlexLexer.cpp"
+#line 264 "msdl.ll"
+  // Code run each time a pattern is matched.
+// JMI  # define YY_USER_ACTION  loc.columns (yyleng);
+#line 749 "msdlFlexLexer.cpp"
+#line 750 "msdlFlexLexer.cpp"
 
 #define INITIAL 0
 #define PARENTHESIZED_COMMENT_MODE 1
@@ -704,21 +881,19 @@ YY_DECL
 		}
 
 	{
-#line 135 "msdl.ll"
+#line 269 "msdl.ll"
 
 
 
 
-#line 140 "msdl.ll"
-/* Variables local to "yylex" */
-
-bool gTraduire =  true;
-
-void AppondreAuSourceCumule ();
+#line 274 "msdl.ll"
+  /* -------------------------------------------------------------------- */
+  /* Code local to "yylex"                                                */
+  /* -------------------------------------------------------------------- */
 
 
 
-#line 721 "msdlFlexLexer.cpp"
+#line 896 "msdlFlexLexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -745,13 +920,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 78 )
+				if ( yy_current_state >= 117 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 134 );
+		while ( yy_base[yy_current_state] != 203 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -763,6 +938,16 @@ yy_find_action:
 			}
 
 		YY_DO_BEFORE_ACTION;
+
+		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
+			{
+			int yyl;
+			for ( yyl = 0; yyl < yyleng; ++yyl )
+				if ( yytext[yyl] == '\n' )
+					
+    yylineno++;
+;
+			}
 
 do_action:	/* This label is used only to access EOF actions. */
 
@@ -777,204 +962,220 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 148 "msdl.ll"
+#line 280 "msdl.ll"
 {
-                      BEGIN PARENTHESIZED_COMMENT_MODE;
-                  }
+            BEGIN PARENTHESIZED_COMMENT_MODE;
+          }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 152 "msdl.ll"
+#line 284 "msdl.ll"
 {
-                      BEGIN INITIAL;
-                  }
+            BEGIN INITIAL;
+          }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 155 "msdl.ll"
+#line 288 "msdl.ll"
 {
-										if (gTraduire)
-											cout << "PARENTHESIZED_COMMENT: \"" << YYText () << "\"" << endl << endl;
-
-                    return PARENTHESIZED_COMMENT;
-                  }
+            return
+              returnToken (lineno (), YYText (), PARENTHESIZED_COMMENT);
+          }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 163 "msdl.ll"
+#line 294 "msdl.ll"
 {
-										AppondreAuSourceCumule ();
-
-										BEGIN COMMENT_TO_END_OF_LINE_MODE;
-									}
+            BEGIN COMMENT_TO_END_OF_LINE_MODE;
+          }
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 169 "msdl.ll"
+#line 298 "msdl.ll"
 {
-                    ++inputLineNumber;
-
-                    AppondreAuSourceCumule ();
-
-//										CompterFinDeLigne ();
-
-										BEGIN INITIAL;
-									}
+            BEGIN INITIAL;
+          }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 179 "msdl.ll"
+#line 302 "msdl.ll"
 {
-										AppondreAuSourceCumule ();
-
-										if (gTraduire)
-											cout << "COMMENT_TO_END_OF_LINE: \"" << YYText () << "\"" << endl << endl;
-
-										/*
-										on accepte tout caractere qui n'est pas
-										une {endOfLine}
-										*/
-									}
+            return
+              returnToken (lineno (), YYText (), COMMENT_TO_END_OF_LINE);
+          }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 192 "msdl.ll"
+#line 307 "msdl.ll"
 {
-										if (gTraduire)
-											cout << "IDENTIFIER: \"" << YYText () << "\"" << endl << endl;
+/*
+            msdlKeywordKind
+              keywordKind =
+                msdlKeywordKindFromString (YYText ());
 
-                    return IDENTIFIER;
-                  }
+            if (keywordKind == k_NoMsdlKeywordKind) {
+              return
+                returnToken (lineno (), YYText (), NAME);
+            }
+            else {
+              return
+                returnToken (lineno (), YYText (), KEYWORD);
+            }
+*/
+            return
+              returnToken (lineno (), YYText (), NAME);
+          }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 199 "msdl.ll"
+#line 326 "msdl.ll"
 {
-										if (gTraduire)
-											cout << "INTEGER: " << YYText () << "" << endl << endl;
-
-                    return INTEGER;
-                  }
+            return
+              returnToken (lineno (), YYText (), INTEGER);
+          }
 	YY_BREAK
 case 9:
-YY_RULE_SETUP
-#line 206 "msdl.ll"
-{
-										if (gTraduire)
-											cout << "SPACES: \"" << YYText () << "\"" << endl << endl;
-
-                    return SPACES;
-                  }
-	YY_BREAK
+#line 332 "msdl.ll"
 case 10:
-/* rule 10 can match eol */
 YY_RULE_SETUP
-#line 213 "msdl.ll"
+#line 332 "msdl.ll"
 {
-                    ++inputLineNumber;
-
-										if (gTraduire)
-											cout << "END_OF_LINE" << endl << endl;
-
-                    return END_OF_LINE;
-                  }
+            // yylval.fNombre = atof (yytext);
+            return
+              returnToken (lineno (), YYText (), DOUBLE);
+          }
 	YY_BREAK
 case 11:
-/* rule 11 can match eol */
 YY_RULE_SETUP
-#line 222 "msdl.ll"
+#line 338 "msdl.ll"
 {
-										if (gTraduire)
-											cout << "QUOTED_STRING: \"" << YYText () << "\"" << endl << endl;
-
-                    return SINGLE_QUOTED_STRING;
-                  }
+            return
+              returnToken (lineno (), YYText (), SPACES);
+          }
 	YY_BREAK
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 229 "msdl.ll"
+#line 343 "msdl.ll"
 {
-										if (gTraduire)
-											cout << "QUOTED_STRING: \"" << YYText () << "\"" << endl << endl;
-
-                    return DOUBLE_QUOTED_STRING;
-                  }
+            return
+              returnToken (lineno (), YYText (), END_OF_LINE);
+          }
 	YY_BREAK
 case 13:
+/* rule 13 can match eol */
 YY_RULE_SETUP
-#line 237 "msdl.ll"
+#line 348 "msdl.ll"
 {
-										if (gTraduire)
-											cout << "EQUAL_SIGN" << endl << endl;
-
-                    return EQUAL_SIGN;
-                  }
+            return
+              returnToken (lineno (), YYText (), SINGLE_QUOTED_STRING);
+          }
 	YY_BREAK
 case 14:
+/* rule 14 can match eol */
 YY_RULE_SETUP
-#line 244 "msdl.ll"
+#line 353 "msdl.ll"
 {
-										if (gTraduire)
-											cout << "LEFT_BRACKET" << endl << endl;
-
-                    return LEFT_BRACKET;
-                  }
+            return
+              returnToken (lineno (), YYText (), DOUBLE_QUOTED_STRING);
+          }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 251 "msdl.ll"
+#line 359 "msdl.ll"
 {
-										if (gTraduire)
-											cout << "RIGHT_BRACKET" << endl << endl;
-
-                    return RIGHT_BRACKET;
-                  }
+            return
+              returnToken (lineno (), YYText (), DOT);
+          }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 258 "msdl.ll"
+#line 364 "msdl.ll"
 {
-										if (gTraduire)
-											cout << "END_OF_BAR: \"" << YYText () <<  "\"" << endl << endl;
-
-                    return END_OF_BAR;
-                  }
+            return
+              returnToken (lineno (), YYText (), COMMA);
+          }
 	YY_BREAK
 case 17:
-/* rule 17 can match eol */
 YY_RULE_SETUP
-#line 265 "msdl.ll"
+#line 369 "msdl.ll"
 {
-                    /* extra spaceOrEndOfLine is ignored */
-                  }
+            return
+              returnToken (lineno (), YYText (), EQUAL_SIGN);
+          }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 269 "msdl.ll"
+#line 374 "msdl.ll"
 {
-										if (gTraduire)
-											cout << "*** OTHER_CHARACTER ***: \"" << YYText () << "\"" << endl << endl;
-
-                    return OTHER_CHARACTER;
-                  }
+            return
+              returnToken (lineno (), YYText (), COLON);
+          }
+	YY_BREAK
+case 19:
+YY_RULE_SETUP
+#line 379 "msdl.ll"
+{
+            return
+              returnToken (lineno (), YYText (), SEMI_COLON);
+          }
+	YY_BREAK
+case 20:
+YY_RULE_SETUP
+#line 384 "msdl.ll"
+{
+            return
+              returnToken (lineno (), YYText (), LEFT_BRACKET);
+          }
+	YY_BREAK
+case 21:
+YY_RULE_SETUP
+#line 389 "msdl.ll"
+{
+            return
+              returnToken (lineno (), YYText (), RIGHT_BRACKET);
+          }
+	YY_BREAK
+case 22:
+YY_RULE_SETUP
+#line 394 "msdl.ll"
+{
+            return
+              returnToken (lineno (), YYText (), DOUBLE_BAR);
+          }
+	YY_BREAK
+case 23:
+YY_RULE_SETUP
+#line 399 "msdl.ll"
+{
+            return
+              returnToken (lineno (), YYText (), END_OF_MEASURE);
+          }
+	YY_BREAK
+case 24:
+YY_RULE_SETUP
+#line 404 "msdl.ll"
+{
+            return
+              returnToken (lineno (), YYText (), OTHER_CHARACTER);
+          }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(PARENTHESIZED_COMMENT_MODE):
 case YY_STATE_EOF(COMMENT_TO_END_OF_LINE_MODE):
-#line 276 "msdl.ll"
+#line 409 "msdl.ll"
 {
-                    yyterminate();
-                  }
+            yyterminate();
+          }
 	YY_BREAK
-case 19:
+case 25:
 YY_RULE_SETUP
-#line 281 "msdl.ll"
-ECHO;
+#line 414 "msdl.ll"
+YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 977 "msdlFlexLexer.cpp"
+#line 1178 "msdlFlexLexer.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1389,7 +1590,7 @@ int yyFlexLexer::yy_get_next_buffer()
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 78 )
+			if ( yy_current_state >= 117 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1417,11 +1618,11 @@ int yyFlexLexer::yy_get_next_buffer()
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 78 )
+		if ( yy_current_state >= 117 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 77);
+	yy_is_jam = (yy_current_state == 116);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1458,6 +1659,10 @@ int yyFlexLexer::yy_get_next_buffer()
 		}
 
 	*--yy_cp = (char) c;
+
+    if ( c == '\n' ){
+        --yylineno;
+    }
 
 	(yytext_ptr) = yy_bp;
 	(yy_hold_char) = *yy_cp;
@@ -1528,6 +1733,11 @@ int yyFlexLexer::yy_get_next_buffer()
 	c = *(unsigned char *) (yy_c_buf_p);	/* cast for 8-bit char's */
 	*(yy_c_buf_p) = '\0';	/* preserve yytext */
 	(yy_hold_char) = *++(yy_c_buf_p);
+
+	if ( c == '\n' )
+		
+    yylineno++;
+;
 
 	return c;
 }
@@ -1935,24 +2145,32 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 281 "msdl.ll"
+#line 414 "msdl.ll"
 
 
 
-void AppondreAuSourceCumule ()
-{
-}
+/* ---------------------------------------------------------------------- */
+/* Service code                                                           */
+/* ---------------------------------------------------------------------- */
+
+#ifdef LEXER_MAIN
 
 int main (void)
 {
-    msdlFlexLexer f;
+  msdlFlexLexer lexer;
 
-    f.switch_streams(&std::cin, &std::cout);
+  lexer.switch_streams (&std::cin, &std::cout);
 
-    while (f.yylex());
+#ifdef LEX_ONLY
+  // JMI
+#endif
 
-    std::cout << "TEST RETURNING OK." << std::endl;
-    return 0;
+  while (lexer.yylex ());
+
+  std::cout << "MSDL LEXICAL ANALYSIS SUCCEEDED." << std::endl;
+  return 0;
 }
+
+#endif
 
 

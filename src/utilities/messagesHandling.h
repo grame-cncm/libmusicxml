@@ -28,6 +28,8 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 EXP void msgAssert (
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
   bool   condition,
   string messageIfFalse);
 

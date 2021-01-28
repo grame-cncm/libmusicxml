@@ -385,6 +385,10 @@ int main (int argc, char *argv[])
           inputSourceName.c_str(), cout, cerr, handler);
     }
   }
+  catch (msgException& e) {
+    displayException (e, gOutputStream);
+    return kInvalidFile;
+  }
   catch (std::exception& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;

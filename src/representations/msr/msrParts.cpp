@@ -64,7 +64,8 @@ msrPart::msrPart (
 
 /* JMI
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     partPartGroupUpLink != nullptr,
     "partPartGroupUpLink is null");
     */
@@ -135,6 +136,12 @@ msrPart::~msrPart ()
 
 S_msrScore  msrPart::fetchPartScoreUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fPartPartGroupUpLink != nullptr,
+    "fPartPartGroupUpLink is null");
+
   return
     fPartPartGroupUpLink->
       getPartGroupScoreUpLink ();
@@ -152,7 +159,8 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     partGroupClone != nullptr,
     "partGroupClone is null");
 
@@ -1683,13 +1691,15 @@ void msrPart::appendHarmonyToPart (
   int inputLineNumber =
     harmony->getInputLineNumber ();
 
+  ++gIndenter;
+
   switch (harmonySupplierVoice->getVoiceKind ()) {
     case kVoiceRegular:
-      // append the figured bass to the part figured bass voice
+      // append the harmony to the part harmony voice
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
         gLogStream <<
-          "Appending figured bass " <<
+          "Appending harmony " <<
           harmony->asString () <<
           " to part " <<
           getPartCombinedName () <<
@@ -1708,7 +1718,7 @@ void msrPart::appendHarmonyToPart (
         stringstream s;
 
         s <<
-          "figured bass cannot by supplied to part by " <<
+          "harmony cannot be appended to part by " <<
           msrVoiceKindAsString (
             harmonySupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
@@ -1723,6 +1733,8 @@ void msrPart::appendHarmonyToPart (
       }
       break;
   } // switch
+
+  --gIndenter;
 }
 
 void msrPart::appendHarmonyToPartClone (
@@ -1732,13 +1744,15 @@ void msrPart::appendHarmonyToPartClone (
   int inputLineNumber =
     harmony->getInputLineNumber ();
 
+  ++gIndenter;
+
   switch (harmonySupplierVoice->getVoiceKind ()) {
     case kVoiceFiguredBass:
-      // append the figured bass to the part figured bass voice
+      // append the harmony to the part harmony voice
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
         gLogStream <<
-          "Appending figured bass " <<
+          "Appending harmony " <<
           harmony->asString () <<
           " to part clone " <<
           getPartCombinedName () <<
@@ -1757,7 +1771,7 @@ void msrPart::appendHarmonyToPartClone (
         stringstream s;
 
         s <<
-          "figured bass cannot by supplied to part clone by " <<
+          "harmony cannot by appended to part clone by " <<
           msrVoiceKindAsString (
             harmonySupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
@@ -1772,6 +1786,8 @@ void msrPart::appendHarmonyToPartClone (
       }
       break;
   } // switch
+
+  --gIndenter;
 }
 
 S_msrVoice msrPart::createPartFiguredBassVoice (
@@ -1861,6 +1877,8 @@ void msrPart::appendFiguredBassToPart (
   int inputLineNumber =
     figuredBass->getInputLineNumber ();
 
+  ++gIndenter;
+
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
     case kVoiceRegular:
       // append the figured bass to the part figured bass voice
@@ -1886,7 +1904,7 @@ void msrPart::appendFiguredBassToPart (
         stringstream s;
 
         s <<
-          "figured bass cannot by supplied to part by " <<
+          "figured bass cannot by appended to part by " <<
           msrVoiceKindAsString (
             figuredBassSupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
@@ -1901,6 +1919,8 @@ void msrPart::appendFiguredBassToPart (
       }
       break;
   } // switch
+
+  --gIndenter;
 }
 
 void msrPart::appendFiguredBassToPartClone (
@@ -1909,6 +1929,8 @@ void msrPart::appendFiguredBassToPartClone (
 {
   int inputLineNumber =
     figuredBass->getInputLineNumber ();
+
+  ++gIndenter;
 
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
     case kVoiceFiguredBass:
@@ -1935,7 +1957,7 @@ void msrPart::appendFiguredBassToPartClone (
         stringstream s;
 
         s <<
-          "figured bass cannot by supplied to part clone by " <<
+          "figured bass cannot by appended to part clone by " <<
           msrVoiceKindAsString (
             figuredBassSupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
@@ -1950,6 +1972,8 @@ void msrPart::appendFiguredBassToPartClone (
       }
       break;
   } // switch
+
+  --gIndenter;
 }
 
 void msrPart::appendScordaturaToPart (
@@ -2659,6 +2683,7 @@ void msrPart::print (ostream& os) const
 
       // sanity check
       msgAssert (
+        __FILE__, __LINE__,
         staff != nullptr,
         "staff is null");
 
@@ -2956,6 +2981,7 @@ void msrPart::printShort (ostream& os) const
 
       // sanity check
       msgAssert (
+        __FILE__, __LINE__,
         staff != nullptr,
         "staff is null");
 

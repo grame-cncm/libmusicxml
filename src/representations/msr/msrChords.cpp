@@ -96,7 +96,8 @@ S_msrChord msrChord::createChordNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingPart != nullptr,
     "containingPart is null");
 
@@ -2786,12 +2787,14 @@ msrChordBeamLink::msrChordBeamLink (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     originalBeam != nullptr,
     "originalBeam is null");
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     chordUpLink != nullptr,
     "chordUpLink is null");
 
@@ -2817,7 +2820,8 @@ S_msrChordBeamLink msrChordBeamLink::createBeamNewbornClone ()
 
 /* JMI
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 */
@@ -2995,12 +2999,14 @@ msrChordSlurLink::msrChordSlurLink (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     originalSlur != nullptr,
     "originalSlur is null");
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     chordUpLink != nullptr,
     "chordUpLink is null");
 
@@ -3026,7 +3032,8 @@ S_msrChordSlurLink msrChordSlurLink::createSlurNewbornClone ()
 
 /* JMI
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 */
@@ -3204,12 +3211,14 @@ msrChordGraceNotesGroupLink::msrChordGraceNotesGroupLink (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     originalGraceNotesGroup != nullptr,
     "originalGraceNotesGroup is null");
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     chordUpLink != nullptr,
     "chordUpLink is null");
 
@@ -3235,7 +3244,8 @@ S_msrChordGraceNotesGroupLink msrChordGraceNotesGroupLink::createChordGraceNotes
 
 /* JMI
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 */

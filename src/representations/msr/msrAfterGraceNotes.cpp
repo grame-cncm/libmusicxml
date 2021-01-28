@@ -49,7 +49,8 @@ msrAfterGraceNotesGroupContents::msrAfterGraceNotesGroupContents (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     afterGraceNotesGroupContentsVoiceUpLink != nullptr,
     "afterGraceNotesGroupContentsVoiceUpLink is null");
 
@@ -63,6 +64,12 @@ msrAfterGraceNotesGroupContents::~msrAfterGraceNotesGroupContents ()
 
 S_msrPart msrAfterGraceNotesGroupContents::fetchAfterGraceNotesGroupContentsPartUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fAfterGraceNotesGroupContentsVoiceUpLink != nullptr,
+    "fAfterGraceNotesGroupContentsVoiceUpLink is null");
+
   return
     fAfterGraceNotesGroupContentsVoiceUpLink->
       fetchVoicePartUpLink ();
@@ -80,7 +87,8 @@ S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::createAfterGr
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -251,7 +259,8 @@ msrAfterGraceNotesGroup::msrAfterGraceNotesGroup (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     afterGraceNotesGroupVoiceUpLink != nullptr,
     "afterGraceNotesGroupVoiceUpLink is null");
 
@@ -278,6 +287,12 @@ msrAfterGraceNotesGroup::~msrAfterGraceNotesGroup ()
 
 S_msrPart msrAfterGraceNotesGroup::fetchAfterGraceNotesGroupPartUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fAfterGraceNotesGroupVoiceUpLink != nullptr,
+    "fAfterGraceNotesGroupVoiceUpLink is null");
+
   return
     fAfterGraceNotesGroupVoiceUpLink->
       fetchVoicePartUpLink ();
@@ -298,12 +313,14 @@ S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::createAfterGraceNotesGroupNew
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     noteClone != nullptr,
     "noteClone is null");
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 

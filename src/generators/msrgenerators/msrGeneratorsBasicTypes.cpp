@@ -59,7 +59,9 @@ EXP msrGenerationAPIKind msrGenerationAPIKindFromString (
       theString <<
       "\" is no valid generation API kind";
 
-    msgAssert (false, s.str ());
+      msgAssert (
+        __FILE__, __LINE__,
+      false, s.str ());
   }
 
   return result;

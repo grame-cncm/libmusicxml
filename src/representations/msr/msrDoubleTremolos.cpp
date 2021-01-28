@@ -82,10 +82,12 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     doubleTremoloFirstElement != nullptr,
     "doubleTremoloFirstElement is null");
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     doubleTremoloSecondElement != nullptr,
     "doubleTremoloSecondElement is null");
 

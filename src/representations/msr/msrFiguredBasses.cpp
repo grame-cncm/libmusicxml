@@ -60,7 +60,8 @@ msrFigure::msrFigure (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     figurePartUpLink != nullptr,
     "figurePartUpLink is null");
 
@@ -100,7 +101,8 @@ S_msrFigure msrFigure::createFigureNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingPart != nullptr,
     "containingPart is null");
 
@@ -130,7 +132,8 @@ S_msrFigure msrFigure::createFigureDeepCopy (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingPart != nullptr,
     "containingPart is null");
 
@@ -366,7 +369,8 @@ msrFiguredBass::msrFiguredBass (
 {
   /* JMI
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     figuredBassPartUpLink != nullptr,
     "figuredBassPartUpLink is null");
 
@@ -410,7 +414,8 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -443,7 +448,8 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
 
 /* JMi
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingPart != nullptr,
     "containingPart is null");
     */

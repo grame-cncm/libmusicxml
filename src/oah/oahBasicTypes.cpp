@@ -343,6 +343,7 @@ void oahAtom::setSubGroupUpLink (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     subGroup != nullptr,
     "subGroup is null");
 
@@ -352,6 +353,12 @@ void oahAtom::setSubGroupUpLink (
 
 S_oahGroup oahAtom::fetchAtomGroupUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fSubGroupUpLink != nullptr,
+    "fSubGroupUpLink is null");
+
   return
     fSubGroupUpLink->
       getGroupUpLink ();
@@ -359,6 +366,12 @@ S_oahGroup oahAtom::fetchAtomGroupUpLink () const
 
 S_oahHandler oahAtom::fetchAtomHandlerUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fSubGroupUpLink != nullptr,
+    "fSubGroupUpLink is null");
+
   return
     fSubGroupUpLink->
       getGroupUpLink ()->
@@ -1068,6 +1081,12 @@ oahSubGroup::~oahSubGroup ()
 
 S_oahHandler oahSubGroup::fetchSubGroupHandlerUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fGroupUpLink != nullptr,
+    "fGroupUpLink is null");
+
   return
     fGroupUpLink->
       getHandlerUpLink ();
@@ -1159,6 +1178,7 @@ void oahSubGroup::appendAtomToSubGroup (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     atom != nullptr,
     "atom is null");
 
@@ -1959,6 +1979,7 @@ void oahGroup::appendGroupToElementsList (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     handler != nullptr,
     "handler is null");
 
@@ -2006,6 +2027,7 @@ void oahGroup::registerNamesInGroupToTheNamesToElementsMap (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     handler != nullptr,
     "handler is null");
 
@@ -2037,6 +2059,7 @@ void  oahGroup::appendSubGroupToGroup (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     subGroup != nullptr,
     "subGroup is null");
 
@@ -3559,6 +3582,7 @@ void oahHandler::displayElementUsesList ()
       // sanity check
       if (false) // JMI
       msgAssert (
+        __FILE__, __LINE__,
         elementUse != nullptr,
         "elementUse is null");
 
@@ -4397,6 +4421,7 @@ void oahHandler::registerPrefixInHandler (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     prefix != nullptr,
     "prefix is null");
 
@@ -4463,6 +4488,7 @@ void oahHandler::appendGroupToHandler (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     group != nullptr,
     "group is null");
 
@@ -4495,6 +4521,7 @@ void oahHandler::prependGroupToHandler (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     group != nullptr,
     "group is null");
 
@@ -5035,6 +5062,7 @@ void oahHandler::registerElementUse (
   // sanity check
   if (false) // JMI
   msgAssert (
+    __FILE__, __LINE__,
     elementUsed != nullptr,
     "elementUsed is null");
 
@@ -5189,6 +5217,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     optionName.size () != 0,
     "optionName.size () == 0");
 
@@ -5645,6 +5674,7 @@ void oahHandler::handleOptionsVectorElement (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     optionName.size () > 0,
     "optionName is empty");
 

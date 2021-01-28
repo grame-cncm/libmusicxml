@@ -232,6 +232,8 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
 
     void                  createInsiderGuidoSubGroup ();
 
+    void                  createInsiderLilypondSubGroup ();
+
     void                  createInsiderQuitSubGroup ();
 
   private:

@@ -136,6 +136,7 @@ void oahRegularHandler::appendGroupToRegulalHandler (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     group != nullptr,
     "group is null");
 
@@ -172,6 +173,7 @@ void oahRegularHandler::prependGroupToRegularHandler (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     group != nullptr,
     "group is null");
 

@@ -44,6 +44,7 @@ void convertBsrScoreToBrailleText (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     originalBsrScore != nullptr,
     "originalBsrScore is null");
 

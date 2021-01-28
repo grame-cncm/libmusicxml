@@ -147,6 +147,7 @@ msrPartGroup::msrPartGroup (
 /* JMI
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fPartGroupScoreUpLink != nullptr,
     "fPartGroupScoreUpLink is null");
     */
@@ -215,6 +216,7 @@ msrPartGroup::msrPartGroup (
 /* JMI
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fPartGroupScoreUpLink != nullptr,
     "fPartGroupScoreUpLink is null");
     */
@@ -290,13 +292,15 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
   // that it comes from may be empty
 /* JMI
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     partGroupClone != nullptr,
     "partGroupClone is null");
     */
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     scoreClone != nullptr,
     "scoreClone is null");
 
@@ -401,6 +405,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     partID.size () > 0,
     "partID is empty");
 

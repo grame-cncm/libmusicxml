@@ -92,7 +92,8 @@ msrSyllable::msrSyllable (
     : msrMeasureElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     syllableStanzaUpLink != nullptr,
     "syllableStanzaUpLink is null");
 
@@ -199,7 +200,8 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingPart != nullptr,
     "containingPart is null");
 
@@ -248,7 +250,8 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingPart != nullptr,
     "containingPart is null");
 
@@ -306,6 +309,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUpLink (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     note != nullptr,
     "note is empty");
 
@@ -314,6 +318,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUpLink (
 /*
   // sanity check JMI ???
   msgAssert (
+    __FILE__, __LINE__,
     fSyllableTextsList.size () != 0,
     "fSyllableTextsList is empty");
     */
@@ -762,7 +767,8 @@ msrStanza::msrStanza (
   fStanzaNumber = stanzaNumber;
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     stanzaVoiceUpLink != nullptr,
     "stanzaVoiceUpLink is null");
 
@@ -815,7 +821,8 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -861,7 +868,8 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 

@@ -5630,6 +5630,7 @@ else {
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     currentDirectionsVoice != nullptr,
     "currentDirectionsVoice is null");
 
@@ -5679,7 +5680,9 @@ void mxmlTree2msrTranslator::visitStart (S_staff& elt)
       " is not positive" <<
       ", line " << inputLineNumber;
 
-    msgAssert (false, s.str ());
+      msgAssert (
+        __FILE__, __LINE__,
+      false, s.str ());
   }
 
   S_msrStaff
@@ -6362,7 +6365,9 @@ void mxmlTree2msrTranslator::visitEnd ( S_forward& elt )
       " is not positive" <<
       ", line " << inputLineNumber;
 
-    msgAssert (false, s.str ());
+      msgAssert (
+        __FILE__, __LINE__,
+      false, s.str ());
   }
 
   // fetch the voice to be forwarded
@@ -6375,6 +6380,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_forward& elt )
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     voiceToBeForwarded != nullptr,
     "voiceToBeForwarded is null");
 
@@ -18958,6 +18964,7 @@ void mxmlTree2msrTranslator::attachPendingLigaturesToNote (
 
         // sanity check
         msgAssert (
+          __FILE__, __LINE__,
           noteMeasure != nullptr,
           "noteMeasure is null");
 
@@ -18969,6 +18976,7 @@ void mxmlTree2msrTranslator::attachPendingLigaturesToNote (
 
         // sanity check
         msgAssert (
+          __FILE__, __LINE__,
           noteSegment != nullptr,
           "noteSegment is null");
 
@@ -18980,6 +18988,7 @@ void mxmlTree2msrTranslator::attachPendingLigaturesToNote (
 
         // sanity check
         msgAssert (
+          __FILE__, __LINE__,
           noteVoice != nullptr,
           "noteVoice is null");
 
@@ -20400,6 +20409,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_note& elt )
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     currentNoteVoice != nullptr,
     "currentNoteVoice is null");
 
@@ -20454,6 +20464,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_note& elt )
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     voiceToInsertNoteInto != nullptr,
     "voiceToInsertNoteInto is null");
 
@@ -20533,7 +20544,8 @@ void mxmlTree2msrTranslator::visitEnd ( S_note& elt )
             */
 
     // sanity check
-    msgAssert (
+      msgAssert (
+        __FILE__, __LINE__,
       voiceToInsertHarmoniesInto != nullptr,
       "voiceToInsertHarmoniesInto is null");
 
@@ -20561,6 +20573,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_note& elt )
 
     // sanity check
     msgAssert (
+      __FILE__, __LINE__,
       voiceToInsertFiguredBassesInto != nullptr,
       "voiceToInsertFiguredBassesInto is null");
 
@@ -20672,6 +20685,7 @@ void mxmlTree2msrTranslator::handlePendingHarmonies (
 
     // sanity check
     msgAssert (
+      __FILE__, __LINE__,
       voiceHarmonyVoice != nullptr,
       "voiceHarmonyVoice is null");
 
@@ -20694,6 +20708,7 @@ void mxmlTree2msrTranslator::handlePendingHarmonies (
           getPartHarmoniesVoice ();
 
     // append the harmony to the part harmony voice
+if (false) // JMI not before the note itself has been appended to the voice
     partHarmonyVoice->
       appendHarmonyToVoice (
         harmony);
@@ -20773,6 +20788,7 @@ void mxmlTree2msrTranslator::handlePendingFiguredBasses (
 
     // sanity check
     msgAssert (
+      __FILE__, __LINE__,
       voiceFiguredBassVoice != nullptr,
       "voiceFiguredBassVoice is null");
 
@@ -20795,6 +20811,7 @@ void mxmlTree2msrTranslator::handlePendingFiguredBasses (
           getPartFiguredBassVoice ();
 
     // append the figured bass to the part figured bass voice
+if (false) // JMI not before the note itself has been appended to the voice
     partFiguredBassVoice->
       appendFiguredBassToVoice (
         figuredBass);
@@ -21371,6 +21388,7 @@ void mxmlTree2msrTranslator::handleLyricsForNote (
       break;
     case msrSyllable::kSyllableExtendContinue:
       msgAssert (
+        __FILE__, __LINE__,
         fOnGoingSyllableExtend,
         "fOnGoingSyllableExtend is false");
       break;
@@ -21470,10 +21488,11 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
         staffNumberToUse,
         fCurrentMusicXMLVoiceNumber);
 
-    // sanity check JMI ???
-    msgAssert (
-      currentVoice != nullptr,
-      "currentVoice is null");
+  // sanity check JMI ???
+  msgAssert (
+    __FILE__, __LINE__,
+    currentVoice != nullptr,
+    "currentVoice is null");
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceChords ()) {
@@ -23634,7 +23653,8 @@ void mxmlTree2msrTranslator::visitEnd ( S_harmony& elt )
   if (
     fCurrentHarmonyKind == kOtherHarmony
       &&
-    fCurrentHarmonyDegreesList.size () == 0) {
+    fCurrentHarmonyDegreesList.size () == 0
+  ) {
     msrMusicXMLWarning (
       gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,

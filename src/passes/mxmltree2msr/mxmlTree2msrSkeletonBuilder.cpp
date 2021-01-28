@@ -1140,6 +1140,7 @@ void mxmlTree2msrSkeletonBuilder::createImplicitPartGroup ()
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fImplicitPartGroup == 0,
     "fImplicitPartGroup already exists");
 
@@ -3489,7 +3490,9 @@ void mxmlTree2msrSkeletonBuilder::visitStart (S_staff& elt)
       " is not positive" <<
       ", line " << inputLineNumber;
 
-    msgAssert (false, s.str ());
+      msgAssert (
+        __FILE__, __LINE__,
+      false, s.str ());
   }
 
   if (fOnGoingNote) { // JMI

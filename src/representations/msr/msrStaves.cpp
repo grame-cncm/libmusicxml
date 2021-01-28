@@ -59,7 +59,8 @@ msrStaff::msrStaff (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     staffPartUpLink != nullptr,
     "staffPartUpLink is null");
 
@@ -143,6 +144,7 @@ void msrStaff::initializeStaff ()
           " is not positive";
 
         msgAssert (
+          __FILE__, __LINE__,
           false,
           s.str ());
       }
@@ -296,7 +298,8 @@ S_msrStaff msrStaff::createStaffNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingPart != nullptr,
     "containingPart is null");
 
@@ -325,6 +328,12 @@ S_msrStaff msrStaff::createStaffNewbornClone (
 
 S_msrPartGroup msrStaff::fetchStaffPartGroupUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fStaffPartUpLink != nullptr,
+    "fStaffPartUpLink is null");
+
   return
     fStaffPartUpLink->
       getPartPartGroupUpLink ();
@@ -332,6 +341,12 @@ S_msrPartGroup msrStaff::fetchStaffPartGroupUpLink () const
 
 S_msrScore msrStaff::fetchStaffScoreUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fStaffPartUpLink != nullptr,
+    "fStaffPartUpLink is null");
+
   return
     fStaffPartUpLink->
       fetchPartScoreUpLink ();
@@ -434,6 +449,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
 
     // sanity check
     msgAssert (
+      __FILE__, __LINE__,
       voice != nullptr,
       "voice is null");
 
@@ -497,6 +513,7 @@ void msrStaff::setNextMeasureNumberInStaff (
 
     // sanity check
     msgAssert (
+      __FILE__, __LINE__,
       voice != nullptr,
       "voice is null");
 
@@ -1070,6 +1087,7 @@ void msrStaff::assignSequentialNumbersToRegularVoicesInStaff (
 
       // sanity check
       msgAssert (
+        __FILE__, __LINE__,
         voice != nullptr,
         "voice is null");
 
@@ -1137,6 +1155,7 @@ S_msrVoice msrStaff::fetchFirstRegularVoiceFromStaff (
 
     // sanity check
     msgAssert (
+      __FILE__, __LINE__,
       result->getRegularVoiceStaffSequentialNumber () == 1,
       "result->getRegularVoiceStaffSequentialNumber () is not equal to 1");
 
@@ -1171,6 +1190,7 @@ void msrStaff::registerVoiceInStaff (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     voice != nullptr,
     "voice is null");
 
@@ -1268,6 +1288,7 @@ void msrStaff::registerPartLevelVoiceInStaff (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     voice != nullptr,
     "voice is null");
 
@@ -1370,6 +1391,7 @@ void msrStaff::registerVoiceInStaffClone (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     voice != nullptr,
     "voice is null");
 
@@ -2376,6 +2398,7 @@ void msrStaff::appendStaffDetailsToStaff (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     staffDetails != nullptr,
     "staffDetails is null");
 
@@ -3015,6 +3038,7 @@ void msrStaff::print (ostream& os) const
 
       // sanity check
       msgAssert (
+        __FILE__, __LINE__,
         voice != nullptr,
         "voice is null");
 
@@ -3068,6 +3092,7 @@ void msrStaff::print (ostream& os) const
 
       // sanity check
       msgAssert (
+        __FILE__, __LINE__,
         voice != nullptr,
         "voice is null");
 
@@ -3123,6 +3148,7 @@ void msrStaff::print (ostream& os) const
 
       // sanity check
       msgAssert (
+        __FILE__, __LINE__,
         voice != nullptr,
         "voice is null");
 

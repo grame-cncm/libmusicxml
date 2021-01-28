@@ -103,45 +103,79 @@ int		msdlwrap()		{ return(1); }
 
 %start Description
 
-%token PARENTHESIZED_COMMENT COMMENT_TO_END_OF_LINE
+%token
+  PARENTHESIZED_COMMENT COMMENT_TO_END_OF_LINE
 
-%token LEFT_BRACKET RIGHT_BRACKET
+  LEFT_BRACKET RIGHT_BRACKET
 
-%token IDENTIFIER
+  DOT
 
-%token INTEGER DOUBLE
+  SCORE
+  PART_GROUP
+  GROUP
+  STAFF
+  VOICE
+  FRAGMENT
 
-%token SINGLE_QUOTED_STRING DOUBLE_QUOTED_STRING
+  ANACRUSIS
 
-%token SPACES END_OF_LINE
+  CLEF
+  TREBLE
+  ALTO
+  TENOR
+  BARYTON
+  BASS
 
-%token EQUAL_SIGN
+  KEY
 
-%token COLON SEMI_COLON
+  TIME
 
-%token DOT
+  KEYWORD
 
-%token END_OF_BAR
+  NAME
 
-%token OTHER_CHARACTER
+  INTEGER DOUBLE
+
+  SINGLE_QUOTED_STRING DOUBLE_QUOTED_STRING
+
+  SPACES END_OF_LINE
+
+  EQUAL_SIGN
+
+  COMMA COLON SEMI_COLON
+
+  END_OF_MEASURE
+
+  DOUBLE_BAR
+  FINAL_BAR
+
+  OTHER_CHARACTER
+;
 
 
-%%              /* beginning of rules section */
+%% /* beginning of rules section */
 
 
 Description	: CommentsOrOthers ;
 
 CommentsOrOthers 	:
-      CommentOrOther
-  |  CommentsOrOthers CommentOrOther;
+  CommentOrOther
+| CommentsOrOthers CommentOrOther;
 
 CommentOrOther	:
-      PARENTHESIZED_COMMENT | COMMENT_TO_END_OF_LINE
-			| IDENTIFIER
-			| SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING
-			| SPACES ;
+  PARENTHESIZED_COMMENT | COMMENT_TO_END_OF_LINE
+| NAME
+| KEYWORD
+| SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING
+| SPACES
+
 
 %%
+
+
+/* ---------------------------------------------------------------------- */
+/* Service code                                                           */
+/* ---------------------------------------------------------------------- */
 
 #define yy_delete_buffer	msdl_delete_buffer
 #define yy_scan_string		msdl_scan_string
@@ -153,14 +187,15 @@ bool readMsdlBuffer (const char * buffer, msdlReader * theMsdlReader)
 	init (theMsdlReader);
 	YY_BUFFER_STATE b;
 
-    // Copy string into new buffer and Switch buffers
-    b = yy_scan_string (buffer);
+  // Copy string into new buffer and Switch buffers
+  b = yy_scan_string (buffer);
 
-    // Parse the string
+  // Parse the string
 	int ret = yyparse ();
 
     // Delete the new buffer
 	yy_delete_buffer (b);
+
 	BEGIN(INITIAL);
  	return ret==0;
 }
@@ -214,19 +249,25 @@ bool readMsdlStream (FILE * fd, msdlReader * theMsdlReader)
 void	yyerror(const char *s)	{ gMsplReader->error (s, msdllineno); }
 
 
-#ifdef MAIN
-
+// the reader class
+//______________________________________________________________________________
 class testMsdlReader : public msdlReader
 {
 	public:
-		bool	msdlDecl (const char* version, const char *encoding, int standalone) {
-			cout << "msdlDecl: " << version << " " << encoding << " " << standalone << endl;
-			return true;
-		}
-		bool	docType (const char* start, bool status, const char *pub, const char *sys) {
-			cout << "docType: " << start << " " << (status ? "PUBLIC" : "SYSTEM") << " " << pub << " " << sys << endl;
-			return true;
-		}
+
+		bool	                msdlDecl (
+		                        const char* version, const char *encoding, int standalone)
+		                          {
+                                cout << "msdlDecl: " << version << " " << encoding << " " << standalone << endl;
+                                return true;
+                              }
+
+		bool	                docType (
+		                        const char* start, bool status, const char *pub, const char *sys)
+		                          {
+                                cout << "docType: " << start << " " << (status ? "PUBLIC" : "SYSTEM") << " " << pub << " " << sys << endl;
+                                return true;
+                              }
 
 		bool	newElement (const char* eltName) {
 			cout << "newElement: " << eltName << endl;
@@ -246,16 +287,24 @@ class testMsdlReader : public msdlReader
 		void	error (const char* s, int lineno) {
 			cerr << s  << " on line " << lineno << endl;
 		}
-
 };
 
 
-int main (int argc, char * argv[])
+#ifdef PARSER_MAIN
+
+// the main() function
+//______________________________________________________________________________
+int main (int argc, char * argv [])
 {
 	if (argc > 1) {
 		testMsdlReader theMsdlReader;
-		return readMsdlFile (argv[1], &theMsdlReader) ? 0 : 1;
+
+		return
+		  readMsdlFile (argv[1], &theMsdlReader)
+		    ? 0
+		    : 1;
 	}
+
  	return 0;
 }
 

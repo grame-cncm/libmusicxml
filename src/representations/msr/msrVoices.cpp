@@ -173,7 +173,8 @@ msrVoice::msrVoice (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     voiceStaffUpLink != nullptr,
     "voiceStaffUpLink is null");
 
@@ -219,6 +220,12 @@ string msrVoice::voiceFinalizationStatusKindAsString (
 
 S_msrPart msrVoice::fetchVoicePartUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fVoiceStaffUpLink != nullptr,
+    "fVoiceStaffUpLink is null");
+
   return
     fVoiceStaffUpLink->
       getStaffPartUpLink ();
@@ -226,6 +233,12 @@ S_msrPart msrVoice::fetchVoicePartUpLink () const
 
 S_msrPartGroup msrVoice::fetchVoicePartGroupUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fVoiceStaffUpLink != nullptr,
+    "fVoiceStaffUpLink is null");
+
   return
     fVoiceStaffUpLink->
       fetchStaffPartGroupUpLink ();
@@ -233,6 +246,12 @@ S_msrPartGroup msrVoice::fetchVoicePartGroupUpLink () const
 
 S_msrScore msrVoice::fetchVoiceScoreUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fVoiceStaffUpLink != nullptr,
+    "fVoiceStaffUpLink is null");
+
   return
     fVoiceStaffUpLink->
       fetchStaffScoreUpLink ();
@@ -342,6 +361,7 @@ void msrVoice::setVoiceLastSegmentInVoiceClone (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     segment != nullptr,
     "segment is null");
 
@@ -569,6 +589,7 @@ void msrVoice::initializeVoice (
     case msrVoice::kCreateInitialLastSegmentYes:
       // sanity check // JMI LAST
       msgAssert (
+        __FILE__, __LINE__,
         fVoiceLastSegment == nullptr,
         "fVoiceLastSegment is null");
 
@@ -648,7 +669,8 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     staffClone != nullptr,
     "staffClone is null");
 
@@ -693,7 +715,8 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingStaff != nullptr,
     "containingStaff is null");
 
@@ -1996,17 +2019,20 @@ void msrVoice::registerNoteAsVoiceLastAppendedNote (S_msrNote note)
 void msrVoice::appendHarmonyToVoice (
   S_msrHarmony harmony)
 {
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "Appending harmony " << harmony->asString () <<
       " to voice \"" << getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  int inputLineNumber =
-    harmony->getInputLineNumber ();
+  ++gIndenter;
 
   // sanity check
   switch (fVoiceKind) {
@@ -2035,19 +2061,27 @@ void msrVoice::appendHarmonyToVoice (
       }
       break;
   } // switch
+
+  --gIndenter;
 }
 
 void msrVoice::appendHarmonyToHarmonyVoice (
   S_msrHarmony harmony)
 {
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "Appending harmony " << harmony->asString () <<
       " to harmony voice \"" << getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
+
+  ++gIndenter;
 
   // append the harmony to the voice last segment
   fVoiceLastSegment->
@@ -2056,19 +2090,27 @@ void msrVoice::appendHarmonyToHarmonyVoice (
   // register harmony
   ++fVoiceActualHarmoniesCounter;
   fMusicHasBeenInsertedInVoice = true;
+
+  --gIndenter;
 }
 
 void msrVoice::appendFiguredBassToFiguredBassVoice (
   S_msrFiguredBass figuredBass)
 {
+  int inputLineNumber =
+    figuredBass->getInputLineNumber ();
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "Appending figuredBass " << figuredBass->asString () <<
       " to figuredBass voice \"" << getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
+
+  ++gIndenter;
 
   // append the figuredBass to the voice last segment
   fVoiceLastSegment->
@@ -2077,21 +2119,26 @@ void msrVoice::appendFiguredBassToFiguredBassVoice (
   // register harmony
   ++fVoiceActualFiguredBassesCounter;
   fMusicHasBeenInsertedInVoice = true;
+
+  --gIndenter;
 }
 
 void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 {
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "Appending harmony " << harmony->asString () <<
       " to voice clone \"" << getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  int inputLineNumber =
-    harmony->getInputLineNumber ();
+  ++gIndenter;
 
   switch (fVoiceKind) {
     case kVoiceHarmony:
@@ -2123,22 +2170,27 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
       }
       break;
   } // switch
+
+  --gIndenter;
 }
 
 void msrVoice::appendFiguredBassToVoice (
   S_msrFiguredBass figuredBass)
 {
+  int inputLineNumber =
+    figuredBass->getInputLineNumber ();
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
     gLogStream <<
       "Appending figured bass " << figuredBass->asString () <<
       " to voice \"" << getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  int inputLineNumber =
-    figuredBass->getInputLineNumber ();
+  ++gIndenter;
 
   // sanity check
   switch (fVoiceKind) {
@@ -2167,19 +2219,27 @@ void msrVoice::appendFiguredBassToVoice (
       }
       break;
   } // switch
+
+  --gIndenter;
 }
 
 void msrVoice::appendFiguredBassToVoiceClone (
   S_msrFiguredBass figuredBass)
 {
+  int inputLineNumber =
+    figuredBass->getInputLineNumber ();
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
     gLogStream <<
       "Appending figured bass " << figuredBass->asString () <<
       " to voice clone \"" << getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
+
+  ++gIndenter;
 
   switch (fVoiceKind) {
     case kVoiceFiguredBass:
@@ -2211,6 +2271,8 @@ void msrVoice::appendFiguredBassToVoiceClone (
       }
       break;
   } // switch
+
+  --gIndenter;
 }
 
 void msrVoice::padUpToPositionInMeasureInVoice (
@@ -2233,6 +2295,7 @@ void msrVoice::padUpToPositionInMeasureInVoice (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fVoiceLastSegment != nullptr,
     "fVoiceLastSegment is null");
 
@@ -2281,6 +2344,7 @@ void msrVoice::backupByWholeNotesStepLengthInVoice (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fVoiceLastSegment != nullptr,
     "fVoiceLastSegment is null");
 
@@ -2588,6 +2652,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       "fVoiceLastSegment is null in appendNoteToVoice()");
 
     msgAssert (
+      __FILE__, __LINE__,
       fVoiceLastSegment != nullptr,
       "fVoiceLastSegment is null in appendNoteToVoice()");
   }
@@ -3170,6 +3235,7 @@ S_msrMeasure msrVoice::fetchVoiceLastMeasure (
   S_msrMeasure result;
 
   msgAssert (
+    __FILE__, __LINE__,
     fVoiceLastSegment != nullptr,
     "fVoiceLastSegment is null");
 
@@ -7203,7 +7269,8 @@ void msrVoice::appendRestMeasuresCloneToVoiceClone (
   ++gIndenter;
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     restMeasuresClone != nullptr,
     "restMeasuresClone is null");
 
@@ -7305,7 +7372,8 @@ void msrVoice::appendRepeatCloneToVoiceClone (
   ++gIndenter;
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     repeatCLone != nullptr,
     "repeatCLone is null");
 
@@ -7781,7 +7849,8 @@ void msrVoice::appendMeasuresRepeatCloneToVoiceClone (
   ++gIndenter;
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     measuresRepeatClone != nullptr,
     "measuresRepeatClone is null");
 
@@ -8775,6 +8844,7 @@ void msrVoice::appendMeasuresRepeatReplicaToVoice (
 
         // sanity check
         msgAssert (
+          __FILE__, __LINE__,
           fVoicePendingMeasuresRepeat != nullptr,
           "fVoicePendingMeasuresRepeat is null");
 
@@ -8829,6 +8899,7 @@ void msrVoice::appendRestMeasuresToVoiceElementsList (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     restMeasures != nullptr,
     "restMeasures is null");
 
@@ -8852,6 +8923,7 @@ void msrVoice::appendMeasuresRepeatToVoiceElementsList (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeat != nullptr,
     "measuresRepeat is null");
 
@@ -9238,6 +9310,7 @@ void msrVoice::finalizeLastAppendedMeasureInVoice (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fVoiceLastAppendedMeasure != nullptr,
     "fVoiceLastAppendedMeasure is null");
 
@@ -10435,6 +10508,7 @@ void msrVoice::print (ostream& os) const
   /* JMI
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fVoiceLastSegment != nullptr,
     "fVoiceLastSegment is null");
     */
@@ -10839,6 +10913,7 @@ void msrVoice::printShort (ostream& os) const
   /* JMI
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fVoiceLastSegment != nullptr,
     "fVoiceLastSegment is null");
     */

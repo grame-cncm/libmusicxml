@@ -52,7 +52,8 @@ msrSegment::msrSegment (
     : msrVoiceElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     segmentVoicekUpLink != nullptr,
     "segmentVoicekUpLink is null");
 
@@ -95,6 +96,12 @@ void msrSegment::initializeSegment ()
 
 S_msrStaff msrSegment::fetchSegmentStaffUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fSegmentVoiceUpLink != nullptr,
+    "fSegmentVoiceUpLink is null");
+
   return
     fSegmentVoiceUpLink->
       getVoiceStaffUpLink ();
@@ -102,6 +109,12 @@ S_msrStaff msrSegment::fetchSegmentStaffUpLink () const
 
 S_msrPart msrSegment::fetchSegmentPartUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fSegmentVoiceUpLink != nullptr,
+    "fSegmentVoiceUpLink is null");
+
   return
     fSegmentVoiceUpLink->
       fetchVoicePartUpLink ();
@@ -109,6 +122,12 @@ S_msrPart msrSegment::fetchSegmentPartUpLink () const
 
 S_msrPartGroup msrSegment::fetchSegmentPartGroupUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fSegmentVoiceUpLink != nullptr,
+    "fSegmentVoiceUpLink is null");
+
   return
     fSegmentVoiceUpLink->
       fetchVoicePartGroupUpLink ();
@@ -116,6 +135,12 @@ S_msrPartGroup msrSegment::fetchSegmentPartGroupUpLink () const
 
 S_msrScore msrSegment::fetchSegmentScoreUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fSegmentVoiceUpLink != nullptr,
+    "fSegmentVoiceUpLink is null");
+
   return
     fSegmentVoiceUpLink->
       fetchVoiceScoreUpLink ();
@@ -134,7 +159,8 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -166,7 +192,8 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -302,6 +329,7 @@ void msrSegment::assertSegmentMeasuresListIsNotEmpty (
       endl;
 
     msgAssert (
+      __FILE__, __LINE__,
       false,
       ", segmentMeasuresList is empty");
   }
@@ -722,8 +750,7 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
-      "Appending harmony " <<
-      harmony->asString () <<
+      "Appending harmony " << harmony->asString () <<
       " to segment " << asString () <<
       " in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
@@ -766,13 +793,9 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
   assertSegmentMeasuresListIsNotEmpty (
     harmony->getInputLineNumber ());
 
-  ++gIndenter;
-
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendHarmonyToMeasureClone (harmony);
-
-  --gIndenter;
 }
 
 void msrSegment::appendFiguredBassToSegment (
@@ -827,13 +850,9 @@ void msrSegment::appendFiguredBassToSegmentClone (
   assertSegmentMeasuresListIsNotEmpty (
     figuredBass->getInputLineNumber ());
 
-  ++gIndenter;
-
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendFiguredBassToMeasure (figuredBass);
-
-  --gIndenter;
 }
 
 void msrSegment::appendSegnoToSegment (S_msrSegno segno)

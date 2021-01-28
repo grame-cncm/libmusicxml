@@ -232,6 +232,7 @@ void oahMacroAtom::appendAtomStringPairToMacro (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     atom != nullptr,
     "atom is null");
 
@@ -2141,6 +2142,7 @@ void oahCombinedBooleansAtom::addBooleanAtom (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     booleanAtom != nullptr,
     "booleanAtom is null");
 
@@ -2158,6 +2160,7 @@ void oahCombinedBooleansAtom::addBooleanAtomByName (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     handler != nullptr,
     "handler is null");
 
@@ -2587,9 +2590,11 @@ oahMultiplexBooleansAtom::oahMultiplexBooleansAtom (
 {
   // sanity checks
   msgAssert (
+    __FILE__, __LINE__,
     shortNamesPrefix != nullptr,
     "shortNamesPrefix is null");
   msgAssert (
+    __FILE__, __LINE__,
     longNamesPrefix != nullptr,
     "fLongNamesPrefix is null");
 
@@ -2614,6 +2619,7 @@ void oahMultiplexBooleansAtom::addBooleanAtom (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     booleanAtom != nullptr,
     "booleanAtom is null");
 
@@ -2782,6 +2788,7 @@ void oahMultiplexBooleansAtom::addBooleanAtomByName (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     handler != nullptr,
     "handler is null");
 
@@ -4162,9 +4169,11 @@ oahMonoplexStringAtom::oahMonoplexStringAtom (
 {
   // sanity checks
   msgAssert (
+    __FILE__, __LINE__,
     stringValueDescriptor.size () > 0,
     "stringValueDescriptor is empty");
   msgAssert (
+    __FILE__, __LINE__,
     stringValueDescriptor.size () > 0,
     "stringValueDescriptor is empty");
 }
@@ -4177,6 +4186,7 @@ void oahMonoplexStringAtom::addStringAtom (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     stringAtom != nullptr,
     "stringAtom is null");
 
@@ -4240,6 +4250,7 @@ void oahMonoplexStringAtom::addStringAtomByName (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     handler != nullptr,
     "handler is null");
 

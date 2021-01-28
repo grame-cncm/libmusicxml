@@ -81,7 +81,9 @@ EXP generatorOutputKind generatorOutputKindFromString (
       theString <<
       "\" is no valid generated output kind";
 
-    msgAssert (false, s.str ());
+      msgAssert (
+        __FILE__, __LINE__,
+      false, s.str ());
   }
 
   return result;

@@ -210,6 +210,7 @@ lpsr2lilypondTranslator::lpsr2lilypondTranslator (
     case kOctaveEntryFixed:
       // sanity check
       msgAssert (
+        __FILE__, __LINE__,
         gGlobalLpsr2lilypondOahGroup->getFixedOctaveEntrySemiTonesPitchAndOctave () != nullptr,
         "gGlobalLpsr2lilypondOahGroup->getFixedOctaveEntrySemiTonesPitchAndOctave () is null");
 
@@ -3230,6 +3231,7 @@ void lpsr2lilypondTranslator::generateCodeForSpannerAfterNote (
 
             // sanity check
             msgAssert (
+              __FILE__, __LINE__,
               spannerStartEnd != nullptr,
               "spannerStartEnd is null");
 

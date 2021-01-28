@@ -46,6 +46,7 @@ S_bsrScore convertMsrScoreToBsrScore (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     originalMsrScore != nullptr,
     "originalMsrScore is null");
 

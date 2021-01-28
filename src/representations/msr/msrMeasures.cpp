@@ -56,7 +56,8 @@ msrMeasure::msrMeasure (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     measureSegmentUpLink != nullptr,
     "measureSegmentUpLink is null");
 
@@ -175,6 +176,12 @@ msrMeasure::~msrMeasure ()
 
 S_msrVoice msrMeasure::fetchMeasureVoiceUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fMeasureSegmentUpLink != nullptr,
+    "fMeasureSegmentUpLink is null");
+
   return
     fMeasureSegmentUpLink->
       getSegmentVoiceUpLink ();
@@ -182,6 +189,12 @@ S_msrVoice msrMeasure::fetchMeasureVoiceUpLink () const
 
 S_msrStaff msrMeasure::fetchMeasureStaffUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fMeasureSegmentUpLink != nullptr,
+    "fMeasureSegmentUpLink is null");
+
   return
     fMeasureSegmentUpLink->
       fetchSegmentStaffUpLink ();
@@ -189,6 +202,12 @@ S_msrStaff msrMeasure::fetchMeasureStaffUpLink () const
 
 S_msrPart msrMeasure::fetchMeasurePartUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fMeasureSegmentUpLink != nullptr,
+    "fMeasureSegmentUpLink is null");
+
   return
     fMeasureSegmentUpLink->
       fetchSegmentPartUpLink ();
@@ -196,6 +215,12 @@ S_msrPart msrMeasure::fetchMeasurePartUpLink () const
 
 S_msrPartGroup msrMeasure::fetchMeasurePartGroupUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fMeasureSegmentUpLink != nullptr,
+    "fMeasureSegmentUpLink is null");
+
   return
     fMeasureSegmentUpLink->
       fetchSegmentPartGroupUpLink ();
@@ -203,6 +228,12 @@ S_msrPartGroup msrMeasure::fetchMeasurePartGroupUpLink () const
 
 S_msrScore msrMeasure::fetchMeasureScoreUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fMeasureSegmentUpLink != nullptr,
+    "fMeasureSegmentUpLink is null");
+
   return
     fMeasureSegmentUpLink->
       fetchSegmentScoreUpLink ();
@@ -211,6 +242,12 @@ S_msrScore msrMeasure::fetchMeasureScoreUpLink () const
 S_msrMeasure msrMeasure::createMeasureNewbornClone (
   S_msrSegment containingSegment)
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    containingSegment != nullptr,
+    "containingSegment is null");
+
   S_msrVoice
     containingSegmentVoiceUpLink =
       containingSegment->
@@ -232,7 +269,8 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingSegment != nullptr,
     "containingSegment is null");
 
@@ -324,7 +362,8 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingSegment != nullptr,
     "containingSegment is null");
 
@@ -494,7 +533,8 @@ S_msrMeasure msrMeasure::createMeasureCopyWithNotesOnly (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingSegment != nullptr,
     "containingSegment is null");
 
@@ -895,6 +935,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 
       // sanity check
       msgAssert (
+        __FILE__, __LINE__,
         measureElement != nullptr,
         "measureElement is null");
 
@@ -1228,6 +1269,7 @@ void msrMeasure::incrementCurrentMeasureWholeNotesDuration (
   // sanity check
   if (false) // JMI
   msgAssert (
+    __FILE__, __LINE__,
     delta.getNumerator () != 0,
     "delta.getNumerator () == 0");
 
@@ -1377,7 +1419,8 @@ void msrMeasure::appendKeyToMeasure (S_msrKey key)
 void msrMeasure::appendTimeToMeasure (S_msrTime time)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     time != nullptr,
     "time is null");
 
@@ -1421,7 +1464,8 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
 void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     time != nullptr,
     "time is null");
 
@@ -1499,7 +1543,8 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
   S_msrTime time)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     time != nullptr,
     "time is null");
 
@@ -2459,6 +2504,8 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
   }
 #endif
 
+  ++gIndenter;
+
   // append the harmony to the measure elements list
   appendElementToMeasure (harmony);
 
@@ -2475,6 +2522,8 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
 
   // this measure contains music
   fMeasureContainsMusic = true;
+
+  --gIndenter;
 }
 
 void msrMeasure::appendFiguredBassToMeasure (
@@ -2499,6 +2548,8 @@ void msrMeasure::appendFiguredBassToMeasure (
       endl;
   }
 #endif
+
+  ++gIndenter;
 
   // set figuredBass's measure number
   figuredBass->
@@ -2529,6 +2580,8 @@ void msrMeasure::appendFiguredBassToMeasure (
 
   // this measure contains music
   fMeasureContainsMusic = true;
+
+  --gIndenter;
 }
 
 void msrMeasure::appendFiguredBassToMeasureClone (
@@ -2556,6 +2609,8 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   }
 #endif
 
+  ++gIndenter;
+
   // append the figuredBass to the measure elements list
   appendElementToMeasure (figuredBass);
 
@@ -2572,6 +2627,8 @@ void msrMeasure::appendFiguredBassToMeasureClone (
 
   // this measure contains music
   fMeasureContainsMusic = true;
+
+  --gIndenter;
 }
 
 S_msrNote msrMeasure::createPaddingSkipNoteForVoice (
@@ -2644,6 +2701,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     wholeNotes.getNumerator () >= 0,
     "wholeNotes.getNumerator () is negative in padUpToPositionInMeasureInMeasure()");
 
@@ -2750,6 +2808,7 @@ void msrMeasure::backupByWholeNotesStepLengthInMeasure ( // JMI USELESS ???
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     backupTargetMeasureElementPositionInMeasure.getNumerator () >= 0,
     "backupTargetMeasureElementPositionInMeasure.getNumerator () is negative");
 
@@ -3674,6 +3733,7 @@ void msrMeasure::finalizeRegularMeasure (
         fetchVoicePartUpLink ();
 
   msgAssert (
+    __FILE__, __LINE__,
     regularPart != nullptr,
     "regularPart is null");
 
@@ -3828,6 +3888,7 @@ void msrMeasure::finalizeRegularMeasure_BIS (
         fetchVoicePartUpLink ();
 
   msgAssert (
+    __FILE__, __LINE__,
     regularPart != nullptr,
     "regularPart is null");
 
@@ -5198,6 +5259,7 @@ void msrMeasure::finalizeHarmonyMeasure (
         fetchVoicePartUpLink ();
 
   msgAssert (
+    __FILE__, __LINE__,
     harmonyPart != nullptr,
     "harmonyPart is null");
 
@@ -5294,6 +5356,7 @@ void msrMeasure::finalizeHarmonyMeasure_BIS (
         fetchVoicePartUpLink ();
 
   msgAssert (
+    __FILE__, __LINE__,
     harmonyPart != nullptr,
     "harmonyPart is null");
 
@@ -5390,6 +5453,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
         fetchVoicePartUpLink ();
 
   msgAssert (
+    __FILE__, __LINE__,
     figuredBassPart != nullptr,
     "figuredBassPart is null");
 
@@ -5486,6 +5550,7 @@ void msrMeasure::finalizeFiguredBassMeasure_BIS (
         fetchVoicePartUpLink ();
 
   msgAssert (
+    __FILE__, __LINE__,
     figuredBassPart != nullptr,
     "figuredBassPart is null");
 

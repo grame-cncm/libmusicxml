@@ -44,6 +44,7 @@ void convertLpsrScoreToLilypondCode (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     theLpsrScore != nullptr,
     "theLpsrScore is null");
 

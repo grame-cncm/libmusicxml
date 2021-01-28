@@ -115,6 +115,7 @@ bsr2brailleTranslator::bsr2brailleTranslator (
   } // switch
 
   msgAssert (
+    __FILE__, __LINE__,
     fBrailleGenerator != nullptr,
     "fBrailleGenerator is null");
 }

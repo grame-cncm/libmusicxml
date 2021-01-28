@@ -101,6 +101,7 @@ S_lpsrScore msr2lpsrTranslator::buildLpsrScoreFromMsrScore ()
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fVisitedMsrScore != nullptr,
     "fVisitedMsrScore is null");
 
@@ -233,6 +234,7 @@ void msr2lpsrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
 
       // sanity check
       msgAssert (
+        __FILE__, __LINE__,
         hiddenMeasureAndBarlineDescr != nullptr,
         "hiddenMeasureAndBarlineDescr is null");
 
@@ -326,6 +328,7 @@ void msr2lpsrTranslator::handlePartHiddenMeasureAndBarlineDescrList ()
 
       // sanity check
       msgAssert (
+        __FILE__, __LINE__,
         hiddenMeasureAndBarlineDescr != nullptr,
         "hiddenMeasureAndBarlineDescr is null");
 
@@ -350,9 +353,11 @@ void msr2lpsrTranslator::populateHeaderFromIdentification (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     header != nullptr,
     "header is null");
   msgAssert (
+    __FILE__, __LINE__,
     identification != nullptr,
     "identification is null");
 
@@ -727,6 +732,7 @@ void msr2lpsrTranslator::visitStart (S_msrScaling& elt)
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     paper != nullptr,
     "paper is null");
 
@@ -1094,6 +1100,7 @@ void msr2lpsrTranslator::visitEnd (S_msrPartGroup& elt)
         {
           // sanity check
           msgAssert (
+            __FILE__, __LINE__,
             fCurrentScoreBlock != nullptr,
             "fCurrentScoreBlock is null");
 
@@ -1136,6 +1143,7 @@ void msr2lpsrTranslator::visitEnd (S_msrPartGroup& elt)
         {
           // sanity check
           msgAssert (
+            __FILE__, __LINE__,
             fCurrentBookPartBlock != nullptr,
             "fCurrentBookPartBlock is null");
 

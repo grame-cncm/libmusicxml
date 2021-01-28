@@ -49,6 +49,7 @@ Sxmlelement convertMsrScoreToMxmltree (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     theMsrScore != nullptr,
     "theMsrScore is null");
 

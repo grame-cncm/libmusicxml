@@ -55,9 +55,11 @@ lpsrPaper::lpsrPaper (
 /* JMI
   // sanity checks
   msgAssert (
+    __FILE__, __LINE__,
     scaling != nullptr,
     "scaling is null");
   msgAssert (
+    __FILE__, __LINE__,
     pageLayout != nullptr,
     "pageLayout is null");
 */

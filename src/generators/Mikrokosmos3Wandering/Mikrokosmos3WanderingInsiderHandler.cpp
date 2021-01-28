@@ -875,12 +875,12 @@ void Mikrokosmos3WanderingInsiderOahGroup::initializeMikrokosmos3WanderingInside
   // Guido
   // --------------------------------------
 
-//  createInsiderGuidoSubGroup ();
+  createInsiderGuidoSubGroup ();
 
   // quit after some passes
   // --------------------------------------
 
-//  createInsiderQuitSubGroup ();
+  createInsiderQuitSubGroup ();
 }
 
 void Mikrokosmos3WanderingInsiderOahGroup::createInsiderGuidoSubGroup ()

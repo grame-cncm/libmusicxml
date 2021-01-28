@@ -52,6 +52,7 @@ msrMeasuresRepeatElement::msrMeasuresRepeatElement (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeatUpLink != nullptr,
     "measuresRepeatUpLink is null");
 
@@ -79,6 +80,7 @@ void msrMeasuresRepeatElement::appendSegmentToMeasuresRepeatElementsList ( // JM
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     segment != nullptr,
     "segment is null");
 
@@ -103,6 +105,7 @@ void msrMeasuresRepeatElement::appendMeasuresRepeatToMeasuresRepeatElementsList 
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeat != nullptr,
     "measuresRepeat is null");
 
@@ -127,6 +130,7 @@ void msrMeasuresRepeatElement::appendVoiceElementToMeasuresRepeatElementsList (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     voiceElement != nullptr,
     "voiceElement is null");
 
@@ -432,6 +436,7 @@ msrMeasuresRepeatPattern::msrMeasuresRepeatPattern (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeatUpLink != nullptr,
     "measuresRepeatUpLink is null");
 
@@ -458,6 +463,7 @@ void msrMeasuresRepeatPattern::setMeasuresRepeatPatternSegment (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeatPatternSegment != nullptr,
     "measuresRepeatPatternSegment is null");
 
@@ -616,6 +622,7 @@ msrMeasuresRepeatReplicas::msrMeasuresRepeatReplicas (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeatUpLink != nullptr,
     "measuresRepeatUpLink is null");
 
@@ -642,6 +649,7 @@ void msrMeasuresRepeatReplicas::setMeasuresRepeatReplicasSegment (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeatReplicasSegment != nullptr,
     "measuresRepeatReplicasSegment is null");
 
@@ -806,6 +814,7 @@ msrMeasuresRepeat::msrMeasuresRepeat (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeatMeasuresNumber > 0,
     "measuresRepeatMeasuresNumber is not positive");
 
@@ -813,6 +822,7 @@ msrMeasuresRepeat::msrMeasuresRepeat (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeatSlashesNumber > 0,
     "measuresRepeatSlashesNumber is not positive");
 
@@ -842,7 +852,8 @@ S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -875,6 +886,7 @@ void msrMeasuresRepeat::setMeasuresRepeatPattern (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeatPattern != nullptr,
     "measuresRepeatPattern is null");
 
@@ -903,6 +915,7 @@ void msrMeasuresRepeat::setMeasuresRepeatReplicas (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     measuresRepeatReplicas != nullptr,
     "measuresRepeatReplicas is null");
 
@@ -920,6 +933,7 @@ int msrMeasuresRepeat::fetchMeasuresRepeatReplicasNumber () const
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     patternMeasuresNumber > 0,
     "patternMeasuresNumber is not positive");
 
@@ -933,6 +947,7 @@ int msrMeasuresRepeat::fetchMeasuresRepeatPatternMeasuresNumber () const
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fMeasuresRepeatPattern != nullptr,
     "fMeasuresRepeatPattern is null");
 
@@ -945,6 +960,7 @@ int msrMeasuresRepeat::fetchMeasuresRepeatReplicasMeasuresNumber () const
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fMeasuresRepeatReplicas != nullptr,
     "fMeasuresRepeatReplicas is null");
 

@@ -42,6 +42,7 @@ EXP void generateMusicXMLFromMxmlTree (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     mxmlTree != nullptr,
     "generateMusicXMLFromMxmlTree(): mxmlTree is null");
 

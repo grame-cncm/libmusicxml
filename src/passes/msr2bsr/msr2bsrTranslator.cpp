@@ -104,6 +104,7 @@ S_bsrScore msr2bsrTranslator::buildBsrScoreFromMsrScore ()
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fVisitedMsrScore != nullptr,
     "fVisitedMsrScore is null");
 

@@ -26,6 +26,8 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 void msgAssert (
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
   bool   condition,
   string messageIfFalse)
 {
@@ -35,11 +37,17 @@ void msgAssert (
     gIndenter.resetToZero ();
 
     gLogStream <<
-      "#### msgAssert failure: " << messageIfFalse <<
+      "#### msgAssert" <<
+      ", " << sourceCodeFileName << ":" << sourceCodeLineNumber <<
+      " -- " << messageIfFalse <<
       ", quitting." <<
       endl;
 
     gIndenter.setIndent (saveIndent);
+
+#ifdef ABORT_TO_DEBUG_ERRORS
+  abort ();
+#endif
 
     throw msgAssertException (messageIfFalse);
   }

@@ -47,11 +47,13 @@ void populateMsrSkeletonFromMxmlTree (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     mxmlTree != nullptr,
     "populateMsrSkeletonFromMxmlTree(): mxmlTree is null");
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     scoreSkeletonToBePopulated != nullptr,
     "scoreSkeletonToBePopulated is null");
 
@@ -147,6 +149,7 @@ void displayPopulatedMsrScore_OptionalPass (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     theMsrScore != nullptr,
     "theMsrScore is null");
 
@@ -201,6 +204,7 @@ void displayPopulatedMsrScoreShort_OptionalPass (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     theMsrScore != nullptr,
     "theMsrScore is null");
 
@@ -257,6 +261,7 @@ void displayPopulatedMsrScoreSummary (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     theMsrScore != nullptr,
     "theMsrScore is null");
 
@@ -306,6 +311,7 @@ void displayPopulatedMsrScoreNames (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     theMsrScore != nullptr,
     "theMsrScore is null");
 

@@ -148,6 +148,7 @@ S_msrScore msr2msrTranslator::buildMsrScoreFromMsrScore ()
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fVisitedMsrScore != nullptr,
     "fVisitedMsrScore is null");
 
@@ -240,6 +241,7 @@ void msr2msrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
 
       // sanity check
       msgAssert (
+        __FILE__, __LINE__,
         hiddenMeasureAndBarlineDescr != nullptr,
         "hiddenMeasureAndBarlineDescr is null");
 
@@ -333,6 +335,7 @@ void msr2msrTranslator::handlePartHiddenMeasureAndBarlineDescrList ()
 
       // sanity check
       msgAssert (
+        __FILE__, __LINE__,
         hiddenMeasureAndBarlineDescr != nullptr,
         "hiddenMeasureAndBarlineDescr is null");
 

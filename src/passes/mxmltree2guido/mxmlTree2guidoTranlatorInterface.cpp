@@ -46,6 +46,7 @@ void generateGuidoFromMxmlTree (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     mxmlTree != nullptr,
     "generateGuidoFromMxmlTree(): mxmlTree is null");
 

@@ -52,6 +52,7 @@ msrRepeatCoda::msrRepeatCoda (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     repeatCodaSegment != nullptr,
     "repeatCodaSegment is null");
 
@@ -59,6 +60,7 @@ msrRepeatCoda::msrRepeatCoda (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     repeatUpLink != nullptr,
     "repeatUpLink is null");
 
@@ -81,7 +83,8 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingRepeat != nullptr,
     "containingRepeat is null");
 
@@ -116,7 +119,8 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingRepeat != nullptr,
     "containingRepeat is null");
 

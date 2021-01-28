@@ -79,7 +79,8 @@ void msrHarmonyDegree::setHarmonyDegreeHarmonyUpLink (
   S_msrHarmony harmonyUpLink)
 {
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     harmonyUpLink != nullptr,
      "harmonyUpLink is null");
 
@@ -350,7 +351,8 @@ msrHarmony::msrHarmony (
 {
   /* JMI
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     harmonyVoiceUpLink != nullptr,
      "harmonyVoiceUpLink is null");
      */
@@ -468,7 +470,8 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -510,7 +513,8 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
 

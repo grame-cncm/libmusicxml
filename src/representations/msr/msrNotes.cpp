@@ -372,6 +372,12 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
 {
   S_msrVoice result;
 
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fNoteMeasureUpLink != nullptr,
+    "fNoteMeasureUpLink is null");
+
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
       break;
@@ -422,6 +428,7 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     result != nullptr,
     "result is null");
 
@@ -430,6 +437,12 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
 
 S_msrStaff msrNote::fetchNoteStaffUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fNoteMeasureUpLink != nullptr,
+    "fNoteMeasureUpLink is null");
+
   return
     fNoteMeasureUpLink->
       fetchMeasureStaffUpLink ();
@@ -437,6 +450,12 @@ S_msrStaff msrNote::fetchNoteStaffUpLink () const
 
 S_msrPart msrNote::fetchNotePartUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fNoteMeasureUpLink != nullptr,
+    "fNoteMeasureUpLink is null");
+
   return
     fNoteMeasureUpLink->
       fetchMeasurePartUpLink ();
@@ -444,6 +463,12 @@ S_msrPart msrNote::fetchNotePartUpLink () const
 
 S_msrPartGroup msrNote::fetchNotePartGroupUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fNoteMeasureUpLink != nullptr,
+    "fNoteMeasureUpLink is null");
+
   return
     fNoteMeasureUpLink->
       fetchMeasurePartGroupUpLink ();
@@ -451,6 +476,12 @@ S_msrPartGroup msrNote::fetchNotePartGroupUpLink () const
 
 S_msrScore msrNote::fetchNoteScoreUpLink () const
 {
+  // sanity check
+  msgAssert (
+    __FILE__, __LINE__,
+    fNoteMeasureUpLink != nullptr,
+    "fNoteMeasureUpLink is null");
+
   return
     fNoteMeasureUpLink->
       fetchMeasureScoreUpLink ();
@@ -496,7 +527,8 @@ S_msrNote msrNote::createNoteNewbornClone (
 #endif
 
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingPart != nullptr,
     "containingPart is null");
 
@@ -711,7 +743,8 @@ S_msrNote msrNote::createNoteDeepCopy (
 
 /* JMI
   // sanity check
-  msgAssert(
+  msgAssert (
+    __FILE__, __LINE__,
     containingVoice != nullptr,
     "containingVoice is null");
     */
@@ -1969,6 +2002,7 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     semiTonesPitchAndOctave != nullptr,
     "semiTonesPitchAndOctave is null");
 
@@ -3052,6 +3086,7 @@ void msrNote::assignMeasureElementPositionInVoice (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     positionInVoice != K_NO_POSITION,
     "positionInVoice == K_NO_POSITION");
 
@@ -3105,6 +3140,7 @@ S_msrDynamics msrNote::removeFirstDynamics () // JMI
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fNoteDynamics.size () > 0,
     "fNoteDynamics is empty");
 
@@ -3127,6 +3163,7 @@ S_msrWedge msrNote::removeFirstWedge () // JMI
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     fNoteDynamics.size () > 0,
     "fNoteDynamics is empty");
 
@@ -3156,7 +3193,7 @@ void msrNote::appendHarmonyToNoteHarmoniesList (S_msrHarmony harmony)
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
-      "Append harmony " <<
+      "Appending harmony " <<
       harmony->asString () <<
       " to the harmonies list of " <<
       asString () <<
@@ -4610,8 +4647,11 @@ void msrNote::print (ostream& os) const
     fMeasureElementPositionInVoice <<
     endl <<
     setw (fieldWidth) << "measureElementMomentInVoice" << " : " <<
-    fMeasureElementMomentInVoice <<
     endl;
+  ++gIndenter;
+  os <<
+    fMeasureElementMomentInVoice;
+  --gIndenter;
 
   // print note measure uplink
   os <<

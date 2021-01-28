@@ -32,6 +32,22 @@ using namespace std;
 namespace MusicXML2
 {
 
+// the MSDL keywords
+//______________________________________________________________________________
+msdlKeywordKind msdlKeywordKindFromString (std::string theString)
+{
+  msdlKeywordKind result = k_NoMsdlKeywordKind;
+
+  if      (theString == "pitches") {
+    result = kMsdlKeywordPitches;
+  }
+  else if (theString == "score") {
+    result =kMsdlKeywordScore ;
+  }
+
+  return result;
+}
+
 // notes names languages
 // ------------------------------------------------------
 

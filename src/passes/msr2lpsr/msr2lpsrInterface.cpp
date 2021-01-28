@@ -57,6 +57,7 @@ S_lpsrScore convertMsrScoreToLpsrScore (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     originalMsrScore != nullptr,
     "originalMsrScore is null");
 
@@ -150,6 +151,7 @@ void displayLpsrScore (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     theLpsrScore != nullptr,
     "theLpsrScore is null");
 
@@ -189,6 +191,7 @@ void displayLpsrScoreShort (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     theLpsrScore != nullptr,
     "theLpsrScore is null");
 

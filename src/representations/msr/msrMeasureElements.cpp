@@ -75,6 +75,7 @@ void msrMeasureElement::setMeasureElementSoundingWholeNotes (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     wholeNotes != K_NO_WHOLE_NOTES,
     "wholeNotes == K_NO_WHOLE_NOTES");
 
@@ -106,6 +107,7 @@ void msrMeasureElement::setMeasureElementPositionInMeasure (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     positionInMeasure != K_NO_POSITION,
     "positionInMeasure == K_NO_POSITION");
 */
@@ -134,6 +136,7 @@ void msrMeasureElement::setMeasureElementPositionInVoice (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     positionInVoice != K_NO_POSITION,
     "positionInVoice == K_NO_POSITION");
 
@@ -185,6 +188,7 @@ void msrMeasureElement::setMeasureElementMomentInVoice (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     momentInVoice != K_NO_MOMENT,
     "momentInVoice == K_NO_MOMENT");
 
@@ -222,6 +226,7 @@ void msrMeasureElement::assignMeasureElementPositionInVoice (
 
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     positionInVoice != K_NO_POSITION,
     "positionInVoice == K_NO_POSITION");
 

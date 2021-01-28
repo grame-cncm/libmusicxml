@@ -327,6 +327,7 @@ lpsrStaffBlock::lpsrStaffBlock (
 {
   // sanity check
   msgAssert (
+    __FILE__, __LINE__,
     staff != nullptr,
     "staff is null");
 
