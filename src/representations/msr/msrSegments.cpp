@@ -96,54 +96,54 @@ void msrSegment::initializeSegment ()
 
 S_msrStaff msrSegment::fetchSegmentStaffUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fSegmentVoiceUpLink != nullptr,
-    "fSegmentVoiceUpLink is null");
+  S_msrStaff result;
 
-  return
-    fSegmentVoiceUpLink->
-      getVoiceStaffUpLink ();
+  if (fSegmentVoiceUpLink) {
+    result =
+      fSegmentVoiceUpLink->
+        getVoiceStaffUpLink ();
+  }
+
+  return result;
 }
 
 S_msrPart msrSegment::fetchSegmentPartUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fSegmentVoiceUpLink != nullptr,
-    "fSegmentVoiceUpLink is null");
+  S_msrPart result;
 
-  return
-    fSegmentVoiceUpLink->
-      fetchVoicePartUpLink ();
+  if (fSegmentVoiceUpLink) {
+    result =
+      fSegmentVoiceUpLink->
+        fetchVoicePartUpLink ();
+  }
+
+  return result;
 }
 
 S_msrPartGroup msrSegment::fetchSegmentPartGroupUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fSegmentVoiceUpLink != nullptr,
-    "fSegmentVoiceUpLink is null");
+  S_msrPartGroup result;
 
-  return
-    fSegmentVoiceUpLink->
-      fetchVoicePartGroupUpLink ();
+  if (fSegmentVoiceUpLink) {
+    result =
+      fSegmentVoiceUpLink->
+        fetchVoicePartGroupUpLink ();
+  }
+
+  return result;
 }
 
 S_msrScore msrSegment::fetchSegmentScoreUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fSegmentVoiceUpLink != nullptr,
-    "fSegmentVoiceUpLink is null");
+  S_msrScore result;
 
-  return
-    fSegmentVoiceUpLink->
-      fetchVoiceScoreUpLink ();
+  if (fSegmentVoiceUpLink) {
+    result =
+      fSegmentVoiceUpLink->
+        fetchVoiceScoreUpLink ();
+  }
+
+  return result;
 }
 
 S_msrSegment msrSegment::createSegmentNewbornClone (

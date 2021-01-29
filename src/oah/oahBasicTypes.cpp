@@ -353,29 +353,29 @@ void oahAtom::setSubGroupUpLink (
 
 S_oahGroup oahAtom::fetchAtomGroupUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fSubGroupUpLink != nullptr,
-    "fSubGroupUpLink is null");
+  S_oahGroup result;
 
-  return
-    fSubGroupUpLink->
-      getGroupUpLink ();
+  if (fSubGroupUpLink) {
+    result =
+      fSubGroupUpLink->
+        getGroupUpLink ();
+  }
+
+  return result;
 }
 
 S_oahHandler oahAtom::fetchAtomHandlerUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fSubGroupUpLink != nullptr,
-    "fSubGroupUpLink is null");
+  S_oahHandler result;
 
-  return
-    fSubGroupUpLink->
-      getGroupUpLink ()->
-        getHandlerUpLink ();
+  if (fSubGroupUpLink) {
+    result =
+      fSubGroupUpLink->
+        getGroupUpLink ()->
+          getHandlerUpLink ();
+  }
+
+  return result;
 }
 
 void oahAtom::appendAtomToElementsList (
@@ -1081,15 +1081,15 @@ oahSubGroup::~oahSubGroup ()
 
 S_oahHandler oahSubGroup::fetchSubGroupHandlerUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fGroupUpLink != nullptr,
-    "fGroupUpLink is null");
+  S_oahHandler result;
 
-  return
-    fGroupUpLink->
-      getHandlerUpLink ();
+  if (fGroupUpLink) {
+    result =
+      fGroupUpLink->
+        getHandlerUpLink ();
+  }
+
+  return result;
 }
 
 void oahSubGroup::appendSubGroupToElementsList (

@@ -59,7 +59,14 @@ void bsrLineContentsElement::setBsrLineUpLink (
 
 S_bsrLine bsrLineContentsElement::getBsrLineUpLink () const
 {
+  S_msrVoice result;
+
+  if (fNoteMeasureUpLink) {
+    result =
   return fBsrLineUpLink;
+  }
+
+  return result;
 }
 */
 

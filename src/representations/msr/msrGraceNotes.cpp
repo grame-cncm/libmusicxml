@@ -128,15 +128,15 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
 
 S_msrPart msrGraceNotesGroup::fetchGraceNotesGroupPartUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fGraceNotesGroupVoiceUpLink != nullptr,
-    "fGraceNotesGroupVoiceUpLink is null");
+  S_msrPart result;
 
-  return
-    fGraceNotesGroupVoiceUpLink->
-      fetchVoicePartUpLink ();
+  if (fGraceNotesGroupVoiceUpLink) {
+    result =
+      fGraceNotesGroupVoiceUpLink->
+        fetchVoicePartUpLink ();
+  }
+
+  return result;
 }
 
 string msrGraceNotesGroup::graceNotesGroupKindAsString (

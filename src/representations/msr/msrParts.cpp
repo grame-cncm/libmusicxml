@@ -136,15 +136,15 @@ msrPart::~msrPart ()
 
 S_msrScore  msrPart::fetchPartScoreUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fPartPartGroupUpLink != nullptr,
-    "fPartPartGroupUpLink is null");
+  S_msrScore result;
 
-  return
-    fPartPartGroupUpLink->
-      getPartGroupScoreUpLink ();
+  if (fPartPartGroupUpLink) {
+    result =
+      fPartPartGroupUpLink->
+        getPartGroupScoreUpLink ();
+  }
+
+  return result;
 }
 
 S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)

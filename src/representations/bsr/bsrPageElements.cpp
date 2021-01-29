@@ -60,7 +60,14 @@ S_bsrLine bsrLineUpLink)
 
 S_bsrLine bsrPageElement::getBsrLineUpLink () const
 {
+  S_msrVoice result;
+
+  if (fNoteMeasureUpLink) {
+    result =
   return fBsrLineUpLink;
+  }
+
+  return result;
 }
 */
 

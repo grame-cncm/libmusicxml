@@ -372,13 +372,7 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
 {
   S_msrVoice result;
 
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fNoteMeasureUpLink != nullptr,
-    "fNoteMeasureUpLink is null");
-
-  switch (fNoteKind) {
+ switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
       break;
 
@@ -386,9 +380,11 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
     case msrNote::kRestNote:
     case msrNote::kSkipNote:
     case msrNote::kChordMemberNote:
-      result =
-        fNoteMeasureUpLink->
-          fetchMeasureVoiceUpLink ();
+      if (fNoteMeasureUpLink) {
+        result =
+          fNoteMeasureUpLink->
+            fetchMeasureVoiceUpLink ();
+      }
       break;
 
     case msrNote::kUnpitchedNote:
@@ -396,10 +392,12 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
 
     case msrNote::kTupletMemberNote:
     case msrNote::kTupletRestMemberNote:
-      result =
-        fNoteTupletUpLink->
-          getTupletMeasureUpLink ()->
-            fetchMeasureVoiceUpLink ();
+      if (fNoteTupletUpLink) {
+        result =
+          fNoteTupletUpLink->
+            getTupletMeasureUpLink ()->
+              fetchMeasureVoiceUpLink ();
+      }
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
@@ -407,13 +405,15 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
 
     case msrNote::kGraceNote:
     case msrNote::kGraceSkipNote:
-      result =
-        fNoteGraceNotesGroupUpLink->
-          getGraceNotesGroupVoiceUpLink ();
-            /* JMI
-            getGraceNotesGroupNoteUpLink ()->
-            fetchNoteVoiceUpLink ();
-                */
+      if (fNoteGraceNotesGroupUpLink) {
+        result =
+          fNoteGraceNotesGroupUpLink->
+            getGraceNotesGroupVoiceUpLink ();
+              /* JMI
+              getGraceNotesGroupNoteUpLink ()->
+              fetchNoteVoiceUpLink ();
+              */
+      }
       break;
 
     case msrNote::kGraceChordMemberNote:
@@ -426,65 +426,59 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
       break;
   } // switch
 
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    result != nullptr,
-    "result is null");
-
   return result;
 }
 
 S_msrStaff msrNote::fetchNoteStaffUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fNoteMeasureUpLink != nullptr,
-    "fNoteMeasureUpLink is null");
+  S_msrStaff result;
 
-  return
-    fNoteMeasureUpLink->
-      fetchMeasureStaffUpLink ();
+  if (fNoteMeasureUpLink) {
+    result =
+      fNoteMeasureUpLink->
+        fetchMeasureStaffUpLink ();
+  }
+
+  return result;
 }
 
 S_msrPart msrNote::fetchNotePartUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fNoteMeasureUpLink != nullptr,
-    "fNoteMeasureUpLink is null");
+  S_msrPart result;
 
-  return
-    fNoteMeasureUpLink->
-      fetchMeasurePartUpLink ();
+  if (fNoteMeasureUpLink) {
+    result =
+      fNoteMeasureUpLink->
+        fetchMeasurePartUpLink ();
+  }
+
+  return result;
 }
 
 S_msrPartGroup msrNote::fetchNotePartGroupUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fNoteMeasureUpLink != nullptr,
-    "fNoteMeasureUpLink is null");
+  S_msrPartGroup result;
 
-  return
-    fNoteMeasureUpLink->
-      fetchMeasurePartGroupUpLink ();
+  if (fNoteMeasureUpLink) {
+    result =
+      fNoteMeasureUpLink->
+        fetchMeasurePartGroupUpLink ();
+  }
+
+  return result;
 }
 
 S_msrScore msrNote::fetchNoteScoreUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fNoteMeasureUpLink != nullptr,
-    "fNoteMeasureUpLink is null");
+  S_msrScore result;
 
-  return
-    fNoteMeasureUpLink->
-      fetchMeasureScoreUpLink ();
+  if (fNoteMeasureUpLink) {
+    result =
+        fNoteMeasureUpLink->
+          fetchMeasureScoreUpLink ();
+  }
+
+  return result;
 }
 
 void msrNote::setNoteKind (msrNoteKind noteKind)
@@ -4091,23 +4085,54 @@ string msrNote::asShortString () const
       break;
 
     case msrNote::kRegularNote:
-      s <<
-        "RegularNote '" <<
-        notePitchAsString () <<
-        ", " <<
-        noteSoundingWholeNotesAsMsrString ();
+      {
+        s <<
+          "RegularNote '" <<
+          notePitchAsString () <<
+          ", " <<
+          noteSoundingWholeNotesAsMsrString ();
 
-      for (int i = 0; i < fNoteDotsNumber; ++i) {
-        s << ".";
-      } // for
+        for (int i = 0; i < fNoteDotsNumber; ++i) {
+          s << ".";
+        } // for
 
-      s <<
-        ", " <<
-        msrOctaveKindAsString (fNoteOctaveKind) <<
-        ", staff " <<
-        fetchNoteVoiceUpLink ()->getVoiceNumber () <<
-        ", voice " <<
-        fetchNoteVoiceUpLink ()->getVoiceNumber ();
+        s <<
+          ", " <<
+          msrOctaveKindAsString (fNoteOctaveKind);
+
+        S_msrVoice
+          voice =
+            fetchNoteVoiceUpLink ();
+
+        s <<
+          ", voice: ";
+        if (voice) {
+          s <<
+            voice->getVoiceNumber ();
+        }
+        else {
+          s << "*none*";
+        }
+
+        S_msrStaff
+          staff;
+
+        if (voice) {
+          staff =
+            voice->
+              getVoiceStaffUpLink ();
+        }
+
+        s <<
+          ", staff: ";
+        if (staff) {
+          s <<
+            staff->getStaffNumber ();
+        }
+        else {
+          s << "*none*";
+        }
+      }
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
@@ -4316,26 +4341,47 @@ string msrNote::soundingNoteEssentialsAsString () const
     "', " <<
     */
 
+  s <<
+    ", " <<
+    msrOctaveKindAsString (fNoteOctaveKind);
+
   S_msrVoice
     voice =
       fetchNoteVoiceUpLink ();
 
+  s <<
+    ", voice: ";
+  if (voice) {
+    s <<
+      voice->getVoiceNumber ();
+  }
+  else {
+    s << "*none*";
+  }
+
   S_msrStaff
+    staff;
+
+  if (voice) {
     staff =
-      voice->getVoiceStaffUpLink ();
+      voice->
+        getVoiceStaffUpLink ();
+  }
 
   s <<
-    ", " <<
-    msrOctaveKindAsString (fNoteOctaveKind) <<
-    ", staff " <<
-    staff->getStaffNumber () <<
-    ", voice " <<
-    voice->getVoiceNumber ();
+    ", staff: ";
+  if (staff) {
+    s <<
+      staff->getStaffNumber ();
+  }
+  else {
+    s << "*none*";
+  }
 
   s <<
     ", measureNumber: ";
   if (fMeasureElementMeasureNumber == K_NO_MEASURE_NUMBER) {
-    s << "unknown";
+    s << "*unknown*";
   }
   else {
     s << fMeasureElementMeasureNumber;

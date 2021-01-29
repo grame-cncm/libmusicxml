@@ -20701,17 +20701,8 @@ void mxmlTree2msrTranslator::handlePendingHarmonies (
         harmony);
 */
 
-    // get the current part's harmony voice
-    S_msrVoice
-      partHarmonyVoice =
-        fCurrentPart->
-          getPartHarmoniesVoice ();
-
-    // append the harmony to the part harmony voice
-if (false) // JMI not before the note itself has been appended to the voice
-    partHarmonyVoice->
-      appendHarmonyToVoice (
-        harmony);
+    // don't append the harmony to the part harmony voice
+    // before the note itself has been appended to the voice
 
     // remove the harmony from the list
     fPendingHarmoniesList.pop_front ();
@@ -20804,17 +20795,8 @@ void mxmlTree2msrTranslator::handlePendingFiguredBasses (
         figuredBass);
 */
 
-    // get the current part's figured bass voice
-    S_msrVoice
-      partFiguredBassVoice =
-        fCurrentPart->
-          getPartFiguredBassVoice ();
-
-    // append the figured bass to the part figured bass voice
-if (false) // JMI not before the note itself has been appended to the voice
-    partFiguredBassVoice->
-      appendFiguredBassToVoice (
-        figuredBass);
+    // don't append the figured bass to the part figured bass voice
+    // before the note itself has been appended to the voice
 
     // remove the figured bass from the list
     fPendingFiguredBassesList.pop_front ();

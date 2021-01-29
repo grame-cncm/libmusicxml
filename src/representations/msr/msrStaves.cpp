@@ -328,28 +328,28 @@ S_msrStaff msrStaff::createStaffNewbornClone (
 
 S_msrPartGroup msrStaff::fetchStaffPartGroupUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fStaffPartUpLink != nullptr,
-    "fStaffPartUpLink is null");
+  S_msrPartGroup result;
 
-  return
-    fStaffPartUpLink->
-      getPartPartGroupUpLink ();
+  if (fStaffPartUpLink) {
+    result =
+      fStaffPartUpLink->
+        getPartPartGroupUpLink ();
+  }
+
+  return result;
 }
 
 S_msrScore msrStaff::fetchStaffScoreUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fStaffPartUpLink != nullptr,
-    "fStaffPartUpLink is null");
+  S_msrScore result;
 
-  return
-    fStaffPartUpLink->
-      fetchPartScoreUpLink ();
+  if (fStaffPartUpLink) {
+    result =
+      fStaffPartUpLink->
+        fetchPartScoreUpLink ();
+  }
+
+  return result;
 }
 
 void msrStaff::setStaffCurrentClef (S_msrClef clef)

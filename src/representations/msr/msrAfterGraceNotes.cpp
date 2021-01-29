@@ -64,15 +64,15 @@ msrAfterGraceNotesGroupContents::~msrAfterGraceNotesGroupContents ()
 
 S_msrPart msrAfterGraceNotesGroupContents::fetchAfterGraceNotesGroupContentsPartUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fAfterGraceNotesGroupContentsVoiceUpLink != nullptr,
-    "fAfterGraceNotesGroupContentsVoiceUpLink is null");
+  S_msrPart result;
 
-  return
-    fAfterGraceNotesGroupContentsVoiceUpLink->
-      fetchVoicePartUpLink ();
+  if (fAfterGraceNotesGroupContentsVoiceUpLink) {
+    result =
+      fAfterGraceNotesGroupContentsVoiceUpLink->
+        fetchVoicePartUpLink ();
+  }
+
+  return result;
 }
 
 S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::createAfterGraceNotesGroupContentsNewbornClone (
@@ -287,15 +287,15 @@ msrAfterGraceNotesGroup::~msrAfterGraceNotesGroup ()
 
 S_msrPart msrAfterGraceNotesGroup::fetchAfterGraceNotesGroupPartUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fAfterGraceNotesGroupVoiceUpLink != nullptr,
-    "fAfterGraceNotesGroupVoiceUpLink is null");
+  S_msrPart result;
 
-  return
-    fAfterGraceNotesGroupVoiceUpLink->
-      fetchVoicePartUpLink ();
+  if (fAfterGraceNotesGroupVoiceUpLink) {
+    result =
+      fAfterGraceNotesGroupVoiceUpLink->
+        fetchVoicePartUpLink ();
+  }
+
+  return result;
 }
 
 S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::createAfterGraceNotesGroupNewbornClone (

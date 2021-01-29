@@ -176,67 +176,67 @@ msrMeasure::~msrMeasure ()
 
 S_msrVoice msrMeasure::fetchMeasureVoiceUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fMeasureSegmentUpLink != nullptr,
-    "fMeasureSegmentUpLink is null");
+  S_msrVoice result;
 
-  return
-    fMeasureSegmentUpLink->
-      getSegmentVoiceUpLink ();
+  if (fMeasureSegmentUpLink) {
+    result =
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ();
+  }
+
+  return result;
 }
 
 S_msrStaff msrMeasure::fetchMeasureStaffUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fMeasureSegmentUpLink != nullptr,
-    "fMeasureSegmentUpLink is null");
+  S_msrStaff result;
 
-  return
-    fMeasureSegmentUpLink->
-      fetchSegmentStaffUpLink ();
+  if (fMeasureSegmentUpLink) {
+    result =
+      fMeasureSegmentUpLink->
+        fetchSegmentStaffUpLink ();
+  }
+
+  return result;
 }
 
 S_msrPart msrMeasure::fetchMeasurePartUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fMeasureSegmentUpLink != nullptr,
-    "fMeasureSegmentUpLink is null");
+  S_msrPart result;
 
-  return
-    fMeasureSegmentUpLink->
-      fetchSegmentPartUpLink ();
+  if (fMeasureSegmentUpLink) {
+    result =
+      fMeasureSegmentUpLink->
+        fetchSegmentPartUpLink ();
+  }
+
+  return result;
 }
 
 S_msrPartGroup msrMeasure::fetchMeasurePartGroupUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fMeasureSegmentUpLink != nullptr,
-    "fMeasureSegmentUpLink is null");
+  S_msrPartGroup result;
 
-  return
-    fMeasureSegmentUpLink->
-      fetchSegmentPartGroupUpLink ();
+  if (fMeasureSegmentUpLink) {
+    result =
+      fMeasureSegmentUpLink->
+        fetchSegmentPartGroupUpLink ();
+  }
+
+  return result;
 }
 
 S_msrScore msrMeasure::fetchMeasureScoreUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fMeasureSegmentUpLink != nullptr,
-    "fMeasureSegmentUpLink is null");
+  S_msrScore result;
 
-  return
-    fMeasureSegmentUpLink->
-      fetchSegmentScoreUpLink ();
+  if (fMeasureSegmentUpLink) {
+    result =
+      fMeasureSegmentUpLink->
+        fetchSegmentScoreUpLink ();
+  }
+
+  return result;
 }
 
 S_msrMeasure msrMeasure::createMeasureNewbornClone (

@@ -220,41 +220,41 @@ string msrVoice::voiceFinalizationStatusKindAsString (
 
 S_msrPart msrVoice::fetchVoicePartUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fVoiceStaffUpLink != nullptr,
-    "fVoiceStaffUpLink is null");
+  S_msrPart result;
 
-  return
-    fVoiceStaffUpLink->
-      getStaffPartUpLink ();
+  if (fVoiceStaffUpLink) {
+    result =
+      fVoiceStaffUpLink->
+        getStaffPartUpLink ();
+  }
+
+  return result;
 }
 
 S_msrPartGroup msrVoice::fetchVoicePartGroupUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fVoiceStaffUpLink != nullptr,
-    "fVoiceStaffUpLink is null");
+  S_msrPartGroup result;
 
-  return
-    fVoiceStaffUpLink->
-      fetchStaffPartGroupUpLink ();
+  if (fVoiceStaffUpLink) {
+    result =
+      fVoiceStaffUpLink->
+        fetchStaffPartGroupUpLink ();
+  }
+
+  return result;
 }
 
 S_msrScore msrVoice::fetchVoiceScoreUpLink () const
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    fVoiceStaffUpLink != nullptr,
-    "fVoiceStaffUpLink is null");
+  S_msrScore result;
 
-  return
-    fVoiceStaffUpLink->
-      fetchStaffScoreUpLink ();
+  if (fVoiceStaffUpLink) {
+    result =
+      fVoiceStaffUpLink->
+        fetchStaffScoreUpLink ();
+  }
+
+  return result;
 }
 
 void msrVoice::setRegularVoiceStaffSequentialNumber (
@@ -2639,12 +2639,16 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   }
 #endif
 
+  // fetch the part
+  S_msrPart
+    part =
+      fetchVoicePartUpLink ();
+
   // fetch the part current position in measure
   rational
     partCurrentPositionInMeasure =
-      fVoiceStaffUpLink->
-        getStaffPartUpLink ()->
-          getPartCurrentPositionInMeasure ();
+      part->
+        getPartCurrentPositionInMeasure ();
 
   if (! fVoiceLastSegment) {
     this->displayVoice (
@@ -2672,11 +2676,10 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   fVoiceLastAppendedNote = note;
 
   // account for note's duration in staff
-  fVoiceStaffUpLink->
-    getStaffPartUpLink ()->
-      incrementPartCurrentPositionInMeasure (
-        inputLineNumber,
-        note->getNoteSoundingWholeNotes ());
+  part->
+    incrementPartCurrentPositionInMeasure (
+      inputLineNumber,
+      note->getNoteSoundingWholeNotes ());
 
   // register whether music (i.e. not just skips)
   // has been inserted into the voice
@@ -2736,6 +2739,58 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       fMusicHasBeenInsertedInVoice = true;
       break;
   } // switch
+
+  // are there harmonies attached to this note?
+  const list<S_msrHarmony>&
+    noteHarmoniesList =
+      note->
+        getNoteHarmoniesList ();
+
+  if (noteHarmoniesList.size ()) {
+    // get the current part's harmony voice
+    S_msrVoice
+      partHarmonyVoice =
+        part->
+          getPartHarmoniesVoice ();
+
+    list<S_msrHarmony>::const_iterator i;
+    for (
+      i=noteHarmoniesList.begin (); i!=noteHarmoniesList.end (); ++i
+    ) {
+      S_msrHarmony harmony = (*i);
+
+      // append the harmony to the part harmony voice
+      partHarmonyVoice->
+        appendHarmonyToVoice (
+          harmony);
+    } // for
+  }
+
+  // are there figured basses attached to this note?
+  const list<S_msrFiguredBass>&
+    noteFiguredBassesList =
+      note->
+        getNoteFiguredBassesList ();
+
+  if (noteFiguredBassesList.size ()) {
+    // get the current part's figured bass voice
+    S_msrVoice
+      partFiguredBassVoice =
+        part->
+          getPartFiguredBassVoice ();
+
+    list<S_msrFiguredBass>::const_iterator i;
+    for (
+      i=noteFiguredBassesList.begin (); i!=noteFiguredBassesList.end (); ++i
+    ) {
+      S_msrFiguredBass figuredBass = (*i);
+
+      // append the harmony to the part harmony voice
+      partFiguredBassVoice->
+        appendFiguredBassToVoice (
+          figuredBass);
+    } // for
+  }
 }
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
