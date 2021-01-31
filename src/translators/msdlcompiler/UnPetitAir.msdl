@@ -1,0 +1,39 @@
+voice unPetitAir = {
+  clef treble
+  key c
+  time 9/8
+
+  |1  r4. a,4-> <e g bf>8~ <e g bf>4.~
+  |2  <e g bf>4. r2.
+
+  %  Maintenant, je reviens en arrière pour la voix supérieure.
+  |2  fs''16 gs'' fs''8 cs'' ds'' e'' b' d'' a' e'
+
+  %  La voix inférieure s'éteint.
+  |3  c''8 gs' d' c' fs' a' b' gs' b
+  |4  a'8 e' a g as gs' d'( a ds)
+  |5  e8( b g d' a' e'' b'' c''' b''
+  |6  e'''4.) % Rien à la fin.
+
+  %  Je décide d'ajouter une tenue de la basse.
+  |5  e2.~ e4.
+
+  %  J'ajoute encore une voix. Au passage, je change la métrique.
+  |6  time 6/8
+  |6  r8 e'( f') e' c'' d''
+
+  %  Et encore un changement de métrique.
+  |7  time 4/4
+  |7  e''1~
+
+  %  Je finis la phrase.
+  |7  e''4 e' d''8 c'' b' a'
+  |8  b'1
+
+  %  Je retourne sur mes pas pour introduire l'ostinato.
+  |7  r8 e8 f e f e c' a
+  |8  r8 e8 f e c' a e f
+  |9  r8 ds e ds e ds b fs
+
+  % etc.
+}
