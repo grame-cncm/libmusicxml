@@ -20529,6 +20529,20 @@ void mxmlTree2msrTranslator::visitEnd ( S_note& elt )
         fCurrentStaffNumberToInsertInto);
 */
 
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  // handle the note itself
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  handleNote (
+    inputLineNumber,
+    newNote);
+
+  // attach the regular pending elements (not dal segnos), if any, to newNote
+  // only now because <lyric> follows <glissando> and <slide> in MusicXML JMI ???
+  attachPendingNoteLevelElementsToNote (newNote);
+
   // handle the pending harmonies if any
   if (fPendingHarmoniesList.size ()) {
     // fetch voice to insert harmonies into
@@ -20585,22 +20599,8 @@ void mxmlTree2msrTranslator::visitEnd ( S_note& elt )
     fFiguredBassVoicesCounter = 0;
   }
 
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-  // handle the note itself
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-
-  handleNote (
-    inputLineNumber,
-    newNote);
-
-  // attach the regular pending elements (not dal segnos), if any, to newNote
-  // only now because <lyric> follows <glissando> and <slide> in MusicXML JMI ???
-  attachPendingNoteLevelElementsToNote (newNote);
-
   // lyrics if any have to be handled in all cases
-  // only now because attachPendingNoteLevelElementsToNote()
+  // done only now because attachPendingNoteLevelElementsToNote()
   // may append skip syllables to the notes
   handleLyricsForNote (
     voiceToInsertNoteInto,
@@ -20676,7 +20676,7 @@ void mxmlTree2msrTranslator::handlePendingHarmonies (
       appendHarmonyToNoteHarmoniesList (
         harmony);
 
-/* JMI
+/* JMI BLARK
     // get the harmony voice for the current voice
     S_msrVoice
       voiceHarmonyVoice =
@@ -20701,7 +20701,7 @@ void mxmlTree2msrTranslator::handlePendingHarmonies (
         harmony);
 */
 
-    // don't append the harmony to the part harmony voice
+    // don't append the harmony to the part harmony voice // BLARK
     // before the note itself has been appended to the voice
 
     // remove the harmony from the list

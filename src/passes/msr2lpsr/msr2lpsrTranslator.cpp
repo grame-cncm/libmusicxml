@@ -1003,10 +1003,12 @@ void msr2lpsrTranslator::visitStart (S_msrPartGroup& elt)
   fPartGroupBlocksStack.push (
     partGroupBlock);
 
+/* JMI
   // get the LPSR store block
   S_lpsrScoreBlock
     scoreBlock =
       fResultingLpsrScore->getScoreScoreBlock ();
+*/
 
   // don't append the partgroup block to the score/bookpart block now:
   // this will be done when it gets popped from the stack

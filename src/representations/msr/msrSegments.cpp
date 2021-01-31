@@ -304,7 +304,7 @@ void msrSegment::assertSegmentMeasuresListIsNotEmpty (
   if (! fSegmentMeasuresList.size ()) {
 #ifdef TRACING_IS_ENABLED
   if (
-    gGlobalTraceOahGroup->getTraceMeasures ()
+    gGlobalTraceOahGroup->getTraceMeasuresDetails ()
       ||
     gGlobalTraceOahGroup->getTraceSegments ()
       ||

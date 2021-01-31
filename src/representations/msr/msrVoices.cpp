@@ -2740,7 +2740,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       break;
   } // switch
 
-  // are there harmonies attached to this note?
+  // are there harmonies attached to this note? // BLARK
   const list<S_msrHarmony>&
     noteHarmoniesList =
       note->

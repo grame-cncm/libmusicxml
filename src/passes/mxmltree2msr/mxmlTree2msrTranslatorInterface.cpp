@@ -70,7 +70,7 @@ void populateMsrSkeletonFromMxmlTree (
       separator <<
       endl <<
       gTab <<
-      passNumber << ": translating the mxmlElement tree into a MSR" <<
+      passNumber << ": populating the MSR from the mxmlElement tree" <<
       endl;
 
     gLogStream <<
