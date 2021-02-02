@@ -80,7 +80,7 @@ help :
 	@echo "   PREFIX    the install location prefix. Currently $(PREFIX)'"
 	@echo 
 	@echo "CMake options:"
-	@echo "   FMWK 		[MacOS only] Generates a framework on MacOS. Default is on"
+	@echo "   FMWK 		[MacOS only] Generates a framework on MacOS. Default is off"
 	@echo "   UNIVERSAL [MacOS only] Generates universal binaries. Default is off"
 	@echo "   GDB 		Activates ggdb3 option. Default is off"
 	@echo "   LILY 		Include lilypond part. Default is on"
@@ -96,6 +96,10 @@ $(PDIR) :
 #===============================================================
 js:
 	make -C ../javascript
+
+#===============================================================
+# building the library on Mac OS X
+#===============================================================
 
 #===============================================================
 # building the library on Mac OS X
