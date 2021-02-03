@@ -4,6 +4,8 @@
 
 .PHONY : msys win32 win64 linux android
 
+MAKE   ?= make
+CMAKE  ?= cmake
 PDIR   ?= libdir
 VERSION = 3.20
 
@@ -43,7 +45,7 @@ CMAKEOPT ?=
 TOOLS := xml2midi xmlread xml2guido xml2ly xmlversion
 
 all :
-	make $(TARGET)
+	$(MAKE) $(TARGET)
 
 undefined:
 	$(error System is undefined, not target available)
@@ -95,7 +97,7 @@ $(PDIR) :
 # building the javascript library
 #===============================================================
 js:
-	make -C ../javascript
+	$(MAKE) -C ../javascript
 
 #===============================================================
 # building the library on Mac OS X
@@ -105,28 +107,28 @@ js:
 # building the library on Mac OS X
 #===============================================================
 macos : $(PDIR)/libmusicxml2.xcodeproj
-	cmake --build $(PDIR) --config Release -- -jobs $(JOBS)
+	$(CMAKE) --build $(PDIR) --config Release -- -jobs $(JOBS)
 	-cd lib &&  [ -d libmusicxml2.framework ] && tar czf libmusicxml2.tgz libmusicxml2.framework || echo "no framework"
 
 $(PDIR)/libmusicxml2.xcodeproj : $(PDIR) CMakeLists.txt
-	cd $(PDIR) && cmake .. -G Xcode $(CMAKEOPT)  -Wno-dev
+	cd $(PDIR) && $(CMAKE) .. -G Xcode $(CMAKEOPT)  -Wno-dev
 
 universal: $(PDIR)
-	cd $(PDIR) && cmake .. -DUNIVERSAL=on -Wno-dev
+	cd $(PDIR) && $(CMAKE) .. -DUNIVERSAL=on -Wno-dev
 
 native: $(PDIR)
-	cd $(PDIR) && cmake .. -DUNIVERSAL=off -Wno-dev
+	cd $(PDIR) && $(CMAKE) .. -DUNIVERSAL=off -Wno-dev
 
 
 #===============================================================
 # building the library for iOS
 #===============================================================
 ios : $(IOS)/libmusicxml2.xcodeproj
-	cmake --build $(IOS) --config Release -- -jobs $(JOBS)
+	$(CMAKE) --build $(IOS) --config Release -- -jobs $(JOBS)
 
 $(IOS)/libmusicxml2.xcodeproj : CMakeLists.txt
 	[ -d $(IOS) ] || mkdir $(IOS)
-	cd $(IOS) && cmake .. -G Xcode -DIOS=yes -Wno-dev $(CMAKEOPT)
+	cd $(IOS) && $(CMAKE) .. -G Xcode -DIOS=yes -Wno-dev $(CMAKEOPT)
 
 
 #===============================================================
@@ -137,41 +139,41 @@ $(IOS)/libmusicxml2.xcodeproj : CMakeLists.txt
 # using msys
 msys : GENERATOR ?= MSYS Makefiles
 msys : $(PDIR)/Makefile
-	make -C $(PDIR)
+	$(MAKE) -C $(PDIR)
 
 #===============================================================
 # using visual studio
 windows :
-	make win32
-	make win64
+	$(MAKE) win32
+	$(MAKE) win64
 
 win32 : win32/libmusicxml2.sln 
-	cmake --build win32 --config Release -- /maxcpucount:4
+	$(CMAKE) --build win32 --config Release -- /maxcpucount:4
 
 win32/libmusicxml2.sln : CMakeLists.txt
 	[ -d win32 ] || mkdir win32
-	cd win32 && cmake .. -G "$(MSVC)" $(CMAKEOPT)
+	cd win32 && $(CMAKE) .. -G "$(MSVC)" $(CMAKEOPT)
 
 win64 : win64/libmusicxml2.sln 
-	cmake --build win64 --config Release -- /maxcpucount:4 
+	$(CMAKE) --build win64 --config Release -- /maxcpucount:4 
 
 win64/libmusicxml2.sln : CMakeLists.txt
 	[ -d win64 ] || mkdir win64
-	cd win64 && cmake .. -G "$(MSVC64)" $(CMAKEOPT)
+	cd win64 && $(CMAKE) .. -G "$(MSVC64)" $(CMAKEOPT)
 
 #===============================================================
 # building the library on linux
 #===============================================================
 linux : $(PDIR)/Makefile
-	make -C $(PDIR)
+	$(MAKE) -C $(PDIR)
 
 $(PDIR)/Makefile : $(PDIR) CMakeLists.txt
-	cd $(PDIR) && cmake .. -G "$(GENERATOR)"  $(CMAKEOPT)
+	cd $(PDIR) && $(CMAKE) .. -G "$(GENERATOR)"  $(CMAKEOPT)
 
 
 #===============================================================
 cmake : $(PDIR)
-	cd $(PDIR) && cmake .. -G "$(GENERATOR)" -Wno-dev $(CMAKEOPT)
+	cd $(PDIR) && $(CMAKE) .. -G "$(GENERATOR)" -Wno-dev $(CMAKEOPT)
 
 #===============================================================
 # building the library for Android
@@ -194,8 +196,8 @@ format :
 #===============================================================
 installLog := $(PDIR)/install_manifest.txt
 install:
-	cd $(PDIR) && cmake .. -DCMAKE_INSTALL_PREFIX=$(PREFIX) 
-	cmake --build $(PDIR) --config Release --target install
+	cd $(PDIR) && $(CMAKE) .. -DCMAKE_INSTALL_PREFIX=$(PREFIX) 
+	$(CMAKE) --build $(PDIR) --config Release --target install
 
 uninstall: installedfiles = $(shell cat $(installLog))
 uninstall: $(installLog)
