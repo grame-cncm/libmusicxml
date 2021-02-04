@@ -139,39 +139,39 @@ class EXP msrVoice : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrVoice> create (
-      int          inputLineNumber,
-      msrVoiceKind voiceKind,
-      int          voiceNumber,
-      msrVoiceCreateInitialLastSegmentKind
-                   voiceCreateInitialLastSegmentKind,
-      S_msrStaff   voiceStaffUpLink);
+                            int          inputLineNumber,
+                            msrVoiceKind voiceKind,
+                            int          voiceNumber,
+                            msrVoiceCreateInitialLastSegmentKind
+                                         voiceCreateInitialLastSegmentKind,
+                            S_msrStaff   voiceStaffUpLink);
 
     SMARTP<msrVoice> createVoiceNewbornClone (
-      S_msrStaff containingStaff);
+                            S_msrStaff containingStaff);
 
     SMARTP<msrVoice> createVoiceDeepCopy (
-      int          inputLineNumber,
-      msrVoiceKind voiceKind,
-      int          voiceNumber,
-      S_msrStaff   containingStaff);
+                            int          inputLineNumber,
+                            msrVoiceKind voiceKind,
+                            int          voiceNumber,
+                            S_msrStaff   containingStaff);
 
     // creation from the API
     // ------------------------------------------------------
 
     static SMARTP<msrVoice> createRegularVoice (
-      int        inputLineNumber,
-      int        voiceNumber,
-      S_msrStaff voiceStaffUpLink);
+                            int        inputLineNumber,
+                            int        voiceNumber,
+                            S_msrStaff voiceStaffUpLink);
 
     static SMARTP<msrVoice> createHarmonyVoice (
-      int        inputLineNumber,
-      int        voiceNumber,
-      S_msrStaff voiceStaffUpLink);
+                            int        inputLineNumber,
+                            int        voiceNumber,
+                            S_msrStaff voiceStaffUpLink);
 
     static SMARTP<msrVoice> createFiguredBassVoice (
-      int        inputLineNumber,
-      int        voiceNumber,
-      S_msrStaff voiceStaffUpLink);
+                            int        inputLineNumber,
+                            int        voiceNumber,
+                            S_msrStaff voiceStaffUpLink);
 
   protected:
 
@@ -179,13 +179,13 @@ class EXP msrVoice : public msrElement
     // ------------------------------------------------------
 
     // for regular voices
-    msrVoice (
-      int          inputLineNumber,
-      msrVoiceKind voiceKind,
-      int          voiceNumber,
-      msrVoiceCreateInitialLastSegmentKind
-                   voiceCreateInitialLastSegmentKind,
-      S_msrStaff   voiceStaffUpLink);
+                          msrVoice (
+                            int          inputLineNumber,
+                            msrVoiceKind voiceKind,
+                            int          voiceNumber,
+                            msrVoiceCreateInitialLastSegmentKind
+                                         voiceCreateInitialLastSegmentKind,
+                            S_msrStaff   voiceStaffUpLink);
 
     // destructor
     virtual               ~msrVoice ();

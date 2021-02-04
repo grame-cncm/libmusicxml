@@ -30,15 +30,15 @@ class EXP msrIdentification : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrIdentification> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrIdentification (
-      int inputLineNumber);
+                          msrIdentification (
+                            int inputLineNumber);
 
     virtual               ~msrIdentification ();
 

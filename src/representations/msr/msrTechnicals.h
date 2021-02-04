@@ -63,19 +63,19 @@ class EXP msrTechnical : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTechnical> create (
-      int              inputLineNumber,
-      msrTechnicalKind technicalKind,
-      msrPlacementKind technicalPlacementKind);
+                            int              inputLineNumber,
+                            msrTechnicalKind technicalKind,
+                            msrPlacementKind technicalPlacementKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrTechnical (
-      int              inputLineNumber,
-      msrTechnicalKind technicalKind,
-      msrPlacementKind technicalPlacementKind);
+                          msrTechnical (
+                            int              inputLineNumber,
+                            msrTechnicalKind technicalKind,
+                            msrPlacementKind technicalPlacementKind);
 
     virtual               ~msrTechnical ();
 
@@ -176,21 +176,21 @@ class EXP msrTechnicalWithInteger : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTechnicalWithInteger> create (
-      int                         inputLineNumber,
-      msrTechnicalWithIntegerKind technicalWithIntegerKind,
-      int                         technicalWithIntegerValue,
-      msrPlacementKind            technicalWithIntegerPlacementKind);
+                            int                         inputLineNumber,
+                            msrTechnicalWithIntegerKind technicalWithIntegerKind,
+                            int                         technicalWithIntegerValue,
+                            msrPlacementKind            technicalWithIntegerPlacementKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrTechnicalWithInteger (
-      int                         inputLineNumber,
-      msrTechnicalWithIntegerKind technicalWithIntegerKind,
-      int                         technicalWithIntegerValue,
-      msrPlacementKind            technicalWithIntegerPlacementKind);
+                          msrTechnicalWithInteger (
+                            int                         inputLineNumber,
+                            msrTechnicalWithIntegerKind technicalWithIntegerKind,
+                            int                         technicalWithIntegerValue,
+                            msrPlacementKind            technicalWithIntegerPlacementKind);
 
     virtual               ~msrTechnicalWithInteger ();
 
@@ -252,11 +252,12 @@ class EXP msrTechnicalWithInteger : public msrElement
     // private fields
     // ------------------------------------------------------
 
-    msrTechnicalWithIntegerKind     fTechnicalWithIntegerKind;
+    msrTechnicalWithIntegerKind
+                          fTechnicalWithIntegerKind;
 
-    int                             fTechnicalWithIntegerValue;
+    int                   fTechnicalWithIntegerValue;
 
-    msrPlacementKind                fTechnicalWithIntegerPlacementKind;
+    msrPlacementKind      fTechnicalWithIntegerPlacementKind;
 };
 typedef SMARTP<msrTechnicalWithInteger> S_msrTechnicalWithInteger;
 EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt);
@@ -280,21 +281,21 @@ class EXP msrTechnicalWithFloat : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTechnicalWithFloat> create (
-      int                       inputLineNumber,
-      msrTechnicalWithFloatKind technicalWithFloatKind,
-      float                     technicalWithFloatValue,
-      msrPlacementKind          technicalWithFloatPlacementKind);
+                            int                       inputLineNumber,
+                            msrTechnicalWithFloatKind technicalWithFloatKind,
+                            float                     technicalWithFloatValue,
+                            msrPlacementKind          technicalWithFloatPlacementKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrTechnicalWithFloat (
-      int                       inputLineNumber,
-      msrTechnicalWithFloatKind technicalWithFloatKind,
-      float                     technicalWithFloatValue,
-      msrPlacementKind          technicalWithFloatPlacementKind);
+                          msrTechnicalWithFloat (
+                            int                       inputLineNumber,
+                            msrTechnicalWithFloatKind technicalWithFloatKind,
+                            float                     technicalWithFloatValue,
+                            msrPlacementKind          technicalWithFloatPlacementKind);
 
     virtual               ~msrTechnicalWithFloat ();
 
@@ -388,23 +389,23 @@ class EXP msrTechnicalWithString : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTechnicalWithString> create (
-      int                        inputLineNumber,
-      msrTechnicalWithStringKind technicalWithStringKind,
-      msrTechnicalTypeKind       technicalWithStringTypeKind,
-      string                     technicalWithStringValue,
-      msrPlacementKind           technicalWithStringPlacementKind);
+                            int                        inputLineNumber,
+                            msrTechnicalWithStringKind technicalWithStringKind,
+                            msrTechnicalTypeKind       technicalWithStringTypeKind,
+                            string                     technicalWithStringValue,
+                            msrPlacementKind           technicalWithStringPlacementKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrTechnicalWithString (
-      int                        inputLineNumber,
-      msrTechnicalWithStringKind technicalWithStringKind,
-      msrTechnicalTypeKind       technicalWithStringTypeKind,
-      string                     technicalWithStringValue,
-      msrPlacementKind           technicalWithStringPlacementKind);
+                          msrTechnicalWithString (
+                            int                        inputLineNumber,
+                            msrTechnicalWithStringKind technicalWithStringKind,
+                            msrTechnicalTypeKind       technicalWithStringTypeKind,
+                            string                     technicalWithStringValue,
+                            msrPlacementKind           technicalWithStringPlacementKind);
 
     virtual               ~msrTechnicalWithString ();
 

@@ -17,23 +17,23 @@ class EXP msrAfterGraceNotesGroupContents : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrAfterGraceNotesGroupContents> create (
-      int        inputLineNumber,
-      S_msrVoice afterGraceNotesGroupContentsVoiceUpLink);
+                            int        inputLineNumber,
+                            S_msrVoice afterGraceNotesGroupContentsVoiceUpLink);
 
     SMARTP<msrAfterGraceNotesGroupContents> createAfterGraceNotesGroupContentsNewbornClone (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
     SMARTP<msrVoice> createAfterGraceNotesGroupContentsDeepCopy (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrAfterGraceNotesGroupContents (
-      int        inputLineNumber,
-      S_msrVoice afterGraceNotesGroupContentsVoiceUpLink);
+                          msrAfterGraceNotesGroupContents (
+                            int        inputLineNumber,
+                            S_msrVoice afterGraceNotesGroupContentsVoiceUpLink);
 
     virtual               ~msrAfterGraceNotesGroupContents ();
 
@@ -106,29 +106,29 @@ class EXP msrAfterGraceNotesGroup : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrAfterGraceNotesGroup> create (
-      int          inputLineNumber,
-      S_msrElement afterGraceNotesGroupElement,
-      bool         afterGraceNotesGroupIsSlashed,
-      S_msrVoice   afterGraceNotesGroupVoiceUpLink);
+                            int          inputLineNumber,
+                            S_msrElement afterGraceNotesGroupElement,
+                            bool         afterGraceNotesGroupIsSlashed,
+                            S_msrVoice   afterGraceNotesGroupVoiceUpLink);
 
     SMARTP<msrAfterGraceNotesGroup> createAfterGraceNotesGroupNewbornClone (
-      S_msrNote  noteClone,
-      S_msrVoice containingVoice);
+                            S_msrNote  noteClone,
+                            S_msrVoice containingVoice);
 
     SMARTP<msrVoice> createAfterGraceNotesGroupDeepCopy (
-      S_msrNote  noteClone,
-      S_msrVoice containingVoice);
+                            S_msrNote  noteClone,
+                            S_msrVoice containingVoice);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrAfterGraceNotesGroup (
-      int          inputLineNumber,
-      S_msrElement afterGraceNotesGroupElement,
-      bool         afterGraceNotesGroupIsSlashed,
-      S_msrVoice   afterGraceNotesGroupVoiceUpLink);
+                          msrAfterGraceNotesGroup (
+                            int          inputLineNumber,
+                            S_msrElement afterGraceNotesGroupElement,
+                            bool         afterGraceNotesGroupIsSlashed,
+                            S_msrVoice   afterGraceNotesGroupVoiceUpLink);
 
     virtual               ~msrAfterGraceNotesGroup ();
 

@@ -1926,10 +1926,10 @@ void msr2lpsrTranslator::visitStart (S_msrHarmony& elt)
     gLogStream <<
       "--> Start visiting msrHarmony '" <<
       elt->asString () <<
-      ", fOnGoingNonGraceNote: " << booleanAsString (fOnGoingNonGraceNote) <<
-      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
-      ", fOnGoingHarmonyVoice: " << booleanAsString (fOnGoingHarmonyVoice) <<
-      ", fOnGoingHarmony: " << booleanAsString (fOnGoingHarmony) <<
+      ", onGoingNonGraceNote: " << booleanAsString (fOnGoingNonGraceNote) <<
+      ", onGoingChord: " << booleanAsString (fOnGoingChord) <<
+      ", onGoingHarmonyVoice: " << booleanAsString (fOnGoingHarmonyVoice) <<
+      ", onGoingHarmony: " << booleanAsString (fOnGoingHarmony) <<
       "', line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -2016,10 +2016,10 @@ void msr2lpsrTranslator::visitStart (S_msrHarmonyDegree& elt)
     gLogStream <<
       "--> Start visiting S_msrHarmonyDegree '" <<
       elt->asString () <<
-      ", fOnGoingNonGraceNote: " << booleanAsString (fOnGoingNonGraceNote) <<
-      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
-      ", fOnGoingHarmonyVoice: " << booleanAsString (fOnGoingHarmonyVoice) <<
-      ", fOnGoingHarmony: " << booleanAsString (fOnGoingHarmony) <<
+      ", onGoingNonGraceNote: " << booleanAsString (fOnGoingNonGraceNote) <<
+      ", onGoingChord: " << booleanAsString (fOnGoingChord) <<
+      ", onGoingHarmonyVoice: " << booleanAsString (fOnGoingHarmonyVoice) <<
+      ", onGoingHarmony: " << booleanAsString (fOnGoingHarmony) <<
       "', line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -3981,7 +3981,7 @@ void msr2lpsrTranslator::visitStart (S_msrSlur& elt)
     gLogStream <<
       "--> visitStart (S_msrSlur&), " <<
       elt->asShortString () <<
-      ", fOnGoingNotesStack.size (): " <<
+      ", onGoingNotesStack.size (): " <<
       fOnGoingNotesStack.size () <<
       ", onGoingChord: " <<
       booleanAsString (fOnGoingChord) <<
@@ -4271,16 +4271,16 @@ void msr2lpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     gLogStream <<
       "--> Start visiting msrGraceNotesGroup " <<
       elt->asShortString () <<
-      ", fOnGoingNotesStack.size (): " << fOnGoingNotesStack.size () <<
-      ", fOnGoingChord: " << fOnGoingChord <<
-      ", fOnGoingChordGraceNotesGroupLink: " <<
+      ", onGoingNotesStack.size (): " << fOnGoingNotesStack.size () <<
+      ", onGoingChord: " << booleanAsString (fOnGoingChord) <<
+      ", onGoingChordGraceNotesGroupLink: " <<
         booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  bool doCreateAGraceNoteClone = true; // JMI
+  bool doCreateAGraceNoteClone = ! fOnGoingChordGraceNotesGroupLink; // JMI
 
   if (doCreateAGraceNoteClone) {
     // create a clone of this graceNotesGroup
@@ -4298,8 +4298,7 @@ void msr2lpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
     fCurrentGraceNotesGroupClone =
       elt->
-        createGraceNotesGroupNewbornClone (
-          fCurrentVoiceClone);
+        createGraceNotesGroupNewbornClone ();
 
     // attach it to the current note clone
     // if (fOnGoingNonGraceNote) { JMI
@@ -4470,8 +4469,7 @@ void msr2lpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
       fCurrentSkipGraceNotesGroup =
         elt->
-          createSkipGraceNotesGroupClone (
-            fCurrentVoiceClone);
+          createSkipGraceNotesGroupClone ();
     }
   }
 
@@ -4486,9 +4484,9 @@ void msr2lpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
       "--> End visiting msrGraceNotesGroup" <<
-      ", fOnGoingNotesStack.size (): " << fOnGoingNotesStack.size () <<
-      ", fOnGoingChord: " << fOnGoingChord <<
-      ", fOnGoingChordGraceNotesGroupLink: " <<
+      ", onGoingNotesStack.size (): " << fOnGoingNotesStack.size () <<
+      ", onGoingChord: " << booleanAsString (fOnGoingChord) <<
+      ", onGoingChordGraceNotesGroupLink: " <<
         booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
@@ -4572,9 +4570,9 @@ void msr2lpsrTranslator::visitStart (S_msrChordGraceNotesGroupLink& elt)
       elt->asShortString () <<
       ", originalGraceNotesGroup: " <<
       originalGraceNotesGroup->asShortString () <<
-      ", fOnGoingNotesStack.size (): " << fOnGoingNotesStack.size () <<
-      ", fOnGoingChord: " << fOnGoingChord <<
-      ", fOnGoingChordGraceNotesGroupLink: " <<
+      ", onGoingNotesStack.size (): " << fOnGoingNotesStack.size () <<
+      ", onGoingChord: " << booleanAsString (fOnGoingChord) <<
+      ", onGoingChordGraceNotesGroupLink: " <<
         booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       endl;
   }
@@ -4592,11 +4590,13 @@ void msr2lpsrTranslator::visitStart (S_msrChordGraceNotesGroupLink& elt)
       case msrGraceNotesGroup::kGraceNotesGroupBefore:
         fCurrentChordClone->
           setChordGraceNotesGroupLinkBefore (
+            inputLineNumber,
             chordChordGraceNotesGroupLink);
         break;
       case msrGraceNotesGroup::kGraceNotesGroupAfter:
         fCurrentChordClone->
           setChordGraceNotesGroupLinkAfter (
+            inputLineNumber,
             chordChordGraceNotesGroupLink);
         break;
     } // switch
@@ -4635,9 +4635,9 @@ void msr2lpsrTranslator::visitEnd (S_msrChordGraceNotesGroupLink& elt)
       elt->asShortString () <<
       ", originalGraceNotesGroup: " <<
       originalGraceNotesGroup->asShortString () <<
-      ", fOnGoingNotesStack.size (): " << fOnGoingNotesStack.size () <<
-      ", fOnGoingChord: " << fOnGoingChord <<
-      ", fOnGoingChordGraceNotesGroupLink: " << fOnGoingChordGraceNotesGroupLink <<
+      ", onGoingNotesStack.size (): " << fOnGoingNotesStack.size () <<
+      ", onGoingChord: " << booleanAsString (fOnGoingChord) <<
+      ", onGoingChordGraceNotesGroupLink: " << fOnGoingChordGraceNotesGroupLink <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -4697,10 +4697,10 @@ void msr2lpsrTranslator::visitStart (S_msrNote& elt)
 */
 
   switch (elt->getNoteKind ()) {
-    case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
-    case msrNote::kGraceChordMemberNote:
-    case msrNote::kGraceTupletMemberNote:
+    case kNoteGrace:
+    case kNoteGraceSkip:
+    case kNoteGraceChordMember:
+    case kNoteGraceTupletMember:
       fCurrentGraceNoteClone = noteClone;
       break;
 
@@ -4768,7 +4768,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  msrNote::msrNoteKind
+  msrNoteKind
     noteKind = elt->getNoteKind ();
 
 #ifdef TRACING_IS_ENABLED
@@ -4813,10 +4813,10 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
 
   switch (noteKind) {
 
-    case msrNote::k_NoNoteKind:
+    case k_NoNoteKind:
       break;
 
-    case msrNote::kRestNote:
+    case kNoteRest:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4832,7 +4832,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case msrNote::kSkipNote: // JMI
+    case kNoteSkip: // JMI
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4848,7 +4848,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case msrNote::kUnpitchedNote:
+    case kNoteUnpitched:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4864,7 +4864,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case msrNote::kRegularNote:
+    case kNoteRegular:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4880,7 +4880,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case msrNote::kDoubleTremoloMemberNote:
+    case kNoteDoubleTremoloMember:
       if (fOnGoingDoubleTremolo) {
 
         if (fCurrentNonGraceNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
@@ -4953,8 +4953,8 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
       }
       break;
 
-    case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
+    case kNoteGrace:
+    case kNoteGraceSkip:
     /* JMI
       gLogStream <<
         "fOnGoingGraceNotesGroup = " <<
@@ -5049,7 +5049,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
       */
       break;
 
-    case msrNote::kChordMemberNote:
+    case kNoteChordMember:
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
@@ -5073,7 +5073,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
         }
       break;
 
-    case msrNote::kGraceChordMemberNote:
+    case kNoteGraceChordMember:
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
@@ -5097,10 +5097,10 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
         }
       break;
 
-    case msrNote::kTupletMemberNote:
-    case msrNote::kTupletRestMemberNote:
-    case msrNote::kGraceTupletMemberNote:
-    case msrNote::kTupletUnpitchedMemberNote:
+    case kNoteTupletMember:
+    case kNoteTupletRestMember:
+    case kNoteGraceTupletMember:
+    case kNoteTupletUnpitchedMember:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -5178,10 +5178,10 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
 */
 
   switch (noteKind) {
-    case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
-    case msrNote::kGraceChordMemberNote:
-    case msrNote::kGraceTupletMemberNote:
+    case kNoteGrace:
+    case kNoteGraceSkip:
+    case kNoteGraceChordMember:
+    case kNoteGraceTupletMember:
       break;
 
     default:
@@ -5335,8 +5335,8 @@ void msr2lpsrTranslator::visitStart (S_msrBeam& elt)
     gLogStream <<
       "--> Start visiting msrBeam" <<
       ", line " << elt->getInputLineNumber () <<
-// JMI      ", fOnGoingNonGraceNote: " << booleanAsString (fOnGoingNonGraceNote) <<
-// JMI      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
+// JMI      ", onGoingNonGraceNote: " << booleanAsString (fOnGoingNonGraceNote) <<
+// JMI      ", onGoingChord: " << booleanAsString (fOnGoingChord) <<
       endl;
   }
 #endif

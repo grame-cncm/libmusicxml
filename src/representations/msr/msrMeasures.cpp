@@ -2028,7 +2028,7 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
 
   // populate measure upLink
   note->
-    setNoteMeasureUpLink (this);
+    setNoteDirectMeasureUpLink (this);
 
   // set note's measure number
   note->
@@ -2160,7 +2160,7 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
 
   // populate measure upLink
   note->
-    setNoteMeasureUpLink (this);
+    setNoteDirectMeasureUpLink (this);
 
   // append the note to the measure elements list
 // JMI  // only now to make it possible to remove it afterwards
@@ -2244,7 +2244,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
 
     // populate measure upLink
     note->
-      setNoteMeasureUpLink (this);
+      setNoteDirectMeasureUpLink (this);
 
     // append the note to the measure elements list
   // JMI  // only now to make it possible to remove it afterwards
@@ -2353,7 +2353,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
     chord->getInputLineNumber ();
 
   // populate measure upLink
-  chord->setChordMeasureUpLink (this);
+  chord->setChordDirectMeasureUpLink (this);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceChords ()) {
@@ -2416,7 +2416,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   ++gIndenter;
 
   // populate measure upLink
-  tuplet->setTupletMeasureUpLink (this);
+  tuplet->setTupletDirectMeasureUpLink (this);
 
   // append the tuplet to the measure elements list
   appendElementToMeasure (tuplet);

@@ -35,17 +35,17 @@ struct lpsrRepeatDescr : public smartable
     // ------------------------------------------------------
 
     static SMARTP<lpsrRepeatDescr> create (
-      S_msrRepeat repeat,
-      int         repeatEndingsNumber);
+                            S_msrRepeat repeat,
+                            int         repeatEndingsNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrRepeatDescr (
-      S_msrRepeat repeat,
-      int         repeatEndingsNumber);
+                          lpsrRepeatDescr (
+                            S_msrRepeat repeat,
+                            int         repeatEndingsNumber);
 
     virtual               ~lpsrRepeatDescr ();
 

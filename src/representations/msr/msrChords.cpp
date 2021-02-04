@@ -164,6 +164,48 @@ void msrChord::setChordDisplayWholeNotes (
   fChordDisplayWholeNotes = wholeNotes;
 }
 
+void msrChord::setChordGraceNotesGroupLinkBefore (
+  int     inputLineNumber,
+  S_msrChordGraceNotesGroupLink
+          chordChordGraceNotesGroupLinkBefore)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
+      "Setting chord grace notes groups before in " <<
+      asString () <<
+      " to '" <<
+      chordChordGraceNotesGroupLinkBefore->asShortString () <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  fChordGraceNotesGroupLinkBefore =
+    chordChordGraceNotesGroupLinkBefore;
+}
+
+void msrChord::setChordGraceNotesGroupLinkAfter (
+  int     inputLineNumber,
+  S_msrChordGraceNotesGroupLink
+          chordChordGraceNotesGroupLinkAfter)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
+      "Setting chord grace notes groups after in " <<
+      asString () <<
+      " to '" <<
+      chordChordGraceNotesGroupLinkAfter->asShortString () <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  fChordGraceNotesGroupLinkAfter =
+    chordChordGraceNotesGroupLinkAfter;
+}
+
 void msrChord::setChordMembersPositionInMeasure (
   S_msrMeasure measure,
   rational     positionInMeasure)
@@ -190,7 +232,7 @@ void msrChord::setChordMembersPositionInMeasure (
   // compute chord's position in voice
   rational
      positionInVoice =
-      fChordMeasureUpLink->getMeasurePositionInVoice ()
+      fChordDirectMeasureUpLink->getMeasurePositionInVoice ()
         +
       positionInMeasure;
 
@@ -222,7 +264,7 @@ void msrChord::setChordMembersPositionInMeasure (
 
       // set note's measure uplink
       note->
-        setNoteMeasureUpLink (
+        setNoteDirectMeasureUpLink (
           measure);
 
       // set note's position in measure
@@ -279,12 +321,12 @@ void msrChord::addFirstNoteToChord (
 
   // register note's chord upLink
   note->
-    setNoteChordUpLink (this);
+    setNoteDirectChordUpLink (this);
 
 /* JMI too early
   // register note's measure upLink
   note->
-    setNoteMeasureUpLink (fChordMeasureUpLink);
+    setNoteDirectMeasureUpLink (fChordDirectMeasureUpLink);
 */
 
   // mark note as belonging to a chord
@@ -325,7 +367,7 @@ void msrChord::addAnotherNoteToChord (
 
   // register note's chord upLink
   note->
-    setNoteChordUpLink (this);
+    setNoteDirectChordUpLink (this);
 
   // mark note as belonging to a chord
   note->setNoteBelongsToAChord ();
@@ -759,7 +801,7 @@ void msrChord::finalizeChord (
 
   // we can now set the position in measures for all the chord members
   setChordMembersPositionInMeasure (
-    fChordMeasureUpLink,
+    fChordDirectMeasureUpLink,
     fMeasureElementPositionInMeasure);
 }
 
@@ -1207,9 +1249,9 @@ void msrChord::print (ostream& os) const
 {
   rational
     chordMeasureFullLength =
-      fChordMeasureUpLink
+      fChordDirectMeasureUpLink
         ?
-          fChordMeasureUpLink->
+          fChordDirectMeasureUpLink->
             getFullMeasureWholeNotesDuration ()
         : rational (0, 1); // JMI
 
@@ -1246,10 +1288,10 @@ void msrChord::print (ostream& os) const
     endl;
 
   os <<
-    "chordTupletUpLink" << " : ";
-  if (fChordTupletUpLink) {
+    "chordDirectTupletUpLink" << " : ";
+  if (fChordDirectTupletUpLink) {
     os <<
-      fChordTupletUpLink->asShortString ();
+      fChordDirectTupletUpLink->asShortString ();
   }
   else {
     os << "none";
@@ -1263,7 +1305,7 @@ void msrChord::print (ostream& os) const
     endl;
 
   // print simplified position in measure if relevant
-// JMI  if (fChordMeasureUpLink) {
+// JMI  if (fChordDirectMeasureUpLink) {
     // the chord measure upLink may not have been set yet
     rational
       chordPositionBis =
@@ -1980,9 +2022,9 @@ void msrChord::printShort (ostream& os) const
 {
   rational
     chordMeasureFullLength =
-      fChordMeasureUpLink
+      fChordDirectMeasureUpLink
         ?
-          fChordMeasureUpLink->
+          fChordDirectMeasureUpLink->
             getFullMeasureWholeNotesDuration ()
         : rational (0, 1); // JMI
 
@@ -2020,10 +2062,10 @@ void msrChord::printShort (ostream& os) const
 
 /*
   os <<
-    "chordTupletUpLink" << " : ";
-  if (fChordTupletUpLink) {
+    "chordDirectTupletUpLink" << " : ";
+  if (fChordDirectTupletUpLink) {
     os <<
-      fChordTupletUpLink->asShortString ();
+      fChordDirectTupletUpLink->asShortString ();
   }
   else {
     os << "none";
@@ -2039,7 +2081,7 @@ void msrChord::printShort (ostream& os) const
 
 /*
   // print simplified position in measure if relevant
-// JMI  if (fChordMeasureUpLink) {
+// JMI  if (fChordDirectMeasureUpLink) {
     // the chord measure upLink may not have been set yet
     rational
       chordPositionBis =

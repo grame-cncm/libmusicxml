@@ -609,7 +609,7 @@ void msrHarmony::setHarmonyPositionInMeasure (
   S_msrMeasure
     measure =
       fHarmonyNoteUpLink->
-        getNoteMeasureUpLink ();
+        getNoteDirectMeasureUpLink ();
 
   rational
     positionInVoice =

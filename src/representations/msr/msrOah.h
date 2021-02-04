@@ -34,13 +34,13 @@ class EXP msrPitchesLanguageAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<msrPitchesLanguageAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      msrQuarterTonesPitchesLanguageKind&
-                         quarterTonesPitchesLanguageKind);
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            msrQuarterTonesPitchesLanguageKind&
+                                               quarterTonesPitchesLanguageKind);
 
   protected:
 
@@ -122,25 +122,25 @@ class EXP msrRenamePartAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<msrRenamePartAtom> create (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               valueSpecification,
-      string               variableName,
-      map<string, string>& stringToStringMapVariable);
+                            string               shortName,
+                            string               longName,
+                            string               description,
+                            string               valueSpecification,
+                            string               variableName,
+                            map<string, string>& stringToStringMapVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrRenamePartAtom (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               valueSpecification,
-      string               variableName,
-      map<string, string>& stringToStringMapVariable);
+                          msrRenamePartAtom (
+                            string               shortName,
+                            string               longName,
+                            string               description,
+                            string               valueSpecification,
+                            string               variableName,
+                            map<string, string>& stringToStringMapVariable);
 
     virtual               ~msrRenamePartAtom ();
 

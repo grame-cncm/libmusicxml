@@ -32,10 +32,10 @@ class EXP msrStaffTuning : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrStaffTuning> create (
-      int                      inputLineNumber,
-      int                      staffTuningLineNumber,
-      msrQuarterTonesPitchKind staffTuningQuarterTonesPitchKind,
-      msrOctaveKind            staffTuningOctaveKind);
+                            int                      inputLineNumber,
+                            int                      staffTuningLineNumber,
+                            msrQuarterTonesPitchKind staffTuningQuarterTonesPitchKind,
+                            msrOctaveKind            staffTuningOctaveKind);
 
     SMARTP<msrStaffTuning> createStaffTuningNewbornClone ();
 
@@ -46,11 +46,11 @@ class EXP msrStaffTuning : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStaffTuning (
-      int                      inputLineNumber,
-      int                      staffTuningLineNumber,
-      msrQuarterTonesPitchKind staffTuningQuarterTonesPitchKind,
-      msrOctaveKind            staffTuningOctaveKind);
+                          msrStaffTuning (
+                            int                      inputLineNumber,
+                            int                      staffTuningLineNumber,
+                            msrQuarterTonesPitchKind staffTuningQuarterTonesPitchKind,
+                            msrOctaveKind            staffTuningOctaveKind);
 
     ~ msrStaffTuning ();
 
@@ -143,23 +143,23 @@ class EXP msrStaffDetails : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrStaffDetails> create (
-      int                 inputLineNumber,
-      msrStaffTypeKind    staffTypeKind,
-      msrShowFretsKind    showFretsKind,
-      msrPrintObjectKind  printObjectKind,
-      msrPrintSpacingKind printSpacingKin);
+                            int                 inputLineNumber,
+                            msrStaffTypeKind    staffTypeKind,
+                            msrShowFretsKind    showFretsKind,
+                            msrPrintObjectKind  printObjectKind,
+                            msrPrintSpacingKind printSpacingKin);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStaffDetails (
-      int                 inputLineNumber,
-      msrStaffTypeKind    staffTypeKind,
-      msrShowFretsKind    showFretsKind,
-      msrPrintObjectKind  printObjectKind,
-      msrPrintSpacingKind printSpacingKin);
+                          msrStaffDetails (
+                            int                 inputLineNumber,
+                            msrStaffTypeKind    staffTypeKind,
+                            msrShowFretsKind    showFretsKind,
+                            msrPrintObjectKind  printObjectKind,
+                            msrPrintSpacingKind printSpacingKin);
 
     virtual               ~msrStaffDetails ();
 

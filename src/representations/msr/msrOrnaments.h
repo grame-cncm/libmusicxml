@@ -36,19 +36,19 @@ class EXP msrOrnament : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrOrnament> create (
-      int              inputLineNumber,
-      msrOrnamentKind  ornamentKind,
-      msrPlacementKind ornamentPlacementKind);
+                            int              inputLineNumber,
+                            msrOrnamentKind  ornamentKind,
+                            msrPlacementKind ornamentPlacementKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOrnament (
-      int              inputLineNumber,
-      msrOrnamentKind  ornamentKind,
-      msrPlacementKind ornamentPlacementKind);
+                          msrOrnament (
+                            int              inputLineNumber,
+                            msrOrnamentKind  ornamentKind,
+                            msrPlacementKind ornamentPlacementKind);
 
     virtual               ~msrOrnament ();
 

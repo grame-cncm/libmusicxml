@@ -32,11 +32,11 @@ class EXP msrSlide : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrSlide> create (
-      int              inputLineNumber,
-      int              slideNumber,
-      msrSlideTypeKind slideTypeKind,
-      msrLineTypeKind  slideLineTypeKind,
-      string           slideTextValue);
+                            int              inputLineNumber,
+                            int              slideNumber,
+                            msrSlideTypeKind slideTypeKind,
+                            msrLineTypeKind  slideLineTypeKind,
+                            string           slideTextValue);
 
     SMARTP<msrSlide> createSlideNewbornClone ();
 

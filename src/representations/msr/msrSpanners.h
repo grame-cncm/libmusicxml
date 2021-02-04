@@ -35,7 +35,7 @@ class EXP msrSpanner : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-                          static SMARTP<msrSpanner> create (
+    static SMARTP<msrSpanner> create (
                             int                inputLineNumber,
                             int                spannerNumber,
                             msrSpannerKind     spannerKind,

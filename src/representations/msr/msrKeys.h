@@ -36,15 +36,15 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrHumdrumScotKeyItem> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrHumdrumScotKeyItem (
-      int inputLineNumber);
+                          msrHumdrumScotKeyItem (
+                            int inputLineNumber);
 
     virtual               ~msrHumdrumScotKeyItem ();
 
@@ -122,10 +122,10 @@ class EXP msrKey : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrKey> createTraditional (
-      int                      inputLineNumber,
-      msrQuarterTonesPitchKind keyTonicPitchKind,
-      msrModeKind           modeKind,
-      int                      keyCancel);
+                            int                      inputLineNumber,
+                            msrQuarterTonesPitchKind keyTonicPitchKind,
+                            msrModeKind              modeKind,
+                            int                      keyCancel);
 
     static SMARTP<msrKey> createHumdrumScot (
       int                  inputLineNumber);
@@ -134,22 +134,22 @@ class EXP msrKey : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrKey> createTraditionalKeyFromString (
-      int    inputLineNumber,
-      string keyString);
+                            int    inputLineNumber,
+                            string keyString);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrKey ( // for traditional keys
-      int                      inputLineNumber,
-      msrQuarterTonesPitchKind keyTonicPitchKind,
-      msrModeKind           modeKind,
-      int                      keyCancel);
+                          msrKey ( // for traditional keys
+                            int                      inputLineNumber,
+                            msrQuarterTonesPitchKind keyTonicPitchKind,
+                            msrModeKind              modeKind,
+                            int                      keyCancel);
 
-    msrKey ( // for Humdrum/Scot keys
-      int                  inputLineNumber);
+                          msrKey ( // for Humdrum/Scot keys
+                            int                  inputLineNumber);
 
     virtual               ~msrKey ();
 

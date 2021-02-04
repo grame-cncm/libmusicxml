@@ -45,24 +45,6 @@ class EXP msrNote : public msrTupletElement
     // data types
     // ------------------------------------------------------
 
-    enum msrNoteKind {
-      k_NoNoteKind,
-      kRestNote, kSkipNote,
-      kUnpitchedNote,
-      kRegularNote,
-      kDoubleTremoloMemberNote,
-      kGraceNote, kGraceSkipNote,
-      kChordMemberNote,
-      kGraceChordMemberNote,
-      kTupletMemberNote,
-      kTupletRestMemberNote,
-      kTupletUnpitchedMemberNote,
-      kGraceTupletMemberNote
-    };
-
-    static string noteKindAsString (
-      msrNoteKind noteKind);
-
     enum msrNoteHeadKind {
       kNoteHeadSlash,
       kNoteHeadTriangle, kNoteHeadDiamond, kNoteHeadSquare,
@@ -106,7 +88,7 @@ class EXP msrNote : public msrTupletElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-                          static SMARTP<msrNote> create (
+    static SMARTP<msrNote> create (
                             int                        inputLineNumber,
                             string                     noteMeasureNumber,
 
@@ -133,23 +115,23 @@ class EXP msrNote : public msrTupletElement
                             msrNoteHeadFilledKind      noteHeadFilledKind,
                             msrNoteHeadParenthesesKind noteHeadParenthesesKind);
 
-                          SMARTP<msrNote> createNoteNewbornClone (
+    SMARTP<msrNote> createNoteNewbornClone (
                             S_msrPart containingPart);
 
-                          SMARTP<msrNote> createNoteDeepCopy (
+    SMARTP<msrNote> createNoteDeepCopy (
                             S_msrVoice containingVoice);
 
     // creation from the applications
     // ------------------------------------------------------
 
-                          static SMARTP<msrNote> createRestNote (
+    static SMARTP<msrNote> createRestNote (
                             int       inputLineNumber,
                             string    noteMeasureNumber,
                             rational  soundingWholeNotes,
                             rational  displayWholeNotes,
                             int       dotsNumber);
 
-                          static SMARTP<msrNote> createRestNoteWithOctave (
+    static SMARTP<msrNote> createRestNoteWithOctave (
                             int           inputLineNumber,
                             string        noteMeasureNumber,
                             msrOctaveKind noteOctave,
@@ -157,14 +139,14 @@ class EXP msrNote : public msrTupletElement
                             rational      displayWholeNotes,
                             int           dotsNumber);
 
-                          static SMARTP<msrNote> createSkipNote (
+    static SMARTP<msrNote> createSkipNote (
                             int         inputLineNumber,
                             string      noteMeasureNumber,
                             rational    soundingWholeNotes,
                             rational    displayWholeNotes,
                             int         dotsNumberr);
 
-                          static SMARTP<msrNote> createSkipNoteWithOctave (
+    static SMARTP<msrNote> createSkipNoteWithOctave (
                             int           inputLineNumber,
                             string        noteMeasureNumber,
                             msrOctaveKind noteOctave,
@@ -172,7 +154,7 @@ class EXP msrNote : public msrTupletElement
                             rational      displayWholeNotes,
                             int           dotsNumber);
 
-                          static SMARTP<msrNote> createGraceSkipNote (
+    static SMARTP<msrNote> createGraceSkipNote (
                             // above with MusicXML??? JMI
                             int      inputLineNumber,
                             string   noteMeasureNumber,
@@ -180,7 +162,7 @@ class EXP msrNote : public msrTupletElement
                             rational displayWholeNotes,
                             int      dotsNumber);
 
-                          static SMARTP<msrNote> createRegularNote (
+    static SMARTP<msrNote> createRegularNote (
                             int                      inputLineNumber,
                             string                   noteMeasureNumber,
                             msrQuarterTonesPitchKind quarterTonesPitchKind,
@@ -189,17 +171,17 @@ class EXP msrNote : public msrTupletElement
                             rational                 displayWholeNotes,
                             int                      dotsNumber);
 
-                          static SMARTP<msrNote> createRestFromString (
+    static SMARTP<msrNote> createRestFromString (
                             int    inputLineNumber,
                             string restString,
                             string restMeasureNumber);
 
-                          static SMARTP<msrNote> createSkipFromString (
+    static SMARTP<msrNote> createSkipFromString (
                             int    inputLineNumber,
                             string skipString,
                             string skipMeasureNumber);
 
-                          static SMARTP<msrNote> createNoteFromString (
+    static SMARTP<msrNote> createNoteFromString (
                             int    inputLineNumber,
                             string noteString,
                             string noteMeasureNumber);
@@ -207,7 +189,7 @@ class EXP msrNote : public msrTupletElement
     // creation from the options
     // ------------------------------------------------------
 
-                          static SMARTP<msrNote> createNoteFromSemiTonesPitchAndOctave (
+    static SMARTP<msrNote> createNoteFromSemiTonesPitchAndOctave (
                             int                          inputLineNumber,
                             S_msrSemiTonesPitchAndOctave semiTonesPitchAndOctave);
 
@@ -258,36 +240,36 @@ class EXP msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     // measure upLink
-    void                  setNoteMeasureUpLink (
+    void                  setNoteDirectMeasureUpLink (
                             const S_msrMeasure& measure)
-                              { fNoteMeasureUpLink = measure; }
+                              { fNoteDirectMeasureUpLink = measure; }
 
-    S_msrMeasure          getNoteMeasureUpLink () const
-                              { return fNoteMeasureUpLink; }
+    S_msrMeasure          getNoteDirectMeasureUpLink () const
+                              { return fNoteDirectMeasureUpLink; }
 
     // chord upLink
-    void                  setNoteChordUpLink (
+    void                  setNoteDirectChordUpLink (
                             const S_msrChord& chord)
-                              { fNoteChordUpLink = chord; }
+                              { fNoteDirectChordUpLink = chord; }
 
-    S_msrChord            getNoteChordUpLink () const
-                              { return fNoteChordUpLink; }
+    S_msrChord            getNoteDirectChordUpLink () const
+                              { return fNoteDirectChordUpLink; }
 
     // grace notes group upLink
-    void                  setNoteGraceNotesGroupUpLink (
+    void                  setNoteDirectGraceNotesGroupUpLink (
                             const S_msrGraceNotesGroup& graceNotesGroup)
-                              { fNoteGraceNotesGroupUpLink = graceNotesGroup; }
+                              { fNoteDirectGraceNotesGroupUpLink = graceNotesGroup; }
 
-    S_msrGraceNotesGroup  getNoteGraceNotesGroupUpLink () const
-                              { return fNoteGraceNotesGroupUpLink; }
+    S_msrGraceNotesGroup  getNoteDirectGraceNotesGroupUpLink () const
+                              { return fNoteDirectGraceNotesGroupUpLink; }
 
     // tuplet upLink
-    void                  setNoteTupletUpLink (
+    void                  setNoteDirectTupletUpLink (
                             const S_msrTuplet& tuplet)
-                              { fNoteTupletUpLink = tuplet; }
+                              { fNoteDirectTupletUpLink = tuplet; }
 
-    S_msrTuplet           getNoteTupletUpLink () const
-                              { return fNoteTupletUpLink; }
+    S_msrTuplet           getNoteDirectTupletUpLink () const
+                              { return fNoteDirectTupletUpLink; }
 
     // note kind
 
@@ -428,9 +410,9 @@ class EXP msrNote : public msrTupletElement
                             // shortcut for efficiency
                               {
                                 return
-                                  fNoteKind == msrNote::kRestNote
+                                  fNoteKind == kNoteRest
                                     ||
-                                  fNoteKind == msrNote::kTupletRestMemberNote;
+                                  fNoteKind == kNoteTupletRestMember;
                               }
 
     // unpitched?
@@ -438,10 +420,10 @@ class EXP msrNote : public msrTupletElement
                               {
                                 return
                                   fNoteKind ==
-                                    msrNote::kUnpitchedNote
+                                    kNoteUnpitched
                                     ||
                                   fNoteKind ==
-                                    msrNote::kTupletUnpitchedMemberNote;
+                                    kNoteTupletUnpitchedMember;
                               }
 
     // cue note?
@@ -473,13 +455,13 @@ class EXP msrNote : public msrTupletElement
     bool                  getNoteIsAGraceNote () const
                               {
                                 return
-                                  fNoteKind == msrNote::kGraceNote
+                                  fNoteKind == kNoteGrace
                                     ||
-                                  fNoteKind == msrNote::kGraceSkipNote
+                                  fNoteKind == kNoteGraceSkip
                                     ||
-                                  fNoteKind == msrNote::kGraceChordMemberNote
+                                  fNoteKind == kNoteGraceChordMember
                                     ||
-                                  fNoteKind == msrNote::kGraceTupletMemberNote;
+                                  fNoteKind == kNoteGraceTupletMember;
                               }
 
     // harmonies
@@ -756,15 +738,28 @@ class EXP msrNote : public msrTupletElement
     // public services
     // ------------------------------------------------------
 
-    // uplinks
+    // measure upLink
+    S_msrMeasure          fetchNoteMeasureUpLink () const;
+
+    // tuplet upLink
+// JMI ???    S_msrTuplet           fetchNoteTupletUpLink () const;
+
+    // grace notes group upLink
+    S_msrGraceNotesGroup  fetchNoteGraceNotesGroupUpLink () const;
+
+    // voice upLink
     S_msrVoice            fetchNoteVoiceUpLink () const;
 
+    // staff upLink
     S_msrStaff            fetchNoteStaffUpLink () const;
 
+    // part upLink
     S_msrPart             fetchNotePartUpLink () const;
 
+    // partgroup upLink
     S_msrPartGroup        fetchNotePartGroupUpLink () const;
 
+    // score upLink
     S_msrScore            fetchNoteScoreUpLink () const;
 
     // a pitched rest?
@@ -879,9 +874,6 @@ class EXP msrNote : public msrTupletElement
     // print
     // ------------------------------------------------------
 
-    // note kind
-    string                noteKindAsString () const;
-
     // pitch kind
     string                notePitchAsString () const;
 
@@ -934,11 +926,11 @@ class EXP msrNote : public msrTupletElement
 
     string                soundingNoteEssentialsAsString () const;
     string                nonSoundingNoteEssentialsAsString () const;
+    string                commonNoteEssentialsAsString () const;
 
     string                asString () const override;
 
     string                asShortString () const override;
-
     string                asShortStringWithRawWholeNotes () const;
 
     virtual void          printNoteEssentials (ostream& os) const;
@@ -955,13 +947,13 @@ class EXP msrNote : public msrTupletElement
     // upLinks
     // ------------------------------------------------------
 
-    S_msrChord            fNoteChordUpLink;
+    S_msrChord            fNoteDirectChordUpLink;
 
-    S_msrGraceNotesGroup  fNoteGraceNotesGroupUpLink;
+    S_msrGraceNotesGroup  fNoteDirectGraceNotesGroupUpLink;
 
-    S_msrTuplet           fNoteTupletUpLink;
+    S_msrTuplet           fNoteDirectTupletUpLink;
 
-    S_msrMeasure          fNoteMeasureUpLink;
+    S_msrMeasure          fNoteDirectMeasureUpLink;
 
     // basic note description
     // ------------------------------------------------------

@@ -32,25 +32,25 @@ class EXP msrBarCheck : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrBarCheck> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     static SMARTP<msrBarCheck> createWithNextBarPuristNumber (
-      int    inputLineNumber,
-      string nextBarOriginalNumber,
-      int    nextBarPuristNumber);
+                            int    inputLineNumber,
+                            string nextBarOriginalNumber,
+                            int    nextBarPuristNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrBarCheck (
-      int inputLineNumber);
+                          msrBarCheck (
+                            int inputLineNumber);
 
-    msrBarCheck (
-      int    inputLineNumber,
-      string nextBarOriginalNumber,
-      int    nextBarPuristNumber);
+                          msrBarCheck (
+                            int    inputLineNumber,
+                            string nextBarOriginalNumber,
+                            int    nextBarPuristNumber);
 
     virtual               ~msrBarCheck ();
 
@@ -111,19 +111,19 @@ class EXP msrBarNumberCheck : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrBarNumberCheck> create (
-      int    inputLineNumber,
-      string nextBarOriginalNumber,
-      int    nextBarPuristNumber);
+                            int    inputLineNumber,
+                            string nextBarOriginalNumber,
+                            int    nextBarPuristNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrBarNumberCheck (
-      int    inputLineNumber,
-      string nextBarOriginalNumber,
-      int    nextBarPuristNumber);
+                          msrBarNumberCheck (
+                            int    inputLineNumber,
+                            string nextBarOriginalNumber,
+                            int    nextBarPuristNumber);
 
     virtual               ~msrBarNumberCheck ();
 
@@ -275,44 +275,44 @@ class EXP msrBarline : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrBarline> create (
-      int                           inputLineNumber,
-      msrBarlineLocationKind        barlineLocationKind,
-      msrBarlineStyleKind           barlineStyleKind,
-      msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
-      msrBarlineEndingTypeKind      barlineEndingTypeKind,
-      string                        endingNumber,
-      int                           barlineTimes,
-      msrBarlineCategoryKind        barlineCategoryKind,
-      msrBarlineHasSegnoKind        barlineHasSegnoKind,
-      msrBarlineHasCodaKind         barlineHasCodaKind,
-      msrBarlineRepeatWingedKind    barlineRepeatWingedKind);
+                            int                           inputLineNumber,
+                            msrBarlineLocationKind        barlineLocationKind,
+                            msrBarlineStyleKind           barlineStyleKind,
+                            msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
+                            msrBarlineEndingTypeKind      barlineEndingTypeKind,
+                            string                        endingNumber,
+                            int                           barlineTimes,
+                            msrBarlineCategoryKind        barlineCategoryKind,
+                            msrBarlineHasSegnoKind        barlineHasSegnoKind,
+                            msrBarlineHasCodaKind         barlineHasCodaKind,
+                            msrBarlineRepeatWingedKind    barlineRepeatWingedKind);
 
     // creation from the applications
     // ------------------------------------------------------
 
     static SMARTP<msrBarline> createFinalBarline (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     static SMARTP<msrBarline> createDoubleBarline (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrBarline (
-      int                           inputLineNumber,
-      msrBarlineLocationKind        barlineLocationKind,
-      msrBarlineStyleKind           barlineStyleKind,
-      msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
-      msrBarlineEndingTypeKind      barlineEndingTypeKind,
-      string                        endingNumber,
-      int                           barlineTimes,
-      msrBarlineCategoryKind        barlineCategoryKind,
-      msrBarlineHasSegnoKind        barlineHasSegnoKind,
-      msrBarlineHasCodaKind         barlineHasCodaKind,
-      msrBarlineRepeatWingedKind    barlineRepeatWingedKind);
+                          msrBarline (
+                            int                           inputLineNumber,
+                            msrBarlineLocationKind        barlineLocationKind,
+                            msrBarlineStyleKind           barlineStyleKind,
+                            msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
+                            msrBarlineEndingTypeKind      barlineEndingTypeKind,
+                            string                        endingNumber,
+                            int                           barlineTimes,
+                            msrBarlineCategoryKind        barlineCategoryKind,
+                            msrBarlineHasSegnoKind        barlineHasSegnoKind,
+                            msrBarlineHasCodaKind         barlineHasCodaKind,
+                            msrBarlineRepeatWingedKind    barlineRepeatWingedKind);
 
     virtual               ~msrBarline ();
 

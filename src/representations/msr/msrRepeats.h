@@ -34,17 +34,17 @@ class EXP msrRepeatCommonPart : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrRepeatCommonPart> create (
-      int         inputLineNumber,
-      S_msrRepeat repeatUpLink);
+                            int         inputLineNumber,
+                            S_msrRepeat repeatUpLink);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrRepeatCommonPart (
-      int         inputLineNumber,
-      S_msrRepeat repeatUpLink);
+                          msrRepeatCommonPart (
+                            int         inputLineNumber,
+                            S_msrRepeat repeatUpLink);
 
     virtual               ~msrRepeatCommonPart ();
 

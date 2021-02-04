@@ -1,9 +1,30 @@
-voice unPetitAir = {
-  clef treble
-  key c
-  time 9/8
+%{
+  An explicit and implicit voices piano score
+%}
 
-  |1  r4. a,4-> <e g bf>8~ <e g bf>4.~
+
+% the identification
+% -----------------------------------------------
+
+title    "Un petit air"
+composer "Jean Abou Samra"
+
+
+% the language for pitches
+% -----------------------------------------------
+
+pitches english           % default language is english
+
+
+% the score
+% -----------------------------------------------
+
+voice unPetitAir = {
+  |1  clef treble
+      key c
+      time 9/8
+      r4. a,4-> <e g bf>8~ <e g bf>4.~
+
   |2  <e g bf>4. r2.
 
   %  Maintenant, je reviens en arrière pour la voix supérieure.

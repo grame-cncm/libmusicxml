@@ -34,23 +34,23 @@ class EXP msrStringTuning : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrStringTuning> create (
-      int                  inputLineNumber,
-      int                  stringTuningNumber,
-      msrDiatonicPitchKind stringTuningDiatonicPitchKind,
-      msrAlterationKind    stringTuningAlterationKind,
-      msrOctaveKind        stringTuningOctaveKind);
+                            int                  inputLineNumber,
+                            int                  stringTuningNumber,
+                            msrDiatonicPitchKind stringTuningDiatonicPitchKind,
+                            msrAlterationKind    stringTuningAlterationKind,
+                            msrOctaveKind        stringTuningOctaveKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStringTuning (
-      int                  inputLineNumber,
-      int                  stringTuningNumber,
-      msrDiatonicPitchKind stringTuningDiatonicPitchKind,
-      msrAlterationKind    stringTuningAlterationKind,
-      msrOctaveKind        stringTuningOctaveKind);
+                          msrStringTuning (
+                            int                  inputLineNumber,
+                            int                  stringTuningNumber,
+                            msrDiatonicPitchKind stringTuningDiatonicPitchKind,
+                            msrAlterationKind    stringTuningAlterationKind,
+                            msrOctaveKind        stringTuningOctaveKind);
 
     virtual               ~msrStringTuning ();
 

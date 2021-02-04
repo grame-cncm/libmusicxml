@@ -58,22 +58,22 @@ class EXP msrPart : public msrPartGroupElement
     // ------------------------------------------------------
 
     static SMARTP<msrPart> create (
-      int            inputLineNumber,
-      string         partID,
-      S_msrPartGroup partPartGroupUpLink);
+                            int            inputLineNumber,
+                            string         partID,
+                            S_msrPartGroup partPartGroupUpLink);
 
     SMARTP<msrPart> createPartNewbornClone (
-      S_msrPartGroup partGroupClone);
+                            S_msrPartGroup partGroupClone);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPart (
-      int            inputLineNumber,
-      string         partID,
-      S_msrPartGroup partPartGroupUpLink);
+                          msrPart (
+                            int            inputLineNumber,
+                            string         partID,
+                            S_msrPartGroup partPartGroupUpLink);
 
     virtual               ~msrPart ();
 

@@ -41,21 +41,21 @@ class EXP msrRehearsal : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrRehearsal> create (
-      int              inputLineNumber,
-      msrRehearsalKind rehearsalKind,
-      string           rehearsalText,
-      msrPlacementKind rehearsalPlacementKind);
+                            int              inputLineNumber,
+                            msrRehearsalKind rehearsalKind,
+                            string           rehearsalText,
+                            msrPlacementKind rehearsalPlacementKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrRehearsal (
-      int              inputLineNumber,
-      msrRehearsalKind rehearsalKind,
-      string           rehearsalText,
-      msrPlacementKind rehearsalPlacementKind);
+                          msrRehearsal (
+                            int              inputLineNumber,
+                            msrRehearsalKind rehearsalKind,
+                            string           rehearsalText,
+                            msrPlacementKind rehearsalPlacementKind);
 
     virtual               ~msrRehearsal ();
 

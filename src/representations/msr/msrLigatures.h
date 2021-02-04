@@ -55,12 +55,12 @@ class EXP msrLigature : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrLigature> create (
-      int                    inputLineNumber,
-      int                    ligatureNumber,
-      msrLigatureKind        ligatureKind,
-      msrLigatureLineEndKind ligatureLineEndKind,
-      msrLineTypeKind        ligatureLineTypeKind,
-      msrPlacementKind       ligaturePlacementKind);
+                            int                    inputLineNumber,
+                            int                    ligatureNumber,
+                            msrLigatureKind        ligatureKind,
+                            msrLigatureLineEndKind ligatureLineEndKind,
+                            msrLineTypeKind        ligatureLineTypeKind,
+                            msrPlacementKind       ligaturePlacementKind);
 
   protected:
 

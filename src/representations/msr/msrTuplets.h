@@ -73,16 +73,16 @@ class EXP msrTuplet : public msrTupletElement
     // ------------------------------------------------------
 
     static SMARTP<msrTuplet> create (
-      int                     inputLineNumber,
-      string                  tupletMeasureNumber,
-      int                     tupletNumber,
-      msrTupletBracketKind    tupletBracketKind,
-      msrTupletLineShapeKind  tupletLineShapeKind,
-      msrTupletShowNumberKind tupletShowNumberKind,
-      msrTupletShowTypeKind   tupletShowTypeKind,
-      msrTupletFactor         tupletFactor,
-      rational                memberNotesSoundingWholeNotes,
-      rational                memberNotesDisplayWholeNotes);
+                            int                     inputLineNumber,
+                            string                  tupletMeasureNumber,
+                            int                     tupletNumber,
+                            msrTupletBracketKind    tupletBracketKind,
+                            msrTupletLineShapeKind  tupletLineShapeKind,
+                            msrTupletShowNumberKind tupletShowNumberKind,
+                            msrTupletShowTypeKind   tupletShowTypeKind,
+                            msrTupletFactor         tupletFactor,
+                            rational                memberNotesSoundingWholeNotes,
+                            rational                memberNotesDisplayWholeNotes);
 
     SMARTP<msrTuplet> createTupletNewbornClone ();
 
@@ -93,17 +93,17 @@ class EXP msrTuplet : public msrTupletElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrTuplet (
-      int                     inputLineNumber,
-      string                  tupletMeasureNumber,
-      int                     tupletNumber,
-      msrTupletBracketKind    tupletBracketKind,
-      msrTupletLineShapeKind  tupletLineShapeKind,
-      msrTupletShowNumberKind tupletShowNumberKind,
-      msrTupletShowTypeKind   tupletShowTypeKind,
-      msrTupletFactor         tupletFactor,
-      rational                memberNotesSoundingWholeNotes,
-      rational                memberNotesDisplayWholeNotes);
+                          msrTuplet (
+                            int                     inputLineNumber,
+                            string                  tupletMeasureNumber,
+                            int                     tupletNumber,
+                            msrTupletBracketKind    tupletBracketKind,
+                            msrTupletLineShapeKind  tupletLineShapeKind,
+                            msrTupletShowNumberKind tupletShowNumberKind,
+                            msrTupletShowTypeKind   tupletShowTypeKind,
+                            msrTupletFactor         tupletFactor,
+                            rational                memberNotesSoundingWholeNotes,
+                            rational                memberNotesDisplayWholeNotes);
 
     virtual               ~msrTuplet ();
 
@@ -113,20 +113,20 @@ class EXP msrTuplet : public msrTupletElement
     // ------------------------------------------------------
 
     // measure upLink
-    void                  setTupletMeasureUpLink (
+    void                  setTupletDirectMeasureUpLink (
                             const S_msrMeasure& measure)
-                              { fTupletMeasureUpLink = measure; }
+                              { fTupletDirectMeasureUpLink = measure; }
 
-    S_msrMeasure          getTupletMeasureUpLink () const
-                              { return fTupletMeasureUpLink; }
+    S_msrMeasure          getTupletDirectMeasureUpLink () const
+                              { return fTupletDirectMeasureUpLink; }
 
     // tuplet uplink
-    void                  setTupletTupletUpLink (
+    void                  setTupletDirectTupletUpLink (
                             const S_msrTuplet& tuplet)
-                              { fTupletTupletUpLink = tuplet; }
+                              { fTupletDirectTupletUpLink = tuplet; }
 
-    S_msrTuplet           getTupletTupletUpLink () const
-                              { return fTupletTupletUpLink; }
+    S_msrTuplet           getTupletDirectTupletUpLink () const
+                              { return fTupletDirectTupletUpLink; }
 
     // positions in measures
     rational              setTupletMembersPositionInMeasure (
@@ -181,6 +181,15 @@ class EXP msrTuplet : public msrTupletElement
 
     // public services
     // ------------------------------------------------------
+
+    // measure upLink
+    S_msrMeasure          fetchTupletMeasureUpLink () const;
+
+    // tuplet upLink
+    S_msrTuplet           fetchTupletTupletUpLink () const;
+
+    // grace notes group upLink
+    S_msrGraceNotesGroup  fetchTupletGraceNotesGroupUpLink () const;
 
     void                  appendNoteToTuplet (
                             S_msrNote  note,
@@ -237,10 +246,10 @@ class EXP msrTuplet : public msrTupletElement
     // ------------------------------------------------------
 
     // measure upLink
-    S_msrMeasure          fTupletMeasureUpLink;
+    S_msrMeasure          fTupletDirectMeasureUpLink;
 
     // tuplet uplink
-    S_msrTuplet           fTupletTupletUpLink;
+    S_msrTuplet           fTupletDirectTupletUpLink;
 
     // number
     int                   fTupletNumber;

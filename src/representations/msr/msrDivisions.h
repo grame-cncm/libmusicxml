@@ -32,8 +32,8 @@ class EXP msrDivisions : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrDivisions> create (
-      int inputLineNumber,
-      int divisionsPerQuarterNote);
+                            int inputLineNumber,
+                            int divisionsPerQuarterNote);
 
     SMARTP<msrDivisions> createDivisionsNewbornClone (); // JMI
 
@@ -49,9 +49,9 @@ class EXP msrDivisions : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrDivisions (
-      int inputLineNumber,
-      int divisionsPerQuarterNote);
+                          msrDivisions (
+                            int inputLineNumber,
+                            int divisionsPerQuarterNote);
 
     virtual               ~msrDivisions ();
 

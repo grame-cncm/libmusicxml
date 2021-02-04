@@ -30,15 +30,15 @@ class EXP msrBeatsRepeatPattern : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrBeatsRepeatPattern> create (
-      int              inputLineNumber,
-      S_msrBeatsRepeat beatsRepeatUpLink);
+                            int              inputLineNumber,
+                            S_msrBeatsRepeat beatsRepeatUpLink);
 
     /* JMI
     SMARTP<msrBeatsRepeatPattern> createBeatsRepeatPatternNewbornClone (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
     SMARTP<msrBeatsRepeatPattern> createBeatsRepeatPatternDeepCopy (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 */
 
   protected:
@@ -46,9 +46,9 @@ class EXP msrBeatsRepeatPattern : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrBeatsRepeatPattern (
-      int              inputLineNumber,
-      S_msrBeatsRepeat beatsRepeatUpLink);
+                          msrBeatsRepeatPattern (
+                            int              inputLineNumber,
+                            S_msrBeatsRepeat beatsRepeatUpLink);
 
     virtual               ~msrBeatsRepeatPattern ();
 
@@ -120,15 +120,15 @@ class EXP msrBeatsRepeatReplicas : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrBeatsRepeatReplicas> create (
-      int              inputLineNumber,
-      S_msrBeatsRepeat beatsRepeatUpLink);
+                            int              inputLineNumber,
+                            S_msrBeatsRepeat beatsRepeatUpLink);
 
     /* JMI
     SMARTP<msrBeatsRepeatReplicas> createBeatsRepeatReplicasNewbornClone (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
     SMARTP<msrBeatsRepeatReplicas> createBeatsRepeatReplicasDeepCopy (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
       */
 
   protected:
@@ -136,9 +136,9 @@ class EXP msrBeatsRepeatReplicas : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrBeatsRepeatReplicas (
-      int              inputLineNumber,
-      S_msrBeatsRepeat beatsRepeatUpLink);
+                          msrBeatsRepeatReplicas (
+                            int              inputLineNumber,
+                            S_msrBeatsRepeat beatsRepeatUpLink);
 
     virtual               ~msrBeatsRepeatReplicas ();
 
@@ -232,27 +232,27 @@ class EXP msrBeatsRepeat : public msrVoiceElement
     // ------------------------------------------------------
 
     static SMARTP<msrBeatsRepeat> create (
-      int        inputLineNumber,
-      int        beatsRepeatMeasuresNumber,
-      int        beatsRepeatSlashesNumber,
-      S_msrVoice voiceUpLink);
+                            int        inputLineNumber,
+                            int        beatsRepeatMeasuresNumber,
+                            int        beatsRepeatSlashesNumber,
+                            S_msrVoice voiceUpLink);
 
     SMARTP<msrBeatsRepeat> createBeatsRepeatNewbornClone (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
     SMARTP<msrBeatsRepeat> createBeatsRepeatDeepCopy (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrBeatsRepeat (
-      int        inputLineNumber,
-      int        beatsRepeatMeasuresNumber,
-      int        beatsRepeatSlashesNumber,
-      S_msrVoice voiceUpLink);
+                          msrBeatsRepeat (
+                            int        inputLineNumber,
+                            int        beatsRepeatMeasuresNumber,
+                            int        beatsRepeatSlashesNumber,
+                            S_msrVoice voiceUpLink);
 
     virtual               ~msrBeatsRepeat ();
 

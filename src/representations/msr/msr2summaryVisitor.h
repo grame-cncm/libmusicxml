@@ -84,8 +84,8 @@ class EXP msr2summaryVisitor :
 {
   public:
 
-    msr2summaryVisitor (
-      S_msrOahGroup& msrOpts);
+                          msr2summaryVisitor (
+                            S_msrOahGroup& msrOpts);
 
     virtual               ~msr2summaryVisitor ();
 

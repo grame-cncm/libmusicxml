@@ -50,7 +50,7 @@ class EXP msrScore : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrScore> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     SMARTP<msrScore> createScoreNewbornClone ();
 
@@ -59,8 +59,8 @@ class EXP msrScore : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrScore (
-      int inputLineNumber);
+                          msrScore (
+                            int inputLineNumber);
 
     virtual               ~msrScore ();
 
@@ -195,8 +195,7 @@ class EXP msrScore : public msrElement
     // inhibiting browsing
     void                  setInhibitGraceNotesGroupsBrowsing ()
                               {
-                                fInhibitGraceNotesGroupsBrowsing =
-                                  true;
+                                fInhibitGraceNotesGroupsBrowsing = true;
                               }
 
     bool                  getInhibitGraceNotesGroupsBrowsing () const
@@ -207,8 +206,7 @@ class EXP msrScore : public msrElement
 
     void                  setInhibitMeasuresRepeatReplicasBrowsing ()
                               {
-                                fInhibitMeasuresRepeatReplicasBrowsing =
-                                  true;
+                                fInhibitMeasuresRepeatReplicasBrowsing = true;
                               }
 
     bool                  getInhibitMeasuresRepeatReplicasBrowsing () const
@@ -219,8 +217,7 @@ class EXP msrScore : public msrElement
 
     void                  setInhibitRestMeasuresBrowsing ()
                               {
-                                fInhibitRestMeasuresBrowsing =
-                                  true;
+                                fInhibitRestMeasuresBrowsing = true;
                               }
 
     bool                  getInhibitRestMeasuresBrowsing () const

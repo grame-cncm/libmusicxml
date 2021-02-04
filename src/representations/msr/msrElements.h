@@ -38,8 +38,8 @@ class EXP msrElement : public smartable
 
   protected:
 
-    msrElement (
-      int inputLineNumber);
+                          msrElement (
+                            int inputLineNumber);
 
     virtual               ~msrElement ();
 

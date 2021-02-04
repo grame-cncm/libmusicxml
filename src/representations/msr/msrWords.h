@@ -47,35 +47,35 @@ class EXP msrWords : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrWords> create (
-      int                        inputLineNumber,
-      msrPlacementKind           wordsPlacementKind,
-      string                     wordsContents,
-      msrJustifyKind             wordsJustifyKind,
-      msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
-      msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
-      msrFontStyleKind           wordsFontStyleKind,
-      S_msrFontSize              wordsFontSize,
-      msrFontWeightKind          wordsFontWeightKind,
-      msrXMLLangKind             wordsXMLLangKind,
-      int                        wordsStaffNumber);
+                            int                        inputLineNumber,
+                            msrPlacementKind           wordsPlacementKind,
+                            string                     wordsContents,
+                            msrJustifyKind             wordsJustifyKind,
+                            msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
+                            msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
+                            msrFontStyleKind           wordsFontStyleKind,
+                            S_msrFontSize              wordsFontSize,
+                            msrFontWeightKind          wordsFontWeightKind,
+                            msrXMLLangKind             wordsXMLLangKind,
+                            int                        wordsStaffNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrWords (
-      int                        inputLineNumber,
-      msrPlacementKind           wordsPlacementKind,
-      string                     wordsContents,
-      msrJustifyKind             wordsJustifyKind,
-      msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
-      msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
-      msrFontStyleKind           wordsFontStyleKind,
-      S_msrFontSize              wordsFontSize,
-      msrFontWeightKind          wordsFontWeightKind,
-      msrXMLLangKind             wordsXMLLangKind,
-      int                        wordsStaffNumber);
+                          msrWords (
+                            int                        inputLineNumber,
+                            msrPlacementKind           wordsPlacementKind,
+                            string                     wordsContents,
+                            msrJustifyKind             wordsJustifyKind,
+                            msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
+                            msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
+                            msrFontStyleKind           wordsFontStyleKind,
+                            S_msrFontSize              wordsFontSize,
+                            msrFontWeightKind          wordsFontWeightKind,
+                            msrXMLLangKind             wordsXMLLangKind,
+                            int                        wordsStaffNumber);
 
     virtual               ~msrWords ();
 

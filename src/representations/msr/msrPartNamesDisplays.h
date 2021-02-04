@@ -30,17 +30,17 @@ class EXP msrPartNameDisplay : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrPartNameDisplay> create (
-      int    inputLineNumber,
-      string partNameDisplayValue);
+                            int    inputLineNumber,
+                            string partNameDisplayValue);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPartNameDisplay (
-      int    inputLineNumber,
-      string partNameDisplayValue);
+                          msrPartNameDisplay (
+                            int    inputLineNumber,
+                            string partNameDisplayValue);
 
     virtual               ~msrPartNameDisplay ();
 

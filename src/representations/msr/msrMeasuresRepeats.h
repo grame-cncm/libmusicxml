@@ -30,8 +30,8 @@ class EXP msrMeasuresRepeatPattern : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMeasuresRepeatPattern> create (
-      int                 inputLineNumber,
-      S_msrMeasuresRepeat measuresRepeatUpLink);
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeatUpLink);
 
     /* JMI
     SMARTP<msrMeasuresRepeatPattern> createMeasuresRepeatPatternNewbornClone (
@@ -46,9 +46,9 @@ class EXP msrMeasuresRepeatPattern : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMeasuresRepeatPattern (
-      int                 inputLineNumber,
-      S_msrMeasuresRepeat measuresRepeatUpLink);
+                          msrMeasuresRepeatPattern (
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeatUpLink);
 
     virtual               ~msrMeasuresRepeatPattern ();
 
@@ -120,15 +120,15 @@ class EXP msrMeasuresRepeatReplicas : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMeasuresRepeatReplicas> create (
-      int                 inputLineNumber,
-      S_msrMeasuresRepeat measuresRepeatUpLink);
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeatUpLink);
 
     /* JMI
     SMARTP<msrMeasuresRepeatReplicas> createMeasuresRepeatReplicasNewbornClone (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
     SMARTP<msrMeasuresRepeatReplicas> createMeasuresRepeatReplicasDeepCopy (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
       */
 
   protected:
@@ -136,9 +136,9 @@ class EXP msrMeasuresRepeatReplicas : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMeasuresRepeatReplicas (
-      int                 inputLineNumber,
-      S_msrMeasuresRepeat measuresRepeatUpLink);
+                          msrMeasuresRepeatReplicas (
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeatUpLink);
 
     virtual               ~msrMeasuresRepeatReplicas ();
 
@@ -232,27 +232,27 @@ class EXP msrMeasuresRepeat : public msrVoiceElement
     // ------------------------------------------------------
 
     static SMARTP<msrMeasuresRepeat> create (
-      int        inputLineNumber,
-      int        measuresRepeatMeasuresNumber,
-      int        measuresRepeatSlashesNumber,
-      S_msrVoice voiceUpLink);
+                            int        inputLineNumber,
+                            int        measuresRepeatMeasuresNumber,
+                            int        measuresRepeatSlashesNumber,
+                            S_msrVoice voiceUpLink);
 
     SMARTP<msrMeasuresRepeat> createMeasuresRepeatNewbornClone (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
     SMARTP<msrMeasuresRepeat> createMeasuresRepeatDeepCopy (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMeasuresRepeat (
-      int        inputLineNumber,
-      int        measuresRepeatMeasuresNumber,
-      int        measuresRepeatSlashesNumber,
-      S_msrVoice voiceUpLink);
+                          msrMeasuresRepeat (
+                            int        inputLineNumber,
+                            int        measuresRepeatMeasuresNumber,
+                            int        measuresRepeatSlashesNumber,
+                            S_msrVoice voiceUpLink);
 
     virtual               ~msrMeasuresRepeat ();
 
@@ -383,17 +383,17 @@ class EXP msrMeasuresRepeatElement : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMeasuresRepeatElement> create (
-      int                 inputLineNumber,
-      S_msrMeasuresRepeat measuresRepeatUpLink);
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeatUpLink);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMeasuresRepeatElement (
-      int                 inputLineNumber,
-      S_msrMeasuresRepeat measuresRepeatUpLink);
+                          msrMeasuresRepeatElement (
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeatUpLink);
 
     virtual               ~msrMeasuresRepeatElement ();
 

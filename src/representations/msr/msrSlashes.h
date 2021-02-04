@@ -30,21 +30,21 @@ class EXP msrSlash : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrSlash> create (
-      int                  inputLineNumber,
-      msrSlashTypeKind     slashTypeKind,
-      msrUseDotsKind  useDotsKind,
-      msrSlashUseStemsKind slashUseStemsKind);
+                            int                  inputLineNumber,
+                            msrSlashTypeKind     slashTypeKind,
+                            msrUseDotsKind  useDotsKind,
+                            msrSlashUseStemsKind slashUseStemsKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSlash (
-      int                  inputLineNumber,
-      msrSlashTypeKind     slashTypeKind,
-      msrUseDotsKind  useDotsKind,
-      msrSlashUseStemsKind slashUseStemsKind);
+                          msrSlash (
+                            int                  inputLineNumber,
+                            msrSlashTypeKind     slashTypeKind,
+                            msrUseDotsKind  useDotsKind,
+                            msrSlashUseStemsKind slashUseStemsKind);
 
     virtual               ~msrSlash ();
 
@@ -92,7 +92,7 @@ class EXP msrSlash : public msrElement
     // ------------------------------------------------------
 
     msrSlashTypeKind      fSlashTypeKind;
-    msrUseDotsKind   fUseDotsKind;
+    msrUseDotsKind        fUseDotsKind;
     msrSlashUseStemsKind  fSlashUseStemsKind;
 };
 typedef SMARTP<msrSlash> S_msrSlash;

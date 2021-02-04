@@ -30,17 +30,17 @@ class EXP msrDynamics : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrDynamics> create (
-      int              inputLineNumber,
-      msrDynamicsKind  dynamicsKind,
-      msrPlacementKind dynamicsPlacementKind);
+                            int              inputLineNumber,
+                            msrDynamicsKind  dynamicsKind,
+                            msrPlacementKind dynamicsPlacementKind);
 
     // creation from the applications
     // ------------------------------------------------------
 
     static SMARTP<msrDynamics> createDynamicsFromString (
-      int              inputLineNumber,
-      string           dynamicsString,
-      msrPlacementKind dynamicsPlacementKind);
+                            int              inputLineNumber,
+                            string           dynamicsString,
+                            msrPlacementKind dynamicsPlacementKind);
 
   protected:
 
@@ -108,9 +108,9 @@ class EXP msrOtherDynamics : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrOtherDynamics> create (
-      int              inputLineNumber,
-      string           otherDynamicsString,
-      msrPlacementKind otherDynamicsPlacementKind);
+                            int              inputLineNumber,
+                            string           otherDynamicsString,
+                            msrPlacementKind otherDynamicsPlacementKind);
 
   protected:
 
@@ -200,11 +200,11 @@ class EXP msrWedge : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrWedge> create (
-      int                inputLineNumber,
-      msrWedgeKind       wedgeKind,
-      msrWedgeNienteKind wedgeNienteKind,
-      msrLineTypeKind    wedgeLineTypeKind,
-      msrPlacementKind   wedgePlacementKind);
+                            int                inputLineNumber,
+                            msrWedgeKind       wedgeKind,
+                            msrWedgeNienteKind wedgeNienteKind,
+                            msrLineTypeKind    wedgeLineTypeKind,
+                            msrPlacementKind   wedgePlacementKind);
 
   protected:
 

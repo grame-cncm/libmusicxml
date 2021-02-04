@@ -32,11 +32,11 @@ class EXP msrGlissando : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrGlissando> create (
-      int                  inputLineNumber,
-      int                  glissandoNumber,
-      msrGlissandoTypeKind glissandoTypeKind,
-      msrLineTypeKind      glissandoLineTypeKind,
-      string               glissandoTextValue);
+                            int                  inputLineNumber,
+                            int                  glissandoNumber,
+                            msrGlissandoTypeKind glissandoTypeKind,
+                            msrLineTypeKind      glissandoLineTypeKind,
+                            string               glissandoTextValue);
 
     SMARTP<msrGlissando> createGlissandoNewbornClone ();
 

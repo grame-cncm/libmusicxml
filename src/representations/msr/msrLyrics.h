@@ -64,53 +64,53 @@ class EXP msrSyllable : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrSyllable> create (
-      int                   inputLineNumber,
-      msrSyllableKind       syllableKind,
-      msrSyllableExtendKind syllableExtendKind,
-      string                syllableStanzaNumber,
-      rational              syllableWholeNotes,
-      msrTupletFactor       syllableTupletFactor,
-      S_msrStanza           syllableStanzaUpLink);
+                            int                   inputLineNumber,
+                            msrSyllableKind       syllableKind,
+                            msrSyllableExtendKind syllableExtendKind,
+                            string                syllableStanzaNumber,
+                            rational              syllableWholeNotes,
+                            msrTupletFactor       syllableTupletFactor,
+                            S_msrStanza           syllableStanzaUpLink);
 
     static SMARTP<msrSyllable> createWithNextMeasurePuristNumber (
-      int                   inputLineNumber,
-      msrSyllableKind       syllableKind,
-      msrSyllableExtendKind syllableExtendKind,
-      string                syllableStanzaNumber,
-      rational              syllableWholeNotes,
-      msrTupletFactor       syllableTupletFactor,
-      S_msrStanza           syllableStanzaUpLink,
-      int                   syllableNextMeasurePuristNumber);
+                            int                   inputLineNumber,
+                            msrSyllableKind       syllableKind,
+                            msrSyllableExtendKind syllableExtendKind,
+                            string                syllableStanzaNumber,
+                            rational              syllableWholeNotes,
+                            msrTupletFactor       syllableTupletFactor,
+                            S_msrStanza           syllableStanzaUpLink,
+                            int                   syllableNextMeasurePuristNumber);
 
     SMARTP<msrSyllable> createSyllableNewbornClone (
-      S_msrPart containingPart); // JMI
+                            S_msrPart containingPart); // JMI
 
     SMARTP<msrSyllable> createSyllableDeepCopy (
-      S_msrPart containingPart);
+                            S_msrPart containingPart);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSyllable (
-      int                   inputLineNumber,
-      msrSyllableKind       syllableKind,
-      msrSyllableExtendKind syllableExtendKind,
-      string                syllableStanzaNumber,
-      rational              syllableWholeNotes,
-      msrTupletFactor       syllableTupletFactor,
-      S_msrStanza           syllableStanzaUpLink);
+                          msrSyllable (
+                            int                   inputLineNumber,
+                            msrSyllableKind       syllableKind,
+                            msrSyllableExtendKind syllableExtendKind,
+                            string                syllableStanzaNumber,
+                            rational              syllableWholeNotes,
+                            msrTupletFactor       syllableTupletFactor,
+                            S_msrStanza           syllableStanzaUpLink);
 
-    msrSyllable (
-      int                   inputLineNumber,
-      msrSyllableKind       syllableKind,
-      msrSyllableExtendKind syllableExtendKind,
-      string                syllableStanzaNumber,
-      rational              syllableWholeNotes,
-      msrTupletFactor       syllableTupletFactor,
-      S_msrStanza           syllableStanzaUpLink,
-      int                   syllableNextMeasurePuristNumber);
+                          msrSyllable (
+                            int                   inputLineNumber,
+                            msrSyllableKind       syllableKind,
+                            msrSyllableExtendKind syllableExtendKind,
+                            string                syllableStanzaNumber,
+                            rational              syllableWholeNotes,
+                            msrTupletFactor       syllableTupletFactor,
+                            S_msrStanza           syllableStanzaUpLink,
+                            int                   syllableNextMeasurePuristNumber);
 
     virtual               ~msrSyllable ();
 
@@ -211,7 +211,7 @@ class EXP msrSyllable : public msrMeasureElement
 
     // upLinks
     S_msrNote             fSyllableNoteUpLink;
-    S_msrStanza           fSyllableStanzaUpLink;
+    S_msrStanza           fSyllableStanzaUpLink; // for use in stanzas
 
     // syllable kind
     msrSyllableKind       fSyllableKind;
@@ -253,25 +253,25 @@ class EXP msrStanza : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrStanza> create (
-      int           inputLineNumber,
-      string        stanzaNumber,
-      S_msrVoice    stanzaVoiceUpLink);
+                            int           inputLineNumber,
+                            string        stanzaNumber,
+                            S_msrVoice    stanzaVoiceUpLink);
 
     SMARTP<msrStanza> createStanzaNewbornClone (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
     SMARTP<msrStanza> createStanzaDeepCopy (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStanza (
-      int           inputLineNumber,
-      string        stanzaNumber,
-      S_msrVoice    stanzaVoiceUpLink);
+                          msrStanza (
+                            int           inputLineNumber,
+                            string        stanzaNumber,
+                            S_msrVoice    stanzaVoiceUpLink);
 
   public:
 

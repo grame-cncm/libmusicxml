@@ -38,28 +38,28 @@ class EXP msrDoubleTremolo : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrDoubleTremolo> create (
-      int                  inputLineNumber,
-      msrDoubleTremoloKind doubleTremoloKind,
-      msrTremoloTypeKind   doubleTremoloTypeKind,
-      int                  doubleTremoloMarksNumber,
-      msrPlacementKind     doubleTremoloPlacementKind);
+                            int                  inputLineNumber,
+                            msrDoubleTremoloKind doubleTremoloKind,
+                            msrTremoloTypeKind   doubleTremoloTypeKind,
+                            int                  doubleTremoloMarksNumber,
+                            msrPlacementKind     doubleTremoloPlacementKind);
 
 
     SMARTP<msrDoubleTremolo> createDoubleTremoloNewbornClone (
-      S_msrElement doubleTremoloFirstElement,
-      S_msrElement doubleTremoloSecondElement);
+                            S_msrElement doubleTremoloFirstElement,
+                            S_msrElement doubleTremoloSecondElement);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrDoubleTremolo (
-      int                  inputLineNumber,
-      msrDoubleTremoloKind doubleTremoloKind,
-      msrTremoloTypeKind   doubleTremoloTypeKind,
-      int                  doubleTremoloMarksNumber,
-      msrPlacementKind     doubleTremoloPlacementKind);
+                          msrDoubleTremolo (
+                            int                  inputLineNumber,
+                            msrDoubleTremoloKind doubleTremoloKind,
+                            msrTremoloTypeKind   doubleTremoloTypeKind,
+                            int                  doubleTremoloMarksNumber,
+                            msrPlacementKind     doubleTremoloPlacementKind);
 
     virtual               ~msrDoubleTremolo ();
 

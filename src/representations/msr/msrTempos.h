@@ -35,19 +35,19 @@ class EXP msrTempoNote : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTempoNote> create (
-      int      inputLineNumber,
-      rational tempoNoteWholeNotes,
-      bool     tempoNoteBelongsToATuplet);
+                            int      inputLineNumber,
+                            rational tempoNoteWholeNotes,
+                            bool     tempoNoteBelongsToATuplet);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrTempoNote (
-      int      inputLineNumber,
-      rational tempoNoteWholeNotes,
-      bool     tempoNoteBelongsToATuplet);
+                          msrTempoNote (
+                            int      inputLineNumber,
+                            rational tempoNoteWholeNotes,
+                            bool     tempoNoteBelongsToATuplet);
 
     virtual               ~msrTempoNote ();
 

@@ -30,9 +30,9 @@ class EXP msrMidiTempo : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMidiTempo> create (
-      int    inputLineNumber,
-      string midiTempoDuration,
-      int    midiTempoPerSecond);
+                            int    inputLineNumber,
+                            string midiTempoDuration,
+                            int    midiTempoPerSecond);
 
     SMARTP<msrMidiTempo> createMsrMidiTempoNewbornClone ();
 
@@ -41,10 +41,10 @@ class EXP msrMidiTempo : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMidiTempo (
-      int    inputLineNumber,
-      string midiTempoDuration,
-      int    midiTempoPerSecond);
+                          msrMidiTempo (
+                            int    inputLineNumber,
+                            string midiTempoDuration,
+                            int    midiTempoPerSecond);
 
     msrMidiTempo ();
 

@@ -46,8 +46,8 @@ class EXP msrVoiceStaffChange : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrVoiceStaffChange> create (
-      int        inputLineNumber,
-      S_msrStaff staffToChangeTo);
+                            int        inputLineNumber,
+                            S_msrStaff staffToChangeTo);
 
     SMARTP<msrVoiceStaffChange> createStaffChangeNewbornClone ();
 
@@ -56,9 +56,9 @@ class EXP msrVoiceStaffChange : public msrMeasureElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrVoiceStaffChange (
-      int        inputLineNumber,
-      S_msrStaff staffToChangeTo);
+                          msrVoiceStaffChange (
+                            int        inputLineNumber,
+                            S_msrStaff staffToChangeTo);
 
     virtual               ~msrVoiceStaffChange ();
 
@@ -118,24 +118,24 @@ class EXP msrStaff : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrStaff> create (
-      int          inputLineNumber,
-      msrStaffKind staffKind,
-      int          staffNumber,
-      S_msrPart    staffPartUpLink);
+                            int          inputLineNumber,
+                            msrStaffKind staffKind,
+                            int          staffNumber,
+                            S_msrPart    staffPartUpLink);
 
     SMARTP<msrStaff> createStaffNewbornClone (
-      S_msrPart containingPart);
+                            S_msrPart containingPart);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStaff (
-      int          inputLineNumber,
-      msrStaffKind staffKind,
-      int          staffNumber,
-      S_msrPart    staffPartUpLink);
+                          msrStaff (
+                            int          inputLineNumber,
+                            msrStaffKind staffKind,
+                            int          staffNumber,
+                            S_msrPart    staffPartUpLink);
 
     virtual               ~msrStaff ();
 

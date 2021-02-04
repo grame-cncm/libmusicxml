@@ -37,8 +37,8 @@ class EXP msrPartGroupElement : public msrMeasureElement
 
   protected:
 
-    msrPartGroupElement (
-      int inputLineNumber);
+                          msrPartGroupElement (
+                            int inputLineNumber);
 
     virtual               ~msrPartGroupElement ();
 

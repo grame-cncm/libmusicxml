@@ -40,17 +40,17 @@ class EXP lpsrScore : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrScore> create (
-      int        inputLineNumber,
-      S_msrScore theMsrScore);
+                            int        inputLineNumber,
+                            S_msrScore theMsrScore);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrScore (
-      int        inputLineNumber,
-      S_msrScore theMsrScore);
+                          lpsrScore (
+                            int        inputLineNumber,
+                            S_msrScore theMsrScore);
 
     virtual               ~lpsrScore ();
 

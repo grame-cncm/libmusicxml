@@ -43,8 +43,8 @@ class EXP msrMeasureElement : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMeasureElement (
-      int inputLineNumber);
+                          msrMeasureElement (
+                            int inputLineNumber);
 
     virtual               ~msrMeasureElement ();
 

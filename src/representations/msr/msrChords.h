@@ -62,30 +62,30 @@ class EXP msrChord : public msrTupletElement
   public:
 
     static SMARTP<msrChord> create (
-      int             inputLineNumber,
-      rational        chordSoundingWholeNotes,
-      rational        chordDisplayWholeNotes,
-      msrDurationKind chordGraphicDurationKind);
+                            int             inputLineNumber,
+                            rational        chordSoundingWholeNotes,
+                            rational        chordDisplayWholeNotes,
+                            msrDurationKind chordGraphicDurationKind);
 
     // creation from MusicXML
     // ------------------------------------------------------
 
     SMARTP<msrChord> createChordNewbornClone (
-      S_msrPart containingPart);
+                            S_msrPart containingPart);
 
     SMARTP<msrChord> createChordDeepCopy (
-      S_msrPart containingPart);
+                            S_msrPart containingPart);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrChord (
-      int             inputLineNumber,
-      rational        chordSoundingWholeNotes,
-      rational        chordDisplayWholeNotes,
-      msrDurationKind chordGraphicDurationKind);
+                          msrChord (
+                            int             inputLineNumber,
+                            rational        chordSoundingWholeNotes,
+                            rational        chordDisplayWholeNotes,
+                            msrDurationKind chordGraphicDurationKind);
 
     virtual               ~msrChord ();
 
@@ -269,23 +269,18 @@ class EXP msrChord : public msrTupletElement
 */
 
     void                  setChordGraceNotesGroupLinkBefore (
+                            int     inputLineNumber,
                             S_msrChordGraceNotesGroupLink
-                              chordChordGraceNotesGroupLinkBefore)
-                              {
-                                fChordGraceNotesGroupLinkBefore =
-                                  chordChordGraceNotesGroupLinkBefore;
-                              }
+                                    chordChordGraceNotesGroupLinkBefore);
 
     S_msrChordGraceNotesGroupLink
                           getChordGraceNotesGroupLinkBefore () const
                               { return fChordGraceNotesGroupLinkBefore; }
 
     void                  setChordGraceNotesGroupLinkAfter (
-                            S_msrChordGraceNotesGroupLink chordChordGraceNotesGroupLinkAfter)
-                              {
-                                fChordGraceNotesGroupLinkAfter =
-                                  chordChordGraceNotesGroupLinkAfter;
-                              }
+                            int     inputLineNumber,
+                            S_msrChordGraceNotesGroupLink
+                                    chordChordGraceNotesGroupLinkAfter);
 
     S_msrChordGraceNotesGroupLink
                           getChordGraceNotesGroupLinkAfter () const
@@ -314,20 +309,28 @@ class EXP msrChord : public msrTupletElement
                             { return fChordOctaveShift; }
 
     // measure upLink
-    void                  setChordMeasureUpLink (
+    void                  setChordDirectMeasureUpLink (
                             const S_msrMeasure& measure)
-                              { fChordMeasureUpLink = measure; }
+                              { fChordDirectMeasureUpLink = measure; }
 
-    S_msrMeasure          getChordMeasureUpLink () const
-                            { return fChordMeasureUpLink; }
+    S_msrMeasure          getChordDirectMeasureUpLink () const
+                            { return fChordDirectMeasureUpLink; }
+
+    // grace notes group upLink
+    void                  setChordDirectGraceNotesGroupUpLink (
+                            const S_msrGraceNotesGroup& graceNotesGroup)
+                              { fChordDirectGraceNotesGroupUpLink = graceNotesGroup; }
+
+    S_msrGraceNotesGroup  getChordDirectGraceNotesGroupUpLink () const
+                            { return fChordDirectGraceNotesGroupUpLink; }
 
     // tuplet upLink
-    void                  setChordTupletUpLink (
+    void                  setChordDirectTupletUpLink (
                             const S_msrTuplet& tuplet)
-                              { fChordTupletUpLink = tuplet; }
+                              { fChordDirectTupletUpLink = tuplet; }
 
-    S_msrTuplet           getChordTupletUpLink () const
-                            { return fChordTupletUpLink; }
+    S_msrTuplet           getChordDirectTupletUpLink () const
+                            { return fChordDirectTupletUpLink; }
 
     // positions in measures
     void                  setChordMembersPositionInMeasure (
@@ -338,6 +341,15 @@ class EXP msrChord : public msrTupletElement
 
     // public services
     // ------------------------------------------------------
+
+    // measure upLink
+    S_msrMeasure          fetchChordMeasureUpLink () const;
+
+    // tuplet upLink
+    S_msrTuplet           fetchChordTupletUpLink () const;
+
+    // grace notes group upLink
+    S_msrGraceNotesGroup  fetchChordGraceNotesGroupUpLink () const;
 
     // notes
     void                  addFirstNoteToChord (
@@ -472,10 +484,13 @@ class EXP msrChord : public msrTupletElement
     // ------------------------------------------------------
 
     // measure upLink
-    S_msrMeasure          fChordMeasureUpLink;
+    S_msrMeasure          fChordDirectMeasureUpLink;
 
     // tuplet uplink
-    S_msrTuplet           fChordTupletUpLink;
+    S_msrTuplet           fChordDirectTupletUpLink;
+
+    // grace notes group uplink
+    S_msrGraceNotesGroup  fChordDirectGraceNotesGroupUpLink;
 
     // sounding whole notes
     // no need for 'rational fChordSoundingWholeNotes;',
@@ -600,9 +615,9 @@ class EXP msrChordBeamLink : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrChordBeamLink> create (
-      int        inputLineNumber,
-      S_msrBeam  originalBeam,
-      S_msrChord chordUpLink);
+                            int        inputLineNumber,
+                            S_msrBeam  originalBeam,
+                            S_msrChord chordUpLink);
 
     SMARTP<msrChordBeamLink> createBeamNewbornClone ();
 
@@ -611,10 +626,10 @@ class EXP msrChordBeamLink : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrChordBeamLink (
-      int        inputLineNumber,
-      S_msrBeam  originalBeam,
-      S_msrChord chordUpLink);
+                          msrChordBeamLink (
+                            int        inputLineNumber,
+                            S_msrBeam  originalBeam,
+                            S_msrChord chordUpLink);
 
     virtual               ~msrChordBeamLink ();
 
@@ -672,9 +687,9 @@ class EXP msrChordSlurLink : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrChordSlurLink> create (
-      int        inputLineNumber,
-      S_msrSlur  originalSlur,
-      S_msrChord chordUpLink);
+                            int        inputLineNumber,
+                            S_msrSlur  originalSlur,
+                            S_msrChord chordUpLink);
 
     SMARTP<msrChordSlurLink> createSlurNewbornClone ();
 
@@ -683,10 +698,10 @@ class EXP msrChordSlurLink : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrChordSlurLink (
-      int        inputLineNumber,
-      S_msrSlur  originalSlur,
-      S_msrChord chordUpLink);
+                          msrChordSlurLink (
+                            int        inputLineNumber,
+                            S_msrSlur  originalSlur,
+                            S_msrChord chordUpLink);
 
     virtual               ~msrChordSlurLink ();
 
@@ -744,9 +759,9 @@ class EXP msrChordGraceNotesGroupLink : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrChordGraceNotesGroupLink> create (
-      int                  inputLineNumber,
-      S_msrGraceNotesGroup originalGraceNotesGroup,
-      S_msrChord            chordUpLink);
+                            int                  inputLineNumber,
+                            S_msrGraceNotesGroup originalGraceNotesGroup,
+                            S_msrChord            chordUpLink);
 
     SMARTP<msrChordGraceNotesGroupLink> createChordGraceNotesGroupLinkNewbornClone ();
 
@@ -755,10 +770,10 @@ class EXP msrChordGraceNotesGroupLink : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrChordGraceNotesGroupLink (
-      int                  inputLineNumber,
-      S_msrGraceNotesGroup originalGraceNotesGroup,
-      S_msrChord            chordUpLink);
+                          msrChordGraceNotesGroupLink (
+                            int                  inputLineNumber,
+                            S_msrGraceNotesGroup originalGraceNotesGroup,
+                            S_msrChord            chordUpLink);
 
     virtual               ~msrChordGraceNotesGroupLink ();
 

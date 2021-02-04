@@ -49,9 +49,9 @@ class EXP msrStem : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStem (
-      int         inputLineNumber,
-      msrStemKind stemKind);
+                          msrStem (
+                            int         inputLineNumber,
+                            msrStemKind stemKind);
 
     virtual               ~msrStem ();
 

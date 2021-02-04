@@ -5,7 +5,6 @@
 #include "msrMeasures.h"
 #include "msrMeasureElements.h"
 #include "msrNotes.h"
-#include "msrVoices.h"
 
 
 namespace MusicXML2
@@ -15,11 +14,11 @@ namespace MusicXML2
 class msrChord;
 typedef SMARTP<msrChord> S_msrChord;
 
+class msrTuplet;
+typedef SMARTP<msrTuplet> S_msrTuplet;
+
 class msrMeasure;
 typedef SMARTP<msrMeasure> S_msrMeasure;
-
-class msrVoice;
-typedef SMARTP<msrVoice> S_msrVoice;
 
 class msrPart;
 typedef SMARTP<msrPart> S_msrPart;
@@ -47,34 +46,29 @@ class EXP msrGraceNotesGroup : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrGraceNotesGroup> create (
-      int                    inputLineNumber,
-      msrGraceNotesGroupKind graceNotesGroupKind,
-      bool                   graceNotesGroupIsSlashed,
-      bool                   graceNotesGroupIsBeamed,
-      string                 graceNotesGroupMeasureNumber,
-      S_msrVoice             graceNotesGroupVoiceUpLink);
+                            int                    inputLineNumber,
+                            msrGraceNotesGroupKind graceNotesGroupKind,
+                            bool                   graceNotesGroupIsSlashed,
+                            bool                   graceNotesGroupIsBeamed,
+                            string                 graceNotesGroupMeasureNumber);
 
-    SMARTP<msrGraceNotesGroup> createGraceNotesGroupNewbornClone (
-      S_msrVoice containingVoice);
+    SMARTP<msrGraceNotesGroup> createGraceNotesGroupNewbornClone ();
 
-    SMARTP<msrGraceNotesGroup> createSkipGraceNotesGroupClone (
-      S_msrVoice containingVoice);
+    SMARTP<msrGraceNotesGroup> createSkipGraceNotesGroupClone ();
 
-    SMARTP<msrGraceNotesGroup> createGraceNotesGroupDeepCopy (
-      S_msrVoice containingVoice);
+    SMARTP<msrGraceNotesGroup> createGraceNotesGroupDeepCopy ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrGraceNotesGroup (
-      int                    inputLineNumber,
-      msrGraceNotesGroupKind graceNotesGroupKind,
-      bool                   graceNotesGroupIsSlashed,
-      bool                   graceNotesGroupIsBeamed,
-      string                 graceNotesGroupMeasureNumber,
-      S_msrVoice             graceNotesGroupVoiceUpLink);
+                          msrGraceNotesGroup (
+                            int                    inputLineNumber,
+                            msrGraceNotesGroupKind graceNotesGroupKind,
+                            bool                   graceNotesGroupIsSlashed,
+                            bool                   graceNotesGroupIsBeamed,
+                            string                 graceNotesGroupMeasureNumber);
 
     virtual               ~msrGraceNotesGroup ();
 
@@ -89,9 +83,6 @@ class EXP msrGraceNotesGroup : public msrElement
 
     S_msrNote             getGraceNotesGroupNoteUpLink () const
                               { return fGraceNotesGroupNoteUpLink; }
-
-    S_msrVoice            getGraceNotesGroupVoiceUpLink () const
-                              { return fGraceNotesGroupVoiceUpLink; }
 
     msrGraceNotesGroupKind
                           getGraceNotesGroupKind () const
@@ -145,6 +136,10 @@ class EXP msrGraceNotesGroup : public msrElement
     // public services
     // ------------------------------------------------------
 
+    // tuplet uplink
+    S_msrTuplet           fetchGraceNoteGroupTupletUpLink () const;
+
+    // part uplink
     S_msrPart             fetchGraceNotesGroupPartUpLink () const;
 
     void                  appendNoteToGraceNotesGroup (S_msrNote note);
@@ -183,7 +178,6 @@ class EXP msrGraceNotesGroup : public msrElement
 
     // upLinks
     S_msrNote             fGraceNotesGroupNoteUpLink;
-    S_msrVoice            fGraceNotesGroupVoiceUpLink;
 
     msrGraceNotesGroupKind
                           fGraceNotesGroupKind;

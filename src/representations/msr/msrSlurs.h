@@ -29,14 +29,14 @@ class EXP msrSlur : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-                          static SMARTP<msrSlur> create (
+    static SMARTP<msrSlur> create (
                             int              inputLineNumber,
                             int              slurNumber,
                             msrSlurTypeKind  slurTypeKind,
                             msrLineTypeKind  slurLineTypeKind,
                             msrPlacementKind slurPlacementKind);
 
-                          static SMARTP<msrSlur> create (
+    static SMARTP<msrSlur> create (
                             int              inputLineNumber,
                             int              slurNumber,
                             msrSlurTypeKind  slurTypeKind,

@@ -16036,7 +16036,7 @@ S_msrChord mxmlTree2msrTranslator::createChordFromItsFirstNote (
   int                  inputLineNumber,
   S_msrVoice           voice,
   S_msrNote            chordFirstNote,
-  msrNote::msrNoteKind noteKind)
+  msrNoteKind noteKind)
 {
   int firstNoteInputLineNumber =
     chordFirstNote->getInputLineNumber ();
@@ -16091,9 +16091,9 @@ S_msrChord mxmlTree2msrTranslator::createChordFromItsFirstNote (
 
   // get chordFirstNote's measure upLink
   S_msrMeasure
-    chordFirstNoteMeasureUpLink =
+    chordFirstNoteDirectMeasureUpLink =
       chordFirstNote->
-        getNoteMeasureUpLink ();
+        getNoteDirectMeasureUpLink ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceChordsDetails ()) {
@@ -16105,9 +16105,9 @@ S_msrChord mxmlTree2msrTranslator::createChordFromItsFirstNote (
       endl <<
       "+++++++++++++++++" <<
       endl << endl <<
-      "++++++++++++++++ chordFirstNote->getNoteMeasureUpLink () =";
+      "++++++++++++++++ chordFirstNote->getNoteDirectMeasureUpLink () =";
 
-    if (chordFirstNoteMeasureUpLink) {
+    if (chordFirstNoteDirectMeasureUpLink) {
       gLogStream <<
         endl << endl;
     }
@@ -16123,7 +16123,7 @@ S_msrChord mxmlTree2msrTranslator::createChordFromItsFirstNote (
   if (! chordFirstNote->getNoteIsAGraceNote ()) { // JMI
     // register the chord as non cross staff
     fCurrentChordStaffNumber =
-      chordFirstNoteMeasureUpLink->
+      chordFirstNoteDirectMeasureUpLink->
         fetchMeasureStaffUpLink ()->
           getStaffNumber ();
   }
@@ -17291,6 +17291,7 @@ void mxmlTree2msrTranslator::addNoteGraceNotesGroupsLinksToChord (
     // register it in the chord
     chord->
       setChordGraceNotesGroupLinkBefore (
+        note->getInputLineNumber (), // JMI ???
         chordChordGraceNotesGroupLink);
   }
 
@@ -17323,6 +17324,7 @@ void mxmlTree2msrTranslator::addNoteGraceNotesGroupsLinksToChord (
     // register it in the chord
     chord->
       setChordGraceNotesGroupLinkAfter (
+        note->getInputLineNumber (), // JMI ???
         chordChordGraceNotesGroupLink);
   }
 }
@@ -17521,7 +17523,7 @@ void mxmlTree2msrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
   // set tuplet's tuplet uplink
   if (fTupletsStack.size ()) {
     tuplet->
-      setTupletTupletUpLink (
+      setTupletDirectTupletUpLink (
         fTupletsStack.front ());
   }
 
@@ -18960,7 +18962,7 @@ void mxmlTree2msrTranslator::attachPendingLigaturesToNote (
         S_msrMeasure
           noteMeasure =
             note->
-              getNoteMeasureUpLink ();
+              getNoteDirectMeasureUpLink ();
 
         // sanity check
         msgAssert (
@@ -19859,7 +19861,7 @@ S_msrNote mxmlTree2msrTranslator::createNote (
         inputLineNumber,
         fCurrentMeasureNumber,
 
-        msrNote::k_NoNoteKind,
+        k_NoNoteKind,
           // will be set by 'setNoteKind()' when it becomes known later
 
         fCurrentNoteQuarterTonesPitchKind,
@@ -19941,20 +19943,20 @@ void mxmlTree2msrTranslator::populateNote (
     ! fCurrentNoteHasATimeModification
   ) {
     switch (newNote->getNoteKind ()) {
-      case msrNote::k_NoNoteKind:
+      case k_NoNoteKind:
         break;
 
-      case msrNote::kTupletMemberNote:
-      case msrNote::kTupletRestMemberNote:
-      case msrNote::kGraceTupletMemberNote:
-      case msrNote::kTupletUnpitchedMemberNote:
+      case kNoteTupletMember:
+      case kNoteTupletRestMember:
+      case kNoteGraceTupletMember:
+      case kNoteTupletUnpitchedMember:
   // JMI      break;
 
-      case msrNote::kRestNote:
-      case msrNote::kSkipNote:
-      case msrNote::kUnpitchedNote:
-      case msrNote::kRegularNote:
-      case msrNote::kChordMemberNote:
+      case kNoteRest:
+      case kNoteSkip:
+      case kNoteUnpitched:
+      case kNoteRegular:
+      case kNoteChordMember:
         if (! fCurrentNoteIsAGraceNote) {
           stringstream s;
 
@@ -19976,10 +19978,10 @@ void mxmlTree2msrTranslator::populateNote (
             fCurrentNoteDisplayWholeNotesFromType);
         break;
 
-      case msrNote::kGraceNote:
-      case msrNote::kGraceSkipNote:
-      case msrNote::kGraceChordMemberNote:
-      case msrNote::kDoubleTremoloMemberNote:
+      case kNoteGrace:
+      case kNoteGraceSkip:
+      case kNoteGraceChordMember:
+      case kNoteDoubleTremoloMember:
         break;
     } // switch
   }
@@ -20394,11 +20396,6 @@ void mxmlTree2msrTranslator::visitEnd ( S_note& elt )
 
   fPreviousMeasureElement = newNote;
 
-  // populate newNote
-  populateNote (
-    inputLineNumber,
-    newNote);
-
   // fetch current note's voice
   S_msrVoice
     currentNoteVoice =
@@ -20536,6 +20533,11 @@ void mxmlTree2msrTranslator::visitEnd ( S_note& elt )
   ////////////////////////////////////////////////////////////////////
 
   handleNote (
+    inputLineNumber,
+    newNote);
+
+  // populate newNote
+  populateNote (
     inputLineNumber,
     newNote);
 
@@ -20815,7 +20817,7 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     // gracenote
     newNote->
       setNoteKind (
-        msrNote::kGraceNote);
+        kNoteGrace);
   }
 
   else if (
@@ -20826,20 +20828,20 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     // double tremolo note
     newNote->
       setNoteKind (
-        msrNote::kDoubleTremoloMemberNote);
+        kNoteDoubleTremoloMember);
   }
 
   else {
     // regular or unpitched note or rest
     if (fCurrentNoteIsARest) {
-      msrNote::msrNoteKind
+      msrNoteKind
         noteKind;
 
       if (fCurrentRestMeasure) { // JMI ???
-        noteKind = msrNote::kRestNote; // JMI ??? myfile_utf8.xml
+        noteKind = kNoteRest          ; // JMI ??? myfile_utf8.xml
       }
       else {
-        noteKind = msrNote::kRestNote;
+        noteKind = kNoteRest          ;
       }
 
       newNote->
@@ -20849,12 +20851,12 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     else if (fCurrentNoteIsUnpitched) {
       newNote->
         setNoteKind (
-          msrNote::kUnpitchedNote);
+          kNoteUnpitched);
     }
     else {
       newNote->
         setNoteKind (
-          msrNote::kRegularNote);
+          kNoteRegular);
     }
   }
 
@@ -20968,8 +20970,7 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
           msrGraceNotesGroup::kGraceNotesGroupBefore, // default value
           fCurrentGraceIsSlashed,
           fCurrentGraceIsBeamed,
-          fCurrentMeasureNumber,
-          currentVoice);
+          fCurrentMeasureNumber);
 
       // should all grace notes be slurred?
       if (gGlobalMxmlTree2msrOahGroup->getSlurAllGraceNotes ()) {
@@ -21390,7 +21391,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
   // set newChordNote kind as a chord member
   newChordNote->
     setNoteKind (
-      msrNote::kChordMemberNote);
+      kNoteChordMember);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceChords ()) {
@@ -21583,7 +21584,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
 
     // fetch chord first note's kind before createChordFromItsFirstNote(),
     // because the latter will change it to kChordMemberNote or kGraceChordMemberNote
-    msrNote::msrNoteKind
+    msrNoteKind
       savedChordFirstNoteKind =
         chordFirstNote->getNoteKind ();
 
@@ -21592,7 +21593,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
       gLogStream <<
         "Handling a note belonging to a chord" <<
         ", savedChordFirstNoteKind = " <<
-        msrNote::noteKindAsString (savedChordFirstNoteKind) <<
+        noteKindAsString (savedChordFirstNoteKind) <<
         endl;
 
       ++gIndenter;
@@ -21611,20 +21612,20 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
         inputLineNumber,
         currentVoice,
         chordFirstNote,
-        msrNote::kChordMemberNote);
+        kNoteChordMember);
 
     fPreviousMeasureElement = fCurrentChord;
 
     // handle chord's first note
     switch (savedChordFirstNoteKind) {
-      case msrNote::kRestNote:
+      case kNoteRest:
         break;
 
-      case msrNote::kSkipNote:
+      case kNoteSkip:
         break;
 
-      case msrNote::kUnpitchedNote:
-      case msrNote::kRegularNote:
+      case kNoteUnpitched:
+      case kNoteRegular:
         // remove last handled (previous current) note from the current voice
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceChords ()) {
@@ -21686,7 +21687,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
             fCurrentChord);
         break;
 
-      case msrNote::kDoubleTremoloMemberNote:
+      case kNoteDoubleTremoloMember:
         {
           /* JMI
           // fetch chordFirstNote's sounding divisions
@@ -21746,9 +21747,9 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
         }
         break;
 
-      case msrNote::kGraceNote:
-      case msrNote::kGraceSkipNote:
-      case msrNote::kGraceChordMemberNote:
+      case kNoteGrace:
+      case kNoteGraceSkip:
+      case kNoteGraceChordMember:
       /* JMI
         // remove last handled (previous current) note from the current voice
 #ifdef TRACING_IS_ENABLED
@@ -21770,17 +21771,17 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
 */
         break;
 
-      case msrNote::kChordMemberNote:
+      case kNoteChordMember:
         // error? JMI
         break;
 
-      case msrNote::kTupletMemberNote:
-      case msrNote::kTupletRestMemberNote:
-      case msrNote::kGraceTupletMemberNote:
-      case msrNote::kTupletUnpitchedMemberNote:
+      case kNoteTupletMember:
+      case kNoteTupletRestMember:
+      case kNoteGraceTupletMember:
+      case kNoteTupletUnpitchedMember:
         break;
 
-      case msrNote::k_NoNoteKind:
+      case k_NoNoteKind:
         break;
     } // switch
 
@@ -21872,15 +21873,15 @@ void mxmlTree2msrTranslator::handleNoteBelongingToATuplet (
  // register note as a tuplet member
  if (fCurrentNoteIsUnpitched) {
     note->
-      setNoteKind (msrNote::kTupletUnpitchedMemberNote);
+      setNoteKind (kNoteTupletUnpitchedMember);
   }
   else if (fCurrentNoteIsARest) {
     note->
-      setNoteKind (msrNote::kTupletRestMemberNote);
+      setNoteKind (kNoteTupletRestMember);
   }
   else {
     note->
-      setNoteKind (msrNote::kTupletMemberNote);
+      setNoteKind (kNoteTupletMember);
   }
 
   if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
@@ -22294,7 +22295,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChordInATuplet (
   // set new note kind as a chord or grace chord member JMI ???
   newChordNote->
     setNoteKind (
-      msrNote::kChordMemberNote);
+      kNoteChordMember);
 
   // apply tuplet sounding factor to note
   if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
@@ -22404,7 +22405,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChordInATuplet (
         inputLineNumber,
         currentVoice,
         tupletLastNote,
-        msrNote::kChordMemberNote);
+        kNoteChordMember);
 
     if (false) { // JMI
       gLogStream <<
@@ -22492,7 +22493,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
   // set new note kind as a grace chord member
   newChordNote->
     setNoteKind (
-      msrNote::kGraceChordMemberNote);
+      kNoteGraceChordMember);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceChords () || gGlobalTraceOahGroup->getTraceGraceNotes ()) {
@@ -22576,7 +22577,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
     // set the first note's kind as grace chord member
     chordFirstNote->
       setNoteKind (
-        msrNote::kGraceChordMemberNote);
+        kNoteGraceChordMember);
 
     // create the current chord from its first note
     fCurrentChord =
@@ -22584,7 +22585,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
         inputLineNumber,
         currentVoice,
         chordFirstNote,
-        msrNote::kGraceChordMemberNote);
+        kNoteGraceChordMember);
 
     if (false) {
       gLogStream <<

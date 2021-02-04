@@ -268,8 +268,8 @@ class EXP msr2lpsrTranslator :
 {
   public:
 
-    msr2lpsrTranslator (
-      S_msrScore originalMsrScore);
+                          msr2lpsrTranslator (
+                            S_msrScore originalMsrScore);
 
     virtual               ~msr2lpsrTranslator ();
 

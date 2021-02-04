@@ -30,37 +30,37 @@ class EXP msrCreditWords : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrCreditWords> create (
-      int                        inputLineNumber,
-      string                     creditWordsContents,
-      float                      creditWordsDefaultX,
-      float                      creditWordsDefaultY,
-      string                     creditWordsFontFamily,
-      float                      creditWordsFontSize,
-      msrFontWeightKind          creditWordsFontWeightKind,
-      msrFontStyleKind           creditWordsFontStyleKind,
-      msrJustifyKind             creditWordsJustifyKind,
-      msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
-      msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
-      msrXMLLangKind             creditWordsXMLLang);
+                            int                        inputLineNumber,
+                            string                     creditWordsContents,
+                            float                      creditWordsDefaultX,
+                            float                      creditWordsDefaultY,
+                            string                     creditWordsFontFamily,
+                            float                      creditWordsFontSize,
+                            msrFontWeightKind          creditWordsFontWeightKind,
+                            msrFontStyleKind           creditWordsFontStyleKind,
+                            msrJustifyKind             creditWordsJustifyKind,
+                            msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
+                            msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
+                            msrXMLLangKind             creditWordsXMLLang);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrCreditWords (
-      int                        inputLineNumber,
-      string                     creditWordsContents,
-      float                      creditWordsDefaultX,
-      float                      creditWordsDefaultY,
-      string                     creditWordsFontFamily,
-      float                      creditWordsFontSize,
-      msrFontWeightKind          creditWordsFontWeightKind,
-      msrFontStyleKind           creditWordsFontStyleKind,
-      msrJustifyKind             creditWordsJustifyKind,
-      msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
-      msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
-      msrXMLLangKind             creditWordsXMLLang);
+                          msrCreditWords (
+                            int                        inputLineNumber,
+                            string                     creditWordsContents,
+                            float                      creditWordsDefaultX,
+                            float                      creditWordsDefaultY,
+                            string                     creditWordsFontFamily,
+                            float                      creditWordsFontSize,
+                            msrFontWeightKind          creditWordsFontWeightKind,
+                            msrFontStyleKind           creditWordsFontStyleKind,
+                            msrJustifyKind             creditWordsJustifyKind,
+                            msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
+                            msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
+                            msrXMLLangKind             creditWordsXMLLang);
 
     virtual               ~msrCreditWords ();
 
@@ -162,17 +162,17 @@ class EXP msrCredit : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrCredit> create (
-      int inputLineNumber,
-      int creditPageNumber);
+                            int inputLineNumber,
+                            int creditPageNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrCredit (
-      int inputLineNumber,
-      int creditPageNumber);
+                          msrCredit (
+                            int inputLineNumber,
+                            int creditPageNumber);
 
     virtual               ~msrCredit ();
 

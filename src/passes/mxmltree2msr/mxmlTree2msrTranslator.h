@@ -500,8 +500,8 @@ class EXP mxmlTree2msrTranslator :
     // set and get
     // ------------------------------------------------------
 
-    S_msrScore getMsrScore () const
-        { return fMsrScore; }
+    S_msrScore            getMsrScore () const
+                              { return fMsrScore; }
 
   public:
 
@@ -2079,7 +2079,7 @@ class EXP mxmlTree2msrTranslator :
                                 int                  inputLineNumber,
                                 S_msrVoice           voice,
                                 S_msrNote            chordFirstNote,
-                                msrNote::msrNoteKind noteKind);
+                                msrNoteKind noteKind);
 
 /* JMI
     void                      registerVoiceCurrentChordInMap (

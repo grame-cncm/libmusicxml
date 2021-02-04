@@ -42,21 +42,21 @@ class EXP msrHarmonyDegree : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrHarmonyDegree> create (
-      int                      inputLineNumber,
-      int                      harmonyDegreeValue,
-      msrAlterationKind        harmonyDegreeAlterationKind,
-      msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
+                            int                      inputLineNumber,
+                            int                      harmonyDegreeValue,
+                            msrAlterationKind        harmonyDegreeAlterationKind,
+                            msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrHarmonyDegree (
-      int                      inputLineNumber,
-      int                      harmonyDegreeValue,
-      msrAlterationKind        harmonyDegreeAlterationKind,
-      msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
+                          msrHarmonyDegree (
+                            int                      inputLineNumber,
+                            int                      harmonyDegreeValue,
+                            msrAlterationKind        harmonyDegreeAlterationKind,
+                            msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
 
     virtual               ~msrHarmonyDegree ();
 
@@ -135,41 +135,41 @@ class EXP msrHarmony : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrHarmony> createWithoutVoiceUplink (
-      int                      inputLineNumber,
-      // no harmonyVoiceUpLink yet
-      msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
-      msrHarmonyKind           harmonyKind,
-      string                   harmonyKindText,
-      int                      harmonyInversion,
-      msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
-      rational                 harmonySoundingWholeNotes,
-      rational                 harmonyDisplayWholeNotes,
-      int                      harmonyStaffNumber,
-      msrTupletFactor          harmonyTupletFactor,
-      rational                 harmonyWholeNotesOffset);
+                            int                      inputLineNumber,
+                            // no harmonyVoiceUpLink yet
+                            msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
+                            msrHarmonyKind           harmonyKind,
+                            string                   harmonyKindText,
+                            int                      harmonyInversion,
+                            msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
+                            rational                 harmonySoundingWholeNotes,
+                            rational                 harmonyDisplayWholeNotes,
+                            int                      harmonyStaffNumber,
+                            msrTupletFactor          harmonyTupletFactor,
+                            rational                 harmonyWholeNotesOffset);
 
     SMARTP<msrHarmony> createHarmonyNewbornClone (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
     SMARTP<msrHarmony> createHarmonyDeepCopy ( // JMI ???
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
     // applications API
     // ------------------------------------------------------
 
     static SMARTP<msrHarmony> createWithVoiceUplink (
-      int                      inputLineNumber,
-      S_msrVoice               harmonyVoiceUpLink,
-      msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
-      msrHarmonyKind           harmonyKind,
-      string                   harmonyKindText,
-      int                      harmonyInversion,
-      msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
-      rational                 harmonySoundingWholeNotes,
-      rational                 harmonyDisplayWholeNotes,
-      int                      harmonyStaffNumber,
-      msrTupletFactor          harmonyTupletFactor,
-      rational                 harmonyWholeNotesOffset);
+                            int                      inputLineNumber,
+                            S_msrVoice               harmonyVoiceUpLink,
+                            msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
+                            msrHarmonyKind           harmonyKind,
+                            string                   harmonyKindText,
+                            int                      harmonyInversion,
+                            msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
+                            rational                 harmonySoundingWholeNotes,
+                            rational                 harmonyDisplayWholeNotes,
+                            int                      harmonyStaffNumber,
+                            msrTupletFactor          harmonyTupletFactor,
+                            rational                 harmonyWholeNotesOffset);
 
   protected:
 
@@ -177,18 +177,18 @@ class EXP msrHarmony : public msrMeasureElement
     // ------------------------------------------------------
 
     msrHarmony (
-      int                      inputLineNumber,
-      S_msrVoice               harmonyVoiceUpLink,
-      msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
-      msrHarmonyKind           harmonyKind,
-      string                   harmonyKindText,
-      int                      harmonyInversion,
-      msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
-      rational                 harmonySoundingWholeNotes,
-      rational                 harmonyDisplayWholeNotes,
-      int                      harmonyStaffNumber,
-      msrTupletFactor          harmonyTupletFactor,
-      rational                 harmonyWholeNotesOffset);
+                            int                      inputLineNumber,
+                            S_msrVoice               harmonyVoiceUpLink,
+                            msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
+                            msrHarmonyKind           harmonyKind,
+                            string                   harmonyKindText,
+                            int                      harmonyInversion,
+                            msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
+                            rational                 harmonySoundingWholeNotes,
+                            rational                 harmonyDisplayWholeNotes,
+                            int                      harmonyStaffNumber,
+                            msrTupletFactor          harmonyTupletFactor,
+                            rational                 harmonyWholeNotesOffset);
 
     virtual               ~msrHarmony ();
 
@@ -321,7 +321,7 @@ class EXP msrHarmony : public msrMeasureElement
 
     // uplinks
     S_msrNote             fHarmonyNoteUpLink;
-    S_msrVoice            fHarmonyVoiceUpLink;
+    S_msrVoice            fHarmonyVoiceUpLink; // for use in harmony voices JMI
 
     // whole notes
     rational              fHarmonyDisplayWholeNotes;

@@ -2684,56 +2684,56 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   // register whether music (i.e. not just skips)
   // has been inserted into the voice
   switch (note->getNoteKind ()) {
-    case msrNote::k_NoNoteKind:
+    case k_NoNoteKind:
       break;
 
-    case msrNote::kRestNote:
+    case kNoteRest:
       // register rest
       ++fVoiceRestsCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kSkipNote:
+    case kNoteSkip:
       // don't account skips as music
       ++fVoiceSkipsCounter;
       break;
 
-    case msrNote::kUnpitchedNote:
+    case kNoteUnpitched:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kRegularNote:
+    case kNoteRegular:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kDoubleTremoloMemberNote:
+    case kNoteDoubleTremoloMember:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
-    case msrNote::kGraceChordMemberNote:
+    case kNoteGrace:
+    case kNoteGraceSkip:
+    case kNoteGraceChordMember:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kChordMemberNote:
+    case kNoteChordMember:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kTupletMemberNote:
-    case msrNote::kTupletRestMemberNote:
-    case msrNote::kGraceTupletMemberNote:
-    case msrNote::kTupletUnpitchedMemberNote:
+    case kNoteTupletMember:
+    case kNoteTupletRestMember:
+    case kNoteGraceTupletMember:
+    case kNoteTupletUnpitchedMember:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
@@ -2825,56 +2825,56 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   // register whether music (i.e. not just skips)
   // has been inserted into the voice
   switch (note->getNoteKind ()) {
-    case msrNote::k_NoNoteKind:
+    case k_NoNoteKind:
       break;
 
-    case msrNote::kRestNote:
+    case kNoteRest:
       // register rest
       ++fVoiceRestsCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kSkipNote:
+    case kNoteSkip:
       // don't account skips as music
       ++fVoiceSkipsCounter;
       break;
 
-    case msrNote::kUnpitchedNote:
+    case kNoteUnpitched:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kRegularNote:
+    case kNoteRegular:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kDoubleTremoloMemberNote:
+    case kNoteDoubleTremoloMember:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
-    case msrNote::kGraceChordMemberNote:
+    case kNoteGrace:
+    case kNoteGraceSkip:
+    case kNoteGraceChordMember:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kChordMemberNote:
+    case kNoteChordMember:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kTupletMemberNote:
-    case msrNote::kTupletRestMemberNote:
-    case msrNote::kGraceTupletMemberNote:
-    case msrNote::kTupletUnpitchedMemberNote:
+    case kNoteTupletMember:
+    case kNoteTupletRestMember:
+    case kNoteGraceTupletMember:
+    case kNoteTupletUnpitchedMember:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
@@ -3049,11 +3049,11 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
 
   // get the voice first note's chord upLink
   S_msrChord
-    firstNoteChordUpLink =
+    firstNoteDirectChordUpLink =
       voiceFirstNote->
-        getNoteChordUpLink ();
+        getNoteDirectChordUpLink ();
 
-  if (firstNoteChordUpLink) {
+  if (firstNoteDirectChordUpLink) {
 #ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
       gLogStream <<
@@ -3061,14 +3061,14 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
         graceNotesGroup->asString () <<
         "' to the first chord of voice \"" << getVoiceName () <<
         "\", i.e. '" <<
-        firstNoteChordUpLink->asShortString () <<
+        firstNoteDirectChordUpLink->asShortString () <<
         "'" <<
         endl;
     }
 #endif
 
 /*
-    firstNoteChordUpLink->
+    firstNoteDirectChordUpLink->
       setChordGraceNotesGroupBefore (
         graceNotesGroup);
         */
@@ -3079,11 +3079,12 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
         msrChordGraceNotesGroupLink::create (
           graceNotesGroup->getInputLineNumber (),
           graceNotesGroup,
-          firstNoteChordUpLink);
+          firstNoteDirectChordUpLink);
 
     // register it in the chord
-    firstNoteChordUpLink->
+    firstNoteDirectChordUpLink->
       setChordGraceNotesGroupLinkBefore (
+        inputLineNumber,
         chordChordGraceNotesGroupLink);
 
   }

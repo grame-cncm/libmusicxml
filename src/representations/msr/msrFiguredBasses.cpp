@@ -494,7 +494,7 @@ void msrFiguredBass::setFiguredBassPositionInMeasure (
   S_msrMeasure
     measure =
       fFiguredBassNoteUpLink->
-        getNoteMeasureUpLink ();
+        getNoteDirectMeasureUpLink ();
 
   if (false) { // JMI
   rational

@@ -92,29 +92,29 @@ class EXP msrPartGroup : public msrPartGroupElement
     // ------------------------------------------------------
 
     static SMARTP<msrPartGroup> create (
-      int                      inputLineNumber,
-      int                      partGroupNumber,
-      int                      partGroupAbsoluteNumber,
-      string                   partGroupName,
-      string                   partGroupNameDisplayText,
-      string                   partGroupAccidentalText,
-      string                   partGroupAbbreviation,
-      msrPartGroupSymbolKind   partGroupSymbolKind,
-      int                      partGroupSymbolDefaultX,
-      msrPartGroupImplicitKind partGroupImplicitKind,
-      msrPartGroupBarlineKind  partGroupBarlineKind,
-      S_msrPartGroup           partGroupPartGroupUpLink,
-      S_msrScore               partGroupScoreUpLink);
+                            int                      inputLineNumber,
+                            int                      partGroupNumber,
+                            int                      partGroupAbsoluteNumber,
+                            string                   partGroupName,
+                            string                   partGroupNameDisplayText,
+                            string                   partGroupAccidentalText,
+                            string                   partGroupAbbreviation,
+                            msrPartGroupSymbolKind   partGroupSymbolKind,
+                            int                      partGroupSymbolDefaultX,
+                            msrPartGroupImplicitKind partGroupImplicitKind,
+                            msrPartGroupBarlineKind  partGroupBarlineKind,
+                            S_msrPartGroup           partGroupPartGroupUpLink,
+                            S_msrScore               partGroupScoreUpLink);
 
     static SMARTP<msrPartGroup> createImplicitPartGroup (
-      int                      partGroupNumber,
-      int                      partGroupAbsoluteNumber,
-      string                   partGroupName,
-      string                   partGroupNameDisplayText,
-      string                   partGroupAccidentalText,
-      string                   partGroupAbbreviation,
-      msrPartGroupBarlineKind  partGroupBarlineKind,
-      S_msrScore               partGroupScoreUpLink);
+                            int                      partGroupNumber,
+                            int                      partGroupAbsoluteNumber,
+                            string                   partGroupName,
+                            string                   partGroupNameDisplayText,
+                            string                   partGroupAccidentalText,
+                            string                   partGroupAbbreviation,
+                            msrPartGroupBarlineKind  partGroupBarlineKind,
+                            S_msrScore               partGroupScoreUpLink);
 
     SMARTP<msrPartGroup> createPartGroupNewbornClone (
       S_msrPartGroup partGroupClone, // the upLink for nested part groups
@@ -124,40 +124,40 @@ class EXP msrPartGroup : public msrPartGroupElement
     // ------------------------------------------------------
 
     static SMARTP<msrPartGroup> create (
-      int                      inputLineNumber,
-      int                      partGroupNumber,
-      int                      partGroupAbsoluteNumber,
-      string                   partGroupName,
-      S_msrPartGroup           partGroupPartGroupUpLink,
-      S_msrScore               partGroupScoreUpLink);
+                            int                      inputLineNumber,
+                            int                      partGroupNumber,
+                            int                      partGroupAbsoluteNumber,
+                            string                   partGroupName,
+                            S_msrPartGroup           partGroupPartGroupUpLink,
+                            S_msrScore               partGroupScoreUpLink);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPartGroup (
-      int                      inputLineNumber,
-      int                      partGroupNumber,
-      int                      partGroupAbsoluteNumber,
-      string                   partGroupName,
-      string                   partGroupNameDisplayText,
-      string                   partGroupAccidentalText,
-      string                   partGroupAbbreviation,
-      msrPartGroupSymbolKind   partGroupSymbolKind,
-      int                      partGroupSymbolDefaultX,
-      msrPartGroupImplicitKind partGroupImplicitKind,
-      msrPartGroupBarlineKind  partGroupBarlineKind,
-      S_msrPartGroup           partGroupPartGroupUpLink,
-      S_msrScore               partGroupScoreUpLink);
+                          msrPartGroup (
+                            int                      inputLineNumber,
+                            int                      partGroupNumber,
+                            int                      partGroupAbsoluteNumber,
+                            string                   partGroupName,
+                            string                   partGroupNameDisplayText,
+                            string                   partGroupAccidentalText,
+                            string                   partGroupAbbreviation,
+                            msrPartGroupSymbolKind   partGroupSymbolKind,
+                            int                      partGroupSymbolDefaultX,
+                            msrPartGroupImplicitKind partGroupImplicitKind,
+                            msrPartGroupBarlineKind  partGroupBarlineKind,
+                            S_msrPartGroup           partGroupPartGroupUpLink,
+                            S_msrScore               partGroupScoreUpLink);
 
-    msrPartGroup (
-      int                      inputLineNumber,
-      int                      partGroupNumber,
-      int                      partGroupAbsoluteNumber,
-      string                   partGroupName,
-      S_msrPartGroup           partGroupPartGroupUpLink,
-      S_msrScore               partGroupScoreUpLink);
+                          msrPartGroup (
+                            int                      inputLineNumber,
+                            int                      partGroupNumber,
+                            int                      partGroupAbsoluteNumber,
+                            string                   partGroupName,
+                            S_msrPartGroup           partGroupPartGroupUpLink,
+                            S_msrScore               partGroupScoreUpLink);
 
     virtual               ~msrPartGroup ();
 

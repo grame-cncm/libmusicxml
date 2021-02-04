@@ -279,6 +279,78 @@ EXP msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
 
+// note
+//______________________________________________________________________________
+
+/*
+  Measures can contain either:
+    individual notes;
+    tuplets;
+    chords;
+    double tremolos.
+
+  Tuplets can contain either:
+    individual notes;
+    other tuplets;
+    chords.
+
+  Chords contain:
+    individual notes.
+
+  Grace notes groups can contain either (no tuplets here):
+    individual notes;
+    chords.
+
+  Double tremolos can contain either:
+    individual notes;
+    chords.
+
+  Notes can have attached:
+    grace notes groups (before and after the note).
+
+  Attempting to use classes to describe this graph would be a nightmare,
+  so we use an enum type in msrNote and uplinks wherever needed.
+
+  Direct uplinks are stored in fields, meaning that there is
+  at least an indirect uplink though something else in the graph,
+  which can be computed by a fetch*() method.
+
+  When there are no such multiple ways to access the uplink,
+  'Direct' is absent from the field name.
+*/
+
+enum msrNoteKind {
+  k_NoNoteKind,
+
+  // measure member notes
+  kNoteRegular,
+  kNoteRest, kNoteSkip,
+  kNoteUnpitched,
+
+  // double-tremolo member notes
+  kNoteDoubleTremoloMember,
+
+  // grace notes are always attached to a note
+  kNoteGrace, kNoteGraceSkip,
+
+  // chord member notes
+  kNoteChordMember,
+
+  // chords in grace notes groups notes
+  kNoteGraceChordMember,
+
+  // tuplet member notes
+  kNoteTupletMember,
+  kNoteTupletRestMember,
+  kNoteTupletUnpitchedMember,
+
+  // tuplet in grace notes groups notes
+  kNoteGraceTupletMember
+};
+
+EXP string noteKindAsString (
+  msrNoteKind noteKind);
+
 // beams
 //______________________________________________________________________________
 
@@ -851,8 +923,8 @@ class EXP msrSemiTonesPitchAndOctave : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrSemiTonesPitchAndOctave> create (
-      msrSemiTonesPitchKind semiTonesPitchKind,
-      msrOctaveKind         octaveKind);
+                            msrSemiTonesPitchKind semiTonesPitchKind,
+                            msrOctaveKind         octaveKind);
 
     SMARTP<msrSemiTonesPitchAndOctave> createSemiTonesPitchAndOctaveNewbornClone ();
 
@@ -860,8 +932,8 @@ class EXP msrSemiTonesPitchAndOctave : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrSemiTonesPitchAndOctave> createFromString (
-      int    inputLineNumber,
-      const string& theString);
+                            int    inputLineNumber,
+                            const string& theString);
 
   protected:
 
@@ -924,8 +996,8 @@ class EXP msrQuarterTonesPitchAndOctave : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrQuarterTonesPitchAndOctave> create (
-      msrQuarterTonesPitchKind quarterTonesPitchKind,
-      msrOctaveKind            octaveKind);
+                            msrQuarterTonesPitchKind quarterTonesPitchKind,
+                            msrOctaveKind            octaveKind);
 
     SMARTP<msrQuarterTonesPitchAndOctave> createQuarterTonesPitchAndOctaveNewbornClone ();
 
@@ -933,8 +1005,8 @@ class EXP msrQuarterTonesPitchAndOctave : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrQuarterTonesPitchAndOctave> createFromString (
-      int    inputLineNumber,
-      const string& theString);
+                            int    inputLineNumber,
+                            const string& theString);
 
   protected:
 
@@ -1016,8 +1088,8 @@ class EXP msrLength : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrLength> create (
-      msrLengthUnitKind lengthUnitKind,
-      float             lengthValue);
+                            msrLengthUnitKind lengthUnitKind,
+                            float             lengthValue);
 
   public:
 
@@ -1119,8 +1191,8 @@ class EXP msrMargin : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrMargin> create (
-      msrMarginTypeKind marginTypeKind,
-      msrLength         marginLength);
+                            msrMarginTypeKind marginTypeKind,
+                            msrLength         marginLength);
 
   public:
 
@@ -1202,7 +1274,7 @@ class EXP msrMarginsGroup : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrMarginsGroup> create (
-      msrMarginTypeKind marginTypeKind);
+                            msrMarginTypeKind marginTypeKind);
 
   public:
 
@@ -1321,10 +1393,10 @@ class EXP msrFontSize : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrFontSize> create (
-      msrFontSizeKind fontSizeKind);
+                            msrFontSizeKind fontSizeKind);
 
     static SMARTP<msrFontSize> create (
-      float fontNumericSize);
+                            float fontNumericSize);
 
   protected:
 
@@ -1774,10 +1846,10 @@ class EXP msrHarmonyInterval : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrHarmonyInterval> create (
-      msrIntervalKind harmonyIntervalIntervalKind,
-      int             harmonyIntervalRelativeOctave = 0);
-                        // 0: up to the thirteenth,
-                        // no relative octave is needed
+                            msrIntervalKind harmonyIntervalIntervalKind,
+                            int             harmonyIntervalRelativeOctave = 0);
+                                              // 0: up to the thirteenth,
+                                              // no relative octave is needed
 
     SMARTP<msrHarmonyInterval> createHarmonyIntervalNewbornClone ();
 
@@ -1884,10 +1956,10 @@ class EXP msrHarmonyStructure : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrHarmonyStructure> createBare (
-      msrHarmonyKind harmonyStructureHarmonyKind);
+                            msrHarmonyKind harmonyStructureHarmonyKind);
 
     static SMARTP<msrHarmonyStructure> create (
-      msrHarmonyKind harmonyStructureHarmonyKind);
+                            msrHarmonyKind harmonyStructureHarmonyKind);
 
     SMARTP<msrHarmonyStructure> createHarmonyStructureNewbornClone ();
 
@@ -1978,9 +2050,9 @@ class EXP msrHarmonyContents : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrHarmonyContents> create (
- // JMI     int                   inputLineNumber,
-      msrSemiTonesPitchKind harmonyContentsRootNote,
-      msrHarmonyKind        harmonyContentsHarmonyKind);
+                       // JMI     int                   inputLineNumber,
+                            msrSemiTonesPitchKind harmonyContentsRootNote,
+                            msrHarmonyKind        harmonyContentsHarmonyKind);
 
   protected:
 
@@ -2079,15 +2151,15 @@ class EXP msrRGBColor
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrRGBColor ();
+                          msrRGBColor ();
 
-    msrRGBColor (
-      float theR,
-      float theG,
-      float theB);
+                          msrRGBColor (
+                            float theR,
+                            float theG,
+                            float theB);
 
-    msrRGBColor (
-      const string& theString);
+                          msrRGBColor (
+                            const string& theString);
 
     // set and get
     // ------------------------------------------------------

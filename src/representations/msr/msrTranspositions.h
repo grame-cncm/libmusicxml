@@ -42,19 +42,19 @@ class EXP msrOctaveShift : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrOctaveShift> create (
-      int                inputLineNumber,
-      msrOctaveShiftKind octaveShiftKind,
-      int                octaveShiftSize);
+                            int                inputLineNumber,
+                            msrOctaveShiftKind octaveShiftKind,
+                            int                octaveShiftSize);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOctaveShift (
-      int                inputLineNumber,
-      msrOctaveShiftKind octaveShiftKind,
-      int                octaveShiftSize);
+                          msrOctaveShift (
+                            int                inputLineNumber,
+                            msrOctaveShiftKind octaveShiftKind,
+                            int                octaveShiftSize);
 
     virtual               ~msrOctaveShift ();
 
@@ -119,23 +119,23 @@ class EXP msrTranspose : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrTranspose> create (
-      int  inputLineNumber,
-      int  transposeDiatonic,
-      int  transposeChromatic,
-      int  transposeOctaveChange,
-      bool transposeDouble);
+                            int  inputLineNumber,
+                            int  transposeDiatonic,
+                            int  transposeChromatic,
+                            int  transposeOctaveChange,
+                            bool transposeDouble);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrTranspose (
-      int  inputLineNumber,
-      int  transposeDiatonic,
-      int  transposeChromatic,
-      int  transposeOctaveChange,
-      bool transposeDouble);
+                          msrTranspose (
+                            int  inputLineNumber,
+                            int  transposeDiatonic,
+                            int  transposeChromatic,
+                            int  transposeOctaveChange,
+                            bool transposeDouble);
 
     virtual               ~msrTranspose ();
 

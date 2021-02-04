@@ -32,9 +32,9 @@ class EXP msrScaling : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrScaling> create (
-      int   inputLineNumber,
-      float millimeters,
-      float tenths);
+                            int   inputLineNumber,
+                            float millimeters,
+                            float tenths);
 
     SMARTP<msrScaling> createMsrScalingNewbornClone ();
 
@@ -43,10 +43,10 @@ class EXP msrScaling : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrScaling (
-      int   inputLineNumber,
-      float millimeters,
-      float tenths);
+                          msrScaling (
+                            int   inputLineNumber,
+                            float millimeters,
+                            float tenths);
 
     virtual               ~msrScaling ();
 

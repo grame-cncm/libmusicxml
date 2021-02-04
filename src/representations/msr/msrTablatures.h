@@ -50,23 +50,23 @@ class EXP msrFrameNote : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrFrameNote> create (
-      int              inputLineNumber,
-      int              frameNoteStringNumber,
-      int              frameNoteFretNumber,
-      int              frameNoteFingering,
-      msrBarreTypeKind frameNoteBarreTypeKind);
+                            int              inputLineNumber,
+                            int              frameNoteStringNumber,
+                            int              frameNoteFretNumber,
+                            int              frameNoteFingering,
+                            msrBarreTypeKind frameNoteBarreTypeKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrFrameNote (
-      int              inputLineNumber,
-      int              frameNoteStringNumber,
-      int              frameNoteFretNumber,
-      int              frameNoteFingering,
-      msrBarreTypeKind frameNoteBarreTypeKind);
+                          msrFrameNote (
+                            int              inputLineNumber,
+                            int              frameNoteStringNumber,
+                            int              frameNoteFretNumber,
+                            int              frameNoteFingering,
+                            msrBarreTypeKind frameNoteBarreTypeKind);
 
     virtual               ~msrFrameNote ();
 
@@ -134,15 +134,15 @@ class EXP msrBarre
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrBarre (
-      int barreStartString,
-      int barreStopString,
-      int barreFretNumber)
-    {
-      fBarreStartString = barreStartString;
-      fBarreStopString  = barreStopString;
-      fBarreFretNumber  = barreFretNumber;
-    }
+                          msrBarre (
+                            int barreStartString,
+                            int barreStopString,
+                            int barreFretNumber)
+                              {
+                                fBarreStartString = barreStartString;
+                                fBarreStopString  = barreStopString;
+                                fBarreFretNumber  = barreFretNumber;
+                              }
 
    public:
 
@@ -177,21 +177,21 @@ class EXP msrFrame : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrFrame> create (
-      int inputLineNumber,
-      int frameStringsNumber,
-      int frameFretsNumber,
-      int frameFirstFretNumber);
+                            int inputLineNumber,
+                            int frameStringsNumber,
+                            int frameFretsNumber,
+                            int frameFirstFretNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrFrame (
-      int inputLineNumber,
-      int frameStringsNumber,
-      int frameFretsNumber,
-      int frameFirstFretNumber);
+                          msrFrame (
+                            int inputLineNumber,
+                            int frameStringsNumber,
+                            int frameFretsNumber,
+                            int frameFirstFretNumber);
 
     virtual               ~msrFrame ();
 

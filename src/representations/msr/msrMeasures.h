@@ -72,19 +72,19 @@ class EXP msrMeasure : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMeasure> create (
-      int          inputLineNumber,
-      string       measureNumber,
-      S_msrSegment measureSegmentUpLink);
+                            int          inputLineNumber,
+                            string       measureNumber,
+                            S_msrSegment measureSegmentUpLink);
 
     SMARTP<msrMeasure> createMeasureNewbornClone (
-      S_msrSegment containingSegment);
+                            S_msrSegment containingSegment);
 
     SMARTP<msrMeasure> createMeasureDeepCopy (
-      S_msrSegment containingSegment);
+                            S_msrSegment containingSegment);
 
     SMARTP<msrMeasure> createMeasureCopyWithNotesOnly (
-      S_msrSegment containingSegment,
-      string       measureNumber);
+                            S_msrSegment containingSegment,
+                            string       measureNumber);
 
   protected:
 

@@ -1595,10 +1595,10 @@ void lpsr2lilypondTranslator::generateCodeForNote (
 
   switch (note->getNoteKind ()) {
 
-    case msrNote::k_NoNoteKind:
+    case k_NoNoteKind:
       break;
 
-    case msrNote::kRestNote:
+    case kNoteRest:
       {
         // get pitched rest status
         bool noteIsAPitchedRest =
@@ -1709,7 +1709,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       }
       break;
 
-    case msrNote::kSkipNote:
+    case kNoteSkip:
       if (gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()) {
         // generate the rest name to help pin-point bugs
         fLilypondCodeStream << "r%{3%}";
@@ -1730,7 +1730,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       // the preceding one is kept
       break;
 
-    case msrNote::kUnpitchedNote:
+    case kNoteUnpitched:
       {
         // generate the note name, "e" by convention
         fLilypondCodeStream <<
@@ -1777,7 +1777,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       }
       break;
 
-    case msrNote::kRegularNote:
+    case kNoteRegular:
       {
         // generate the note name
         fLilypondCodeStream <<
@@ -1815,7 +1815,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
 
           if (noteTie) {
             if (noteTie->getTieKind () == kTieStart) {
-      //        fLilypondCodeStream << " ~ %{kRegularNote%}"; // JMI
+      //        fLilypondCodeStream << " ~ %{kNoteRegular%}"; // JMI
             }
           }
         }
@@ -1833,7 +1833,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       }
       break;
 
-    case msrNote::kDoubleTremoloMemberNote:
+    case kNoteDoubleTremoloMember:
       // generate the note name
       fLilypondCodeStream <<
         notePitchAsLilypondString (note);
@@ -1879,7 +1879,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       } // switch
       break;
 
-    case msrNote::kGraceNote:
+    case kNoteGrace:
       // generate the note name
       fLilypondCodeStream <<
         notePitchAsLilypondString (note);
@@ -1922,7 +1922,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       } // switch
       break;
 
-    case msrNote::kGraceSkipNote:
+    case kNoteGraceSkip:
       // generate the note name
       if (gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()) {
         // generate the rest name to help pin-point bugs
@@ -1949,7 +1949,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       // the preceding one is kept
       break;
 
-    case msrNote::kGraceChordMemberNote:
+    case kNoteGraceChordMember:
       // generate the note name
       fLilypondCodeStream <<
         notePitchAsLilypondString (note);
@@ -1988,7 +1988,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       } // switch
       break;
 
-    case msrNote::kChordMemberNote:
+    case kNoteChordMember:
       {
         // generate the note name
         fLilypondCodeStream <<
@@ -2042,7 +2042,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       }
       break;
 
-    case msrNote::kTupletMemberNote:
+    case kNoteTupletMember:
       if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
         fLilypondCodeStream << endl;
       }
@@ -2085,7 +2085,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       } // switch
       break;
 
-    case msrNote::kTupletRestMemberNote:
+    case kNoteTupletRestMember:
       if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
         fLilypondCodeStream << endl;
       }
@@ -2122,7 +2122,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       // a rest is no relative octave reference,
       break;
 
-    case msrNote::kTupletUnpitchedMemberNote:
+    case kNoteTupletUnpitchedMember:
       if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
         fLilypondCodeStream << endl;
       }
@@ -2154,7 +2154,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       */
       break;
 
-    case msrNote::kGraceTupletMemberNote:
+    case kNoteGraceTupletMember:
       if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
         fLilypondCodeStream << endl;
       }
@@ -4239,10 +4239,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrScore& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrScore" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -4288,10 +4293,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrScore& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrScore" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -4305,10 +4315,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrIdentification& elt) // JMI
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrIdentification" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -4317,10 +4332,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrIdentification& elt) // JMI
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrIdentification" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -4351,10 +4371,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrSchemeVariable& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrSchemeVariable" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -4400,10 +4425,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrSchemeVariable& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrSchemeVariable" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -4434,10 +4464,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrHeader& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrHeader" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -4467,10 +4502,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrHeader& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrHeader" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -5947,10 +5987,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPaper& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrPaper" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -5967,10 +6012,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrPaper& elt) // superflous ??? JMI
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrPaper" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -5984,10 +6034,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6079,10 +6134,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6159,10 +6219,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrBookBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrBookBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6183,10 +6248,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrBookBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrBookBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6218,10 +6288,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrScoreBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrScoreBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6238,10 +6313,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrScoreBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6270,10 +6350,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrBookPartBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrBookPartBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6290,10 +6375,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrBookPartBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrBookPartBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6319,10 +6409,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrParallelMusicBLock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrParallelMusicBLock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6355,10 +6450,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrParallelMusicBLock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrParallelMusicBLock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6393,12 +6493,17 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrPartGroupBlock for '" <<
       partGroup->asShortString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6660,10 +6765,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrPartGroupBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6712,11 +6822,16 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPartBlock& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrPartBlock for '" <<
       part->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6804,10 +6919,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrPartBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -6840,10 +6960,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrStaffBlock" <<
       ", line " << inputLineNumber <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7112,10 +7237,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrStaffBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7145,10 +7275,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrNewStaffgroupBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrNewStaffgroupBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7163,10 +7298,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrNewStaffgroupBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrNewStaffgroupBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7182,10 +7322,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrNewStaffBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrNewStaffBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7196,10 +7341,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrNewStaffBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrNewStaffBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7212,10 +7362,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrUseVoiceCommand" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7434,10 +7589,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrUseVoiceCommand& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrUseVoiceCommand" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7447,10 +7607,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrNewLyricsBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7503,10 +7668,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrNewLyricsBlock& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrNewLyricsBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7520,10 +7690,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrVariableUseCommand& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrVariableUseCommand" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7534,10 +7709,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrVariableUseCommand& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrVariableUseCommand" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7549,10 +7729,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrChordNamesContext& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrChordNamesContext" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7598,10 +7783,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrChordNamesContext& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrChordNamesContext" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7611,10 +7801,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrFiguredBassContext& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrFiguredBassContext" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7660,10 +7855,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrFiguredBassContext& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrFiguredBassContext" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7673,10 +7873,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrBarCommand& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrBarCommand" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7685,10 +7890,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrBarCommand& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrBarCommand" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7699,10 +7909,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrMelismaCommand& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrMelismaCommand" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7720,10 +7935,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrMelismaCommand& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrMelismaCommand" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7734,10 +7954,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrScore& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrScore" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7746,10 +7971,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrScore& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrScore" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7759,10 +7989,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrScaling& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrScaling" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7771,10 +8006,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrScaling& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrScaling" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7784,10 +8024,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrPageLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrPageLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -7819,10 +8064,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrPageLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrPageLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7832,10 +8082,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrSystemLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrSystemLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7844,10 +8099,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrSystemLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrSystemLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7857,10 +8117,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrStaffLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrStaffLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7869,10 +8134,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrStaffLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrStaffLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7882,10 +8152,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrAppearance& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrAppearance" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7894,10 +8169,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrAppearance& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrAppearance" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7907,10 +8187,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrCredit& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrCredit" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7919,10 +8204,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrCredit& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrCredit" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7931,10 +8221,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrCreditWords& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrCreditWords" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7943,10 +8238,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrCreditWords& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrCreditWords" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7956,12 +8256,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrPartGroup& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrPartGroup" <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       elt->getPartGroupCombinedName () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7970,11 +8275,16 @@ void lpsr2lilypondTranslator::visitEnd (S_msrPartGroup& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrPartGroup" <<
       elt->getPartGroupCombinedName () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -7988,11 +8298,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrPart& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrPart" <<
       partCombinedName <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8017,11 +8332,16 @@ void lpsr2lilypondTranslator::visitEnd (S_msrPart& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrPart" <<
       elt->getPartCombinedName () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8034,12 +8354,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrStaff& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrStaff \"" <<
       elt->getStaffName () <<
       "\"" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8050,12 +8375,17 @@ void lpsr2lilypondTranslator::visitEnd (S_msrStaff& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrStaff \"" <<
       elt->getStaffName () <<
       "\"" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8066,9 +8396,14 @@ void lpsr2lilypondTranslator::visitStart (S_msrStaffTuning& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "%--> Start visiting msrStaffTuning" <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8113,9 +8448,14 @@ void lpsr2lilypondTranslator::visitStart (S_msrStaffDetails& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "%--> Start visiting msrStaffDetails" <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8140,12 +8480,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrVoice \"" <<
       elt->getVoiceName () <<
       "\"" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8361,12 +8706,17 @@ void lpsr2lilypondTranslator::visitEnd (S_msrVoice& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrVoice \"" <<
       elt->getVoiceName () <<
       "\"" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8436,11 +8786,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrVoiceStaffChange '" <<
       elt->asString () << "'" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8467,7 +8822,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrHarmony& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrHarmony '" <<
       elt->asString () <<
       "'" <<
@@ -8476,6 +8833,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrHarmony& elt)
       ", fOnGoingHarmonyVoice = " << booleanAsString (fOnGoingHarmonyVoice) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8517,12 +8877,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrFrame& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrHarmony '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8546,7 +8911,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrFiguredBass& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrFiguredBass '" <<
       elt->asString () <<
       "'" <<
@@ -8555,6 +8922,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrFiguredBass& elt)
       ", fOnGoingFiguredBassVoice = " << booleanAsString (fOnGoingFiguredBassVoice) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8596,12 +8966,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrFigure& elt)
 /* JMI
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrFigure '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8710,12 +9085,17 @@ void lpsr2lilypondTranslator::visitEnd (S_msrFiguredBass& elt)
     elt->getInputLineNumber ();
 
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrFiguredBass '" <<
       elt->asString () <<
       "'" <<
       ", line " << inputLineNumber <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8759,10 +9139,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrSegment& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "%--> Start visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8785,10 +9170,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrSegment& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "%--> End visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -8833,7 +9223,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasure& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrMeasure '" <<
       measureNumber <<
       "', " <<
@@ -8848,6 +9240,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasure& elt)
         fOnGoingRestMeasures) <<
       ", line " << inputLineNumber <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -9259,7 +9654,9 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMeasure& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrMeasure '" <<
       measureNumber <<
       "', " <<
@@ -9274,6 +9671,9 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMeasure& elt)
         fOnGoingRestMeasures) <<
       ", line " << inputLineNumber <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -9479,12 +9879,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrStanza& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrStanza \"" <<
       elt->getStanzaName () <<
       "\"" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -9522,12 +9927,17 @@ void lpsr2lilypondTranslator::visitEnd (S_msrStanza& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrStanza \"" <<
       elt->getStanzaName () <<
       "\"" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -9550,12 +9960,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrSyllable '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -9873,12 +10288,17 @@ void lpsr2lilypondTranslator::visitEnd (S_msrSyllable& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrSyllable '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -9888,12 +10308,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrClef& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrClef '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -10048,12 +10473,17 @@ void lpsr2lilypondTranslator::visitEnd (S_msrClef& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrClef '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -10063,12 +10493,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrKey& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrKey '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -10208,12 +10643,17 @@ void lpsr2lilypondTranslator::visitEnd (S_msrKey& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrKey '" <<
       elt->asString () <<
       "'"  <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -10223,11 +10663,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrTime& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrTime " <<
       elt->asString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -10415,11 +10860,16 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTime& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrTime " <<
       elt->asString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -10429,10 +10879,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrTranspose& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrTranspose" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -10918,10 +11373,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTranspose& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrTranspose" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -10931,10 +11391,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrPartNameDisplay& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrPartNameDisplay" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -10961,10 +11426,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrPartAbbreviationDisplay" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -10982,10 +11452,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrTempo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11389,10 +11864,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempoRelationshipElements& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrTempoRelationshipElements" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11407,10 +11887,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTempoRelationshipElements& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrTempoRelationshipElements" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11426,10 +11911,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempoNote& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrTempoNote" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11445,10 +11935,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempoTuplet& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrTempoTuplet" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11467,10 +11962,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTempoTuplet& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrTempoTuplet" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11482,10 +11982,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTempo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrTempo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11495,10 +12000,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrArticulation& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrArticulation" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11510,10 +12020,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrArticulation& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrArticulation" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11523,10 +12038,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrFermata& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrFermata" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11580,10 +12100,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrFermata& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrFermata" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11593,10 +12118,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrArpeggiato& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrArpeggiato" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11608,10 +12138,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrArpeggiato& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrArpeggiato" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11621,10 +12156,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrNonArpeggiato& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrNonArpeggiato" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11636,10 +12176,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNonArpeggiato& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrNonArpeggiato" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11649,10 +12194,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrTechnical& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrTechnical" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11664,10 +12214,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTechnical& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrTechnical" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11677,12 +12232,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrTechnicalWithInteger" <<
       ", fOnGoingChord = " <<
       booleanAsString (fOnGoingChord) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11694,10 +12254,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrTechnicalWithInteger" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11707,12 +12272,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrTechnicalWithFloat& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrTechnicalWithFloat" <<
       ", fOnGoingChord = " <<
       booleanAsString (fOnGoingChord) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11724,10 +12294,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrTechnicalWithFloat" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11737,10 +12312,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrTechnicalWithString& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrTechnicalWithString" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11752,10 +12332,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTechnicalWithString& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrTechnicalWithString" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11765,10 +12350,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrOrnament& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrOrnament" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11780,10 +12370,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrOrnament& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrOrnament" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11793,10 +12388,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrGlissando& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrGlissando" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11808,10 +12408,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrGlissando& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrGlissando" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11821,10 +12426,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrSlide& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrSlide" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11836,10 +12446,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrSlide& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrSlide" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11849,10 +12464,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrSingleTremolo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrSingleTremolo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11864,10 +12484,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrSingleTremolo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrSingleTremolo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11877,10 +12502,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrDoubleTremolo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11927,10 +12557,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrDoubleTremolo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrDoubleTremolo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -11946,10 +12581,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrDynamics& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrDynamics" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11958,10 +12598,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrDynamics& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrDynamics" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11971,10 +12616,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrOtherDynamics& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrOtherDynamics" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11983,10 +12633,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrOtherDynamics& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrOtherDynamics" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -11996,10 +12651,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrWords& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrWords" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -12008,10 +12668,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrWords& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrWords" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -12021,11 +12686,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrSlur& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrSlur " <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -12034,11 +12704,16 @@ void lpsr2lilypondTranslator::visitEnd (S_msrSlur& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrSlur " <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -12048,11 +12723,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrChordSlurLink& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrChordSlurLink " <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -12061,11 +12741,16 @@ void lpsr2lilypondTranslator::visitEnd (S_msrChordSlurLink& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrChordSlurLink " <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -12076,10 +12761,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrLigature& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrLigature" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -12088,10 +12778,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrLigature& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrLigature" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -12101,10 +12796,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrWedge& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrWedge" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -12113,10 +12813,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrWedge& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrWedge" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -12547,7 +13252,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrGraceNotesGroup& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrGraceNotesGroup " <<
       elt->asShortString () <<
       ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
@@ -12555,6 +13262,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrGraceNotesGroup& elt)
       ", fOnGoingChordGraceNotesGroupLink: " << booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -12565,11 +13275,16 @@ void lpsr2lilypondTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrGraceNotesGroup " <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -12581,11 +13296,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrChordGraceNotesGroupLink& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrChordGraceNotesGroupLink " <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -12596,11 +13316,16 @@ void lpsr2lilypondTranslator::visitEnd (S_msrChordGraceNotesGroupLink& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrChordGraceNotesGroupLink " <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -12612,11 +13337,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrAfterGraceNotesGroup& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrAfterGraceNotesGroup " <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -12629,11 +13359,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrAfterGraceNotesGroupContents& elt
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrAfterGraceNotesGroupContents " <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -12650,11 +13385,16 @@ void lpsr2lilypondTranslator::visitEnd (S_msrAfterGraceNotesGroupContents& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrAfterGraceNotesGroupContents " <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -12666,11 +13406,16 @@ void lpsr2lilypondTranslator::visitEnd (S_msrAfterGraceNotesGroup& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrAfterGraceNotesGroup " <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -12771,20 +13516,22 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting note " <<
       elt->asShortString () <<
       ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
       ", fOnGoingGraceNotesGroup: " << booleanAsString (fOnGoingGraceNotesGroup) <<
-      ", fOnGoingChordGraceNotesGroupLink: " << booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
+      ", fOnGoingChordGraceNotesGroupLink: " <<
+      booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       ", line " << inputLineNumber <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
-
-  // register the note as on-going right now,
-  // since we may return early from this method
-  fOnGoingNotesStack.push (elt); // popped in visitEnd (S_msrNote&)
 
   // is this note to be ignored?
   bool noteIsToBeIgnored = false;
@@ -12795,26 +13542,26 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     }
     else {
       switch (elt->getNoteKind ()) {
-        case msrNote::k_NoNoteKind:
+        case k_NoNoteKind:
           break;
 
-        case msrNote::kRestNote:
+        case kNoteRest:
           break;
 
-        case msrNote::kSkipNote:
+        case kNoteSkip:
           break;
 
-        case msrNote::kUnpitchedNote:
+        case kNoteUnpitched:
           break;
 
-        case msrNote::kRegularNote:
+        case kNoteRegular:
           break;
 
-        case msrNote::kDoubleTremoloMemberNote:
+        case kNoteDoubleTremoloMember:
           break;
 
-        case msrNote::kGraceNote:
-        case msrNote::kGraceSkipNote:
+        case kNoteGrace:
+        case kNoteGraceSkip:
           {
           // don't generate code for the grace notes here, that's done thru
           // the note's noteGraceNotesGroupBefore and noteGraceNotesGroupAfter  fields
@@ -12822,7 +13569,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
 /* JMI
             S_msrNote
               noteTheGraceNotesGroupIsAttachedTo =
-                elt->getNoteGraceNotesGroupUpLink ()->
+                elt->getNoteDirectGraceNotesGroupUpLink ()->
                   getGraceNotesGroupNoteUpLink ();
 
             // don't generate note if the notes it's grace notes group is attached to
@@ -12838,22 +13585,44 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           }
           break;
 
-        case msrNote::kGraceChordMemberNote:
+        case kNoteGraceChordMember:
+#ifdef TRACING_IS_ENABLED
+          if (
+            gGlobalMsrOahGroup->getTraceMsrVisitors ()
+              ||
+            gGlobalTraceOahGroup->getTraceGraceNotes ()
+          ) {
+            S_msrGraceNotesGroup
+              graceNotesGroupUpLink =
+                elt->getNoteDirectGraceNotesGroupUpLink ();
+
+            gLogStream <<
+              "% ==> graceNotesGroupUpLink: ";
+            if (graceNotesGroupUpLink) {
+              gLogStream <<
+                graceNotesGroupUpLink->asString ();
+            }
+            else {
+              gLogStream << "none";
+            }
+            gLogStream << endl;
+          }
+#endif
           break;
 
-        case msrNote::kChordMemberNote:
+        case kNoteChordMember:
           break;
 
-        case msrNote::kTupletMemberNote:
+        case kNoteTupletMember:
           break;
 
-        case msrNote::kTupletRestMemberNote:
+        case kNoteTupletRestMember:
           break;
 
-       case msrNote::kGraceTupletMemberNote:
+       case kNoteGraceTupletMember:
           break;
 
-        case msrNote::kTupletUnpitchedMemberNote:
+        case kNoteTupletUnpitchedMember:
           break;
       } // switch
     }
@@ -12861,7 +13630,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
 
   if (fOnGoingRestMeasures) {
     switch (elt->getNoteKind ()) {
-      case msrNote::kRestNote:
+      case kNoteRest:
         // don't handle rest measures, that's done in visitEnd (S_msrRestMeasures&)
           /*
           if (elt->getNoteOccupiesAFullMeasure ()) {
@@ -12909,8 +13678,8 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           noteIsToBeIgnored = true;
         break;
 
-      case msrNote::kSkipNote:
-        if (elt->getNoteGraceNotesGroupUpLink ()) {
+      case kNoteSkip:
+        if (elt->getNoteDirectGraceNotesGroupUpLink ()) {
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -12928,8 +13697,8 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
         }
         break;
 
-      case msrNote::kGraceNote:
-      case msrNote::kGraceSkipNote:
+      case kNoteGrace:
+      case kNoteGraceSkip:
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -12946,7 +13715,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           noteIsToBeIgnored = true;
         break;
 
-      case msrNote::kGraceChordMemberNote:
+      case kNoteGraceChordMember:
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -12970,12 +13739,27 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
 
   // is this note to be ignored?
   if (noteIsToBeIgnored) {
+#ifdef TRACING_IS_ENABLED
+    stringstream s;
+
+    s <<
+      "% ==> Start visiting notes is ignored inside grace notes groups " << // JMI BLARK
+      elt->asShortString ();
+
+    msrInternalWarning (
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      s.str ());
+#endif
+
     return;
   }
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Actually handling note " <<
       elt->asShortString () <<
       ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
@@ -12983,8 +13767,14 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
       ", fOnGoingChordGraceNotesGroupLink: " << booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       ", line " << inputLineNumber <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
+
+  // register the note as on-going note
+  fOnGoingNotesStack.push (elt); // will be popped in visitEnd (S_msrNote&)
 
   // get the note's grace notes group after
   S_msrGraceNotesGroup
@@ -13671,13 +14461,21 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
 
 void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting note " <<
       elt->asShortString () <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -13687,9 +14485,10 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
   if (fOnGoingChord && fOnGoingGraceNotesGroup) { // JMI
     noteIsToBeIgnored = true;
   }
+
   if (fOnGoingRestMeasures) {
     switch (elt->getNoteKind ()) {
-      case msrNote::kRestNote:
+      case kNoteRest:
         // don't handle rest measuress, that's done in visitEnd (S_msrRestMeasures&)
           if (elt->getNoteOccupiesAFullMeasure ()) {
             bool inhibitRestMeasuresBrowsing =
@@ -13723,8 +14522,8 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
           }
         break;
 
-      case msrNote::kSkipNote:
-        if (elt->getNoteGraceNotesGroupUpLink ()) {
+      case kNoteSkip:
+        if (elt->getNoteDirectGraceNotesGroupUpLink ()) {
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -13741,8 +14540,8 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
         }
         break;
 
-      case msrNote::kGraceNote:
-      case msrNote::kGraceSkipNote:
+      case kNoteGrace:
+      case kNoteGraceSkip:
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -13763,10 +14562,25 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   if (noteIsToBeIgnored) {
+#ifdef TRACING_IS_ENABLED
+    stringstream s;
+
+    s <<
+      "% ==> End visiting notes is ignored inside grace notes groups " << // JMI BLARK
+      elt->asShortString ();
+
+    msrInternalWarning (
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      s.str ());
+#endif
+
     return;
   }
 
-  // fetch the note single tremolo
+  // unregister the note as on-going note
+  fOnGoingNotesStack.pop (); // was pushed in visitStart (S_msrNote&)
+
   S_msrSingleTremolo
     noteSingleTremolo =
       elt->getNoteSingleTremolo ();
@@ -14041,7 +14855,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
   // but not for chord member notes strings:
   // they should appear after the chord itself
   switch (elt->getNoteKind ()) {
-    case msrNote::kChordMemberNote:
+    case kNoteChordMember:
        break;
 
     default:
@@ -14086,7 +14900,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
   // but not for chord member notes strings:
   // they should appear after the chord itself
   switch (elt->getNoteKind ()) {
-    case msrNote::kChordMemberNote:
+    case kNoteChordMember:
        break;
 
     default:
@@ -14544,8 +15358,6 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
         noteGraceNotesGroupAfter);
     }
   }
-
-  fOnGoingNotesStack.pop (); // was pushed in visitStart (S_msrNote&)
 }
 
 //________________________________________________________________________
@@ -14553,10 +15365,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrOctaveShift& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrOctaveShift" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -14565,10 +15382,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrOctaveShift& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrOctaveShift" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -14578,10 +15400,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrAccordionRegistration" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -14629,10 +15456,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrHarpPedalsTuning" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -14676,10 +15508,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrStem& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrStem" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -14688,10 +15525,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrStem& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrStem" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -14701,10 +15543,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrBeam& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrBeam" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -14713,10 +15560,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrBeam& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrBeam" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -15733,11 +16585,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrChord& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrChord " <<
       elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -15780,7 +16637,9 @@ void lpsr2lilypondTranslator::visitEnd (S_msrChord& elt)
     elt->getInputLineNumber ();
 
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrChord " <<
       elt->asShortString () <<
       ", line " << inputLineNumber <<
@@ -15829,10 +16688,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrTuplet& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrTuplet" <<
       ", line " << inputLineNumber <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -15977,10 +16841,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTuplet& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrTuplet" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16025,10 +16894,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrTie& elt)
     elt->getInputLineNumber ();
 
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrTie" <<
       ", line " << inputLineNumber <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16056,10 +16930,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTie& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrTie" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -16069,10 +16948,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrSegno& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrSegno" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -16081,10 +16965,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrHiddenMeasureAndBarline& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrHiddenMeasureAndBarline" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16098,10 +16987,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrCoda& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrCoda" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -16111,10 +17005,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrEyeGlasses& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting eyeGlasses" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16126,10 +17025,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrScordatura& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting scordatura" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16198,10 +17102,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrPedal& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting pedal" <<
       ", line " << inputLineNumber <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16251,10 +17160,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrDamp& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting damp" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16266,10 +17180,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrDampAll& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting dampAll" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16282,11 +17201,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrBarline& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       endl <<
       "% --> Start visiting msrBarline" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16465,11 +17389,16 @@ void lpsr2lilypondTranslator::visitEnd (S_msrBarline& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       endl <<
       "% --> End visiting msrBarline" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -16482,12 +17411,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrBarCheck& elt)
     elt->getInputLineNumber ();
 
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrBarCheck" <<
       ", nextBarNumber: " <<
       elt->getNextBarPuristNumber () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16535,10 +17469,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrBarCheck& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrBarCheck" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -16551,10 +17490,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
     elt->getInputLineNumber ();
 
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrBarNumberCheck" <<
       ", line " << inputLineNumber <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16604,10 +17548,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrBarNumberCheck& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrBarNumberCheck" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -16617,10 +17566,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrLineBreak& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrLineBreak" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16641,10 +17595,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrLineBreak& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrLineBreak" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -16654,10 +17613,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrPageBreak& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrPageBreak" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16670,10 +17634,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrPageBreak& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrPageBreak" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -16683,10 +17652,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrRepeat& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrRepeat" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16740,10 +17714,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRepeat& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrRepeat" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16782,10 +17761,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrRepeatCommonPart& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrRepeatCommonPart" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -16794,10 +17778,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrRepeatCommonPart" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -16807,10 +17796,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrRepeatEnding& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrRepeatEnding" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16923,10 +17917,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrRepeatEnding" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -16973,6 +17972,9 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       fRepeatDescrsStack.back ()->repeatDescrAsString () <<
       "'" <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 */
@@ -17005,10 +18007,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrComment& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrComment" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -17024,10 +18031,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrComment& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrComment" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -17037,10 +18049,15 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrSchemeFunction& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting lpsrSchemeFunction" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -17058,10 +18075,15 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrSchemeFunction& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting lpsrSchemeFunction" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -17071,10 +18093,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrRehearsal& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrRehearsal" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -17137,10 +18164,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRehearsal& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrRehearsal" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -17150,10 +18182,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrMeasuresRepeat" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -17215,10 +18252,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrMeasuresRepeat" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -17246,9 +18288,14 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "%--> Start visiting msrMeasuresRepeatPattern" <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -17257,9 +18304,14 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "%--> End visiting msrMeasuresRepeatPattern" <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }
@@ -17268,9 +18320,14 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "%--> Start visiting msrMeasuresRepeatReplicas" <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -17295,9 +18352,14 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "%--> End visiting msrMeasuresRepeatReplicas" <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -17309,10 +18371,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrRestMeasures& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrRestMeasures" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -17343,10 +18410,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRestMeasures& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrRestMeasures" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -17437,9 +18509,14 @@ void lpsr2lilypondTranslator::visitStart (S_msrRestMeasuresContents& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "%--> Start visiting msrRestMeasuresContents" <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -17467,9 +18544,14 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRestMeasuresContents& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "%--> End visiting msrRestMeasuresContents" <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -17498,10 +18580,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrMidiTempo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> Start visiting msrMidiTempo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 
@@ -17550,10 +18637,15 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMidiTempo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
+    stringstream s;
+
+    s <<
       "% --> End visiting msrMidiTempo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
   }
 #endif
 }

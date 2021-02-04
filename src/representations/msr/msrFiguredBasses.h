@@ -161,15 +161,14 @@ class EXP msrFiguredBass : public msrMeasureElement
       int       inputLineNumber); // JMI ???
 
     static SMARTP<msrFiguredBass> create (
-      int                           inputLineNumber,
- //   S_msrPart                     figuredBassPartUpLink,
-      rational                      figuredBassSoundingWholeNotes,
-      rational                      figuredBassDisplayWholeNotes,
-      msrFiguredBassParenthesesKind figuredBassParenthesesKind,
-      msrTupletFactor               figuredBassTupletFactor);
+                            int                           inputLineNumber,
+                            rational                      figuredBassSoundingWholeNotes,
+                            rational                      figuredBassDisplayWholeNotes,
+                            msrFiguredBassParenthesesKind figuredBassParenthesesKind,
+                            msrTupletFactor               figuredBassTupletFactor);
 
     SMARTP<msrFiguredBass> createFiguredBassNewbornClone (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
     SMARTP<msrFiguredBass> createFiguredBassDeepCopy (); // JMI ???
 
@@ -178,13 +177,12 @@ class EXP msrFiguredBass : public msrMeasureElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrFiguredBass (
-      int                           inputLineNumber,
- //   S_msrPart                     figuredBassPartUpLink,
-      rational                      figuredBassSoundingWholeNotes,
-      rational                      figuredBassDisplayWholeNotes,
-      msrFiguredBassParenthesesKind figuredBassParenthesesKind,
-      msrTupletFactor               figuredBassTupletFactor);
+                          msrFiguredBass (
+                            int                           inputLineNumber,
+                            rational                      figuredBassSoundingWholeNotes,
+                            rational                      figuredBassDisplayWholeNotes,
+                            msrFiguredBassParenthesesKind figuredBassParenthesesKind,
+                            msrTupletFactor               figuredBassTupletFactor);
 
     virtual               ~msrFiguredBass ();
 
@@ -269,9 +267,8 @@ class EXP msrFiguredBass : public msrMeasureElement
     // ------------------------------------------------------
 
     // upLinks
- // JMI   S_msrPart             fFiguredBassPartUpLink;
     S_msrNote             fFiguredBassNoteUpLink;
-    S_msrVoice            fFiguredBassVoiceUpLink;
+    S_msrVoice            fFiguredBassVoiceUpLink; // for use in figured bass voices JMI
 
     rational              fFiguredBassDisplayWholeNotes;
 

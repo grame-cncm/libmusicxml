@@ -15460,6 +15460,73 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   return result;
 }
 
+// notes
+//______________________________________________________________________________
+string noteKindAsString (
+  msrNoteKind noteKind)
+{
+  string result;
+
+  switch (noteKind) {
+    case k_NoNoteKind:
+      result = "*noNoteKind*";
+      break;
+
+    case kNoteRegular:
+      result = "noteRegular";
+      break;
+
+    case kNoteRest:
+      result = "noteRest";
+      break;
+
+    case kNoteSkip:
+      result = "noteSkip";
+      break;
+
+    case kNoteUnpitched:
+      result = "noteUnpitched";
+      break;
+
+    case kNoteDoubleTremoloMember:
+      result = "noteDoubleTremoloMember";
+      break;
+
+    case kNoteGrace:
+      result = "noteGrace";
+      break;
+    case kNoteGraceSkip:
+      result = "noteGraceSkip";
+      break;
+
+    case kNoteGraceChordMember:
+      result = "noteGraceChordMember";
+      break;
+
+    case kNoteChordMember:
+      result = "noteChordMember";
+      break;
+
+    case kNoteTupletMember:
+      result = "noteTupletMember";
+      break;
+
+    case kNoteTupletRestMember:
+      result = "noteTupletRestMember";
+      break;
+
+   case kNoteGraceTupletMember:
+      result = "noteGraceTupletMember";
+      break;
+
+    case kNoteTupletUnpitchedMember:
+      result = "noteTupletUnpitchedMember";
+      break;
+  } // switch
+
+  return result;
+}
+
 // beams
 //______________________________________________________________________________
 string msrBeamKindAsString (

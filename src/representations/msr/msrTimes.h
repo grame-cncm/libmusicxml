@@ -37,15 +37,15 @@ class EXP msrTimeItem : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTimeItem> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrTimeItem (
-      int inputLineNumber);
+                          msrTimeItem (
+                            int inputLineNumber);
 
     virtual               ~msrTimeItem ();
 
@@ -112,57 +112,57 @@ class EXP msrTime : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrTime> create (
-      int               inputLineNumber,
-      msrTimeSymbolKind timeSymbolKind);
+                            int               inputLineNumber,
+                            msrTimeSymbolKind timeSymbolKind);
 
     // creation from the applications
     // ------------------------------------------------------
 
     static SMARTP<msrTime> createTwoEightsTime (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     static SMARTP<msrTime> createThreeEightsTime (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     static SMARTP<msrTime> createSixEightsTime (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     static SMARTP<msrTime> createTwoQuartersTime (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     static SMARTP<msrTime> createThreeQuartersTime (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     static SMARTP<msrTime> createFourQuartersTime (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     static SMARTP<msrTime> createFiveQuartersTime (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     static SMARTP<msrTime> createTwoHalvesTime (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     static SMARTP<msrTime> createThreeHalvesTime (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     static SMARTP<msrTime> createFourHalvesTime (
-      int inputLineNumber);
+                            int inputLineNumber);
 
     // creation from the applications
     // ------------------------------------------------------
 
     static SMARTP<msrTime> createTimeFromString (
-      int    inputLineNumber,
-      string timeString);
+                            int    inputLineNumber,
+                            string timeString);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrTime (
-      int               inputLineNumber,
-      msrTimeSymbolKind timeSymbolKind);
+                          msrTime (
+                            int               inputLineNumber,
+                            msrTimeSymbolKind timeSymbolKind);
 
     virtual               ~msrTime ();
 

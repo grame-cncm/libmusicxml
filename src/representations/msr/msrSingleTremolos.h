@@ -30,19 +30,19 @@ class EXP msrSingleTremolo : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrSingleTremolo> create (
-      int              inputLineNumber,
-      int              singleTremoloMarksNumber,
-      msrPlacementKind singleTremoloPlacementKind);
+                            int              inputLineNumber,
+                            int              singleTremoloMarksNumber,
+                            msrPlacementKind singleTremoloPlacementKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSingleTremolo (
-      int              inputLineNumber,
-      int              singleTremoloMarksNumber,
-      msrPlacementKind singleTremoloPlacementKind);
+                          msrSingleTremolo (
+                            int              inputLineNumber,
+                            int              singleTremoloMarksNumber,
+                            msrPlacementKind singleTremoloPlacementKind);
 
     virtual               ~msrSingleTremolo ();
 

@@ -28,17 +28,17 @@ class EXP msrSegno : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrSegno> create (
-      int  inputLineNumber,
-      int  staffNumber);
+                            int  inputLineNumber,
+                            int  staffNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSegno (
-      int inputLineNumber,
-      int staffNumber);
+                          msrSegno (
+                            int inputLineNumber,
+                            int staffNumber);
 
     virtual               ~msrSegno ();
 

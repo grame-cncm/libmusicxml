@@ -37,8 +37,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::create (
   msrGraceNotesGroupKind graceNotesGroupKind,
   bool                   graceNotesGroupIsSlashed,
   bool                   graceNotesGroupIsBeamed,
-  string                 graceNotesGroupMeasureNumber,
-  S_msrVoice             graceNotesGroupVoiceUpLink)
+  string                 graceNotesGroupMeasureNumber)
 {
   msrGraceNotesGroup* o =
     new msrGraceNotesGroup (
@@ -46,8 +45,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::create (
       graceNotesGroupKind,
       graceNotesGroupIsSlashed,
       graceNotesGroupIsBeamed,
-      graceNotesGroupMeasureNumber,
-      graceNotesGroupVoiceUpLink);
+      graceNotesGroupMeasureNumber);
   assert (o != nullptr);
 
   return o;
@@ -58,18 +56,9 @@ msrGraceNotesGroup::msrGraceNotesGroup (
   msrGraceNotesGroupKind graceNotesGroupKind,
   bool                   graceNotesGroupIsSlashed,
   bool                   graceNotesGroupIsBeamed,
-  string                 graceNotesGroupMeasureNumber,
-  S_msrVoice             graceNotesGroupVoiceUpLink)
+  string                 graceNotesGroupMeasureNumber)
     : msrElement (inputLineNumber)
 {
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    graceNotesGroupVoiceUpLink != nullptr,
-    "graceNotesGroupVoiceUpLink is null");
-
-  fGraceNotesGroupVoiceUpLink =
-    graceNotesGroupVoiceUpLink;
 
   fGraceNotesGroupKind = graceNotesGroupKind;
 
@@ -88,8 +77,7 @@ msrGraceNotesGroup::msrGraceNotesGroup (
 msrGraceNotesGroup::~msrGraceNotesGroup ()
 {}
 
-S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
-  S_msrVoice containingVoice)
+S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone ()
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
@@ -101,12 +89,6 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
   }
 #endif
 
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    containingVoice != nullptr,
-    "containingVoice is null");
-
   S_msrGraceNotesGroup
     newbornClone =
       msrGraceNotesGroup::create (
@@ -114,8 +96,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
         fGraceNotesGroupKind,
         fGraceNotesGroupIsSlashed,
         fGraceNotesGroupIsBeamed,
-        fGraceNotesGroupMeasureNumber,
-        containingVoice);
+        fGraceNotesGroupMeasureNumber);
 
   newbornClone->fGraceNotesGroupIsTied =
     fGraceNotesGroupIsTied;
@@ -126,15 +107,26 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
   return newbornClone;
 }
 
+S_msrTuplet msrGraceNotesGroup::fetchGraceNoteGroupTupletUpLink () const
+{
+  S_msrTuplet result;
+
+  // JMI ???
+
+  return result;
+}
+
 S_msrPart msrGraceNotesGroup::fetchGraceNotesGroupPartUpLink () const
 {
   S_msrPart result;
 
+/* JMI BLARK
   if (fGraceNotesGroupVoiceUpLink) {
     result =
       fGraceNotesGroupVoiceUpLink->
         fetchVoicePartUpLink ();
   }
+*/
 
   return result;
 }
@@ -156,8 +148,7 @@ string msrGraceNotesGroup::graceNotesGroupKindAsString (
   return result;
 }
 
-S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
-  S_msrVoice containingVoice)
+S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone ()
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
@@ -169,12 +160,6 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
   }
 #endif
 
-  // sanity check
-  msgAssert (
-    __FILE__, __LINE__,
-    containingVoice != nullptr,
-    "containingVoice is null");
-
   // create the grace notes group
   S_msrGraceNotesGroup
     clone =
@@ -183,8 +168,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
         fGraceNotesGroupKind,
         fGraceNotesGroupIsSlashed,
         fGraceNotesGroupIsBeamed,
-        fGraceNotesGroupMeasureNumber,
-        containingVoice);
+        fGraceNotesGroupMeasureNumber);
 
   clone->fGraceNotesGroupIsTied =
     fGraceNotesGroupIsTied;
@@ -220,10 +204,6 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
             note->            getNoteSoundingWholeNotes (), // 0/1 JMI
             note->            getNoteDisplayWholeNotes (),
             note->            getNoteDotsNumber ());
-            /* JMI
-            containingVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
-            containingVoice-> getVoiceNumber ());
-            */
 
       // append it to the grace notes
       clone->
@@ -247,10 +227,6 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
             chordFirstNote->  getNoteSoundingWholeNotes (), // 0/1 JMI
             chordFirstNote->  getNoteDisplayWholeNotes (),
             chordFirstNote->  getNoteDotsNumber ());
-            /*
-            containingVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
-            containingVoice-> getVoiceNumber ());
-            */
 
       // append it to the grace notes
       clone->
@@ -274,13 +250,13 @@ void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
     gLogStream <<
-      "Appending note '" <<
+      "Appending note " <<
       note->asShortString () <<
-      "' to grace notes group" <<
+      " to grace notes group" <<
       asShortString () <<
-      " in voice \"" <<
-      fGraceNotesGroupVoiceUpLink->getVoiceName () <<
-      "\"" <<
+//      " in voice \"" <<
+//      fGraceNotesGroupVoiceUpLink->getVoiceName () <<
+//      "\"" <<
       endl;
   }
 #endif
@@ -289,7 +265,7 @@ void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 
   // register note's grace notes groups upLink
   note->
-    setNoteGraceNotesGroupUpLink (this);
+    setNoteDirectGraceNotesGroupUpLink (this);
 
   // is this grace note tied?
   if (note->getNoteTie ()) {
@@ -302,13 +278,13 @@ void msrGraceNotesGroup::appendChordToGraceNotesGroup (S_msrChord chord)
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
     gLogStream <<
-      "Appending chord '" <<
+      "Appending chord " <<
       chord->asShortString () <<
-      "' to grace notes group '" <<
+      " to grace notes group '" <<
       asShortString () <<
-      "' in voice \"" <<
-      fGraceNotesGroupVoiceUpLink->getVoiceName () <<
-      "\"" <<
+//      "' in voice \"" <<
+//      fGraceNotesGroupVoiceUpLink->getVoiceName () <<
+//      "\"" <<
       endl;
   }
 #endif
@@ -322,11 +298,11 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
     gLogStream <<
-      "Removing last note from grace notes group '" <<
+      "Removing last note from grace notes group " <<
       asShortString () <<
-      "' in voice \"" <<
-      fGraceNotesGroupVoiceUpLink->getVoiceName () <<
-      "\"" <<
+//      " in voice \"" <<
+//      fGraceNotesGroupVoiceUpLink->getVoiceName () <<
+//      "\"" <<
       endl;
   }
 #endif
@@ -407,7 +383,7 @@ void msrGraceNotesGroup::setGraceNotesGroupElementsPositionInMeasure (
   // compute chord's position in voice
   rational
      positionInVoice =
-      fChordMeasureUpLink->getMeasurePositionInVoice ()
+      fChordDirectMeasureUpLink->getMeasurePositionInVoice ()
         +
       positionInMeasure;
 
@@ -436,7 +412,7 @@ void msrGraceNotesGroup::setGraceNotesGroupElementsPositionInMeasure (
     rational
        positionInVoice =
         fGraceNotesGroupNoteUpLink->
-          getNoteMeasureUpLink ()->
+          getNoteDirectMeasureUpLink ()->
             getMeasurePositionInVoice ()
           +
         positionInMeasure;
@@ -540,8 +516,7 @@ string msrGraceNotesGroup::asShortString () const
   s <<
     "[GraceNotesGroup" <<
     ", graceNotesGroupKind: " <<
-    graceNotesGroupKindAsString (
-      fGraceNotesGroupKind) <<
+    graceNotesGroupKindAsString (fGraceNotesGroupKind) <<
     ", graceNotesGroupMeasureNumber: \"" << fGraceNotesGroupMeasureNumber <<
     "\", ";
 
@@ -571,8 +546,7 @@ string msrGraceNotesGroup::asString () const
   s <<
     "[GraceNotesGroup" <<
     ", graceNotesGroupKind: " <<
-    graceNotesGroupKindAsString (
-      fGraceNotesGroupKind) <<
+    graceNotesGroupKindAsString (fGraceNotesGroupKind) <<
     ", graceNotesGroupMeasureNumber: \"" << fGraceNotesGroupMeasureNumber <<
     "\", line " << fInputLineNumber <<
     ", ";
@@ -598,6 +572,8 @@ void msrGraceNotesGroup::print (ostream& os) const
 {
   os <<
     "GraceNotesGroup" <<
+    ", graceNotesGroupKind: " <<
+    graceNotesGroupKindAsString (fGraceNotesGroupKind) <<
     ", line " << fInputLineNumber <<
     ", " <<
     singularOrPlural (
@@ -607,19 +583,6 @@ void msrGraceNotesGroup::print (ostream& os) const
   ++gIndenter;
 
   const unsigned int fieldWidth = 33;
-
-  os <<
-    setw (fieldWidth) <<
-    "graceNotesGroupVoiceUpLink" << " : ";
-    if (fGraceNotesGroupVoiceUpLink) {
-      os <<
-        fGraceNotesGroupVoiceUpLink->asShortString ();
-    }
-    else {
-      os <<
-        "none";
-    }
-  os << endl;
 
   os <<
     setw (fieldWidth) <<
@@ -695,6 +658,8 @@ void msrGraceNotesGroup::printShort (ostream& os) const
 {
   os <<
     "GraceNotesGroup" <<
+    ", graceNotesGroupKind: " <<
+    graceNotesGroupKindAsString (fGraceNotesGroupKind) <<
     ", line " << fInputLineNumber <<
     ", " <<
     singularOrPlural (
@@ -704,21 +669,6 @@ void msrGraceNotesGroup::printShort (ostream& os) const
   ++gIndenter;
 
   const unsigned int fieldWidth = 33;
-
-/*
-  os <<
-    setw (fieldWidth) <<
-    "graceNotesGroupVoiceUpLink" << " : ";
-    if (fGraceNotesGroupVoiceUpLink) {
-      os <<
-        fGraceNotesGroupVoiceUpLink->asShortString ();
-    }
-    else {
-      os <<
-        "none";
-    }
-  os << endl;
-*/
 
   os <<
     setw (fieldWidth) <<

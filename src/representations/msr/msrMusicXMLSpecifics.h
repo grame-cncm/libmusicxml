@@ -51,15 +51,15 @@ class EXP msrPageLayout : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrPageLayout> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPageLayout (
-      int inputLineNumber);
+                          msrPageLayout (
+                            int inputLineNumber);
 
     virtual               ~msrPageLayout ();
 
@@ -157,15 +157,15 @@ class EXP msrSystemLayout : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrSystemLayout> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSystemLayout (
-      int inputLineNumber);
+                          msrSystemLayout (
+                            int inputLineNumber);
 
     virtual               ~msrSystemLayout ();
 
@@ -287,15 +287,15 @@ class EXP msrSystemDividers : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrSystemDividers> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSystemDividers (
-      int inputLineNumber);
+                          msrSystemDividers (
+                            int inputLineNumber);
 
     virtual               ~msrSystemDividers ();
 
@@ -376,17 +376,17 @@ class EXP msrStaffLayout : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrStaffLayout> create (
-      int inputLineNumber,
-      int staffNumber);
+                            int inputLineNumber,
+                            int staffNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStaffLayout (
-      int inputLineNumber,
-      int staffNumber);
+                          msrStaffLayout (
+                            int inputLineNumber,
+                            int staffNumber);
 
     virtual               ~msrStaffLayout ();
 
@@ -466,15 +466,15 @@ class EXP msrMeasureLayout : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMeasureLayout> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMeasureLayout (
-      int inputLineNumber);
+                          msrMeasureLayout (
+                            int inputLineNumber);
 
     virtual               ~msrMeasureLayout ();
 
@@ -583,15 +583,15 @@ class EXP msrPrintLayout : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrPrintLayout> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPrintLayout (
-      int inputLineNumber);
+                          msrPrintLayout (
+                            int inputLineNumber);
 
     virtual               ~msrPrintLayout ();
 
@@ -743,16 +743,16 @@ class EXP msrLineWidth : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrLineWidth> create (
-      int                  inputLineNumber,
-      msrLineWidthTypeKind lineWidthTypeKind,
-      S_msrLength          lineWidthValue);
+                            int                  inputLineNumber,
+                            msrLineWidthTypeKind lineWidthTypeKind,
+                            S_msrLength          lineWidthValue);
 
   protected:
 
-    msrLineWidth (
-      int                  inputLineNumber,
-      msrLineWidthTypeKind lineWidthTypeKind,
-      S_msrLength          lineWidthValue);
+                          msrLineWidth (
+                            int                  inputLineNumber,
+                            msrLineWidthTypeKind lineWidthTypeKind,
+                            S_msrLength          lineWidthValue);
 
     virtual               ~msrLineWidth ();
 
@@ -819,17 +819,17 @@ class EXP msrNoteSize : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrNoteSize> create (
-      int                 inputLineNumber,
-      msrNoteSizeTypeKind noteSizeTypeKind,
-      float               noteSizeValue);
+                            int                 inputLineNumber,
+                            msrNoteSizeTypeKind noteSizeTypeKind,
+                            float               noteSizeValue);
 
 
   protected:
 
-    msrNoteSize (
-      int                 inputLineNumber,
-      msrNoteSizeTypeKind noteSizeTypeKind,
-      float               noteSizeValue);
+                          msrNoteSize (
+                            int                 inputLineNumber,
+                            msrNoteSizeTypeKind noteSizeTypeKind,
+                            float               noteSizeValue);
 
     virtual               ~msrNoteSize ();
 

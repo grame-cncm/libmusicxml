@@ -30,17 +30,17 @@ class EXP msrLineBreak : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrLineBreak> create (
-      int    inputLineNumber,
-      string nextBarNumber);
+                        int    inputLineNumber,
+                        string nextBarNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrLineBreak (
-      int    inputLineNumber,
-      string nextBarNumber);
+                          msrLineBreak (
+                            int    inputLineNumber,
+                            string nextBarNumber);
 
     virtual               ~msrLineBreak ();
 
@@ -95,15 +95,15 @@ class EXP msrPageBreak : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrPageBreak> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPageBreak (
-      int inputLineNumber);
+                          msrPageBreak (
+                            int inputLineNumber);
 
     virtual               ~msrPageBreak ();
 

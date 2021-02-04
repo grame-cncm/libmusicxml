@@ -50,19 +50,19 @@ class EXP msrArticulation : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrArticulation> create (
-      int                 inputLineNumber,
-      msrArticulationKind articulationKind,
-      msrPlacementKind    articulationPlacementKind);
+                            int                 inputLineNumber,
+                            msrArticulationKind articulationKind,
+                            msrPlacementKind    articulationPlacementKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrArticulation (
-      int                 inputLineNumber,
-      msrArticulationKind articulationKind,
-      msrPlacementKind    articulationPlacementKind);
+                          msrArticulation (
+                            int                 inputLineNumber,
+                            msrArticulationKind articulationKind,
+                            msrPlacementKind    articulationPlacementKind);
 
     virtual               ~msrArticulation ();
 
@@ -142,19 +142,19 @@ class EXP msrFermata : public msrArticulation
     // ------------------------------------------------------
 
     static SMARTP<msrFermata> create (
-      int                inputLineNumber,
-      msrFermataKind     fermataKind,
-      msrFermataTypeKind fermataTypeKind);
+                            int                inputLineNumber,
+                            msrFermataKind     fermataKind,
+                            msrFermataTypeKind fermataTypeKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrFermata (
-      int                inputLineNumber,
-      msrFermataKind     fermataKind,
-      msrFermataTypeKind fermataTypeKind);
+                          msrFermata (
+                            int                inputLineNumber,
+                            msrFermataKind     fermataKind,
+                            msrFermataTypeKind fermataTypeKind);
 
     virtual               ~msrFermata ();
 
@@ -214,21 +214,21 @@ class EXP msrArpeggiato : public msrArticulation
     // ------------------------------------------------------
 
     static SMARTP<msrArpeggiato> create (
-      int              inputLineNumber,
-      msrPlacementKind arpeggiatoPlacementKind,
-      msrDirectionKind arpeggiatoDirectionKind,
-      int              arpeggiatoNumber);
+                            int              inputLineNumber,
+                            msrPlacementKind arpeggiatoPlacementKind,
+                            msrDirectionKind arpeggiatoDirectionKind,
+                            int              arpeggiatoNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrArpeggiato (
-      int              inputLineNumber,
-      msrPlacementKind arpeggiatoPlacementKind,
-      msrDirectionKind arpeggiatoDirectionKind,
-      int              arpeggiatoNumber);
+                          msrArpeggiato (
+                            int              inputLineNumber,
+                            msrPlacementKind arpeggiatoPlacementKind,
+                            msrDirectionKind arpeggiatoDirectionKind,
+                            int              arpeggiatoNumber);
 
     virtual               ~msrArpeggiato ();
 
@@ -299,21 +299,21 @@ class EXP msrNonArpeggiato : public msrArticulation
     // ------------------------------------------------------
 
     static SMARTP<msrNonArpeggiato> create (
-      int                      inputLineNumber,
-      msrPlacementKind         nonArpeggiatoPlacementKind,
-      msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
-      int                      nonArpeggiatoNumber);
+                            int                      inputLineNumber,
+                            msrPlacementKind         nonArpeggiatoPlacementKind,
+                            msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
+                            int                      nonArpeggiatoNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrNonArpeggiato (
-      int                      inputLineNumber,
-      msrPlacementKind         nonArpeggiatoPlacementKind,
-      msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
-      int                      nonArpeggiatoNumber);
+                          msrNonArpeggiato (
+                            int                      inputLineNumber,
+                            msrPlacementKind         nonArpeggiatoPlacementKind,
+                            msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
+                            int                      nonArpeggiatoNumber);
 
     virtual               ~msrNonArpeggiato ();
 

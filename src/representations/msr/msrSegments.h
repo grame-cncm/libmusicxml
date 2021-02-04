@@ -84,23 +84,23 @@ class EXP msrSegment : public msrVoiceElement
     // ------------------------------------------------------
 
     static SMARTP<msrSegment> create (
-      int        inputLineNumber,
-      S_msrVoice segmentVoicekUpLink);
+                            int        inputLineNumber,
+                            S_msrVoice segmentVoicekUpLink);
 
     SMARTP<msrSegment> createSegmentNewbornClone (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
     SMARTP<msrSegment> createSegmentDeepCopy (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSegment (
-      int        inputLineNumber,
-      S_msrVoice segmentVoicekUpLink);
+                          msrSegment (
+                            int        inputLineNumber,
+                            S_msrVoice segmentVoicekUpLink);
 
     virtual               ~msrSegment ();
 

@@ -5,6 +5,14 @@
 %}
 
 
+% the identification
+% -----------------------------------------------
+
+title    "Wandering"
+composer "Béla Bartók"
+opus     "Mikrokosmos, volume III"
+
+
 % the language for pitches
 % -----------------------------------------------
 

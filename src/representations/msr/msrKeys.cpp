@@ -211,7 +211,7 @@ ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt)
 S_msrKey msrKey::createTraditional (
   int                      inputLineNumber,
   msrQuarterTonesPitchKind keyTonicQuarterTonesPitchKind,
-  msrModeKind           modeKind,
+  msrModeKind              modeKind,
   int                      keyCancel)
 {
   msrKey* o =
@@ -238,7 +238,7 @@ S_msrKey msrKey::createHumdrumScot (
 msrKey::msrKey ( // for traditional keys
   int                      inputLineNumber,
   msrQuarterTonesPitchKind keyTonicQuarterTonesPitchKind,
-  msrModeKind           modeKind,
+  msrModeKind              modeKind,
   int                      keyCancel)
     : msrMeasureElement (inputLineNumber)
 {

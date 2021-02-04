@@ -17,25 +17,25 @@ class EXP msrRepeatCoda : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrRepeatCoda> create (
-      int          inputLineNumber,
-      S_msrSegment segment,
-      S_msrRepeat  repeatUpLink);
+                            int          inputLineNumber,
+                            S_msrSegment segment,
+                            S_msrRepeat  repeatUpLink);
 
     SMARTP<msrRepeatCoda> createRepeatCodaNewbornClone (
-      S_msrRepeat containingRepeat);
+                            S_msrRepeat containingRepeat);
 
     SMARTP<msrRepeatCoda> createRepeatCodaDeepCopy (
-      S_msrRepeat containingRepeat);
+                            S_msrRepeat containingRepeat);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrRepeatCoda (
-      int          inputLineNumber,
-      S_msrSegment segment,
-      S_msrRepeat  repeatUpLink);
+                          msrRepeatCoda (
+                            int          inputLineNumber,
+                            S_msrSegment segment,
+                            S_msrRepeat  repeatUpLink);
 
     virtual               ~msrRepeatCoda ();
 

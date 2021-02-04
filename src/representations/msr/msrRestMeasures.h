@@ -34,23 +34,23 @@ class EXP msrRestMeasuresContents : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrRestMeasuresContents> create (
-      int               inputLineNumber,
-      S_msrRestMeasures restMeasures);
+                            int               inputLineNumber,
+                            S_msrRestMeasures restMeasures);
 
     SMARTP<msrRestMeasuresContents> createRestMeasuresContentsNewbornClone (
-      S_msrRestMeasures restMeasures);
+                            S_msrRestMeasures restMeasures);
 
     SMARTP<msrRestMeasuresContents> createRestMeasuresContentsDeepCopy (
-      S_msrVoice containingVoice);
+                            S_msrVoice containingVoice);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrRestMeasuresContents (
-      int               inputLineNumber,
-      S_msrRestMeasures restMeasures);
+                          msrRestMeasuresContents (
+                            int               inputLineNumber,
+                            S_msrRestMeasures restMeasures);
 
     virtual               ~msrRestMeasuresContents ();
 

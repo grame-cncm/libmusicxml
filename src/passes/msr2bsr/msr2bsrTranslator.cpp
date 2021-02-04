@@ -4070,7 +4070,7 @@ void msr2bsrTranslator::visitStart (S_msrSlur& elt)
   if (fOnGoingNote) {
     // don't add slurs to chord member notes except the first one
     switch (fCurrentNonGraceNoteClone->getNoteKind ()) {
-      case msrNote::kChordMemberNote:
+      case kNoteChordMember:
         if (fCurrentNonGraceNoteClone->getNoteIsAChordsFirstMemberNote ()) {
           fCurrentNonGraceNoteClone->
             appendSlurToNote (elt);
@@ -4226,8 +4226,7 @@ void msr2bsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
     fCurrentGraceNotesGroupClone =
       elt->
-        createGraceNotesGroupNewbornClone (
-          fCurrentVoiceClone);
+        createGraceNotesGroupNewbornClone ();
 
     // attach it to the current note clone
     // if (fOnGoingNote) { JMI
@@ -4374,8 +4373,7 @@ void msr2bsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
       fCurrentSkipGraceNotesGroup =
         elt->
-          createSkipGraceNotesGroupClone (
-            fCurrentVoiceClone);
+          createSkipGraceNotesGroupClone ();
     }
   }
 
@@ -4424,8 +4422,7 @@ void msr2bsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       // create a clone of this graceNotesGroup
       fCurrentGraceNotesGroupClone =
         elt->
-          createGraceNotesGroupNewbornClone (
-            fCurrentVoiceClone);
+          createGraceNotesGroupNewbornClone ();
 
       // attach it to the current note clone
       if (fOnGoingNote) { // JMI
@@ -4456,8 +4453,7 @@ void msr2bsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       S_msrGraceNotesGroup
         skipGraceNotesGroup =
           elt->
-            createSkipGraceNotesGroupClone (
-              fCurrentVoiceClone);
+            createSkipGraceNotesGroupClone ();
 
       // prepend it to the other voices in the part
       fCurrentPartClone->
@@ -4631,10 +4627,10 @@ void msr2bsrTranslator::visitStart (S_msrNote& elt)
 
   switch (elt->getNoteKind ()) {
 
-    case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
-    case msrNote::kGraceChordMemberNote:
-    case msrNote::kGraceTupletMemberNote:
+    case kNoteGrace:
+    case kNoteGraceSkip:
+    case kNoteGraceChordMember:
+    case kNoteGraceTupletMember:
       fCurrentGraceNoteClone = noteClone;
       break;
 
@@ -4740,10 +4736,10 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
 
   switch (elt->getNoteKind ()) {
 
-    case msrNote::k_NoNoteKind:
+    case k_NoNoteKind:
       break;
 
-    case msrNote::kRestNote:
+    case kNoteRest:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4759,7 +4755,7 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case msrNote::kSkipNote: // JMI
+    case kNoteSkip: // JMI
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4775,7 +4771,7 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case msrNote::kUnpitchedNote:
+    case kNoteUnpitched:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4791,7 +4787,7 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case msrNote::kRegularNote:
+    case kNoteRegular:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4807,7 +4803,7 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case msrNote::kDoubleTremoloMemberNote:
+    case kNoteDoubleTremoloMember:
       if (fOnGoingDoubleTremolo) {
 
         if (fCurrentNonGraceNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
@@ -4880,8 +4876,8 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
       }
       break;
 
-    case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
+    case kNoteGrace:
+    case kNoteGraceSkip:
     / * JMI
       gLogStream <<
         "fOnGoingGraceNotesGroup = " <<
@@ -4976,7 +4972,7 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
       * /
       break;
 
-    case msrNote::kChordMemberNote:
+    case kNoteChordMember:
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
@@ -5000,7 +4996,7 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
         }
       break;
 
-    case msrNote::kGraceChordMemberNote:
+    case kNoteGraceChordMember:
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
@@ -5024,10 +5020,10 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
         }
       break;
 
-    case msrNote::kTupletMemberNote:
-    case msrNote::kTupletRestMemberNote:
-    case msrNote::kGraceTupletMemberNote:
-    case msrNote::kTupletUnpitchedMemberNote:
+    case kNoteTupletMember:
+    case kNoteTupletRestMember:
+    case kNoteGraceTupletMember:
+    case kNoteTupletUnpitchedMember:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
