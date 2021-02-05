@@ -75,7 +75,7 @@ libmusicxml: $(LIBDIR) $(LIBDIR)/$(MAKEFILE)
 $(LIBDIR):
 	mkdir $(LIBDIR)
 
-$(LIBDIR)/$(MAKEFILE) : CMakelists.txt
+$(LIBDIR)/$(MAKEFILE) : CMakeLists.txt
 	cd $(LIBDIR) && $(CMAKE) .. $(CMAKEOPTS) $(GENERATOR)
 
 #===============================================================
