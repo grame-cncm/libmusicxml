@@ -19,12 +19,10 @@ ifeq ($(system), Darwin)
 	MAKEFILE = libmusicxml2.xcodeproj
 endif
 ifeq ($(system), MINGW)
-	GENERATOR ?= ""
 	MAKEFILE = Makefile
 endif
 
 ifeq ($(system), Linux)
-	GENERATOR ?= ""
 	MAKEFILE = Makefile
 endif
 
