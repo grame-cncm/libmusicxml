@@ -237,8 +237,10 @@ endif ()
 if (NOT IOS)
 message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
 set (INSTALLED ${target})
+if (NOT WIN32)
 if (GENSTATIC)
 	set (INSTALLED ${INSTALLED}  ${staticlib})
+endif()
 endif()
 install ( TARGETS ${INSTALLED}
 	RUNTIME DESTINATION ${BINDEST} 
