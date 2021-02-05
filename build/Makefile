@@ -6,68 +6,45 @@
 
 MAKE   ?= make
 CMAKE  ?= cmake
-PDIR   ?= libdir
+LIBDIR ?= libdir
+IOSDIR ?= iosdir
+
 VERSION = 3.20
 
 system	:= $(shell uname -s)
 system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
 ifeq ($(system), Darwin)
-	TARGET ?= macos
-	OUTDIR = $(PDIR)/Release
-	GENERATOR ?= Xcode
 	PREFIX ?= /usr/local
-	NATIVEPACK = macpack
-else
+	GENERATOR ?= -G Xcode
+	MAKEFILE = libmusicxml2.xcodeproj
+endif
 ifeq ($(system), MINGW)
-	TARGET ?= windows
-	PDIR  ?= win64
-	NATIVEPACK = winpack
-else
-ifeq ($(system), Linux)
-	TARGET ?= linux
-	OUTDIR = $(PDIR)
-	GENERATOR ?= Unix Makefiles
-	PREFIX ?= /usr/local
-	NATIVEPACK = linuxpack
-else
-	TARGET = undefined
-	NATIVEPACK = undefined
-endif
-endif
+	GENERATOR ?= ""
+	MAKEFILE = Makefile
 endif
 
-IOS  := iosdir
-MSVC   ?= Visual Studio 14 2015
-MSVC64 := $(MSVC) Win64
-JOBS ?= 6
+ifeq ($(system), Linux)
+	GENERATOR ?= ""
+	MAKEFILE = Makefile
+endif
+
 
 CMAKEOPT ?= 
 TOOLS := xml2midi xmlread xml2guido xml2ly xmlversion
 
 all :
-	$(MAKE) $(TARGET)
-
-undefined:
-	$(error System is undefined, not target available)
+	$(MAKE) libmusicxml
 
 help :
-	@echo libmusicxml makefile - Targets are :
+	@echo "libmusicxml makefile - Available targets:"
 	@echo "   all (default): build the libmusicxml library for the current platform,"	
 	@echo "                  build the libmusicxml tools,"	
-	@echo 
-	@echo "Platform targets to build the libmusicxml library are:"	
-	@echo "   macos     build the library for macos"	
-	@echo "   windows   build 32 and 64 bits library for windows"
-	@echo "   linux     build the library for linux"
 	@echo "   android   build a static library for Android"	
 	@echo "   ios       build a static library for iOS"	
-	@echo "   msys      build on Windows using MSys"	
-	@echo "   js        build a javascript library"	
-	@echo "the platform targets is automatically evaluated by the default target."	
+	@echo "   wasm      build the wasm library"	
+	@echo "   minimal   build the library with only guido support (no tools and no static library)"	
 	@echo 	
 	@echo "Misc:"
-	@echo "   universal switch to universal binaries (MacOS)"	
-	@echo "   native 	switch universal binaries off (MacOS)"	
 	@echo "   cmake     re-generates the cmake project"	
 	@echo "   format    source code formatting using clang-format"	
 	@echo "   install   install library, tools and headers"	
@@ -77,103 +54,50 @@ help :
 	@echo "Options:"
 	@echo "   CMAKEOPT  cmake options passed to cmake by the 'cmake' target"
 	@echo "   GENERATOR the cmake generator. Currently '$(GENERATOR)'"
-	@echo "   PDIR      the generation folder. Currently '$(PDIR)'"
+	@echo "   LIBDIR      the generation folder. Currently '$(LIBDIR)'"
 	@echo "   MSVC      [Windows only] the windows generator. Currently '$(MSVC)'"
 	@echo "   PREFIX    the install location prefix. Currently $(PREFIX)'"
 	@echo 
 	@echo "CMake options:"
 	@echo "   FMWK 		[MacOS only] Generates a framework on MacOS. Default is off"
-	@echo "   UNIVERSAL [MacOS only] Generates universal binaries. Default is off"
 	@echo "   GDB 		Activates ggdb3 option. Default is off"
 	@echo "   LILY 		Include lilypond part. Default is on"
 	@echo "NOTE:  CMake options can be passed using CMAKEOPT, e.g."	
 	@echo "      'make cmake CMAKEOPT=-DLILY=off'"
 
 
-$(PDIR) :
-	mkdir $(PDIR)
+#===============================================================
+# building inscore and inscoreviewer
+#===============================================================
+libmusicxml: $(LIBDIR) $(LIBDIR)/$(MAKEFILE)
+	$(CMAKE) --build $(LIBDIR) --config Release
+
+$(LIBDIR):
+	mkdir $(LIBDIR)
+
+$(LIBDIR)/$(MAKEFILE) : CMakelists.txt
+	cd $(LIBDIR) && $(CMAKE) .. $(CMAKEOPTS) $(GENERATOR)
 
 #===============================================================
 # building the javascript library
 #===============================================================
-js:
+wasm:
 	$(MAKE) -C ../javascript
 
 #===============================================================
-# building the library on Mac OS X
-#===============================================================
-
-#===============================================================
-# building the library on Mac OS X
-#===============================================================
-macos : $(PDIR)/libmusicxml2.xcodeproj
-	$(CMAKE) --build $(PDIR) --config Release -- -jobs $(JOBS)
-	-cd lib &&  [ -d libmusicxml2.framework ] && tar czf libmusicxml2.tgz libmusicxml2.framework || echo "no framework"
-
-$(PDIR)/libmusicxml2.xcodeproj : $(PDIR) CMakeLists.txt
-	cd $(PDIR) && $(CMAKE) .. -G Xcode $(CMAKEOPT)  -Wno-dev
-
-universal: $(PDIR)
-	cd $(PDIR) && $(CMAKE) .. -DUNIVERSAL=on -Wno-dev
-
-native: $(PDIR)
-	cd $(PDIR) && $(CMAKE) .. -DUNIVERSAL=off -Wno-dev
-
+minimal:
+	$(MAKE) cmake CMAKEOPT="-DGENTOOLS=off -DLILY=off -DGENSTATIC=off"
+	$(CMAKE) --build $(LIBDIR) --config Release
 
 #===============================================================
 # building the library for iOS
 #===============================================================
-ios : $(IOS)/libmusicxml2.xcodeproj
-	$(CMAKE) --build $(IOS) --config Release -- -jobs $(JOBS)
-
-$(IOS)/libmusicxml2.xcodeproj : CMakeLists.txt
-	[ -d $(IOS) ] || mkdir $(IOS)
-	cd $(IOS) && $(CMAKE) .. -G Xcode -DIOS=yes -Wno-dev $(CMAKEOPT)
-
+ios : 
+	$(MAKE) libmusicxml LIBDIR=$(IOSDIR) CMAKEOPTS="-DIOS=on"
 
 #===============================================================
-# building the library on windows
-#===============================================================
-
-#===============================================================
-# using msys
-msys : GENERATOR ?= MSYS Makefiles
-msys : $(PDIR)/Makefile
-	$(MAKE) -C $(PDIR)
-
-#===============================================================
-# using visual studio
-windows :
-	$(MAKE) win32
-	$(MAKE) win64
-
-win32 : win32/libmusicxml2.sln 
-	$(CMAKE) --build win32 --config Release -- /maxcpucount:4
-
-win32/libmusicxml2.sln : CMakeLists.txt
-	[ -d win32 ] || mkdir win32
-	cd win32 && $(CMAKE) .. -G "$(MSVC)" $(CMAKEOPT)
-
-win64 : win64/libmusicxml2.sln 
-	$(CMAKE) --build win64 --config Release -- /maxcpucount:4 
-
-win64/libmusicxml2.sln : CMakeLists.txt
-	[ -d win64 ] || mkdir win64
-	cd win64 && $(CMAKE) .. -G "$(MSVC64)" $(CMAKEOPT)
-
-#===============================================================
-# building the library on linux
-#===============================================================
-linux : $(PDIR)/Makefile
-	$(MAKE) -C $(PDIR)
-
-$(PDIR)/Makefile : $(PDIR) CMakeLists.txt
-	cd $(PDIR) && $(CMAKE) .. -G "$(GENERATOR)"  $(CMAKEOPT)
-
-
-#===============================================================
-cmake : $(PDIR)
-	cd $(PDIR) && $(CMAKE) .. -G "$(GENERATOR)" -Wno-dev $(CMAKEOPT)
+cmake : $(LIBDIR)
+	cd $(LIBDIR) && $(CMAKE) .. $(CMAKEOPT)
 
 #===============================================================
 # building the library for Android
@@ -194,10 +118,10 @@ format :
 #===============================================================
 # install
 #===============================================================
-installLog := $(PDIR)/install_manifest.txt
+installLog := $(LIBDIR)/install_manifest.txt
 install:
-	cd $(PDIR) && $(CMAKE) .. -DCMAKE_INSTALL_PREFIX=$(PREFIX) 
-	$(CMAKE) --build $(PDIR) --config Release --target install
+	cd $(LIBDIR) && $(CMAKE) .. -DCMAKE_INSTALL_PREFIX=$(PREFIX) 
+	$(CMAKE) --build $(LIBDIR) --config Release --target install
 
 uninstall: installedfiles = $(shell cat $(installLog))
 uninstall: $(installLog)

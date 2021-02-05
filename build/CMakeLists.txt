@@ -2,7 +2,7 @@
 # CMAKE libmusicxml2
 #######################################
 project(libmusicxml2)
-cmake_minimum_required(VERSION 2.4)
+cmake_minimum_required(VERSION 3.4.0)
 if(CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_CONFIGURATION_TYPES Debug Release)
 endif()
@@ -27,17 +27,25 @@ get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
 
 #######################################
-option ( FMWK 		 "Generates a framework on MacOS by default"	off )
-option ( UNIVERSAL "Generates universal binaries"	off )
-option ( GDB 		   "Activates ggdb3 option"	off )
-option ( LILY 		 "Include lilypond part"	on )
-option ( BRL 		   "Include braille part"	  off )
+option ( FMWK   "Generates a framework on MacOS by default"	off )
+option ( GDB    "Activates ggdb3 option" off )
+option ( LILY   "Include lilypond part"	 on )
+option ( BRL    "Include braille part"	 off )
+option ( GENTOOLS   "Generates tools"	 on )
+option ( GENSTATIC  "Generates the static library"   on )
+
+if (GENTOOLS)
+	message (STATUS "Generate tools (force required static library generation)")
+	set (GENSTATIC on)
+endif()
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 set (DOCDIR ${ROOT}/doc)
-set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf ${DOCDIR}/userSGuideToXml2ly/userSGuideToXml2ly.pdf ${DOCDIR}/maintainerSGuideToXml2ly/MaintainerSGuideToXml2ly.pdf)
-set (SCHEMA   ${ROOT}/dtds/${XMLVERSION})
+set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf 
+			${DOCDIR}/userSGuideToXml2ly/userSGuideToXml2ly.pdf 
+			${DOCDIR}/maintainerSGuideToXml2ly/MaintainerSGuideToXml2ly.pdf)
+set (SCHEMA ${ROOT}/dtds/${XMLVERSION})
 
 set (BINDIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set (LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -67,10 +75,6 @@ if(APPLE)
 		set (CMAKE_CXX_FLAGS "-miphoneos-version-min=11.2")
 		set (libtype STATIC)
 		set (FMWK "false")
-	elseif( UNIVERSAL )
-		message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")		
-		set (CMAKE_OSX_ARCHITECTURES "x86_64")
-		set (CMAKE_OSX_DEPLOYMENT_TARGET 10.10)
 	endif()
   # to debug:
   #add_definitions(-O0 -g) # JMI
@@ -151,7 +155,7 @@ set_target_properties (${target} PROPERTIES
 )
 endif()
 
-if (NOT WIN32)
+if (NOT WIN32 AND GENSTATIC)
 add_library(${staticlib} STATIC ${LIBCONTENT})
 set_target_properties (${staticlib} PROPERTIES
 			VERSION ${VERSION}
@@ -198,7 +202,7 @@ else()
 endif()
 
 
-if(NOT IOS )
+if(NOT IOS AND GENTOOLS)
 foreach(sample ${SAMPLES})
 	add_executable( ${sample} ${SAMPLEDIR}/${sample}.cpp )
 	target_link_libraries( ${sample} ${LINKTO})
@@ -232,10 +236,9 @@ endif ()
 
 if (NOT IOS)
 message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
-if (WIN32)
-	set (INSTALLED ${target})
-else()
-	set (INSTALLED ${target}  ${staticlib})
+set (INSTALLED ${target})
+if (GENSTATIC)
+	set (INSTALLED ${INSTALLED}  ${staticlib})
 endif()
 install ( TARGETS ${INSTALLED}
 	RUNTIME DESTINATION ${BINDEST} 
@@ -245,11 +248,13 @@ install ( TARGETS ${INSTALLED}
     PUBLIC_HEADER DESTINATION include/libmusicxml
 )
 
+if (GENTOOLS)
 install ( TARGETS ${TOOLS}
     RUNTIME DESTINATION ${BINDEST}
     LIBRARY DESTINATION ${LIBDEST}
     ARCHIVE DESTINATION ${LIBDEST}
 )
+endif()
 
 ####################################
 # install misc files
