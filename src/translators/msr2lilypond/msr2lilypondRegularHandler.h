@@ -34,21 +34,21 @@ class EXP msr2lilypondRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
     static SMARTP<msr2lilypondRegularHandler> create (
-      string      executableName,
-      string      handlerHeader,
-      S_msr2lilypondInsiderHandler
-                  insiderOahHandler);
+                            string      executableName,
+                            string      handlerHeader,
+                            S_msr2lilypondInsiderHandler
+                                        insiderOahHandler);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2lilypondRegularHandler (
-      string      executableName,
-      string      handlerHeader,
-      S_msr2lilypondInsiderHandler
-                  insiderOahHandler);
+                          msr2lilypondRegularHandler (
+                            string      executableName,
+                            string      handlerHeader,
+                            S_msr2lilypondInsiderHandler
+                                        insiderOahHandler);
 
     virtual               ~msr2lilypondRegularHandler ();
 

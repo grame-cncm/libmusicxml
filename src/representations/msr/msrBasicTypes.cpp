@@ -15468,59 +15468,115 @@ string noteKindAsString (
   string result;
 
   switch (noteKind) {
-    case k_NoNoteKind:
-      result = "*noNoteKind*";
+    case k_NoNote:
+      result = "*noNote*";
       break;
 
-    case kNoteRegular:
-      result = "noteRegular";
+    // in measures
+    case kNoteRegularInMeasure:
+      result = "noteRegularInMeasure";
       break;
 
-    case kNoteRest:
-      result = "noteRest";
+    case kNoteRestInMeasure:
+      result = "noteRestInMeasure";
       break;
 
-    case kNoteSkip:
-      result = "noteSkip";
+    case kNoteSkipInMeasure:
+      result = "noteSkipInMeasure";
       break;
 
-    case kNoteUnpitched:
-      result = "noteUnpitched";
+    case kNoteUnpitchedInMeasure:
+      result = "noteUnpitchedInMeasure";
       break;
 
-    case kNoteDoubleTremoloMember:
-      result = "noteDoubleTremoloMember";
+    // in chords
+    case kNoteRegularInChord:
+      result = "noteRegularInChord";
       break;
 
-    case kNoteGrace:
-      result = "noteGrace";
-      break;
-    case kNoteGraceSkip:
-      result = "noteGraceSkip";
+    // in tuplets
+    case kNoteRegularInTuplet:
+      result = "noteRegularInTuplet";
       break;
 
-    case kNoteGraceChordMember:
-      result = "noteGraceChordMember";
+    case kNoteRestInTuplet:
+      result = "noteRestInTuplet";
       break;
 
-    case kNoteChordMember:
-      result = "noteChordMember";
+    case kNoteUnpitchedInTuplet:
+      result = "noteUnpitchedInTuplet";
       break;
 
-    case kNoteTupletMember:
-      result = "noteTupletMember";
+    // in grace notes groups
+    case kNoteRegularInGraceNotesGroup:
+      result = "noteRegularInGraceNotesGroup";
+      break;
+    case kNoteSkipInGraceNotesGroup:
+      result = "noteSkipInGraceNotesGroup";
       break;
 
-    case kNoteTupletRestMember:
-      result = "noteTupletRestMember";
+    // in chords in grace notes groups
+    case kNoteInChordInGraceNotesGroup:
+      result = "noteInChordInGraceNotesGroup";
       break;
 
-   case kNoteGraceTupletMember:
-      result = "noteGraceTupletMember";
+    // in tuplets in grace notes groups
+    case kNoteInTupletInGraceNotesGroup:
+      result = "noteInTupletInGraceNotesGroup";
       break;
 
-    case kNoteTupletUnpitchedMember:
-      result = "noteTupletUnpitchedMember";
+    // in double-tremolos
+    case kNoteInDoubleTremolo:
+      result = "noteInDoubleTremolo";
+      break;
+  } // switch
+
+  return result;
+}
+
+// chords
+//______________________________________________________________________________
+
+string chordKindAsString (
+  msrChordKind chordKind)
+{
+  string result;
+
+  switch (chordKind) {
+    case k_NoChord:
+      result = "*NoChord*";
+      break;
+    case kChordInMeasure:
+      result = "chordInMeasure";
+      break;
+    case kChordInTuplet:
+      result = "chordInTuplet";
+      break;
+    case kChordInGraceNotesGroup:
+      result = "chordInGraceNotesGroup";
+      break;
+  } // switch
+
+  return result;
+}
+
+// tuplets
+//______________________________________________________________________________
+
+EXP string tupletKindAsString (
+  msrTupletKind tupletKind)
+{
+  string result;
+
+  switch (tupletKind) {
+    case k_NoTuplet:
+      result = "*NoTuplet*";
+      break;
+    case kTupletInMeasure:
+      result = "tupletInMeasure";
+      break;
+    case kTupletInTuplet:
+      result = "tupletInTuplet";
       break;
   } // switch
 

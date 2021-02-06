@@ -34,21 +34,21 @@ class EXP msr2brailleRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
     static SMARTP<msr2brailleRegularHandler> create (
-      string      executableName,
-      string      handlerHeader,
-      S_msr2brailleInsiderHandler
-                  insiderOahHandler);
+                            string      executableName,
+                            string      handlerHeader,
+                            S_msr2brailleInsiderHandler
+                                        insiderOahHandler);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2brailleRegularHandler (
-      string      executableName,
-      string      handlerHeader,
-      S_msr2brailleInsiderHandler
-                  insiderOahHandler);
+                          msr2brailleRegularHandler (
+                            string      executableName,
+                            string      handlerHeader,
+                            S_msr2brailleInsiderHandler
+                                        insiderOahHandler);
 
     virtual               ~msr2brailleRegularHandler ();
 

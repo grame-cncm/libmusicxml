@@ -32,17 +32,17 @@ class EXP bsrBarline : public bsrLineContentsElement
     // ------------------------------------------------------
 
     static SMARTP<bsrBarline> create (
-      int            inputLineNumber,
-      bsrBarlineKind barlineKind);
+                            int            inputLineNumber,
+                            bsrBarlineKind barlineKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrBarline (
-      int            inputLineNumber,
-      bsrBarlineKind barlineKin);
+                          bsrBarline (
+                            int            inputLineNumber,
+                            bsrBarlineKind barlineKin);
 
     virtual               ~bsrBarline ();
 

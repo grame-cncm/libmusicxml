@@ -28,15 +28,15 @@ class EXP lpsrElement : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrElement> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrElement (
-      int inputLineNumber);
+                          lpsrElement (
+                            int inputLineNumber);
 
     virtual               ~lpsrElement ();
 

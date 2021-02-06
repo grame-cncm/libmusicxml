@@ -31,9 +31,9 @@ class EXP bsrOah2manPageGenerator : virtual public oah2manPageGenerator,
 {
   public:
 
-    bsrOah2manPageGenerator (
-      const S_oahHandler handler,
-      ostream&           manPageOutputStream);
+                          bsrOah2manPageGenerator (
+                            const S_oahHandler handler,
+                            ostream&           manPageOutputStream);
 
     virtual               ~bsrOah2manPageGenerator ();
 

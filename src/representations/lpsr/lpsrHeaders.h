@@ -32,7 +32,7 @@ class EXP lpsrHeader : public lpsrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-                          static SMARTP<lpsrHeader> create (
+    static SMARTP<lpsrHeader> create (
                             int inputLineNumber);
 
   protected:

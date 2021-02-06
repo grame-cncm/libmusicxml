@@ -45,25 +45,25 @@ class EXP bsrFacSimileKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<bsrFacSimileKindAtom> create (
-      string           shortName,
-      string           longName,
-      string           description,
-      string           valueSpecification,
-      string           variableName,
-      bsrFacSimileKind bsrFacSimileKindVariable);
+                            string           shortName,
+                            string           longName,
+                            string           description,
+                            string           valueSpecification,
+                            string           variableName,
+                            bsrFacSimileKind bsrFacSimileKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrFacSimileKindAtom (
-      string           shortName,
-      string           longName,
-      string           description,
-      string           valueSpecification,
-      string           variableName,
-      bsrFacSimileKind bsrFacSimileKindVariable);
+                          bsrFacSimileKindAtom (
+                            string           shortName,
+                            string           longName,
+                            string           description,
+                            string           valueSpecification,
+                            string           variableName,
+                            bsrFacSimileKind bsrFacSimileKindVariable);
 
     virtual               ~bsrFacSimileKindAtom ();
 
@@ -128,13 +128,13 @@ class EXP bsrTextsLanguageAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<bsrTextsLanguageAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      bsrTextsLanguageKind&
-                         bsrTextsLanguageKindVariable);
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            bsrTextsLanguageKind&
+                                               bsrTextsLanguageKindVariable);
 
   protected:
 
@@ -228,7 +228,7 @@ class EXP bsrOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrOahGroup ();
+                          bsrOahGroup ();
 
     virtual               ~bsrOahGroup ();
 

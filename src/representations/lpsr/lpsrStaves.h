@@ -34,15 +34,15 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrNewStaffgroupBlock> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrNewStaffgroupBlock (
-      int inputLineNumber);
+                          lpsrNewStaffgroupBlock (
+                            int inputLineNumber);
 
     virtual               ~lpsrNewStaffgroupBlock ();
 
@@ -92,17 +92,17 @@ class EXP lpsrNewStaffTuningBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrNewStaffTuningBlock> create (
-      int              inputLineNumber,
-      S_msrStaffTuning staffTuning);
+                            int              inputLineNumber,
+                            S_msrStaffTuning staffTuning);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrNewStaffTuningBlock (
-      int              inputLineNumber,
-      S_msrStaffTuning staffTuning);
+                          lpsrNewStaffTuningBlock (
+                            int              inputLineNumber,
+                            S_msrStaffTuning staffTuning);
 
     virtual               ~lpsrNewStaffTuningBlock ();
 
@@ -155,15 +155,15 @@ class EXP lpsrNewStaffBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrNewStaffBlock> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrNewStaffBlock (
-      int inputLineNumber);
+                          lpsrNewStaffBlock (
+                            int inputLineNumber);
 
     virtual               ~lpsrNewStaffBlock ();
 
@@ -213,15 +213,15 @@ class EXP lpsrStaffBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrStaffBlock> create (
-      S_msrStaff staff);
+                            S_msrStaff staff);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrStaffBlock (
-      S_msrStaff staff);
+                          lpsrStaffBlock (
+                            S_msrStaff staff);
 
     virtual               ~lpsrStaffBlock ();
 

@@ -33,7 +33,7 @@ class EXP Mikrokosmos3WanderingGenerator : public smartable
     // creation
     // ------------------------------------------------------
 
-                          static SMARTP<Mikrokosmos3WanderingGenerator> create ();
+      static SMARTP<Mikrokosmos3WanderingGenerator> create ();
 
   protected:
 

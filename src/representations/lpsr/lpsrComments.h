@@ -40,19 +40,19 @@ class EXP lpsrComment : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrComment> create (
-      int                inputLineNumber,
-      string             contents,
-      lpsrCommentGapKind commentGapKind = kNoGapAfterwards);
+                            int                inputLineNumber,
+                            string             contents,
+                            lpsrCommentGapKind commentGapKind = kNoGapAfterwards);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrComment (
-      int                inputLineNumber,
-      string             contents,
-      lpsrCommentGapKind commentGapKind = kNoGapAfterwards);
+                          lpsrComment (
+                            int                inputLineNumber,
+                            string             contents,
+                            lpsrCommentGapKind commentGapKind = kNoGapAfterwards);
 
     virtual               ~lpsrComment ();
 

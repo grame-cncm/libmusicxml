@@ -32,27 +32,27 @@ class EXP msrDalSegnoAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<msrDalSegnoAtom> create (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<string, msrDalSegno::msrDalSegnoKind>&
-                          stringToDalSegnoKindMapVariable);
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            string              valueSpecification,
+                            string              variableName,
+                            map<string, msrDalSegno::msrDalSegnoKind>&
+                                                stringToDalSegnoKindMapVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrDalSegnoAtom (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<string, msrDalSegno::msrDalSegnoKind>&
-                          stringToDalSegnoKindMapVariable);
+                          msrDalSegnoAtom (
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            string              valueSpecification,
+                            string              variableName,
+                            map<string, msrDalSegno::msrDalSegnoKind>&
+                                                stringToDalSegnoKindMapVariable);
 
     virtual               ~msrDalSegnoAtom ();
 
@@ -118,27 +118,27 @@ class EXP msrReplaceClefAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<msrReplaceClefAtom> create (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<msrClefKind, msrClefKind>&
-                          clefKindToClefKindMapVariable);
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            string              valueSpecification,
+                            string              variableName,
+                            map<msrClefKind, msrClefKind>&
+                                                clefKindToClefKindMapVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrReplaceClefAtom (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<msrClefKind, msrClefKind>&
-                          clefKindToClefKindMapVariable);
+                          msrReplaceClefAtom (
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            string              valueSpecification,
+                            string              variableName,
+                            map<msrClefKind, msrClefKind>&
+                                                clefKindToClefKindMapVariable);
 
     virtual               ~msrReplaceClefAtom ();
 
@@ -204,7 +204,7 @@ class EXP mxmlTree2msrOahGroup : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<mxmlTree2msrOahGroup> create (
-      S_oahHandler handler);
+                            S_oahHandler handler);
 
   private:
 
@@ -221,8 +221,8 @@ class EXP mxmlTree2msrOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    mxmlTree2msrOahGroup (
-      S_oahHandler handler);
+                          mxmlTree2msrOahGroup (
+                            S_oahHandler handler);
 
     virtual               ~mxmlTree2msrOahGroup ();
 

@@ -33,21 +33,21 @@ class EXP xml2gmnRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
     static SMARTP<xml2gmnRegularHandler> create (
-      string      executableName,
-      string      handlerHeader,
-      S_xml2gmnInsiderHandler
-                  insiderOahHandler);
+                            string      executableName,
+                            string      handlerHeader,
+                            S_xml2gmnInsiderHandler
+                                        insiderOahHandler);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2gmnRegularHandler (
-      string      executableName,
-      string      handlerHeader,
-      S_xml2gmnInsiderHandler
-                  insiderOahHandler);
+                          xml2gmnRegularHandler (
+                            string      executableName,
+                            string      handlerHeader,
+                            S_xml2gmnInsiderHandler
+                                        insiderOahHandler);
 
     virtual               ~xml2gmnRegularHandler ();
 

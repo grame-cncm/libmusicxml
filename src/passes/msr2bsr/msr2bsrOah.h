@@ -45,7 +45,7 @@ class EXP msr2bsrOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2bsrOahGroup ();
+                          msr2bsrOahGroup ();
 
     virtual               ~msr2bsrOahGroup ();
 

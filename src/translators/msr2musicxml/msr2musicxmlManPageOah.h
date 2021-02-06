@@ -30,21 +30,21 @@ class EXP msr2musicxmlManPageGenerateAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<msr2musicxmlManPageGenerateAtom> create (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2musicxmlManPageGenerateAtom (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                          msr2musicxmlManPageGenerateAtom (
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
     virtual               ~msr2musicxmlManPageGenerateAtom ();
 
@@ -106,7 +106,7 @@ class EXP msr2musicxmlManPageOahGroup : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<msr2musicxmlManPageOahGroup> create (
-      S_oahVisitor theOah2manPageGenerator);
+                            S_oahVisitor theOah2manPageGenerator);
 
   public:
 
@@ -121,8 +121,8 @@ class EXP msr2musicxmlManPageOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2musicxmlManPageOahGroup (
-      S_oahVisitor theOah2manPageGenerator);
+                          msr2musicxmlManPageOahGroup (
+                            S_oahVisitor theOah2manPageGenerator);
 
     virtual               ~msr2musicxmlManPageOahGroup ();
 

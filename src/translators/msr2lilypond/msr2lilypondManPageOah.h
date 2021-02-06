@@ -30,21 +30,21 @@ class EXP msr2lilypondManPageGenerateAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<msr2lilypondManPageGenerateAtom> create (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2lilypondManPageGenerateAtom (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                          msr2lilypondManPageGenerateAtom (
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
     virtual               ~msr2lilypondManPageGenerateAtom ();
 
@@ -107,7 +107,7 @@ class EXP msr2lilypondManPageOahGroup : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<msr2lilypondManPageOahGroup> create (
-      S_oahVisitor theOah2manPageGenerator);
+                            S_oahVisitor theOah2manPageGenerator);
 
   public:
 
@@ -122,8 +122,8 @@ class EXP msr2lilypondManPageOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2lilypondManPageOahGroup (
-      S_oahVisitor theOah2manPageGenerator);
+                          msr2lilypondManPageOahGroup (
+                            S_oahVisitor theOah2manPageGenerator);
 
     virtual               ~msr2lilypondManPageOahGroup ();
 

@@ -68,10 +68,10 @@ class EXP bsr2brailleTranslator :
 {
   public:
 
-    bsr2brailleTranslator (
-      S_bsrScore     bsrScore,
-      const S_bsrOahGroup& bsrOpts,
-      ostream&       brailleOutputStream);
+                          bsr2brailleTranslator (
+                            S_bsrScore     bsrScore,
+                            const S_bsrOahGroup& bsrOpts,
+                            ostream&       brailleOutputStream);
 
     virtual               ~bsr2brailleTranslator ();
 

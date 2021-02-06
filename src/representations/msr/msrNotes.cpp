@@ -198,7 +198,7 @@ void msrNote::initializeNote ()
       endl <<
       "Initializing a note" <<
       ", kind: ";
-    if (fNoteKind == k_NoNoteKind)
+    if (fNoteKind == k_NoNote)
       gLogStream <<
         "not yet known";
     else
@@ -373,16 +373,16 @@ S_msrMeasure msrNote::fetchNoteMeasureUpLink () const
   S_msrMeasure result;
 
   switch (fNoteKind) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRegular:
-    case kNoteRest:
-    case kNoteSkip:
-    case kNoteUnpitched:
+    case kNoteRegularInMeasure:
+    case kNoteRestInMeasure:
+    case kNoteSkipInMeasure:
+    case kNoteUnpitchedInMeasure:
       result = fNoteDirectMeasureUpLink;
 
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       if (fNoteDirectChordUpLink) {
         result =
           fNoteDirectChordUpLink->
@@ -390,9 +390,9 @@ S_msrMeasure msrNote::fetchNoteMeasureUpLink () const
       }
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
-    case kNoteTupletUnpitchedMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
+    case kNoteUnpitchedInTuplet:
       if (fNoteDirectTupletUpLink) {
         result =
           fNoteDirectTupletUpLink->
@@ -400,12 +400,12 @@ S_msrMeasure msrNote::fetchNoteMeasureUpLink () const
       }
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
     // JMI
       break;
 
-    case kNoteGrace:
-    case kNoteGraceSkip:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
     /* JMi
       if (fNoteDirectGraceNotesGroupUpLink) {
         result =
@@ -419,10 +419,10 @@ S_msrMeasure msrNote::fetchNoteMeasureUpLink () const
     */
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       break;
   } // switch
 
@@ -436,17 +436,17 @@ S_msrTuplet msrNote::fetchNoteTupletUpLink () const
   S_msrTuplet result;
 
   switch (fNoteKind) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRegular:
-    case kNoteRest:
-    case kNoteSkip:
-    case kNoteUnpitched:
+    case kNoteRegularInMeasure:
+    case kNoteRestInMeasure:
+    case kNoteSkipInMeasure:
+    case kNoteUnpitchedInMeasure:
       result = fNoteDirectTupletUpLink;
       break;
 
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       if (fNoteDirectChordUpLink) {
         result =
           fNoteDirectChordUpLink->
@@ -454,8 +454,8 @@ S_msrTuplet msrNote::fetchNoteTupletUpLink () const
       }
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
       if (fNoteDirectTupletUpLink) {
         result =
           fNoteDirectTupletUpLink->
@@ -463,11 +463,11 @@ S_msrTuplet msrNote::fetchNoteTupletUpLink () const
       }
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       break;
 
-    case kNoteGrace:
-    case kNoteGraceSkip:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
     / * JMi
       if (fNoteDirectGraceNotesGroupUpLink) {
         result =
@@ -481,7 +481,7 @@ S_msrTuplet msrNote::fetchNoteTupletUpLink () const
     * /
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       if (fNoteDirectChordUpLink) {
         result =
           fNoteDirectChordUpLink->
@@ -490,7 +490,7 @@ S_msrTuplet msrNote::fetchNoteTupletUpLink () const
       }
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       / * cannot happen ??? JMI
       if (fNoteDirectTupletUpLink) {
         result =
@@ -501,7 +501,7 @@ S_msrTuplet msrNote::fetchNoteTupletUpLink () const
       * /
       break;
 
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInTuplet:
       break;
   } // switch
 
@@ -515,21 +515,21 @@ S_msrGraceNotesGroup msrNote::fetchNoteGraceNotesGroupUpLink () const
   S_msrGraceNotesGroup result;
 
   switch (fNoteKind) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRegular:
-    case kNoteRest:
-    case kNoteSkip:
-    case kNoteChordMember:
+    case kNoteRegularInMeasure:
+    case kNoteRestInMeasure:
+    case kNoteSkipInMeasure:
+    case kNoteRegularInChord:
       result = fNoteDirectGraceNotesGroupUpLink;
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
       if (fNoteDirectTupletUpLink) {
       /* JMI
         result =
@@ -540,11 +540,11 @@ S_msrGraceNotesGroup msrNote::fetchNoteGraceNotesGroupUpLink () const
       }
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       break;
 
-    case kNoteGrace:
-    case kNoteGraceSkip:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
     /* JMi
       if (fNoteDirectGraceNotesGroupUpLink) {
         result =
@@ -558,13 +558,13 @@ S_msrGraceNotesGroup msrNote::fetchNoteGraceNotesGroupUpLink () const
     */
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       break;
 
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInTuplet:
       break;
   } // switch
 
@@ -576,13 +576,13 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
   S_msrVoice result;
 
   switch (fNoteKind) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRegular:
-    case kNoteRest:
-    case kNoteSkip:
-    case kNoteChordMember:
+    case kNoteRegularInMeasure:
+    case kNoteRestInMeasure:
+    case kNoteSkipInMeasure:
+    case kNoteRegularInChord:
       if (fNoteDirectMeasureUpLink) {
         result =
           fNoteDirectMeasureUpLink->
@@ -590,11 +590,11 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
       }
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
       if (fNoteDirectTupletUpLink) {
         result =
           fNoteDirectTupletUpLink->
@@ -603,11 +603,11 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
       }
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       break;
 
-    case kNoteGrace:
-    case kNoteGraceSkip:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
     /* JMi
       if (fNoteDirectGraceNotesGroupUpLink) {
         result =
@@ -621,13 +621,13 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
     */
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       break;
 
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInTuplet:
       break;
   } // switch
 
@@ -1450,7 +1450,7 @@ S_msrNote msrNote::createRestNote (
       inputLineNumber,
       noteMeasureNumber,
 
-      kNoteRest, // noteKind
+      kNoteRestInMeasure, // noteKind
 
       k_NoQuarterTonesPitch_QTP,
       k_NoOctave, // noteOctave,
@@ -1499,7 +1499,7 @@ S_msrNote msrNote::createSkipNote (
       inputLineNumber,
       noteMeasureNumber,
 
-      kNoteSkip, // noteKind
+      kNoteSkipInMeasure, // noteKind
 
       k_NoQuarterTonesPitch_QTP,
       k_NoOctave, // noteOctave,
@@ -1548,7 +1548,7 @@ S_msrNote msrNote::createGraceSkipNote (
       inputLineNumber,
       noteMeasureNumber,
 
-      kNoteGraceSkip, // noteKind
+      kNoteSkipInGraceNotesGroup, // noteKind
 
       k_NoQuarterTonesPitch_QTP,
       k_NoOctave, // noteOctave,
@@ -1599,7 +1599,7 @@ S_msrNote msrNote::createRestNoteWithOctave (
       inputLineNumber,
       noteMeasureNumber,
 
-      kNoteRest, // noteKind
+      kNoteRestInMeasure, // noteKind
 
       k_Rest_QTP,
       noteOctave,
@@ -1650,7 +1650,7 @@ S_msrNote msrNote::createSkipNoteWithOctave (
       inputLineNumber,
       noteMeasureNumber,
 
-      kNoteSkip, // noteKind
+      kNoteSkipInMeasure, // noteKind
 
       k_Skip_QTP,
       noteOctave,
@@ -1702,7 +1702,7 @@ S_msrNote msrNote::createRegularNote (
       inputLineNumber,
       noteMeasureNumber,
 
-      kNoteRegular, // noteKind
+      kNoteRegularInMeasure, // noteKind
 
       quarterTonesPitchKind,
       noteOctaveKind,
@@ -2210,7 +2210,7 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
       inputLineNumber,
       K_NO_MEASURE_NUMBER, // JMI ???
 
-      kNoteRegular, // noteKind
+      kNoteRegularInMeasure, // noteKind
 
       quarterTonesPitchKindFromSemiTonesPitchKind (
         semiTonesPitchAndOctave->
@@ -3856,18 +3856,18 @@ string msrNote::notePitchAsString () const
   stringstream s;
 
   switch (fNoteKind) {
-    case k_NoNoteKind:
-    case kNoteRest:
-    case kNoteSkip:
-    case kNoteRegular:
-    case kNoteDoubleTremoloMember:
-    case kNoteGrace:
-    case kNoteGraceSkip:
-    case kNoteGraceChordMember:
-    case kNoteChordMember:
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
-    case kNoteGraceTupletMember:
+    case k_NoNote:
+    case kNoteRestInMeasure:
+    case kNoteSkipInMeasure:
+    case kNoteRegularInMeasure:
+    case kNoteInDoubleTremolo:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
+    case kNoteInChordInGraceNotesGroup:
+    case kNoteRegularInChord:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
+    case kNoteInTupletInGraceNotesGroup:
       s <<
         msrQuarterTonesPitchKindAsStringInLanguage (
           fNoteQuarterTonesPitchKind,
@@ -3875,8 +3875,8 @@ string msrNote::notePitchAsString () const
             getMsrQuarterTonesPitchesLanguageKind ());
       break;
 
-    case kNoteUnpitched:
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInMeasure:
+    case kNoteUnpitchedInTuplet:
       s << "unpitched ";
       break;
   } // switch
@@ -3945,12 +3945,12 @@ string msrNote::asShortStringWithRawWholeNotes () const
   s << "[";
 
   switch (fNoteKind) {
-    case k_NoNoteKind:
+    case k_NoNote:
       s <<
-        "***noNoteKind***";
+        "***noNote***";
       break;
 
-    case kNoteRest:
+    case kNoteRestInMeasure:
       s <<
         "Rest note" <<
         " [" <<
@@ -3967,7 +3967,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       } // for
       break;
 
-    case kNoteSkip:
+    case kNoteSkipInMeasure:
       s <<
         "Skip note" <<
         ":" <<
@@ -3982,7 +3982,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       } // for
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       s <<
         notePitchAsString () <<
         "Unpitched note" <<
@@ -3998,7 +3998,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       } // for
       break;
 
-    case kNoteRegular:
+    case kNoteRegularInMeasure:
       s <<
         "Standalone note '" <<
         notePitchAsString () <<
@@ -4016,7 +4016,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       } // for
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       s <<
         "DoubleTremoloMember note '" <<
         notePitchAsString () <<
@@ -4030,7 +4030,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " displayed";
       break;
 
-    case kNoteGrace:
+    case kNoteRegularInGraceNotesGroup:
       s <<
         "Grace note '" <<
         notePitchAsString () <<
@@ -4043,7 +4043,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       } // for
       break;
 
-    case kNoteGraceSkip:
+    case kNoteSkipInGraceNotesGroup:
       s <<
         "Grace skip note '" <<
         ":" <<
@@ -4058,7 +4058,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       } // for
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       s <<
         "GraceChordMember note '" <<
         notePitchAsString () <<
@@ -4071,7 +4071,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       } // for
       break;
 
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       s <<
         "ChordMember note '" <<
         notePitchAsString () <<
@@ -4088,7 +4088,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       } // for
       break;
 
-    case kNoteTupletMember:
+    case kNoteRegularInTuplet:
       s <<
         "TupletMember note '" <<
         notePitchAsString () <<
@@ -4109,7 +4109,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         ", noteTupletFactor " << fNoteTupletFactor;
       break;
 
-    case kNoteTupletRestMember:
+    case kNoteRestInTuplet:
       s <<
         "TupletMember note '" <<
         notePitchAsString () <<
@@ -4129,7 +4129,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         ", noteTupletFactor " << fNoteTupletFactor;
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       s <<
         "GraceTupletMember note '" <<
         notePitchAsString () <<
@@ -4156,7 +4156,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         ", noteTupletFactor " << fNoteTupletFactor;
       break;
 
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInTuplet:
       s <<
         "TupletMemberUnpitched note " <<
         noteGraphicDurationAsMsrString () <<
@@ -4185,9 +4185,9 @@ string msrNote::asShortString () const
   s << "[";
 
   switch (fNoteKind) {
-    case k_NoNoteKind:
+    case k_NoNote:
       s <<
-        "noNoteKind" <<
+        "noNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
 
@@ -4196,7 +4196,7 @@ string msrNote::asShortString () const
       } // for
       break;
 
-    case kNoteRest:
+    case kNoteRestInMeasure:
       s <<
         "RestNote" <<
         ":" <<
@@ -4207,7 +4207,7 @@ string msrNote::asShortString () const
       } // for
       break;
 
-    case kNoteSkip:
+    case kNoteSkipInMeasure:
       s <<
         "SkipNote" <<
         ":" <<
@@ -4218,7 +4218,7 @@ string msrNote::asShortString () const
       } // for
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       s <<
         "UnpitchedNote" <<
         ":" <<
@@ -4229,7 +4229,7 @@ string msrNote::asShortString () const
       } // for
       break;
 
-    case kNoteRegular:
+    case kNoteRegularInMeasure:
       {
         s <<
           "RegularNote '" <<
@@ -4280,7 +4280,7 @@ string msrNote::asShortString () const
       }
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       s <<
         "DoubleTremoloMemberNote '" <<
         notePitchAsString () <<
@@ -4293,7 +4293,7 @@ string msrNote::asShortString () const
       } // for
       break;
 
-    case kNoteGrace:
+    case kNoteRegularInGraceNotesGroup:
       s <<
         "GraceNote '" <<
         notePitchAsString () <<
@@ -4306,7 +4306,7 @@ string msrNote::asShortString () const
       } // for
       break;
 
-    case kNoteGraceSkip:
+    case kNoteSkipInGraceNotesGroup:
       s <<
         "GraceSkipNote" <<
         " " <<
@@ -4317,9 +4317,9 @@ string msrNote::asShortString () const
       } // for
       break;
 
-   case kNoteGraceChordMember:
+   case kNoteInChordInGraceNotesGroup:
       s <<
-        "GraceChordMemberNote '" <<
+        "NoteInChordInGraceNotesGroup '" <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
         ", " <<
@@ -4330,7 +4330,7 @@ string msrNote::asShortString () const
       } // for
       break;
 
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       s <<
         "ChordMemberNote '" <<
         notePitchAsString () <<
@@ -4343,7 +4343,7 @@ string msrNote::asShortString () const
       } // for
       break;
 
-    case kNoteTupletMember:
+    case kNoteRegularInTuplet:
       s <<
         "TupletMemberNote" <<
         ":" <<
@@ -4373,7 +4373,7 @@ string msrNote::asShortString () const
         ", noteTupletFactor " << fNoteTupletFactor.asString ();
       break;
 
-    case kNoteTupletRestMember:
+    case kNoteRestInTuplet:
       s <<
         "tupletRestMemberNote" <<
         ":" <<
@@ -4400,7 +4400,7 @@ string msrNote::asShortString () const
         ", noteTupletFactor " << fNoteTupletFactor.asString ();
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       s <<
         "GraceTupletMemberNote" <<
         ":" <<
@@ -4434,7 +4434,7 @@ string msrNote::asShortString () const
         ", noteTupletFactor " << fNoteTupletFactor.asString ();
       break;
 
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInTuplet:
       s <<
         "TupletUnpitchedMemberNote" <<
         ", whole notes: " <<
@@ -4575,14 +4575,14 @@ string msrNote::asString () const
     "[=== ";
 
   switch (fNoteKind) {
-    case k_NoNoteKind:
+    case k_NoNote:
       s <<
-        "noNoteKind???";
+        "*noNote*";
       break;
 
-    case kNoteRest:
+    case kNoteRestInMeasure:
       s <<
-        "restNote, ";
+        "noteRestInMeasure, ";
 
       if (fNoteOccupiesAFullMeasure) {
         s <<
@@ -4604,58 +4604,58 @@ string msrNote::asString () const
         nonSoundingNoteEssentialsAsString ();
       break;
 
-    case kNoteSkip:
+    case kNoteSkipInMeasure:
       s <<
-        "skipNote:" <<
+        "noteSkipInMeasure:" <<
         nonSoundingNoteEssentialsAsString ();
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       s <<
-        "unpitchedNote " <<
+        "noteUnpitchedInMeasure " <<
         nonSoundingNoteEssentialsAsString ();
       break;
 
-    case kNoteRegular:
+    case kNoteRegularInMeasure:
       s <<
-        "regularNote " <<
+        "noteRegularInMeasure " <<
         soundingNoteEssentialsAsString ();
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       s <<
-        "doubleTremoloMemberNote " <<
+        "noteInDoubleTremolo " <<
         soundingNoteEssentialsAsString ();
       break;
 
-    case kNoteGrace:
+    case kNoteRegularInGraceNotesGroup:
       s <<
-        "graceNote '" <<
+        "noteRegularInGraceNotesGroup '" <<
         nonSoundingNoteEssentialsAsString ();
       break;
 
-    case kNoteGraceSkip:
+    case kNoteSkipInGraceNotesGroup:
       s <<
-        "graceSkipNote " <<
+        "noteSkipInGraceNotesGroup " <<
         nonSoundingNoteEssentialsAsString ();
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       s <<
-        "graceChordMemberNote " <<
+        "noteInChordInGraceNotesGroup " <<
         nonSoundingNoteEssentialsAsString () <<
         ", noteTupletFactor " << fNoteTupletFactor.asString ();
       break;
 
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       s <<
-        "chordMemberNote '" <<
+        "noteRegularInChord '" <<
         soundingNoteEssentialsAsString ();
       break;
 
-    case kNoteTupletMember:
+    case kNoteRegularInTuplet:
       s <<
-        "tupletMemberNote '" <<
+        "noteRegularInTuplet '" <<
         soundingNoteEssentialsAsString ();
 /* JMI
         notePartUpLink ()->
@@ -4667,15 +4667,15 @@ string msrNote::asString () const
             */
       break;
 
-    case kNoteTupletRestMember:
+    case kNoteRestInTuplet:
       s <<
-        "tupletRestMemberNote '" <<
+        "noteRestInTuplet '" <<
         nonSoundingNoteEssentialsAsString ();
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       s <<
-        "graceTupletMemberNote '" <<
+        "noteInTupletInGraceNotesGroup '" <<
         nonSoundingNoteEssentialsAsString ();
 /* JMI
         notePartUpLink ()->
@@ -4690,9 +4690,9 @@ string msrNote::asString () const
         ", noteTupletFactor " << fNoteTupletFactor.asString ();
       break;
 
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInTuplet:
       s <<
-        "tupletUnpitchedMemberNote " <<
+        "noteUnpitchedInTuplet " <<
         noteSoundingWholeNotesAsMsrString ();
 /* JMI
         notePartUpLink ()->
@@ -4778,7 +4778,7 @@ void msrNote::print (ostream& os) const
 {
   // print the note itself
   os <<
-    asString () <<
+    asShortString () <<
     endl;
 
   ++gIndenter;
@@ -4910,14 +4910,14 @@ void msrNote::print (ostream& os) const
 
   // print sounding and displayed whole notes
   switch (fNoteKind) {
-    case k_NoNoteKind:
-    case kNoteRest:
-    case kNoteSkip:
-    case kNoteGraceSkip:
-    case kNoteUnpitched:
-    case kNoteRegular:
-    case kNoteDoubleTremoloMember:
-    case kNoteChordMember:
+    case k_NoNote:
+    case kNoteRestInMeasure:
+    case kNoteSkipInMeasure:
+    case kNoteSkipInGraceNotesGroup:
+    case kNoteUnpitchedInMeasure:
+    case kNoteRegularInMeasure:
+    case kNoteInDoubleTremolo:
+    case kNoteRegularInChord:
       os << left <<
         setw (fieldWidth) <<
         "noteSoundingWholeNotes" << " : " <<
@@ -4929,8 +4929,8 @@ void msrNote::print (ostream& os) const
         endl;
       break;
 
-    case kNoteGrace:
-    case kNoteGraceChordMember:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteInChordInGraceNotesGroup:
       os <<
         setw (fieldWidth) <<
         "noteDisplayWholeNotes" << " : " <<
@@ -4938,10 +4938,10 @@ void msrNote::print (ostream& os) const
         endl;
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
-    case kNoteGraceTupletMember:
-    case kNoteTupletUnpitchedMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
+    case kNoteInTupletInGraceNotesGroup:
+    case kNoteUnpitchedInTuplet:
       os <<
         setw (fieldWidth) <<
         "noteSoundingWholeNotes" << " : " <<
@@ -5218,10 +5218,10 @@ void msrNote::print (ostream& os) const
 
   // print whole notes durations as MSR strings
   switch (fNoteKind) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRest:
+    case kNoteRestInMeasure:
       os << left <<
         setw (fieldWidth) <<
         "noteSoundingWholeNotesAsMsrString" << " : \"" <<
@@ -5230,7 +5230,7 @@ void msrNote::print (ostream& os) const
         endl;
       break;
 
-    case kNoteSkip:
+    case kNoteSkipInMeasure:
       os << left <<
         setw (fieldWidth) <<
         "noteSoundingWholeNotesAsMsrString" << " : \"" <<
@@ -5239,7 +5239,7 @@ void msrNote::print (ostream& os) const
         endl;
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       os << left <<
         setw (fieldWidth) <<
         "noteSoundingWholeNotesAsMsrString" << " : \"" <<
@@ -5262,7 +5262,7 @@ void msrNote::print (ostream& os) const
         endl;
       break;
 
-    case kNoteRegular:
+    case kNoteRegularInMeasure:
       os << left <<
         setw (fieldWidth) <<
         "noteSoundingWholeNotesAsMsrString" << " : \"" <<
@@ -5281,12 +5281,12 @@ void msrNote::print (ostream& os) const
         endl;
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       // JMI
       break;
 
-    case kNoteGrace:
-    case kNoteGraceChordMember:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteInChordInGraceNotesGroup:
       os << left <<
         setw (fieldWidth) <<
         "noteGraphicDurationAsMsrString" << " : \"" <<
@@ -5295,7 +5295,7 @@ void msrNote::print (ostream& os) const
         endl;
       break;
 
-    case kNoteGraceSkip:
+    case kNoteSkipInGraceNotesGroup:
       os << left <<
         setw (fieldWidth) <<
         "noteSoundingWholeNotes" << " : " <<
@@ -5312,14 +5312,14 @@ void msrNote::print (ostream& os) const
         endl;
       break;
 
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       // JMI
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
-    case kNoteGraceTupletMember:
-    case kNoteTupletUnpitchedMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
+    case kNoteInTupletInGraceNotesGroup:
+    case kNoteUnpitchedInTuplet:
       /* JMI
       os << left <<
         setw (fieldWidth) <<
@@ -6520,13 +6520,13 @@ void msrNote::printShort (ostream& os) const
 
   // print sounding and displayed whole notes
   switch (fNoteKind) {
-    case k_NoNoteKind:
-    case kNoteRest:
-    case kNoteSkip:
-    case kNoteUnpitched:
-    case kNoteRegular:
-    case kNoteDoubleTremoloMember:
-    case kNoteChordMember:
+    case k_NoNote:
+    case kNoteRestInMeasure:
+    case kNoteSkipInMeasure:
+    case kNoteUnpitchedInMeasure:
+    case kNoteRegularInMeasure:
+    case kNoteInDoubleTremolo:
+    case kNoteRegularInChord:
       os << left <<
         setw (fieldWidth) <<
         "noteSoundingWholeNotes" << " : " <<
@@ -6538,8 +6538,8 @@ void msrNote::printShort (ostream& os) const
         endl;
       break;
 
-    case kNoteGrace:
-    case kNoteGraceChordMember:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteInChordInGraceNotesGroup:
       os <<
         setw (fieldWidth) <<
         "noteDisplayWholeNotes" << " : " <<
@@ -6547,7 +6547,7 @@ void msrNote::printShort (ostream& os) const
         endl;
       break;
 
-    case kNoteGraceSkip:
+    case kNoteSkipInGraceNotesGroup:
       os << left <<
         setw (fieldWidth) <<
         "noteSoundingWholeNotes" << " : " <<
@@ -6564,10 +6564,10 @@ void msrNote::printShort (ostream& os) const
         endl;
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
-    case kNoteGraceTupletMember:
-    case kNoteTupletUnpitchedMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
+    case kNoteInTupletInGraceNotesGroup:
+    case kNoteUnpitchedInTuplet:
       os <<
         setw (fieldWidth) <<
         "noteSoundingWholeNotes" << " : " <<
@@ -6847,10 +6847,10 @@ void msrNote::printShort (ostream& os) const
 
   // print whole notes durations as MSR strings
   switch (fNoteKind) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRest:
+    case kNoteRestInMeasure:
       {
         os << left <<
           setw (fieldWidth) <<
@@ -6861,8 +6861,8 @@ void msrNote::printShort (ostream& os) const
       }
       break;
 
-    case kNoteSkip:
-    case kNoteGraceSkip:
+    case kNoteSkipInMeasure:
+    case kNoteSkipInGraceNotesGroup:
       {
         os << left <<
           setw (fieldWidth) <<
@@ -6873,28 +6873,7 @@ void msrNote::printShort (ostream& os) const
       }
       break;
 
-    case kNoteUnpitched:
-      {
-        os << left <<
-          setw (fieldWidth) <<
-          "noteSoundingWholeNotesAsMsrString" << " : \"" <<
-          noteSoundingWholeNotesAsMsrString () <<
-          "\"" <<
-          endl <<
-          setw (fieldWidth) <<
-          "noteDisplayWholeNotesAsMsrString" << " : \"" <<
-          noteDisplayWholeNotesAsMsrString () <<
-          "\"" <<
-          endl <<
-          setw (fieldWidth) <<
-          "noteGraphicDurationAsMsrString" << " : \"" <<
-          noteGraphicDurationAsMsrString () <<
-          "\"" <<
-          endl;
-      }
-      break;
-
-    case kNoteRegular:
+    case kNoteUnpitchedInMeasure:
       {
         os << left <<
           setw (fieldWidth) <<
@@ -6915,14 +6894,35 @@ void msrNote::printShort (ostream& os) const
       }
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteRegularInMeasure:
+      {
+        os << left <<
+          setw (fieldWidth) <<
+          "noteSoundingWholeNotesAsMsrString" << " : \"" <<
+          noteSoundingWholeNotesAsMsrString () <<
+          "\"" <<
+          endl <<
+          setw (fieldWidth) <<
+          "noteDisplayWholeNotesAsMsrString" << " : \"" <<
+          noteDisplayWholeNotesAsMsrString () <<
+          "\"" <<
+          endl <<
+          setw (fieldWidth) <<
+          "noteGraphicDurationAsMsrString" << " : \"" <<
+          noteGraphicDurationAsMsrString () <<
+          "\"" <<
+          endl;
+      }
+      break;
+
+    case kNoteInDoubleTremolo:
       {
         // JMI
       }
       break;
 
-    case kNoteGrace:
-    case kNoteGraceChordMember:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteInChordInGraceNotesGroup:
       {
         os << left <<
           setw (fieldWidth) <<
@@ -6933,16 +6933,16 @@ void msrNote::printShort (ostream& os) const
       }
       break;
 
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       {
         // JMI
       }
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
-    case kNoteGraceTupletMember:
-    case kNoteTupletUnpitchedMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
+    case kNoteInTupletInGraceNotesGroup:
+    case kNoteUnpitchedInTuplet:
       / * JMI
       os << left <<
         setw (fieldWidth) <<

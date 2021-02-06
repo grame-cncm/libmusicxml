@@ -5815,16 +5815,16 @@ void msr2mxmlTreeTranslator:: appendNoteTupletIfRelevant (
 #endif
 
   switch (theMsrNote->getNoteKind ()) {
-    case k_NoNoteKind:
-    case kNoteRest:
-    case kNoteSkip:
-    case kNoteUnpitched:
-    case kNoteRegular:
-    case kNoteChordMember:
+    case k_NoNote:
+    case kNoteRestInMeasure:
+    case kNoteSkipInMeasure:
+    case kNoteUnpitchedInMeasure:
+    case kNoteRegularInMeasure:
+    case kNoteRegularInChord:
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
       {
         // get theMsrNote's tuplet uplink
         S_msrTuplet
@@ -5876,18 +5876,18 @@ void msr2mxmlTreeTranslator:: appendNoteTupletIfRelevant (
       }
       break;
 
-    case kNoteDoubleTremoloMember:
-    case kNoteGrace:
-    case kNoteGraceSkip:
+    case kNoteInDoubleTremolo:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       break;
 
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInTuplet:
       break;
   } // switch
 }
@@ -6587,7 +6587,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
 
   // append the chord sub element if relevant
   switch (noteKind) {
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       if (! theMsrNote->getNoteIsAChordsFirstMemberNote ()) {
         fCurrentNoteElement->push (createMxmlElement (k_chord, ""));
       }
@@ -6598,8 +6598,8 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
 
   // append the grace sub element if relevant
   switch (noteKind) {
-    case kNoteGrace:
-    case kNoteGraceSkip:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
       fCurrentNoteElement->push (createMxmlElement (k_grace, ""));
       break;
     default:
@@ -6608,22 +6608,22 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
 
   // append the step and pitch or rest sub elements
   switch (noteKind) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRest:
+    case kNoteRestInMeasure:
       fCurrentNoteElement->push (createMxmlElement (k_rest, ""));
       break;
 
-    case kNoteSkip:
+    case kNoteSkipInMeasure:
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       break;
 
-    case kNoteRegular:
-    case kNoteChordMember:
-    case kNoteTupletMember:
+    case kNoteRegularInMeasure:
+    case kNoteRegularInChord:
+    case kNoteRegularInTuplet:
       {
         // create the pitch element
         Sxmlelement pitchElement = createMxmlElement (k_pitch, "");
@@ -6654,15 +6654,15 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
       }
       break;
 
-    case kNoteTupletRestMember:
+    case kNoteRestInTuplet:
       fCurrentNoteElement->push (createMxmlElement (k_rest, ""));
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       break;
 
-    case kNoteGrace:
-    case kNoteGraceSkip:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
       {
         // create the pitch element
         Sxmlelement pitchElement = createMxmlElement (k_pitch, "");
@@ -6694,13 +6694,13 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
       }
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       break;
 
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInTuplet:
       break;
   } // switch
 }
@@ -6753,42 +6753,42 @@ void msr2mxmlTreeTranslator::appendDurationToNoteIfRelevant (
   bool doAppendDuration = false;
 
   switch (noteKind) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteSkip:
+    case kNoteSkipInMeasure:
       // nothing is generated at once for a skip note
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       break;
 
-    case kNoteRest:
-    case kNoteRegular:
-    case kNoteChordMember:
+    case kNoteRestInMeasure:
+    case kNoteRegularInMeasure:
+    case kNoteRegularInChord:
       doAppendDuration = true;
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
       doAppendDuration = true;
       break;
 
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       break;
 
-    case kNoteGrace:
-    case kNoteGraceSkip:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       break;
 
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInTuplet:
       break;
   } // switch
 
@@ -6866,36 +6866,36 @@ void msr2mxmlTreeTranslator::appendTimeModificationToNoteIfRelevant (
 
   // append the time modification if relevant
   switch (noteKind) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRest:
+    case kNoteRestInMeasure:
       break;
 
-    case kNoteSkip:
+    case kNoteSkipInMeasure:
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       break;
 
-    case kNoteRegular:
+    case kNoteRegularInMeasure:
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       break;
 
-    case kNoteGrace:
-    case kNoteGraceSkip:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       break;
 
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
       {
         Sxmlelement
           timeModificationElement = createMxmlElement (k_time_modification, "");
@@ -6913,10 +6913,10 @@ void msr2mxmlTreeTranslator::appendTimeModificationToNoteIfRelevant (
       }
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       break;
 
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInTuplet:
       break;
   } // switch
 }
@@ -6941,22 +6941,22 @@ void msr2mxmlTreeTranslator::appendMsrNoteToMesureIfRelevant (
   bool doGenerateNote = true;
 
   switch (theMsrNote->getNoteKind ()) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
-    case kNoteRest:
+    case kNoteRestInMeasure:
       break;
-    case kNoteSkip:
+    case kNoteSkipInMeasure:
       doGenerateNote = false;
       // cumulating the skip notes durations for <forward /> elements generation
       fCurrentCumulatedSkipsDurations +=
         theMsrNote->getNoteSoundingWholeNotes ();
       break;
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       break;
-    case kNoteRegular:
+    case kNoteRegularInMeasure:
       break;
 
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       if (theMsrNote->getNoteIsAChordsFirstMemberNote ()) {
         if (false && fPendingChordStartCommentElement) { // JMI
           // append the pending chord start comment to the current part element
@@ -6965,22 +6965,22 @@ void msr2mxmlTreeTranslator::appendMsrNoteToMesureIfRelevant (
       }
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
       break;
 
-    case kNoteDoubleTremoloMember:
-    case kNoteGrace:
-    case kNoteGraceSkip:
+    case kNoteInDoubleTremolo:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       break;
 
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInTuplet:
       break;
   } // switch
 
@@ -7001,43 +7001,43 @@ void msr2mxmlTreeTranslator::appendMsrNoteToMesureIfRelevant (
     bool doGenerateType = true;
 
     switch (theMsrNote->getNoteKind ()) {
-      case k_NoNoteKind:
+      case k_NoNote:
         break;
 
-      case kNoteRest:
+      case kNoteRestInMeasure:
         doGenerateType = false;
         break;
 
-      case kNoteSkip:
+      case kNoteSkipInMeasure:
         break;
 
-      case kNoteUnpitched:
+      case kNoteUnpitchedInMeasure:
         break;
 
-      case kNoteRegular:
+      case kNoteRegularInMeasure:
         break;
 
-      case kNoteChordMember:
+      case kNoteRegularInChord:
         break;
 
-      case kNoteTupletMember:
-      case kNoteTupletRestMember:
+      case kNoteRegularInTuplet:
+      case kNoteRestInTuplet:
         break;
 
-      case kNoteDoubleTremoloMember:
+      case kNoteInDoubleTremolo:
         break;
 
-      case kNoteGrace:
-      case kNoteGraceSkip:
+      case kNoteRegularInGraceNotesGroup:
+      case kNoteSkipInGraceNotesGroup:
         break;
 
-      case kNoteGraceChordMember:
+      case kNoteInChordInGraceNotesGroup:
         break;
 
-      case kNoteGraceTupletMember:
+      case kNoteInTupletInGraceNotesGroup:
         break;
 
-      case kNoteTupletUnpitchedMember:
+      case kNoteUnpitchedInTuplet:
         break;
     } // switch
 
@@ -7318,42 +7318,42 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrNote& elt)
   bool doRememberThisNote = false;
 
   switch (elt->getNoteKind ()) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRest:
+    case kNoteRestInMeasure:
       doRememberThisNote = true;
       break;
 
-    case kNoteSkip:
+    case kNoteSkipInMeasure:
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       doRememberThisNote = true;
       break;
 
-    case kNoteRegular:
-    case kNoteChordMember:
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
+    case kNoteRegularInMeasure:
+    case kNoteRegularInChord:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
       doRememberThisNote = true;
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       doRememberThisNote = true; // JMI ???
       break;
 
-    case kNoteGrace:
-    case kNoteGraceSkip:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       break;
 
-    case kNoteGraceTupletMember:
+    case kNoteInTupletInGraceNotesGroup:
       break;
 
-    case kNoteTupletUnpitchedMember:
+    case kNoteUnpitchedInTuplet:
       doRememberThisNote = true;
       break;
   } // switch
@@ -9024,7 +9024,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSlur& elt)
   if (fOnGoingNonGraceNote) {
     // don't add slurs to chord member notes except the first one
     switch (fCurrentNonGraceNoteClone->getNoteKind ()) {
-      case kNoteChordMember:
+      case kNoteRegularInChord:
         if (fCurrentNonGraceNoteClone->getNoteIsAChordsFirstMemberNote ()) {
           fCurrentNonGraceNoteClone->
             appendSlurToNote (elt);

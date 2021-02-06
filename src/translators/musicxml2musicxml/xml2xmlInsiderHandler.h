@@ -29,17 +29,17 @@ class EXP xml2xmlInsiderHandler : public oahInsiderHandler
     // ------------------------------------------------------
 
     static SMARTP<xml2xmlInsiderHandler> create (
-      string executableName,
-      string handlerHeader);
+                            string executableName,
+                            string handlerHeader);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2xmlInsiderHandler (
-      string executableName,
-      string handlerHeader);
+                          xml2xmlInsiderHandler (
+                            string executableName,
+                            string handlerHeader);
 
     virtual               ~xml2xmlInsiderHandler ();
 
@@ -112,7 +112,7 @@ class EXP xml2xmlInsiderOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2xmlInsiderOahGroup ();
+                          xml2xmlInsiderOahGroup ();
 
     virtual               ~xml2xmlInsiderOahGroup ();
 

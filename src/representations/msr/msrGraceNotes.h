@@ -176,11 +176,11 @@ class EXP msrGraceNotesGroup : public msrElement
     // private fields
     // ------------------------------------------------------
 
-    // upLinks
-    S_msrNote             fGraceNotesGroupNoteUpLink;
-
     msrGraceNotesGroupKind
                           fGraceNotesGroupKind;
+
+    // note upLink
+    S_msrNote             fGraceNotesGroupNoteUpLink;
 
     list<S_msrMeasureElement>
                           fGraceNotesGroupElementsList;

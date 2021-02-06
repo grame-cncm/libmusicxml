@@ -46,7 +46,7 @@ class EXP mxmlTreeOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    mxmlTreeOahGroup ();
+                          mxmlTreeOahGroup ();
 
     virtual               ~mxmlTreeOahGroup ();
 

@@ -43,17 +43,17 @@ class EXP lpsrParallelMusicBLock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrParallelMusicBLock> create (
-      int                       inputLineNumber,
-      lpsrElementsSeparatorKind elementsSeparatorKind);
+                            int                       inputLineNumber,
+                            lpsrElementsSeparatorKind elementsSeparatorKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrParallelMusicBLock (
-      int                       inputLineNumber,
-      lpsrElementsSeparatorKind elementsSeparatorKind);
+                          lpsrParallelMusicBLock (
+                            int                       inputLineNumber,
+                            lpsrElementsSeparatorKind elementsSeparatorKind);
 
     virtual               ~lpsrParallelMusicBLock ();
 

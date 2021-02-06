@@ -21,17 +21,17 @@ class EXP bsrSpaces : public bsrLineContentsElement
     // ------------------------------------------------------
 
     static SMARTP<bsrSpaces> create (
-      int inputLineNumber,
-      int numberOfSpaces);
+                            int inputLineNumber,
+                            int numberOfSpaces);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrSpaces (
-      int inputLineNumber,
-      int numberOfSpaces);
+                          bsrSpaces (
+                            int inputLineNumber,
+                            int numberOfSpaces);
 
     virtual               ~bsrSpaces ();
 

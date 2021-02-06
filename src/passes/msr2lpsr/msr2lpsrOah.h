@@ -32,25 +32,25 @@ class EXP msr2lpsrScoreOutputKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<msr2lpsrScoreOutputKindAtom> create (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               valueSpecification,
-      string               variableName,
-      lpsrScoreOutputKind& lpsrScoreOutputKindVariable);
+                            string               shortName,
+                            string               longName,
+                            string               description,
+                            string               valueSpecification,
+                            string               variableName,
+                            lpsrScoreOutputKind& lpsrScoreOutputKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2lpsrScoreOutputKindAtom (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               valueSpecification,
-      string               variableName,
-      lpsrScoreOutputKind& lpsrScoreOutputKindVariable);
+                          msr2lpsrScoreOutputKindAtom (
+                            string               shortName,
+                            string               longName,
+                            string               description,
+                            string               valueSpecification,
+                            string               variableName,
+                            lpsrScoreOutputKind& lpsrScoreOutputKindVariable);
 
     virtual               ~msr2lpsrScoreOutputKindAtom ();
 
@@ -128,7 +128,7 @@ class EXP msr2lpsrOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2lpsrOahGroup ();
+                          msr2lpsrOahGroup ();
 
     virtual               ~msr2lpsrOahGroup ();
 

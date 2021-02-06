@@ -28,21 +28,21 @@ class EXP xml2brlManPageGenerateAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<xml2brlManPageGenerateAtom> create (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                            string       shortName,
+                            string       longName,
+                            string       description,
+                            S_oahVisitor theOahVisitor);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2brlManPageGenerateAtom (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                          xml2brlManPageGenerateAtom (
+                            string       shortName,
+                            string       longName,
+                            string       description,
+                            S_oahVisitor theOahVisitor);
 
     virtual               ~xml2brlManPageGenerateAtom ();
 
@@ -105,7 +105,7 @@ class EXP xml2brlManPageOahGroup : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<xml2brlManPageOahGroup> create (
-      S_oahVisitor theOah2manPageGenerator);
+                            S_oahVisitor theOah2manPageGenerator);
 
   public:
 
@@ -120,8 +120,8 @@ class EXP xml2brlManPageOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2brlManPageOahGroup (
-      S_oahVisitor theOah2manPageGenerator);
+                          xml2brlManPageOahGroup (
+                            S_oahVisitor theOah2manPageGenerator);
 
     virtual               ~xml2brlManPageOahGroup ();
 

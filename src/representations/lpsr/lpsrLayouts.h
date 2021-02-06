@@ -28,15 +28,15 @@ class EXP lpsrLayout : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrLayout> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrLayout (
-      int inputLineNumber);
+                          lpsrLayout (
+                            int inputLineNumber);
 
     virtual               ~lpsrLayout ();
 

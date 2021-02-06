@@ -32,7 +32,7 @@ class EXP Mikrokosmos3WanderingRegularHandler : public oahRegularHandler
     // creation
     // ------------------------------------------------------
 
-                          static SMARTP<Mikrokosmos3WanderingRegularHandler> create (
+    static SMARTP<Mikrokosmos3WanderingRegularHandler> create (
                             string              executableName,
                             string              handlerHeader,
                             S_Mikrokosmos3WanderingInsiderHandler

@@ -36,19 +36,19 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrNewLyricsBlock> create (
-      int         inputLineNumber,
-      S_msrStanza stanza,
-      S_msrVoice  voice);
+                            int         inputLineNumber,
+                            S_msrStanza stanza,
+                            S_msrVoice  voice);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrNewLyricsBlock (
-      int         inputLineNumber,
-      S_msrStanza stanza,
-      S_msrVoice  voice);
+                          lpsrNewLyricsBlock (
+                            int         inputLineNumber,
+                            S_msrStanza stanza,
+                            S_msrVoice  voice);
 
     virtual               ~lpsrNewLyricsBlock ();
 

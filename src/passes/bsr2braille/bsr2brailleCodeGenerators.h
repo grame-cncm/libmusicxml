@@ -61,7 +61,7 @@ class EXP bsrBrailleGenerator : public smartable
 
 /* this class is purely virtual
     static SMARTP<bsrBrailleGenerator> create (
-      ostream& brailleOutputStream);
+                            ostream& brailleOutputStream);
 */
 
   protected:
@@ -69,8 +69,8 @@ class EXP bsrBrailleGenerator : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrBrailleGenerator (
-      ostream& brailleOutputStream);
+                          bsrBrailleGenerator (
+                            ostream& brailleOutputStream);
 
     virtual               ~bsrBrailleGenerator ();
 
@@ -124,15 +124,15 @@ class EXP bsrAsciiBrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     static SMARTP<bsrAsciiBrailleGenerator> create (
-      ostream& brailleOutputStream);
+                            ostream& brailleOutputStream);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrAsciiBrailleGenerator (
-      ostream& brailleOutputStream);
+                          bsrAsciiBrailleGenerator (
+                            ostream& brailleOutputStream);
 
     virtual               ~bsrAsciiBrailleGenerator ();
 
@@ -177,17 +177,17 @@ class EXP bsrUTF8BrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     static SMARTP<bsrUTF8BrailleGenerator> create (
-      bsrByteOrderingKind byteOrderingKind,
-      ostream&            brailleOutputStream);
+                            bsrByteOrderingKind byteOrderingKind,
+                            ostream&            brailleOutputStream);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrUTF8BrailleGenerator (
-      bsrByteOrderingKind byteOrderingKind,
-      ostream&            brailleOutputStream);
+                          bsrUTF8BrailleGenerator (
+                            bsrByteOrderingKind byteOrderingKind,
+                            ostream&            brailleOutputStream);
 
     virtual               ~bsrUTF8BrailleGenerator ();
 
@@ -237,17 +237,17 @@ class EXP bsrUTF8DebugBrailleGenerator : public bsrUTF8BrailleGenerator
     // ------------------------------------------------------
 
     static SMARTP<bsrUTF8DebugBrailleGenerator> create (
-      bsrByteOrderingKind byteOrderingKind,
-      ostream&            brailleOutputStream);
+                            bsrByteOrderingKind byteOrderingKind,
+                            ostream&            brailleOutputStream);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrUTF8DebugBrailleGenerator (
-      bsrByteOrderingKind byteOrderingKind,
-      ostream&            brailleOutputStream);
+                          bsrUTF8DebugBrailleGenerator (
+                            bsrByteOrderingKind byteOrderingKind,
+                            ostream&            brailleOutputStream);
 
     virtual               ~bsrUTF8DebugBrailleGenerator ();
 
@@ -293,17 +293,17 @@ class EXP bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     static SMARTP<bsrUTF16BigEndianBrailleGenerator> create (
-      bsrByteOrderingKind byteOrderingKind,
-      ostream&            brailleOutputStream);
+                            bsrByteOrderingKind byteOrderingKind,
+                            ostream&            brailleOutputStream);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrUTF16BigEndianBrailleGenerator (
-      bsrByteOrderingKind byteOrderingKind,
-      ostream&            brailleOutputStream);
+                          bsrUTF16BigEndianBrailleGenerator (
+                            bsrByteOrderingKind byteOrderingKind,
+                            ostream&            brailleOutputStream);
 
     virtual               ~bsrUTF16BigEndianBrailleGenerator ();
 
@@ -353,17 +353,17 @@ class EXP bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     static SMARTP<bsrUTF16SmallEndianBrailleGenerator> create (
-      bsrByteOrderingKind byteOrderingKind,
-      ostream&            brailleOutputStream);
+                            bsrByteOrderingKind byteOrderingKind,
+                            ostream&            brailleOutputStream);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrUTF16SmallEndianBrailleGenerator (
-      bsrByteOrderingKind byteOrderingKind,
-      ostream&            brailleOutputStream);
+                          bsrUTF16SmallEndianBrailleGenerator (
+                            bsrByteOrderingKind byteOrderingKind,
+                            ostream&            brailleOutputStream);
 
     virtual               ~bsrUTF16SmallEndianBrailleGenerator ();
 

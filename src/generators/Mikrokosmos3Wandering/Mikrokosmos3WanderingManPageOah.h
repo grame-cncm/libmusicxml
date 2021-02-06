@@ -30,10 +30,10 @@ class EXP Mikrokosmos3WanderingManPageGenerateAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<Mikrokosmos3WanderingManPageGenerateAtom> create (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
   protected:
 
@@ -107,7 +107,7 @@ class EXP Mikrokosmos3WanderingManPageOahGroup : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<Mikrokosmos3WanderingManPageOahGroup> create (
-      S_oahVisitor theOah2manPageGenerator);
+                            S_oahVisitor theOah2manPageGenerator);
 
   public:
 
@@ -122,8 +122,8 @@ class EXP Mikrokosmos3WanderingManPageOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    Mikrokosmos3WanderingManPageOahGroup (
-      S_oahVisitor theOah2manPageGenerator);
+                          Mikrokosmos3WanderingManPageOahGroup (
+                            S_oahVisitor theOah2manPageGenerator);
 
     virtual               ~Mikrokosmos3WanderingManPageOahGroup ();
 

@@ -410,9 +410,9 @@ class EXP msrNote : public msrTupletElement
                             // shortcut for efficiency
                               {
                                 return
-                                  fNoteKind == kNoteRest
+                                  fNoteKind == kNoteRestInMeasure
                                     ||
-                                  fNoteKind == kNoteTupletRestMember;
+                                  fNoteKind == kNoteRestInTuplet;
                               }
 
     // unpitched?
@@ -420,10 +420,10 @@ class EXP msrNote : public msrTupletElement
                               {
                                 return
                                   fNoteKind ==
-                                    kNoteUnpitched
+                                    kNoteUnpitchedInMeasure
                                     ||
                                   fNoteKind ==
-                                    kNoteTupletUnpitchedMember;
+                                    kNoteUnpitchedInTuplet;
                               }
 
     // cue note?
@@ -455,13 +455,13 @@ class EXP msrNote : public msrTupletElement
     bool                  getNoteIsAGraceNote () const
                               {
                                 return
-                                  fNoteKind == kNoteGrace
+                                  fNoteKind == kNoteRegularInGraceNotesGroup
                                     ||
-                                  fNoteKind == kNoteGraceSkip
+                                  fNoteKind == kNoteSkipInGraceNotesGroup
                                     ||
-                                  fNoteKind == kNoteGraceChordMember
+                                  fNoteKind == kNoteInChordInGraceNotesGroup
                                     ||
-                                  fNoteKind == kNoteGraceTupletMember;
+                                  fNoteKind == kNoteInTupletInGraceNotesGroup;
                               }
 
     // harmonies

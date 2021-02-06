@@ -18,21 +18,21 @@ class EXP bsrPageHeading : public bsrLine
     // ------------------------------------------------------
 
     static SMARTP<bsrPageHeading> create (
-      int             inputLineNumber,
-      string          pageHeadingTitle,
-      S_bsrPagination pageHeadingPagination,
-      int             pageHeadingNumber);
+                            int             inputLineNumber,
+                            string          pageHeadingTitle,
+                            S_bsrPagination pageHeadingPagination,
+                            int             pageHeadingNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrPageHeading (
-      int             inputLineNumber,
-      string          pageHeadingTitle,
-      S_bsrPagination pageHeadingPagination,
-      int             pageHeadingNumber);
+                          bsrPageHeading (
+                            int             inputLineNumber,
+                            string          pageHeadingTitle,
+                            S_bsrPagination pageHeadingPagination,
+                            int             pageHeadingNumber);
 
     virtual               ~bsrPageHeading ();
 

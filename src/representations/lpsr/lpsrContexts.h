@@ -52,21 +52,21 @@ class EXP lpsrContext : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrContext> create (
-      int                     inputLineNumber,
-      lpsrContextExistingKind contextExistingKind,
-      lpsrContextTypeKind     contextTypeKind,
-      string                  contextName);
+                            int                     inputLineNumber,
+                            lpsrContextExistingKind contextExistingKind,
+                            lpsrContextTypeKind     contextTypeKind,
+                            string                  contextName);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrContext (
-      int                     inputLineNumber,
-      lpsrContextExistingKind contextExistingKind,
-      lpsrContextTypeKind     contextTypeKind,
-      string                  contextName);
+                          lpsrContext (
+                            int                     inputLineNumber,
+                            lpsrContextExistingKind contextExistingKind,
+                            lpsrContextTypeKind     contextTypeKind,
+                            string                  contextName);
 
     virtual               ~lpsrContext ();
 
@@ -145,21 +145,21 @@ class EXP lpsrChordNamesContext : public lpsrContext
     // ------------------------------------------------------
 
     static SMARTP<lpsrChordNamesContext> create (
-      int                     inputLineNumber,
-      lpsrContextExistingKind contextExistingKind,
-      string                  contextName,
-      S_msrVoice              contextVoice);
+                            int                     inputLineNumber,
+                            lpsrContextExistingKind contextExistingKind,
+                            string                  contextName,
+                            S_msrVoice              contextVoice);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrChordNamesContext (
-      int                     inputLineNumber,
-      lpsrContextExistingKind contextExistingKind,
-      string                  contextName,
-      S_msrVoice              contextVoice);
+                          lpsrChordNamesContext (
+                            int                     inputLineNumber,
+                            lpsrContextExistingKind contextExistingKind,
+                            string                  contextName,
+                            S_msrVoice              contextVoice);
 
     virtual               ~lpsrChordNamesContext ();
 
@@ -212,21 +212,21 @@ class EXP lpsrFiguredBassContext : public lpsrContext
     // ------------------------------------------------------
 
     static SMARTP<lpsrFiguredBassContext> create (
-      int                     inputLineNumber,
-      lpsrContextExistingKind contextExistingKind,
-      string                  contextName,
-      S_msrStaff              contextStaff);
+                            int                     inputLineNumber,
+                            lpsrContextExistingKind contextExistingKind,
+                            string                  contextName,
+                            S_msrStaff              contextStaff);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrFiguredBassContext (
-      int                     inputLineNumber,
-      lpsrContextExistingKind contextExistingKind,
-      string                  contextName,
-      S_msrStaff              contextStaff);
+                          lpsrFiguredBassContext (
+                            int                     inputLineNumber,
+                            lpsrContextExistingKind contextExistingKind,
+                            string                  contextName,
+                            S_msrStaff              contextStaff);
 
     virtual               ~lpsrFiguredBassContext ();
 

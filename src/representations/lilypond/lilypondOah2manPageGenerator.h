@@ -30,8 +30,8 @@ class EXP lilypondOah2manPageGenerator : virtual public oah2manPageGenerator
   public:
 
     lilypondOah2manPageGenerator (
-      const S_oahHandler handler,
-      ostream&           manPageOutputStream);
+                            const S_oahHandler handler,
+                            ostream&           manPageOutputStream);
 
     virtual               ~lilypondOah2manPageGenerator ();
 

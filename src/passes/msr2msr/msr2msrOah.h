@@ -32,25 +32,25 @@ class EXP msrOmitPartAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<msrOmitPartAtom> create (
-      string       shortName,
-      string       longName,
-      string       description,
-      string       valueSpecification,
-      string       variableName,
-      set<string>& stringSetVariable);
+                            string       shortName,
+                            string       longName,
+                            string       description,
+                            string       valueSpecification,
+                            string       variableName,
+                            set<string>& stringSetVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOmitPartAtom (
-      string       shortName,
-      string       longName,
-      string       description,
-      string       valueSpecification,
-      string       variableName,
-      set<string>& stringSetVariable);
+                          msrOmitPartAtom (
+                            string       shortName,
+                            string       longName,
+                            string       description,
+                            string       valueSpecification,
+                            string       variableName,
+                            set<string>& stringSetVariable);
 
     virtual               ~msrOmitPartAtom ();
 
@@ -118,25 +118,25 @@ class EXP msrKeepPartAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<msrKeepPartAtom> create (
-      string       shortName,
-      string       longName,
-      string       description,
-      string       valueSpecification,
-      string       variableName,
-      set<string>& stringSetVariable);
+                            string       shortName,
+                            string       longName,
+                            string       description,
+                            string       valueSpecification,
+                            string       variableName,
+                            set<string>& stringSetVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrKeepPartAtom (
-      string       shortName,
-      string       longName,
-      string       description,
-      string       valueSpecification,
-      string       variableName,
-      set<string>& stringSetVariable);
+                          msrKeepPartAtom (
+                            string       shortName,
+                            string       longName,
+                            string       description,
+                            string       valueSpecification,
+                            string       variableName,
+                            set<string>& stringSetVariable);
 
     virtual               ~msrKeepPartAtom ();
 
@@ -217,7 +217,7 @@ class EXP msr2msrOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2msrOahGroup ();
+                          msr2msrOahGroup ();
 
     virtual               ~msr2msrOahGroup ();
 

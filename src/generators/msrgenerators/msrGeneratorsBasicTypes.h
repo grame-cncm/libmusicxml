@@ -58,7 +58,7 @@ class EXP msrGenerationAPIKindAtom : public oahAtomWithValue
     // creation
     // ------------------------------------------------------
 
-                          static SMARTP<msrGenerationAPIKindAtom> create (
+    static SMARTP<msrGenerationAPIKindAtom> create (
                             const string&         shortName,
                             const string&         longName,
                             const string&         description,

@@ -23,8 +23,8 @@ class EXP bsrMeasure : public bsrLineContentsElement
     // ------------------------------------------------------
 
     static SMARTP<bsrMeasure> create (
-      int    inputLineNumber,
-      string printMeasureNumber);
+                            int    inputLineNumber,
+                            string printMeasureNumber);
 
     SMARTP<bsrMeasure> createMeasureNewbornClone ();
 
@@ -33,9 +33,9 @@ class EXP bsrMeasure : public bsrLineContentsElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrMeasure (
-      int    inputLineNumber,
-      string printMeasureNumber);
+                          bsrMeasure (
+                            int    inputLineNumber,
+                            string printMeasureNumber);
 
     virtual               ~bsrMeasure ();
 

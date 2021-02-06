@@ -30,21 +30,21 @@ class EXP msr2guidoManPageGenerateAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<msr2guidoManPageGenerateAtom> create (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2guidoManPageGenerateAtom (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                          msr2guidoManPageGenerateAtom (
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
     virtual               ~msr2guidoManPageGenerateAtom ();
 
@@ -106,7 +106,7 @@ class EXP msr2guidoManPageOahGroup : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<msr2guidoManPageOahGroup> create (
-      S_oahVisitor theOah2manPageGenerator);
+                            S_oahVisitor theOah2manPageGenerator);
 
   public:
 
@@ -121,8 +121,8 @@ class EXP msr2guidoManPageOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2guidoManPageOahGroup (
-      S_oahVisitor theOah2manPageGenerator);
+                          msr2guidoManPageOahGroup (
+                            S_oahVisitor theOah2manPageGenerator);
 
     virtual               ~msr2guidoManPageOahGroup ();
 

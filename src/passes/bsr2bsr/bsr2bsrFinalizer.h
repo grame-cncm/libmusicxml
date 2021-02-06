@@ -59,16 +59,16 @@ class EXP bsr2bsrFinalizer :
 {
   public:
 
-    bsr2bsrFinalizer (
-      const S_bsrOahGroup& bsrOpts,
-      S_bsrScore     originalBsrScore);
+                          bsr2bsrFinalizer (
+                            const S_bsrOahGroup& bsrOpts,
+                            S_bsrScore     originalBsrScore);
 
     virtual               ~bsr2bsrFinalizer ();
 
-    void generateFinalizedBsrScoreFromBsrScore ();
+    void                  generateFinalizedBsrScoreFromBsrScore ();
 
-    S_bsrScore getBsrScore () const
-        { return fBsrScore; }
+    S_bsrScore            getBsrScore () const
+                              { return fBsrScore; }
 
   protected:
 

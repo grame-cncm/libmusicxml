@@ -22,9 +22,9 @@ class EXP bsrPage : public bsrElement
     // ------------------------------------------------------
 
     static SMARTP<bsrPage> create (
-      int inputLineNumber,
-      int printPageNumber,
-      int linesPerPage);
+                            int inputLineNumber,
+                            int printPageNumber,
+                            int linesPerPage);
 
     SMARTP<bsrPage> createPageNewbornClone ();
 
@@ -33,10 +33,10 @@ class EXP bsrPage : public bsrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrPage (
-      int inputLineNumber,
-      int printPageNumber,
-      int linesPerPage);
+                          bsrPage (
+                            int inputLineNumber,
+                            int printPageNumber,
+                            int linesPerPage);
 
     virtual               ~bsrPage ();
 

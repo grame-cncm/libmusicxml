@@ -17,19 +17,19 @@ class EXP bsrPagination : public bsrLineContentsElement
     // ------------------------------------------------------
 
     static SMARTP<bsrPagination> create (
-      int inputLineNumber,
-      int printPageNumber,
-      int braillePageNumber);
+                            int inputLineNumber,
+                            int printPageNumber,
+                            int braillePageNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrPagination (
-      int inputLineNumber,
-      int printPageNumber,
-      int braillePageNumber);
+                          bsrPagination (
+                            int inputLineNumber,
+                            int printPageNumber,
+                            int braillePageNumber);
 
     virtual               ~bsrPagination ();
 

@@ -62,7 +62,7 @@ class EXP generatorOutputKindAtom : public oahAtomWithValue
     // creation
     // ------------------------------------------------------
 
-                          static SMARTP<generatorOutputKindAtom> create (
+    static SMARTP<generatorOutputKindAtom> create (
                             string               shortName,
                             string               longName,
                             string               description,

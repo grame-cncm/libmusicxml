@@ -41,7 +41,7 @@ class EXP lilypondOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondOahGroup ();
+                          lilypondOahGroup ();
 
     virtual               ~lilypondOahGroup ();
 

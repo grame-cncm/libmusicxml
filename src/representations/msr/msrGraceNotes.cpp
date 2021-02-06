@@ -289,6 +289,9 @@ void msrGraceNotesGroup::appendChordToGraceNotesGroup (S_msrChord chord)
   }
 #endif
 
+  // set the chord kind
+  chord->setChordKind (kChordInGraceNotesGroup);
+
   fGraceNotesGroupElementsList.push_back (chord);
 }
 

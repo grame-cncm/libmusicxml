@@ -2347,7 +2347,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   --gIndenter;
 }
 
-void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
+void msrMeasure::appendChordToMeasure (S_msrChord chord)
 {
   int inputLineNumber =
     chord->getInputLineNumber ();
@@ -2369,6 +2369,9 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
       endl;
   }
 #endif
+
+  // set the chord kind
+  chord->setChordKind (kChordInMeasure);
 
   // append the chord to the measure elements list
   appendElementToMeasure (chord);
@@ -2414,6 +2417,9 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
 #endif
 
   ++gIndenter;
+
+  // set the tuplet kind
+  tuplet->setTupletKind (kTupletInMeasure);
 
   // populate measure upLink
   tuplet->setTupletDirectMeasureUpLink (this);
@@ -6237,16 +6243,20 @@ string msrMeasure::asShortString () const
   s <<
     "[Measure " <<
     fMeasureElementMeasureNumber <<
-    ", measureKind: " <<
+// JMI    ", measureKind: " <<
+    ", " <<
     msrMeasureKindAsString (fMeasureKind) <<
-    ", voice: " <<
+// JMI    ", voice: " <<
+    ", " <<
     voice->getVoiceName () <<
+    /* JMI
     ", measureOrdinalNumberInVoice: " <<
     fMeasureOrdinalNumberInVoice <<
     ", measurePuristNumber: " <<
     fMeasurePuristNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
+    */
 /* JMI
     ", currentMeasureWholeNotesDuration: " << fCurrentMeasureWholeNotesDuration <<
     ", fullMeasureWholeNotesDuration: " << fFullMeasureWholeNotesDuration <<

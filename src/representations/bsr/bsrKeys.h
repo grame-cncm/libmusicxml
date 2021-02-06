@@ -27,7 +27,7 @@ class EXP bsrKey : public bsrLineContentsElement
     // creation
     // ------------------------------------------------------
 
-                          static SMARTP<bsrKey> create (
+    static SMARTP<bsrKey> create (
                             int          inputLineNumber,
                             bsrKeyKind   keyKind,
                             unsigned int numberOfAlterations);

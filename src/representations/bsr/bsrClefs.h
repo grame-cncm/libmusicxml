@@ -41,17 +41,17 @@ class EXP bsrClef : public bsrLineContentsElement
     // ------------------------------------------------------
 
     static SMARTP<bsrClef> create (
-      int         inputLineNumber,
-      bsrClefKind clefKind);
+                            int         inputLineNumber,
+                            bsrClefKind clefKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrClef (
-      int         inputLineNumber,
-      bsrClefKind clefKind);
+                          bsrClef (
+                            int         inputLineNumber,
+                            bsrClefKind clefKind);
 
     virtual               ~bsrClef ();
 

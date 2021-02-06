@@ -34,15 +34,15 @@ class EXP lpsrPartGroupBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrPartGroupBlock> create (
-      S_msrPartGroup partGroup);
+                            S_msrPartGroup partGroup);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrPartGroupBlock (
-      S_msrPartGroup partGroup);
+                          lpsrPartGroupBlock (
+                            S_msrPartGroup partGroup);
 
     virtual               ~lpsrPartGroupBlock ();
 

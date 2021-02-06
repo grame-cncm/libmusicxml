@@ -75,13 +75,13 @@ class EXP msr2bsrTranslator :
 {
   public:
 
-    msr2bsrTranslator (
-      ostream&   os,
-      S_msrScore theMsrScore);
+                          msr2bsrTranslator (
+                            ostream&   os,
+                            S_msrScore theMsrScore);
 
     virtual               ~msr2bsrTranslator ();
 
-    S_bsrScore buildBsrScoreFromMsrScore ();
+    S_bsrScore            buildBsrScoreFromMsrScore ();
 
   protected:
 

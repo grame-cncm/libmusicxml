@@ -52,6 +52,7 @@ string msrXMLLangKindAsString (
 //______________________________________________________________________________
 enum msrDiatonicPitchKind {
   k_NoDiatonicPitch,
+
   // starting at C for LilyPond relative octave calculations
   kDiatonicPitchC,
   kDiatonicPitchD, kDiatonicPitchE, kDiatonicPitchF,
@@ -308,8 +309,8 @@ EXP msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   Notes can have attached:
     grace notes groups (before and after the note).
 
-  Attempting to use classes to describe this graph would be a nightmare,
-  so we use an enum type in msrNote and uplinks wherever needed.
+  Attempting to use classes to describe this graph would be a nightmare:
+  we thus use enum types and uplinks to handles the variants.
 
   Direct uplinks are stored in fields, meaning that there is
   at least an indirect uplink though something else in the graph,
@@ -320,36 +321,65 @@ EXP msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
 */
 
 enum msrNoteKind {
-  k_NoNoteKind,
+  k_NoNote,
 
-  // measure member notes
-  kNoteRegular,
-  kNoteRest, kNoteSkip,
-  kNoteUnpitched,
+  // in measures
+  kNoteRegularInMeasure,
+  kNoteRestInMeasure,
+  kNoteSkipInMeasure, // an invisible rest
+  kNoteUnpitchedInMeasure,
 
-  // double-tremolo member notes
-  kNoteDoubleTremoloMember,
+  // in chords
+  kNoteRegularInChord,
 
-  // grace notes are always attached to a note
-  kNoteGrace, kNoteGraceSkip,
+  // in tuplets
+  kNoteRegularInTuplet,
+  kNoteRestInTuplet,
+  kNoteUnpitchedInTuplet,
 
-  // chord member notes
-  kNoteChordMember,
+  // in grace notes groups
+  kNoteRegularInGraceNotesGroup,
+  kNoteSkipInGraceNotesGroup, // used to circumvent LilyPond issue #34
 
-  // chords in grace notes groups notes
-  kNoteGraceChordMember,
+  // in chords in grace notes groups
+  kNoteInChordInGraceNotesGroup,
 
-  // tuplet member notes
-  kNoteTupletMember,
-  kNoteTupletRestMember,
-  kNoteTupletUnpitchedMember,
+  // in tuplets in grace notes groups
+  kNoteInTupletInGraceNotesGroup,
 
-  // tuplet in grace notes groups notes
-  kNoteGraceTupletMember
+  // in double-tremolos
+  kNoteInDoubleTremolo
 };
 
 EXP string noteKindAsString (
   msrNoteKind noteKind);
+
+// chords
+//______________________________________________________________________________
+
+enum msrChordKind {
+  k_NoChord,
+
+  kChordInMeasure,
+  kChordInTuplet,
+  kChordInGraceNotesGroup
+};
+
+EXP string chordKindAsString (
+  msrChordKind chordKind);
+
+// tuplets
+//______________________________________________________________________________
+
+enum msrTupletKind {
+  k_NoTuplet,
+
+  kTupletInMeasure,
+  kTupletInTuplet
+};
+
+EXP string tupletKindAsString (
+  msrTupletKind tupletKind);
 
 // beams
 //______________________________________________________________________________
@@ -376,6 +406,7 @@ EXP string noteKindAsString (
 
 enum msrBeamKind {
   k_NoBeam,
+
   kBeamBegin, kBeamContinue, kBeamEnd,
   kBeamForwardHook, kBeamBackwardHook
 };
@@ -399,6 +430,7 @@ string msrTieKindAsString (
 
 enum msrSlurTypeKind {
   k_NoSlur,
+
   kRegularSlurStart, kPhrasingSlurStart,
   kSlurContinue,
   kRegularSlurStop, kPhrasingSlurStop
@@ -538,14 +570,20 @@ string msrMeasureImplicitKindAsString (
 
 enum msrClefKind {
   k_NoClef,
+
   kTrebleClef,
   kSopranoClef, kMezzoSopranoClef, kAltoClef, kTenorClef, kBaritoneClef, kBassClef,
   kTrebleLine1Clef,
   kTrebleMinus15Clef, kTrebleMinus8Clef, kTreblePlus8Clef, kTreblePlus15Clef,
+
   kBassMinus15Clef, kBassMinus8Clef, kBassPlus8Clef, kBassPlus15Clef,
+
   kVarbaritoneClef,
+
   kTablature4Clef, kTablature5Clef, kTablature6Clef, kTablature7Clef,
+
   kPercussionClef,
+
   kJianpuClef
 };
 
@@ -579,6 +617,7 @@ string msrKeyKindAsString (
 
 enum msrModeKind {
   k_NoMode,
+
   kMajorMode, kMinorMode,
   kIonianMode, kDorianMode, kPhrygianMode, kLydianMode,
   kMixolydianMode, kAeolianMode, kLocrianMode
@@ -765,6 +804,7 @@ EXP msrSemiTonesPitchKind enharmonicSemiTonesPitch (
 //______________________________________________________________________________
 enum msrOctaveKind {
   k_NoOctave,
+
   kOctave0, kOctave1, kOctave2, kOctave3,
   kOctave4, // that of middle C
   kOctave5, kOctave6, kOctave7, kOctave8, kOctave9
@@ -803,11 +843,12 @@ string msrOctaveKindAsString (msrOctaveKind octaveKind);
 // durations
 //______________________________________________________________________________
 enum msrDurationKind {
+  k_NoDuration,
+
   // from longest to shortest for the algorithms
   kMaxima, kLong, kBreve, kWhole, kHalf,
   kQuarter,
-  kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th,
-  k_NoDuration
+  kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th
 };
 
 EXP msrDurationKind msrDurationKindFromMusicXMLString (
@@ -1547,6 +1588,7 @@ string msrPrintObjectKindAsString (
 //______________________________________________________________________________
 enum msrPlacementKind {
   k_NoPlacement,
+
   kPlacementAbove, kPlacementBelow
 };
 
@@ -1583,6 +1625,7 @@ msrDynamicsKind dynamicsFromString (string theString);
 //______________________________________________________________________________
 enum msrSlashTypeKind {
   k_NoSlashType,
+
   kSlashTypeStart, kSlashTypeStop
 };
 
@@ -1591,6 +1634,7 @@ string msrSlashTypeKindAsString (
 
 enum msrUseDotsKind {
   k_NoUseDots,
+
   kUseDotsYes, kUseDotsNo
 };
 
@@ -1603,6 +1647,7 @@ string msrUseDotsKindAsString (
 
 enum msrSlashUseStemsKind {
   k_NoSlashUseStems,
+
   kSlashUseStemsYes, kSlashUseStemsNo
 };
 
@@ -1623,6 +1668,7 @@ string msrLineTypeKindAsString (
 //______________________________________________________________________________
 enum msrTremoloTypeKind {
   k_NoTremoloType,
+
   kTremoloTypeSingle, kTremoloTypeStart, kTremoloTypeStop
 };
 
@@ -1633,6 +1679,7 @@ string msrTremoloTypeKindAsString (
 //______________________________________________________________________________
 enum msrTechnicalTypeKind { // JMI ???
   k_NoTechnicalType,
+
   kTechnicalTypeStart, kTechnicalTypeStop
 };
 
@@ -1643,6 +1690,7 @@ string msrTechnicalTypeKindAsString (
 //______________________________________________________________________________
 enum msrSpannerTypeKind {
   k_NoSpannerType,
+
   kSpannerTypeStart, kSpannerTypeContinue, kSpannerTypeStop
 };
 

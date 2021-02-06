@@ -4697,10 +4697,10 @@ void msr2lpsrTranslator::visitStart (S_msrNote& elt)
 */
 
   switch (elt->getNoteKind ()) {
-    case kNoteGrace:
-    case kNoteGraceSkip:
-    case kNoteGraceChordMember:
-    case kNoteGraceTupletMember:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
+    case kNoteInChordInGraceNotesGroup:
+    case kNoteInTupletInGraceNotesGroup:
       fCurrentGraceNoteClone = noteClone;
       break;
 
@@ -4813,10 +4813,10 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
 
   switch (noteKind) {
 
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRest:
+    case kNoteRestInMeasure:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4832,7 +4832,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteSkip: // JMI
+    case kNoteSkipInMeasure: // JMI
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4848,7 +4848,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4864,7 +4864,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteRegular:
+    case kNoteRegularInMeasure:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4880,7 +4880,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       if (fOnGoingDoubleTremolo) {
 
         if (fCurrentNonGraceNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
@@ -4953,8 +4953,8 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
       }
       break;
 
-    case kNoteGrace:
-    case kNoteGraceSkip:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
     /* JMI
       gLogStream <<
         "fOnGoingGraceNotesGroup = " <<
@@ -5049,7 +5049,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
       */
       break;
 
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
@@ -5073,7 +5073,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
         }
       break;
 
-    case kNoteGraceChordMember:
+    case kNoteInChordInGraceNotesGroup:
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
@@ -5097,10 +5097,10 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
         }
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
-    case kNoteGraceTupletMember:
-    case kNoteTupletUnpitchedMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
+    case kNoteInTupletInGraceNotesGroup:
+    case kNoteUnpitchedInTuplet:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -5178,10 +5178,10 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
 */
 
   switch (noteKind) {
-    case kNoteGrace:
-    case kNoteGraceSkip:
-    case kNoteGraceChordMember:
-    case kNoteGraceTupletMember:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
+    case kNoteInChordInGraceNotesGroup:
+    case kNoteInTupletInGraceNotesGroup:
       break;
 
     default:
@@ -5625,7 +5625,7 @@ void msr2lpsrTranslator::visitEnd (S_msrTuplet& elt)
 #endif
 
     fTupletClonesStack.top ()->
-      addTupletToTupletClone (elt);
+      appendTupletToTupletClone (elt);
   }
 
   else {

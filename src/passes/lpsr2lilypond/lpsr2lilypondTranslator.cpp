@@ -1587,626 +1587,945 @@ void lpsr2lilypondTranslator::generateCodeForNote (
   int inputLineNumber =
     note->getInputLineNumber ();
 
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for note " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
   // generate the note itself
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
+  ++gIndenter;
+
   switch (note->getNoteKind ()) {
 
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRest:
-      {
-        // get pitched rest status
-        bool noteIsAPitchedRest =
-          note->noteIsAPitchedRest ();
-
-        if (noteIsAPitchedRest) {
-          // pitched rest
-          fLilypondCodeStream <<
-            pitchedRestAsLilypondString (note);
-
-          // this note is the new relative octave reference
-          // (the display quarter tone pitch and octave
-          // have been copied to the note octave
-          // in the msrNote::msrNote () constructor,
-          // since the note octave is used in relative code generation)
-          switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
-            case kOctaveEntryRelative:
-              fCurrentOctaveEntryReference = note;
-              break;
-            case kOctaveEntryAbsolute:
-              break;
-            case kOctaveEntryFixed:
-              break;
-          } // switch
-        }
-
-        else {
-          // unpitched rest
-          // get the note sounding whole notes
-          rational
-            noteSoundingWholeNotes =
-              note->getNoteSoundingWholeNotes ();
-
-          // get note's voice
-          S_msrVoice
-            noteVoice =
-              note->
-                fetchNoteVoiceUpLink ();
-
-          // generate the rest name and duration
-          if (note->getNoteOccupiesAFullMeasure ()) {
-            // take voice kind into account JMI shouldn't be necessary?
-            switch (noteVoice->getVoiceKind ()) {
-              case kVoiceRegular:
-                fLilypondCodeStream <<
-                  "R%{1%}";
-                break;
-
-              case kVoiceHarmony:
-              case kVoiceFiguredBass:
-                fLilypondCodeStream <<
-                  "s%{1%}";
-                break;
-            } // switch
-
-            fLilypondCodeStream <<
-              durationAsLilypondString (
-                inputLineNumber,
-                noteSoundingWholeNotes);
-          }
-
-          else {
-            // take voice kind into account JMI shouldn't be necessary?
-            switch (noteVoice->getVoiceKind ()) {
-              case kVoiceRegular:
-                fLilypondCodeStream <<
-                  "r%{2%}";
-                break;
-
-              case kVoiceHarmony:
-              case kVoiceFiguredBass:
-                fLilypondCodeStream <<
-                  "s%{2%}";
-                break;
-            } // switch
-
-            fLilypondCodeStream <<
-              durationAsLilypondString (
-                inputLineNumber,
-                noteSoundingWholeNotes);
-
-/* JMI BOF
-            if (fOnGoingVoiceCadenza) { // JMI
-              if (noteSoundingWholeNotes != rational (1, 1)) {
-                / * JMI
-                // force the generation of the duration if needed
-                if (! gGlobalLpsr2lilypondOahGroup->getAllDurations ()) {
-                  fLilypondCodeStream << // JMI
-                    wholeNotesAsLilypondString (
-                      inputLineNumber,
-                      noteSoundingWholeNotes);
-                }
-                * /
-
-                // generate the multiplying factor
-                fLilypondCodeStream << // JMI
-                  "*" <<
-                  noteSoundingWholeNotes <<
-                  "";
-              }
-            }
-                  */
-          }
-
-          // an unpitched rest is no relative octave reference,
-          // the preceding one is kept
-        }
-      }
+    // in measures
+    case kNoteRegularInMeasure:
+      generateCodeForNoteRegularInMeasure (note);
       break;
 
-    case kNoteSkip:
-      if (gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()) {
-        // generate the rest name to help pin-point bugs
-        fLilypondCodeStream << "r%{3%}";
-      }
-      else {
-        // generate the skip name
-        fLilypondCodeStream << "s%{44%}";
-      }
-
-      // generate the skip duration
-      fLilypondCodeStream <<
-        durationAsLilypondString (
-          inputLineNumber,
-          note->
-            getNoteSoundingWholeNotes ());
-
-      // a skip is no relative octave reference,
-      // the preceding one is kept
+    case kNoteRestInMeasure:
+      generateCodeForNoteRestInMeasure (note);
       break;
 
-    case kNoteUnpitched:
-      {
-        // generate the note name, "e" by convention
-        fLilypondCodeStream <<
-            "e";
-
-        rational
-          noteSoundingWholeNotes =
-            note->
-              getNoteSoundingWholeNotes ();
-
-        // generate the note duration
-        fLilypondCodeStream <<
-          durationAsLilypondString (
-            inputLineNumber,
-            noteSoundingWholeNotes);
-
-        // handle delayed ornaments if any
-        if (note->getNoteDelayedTurnOrnament ()) {
-          // c2*2/3 ( s2*1/3\turn) JMI
-          // we need the explicit duration in all cases,
-          // regardless of gGlobalGeneralOahGroup->getAllDurations ()
-          fLilypondCodeStream <<
-            wholeNotesAsLilypondString (
-              inputLineNumber,
-              noteSoundingWholeNotes) <<
-            "*" <<
-            gGlobalLpsr2lilypondOahGroup->getDelayedOrnamentsFraction ();
-        }
-
-/* JMI
-        // generate the tie if any
-        {
-          S_msrTie noteTie = note->getNoteTie ();
-
-          if (noteTie) {
-            if (noteTie->getTieKind () == kTieStart) {
-              fLilypondCodeStream <<
-                "%{line " << inputLineNumber << "%}" <<
-                " ~  %{kUnpitchedNote%}"; // JMI spaces???
-            }
-          }
-        }
-        */
-      }
+    case kNoteSkipInMeasure:
+      generateCodeForNoteSkipInMeasure (note);
       break;
 
-    case kNoteRegular:
-      {
-        // generate the note name
-        fLilypondCodeStream <<
-          notePitchAsLilypondString (note);
-
-        rational
-          noteSoundingWholeNotes =
-            note->
-              getNoteSoundingWholeNotes ();
-
-        // generate the note duration
-        fLilypondCodeStream <<
-          durationAsLilypondString (
-            inputLineNumber,
-            noteSoundingWholeNotes);
-
-        // handle delayed ornaments if any
-        if (note->getNoteDelayedTurnOrnament ()) {
-          // c2*2/3 ( s2*1/3\turn) JMI
-          // we need the explicit duration in all cases,
-          // regardless of gGlobalGeneralOahGroup->getAllDurations ()
-          fLilypondCodeStream <<
-          //* JMI TOO MUCH
-            wholeNotesAsLilypondString (
-              inputLineNumber,
-              noteSoundingWholeNotes) <<
-              //*/
-            "*" <<
-            gGlobalLpsr2lilypondOahGroup->getDelayedOrnamentsFraction ();
-        }
-
-        // generate the tie if any
-        {
-          S_msrTie noteTie = note->getNoteTie ();
-
-          if (noteTie) {
-            if (noteTie->getTieKind () == kTieStart) {
-      //        fLilypondCodeStream << " ~ %{kNoteRegular%}"; // JMI
-            }
-          }
-        }
-
-        // this note is the new relative octave reference
-        switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
-          case kOctaveEntryRelative:
-            fCurrentOctaveEntryReference = note;
-            break;
-          case kOctaveEntryAbsolute:
-            break;
-          case kOctaveEntryFixed:
-            break;
-        } // switch
-      }
+    case kNoteUnpitchedInMeasure:
+      generateCodeForNoteUnpitchedInMeasure (note);
       break;
 
-    case kNoteDoubleTremoloMember:
-      // generate the note name
-      fLilypondCodeStream <<
-        notePitchAsLilypondString (note);
-
-      // generate the note duration
-      fLilypondCodeStream <<
-        durationAsLilypondString (
-          inputLineNumber,
-          note->getNoteSoundingWholeNotes ());
-
-      // handle delayed ornaments if any
-      if (note->getNoteDelayedTurnOrnament ()) {
-        // c2*2/3 ( s2*1/3\turn JMI
-        fLilypondCodeStream <<
-          "*" <<
-          gGlobalLpsr2lilypondOahGroup->getDelayedOrnamentsFraction ();
-      }
-
-/* JMI
-      // generate the tie if any
-      {
-        S_msrTie noteTie = note->getNoteTie ();
-
-        if (noteTie) {
-          if (noteTie->getTieKind () == kTieStart) {
-            fLilypondCodeStream <<
-              "%{line " << inputLineNumber << "%}" <<
-              " ~ %{kDoubleTremoloMemberNote%}";
-          }
-        }
-      }
-*/
-
-      // this note is the new relative octave reference
-      switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
-        case kOctaveEntryRelative:
-          fCurrentOctaveEntryReference = note;
-          break;
-        case kOctaveEntryAbsolute:
-          break;
-        case kOctaveEntryFixed:
-          break;
-      } // switch
+    // in chords
+    case kNoteRegularInChord:
+      generateCodeForNoteRegularInChord (note);
+      {}
       break;
 
-    case kNoteGrace:
-      // generate the note name
-      fLilypondCodeStream <<
-        notePitchAsLilypondString (note);
-
-      // generate the grace note's graphic duration
-      fLilypondCodeStream <<
-        msrDurationKindAsString (
-          note->
-            getNoteGraphicDurationKind ());
-
-      // generate the dots if any JMI ???
-      for (int i = 0; i < note->getNoteDotsNumber (); ++i) {
-        fLilypondCodeStream << ".";
-      } // for
-
-      // don't print the tie if any, 'acciacattura takes care of it
-      /*
-      {
-        S_msrTie noteTie = note->getNoteTie ();
-
-        if (noteTie) {
-          if (noteTie->getTieKind () == kTieStart) {
-            fLilypondCodeStream <<
-              "%{line " << inputLineNumber << "%}" <<
-              "~  %{kGraceNote%}";
-          }
-        }
-      }
-      */
-
-      // this note is the new relative octave reference
-      switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
-        case kOctaveEntryRelative:
-          fCurrentOctaveEntryReference = note;
-          break;
-        case kOctaveEntryAbsolute:
-          break;
-        case kOctaveEntryFixed:
-          break;
-      } // switch
+    // in tuplets
+    case kNoteRegularInTuplet:
+      generateCodeForNoteRegularInTuplet (note);
       break;
 
-    case kNoteGraceSkip:
-      // generate the note name
-      if (gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()) {
-        // generate the rest name to help pin-point bugs
-        fLilypondCodeStream << "r%{333%}";
-      }
-      else {
-        // generate the skip name
-        fLilypondCodeStream << "s%{444%}";
-      }
-
-      // generate the skip duration
-      fLilypondCodeStream <<
-        durationAsLilypondString (
-          inputLineNumber,
-          note->
-            getNoteDisplayWholeNotes ());
-
-      // generate the dots if any JMI ???
-      for (int i = 0; i < note->getNoteDotsNumber (); ++i) {
-        fLilypondCodeStream << ".";
-      } // for
-
-      // a grace skip is no relative octave reference,
-      // the preceding one is kept
+    case kNoteRestInTuplet:
+      generateCodeForNoteRestInTuplet (note);
       break;
 
-    case kNoteGraceChordMember:
-      // generate the note name
-      fLilypondCodeStream <<
-        notePitchAsLilypondString (note);
-
-      // dont't print the grace note's graphic duration
-
-      // generate the dots if any JMI ???
-      for (int i = 0; i < note->getNoteDotsNumber (); ++i) {
-        fLilypondCodeStream << ".";
-      } // for
-
-      // don't print the tie if any, 'acciacattura takes care of it
-      /*
-      {
-        S_msrTie noteTie = note->getNoteTie ();
-
-        if (noteTie) {
-          if (noteTie->getTieKind () == kTieStart) {
-            fLilypondCodeStream <<
-              "%{line " << inputLineNumber << "%}" <<
-              "~  %{kGraceChordMemberNote%}";
-          }
-        }
-      }
-      */
-
-      // inside chords, a note is relative to the preceding one
-      switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
-        case kOctaveEntryRelative:
-          fCurrentOctaveEntryReference = note;
-          break;
-        case kOctaveEntryAbsolute:
-          break;
-        case kOctaveEntryFixed:
-          break;
-      } // switch
+    case kNoteUnpitchedInTuplet:
+      generateCodeForNoteUnpitchedInTuplet (note);
       break;
 
-    case kNoteChordMember:
-      {
-        // generate the note name
-        fLilypondCodeStream <<
-          notePitchAsLilypondString (note);
-
-        // don't print the note duration,
-        // it will be printed for the chord itself
-
-        // don't print the string number if any,
-        // it should appear after the chord itself
-        const list<S_msrTechnicalWithInteger>&
-          chordMemberNoteTechnicalsWithIntegers =
-            note->getNoteTechnicalWithIntegers ();
-
-        if (chordMemberNoteTechnicalsWithIntegers.size ()) {
-          list<S_msrTechnicalWithInteger>::const_iterator i;
-          for (
-            i=chordMemberNoteTechnicalsWithIntegers.begin ();
-            i!=chordMemberNoteTechnicalsWithIntegers.end ();
-            ++i
-          ) {
-            S_msrTechnicalWithInteger
-              technicalWithInteger = (*i);
-
-            switch (technicalWithInteger->getTechnicalWithIntegerKind ()) {
-              case msrTechnicalWithInteger::kFingering:
-                break;
-              case msrTechnicalWithInteger::kFret:
-                break;
-              case msrTechnicalWithInteger::kString:
-                if (fOnGoingChord) {
-                  fPendingChordMemberNotesStringNumbers.push_back (
-                    technicalWithInteger->
-                        getTechnicalWithIntegerValue ());
-                }
-                break;
-            } // switch
-          } // for
-        }
-
-        // inside chords, a note is relative to the preceding one
-        switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
-          case kOctaveEntryRelative:
-            fCurrentOctaveEntryReference = note;
-            break;
-          case kOctaveEntryAbsolute:
-            break;
-          case kOctaveEntryFixed:
-            break;
-        } // switch
-      }
+    // in grace notes groups
+    case kNoteRegularInGraceNotesGroup:
+      generateCodeForNoteRegularInGraceNotesGroup (note);
       break;
 
-    case kNoteTupletMember:
-      if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
-        fLilypondCodeStream << endl;
-      }
-
-      // generate the note name
-      fLilypondCodeStream <<
-        notePitchAsLilypondString (note);
-
-      // generate the note display duration
-      fLilypondCodeStream <<
-        durationAsLilypondString (
-          inputLineNumber,
-          note->
-            getNoteDisplayWholeNotes ());
-
-/* JMI
-      // generate the tie if any
-      {
-        S_msrTie noteTie = note->getNoteTie ();
-
-        if (noteTie) {
-          if (noteTie->getTieKind () == kTieStart) {
-            fLilypondCodeStream <<
-              "%{line " << inputLineNumber << "%}" <<
-              "~  %{kTupletMemberNote%}"; // JMI spaces???
-          }
-        }
-      }
-*/
-
-      // this note is the new relative octave reference
-      switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
-        case kOctaveEntryRelative:
-          fCurrentOctaveEntryReference = note;
-          break;
-        case kOctaveEntryAbsolute:
-          break;
-        case kOctaveEntryFixed:
-          break;
-      } // switch
+    case kNoteSkipInGraceNotesGroup:
+      generateCodeForNoteSkipInGraceNotesGroup (note);
       break;
 
-    case kNoteTupletRestMember:
-      if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
-        fLilypondCodeStream << endl;
-      }
-
-      // generate the note name
-      fLilypondCodeStream <<
-        string (
-          note->getNoteOccupiesAFullMeasure ()
-            ? "s%{6%}" // JMI ??? "R"
-            : "r%{5%}");
-
-      // generate the note display duration
-      fLilypondCodeStream <<
-        durationAsLilypondString (
-          inputLineNumber,
-          note->
-            getNoteDisplayWholeNotes ());
-
-/* JMI
-      // generate the tie if any
-      {
-        S_msrTie noteTie = note->getNoteTie ();
-
-        if (noteTie) {
-          if (noteTie->getTieKind () == kTieStart) {
-            fLilypondCodeStream <<
-              "%{line " << inputLineNumber << "%}" <<
-              "~  %{kTupletMemberNote%}"; // JMI spaces???
-          }
-        }
-      }
-*/
-
-      // a rest is no relative octave reference,
+    // in chords in grace notes groups
+    case kNoteInChordInGraceNotesGroup:
+      generateCodeForNoteInChordInGraceNotesGroup (note);
       break;
 
-    case kNoteTupletUnpitchedMember:
-      if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
-        fLilypondCodeStream << endl;
-      }
-
-      // generate the note name
-      fLilypondCodeStream <<
-        "e"; // by convention
-
-      // generate the note (display) duration
-      fLilypondCodeStream <<
-        durationAsLilypondString (
-          inputLineNumber,
-          note->
-            getNoteDisplayWholeNotes ());
-
-/* JMI
-      // generate the tie if any
-      {
-        S_msrTie noteTie = note->getNoteTie ();
-
-        if (noteTie) {
-          if (noteTie->getTieKind () == kTieStart) {
-            fLilypondCodeStream <<
-              "%{line " << inputLineNumber << "%}" <<
-              "~  %{kTupletUnpitchedMemberNote%}";
-          }
-        }
-      }
-      */
+    // in tuplets in grace notes groups
+    case kNoteInTupletInGraceNotesGroup:
+      generateCodeForNoteInTupletInGraceNotesGroup (note);
       break;
 
-    case kNoteGraceTupletMember:
-      if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
-        fLilypondCodeStream << endl;
-      }
-
-      // generate the note name
-      if (note->getNoteIsARest ()) {
-        fLilypondCodeStream <<
-          string (
-            note->getNoteOccupiesAFullMeasure ()
-              ? "R%{4%}"
-              : "r%{6%}");
-      }
-      else {
-        fLilypondCodeStream <<
-          notePitchAsLilypondString (note);
-      }
-
-      // generate the note display duration
-      fLilypondCodeStream <<
-        durationAsLilypondString (
-          inputLineNumber,
-          note->
-            getNoteDisplayWholeNotes ());
-
-      // generate the tie if any
-      {
-        S_msrTie noteTie = note->getNoteTie ();
-
-        if (noteTie) {
-          if (noteTie->getTieKind () == kTieStart) {
-            fLilypondCodeStream <<
-              "%{line " << inputLineNumber << "%}" <<
-              "~  %{kGraceTupletMemberNote%}"; // JMI spaces???
-          }
-        }
-      }
-
-      // this note is no new relative octave reference JMI ???
-      // this note is the new relative octave reference
-      switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
-        case kOctaveEntryRelative:
-          fCurrentOctaveEntryReference = note;
-          break;
-        case kOctaveEntryAbsolute:
-          break;
-        case kOctaveEntryFixed:
-          break;
-      } // switch
+    // in double-tremolos
+    case kNoteInDoubleTremolo:
+      generateCodeForNoteInDoubleTremolo (note);
       break;
   } // switch
 
   fLilypondCodeStream << ' ';
+
+  --gIndenter;
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteRegularInMeasure (
+  S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteRegularInMeasure " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  // generate the note name
+  fLilypondCodeStream <<
+    notePitchAsLilypondString (note);
+
+  rational
+    noteSoundingWholeNotes =
+      note->
+        getNoteSoundingWholeNotes ();
+
+  // generate the note duration
+  fLilypondCodeStream <<
+    durationAsLilypondString (
+      inputLineNumber,
+      noteSoundingWholeNotes);
+
+  // handle delayed ornaments if any
+  if (note->getNoteDelayedTurnOrnament ()) {
+    // c2*2/3 ( s2*1/3\turn) JMI
+    // we need the explicit duration in all cases,
+    // regardless of gGlobalGeneralOahGroup->getAllDurations ()
+    fLilypondCodeStream <<
+    //* JMI TOO MUCH
+      wholeNotesAsLilypondString (
+        inputLineNumber,
+        noteSoundingWholeNotes) <<
+        //*/
+      "*" <<
+      gGlobalLpsr2lilypondOahGroup->getDelayedOrnamentsFraction ();
+  }
+
+  // generate the tie if any
+  {
+    S_msrTie noteTie = note->getNoteTie ();
+
+    if (noteTie) {
+      if (noteTie->getTieKind () == kTieStart) {
+//        fLilypondCodeStream << " ~ %{kNoteRegularInMeasure%}"; // JMI
+      }
+    }
+  }
+
+  // this note is the new relative octave reference
+  switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
+    case kOctaveEntryRelative:
+      fCurrentOctaveEntryReference = note;
+      break;
+    case kOctaveEntryAbsolute:
+      break;
+    case kOctaveEntryFixed:
+      break;
+  } // switch
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteRestInMeasure (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteRestInMeasure " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  // get pitched rest status
+  bool noteIsAPitchedRest =
+    note->noteIsAPitchedRest ();
+
+  if (noteIsAPitchedRest) {
+    // pitched rest
+    fLilypondCodeStream <<
+      pitchedRestAsLilypondString (note);
+
+    // this note is the new relative octave reference
+    // (the display quarter tone pitch and octave
+    // have been copied to the note octave
+    // in the msrNote::msrNote () constructor,
+    // since the note octave is used in relative code generation)
+    switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
+      case kOctaveEntryRelative:
+        fCurrentOctaveEntryReference = note;
+        break;
+      case kOctaveEntryAbsolute:
+        break;
+      case kOctaveEntryFixed:
+        break;
+    } // switch
+  }
+
+  else {
+    // unpitched rest
+    // get the note sounding whole notes
+    rational
+      noteSoundingWholeNotes =
+        note->getNoteSoundingWholeNotes ();
+
+    // get note's voice
+    S_msrVoice
+      noteVoice =
+        note->
+          fetchNoteVoiceUpLink ();
+
+    // generate the rest name and duration
+    if (note->getNoteOccupiesAFullMeasure ()) {
+      // take voice kind into account JMI shouldn't be necessary?
+      switch (noteVoice->getVoiceKind ()) {
+        case kVoiceRegular:
+          fLilypondCodeStream <<
+            "R%{1%}";
+          break;
+
+        case kVoiceHarmony:
+        case kVoiceFiguredBass:
+          fLilypondCodeStream <<
+            "s%{1%}";
+          break;
+      } // switch
+
+      fLilypondCodeStream <<
+        durationAsLilypondString (
+          inputLineNumber,
+          noteSoundingWholeNotes);
+    }
+
+    else {
+      // take voice kind into account JMI shouldn't be necessary?
+      switch (noteVoice->getVoiceKind ()) {
+        case kVoiceRegular:
+          fLilypondCodeStream <<
+            "r%{2%}";
+          break;
+
+        case kVoiceHarmony:
+        case kVoiceFiguredBass:
+          fLilypondCodeStream <<
+            "s%{2%}";
+          break;
+      } // switch
+
+      fLilypondCodeStream <<
+        durationAsLilypondString (
+          inputLineNumber,
+          noteSoundingWholeNotes);
+
+/* JMI BOF
+      if (fOnGoingVoiceCadenza) { // JMI
+        if (noteSoundingWholeNotes != rational (1, 1)) {
+          / * JMI
+          // force the generation of the duration if needed
+          if (! gGlobalLpsr2lilypondOahGroup->getAllDurations ()) {
+            fLilypondCodeStream << // JMI
+              wholeNotesAsLilypondString (
+                inputLineNumber,
+                noteSoundingWholeNotes);
+          }
+          * /
+
+          // generate the multiplying factor
+          fLilypondCodeStream << // JMI
+            "*" <<
+            noteSoundingWholeNotes <<
+            "";
+        }
+      }
+            */
+    }
+
+    // an unpitched rest is no relative octave reference,
+    // the preceding one is kept
+  }
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteSkipInMeasure (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteSkipInMeasure " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  if (gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()) {
+    // generate the rest name to help pin-point bugs
+    fLilypondCodeStream << "r%{3%}";
+  }
+  else {
+    // generate the skip name
+    fLilypondCodeStream << "s%{44%}";
+  }
+
+  // generate the skip duration
+  fLilypondCodeStream <<
+    durationAsLilypondString (
+      inputLineNumber,
+      note->
+        getNoteSoundingWholeNotes ());
+
+  // a skip is no relative octave reference,
+  // the preceding one is kept
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteUnpitchedInMeasure (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteUnpitchedInMeasure " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  // generate the note name, "e" by convention
+  fLilypondCodeStream <<
+      "e";
+
+  rational
+    noteSoundingWholeNotes =
+      note->
+        getNoteSoundingWholeNotes ();
+
+  // generate the note duration
+  fLilypondCodeStream <<
+    durationAsLilypondString (
+      inputLineNumber,
+      noteSoundingWholeNotes);
+
+  // handle delayed ornaments if any
+  if (note->getNoteDelayedTurnOrnament ()) {
+    // c2*2/3 ( s2*1/3\turn) JMI
+    // we need the explicit duration in all cases,
+    // regardless of gGlobalGeneralOahGroup->getAllDurations ()
+    fLilypondCodeStream <<
+      wholeNotesAsLilypondString (
+        inputLineNumber,
+        noteSoundingWholeNotes) <<
+      "*" <<
+      gGlobalLpsr2lilypondOahGroup->getDelayedOrnamentsFraction ();
+  }
+
+/* JMI
+  // generate the tie if any
+  {
+    S_msrTie noteTie = note->getNoteTie ();
+
+    if (noteTie) {
+      if (noteTie->getTieKind () == kTieStart) {
+        fLilypondCodeStream <<
+          "%{line " << inputLineNumber << "%}" <<
+          " ~  %{kUnpitchedNote%}"; // JMI spaces???
+      }
+    }
+  }
+  */
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteRegularInChord (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteRegularInChord " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  // generate the note name
+  fLilypondCodeStream <<
+    notePitchAsLilypondString (note);
+
+  // don't print the note duration,
+  // it will be printed for the chord itself
+
+  // don't print the string number if any,
+  // it should appear after the chord itself
+  const list<S_msrTechnicalWithInteger>&
+    chordMemberNoteTechnicalsWithIntegers =
+      note->getNoteTechnicalWithIntegers ();
+
+  if (chordMemberNoteTechnicalsWithIntegers.size ()) {
+    list<S_msrTechnicalWithInteger>::const_iterator i;
+    for (
+      i=chordMemberNoteTechnicalsWithIntegers.begin ();
+      i!=chordMemberNoteTechnicalsWithIntegers.end ();
+      ++i
+    ) {
+      S_msrTechnicalWithInteger
+        technicalWithInteger = (*i);
+
+      switch (technicalWithInteger->getTechnicalWithIntegerKind ()) {
+        case msrTechnicalWithInteger::kFingering:
+          break;
+        case msrTechnicalWithInteger::kFret:
+          break;
+        case msrTechnicalWithInteger::kString:
+          if (fOnGoingChord) {
+            fPendingChordMemberNotesStringNumbers.push_back (
+              technicalWithInteger->
+                  getTechnicalWithIntegerValue ());
+          }
+          break;
+      } // switch
+    } // for
+  }
+
+  // inside chords, a note is relative to the preceding one
+  switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
+    case kOctaveEntryRelative:
+      fCurrentOctaveEntryReference = note;
+      break;
+    case kOctaveEntryAbsolute:
+      break;
+    case kOctaveEntryFixed:
+      break;
+  } // switch
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteRegularInTuplet (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteRegularInTuplet " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
+    fLilypondCodeStream << endl;
+  }
+
+  // generate the note name
+  fLilypondCodeStream <<
+    notePitchAsLilypondString (note);
+
+  // generate the note display duration
+  fLilypondCodeStream <<
+    durationAsLilypondString (
+      inputLineNumber,
+      note->
+        getNoteDisplayWholeNotes ());
+
+/* JMI
+  // generate the tie if any
+  {
+    S_msrTie noteTie = note->getNoteTie ();
+
+    if (noteTie) {
+      if (noteTie->getTieKind () == kTieStart) {
+        fLilypondCodeStream <<
+          "%{line " << inputLineNumber << "%}" <<
+          "~  %{kTupletMemberNote%}"; // JMI spaces???
+      }
+    }
+  }
+*/
+
+  // this note is the new relative octave reference
+  switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
+    case kOctaveEntryRelative:
+      fCurrentOctaveEntryReference = note;
+      break;
+    case kOctaveEntryAbsolute:
+      break;
+    case kOctaveEntryFixed:
+      break;
+  } // switch
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteRestInTuplet (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteRestInTuplet " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
+    fLilypondCodeStream << endl;
+  }
+
+  // generate the note name
+  fLilypondCodeStream <<
+    string (
+      note->getNoteOccupiesAFullMeasure ()
+        ? "s%{6%}" // JMI ??? "R"
+        : "r%{5%}");
+
+  // generate the note display duration
+  fLilypondCodeStream <<
+    durationAsLilypondString (
+      inputLineNumber,
+      note->
+        getNoteDisplayWholeNotes ());
+
+/* JMI
+  // generate the tie if any
+  {
+    S_msrTie noteTie = note->getNoteTie ();
+
+    if (noteTie) {
+      if (noteTie->getTieKind () == kTieStart) {
+        fLilypondCodeStream <<
+          "%{line " << inputLineNumber << "%}" <<
+          "~  %{kTupletMemberNote%}"; // JMI spaces???
+      }
+    }
+  }
+*/
+
+  // a rest is no relative octave reference,
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteUnpitchedInTuplet (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteUnpitchedInTuplet " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
+    fLilypondCodeStream << endl;
+  }
+
+  // generate the note name
+  fLilypondCodeStream <<
+    "e"; // by convention
+
+  // generate the note (display) duration
+  fLilypondCodeStream <<
+    durationAsLilypondString (
+      inputLineNumber,
+      note->
+        getNoteDisplayWholeNotes ());
+
+/* JMI
+  // generate the tie if any
+  {
+    S_msrTie noteTie = note->getNoteTie ();
+
+    if (noteTie) {
+      if (noteTie->getTieKind () == kTieStart) {
+        fLilypondCodeStream <<
+          "%{line " << inputLineNumber << "%}" <<
+          "~  %{kTupletUnpitchedMemberNote%}";
+      }
+    }
+  }
+  */
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteRegularInGraceNotesGroup (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteRegularInGraceNotesGroup " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  // generate the note name
+  fLilypondCodeStream <<
+    notePitchAsLilypondString (note);
+
+  // generate the grace note's graphic duration
+  fLilypondCodeStream <<
+    msrDurationKindAsString (
+      note->
+        getNoteGraphicDurationKind ());
+
+  // generate the dots if any JMI ???
+  for (int i = 0; i < note->getNoteDotsNumber (); ++i) {
+    fLilypondCodeStream << ".";
+  } // for
+
+  // don't print the tie if any, 'acciacattura takes care of it
+  /*
+  {
+    S_msrTie noteTie = note->getNoteTie ();
+
+    if (noteTie) {
+      if (noteTie->getTieKind () == kTieStart) {
+        fLilypondCodeStream <<
+          "%{line " << inputLineNumber << "%}" <<
+          "~  %{kGraceNote%}";
+      }
+    }
+  }
+  */
+
+  // this note is the new relative octave reference
+  switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
+    case kOctaveEntryRelative:
+      fCurrentOctaveEntryReference = note;
+      break;
+    case kOctaveEntryAbsolute:
+      break;
+    case kOctaveEntryFixed:
+      break;
+  } // switch
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteSkipInGraceNotesGroup (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteSkipInGraceNotesGroup " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  // generate the note name
+  if (gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()) {
+    // generate the rest name to help pin-point bugs
+    fLilypondCodeStream << "r%{333%}";
+  }
+  else {
+    // generate the skip name
+    fLilypondCodeStream << "s%{444%}";
+  }
+
+  // generate the skip duration
+  fLilypondCodeStream <<
+    durationAsLilypondString (
+      inputLineNumber,
+      note->
+        getNoteDisplayWholeNotes ());
+
+  // generate the dots if any JMI ???
+  for (int i = 0; i < note->getNoteDotsNumber (); ++i) {
+    fLilypondCodeStream << ".";
+  } // for
+
+  // a grace skip is no relative octave reference,
+  // the preceding one is kept
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteInChordInGraceNotesGroup (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteInChordInGraceNotesGroup " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  // generate the note name
+  fLilypondCodeStream <<
+    notePitchAsLilypondString (note);
+
+  // dont't print the grace note's graphic duration
+
+  // generate the dots if any JMI ???
+  for (int i = 0; i < note->getNoteDotsNumber (); ++i) {
+    fLilypondCodeStream << ".";
+  } // for
+
+  // don't print the tie if any, 'acciacattura takes care of it
+  /*
+  {
+    S_msrTie noteTie = note->getNoteTie ();
+
+    if (noteTie) {
+      if (noteTie->getTieKind () == kTieStart) {
+        fLilypondCodeStream <<
+          "%{line " << inputLineNumber << "%}" <<
+          "~  %{kNoteInChordInGraceNotesGroup%}";
+      }
+    }
+  }
+  */
+
+  // inside chords, a note is relative to the preceding one
+  switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
+    case kOctaveEntryRelative:
+      fCurrentOctaveEntryReference = note;
+      break;
+    case kOctaveEntryAbsolute:
+      break;
+    case kOctaveEntryFixed:
+      break;
+  } // switch
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteInTupletInGraceNotesGroup (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteInTupletInGraceNotesGroup " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
+    fLilypondCodeStream << endl;
+  }
+
+  // generate the note name
+  if (note->getNoteIsARest ()) {
+    fLilypondCodeStream <<
+      string (
+        note->getNoteOccupiesAFullMeasure ()
+          ? "R%{4%}"
+          : "r%{6%}");
+  }
+  else {
+    fLilypondCodeStream <<
+      notePitchAsLilypondString (note);
+  }
+
+  // generate the note display duration
+  fLilypondCodeStream <<
+    durationAsLilypondString (
+      inputLineNumber,
+      note->
+        getNoteDisplayWholeNotes ());
+
+  // generate the tie if any
+  {
+    S_msrTie noteTie = note->getNoteTie ();
+
+    if (noteTie) {
+      if (noteTie->getTieKind () == kTieStart) {
+        fLilypondCodeStream <<
+          "%{line " << inputLineNumber << "%}" <<
+          "~  %{kGraceTupletMemberNote%}"; // JMI spaces???
+      }
+    }
+  }
+
+  // this note is no new relative octave reference JMI ???
+  // this note is the new relative octave reference
+  switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
+    case kOctaveEntryRelative:
+      fCurrentOctaveEntryReference = note;
+      break;
+    case kOctaveEntryAbsolute:
+      break;
+    case kOctaveEntryFixed:
+      break;
+  } // switch
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteInDoubleTremolo (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    stringstream s;
+
+    s <<
+      "% --> generating code for noteInDoubleTremolo " <<
+      note->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    gLogStream          << s.str ();
+    fLilypondCodeStream << s.str ();
+  }
+#endif
+
+  // generate the note name
+  fLilypondCodeStream <<
+    notePitchAsLilypondString (note);
+
+  // generate the note duration
+  fLilypondCodeStream <<
+    durationAsLilypondString (
+      inputLineNumber,
+      note->getNoteSoundingWholeNotes ());
+
+  // handle delayed ornaments if any
+  if (note->getNoteDelayedTurnOrnament ()) {
+    // c2*2/3 ( s2*1/3\turn JMI
+    fLilypondCodeStream <<
+      "*" <<
+      gGlobalLpsr2lilypondOahGroup->getDelayedOrnamentsFraction ();
+  }
+
+/* JMI
+  // generate the tie if any
+  {
+    S_msrTie noteTie = note->getNoteTie ();
+
+    if (noteTie) {
+      if (noteTie->getTieKind () == kTieStart) {
+        fLilypondCodeStream <<
+          "%{line " << inputLineNumber << "%}" <<
+          " ~ %{kDoubleTremoloMemberNote%}";
+      }
+    }
+  }
+*/
+
+  // this note is the new relative octave reference
+  switch (gGlobalLpsr2lilypondOahGroup->getOctaveEntryKind ()) {
+    case kOctaveEntryRelative:
+      fCurrentOctaveEntryReference = note;
+      break;
+    case kOctaveEntryAbsolute:
+      break;
+    case kOctaveEntryFixed:
+      break;
+  } // switch
 }
 
 void lpsr2lilypondTranslator::generateCodeRightAfterNote (
@@ -13542,26 +13861,34 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     }
     else {
       switch (elt->getNoteKind ()) {
-        case k_NoNoteKind:
+        case k_NoNote:
           break;
 
-        case kNoteRest:
+        // in measures
+        case kNoteRegularInMeasure:
+          break;
+        case kNoteRestInMeasure:
+          break;
+        case kNoteSkipInMeasure:
+          break;
+        case kNoteUnpitchedInMeasure:
           break;
 
-        case kNoteSkip:
+        // in chords
+        case kNoteRegularInChord:
           break;
 
-        case kNoteUnpitched:
+        // in tuplets
+        case kNoteRegularInTuplet:
+          break;
+        case kNoteRestInTuplet:
+          break;
+        case kNoteUnpitchedInTuplet:
           break;
 
-        case kNoteRegular:
-          break;
-
-        case kNoteDoubleTremoloMember:
-          break;
-
-        case kNoteGrace:
-        case kNoteGraceSkip:
+        // in grace notes groups
+        case kNoteRegularInGraceNotesGroup:
+        case kNoteSkipInGraceNotesGroup:
           {
           // don't generate code for the grace notes here, that's done thru
           // the note's noteGraceNotesGroupBefore and noteGraceNotesGroupAfter  fields
@@ -13585,7 +13912,8 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           }
           break;
 
-        case kNoteGraceChordMember:
+        // in chords in grace notes groups
+        case kNoteInChordInGraceNotesGroup:
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -13610,27 +13938,21 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
 #endif
           break;
 
-        case kNoteChordMember:
+       // in tuplets in grace notes groups
+       case kNoteInTupletInGraceNotesGroup:
           break;
 
-        case kNoteTupletMember:
+        // in double-tremolos
+        case kNoteInDoubleTremolo:
           break;
 
-        case kNoteTupletRestMember:
-          break;
-
-       case kNoteGraceTupletMember:
-          break;
-
-        case kNoteTupletUnpitchedMember:
-          break;
       } // switch
     }
   }
 
   if (fOnGoingRestMeasures) {
     switch (elt->getNoteKind ()) {
-      case kNoteRest:
+      case kNoteRestInMeasure:
         // don't handle rest measures, that's done in visitEnd (S_msrRestMeasures&)
           /*
           if (elt->getNoteOccupiesAFullMeasure ()) {
@@ -13678,7 +14000,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           noteIsToBeIgnored = true;
         break;
 
-      case kNoteSkip:
+      case kNoteSkipInMeasure:
         if (elt->getNoteDirectGraceNotesGroupUpLink ()) {
 #ifdef TRACING_IS_ENABLED
           if (
@@ -13697,8 +14019,8 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
         }
         break;
 
-      case kNoteGrace:
-      case kNoteGraceSkip:
+      case kNoteRegularInGraceNotesGroup:
+      case kNoteSkipInGraceNotesGroup:
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -13715,7 +14037,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           noteIsToBeIgnored = true;
         break;
 
-      case kNoteGraceChordMember:
+      case kNoteInChordInGraceNotesGroup:
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -13812,6 +14134,217 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
       elt->getNoteScordaturas ();
 
   if (noteScordaturas.size ()) {
+    generateNoteScordaturas (elt);
+  }
+
+  // should the note actually be printed? // JMI
+  msrPrintObjectKind
+    notePrintObjectKind =
+      elt->getNotePrintObjectKind ();
+
+  if (notePrintObjectKind != fCurrentNotePrinObjectKind) {
+    switch (notePrintObjectKind) {
+      case kPrintObjectNone:
+        // JMI
+        break;
+      case kPrintObjectYes:
+        break;
+      case kPrintObjectNo:
+        {
+          // get the print notes head RGB color atom
+          S_oahRGBColorAtom
+            nonPrintNotesHeadRGBColorAtom =
+              gGlobalLpsr2lilypondOahGroup->
+                getNonPrintNotesHeadRGBColorAtom ();
+
+          // has the note color been set?
+          if (nonPrintNotesHeadRGBColorAtom->getVariableHasBeenSet ()) {
+            const msrRGBColor&
+              theRGBColor =
+                gGlobalLpsr2lilypondOahGroup->
+                  getNonPrintNotesHeadRGBColor ();
+
+            fLilypondCodeStream <<
+              endl <<
+              "\\once\\override NoteHead.color = #(rgb-color " <<
+              theRGBColor.asSpaceSeparatedString (4) <<
+              ")" <<
+              endl;
+          }
+          else {
+            if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
+              fLilypondCodeStream <<
+                "%{ " <<
+                gGlobalOahOahGroup->getInputSourceName () <<
+                ":" <<
+                inputLineNumber <<
+                ": " <<
+                "ignoring 'kPrintObjectNo'" <<
+                " %}" <<
+                endl;
+            }
+          }
+        }
+        break;
+    } // switch
+
+    fCurrentNotePrinObjectKind = notePrintObjectKind;
+  }
+
+  // generate the note slashes if any
+  const list<S_msrSlash>&
+    noteSlashes =
+      elt->getNoteSlashes ();
+
+  if (noteSlashes.size ()) {
+    generateNoteSlashes (elt);
+  }
+
+  // generate the note wedges circled tips if any
+  const list<S_msrWedge>&
+    noteWedges =
+      elt->getNoteWedges ();
+
+  if (noteWedges.size ()) {
+    generateNoteWedges (elt);
+  }
+
+  // generate the note slurs line types if any,
+  // unless the note is chord member
+  if (! elt->getNoteBelongsToAChord ()) {
+    const list<S_msrSlur>&
+      noteSlurs =
+        elt->getNoteSlurs ();
+
+    if (noteSlurs.size ()) {
+      generateNoteSlurLineTypes (elt);
+    }
+  }
+
+  // generate the note glissandos styles if any
+  const list<S_msrGlissando>&
+    noteGlissandos =
+      elt->getNoteGlissandos ();
+
+  if (noteGlissandos.size ()) {
+    generateNoteGlissandoStyles (elt);
+  }
+
+  // generate the note glissandos with text if any
+  // just got noteGlissandos above
+  if (noteGlissandos.size ()) {
+    generateNoteGlissandosWithText (elt);
+  }
+
+  // generate the note slides line styles if any, implemented as glissandos
+  const list<S_msrSlide>&
+    noteSlides =
+      elt->getNoteSlides ();
+
+  if (noteSlides.size ()) {
+    generateNoteSlideLineStyles (elt);
+  }
+
+  // generate the note slides with text if any
+  // just got noteSlides above
+  if (noteSlides.size ()) {
+    generateNoteSlidesWithText (elt);
+  }
+
+  // should the note be parenthesized?
+  msrNote::msrNoteHeadParenthesesKind
+    noteHeadParenthesesKind =
+      elt->getNoteHeadParenthesesKind ();
+
+  switch (noteHeadParenthesesKind) {
+    case msrNote::kNoteHeadParenthesesYes:
+      fLilypondCodeStream << "\\parenthesize ";
+      break;
+    case msrNote::kNoteHeadParenthesesNo:
+      break;
+  } // switch
+
+  // generate the note technicals with string if any
+  const list<S_msrTechnicalWithString>&
+    noteTechnicalWithStrings =
+      elt->getNoteTechnicalWithStrings ();
+
+  if (noteTechnicalWithStrings.size ()) {
+    generateNoteTechnicalsWithStrings (elt);
+  }
+
+  // is the note a cue note?
+  switch (elt->getNoteIsACueNoteKind ()) {
+    case msrNote::kNoteIsACueNoteYes:
+      fLilypondCodeStream <<
+        "\\once \\override NoteHead.font-size = -3 ";
+      break;
+    case msrNote::kNoteIsACueNoteNo:
+      break;
+  } // switch
+
+  // has the note an octave shift up or down?
+  if (! fOnGoingChord) {
+    // the octave shift for the chords has already been generated
+    S_msrOctaveShift
+      noteOctaveShift =
+        elt->
+          getNoteOctaveShift ();
+
+    if (noteOctaveShift) {
+      generateCodeForOctaveShift (
+        noteOctaveShift);
+    }
+  }
+
+  // generate things before the note
+  generateCodeRightBeforeNote (elt);
+
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  // generate the note itself as a LilyPond string
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  generateCodeForNote (elt);
+
+  // generate things after the note
+  generateAfterNoteSpannersIfAny (elt);
+  generateCodeRightAfterNote (elt);
+
+/* JMI
+  // get the note's grace notes group after ??? JMI
+  S_msrGraceNotesGroup
+    noteGraceNotesGroupAfter =
+      elt->getNoteGraceNotesGroupAfter ();
+
+  // generate the note's grace notes group after opener if any
+  if (noteGraceNotesGroupAfter) {
+    fLilypondCodeStream <<
+      "\\afterGrace { ";
+  }
+*/
+
+  if (
+    gGlobalLpsr2lilypondOahGroup->getInputLineNumbers ()
+      ||
+    gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()
+  ) {
+    generateInputLineNumberAndOrPositionInMeasureAsAComment (
+      elt);
+  }
+}
+
+void lpsr2lilypondTranslator::generateNoteScordaturas (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+  const list<S_msrScordatura>&
+    noteScordaturas =
+      note->getNoteScordaturas ();
+
+  if (noteScordaturas.size ()) {
     fLilypondCodeStream <<
       " <<" <<
       endl;
@@ -13835,7 +14368,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
 
       fLilypondCodeStream <<
         "\\new Staff \\with { alignAboveContext = \"" <<
-        elt->
+        note->
           fetchNoteStaffUpLink ()->
             getStaffName () <<
         "\" } {" <<
@@ -13897,65 +14430,13 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
       if (++i == iEnd) break;
     } // for
   }
+}
 
-  // should the note actually be printed?
-  msrPrintObjectKind
-    notePrintObjectKind =
-      elt->getNotePrintObjectKind ();
-
-  if (notePrintObjectKind != fCurrentNotePrinObjectKind) {
-    switch (notePrintObjectKind) {
-      case kPrintObjectNone:
-        // JMI
-        break;
-      case kPrintObjectYes:
-        break;
-      case kPrintObjectNo:
-        {
-          // get the print notes head RGB color atom
-          S_oahRGBColorAtom
-            nonPrintNotesHeadRGBColorAtom =
-              gGlobalLpsr2lilypondOahGroup->
-                getNonPrintNotesHeadRGBColorAtom ();
-
-          // has the note color been set?
-          if (nonPrintNotesHeadRGBColorAtom->getVariableHasBeenSet ()) {
-            const msrRGBColor&
-              theRGBColor =
-                gGlobalLpsr2lilypondOahGroup->
-                  getNonPrintNotesHeadRGBColor ();
-
-            fLilypondCodeStream <<
-              endl <<
-              "\\once\\override NoteHead.color = #(rgb-color " <<
-              theRGBColor.asSpaceSeparatedString (4) <<
-              ")" <<
-              endl;
-          }
-          else {
-            if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
-              fLilypondCodeStream <<
-                "%{ " <<
-                gGlobalOahOahGroup->getInputSourceName () <<
-                ":" <<
-                inputLineNumber <<
-                ": " <<
-                "ignoring 'kPrintObjectNo'" <<
-                " %}" <<
-                endl;
-            }
-          }
-        }
-        break;
-    } // switch
-
-    fCurrentNotePrinObjectKind = notePrintObjectKind;
-  }
-
-  // generate the note slashes if any
+void lpsr2lilypondTranslator::generateNoteSlashes (S_msrNote note)
+{
   const list<S_msrSlash>&
     noteSlashes =
-      elt->getNoteSlashes ();
+      note->getNoteSlashes ();
 
   if (noteSlashes.size ()) {
     list<S_msrSlash>::const_iterator i;
@@ -14024,11 +14505,13 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
       } // switch
     } // for
   }
+}
 
-  // generate the note wedges circled tips if any
+void lpsr2lilypondTranslator::generateNoteWedges (S_msrNote note)
+{
   const list<S_msrWedge>&
     noteWedges =
-      elt->getNoteWedges ();
+      note->getNoteWedges ();
 
   if (noteWedges.size ()) {
     list<S_msrWedge>::const_iterator i;
@@ -14074,63 +14557,64 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
       } // switch
     } // for
   }
+}
 
-  // generate the note slurs line types if any,
-  // unless the note is chord member
-  if (! elt->getNoteBelongsToAChord ()) {
-    const list<S_msrSlur>&
-      noteSlurs =
-        elt->getNoteSlurs ();
+void lpsr2lilypondTranslator::generateNoteSlurLineTypes (S_msrNote note)
+{
+  const list<S_msrSlur>&
+    noteSlurs =
+      note->getNoteSlurs ();
 
-    if (noteSlurs.size ()) {
-      list<S_msrSlur>::const_iterator i;
-      for (
-        i=noteSlurs.begin ();
-        i!=noteSlurs.end ();
-        ++i
-      ) {
-        S_msrSlur slur = (*i);
+  if (noteSlurs.size ()) {
+    list<S_msrSlur>::const_iterator i;
+    for (
+      i=noteSlurs.begin ();
+      i!=noteSlurs.end ();
+      ++i
+    ) {
+      S_msrSlur slur = (*i);
 
-        /*
-        \slurDashed, \slurDotted, \slurHalfDashed,
-        \slurHalfSolid, \slurDashPattern, \slurSolid
-        */
+      /*
+      \slurDashed, \slurDotted, \slurHalfDashed,
+      \slurHalfSolid, \slurDashPattern, \slurSolid
+      */
 
-        switch (slur->getSlurTypeKind ()) {
-          case kRegularSlurStart:
-          case kPhrasingSlurStart:
-            switch (slur->getSlurLineTypeKind ()) {
-              case kLineTypeSolid:
-                /* JMI ???
-                fLilypondCodeStream <<
-                  "\\once\\slurSolid ";
-                */
-                break;
-              case kLineTypeDashed:
-                fLilypondCodeStream <<
-                  "\\once\\slurDashed ";
-                break;
-              case kLineTypeDotted:
-                fLilypondCodeStream <<
-                  "\\once\\slurDotted ";
-                break;
-              case kLineTypeWavy:
-                fLilypondCodeStream <<
-                  "\\once\\slurWavy "; // JMI
-                break;
-            } // switch
-            break;
-          default:
-            ;
-        } // switch
-      } // for
-    }
+      switch (slur->getSlurTypeKind ()) {
+        case kRegularSlurStart:
+        case kPhrasingSlurStart:
+          switch (slur->getSlurLineTypeKind ()) {
+            case kLineTypeSolid:
+              /* JMI ???
+              fLilypondCodeStream <<
+                "\\once\\slurSolid ";
+              */
+              break;
+            case kLineTypeDashed:
+              fLilypondCodeStream <<
+                "\\once\\slurDashed ";
+              break;
+            case kLineTypeDotted:
+              fLilypondCodeStream <<
+                "\\once\\slurDotted ";
+              break;
+            case kLineTypeWavy:
+              fLilypondCodeStream <<
+                "\\once\\slurWavy "; // JMI
+              break;
+          } // switch
+          break;
+        default:
+          ;
+      } // switch
+    } // for
   }
+}
 
-  // generate the note glissandos styles if any
+void lpsr2lilypondTranslator::generateNoteGlissandoStyles (S_msrNote note)
+{
   const list<S_msrGlissando>&
     noteGlissandos =
-      elt->getNoteGlissandos ();
+      note->getNoteGlissandos ();
 
   if (noteGlissandos.size ()) {
     list<S_msrGlissando>::const_iterator i;
@@ -14176,13 +14660,62 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
       } // switch
     } // for
   }
+}
 
-  // generate the note slides styles if any, implemented as glissandos
+void lpsr2lilypondTranslator::generateNoteGlissandosWithText (S_msrNote note)
+{
+  const list<S_msrGlissando>&
+    noteGlissandos =
+      note->getNoteGlissandos ();
+
+  if (noteGlissandos.size ()) {
+    list<S_msrGlissando>::const_iterator i;
+    for (
+      i=noteGlissandos.begin ();
+      i!=noteGlissandos.end ();
+      ++i
+    ) {
+      S_msrGlissando glissando = (*i);
+
+      switch (glissando->getGlissandoTypeKind ()) {
+        case msrGlissando::kGlissandoTypeNone:
+          break;
+
+        case msrGlissando::kGlissandoTypeStart:
+          {
+            string
+              glissandoTextValue =
+                glissando->getGlissandoTextValue ();
+
+            if (glissandoTextValue.size ()) {
+              // generate the glissando text on itself
+              fLilypondCodeStream <<
+                endl <<
+                "\\once\\override Glissando.details.glissando-text = \"" <<
+                glissandoTextValue <<
+                "\"" <<
+                endl <<
+                "\\glissandoTextOn" <<
+                endl;
+            }
+          }
+          break;
+
+        case msrGlissando::kGlissandoTypeStop:
+          break;
+      } // switch
+    } // for
+  }
+}
+
+void lpsr2lilypondTranslator::generateNoteSlideLineStyles (S_msrNote note)
+{
   const list<S_msrSlide>&
     noteSlides =
-      elt->getNoteSlides ();
+      note->getNoteSlides ();
 
   if (noteSlides.size ()) {
+
     list<S_msrSlide>::const_iterator i;
     for (
       i=noteSlides.begin ();
@@ -14226,48 +14759,14 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
       } // switch
     } // for
   }
+}
 
-  // generate the note glissandos with text if any
-  if (noteGlissandos.size ()) {
-    list<S_msrGlissando>::const_iterator i;
-    for (
-      i=noteGlissandos.begin ();
-      i!=noteGlissandos.end ();
-      ++i
-    ) {
-      S_msrGlissando glissando = (*i);
+void lpsr2lilypondTranslator::generateNoteSlidesWithText (S_msrNote note)
+{
+  const list<S_msrSlide>&
+    noteSlides =
+      note->getNoteSlides ();
 
-      switch (glissando->getGlissandoTypeKind ()) {
-        case msrGlissando::kGlissandoTypeNone:
-          break;
-
-        case msrGlissando::kGlissandoTypeStart:
-          {
-            string
-              glissandoTextValue =
-                glissando->getGlissandoTextValue ();
-
-            if (glissandoTextValue.size ()) {
-              // generate the glissando text on itself
-              fLilypondCodeStream <<
-                endl <<
-                "\\once\\override Glissando.details.glissando-text = \"" <<
-                glissandoTextValue <<
-                "\"" <<
-                endl <<
-                "\\glissandoTextOn" <<
-                endl;
-            }
-          }
-          break;
-
-        case msrGlissando::kGlissandoTypeStop:
-          break;
-      } // switch
-    } // for
-  }
-
-  // generate the note slides with text if any
   if (noteSlides.size ()) {
     list<S_msrSlide>::const_iterator i;
     for (
@@ -14306,26 +14805,19 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
       } // switch
     } // for
   }
+}
 
-  // should the note be parenthesized?
-  msrNote::msrNoteHeadParenthesesKind
-    noteHeadParenthesesKind =
-      elt->getNoteHeadParenthesesKind ();
+void lpsr2lilypondTranslator::generateNoteTechnicalsWithStrings (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
 
-  switch (noteHeadParenthesesKind) {
-    case msrNote::kNoteHeadParenthesesYes:
-      fLilypondCodeStream << "\\parenthesize ";
-      break;
-    case msrNote::kNoteHeadParenthesesNo:
-      break;
-  } // switch
-
-  // generate the note technicals with string if any
   const list<S_msrTechnicalWithString>&
     noteTechnicalWithStrings =
-      elt->getNoteTechnicalWithStrings ();
+      note->getNoteTechnicalWithStrings ();
 
   if (noteTechnicalWithStrings.size ()) {
+
     list<S_msrTechnicalWithString>::const_iterator i;
     for (
       i=noteTechnicalWithStrings.begin ();
@@ -14341,7 +14833,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
               {
                 rational
                   noteSoundingWholeNotes =
-                    elt->getNoteSoundingWholeNotes ();
+                    note->getNoteSoundingWholeNotes ();
 
                 rational
                   halfWholeNotes =
@@ -14373,7 +14865,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
               {
                 rational
                   noteSoundingWholeNotes =
-                    elt->getNoteSoundingWholeNotes ();
+                    note->getNoteSoundingWholeNotes ();
 
                 rational
                   halfWholeNotes =
@@ -14395,67 +14887,6 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           break;
       } // switch
     } // for
-  }
-
-  // is the note a cue note?
-  switch (elt->getNoteIsACueNoteKind ()) {
-    case msrNote::kNoteIsACueNoteYes:
-      fLilypondCodeStream <<
-        "\\once \\override NoteHead.font-size = -3 ";
-      break;
-    case msrNote::kNoteIsACueNoteNo:
-      break;
-  } // switch
-
-  // has the note an octave shift up or down?
-  if (! fOnGoingChord) {
-    // the octave shift for the chords has already been generated
-    S_msrOctaveShift
-      noteOctaveShift =
-        elt->
-          getNoteOctaveShift ();
-
-    if (noteOctaveShift) {
-      generateCodeForOctaveShift (
-        noteOctaveShift);
-    }
-  }
-
-  // generate things before the note
-  generateCodeRightBeforeNote (elt);
-
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-  // generate the note itself as a LilyPond string
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-
-  generateCodeForNote (elt);
-
-  // generate things after the note
-  generateAfterNoteSpannersIfAny (elt);
-  generateCodeRightAfterNote (elt);
-
-/* JMI
-  // get the note's grace notes group after ??? JMI
-  S_msrGraceNotesGroup
-    noteGraceNotesGroupAfter =
-      elt->getNoteGraceNotesGroupAfter ();
-
-  // generate the note's grace notes group after opener if any
-  if (noteGraceNotesGroupAfter) {
-    fLilypondCodeStream <<
-      "\\afterGrace { ";
-  }
-*/
-
-  if (
-    gGlobalLpsr2lilypondOahGroup->getInputLineNumbers ()
-      ||
-    gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()
-  ) {
-    generateInputLineNumberAndOrPositionInMeasureAsAComment (
-      elt);
   }
 }
 
@@ -14488,7 +14919,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
 
   if (fOnGoingRestMeasures) {
     switch (elt->getNoteKind ()) {
-      case kNoteRest:
+      case kNoteRestInMeasure:
         // don't handle rest measuress, that's done in visitEnd (S_msrRestMeasures&)
           if (elt->getNoteOccupiesAFullMeasure ()) {
             bool inhibitRestMeasuresBrowsing =
@@ -14522,7 +14953,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
           }
         break;
 
-      case kNoteSkip:
+      case kNoteSkipInMeasure:
         if (elt->getNoteDirectGraceNotesGroupUpLink ()) {
 #ifdef TRACING_IS_ENABLED
           if (
@@ -14540,8 +14971,8 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
         }
         break;
 
-      case kNoteGrace:
-      case kNoteGraceSkip:
+      case kNoteRegularInGraceNotesGroup:
+      case kNoteSkipInGraceNotesGroup:
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -14855,7 +15286,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
   // but not for chord member notes strings:
   // they should appear after the chord itself
   switch (elt->getNoteKind ()) {
-    case kNoteChordMember:
+    case kNoteRegularInChord:
        break;
 
     default:
@@ -14900,7 +15331,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
   // but not for chord member notes strings:
   // they should appear after the chord itself
   switch (elt->getNoteKind ()) {
-    case kNoteChordMember:
+    case kNoteRegularInChord:
        break;
 
     default:

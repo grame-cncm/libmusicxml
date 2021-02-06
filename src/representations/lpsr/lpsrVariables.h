@@ -32,17 +32,17 @@ class EXP lpsrVariableUseCommand : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrVariableUseCommand> create (
-      int    inputLineNumber,
-      string variableName);
+                            int    inputLineNumber,
+                            string variableName);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrVariableUseCommand (
-      int    inputLineNumber,
-      string variableName);
+                          lpsrVariableUseCommand (
+                            int    inputLineNumber,
+                            string variableName);
 
     virtual               ~lpsrVariableUseCommand ();
 

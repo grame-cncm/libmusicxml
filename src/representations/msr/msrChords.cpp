@@ -68,6 +68,8 @@ msrChord::msrChord (
   msrDurationKind chordGraphicDurationKind)
     : msrTupletElement (inputLineNumber)
 {
+  fChordKind = k_NoChord;
+
 // JMI  fChordSoundingWholeNotes = chordSoundingWholeNotes;
   fMeasureElementSoundingWholeNotes = chordSoundingWholeNotes;
 
@@ -125,6 +127,89 @@ S_msrChord msrChord::createChordNewbornClone (
 */
 
   return newbornClone;
+}
+
+// measure upLink
+S_msrMeasure msrChord::fetchChordMeasureUpLink () const
+{
+  S_msrMeasure result;
+
+  switch (fChordKind) {
+    case k_NoChord:
+      break;
+
+    case kChordInMeasure:
+      result = fChordDirectMeasureUpLink;
+      break;
+
+    case kChordInTuplet:
+      if (fChordDirectTupletUpLink) {
+        result =
+          fChordDirectTupletUpLink->
+            fetchTupletMeasureUpLink ();
+      }
+      break;
+
+    case kChordInGraceNotesGroup:
+      if (fChordDirectGraceNotesGroupUpLink) {
+        result =
+          fChordDirectGraceNotesGroupUpLink->
+            getGraceNotesGroupNoteUpLink ()->
+              fetchNoteMeasureUpLink ();
+      }
+      break;
+  } // switch
+
+  return result;
+}
+
+// tuplet upLink
+S_msrTuplet msrChord::fetchChordTupletUpLink () const
+{
+  S_msrTuplet result;
+
+  switch (fChordKind) {
+    case k_NoChord:
+      break;
+
+    case kChordInMeasure:
+      break;
+
+    case kChordInTuplet:
+      result = fChordDirectTupletUpLink;
+      break;
+
+    case kChordInGraceNotesGroup:
+      if (fChordDirectGraceNotesGroupUpLink) {
+        result =
+          fChordDirectGraceNotesGroupUpLink->
+            getGraceNotesGroupNoteUpLink ()->
+              getNoteDirectTupletUpLink ();
+      }
+      break;
+  } // switch
+
+  return result;
+}
+
+// grace notes group upLink
+S_msrGraceNotesGroup msrChord::fetchChordGraceNotesGroupUpLink () const
+{
+  S_msrGraceNotesGroup result;
+
+  switch (fChordKind) {
+    case k_NoChord:
+      break;
+    case kChordInMeasure:
+      break;
+    case kChordInTuplet:
+      break;
+    case kChordInGraceNotesGroup:
+      result = fChordDirectGraceNotesGroupUpLink; // JMI
+      break;
+  } // switch
+
+  return result;
 }
 
 void msrChord::setChordSoundingWholeNotes (
@@ -1175,7 +1260,10 @@ string msrChord::asString () const
 {
   stringstream s;
 
-  s << "<";
+  s <<
+    "[Chord" <<
+    ", chordKind: " << chordKindAsString (fChordKind) <<
+    " <";
 
   if (fChordNotesVector.size ()) {
     vector<S_msrNote>::const_iterator
@@ -1183,11 +1271,9 @@ string msrChord::asString () const
       iEnd   = fChordNotesVector.end (),
       i      = iBegin;
     for ( ; ; ) {
-      S_msrNote
-        note = (*i);
+      S_msrNote note = (*i);
 
       s <<
-        "[" <<
         note->notePitchAsString () <<
         ", whole notes: " <<
         " sounding " <<
@@ -1203,7 +1289,7 @@ string msrChord::asString () const
     } // for
   }
 
-  s << ">[";
+  s << ">]";
 
   return s.str ();
 }
@@ -1212,7 +1298,10 @@ string msrChord::asShortString () const
 {
   stringstream s;
 
-  s << "<";
+  s <<
+    "[Chord" <<
+    ", " << chordKindAsString (fChordKind) <<
+    ", <";
 
   if (fChordNotesVector.size ()) {
     vector<S_msrNote>::const_iterator
@@ -1224,19 +1313,16 @@ string msrChord::asShortString () const
         note = (*i);
 
       s <<
-        "[" <<
         note->notePitchAsString () <<
-        "', whole notes: " <<
-        " sounding " <<
+        " snd: " <<
         note->getNoteSoundingWholeNotes () <<
-        ", displayed " <<
+        ", disp: " <<
         note->getNoteDisplayWholeNotes () <<
-        ", octave: " <<
-        msrOctaveKindAsString (note->getNoteOctaveKind ()) <<
-        "]";
+        ", " <<
+        msrOctaveKindAsString (note->getNoteOctaveKind ());
 
       if (++i == iEnd) break;
-      s << " ";
+      s << ", ";
     } // for
   }
 
@@ -1256,7 +1342,9 @@ void msrChord::print (ostream& os) const
         : rational (0, 1); // JMI
 
   os <<
-    "Chord, " <<
+    "Chord" <<
+    ", chordKind: " << chordKindAsString (fChordKind) <<
+    ", " <<
     singularOrPlural (
       fChordNotesVector.size (), "note", "notes") <<
     ", line " << fInputLineNumber <<

@@ -27,17 +27,17 @@ class EXP bsrWords : public bsrLineContentsElement
     // ------------------------------------------------------
 
     static SMARTP<bsrWords> create (
-      int    inputLineNumber,
-      string wordContents);
+                            int    inputLineNumber,
+                            string wordContents);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrWords (
-      int    inputLineNumber,
-      string wordContents);
+                          bsrWords (
+                            int    inputLineNumber,
+                            string wordContents);
 
     virtual               ~bsrWords ();
 

@@ -30,21 +30,21 @@ class EXP xml2lyManPageGenerateAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<xml2lyManPageGenerateAtom> create (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lyManPageGenerateAtom (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                          xml2lyManPageGenerateAtom (
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
     virtual               ~xml2lyManPageGenerateAtom ();
 
@@ -107,7 +107,7 @@ class EXP xml2lyManPageOahGroup : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<xml2lyManPageOahGroup> create (
-      S_oahVisitor theOah2manPageGenerator);
+                            S_oahVisitor theOah2manPageGenerator);
 
   public:
 
@@ -122,8 +122,8 @@ class EXP xml2lyManPageOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lyManPageOahGroup (
-      S_oahVisitor theOah2manPageGenerator);
+                          xml2lyManPageOahGroup (
+                            S_oahVisitor theOah2manPageGenerator);
 
     virtual               ~xml2lyManPageOahGroup ();
 

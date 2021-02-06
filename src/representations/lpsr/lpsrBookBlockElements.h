@@ -40,15 +40,15 @@ class EXP lpsrBookBlockElement : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrBookBlockElement> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrBookBlockElement (
-      int inputLineNumber);
+                          lpsrBookBlockElement (
+                            int inputLineNumber);
 
     virtual               ~lpsrBookBlockElement ();
 
@@ -114,15 +114,15 @@ class EXP lpsrScoreBlock : public lpsrBookBlockElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrScoreBlock> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrScoreBlock (
-      int inputLineNumber);
+                          lpsrScoreBlock (
+                            int inputLineNumber);
 
     virtual               ~lpsrScoreBlock ();
 
@@ -183,15 +183,15 @@ class EXP lpsrBookPartBlock : public lpsrBookBlockElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrBookPartBlock> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrBookPartBlock (
-      int inputLineNumber);
+                          lpsrBookPartBlock (
+                            int inputLineNumber);
 
     virtual               ~lpsrBookPartBlock ();
 
@@ -242,15 +242,15 @@ class EXP lpsrBookBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrBookBlock> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrBookBlock (
-      int inputLineNumber);
+                          lpsrBookBlock (
+                            int inputLineNumber);
 
     virtual               ~lpsrBookBlock ();
 

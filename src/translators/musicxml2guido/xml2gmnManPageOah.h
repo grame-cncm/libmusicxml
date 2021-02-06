@@ -30,21 +30,21 @@ class EXP xml2gmnManPageGenerateAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<xml2gmnManPageGenerateAtom> create (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2gmnManPageGenerateAtom (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                          xml2gmnManPageGenerateAtom (
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
     virtual               ~xml2gmnManPageGenerateAtom ();
 
@@ -106,7 +106,7 @@ class EXP xml2gmnManPageOahGroup : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<xml2gmnManPageOahGroup> create (
-      S_oahVisitor theOah2manPageGenerator);
+                            S_oahVisitor theOah2manPageGenerator);
 
   public:
 
@@ -121,8 +121,8 @@ class EXP xml2gmnManPageOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2gmnManPageOahGroup (
-      S_oahVisitor theOah2manPageGenerator);
+                          xml2gmnManPageOahGroup (
+                            S_oahVisitor theOah2manPageGenerator);
 
     virtual               ~xml2gmnManPageOahGroup ();
 

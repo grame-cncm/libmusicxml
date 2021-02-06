@@ -47,12 +47,12 @@ class EXP brailleOutputKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<brailleOutputKindAtom> create (
-      const string&         shortName,
-      const string&         longName,
-      const string&         description,
-      const string&         valueSpecification,
-      const string&         variableName,
-      bsrBrailleOutputKind& brailleOutputKindVariable);
+                            const string&         shortName,
+                            const string&         longName,
+                            const string&         description,
+                            const string&         valueSpecification,
+                            const string&         variableName,
+                            bsrBrailleOutputKind& brailleOutputKindVariable);
 
   protected:
 
@@ -126,12 +126,12 @@ class EXP brailleUTFKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<brailleUTFKindAtom> create (
-      string      shortName,
-      string      longName,
-      string      description,
-      string      valueSpecification,
-      string      variableName,
-      bsrUTFKind& brailleUTFKindVariable);
+                            string      shortName,
+                            string      longName,
+                            string      description,
+                            string      valueSpecification,
+                            string      variableName,
+                            bsrUTFKind& brailleUTFKindVariable);
 
   protected:
 
@@ -205,12 +205,12 @@ class EXP brailleByteOrderingKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<brailleByteOrderingKindAtom> create (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               valueSpecification,
-      string               variableName,
-      bsrByteOrderingKind& brailleByteOrderingKindVariable);
+                            string               shortName,
+                            string               longName,
+                            string               description,
+                            string               valueSpecification,
+                            string               variableName,
+                            bsrByteOrderingKind& brailleByteOrderingKindVariable);
 
   protected:
 

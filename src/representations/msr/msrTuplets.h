@@ -112,6 +112,14 @@ class EXP msrTuplet : public msrTupletElement
     // set and get
     // ------------------------------------------------------
 
+    // tuplet kind
+    void                  setTupletKind (
+                            msrTupletKind tupletKind)
+                              { fTupletKind = tupletKind; }
+
+    msrTupletKind         getTupletKind () const
+                              { return fTupletKind; }
+
     // measure upLink
     void                  setTupletDirectMeasureUpLink (
                             const S_msrMeasure& measure)
@@ -188,18 +196,15 @@ class EXP msrTuplet : public msrTupletElement
     // tuplet upLink
     S_msrTuplet           fetchTupletTupletUpLink () const;
 
-    // grace notes group upLink
-    S_msrGraceNotesGroup  fetchTupletGraceNotesGroupUpLink () const;
-
     void                  appendNoteToTuplet (
                             S_msrNote  note,
                             S_msrVoice voice);
 
     void                  appendChordToTuplet (S_msrChord chord);
 
-    void                  addTupletToTuplet (S_msrTuplet tuplet);
+    void                  appendTupletToTuplet (S_msrTuplet tuplet);
 
-    void                  addTupletToTupletClone (S_msrTuplet tuplet);
+    void                  appendTupletToTupletClone (S_msrTuplet tuplet);
 
     S_msrNote             fetchTupletFirstNonGraceNote () const;
 
@@ -244,6 +249,8 @@ class EXP msrTuplet : public msrTupletElement
 
     // private fields
     // ------------------------------------------------------
+
+    msrTupletKind         fTupletKind;
 
     // measure upLink
     S_msrMeasure          fTupletDirectMeasureUpLink;

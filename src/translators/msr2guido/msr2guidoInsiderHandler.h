@@ -31,17 +31,17 @@ class EXP msr2guidoInsiderHandler : public oahInsiderHandler
     // ------------------------------------------------------
 
     static SMARTP<msr2guidoInsiderHandler> create (
-      string executableName,
-      string handlerHeader);
+                            string executableName,
+                            string handlerHeader);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2guidoInsiderHandler (
-      string executableName,
-      string handlerHeader);
+                          msr2guidoInsiderHandler (
+                            string executableName,
+                            string handlerHeader);
 
     virtual               ~msr2guidoInsiderHandler ();
 
@@ -114,7 +114,7 @@ class EXP msr2guidoInsiderOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2guidoInsiderOahGroup ();
+                          msr2guidoInsiderOahGroup ();
 
     virtual               ~msr2guidoInsiderOahGroup ();
 

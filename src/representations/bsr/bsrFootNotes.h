@@ -17,15 +17,15 @@ class EXP bsrFootNotes : public bsrLine
     // ------------------------------------------------------
 
     static SMARTP<bsrFootNotes> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrFootNotes (
-      int inputLineNumber);
+                          bsrFootNotes (
+                            int inputLineNumber);
 
     virtual               ~bsrFootNotes ();
 

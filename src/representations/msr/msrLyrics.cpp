@@ -400,26 +400,26 @@ string msrSyllable::syllableWholeNotesAsMsrString () const
 
   if (fSyllableNoteUpLink) { // JMI
     switch (fSyllableNoteUpLink->getNoteKind ()) {
-      case k_NoNoteKind:
-      case kNoteRest:
-      case kNoteUnpitched:
-      case kNoteRegular:
-      case kNoteDoubleTremoloMember:
-      case kNoteGrace:
-      case kNoteGraceSkip:
-      case kNoteGraceChordMember:
-      case kNoteChordMember:
+      case k_NoNote:
+      case kNoteRestInMeasure:
+      case kNoteUnpitchedInMeasure:
+      case kNoteRegularInMeasure:
+      case kNoteInDoubleTremolo:
+      case kNoteRegularInGraceNotesGroup:
+      case kNoteSkipInGraceNotesGroup:
+      case kNoteInChordInGraceNotesGroup:
+      case kNoteRegularInChord:
         result =
           wholeNotesAsMsrString (
             fInputLineNumber,
             fSyllableWholeNotes);
         break;
 
-      case kNoteSkip:
-      case kNoteTupletMember:
-      case kNoteTupletRestMember:
-      case kNoteGraceTupletMember:
-      case kNoteTupletUnpitchedMember:
+      case kNoteSkipInMeasure:
+      case kNoteRegularInTuplet:
+      case kNoteRestInTuplet:
+      case kNoteInTupletInGraceNotesGroup:
+      case kNoteUnpitchedInTuplet:
         {
           stringstream s;
 

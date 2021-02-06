@@ -17,17 +17,17 @@ class EXP bsrFootNotesElement : public bsrElement
     // ------------------------------------------------------
 
     static SMARTP<bsrFootNotesElement> create (
-      int    inputLineNumber,
-      string footNoteText);
+                            int    inputLineNumber,
+                            string footNoteText);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrFootNotesElement (
-      int    inputLineNumber,
-      string footNoteText);
+                          bsrFootNotesElement (
+                            int    inputLineNumber,
+                            string footNoteText);
 
     virtual               ~bsrFootNotesElement ();
 

@@ -28,21 +28,21 @@ class EXP msr2brailleManPageGenerateAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<msr2brailleManPageGenerateAtom> create (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2brailleManPageGenerateAtom (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                          msr2brailleManPageGenerateAtom (
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
     virtual               ~msr2brailleManPageGenerateAtom ();
 
@@ -105,7 +105,7 @@ class EXP msr2brailleManPageOahGroup : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<msr2brailleManPageOahGroup> create (
-      S_oahVisitor theOah2manPageGenerator);
+                            S_oahVisitor theOah2manPageGenerator);
 
   public:
 
@@ -120,8 +120,8 @@ class EXP msr2brailleManPageOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2brailleManPageOahGroup (
-      S_oahVisitor theOah2manPageGenerator);
+                          msr2brailleManPageOahGroup (
+                            S_oahVisitor theOah2manPageGenerator);
 
     virtual               ~msr2brailleManPageOahGroup ();
 

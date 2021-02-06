@@ -94,6 +94,38 @@ class EXP msrChord : public msrTupletElement
     // set and get
     // ------------------------------------------------------
 
+    // chord kind
+    void                  setChordKind (
+                            msrChordKind chordKind)
+                              { fChordKind = chordKind; }
+
+    msrChordKind          getChordKind () const
+                              { return fChordKind; }
+
+    // measure upLink
+    void                  setChordDirectMeasureUpLink (
+                            const S_msrMeasure& measure)
+                              { fChordDirectMeasureUpLink = measure; }
+
+    S_msrMeasure          getChordDirectMeasureUpLink () const
+                            { return fChordDirectMeasureUpLink; }
+
+    // tuplet upLink
+    void                  setChordDirectTupletUpLink (
+                            const S_msrTuplet& tuplet)
+                              { fChordDirectTupletUpLink = tuplet; }
+
+    S_msrTuplet           getChordDirectTupletUpLink () const
+                            { return fChordDirectTupletUpLink; }
+
+    // grace notes group upLink
+    void                  setChordDirectGraceNotesGroupUpLink (
+                            const S_msrGraceNotesGroup& graceNotesGroup)
+                              { fChordDirectGraceNotesGroupUpLink = graceNotesGroup; }
+
+    S_msrGraceNotesGroup  getChordDirectGraceNotesGroupUpLink () const
+                            { return fChordDirectGraceNotesGroupUpLink; }
+
      // whole notes
     void                  setChordSoundingWholeNotes (
                             rational wholeNotes);
@@ -308,30 +340,6 @@ class EXP msrChord : public msrTupletElement
     S_msrOctaveShift      getChordOctaveShift () const
                             { return fChordOctaveShift; }
 
-    // measure upLink
-    void                  setChordDirectMeasureUpLink (
-                            const S_msrMeasure& measure)
-                              { fChordDirectMeasureUpLink = measure; }
-
-    S_msrMeasure          getChordDirectMeasureUpLink () const
-                            { return fChordDirectMeasureUpLink; }
-
-    // grace notes group upLink
-    void                  setChordDirectGraceNotesGroupUpLink (
-                            const S_msrGraceNotesGroup& graceNotesGroup)
-                              { fChordDirectGraceNotesGroupUpLink = graceNotesGroup; }
-
-    S_msrGraceNotesGroup  getChordDirectGraceNotesGroupUpLink () const
-                            { return fChordDirectGraceNotesGroupUpLink; }
-
-    // tuplet upLink
-    void                  setChordDirectTupletUpLink (
-                            const S_msrTuplet& tuplet)
-                              { fChordDirectTupletUpLink = tuplet; }
-
-    S_msrTuplet           getChordDirectTupletUpLink () const
-                            { return fChordDirectTupletUpLink; }
-
     // positions in measures
     void                  setChordMembersPositionInMeasure (
                             S_msrMeasure measure,
@@ -482,6 +490,8 @@ class EXP msrChord : public msrTupletElement
 
     // private fields
     // ------------------------------------------------------
+
+    msrChordKind          fChordKind;
 
     // measure upLink
     S_msrMeasure          fChordDirectMeasureUpLink;

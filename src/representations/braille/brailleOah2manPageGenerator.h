@@ -33,9 +33,9 @@ class EXP brailleOah2manPageGenerator : virtual public oah2manPageGenerator,
 {
   public:
 
-    brailleOah2manPageGenerator (
-      const S_oahHandler handler,
-      ostream&           manPageOutputStream);
+                          brailleOah2manPageGenerator (
+                            const S_oahHandler handler,
+                            ostream&           manPageOutputStream);
 
     virtual               ~brailleOah2manPageGenerator ();
 

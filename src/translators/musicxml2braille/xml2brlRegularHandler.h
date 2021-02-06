@@ -36,10 +36,10 @@ class EXP xml2brlRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
     static SMARTP<xml2brlRegularHandler> create (
-      string      executableName,
-      string      handlerHeader,
-      S_xml2brlInsiderHandler
-                  insiderOahHandler);
+                            string      executableName,
+                            string      handlerHeader,
+                            S_xml2brlInsiderHandler
+                                        insiderOahHandler);
 
   protected:
 

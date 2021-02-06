@@ -385,7 +385,7 @@ class EXP lpsr2lilypondTranslator :
 
     virtual               ~lpsr2lilypondTranslator ();
 
-    void generateLilypondCodeFromLpsrScore ();
+    void                  generateLilypondCodeFromLpsrScore ();
 
   protected:
 
@@ -817,7 +817,46 @@ class EXP lpsr2lilypondTranslator :
     void                  generateCoda (S_msrCoda coda);
 
     void                  generateCodeRightBeforeNote (S_msrNote note);
+
     void                  generateCodeForNote (S_msrNote note);
+
+    void                  generateCodeForNoteRegularInMeasure (S_msrNote note);
+
+    void                  generateCodeForNoteRestInMeasure (S_msrNote note);
+    void                  generateCodeForNoteSkipInMeasure (S_msrNote note);
+    void                  generateCodeForNoteUnpitchedInMeasure (S_msrNote note);
+
+    void                  generateCodeForNoteRegularInChord (S_msrNote note);
+
+    void                  generateCodeForNoteRegularInTuplet (S_msrNote note);
+    void                  generateCodeForNoteRestInTuplet (S_msrNote note);
+    void                  generateCodeForNoteUnpitchedInTuplet (S_msrNote note);
+
+    void                  generateCodeForNoteRegularInGraceNotesGroup (S_msrNote note);
+    void                  generateCodeForNoteSkipInGraceNotesGroup (S_msrNote note);
+
+    void                  generateCodeForNoteInChordInGraceNotesGroup (S_msrNote note);
+
+    void                  generateCodeForNoteInTupletInGraceNotesGroup (S_msrNote note);
+
+    void                  generateCodeForNoteInDoubleTremolo (S_msrNote note);
+
+    void                  generateNoteScordaturas (S_msrNote note);
+
+    void                  generateNoteSlashes (S_msrNote note);
+
+    void                  generateNoteWedges (S_msrNote note);
+
+    void                  generateNoteSlurLineTypes (S_msrNote note);
+
+    void                  generateNoteGlissandoStyles (S_msrNote note);
+    void                  generateNoteGlissandosWithText (S_msrNote note);
+
+    void                  generateNoteSlideLineStyles (S_msrNote note);
+    void                  generateNoteSlidesWithText (S_msrNote note);
+
+    void                  generateNoteTechnicalsWithStrings (S_msrNote note);
+
     void                  generateCodeRightAfterNote (S_msrNote note);
 
     // stems

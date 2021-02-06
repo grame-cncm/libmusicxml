@@ -187,25 +187,25 @@ class EXP bsrNote : public bsrLineContentsElement
     // ------------------------------------------------------
 
     static SMARTP<bsrNote> create (
-      int                   inputLineNumber,
-      bsrNoteValueKind      noteValueKind,
-      int                   noteDotsNumber,
-      bsrNoteOctaveKind     noteOctaveKind,
-      bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
-      bsrAccidentalKind accidentalKind);
+                            int                   inputLineNumber,
+                            bsrNoteValueKind      noteValueKind,
+                            int                   noteDotsNumber,
+                            bsrNoteOctaveKind     noteOctaveKind,
+                            bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
+                            bsrAccidentalKind accidentalKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrNote (
-      int                   inputLineNumber,
-      bsrNoteValueKind      noteValueKind,
-      int                   noteDotsNumber,
-      bsrNoteOctaveKind     noteOctaveKind,
-      bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
-      bsrAccidentalKind accidentalKind);
+                          bsrNote (
+                            int                   inputLineNumber,
+                            bsrNoteValueKind      noteValueKind,
+                            int                   noteDotsNumber,
+                            bsrNoteOctaveKind     noteOctaveKind,
+                            bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
+                            bsrAccidentalKind accidentalKind);
 
     virtual               ~bsrNote ();
 

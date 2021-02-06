@@ -31,8 +31,8 @@ class EXP xml2gmnInsiderHandler : public oahInsiderHandler
     // ------------------------------------------------------
 
     static SMARTP<xml2gmnInsiderHandler> create (
-      string executableName,
-      string handlerHeader);
+                            string executableName,
+                            string handlerHeader);
 
   protected:
 
@@ -114,7 +114,7 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2gmnInsiderOahGroup ();
+                          xml2gmnInsiderOahGroup ();
 
     virtual               ~xml2gmnInsiderOahGroup ();
 

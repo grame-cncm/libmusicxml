@@ -329,12 +329,12 @@ class EXP msr2msrTranslator :
 {
   public:
 
-    msr2msrTranslator (
-      S_msrScore originalMsrScore);
+                          msr2msrTranslator (
+                            S_msrScore originalMsrScore);
 
     virtual               ~msr2msrTranslator ();
 
-    S_msrScore buildMsrScoreFromMsrScore ();
+    S_msrScore            buildMsrScoreFromMsrScore ();
 
   protected:
 

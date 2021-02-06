@@ -38,93 +38,93 @@ class EXP bsrCellsList : public smartable
     // ------------------------------------------------------
 
     static SMARTP<bsrCellsList> create (
-      int         inputLineNumber);
+                            int         inputLineNumber);
 
     static SMARTP<bsrCellsList> create (
-      int         inputLineNumber,
-      bsrCellKind cellKind1);
+                            int         inputLineNumber,
+                            bsrCellKind cellKind1);
 
     static SMARTP<bsrCellsList> create (
-      int         inputLineNumber,
-      bsrCellKind cellKind1,
+                            int         inputLineNumber,
+                            bsrCellKind cellKind1,
       bsrCellKind cellKind2);
 
     static SMARTP<bsrCellsList> create (
-      int         inputLineNumber,
-      bsrCellKind cellKind1,
-      bsrCellKind cellKind2,
-      bsrCellKind cellKind3);
+                            int         inputLineNumber,
+                            bsrCellKind cellKind1,
+                            bsrCellKind cellKind2,
+                            bsrCellKind cellKind3);
 
     static SMARTP<bsrCellsList> create (
-      int         inputLineNumber,
-      bsrCellKind cellKind1,
-      bsrCellKind cellKind2,
-      bsrCellKind cellKind3,
-      bsrCellKind cellKind4);
+                            int         inputLineNumber,
+                            bsrCellKind cellKind1,
+                            bsrCellKind cellKind2,
+                            bsrCellKind cellKind3,
+                            bsrCellKind cellKind4);
 
     static SMARTP<bsrCellsList> create (
-      int         inputLineNumber,
-      bsrCellKind cellKind1,
-      bsrCellKind cellKind2,
-      bsrCellKind cellKind3,
-      bsrCellKind cellKind4,
-      bsrCellKind cellKind5);
+                            int         inputLineNumber,
+                            bsrCellKind cellKind1,
+                            bsrCellKind cellKind2,
+                            bsrCellKind cellKind3,
+                            bsrCellKind cellKind4,
+                            bsrCellKind cellKind5);
 
     static SMARTP<bsrCellsList> create (
-      int         inputLineNumber,
-      bsrCellKind cellKind1,
-      bsrCellKind cellKind2,
-      bsrCellKind cellKind3,
-      bsrCellKind cellKind4,
-      bsrCellKind cellKind5,
-      bsrCellKind cellKind6);
+                            int         inputLineNumber,
+                            bsrCellKind cellKind1,
+                            bsrCellKind cellKind2,
+                            bsrCellKind cellKind3,
+                            bsrCellKind cellKind4,
+                            bsrCellKind cellKind5,
+                            bsrCellKind cellKind6);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrCellsList (
-      int         inputLineNumber);
+                          bsrCellsList (
+                            int         inputLineNumber);
 
-    bsrCellsList (
-      int         inputLineNumber,
-      bsrCellKind cellKind1);
+                          bsrCellsList (
+                            int         inputLineNumber,
+                            bsrCellKind cellKind1);
 
-    bsrCellsList (
-      int         inputLineNumber,
-      bsrCellKind cellKind1,
-      bsrCellKind cellKind2);
+                          bsrCellsList (
+                            int         inputLineNumber,
+                            bsrCellKind cellKind1,
+                            bsrCellKind cellKind2);
 
-    bsrCellsList (
-      int         inputLineNumber,
-      bsrCellKind cellKind1,
-      bsrCellKind cellKind2,
-      bsrCellKind cellKind3);
+                          bsrCellsList (
+                            int         inputLineNumber,
+                            bsrCellKind cellKind1,
+                            bsrCellKind cellKind2,
+                            bsrCellKind cellKind3);
 
-    bsrCellsList (
-      int         inputLineNumber,
-      bsrCellKind cellKind1,
-      bsrCellKind cellKind2,
-      bsrCellKind cellKind3,
-      bsrCellKind cellKind4);
+                          bsrCellsList (
+                            int         inputLineNumber,
+                            bsrCellKind cellKind1,
+                            bsrCellKind cellKind2,
+                            bsrCellKind cellKind3,
+                            bsrCellKind cellKind4);
 
-    bsrCellsList (
-      int         inputLineNumber,
-      bsrCellKind cellKind1,
-      bsrCellKind cellKind2,
-      bsrCellKind cellKind3,
-      bsrCellKind cellKind4,
-      bsrCellKind cellKind5);
+                          bsrCellsList (
+                            int         inputLineNumber,
+                            bsrCellKind cellKind1,
+                            bsrCellKind cellKind2,
+                            bsrCellKind cellKind3,
+                            bsrCellKind cellKind4,
+                            bsrCellKind cellKind5);
 
-    bsrCellsList (
-      int         inputLineNumber,
-      bsrCellKind cellKind1,
-      bsrCellKind cellKind2,
-      bsrCellKind cellKind3,
-      bsrCellKind cellKind4,
-      bsrCellKind cellKind5,
-      bsrCellKind cellKind6);
+                          bsrCellsList (
+                            int         inputLineNumber,
+                            bsrCellKind cellKind1,
+                            bsrCellKind cellKind2,
+                            bsrCellKind cellKind3,
+                            bsrCellKind cellKind4,
+                            bsrCellKind cellKind5,
+                            bsrCellKind cellKind6);
 
     virtual               ~bsrCellsList ();
 

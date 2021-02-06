@@ -2684,56 +2684,56 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   // register whether music (i.e. not just skips)
   // has been inserted into the voice
   switch (note->getNoteKind ()) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRest:
+    case kNoteRestInMeasure:
       // register rest
       ++fVoiceRestsCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case kNoteSkip:
+    case kNoteSkipInMeasure:
       // don't account skips as music
       ++fVoiceSkipsCounter;
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case kNoteRegular:
+    case kNoteRegularInMeasure:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case kNoteGrace:
-    case kNoteGraceSkip:
-    case kNoteGraceChordMember:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
+    case kNoteInChordInGraceNotesGroup:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
-    case kNoteGraceTupletMember:
-    case kNoteTupletUnpitchedMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
+    case kNoteInTupletInGraceNotesGroup:
+    case kNoteUnpitchedInTuplet:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
@@ -2825,56 +2825,56 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   // register whether music (i.e. not just skips)
   // has been inserted into the voice
   switch (note->getNoteKind ()) {
-    case k_NoNoteKind:
+    case k_NoNote:
       break;
 
-    case kNoteRest:
+    case kNoteRestInMeasure:
       // register rest
       ++fVoiceRestsCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case kNoteSkip:
+    case kNoteSkipInMeasure:
       // don't account skips as music
       ++fVoiceSkipsCounter;
       break;
 
-    case kNoteUnpitched:
+    case kNoteUnpitchedInMeasure:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case kNoteRegular:
+    case kNoteRegularInMeasure:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case kNoteDoubleTremoloMember:
+    case kNoteInDoubleTremolo:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case kNoteGrace:
-    case kNoteGraceSkip:
-    case kNoteGraceChordMember:
+    case kNoteRegularInGraceNotesGroup:
+    case kNoteSkipInGraceNotesGroup:
+    case kNoteInChordInGraceNotesGroup:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case kNoteChordMember:
+    case kNoteRegularInChord:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case kNoteTupletMember:
-    case kNoteTupletRestMember:
-    case kNoteGraceTupletMember:
-    case kNoteTupletUnpitchedMember:
+    case kNoteRegularInTuplet:
+    case kNoteRestInTuplet:
+    case kNoteInTupletInGraceNotesGroup:
+    case kNoteUnpitchedInTuplet:
       // register actual note
       ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;

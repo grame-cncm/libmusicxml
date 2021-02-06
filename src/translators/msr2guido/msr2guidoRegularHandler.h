@@ -34,21 +34,21 @@ class EXP msr2guidoRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
     static SMARTP<msr2guidoRegularHandler> create (
-      string      executableName,
-      string      handlerHeader,
-      S_msr2guidoInsiderHandler
-                  insiderOahHandler);
+                            string      executableName,
+                            string      handlerHeader,
+                            S_msr2guidoInsiderHandler
+                                        insiderOahHandler);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2guidoRegularHandler (
-      string      executableName,
-      string      handlerHeader,
-      S_msr2guidoInsiderHandler
-                  insiderOahHandler);
+                          msr2guidoRegularHandler (
+                            string      executableName,
+                            string      handlerHeader,
+                            S_msr2guidoInsiderHandler
+                                        insiderOahHandler);
 
     virtual               ~msr2guidoRegularHandler ();
 

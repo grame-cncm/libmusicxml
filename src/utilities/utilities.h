@@ -50,6 +50,7 @@ namespace MusicXML2
 class EXP timingItem : public smartable
 {
   public:
+
     enum timingItemKind {
       kMandatory, kOptional
     };
@@ -79,7 +80,7 @@ typedef SMARTP<timingItem> S_timingItem;
 
 class EXP timing {
   public:
-       timing ();
+                          timing ();
     virtual               ~timing ();
 
     // global variable for general use

@@ -35,27 +35,27 @@ class EXP lpsrPitchesLanguageAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lpsrPitchesLanguageAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      msrQuarterTonesPitchesLanguageKind&
-                         lpsrPitchesLanguageKindVariable);
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            msrQuarterTonesPitchesLanguageKind&
+                                               lpsrPitchesLanguageKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrPitchesLanguageAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      msrQuarterTonesPitchesLanguageKind&
-                         lpsrPitchesLanguageKindVariable);
+                          lpsrPitchesLanguageAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            msrQuarterTonesPitchesLanguageKind&
+                                               lpsrPitchesLanguageKindVariable);
 
     virtual               ~lpsrPitchesLanguageAtom ();
 
@@ -123,27 +123,27 @@ class EXP lpsrChordsLanguageAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lpsrChordsLanguageAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      lpsrChordsLanguageKind&
-                         lpsrChordsLanguageKindVariable);
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            lpsrChordsLanguageKind&
+                                               lpsrChordsLanguageKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrChordsLanguageAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      lpsrChordsLanguageKind&
-                         lpsrChordsLanguageKindVariable);
+                          lpsrChordsLanguageAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            lpsrChordsLanguageKind&
+                                               lpsrChordsLanguageKindVariable);
 
     virtual               ~lpsrChordsLanguageAtom ();
 
@@ -211,27 +211,27 @@ class EXP lpsrTransposeAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lpsrTransposeAtom> create (
-      string  shortName,
-      string  longName,
-      string  description,
-      string  valueSpecification,
-      string  variableName,
-      S_msrSemiTonesPitchAndOctave&
-              semiTonesPitchAndOctaveVariable);
+                            string  shortName,
+                            string  longName,
+                            string  description,
+                            string  valueSpecification,
+                            string  variableName,
+                            S_msrSemiTonesPitchAndOctave&
+                                    semiTonesPitchAndOctaveVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrTransposeAtom (
-      string  shortName,
-      string  longName,
-      string  description,
-      string  valueSpecification,
-      string  variableName,
-      S_msrSemiTonesPitchAndOctave&
-              semiTonesPitchAndOctaveVariable);
+                          lpsrTransposeAtom (
+                            string  shortName,
+                            string  longName,
+                            string  description,
+                            string  valueSpecification,
+                            string  variableName,
+                            S_msrSemiTonesPitchAndOctave&
+                                    semiTonesPitchAndOctaveVariable);
 
     virtual               ~lpsrTransposeAtom ();
 
@@ -743,27 +743,27 @@ class EXP lpsrDalSegnoAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lpsrDalSegnoAtom> create (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<string, msrDalSegno::msrDalSegnoKind>&
-                          stringToDalSegnoKindMapVariable);
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            string              valueSpecification,
+                            string              variableName,
+                            map<string, msrDalSegno::msrDalSegnoKind>&
+                                                stringToDalSegnoKindMapVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrDalSegnoAtom (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<string, msrDalSegno::msrDalSegnoKind>&
-                          stringToDalSegnoKindMapVariable);
+                          lpsrDalSegnoAtom (
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            string              valueSpecification,
+                            string              variableName,
+                            map<string, msrDalSegno::msrDalSegnoKind>&
+                                                stringToDalSegnoKindMapVariable);
 
     virtual               ~lpsrDalSegnoAtom ();
 
@@ -829,27 +829,27 @@ class EXP lpsrDalSegnoAlFineAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lpsrDalSegnoAlFineAtom> create (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<string, msrDalSegno::msrDalSegnoKind>&
-                          stringToDalSegnoKindMapVariable);
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            string              valueSpecification,
+                            string              variableName,
+                            map<string, msrDalSegno::msrDalSegnoKind>&
+                                                stringToDalSegnoKindMapVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrDalSegnoAlFineAtom (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<string, msrDalSegno::msrDalSegnoKind>&
-                          stringToDalSegnoKindMapVariable);
+                          lpsrDalSegnoAlFineAtom (
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            string              valueSpecification,
+                            string              variableName,
+                            map<string, msrDalSegno::msrDalSegnoKind>&
+                                                stringToDalSegnoKindMapVariable);
 
     virtual               ~lpsrDalSegnoAlFineAtom ();
 
@@ -915,27 +915,27 @@ class EXP lpsrDalSegnoAlCodaAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lpsrDalSegnoAlCodaAtom> create (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<string, msrDalSegno::msrDalSegnoKind>&
-                          stringToDalSegnoKindMapVariable);
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            string              valueSpecification,
+                            string              variableName,
+                            map<string, msrDalSegno::msrDalSegnoKind>&
+                                                stringToDalSegnoKindMapVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrDalSegnoAlCodaAtom (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<string, msrDalSegno::msrDalSegnoKind>&
-                          stringToDalSegnoKindMapVariable);
+                          lpsrDalSegnoAlCodaAtom (
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            string              valueSpecification,
+                            string              variableName,
+                            map<string, msrDalSegno::msrDalSegnoKind>&
+                                                stringToDalSegnoKindMapVariable);
 
     virtual               ~lpsrDalSegnoAlCodaAtom ();
 

@@ -32,21 +32,21 @@ struct mxmlPartGroupDescr : public smartable
     // ------------------------------------------------------
 
     static SMARTP<mxmlPartGroupDescr> create (
-      int            startInputLineNumber,
-      int            partGroupNumber,
-      S_msrPartGroup partGroup,
-      int            startPosition);
+                            int            startInputLineNumber,
+                            int            partGroupNumber,
+                            S_msrPartGroup partGroup,
+                            int            startPosition);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    mxmlPartGroupDescr (
-      int            startInputLineNumber,
-      int            partGroupNumber,
-      S_msrPartGroup partGroup,
-      int            startPosition);
+                          mxmlPartGroupDescr (
+                            int            startInputLineNumber,
+                            int            partGroupNumber,
+                            S_msrPartGroup partGroup,
+                            int            startPosition);
 
     virtual               ~mxmlPartGroupDescr ();
 
@@ -247,7 +247,7 @@ class EXP mxmlTree2msrSkeletonBuilder :
     // constructors/destructor
     // ------------------------------------------------------
 
-    mxmlTree2msrSkeletonBuilder ();
+                          mxmlTree2msrSkeletonBuilder ();
 
     virtual               ~mxmlTree2msrSkeletonBuilder ();
 
@@ -266,8 +266,8 @@ class EXP mxmlTree2msrSkeletonBuilder :
     // visitors
     // ------------------------------------------------------
 
-    void browseMxmlTree (
-        const Sxmlelement& xmlTree);
+    void                  browseMxmlTree (
+                            const Sxmlelement& xmlTree);
 
   protected:
 

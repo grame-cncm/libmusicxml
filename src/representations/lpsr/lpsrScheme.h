@@ -54,25 +54,25 @@ class EXP lpsrSchemeVariable : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrSchemeVariable> create (
-      int               inputLineNumber,
-      lpsrCommentedKind commentedKind,
-      string            variableName,
-      string            value,
-      string            comment,
-      lpsrEndlKind      endlKind);
+                            int               inputLineNumber,
+                            lpsrCommentedKind commentedKind,
+                            string            variableName,
+                            string            value,
+                            string            comment,
+                            lpsrEndlKind      endlKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrSchemeVariable (
-      int               inputLineNumber,
-      lpsrCommentedKind commentedKind,
-      string            variableName,
-      string            value,
-      string            comment,
-      lpsrEndlKind      endlKind);
+                          lpsrSchemeVariable (
+                            int               inputLineNumber,
+                            lpsrCommentedKind commentedKind,
+                            string            variableName,
+                            string            value,
+                            string            comment,
+                            lpsrEndlKind      endlKind);
 
     virtual               ~lpsrSchemeVariable ();
 
@@ -145,21 +145,21 @@ class EXP lpsrSchemeFunction : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrSchemeFunction> create (
-      int    inputLineNumber,
-      string functionName,
-      string functionDescription,
-      string functionCode);
+                            int    inputLineNumber,
+                            string functionName,
+                            string functionDescription,
+                            string functionCode);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrSchemeFunction (
-      int    inputLineNumber,
-      string functionName,
-      string functionDescription,
-      string functionCode);
+                          lpsrSchemeFunction (
+                            int    inputLineNumber,
+                            string functionName,
+                            string functionDescription,
+                            string functionCode);
 
     virtual               ~lpsrSchemeFunction ();
 

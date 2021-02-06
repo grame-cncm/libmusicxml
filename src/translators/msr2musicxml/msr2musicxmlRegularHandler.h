@@ -34,21 +34,21 @@ class EXP msr2musicxmlRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
     static SMARTP<msr2musicxmlRegularHandler> create (
-      string      executableName,
-      string      handlerHeader,
-      S_msr2musicxmlInsiderHandler
-                  insiderOahHandler);
+                            string      executableName,
+                            string      handlerHeader,
+                            S_msr2musicxmlInsiderHandler
+                                        insiderOahHandler);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2musicxmlRegularHandler (
-      string      executableName,
-      string      handlerHeader,
-      S_msr2musicxmlInsiderHandler
-                  insiderOahHandler);
+                          msr2musicxmlRegularHandler (
+                            string      executableName,
+                            string      handlerHeader,
+                            S_msr2musicxmlInsiderHandler
+                                        insiderOahHandler);
 
     virtual               ~msr2musicxmlRegularHandler ();
 

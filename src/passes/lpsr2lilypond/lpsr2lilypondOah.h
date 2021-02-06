@@ -30,25 +30,25 @@ class EXP lilypondScoreOutputKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lilypondScoreOutputKindAtom> create (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               valueSpecification,
-      string               variableName,
-      lpsrScoreOutputKind& lilypondScoreOutputKindVariable);
+                            string               shortName,
+                            string               longName,
+                            string               description,
+                            string               valueSpecification,
+                            string               variableName,
+                            lpsrScoreOutputKind& lilypondScoreOutputKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondScoreOutputKindAtom (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               valueSpecification,
-      string               variableName,
-      lpsrScoreOutputKind& lilypondScoreOutputKindVariable);
+                          lilypondScoreOutputKindAtom (
+                            string               shortName,
+                            string               longName,
+                            string               description,
+                            string               valueSpecification,
+                            string               variableName,
+                            lpsrScoreOutputKind& lilypondScoreOutputKindVariable);
 
     virtual               ~lilypondScoreOutputKindAtom ();
 
@@ -111,27 +111,27 @@ class EXP lilypondTransposePartNameAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lilypondTransposePartNameAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      map<string, S_msrSemiTonesPitchAndOctave>&
-                         stringToMsrSemiTonesPitchAndOctaveMapVariable);
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            map<string, S_msrSemiTonesPitchAndOctave>&
+                                               stringToMsrSemiTonesPitchAndOctaveMapVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondTransposePartNameAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      map<string, S_msrSemiTonesPitchAndOctave>&
-                         stringToMsrSemiTonesPitchAndOctaveMapVariable);
+                          lilypondTransposePartNameAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            map<string, S_msrSemiTonesPitchAndOctave>&
+                                               stringToMsrSemiTonesPitchAndOctaveMapVariable);
 
     virtual               ~lilypondTransposePartNameAtom ();
 
@@ -211,27 +211,27 @@ class EXP lilypondTransposePartIDAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lilypondTransposePartIDAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      map<string, S_msrSemiTonesPitchAndOctave>&
-                         stringToMsrSemiTonesPitchAndOctaveMapVariable);
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            map<string, S_msrSemiTonesPitchAndOctave>&
+                                               stringToMsrSemiTonesPitchAndOctaveMapVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondTransposePartIDAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      map<string, S_msrSemiTonesPitchAndOctave>&
-                         stringToMsrSemiTonesPitchAndOctaveMapVariable);
+                          lilypondTransposePartIDAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            map<string, S_msrSemiTonesPitchAndOctave>&
+                                               stringToMsrSemiTonesPitchAndOctaveMapVariable);
 
     virtual               ~lilypondTransposePartIDAtom ();
 
@@ -311,23 +311,23 @@ class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     static SMARTP<lilypondAbsoluteOctaveEntryAtom> create (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               variableName,
-      lpsrOctaveEntryKind& lpsrOctaveEntryKindVariable);
+                            string               shortName,
+                            string               longName,
+                            string               description,
+                            string               variableName,
+                            lpsrOctaveEntryKind& lpsrOctaveEntryKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondAbsoluteOctaveEntryAtom (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               variableName,
-      lpsrOctaveEntryKind& lpsrOctaveEntryKindVariable);
+                          lilypondAbsoluteOctaveEntryAtom (
+                            string               shortName,
+                            string               longName,
+                            string               description,
+                            string               variableName,
+                            lpsrOctaveEntryKind& lpsrOctaveEntryKindVariable);
 
     virtual               ~lilypondAbsoluteOctaveEntryAtom ();
 
@@ -383,27 +383,27 @@ class EXP lilypondRelativeOctaveEntryAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lilypondRelativeOctaveEntryAtom> create (
-      string                        shortName,
-      string                        longName,
-      string                        description,
-      string                        valueSpecification,
-      string                        variableName,
-      lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
-      S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable);
+                            string                        shortName,
+                            string                        longName,
+                            string                        description,
+                            string                        valueSpecification,
+                            string                        variableName,
+                            lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+                            S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondRelativeOctaveEntryAtom (
-      string                        shortName,
-      string                        longName,
-      string                        description,
-      string                        valueSpecification,
-      string                        variableName,
-      lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
-      S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable);
+                          lilypondRelativeOctaveEntryAtom (
+                            string                        shortName,
+                            string                        longName,
+                            string                        description,
+                            string                        valueSpecification,
+                            string                        variableName,
+                            lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+                            S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable);
 
     virtual               ~lilypondRelativeOctaveEntryAtom ();
 
@@ -473,27 +473,27 @@ class EXP lilypondFixedOctaveEntryAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lilypondFixedOctaveEntryAtom> create (
-      string                        shortName,
-      string                        longName,
-      string                        description,
-      string                        valueSpecification,
-      string                        variableName,
-      lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
-      S_msrSemiTonesPitchAndOctave& lilypondFixedOctaveEntryVariable);
+                            string                        shortName,
+                            string                        longName,
+                            string                        description,
+                            string                        valueSpecification,
+                            string                        variableName,
+                            lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+                            S_msrSemiTonesPitchAndOctave& lilypondFixedOctaveEntryVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondFixedOctaveEntryAtom (
-      string                        shortName,
-      string                        longName,
-      string                        description,
-      string                        valueSpecification,
-      string                        variableName,
-      lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
-      S_msrSemiTonesPitchAndOctave& lilypondFixedOctaveEntryVariable);
+                          lilypondFixedOctaveEntryAtom (
+                            string                        shortName,
+                            string                        longName,
+                            string                        description,
+                            string                        valueSpecification,
+                            string                        variableName,
+                            lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+                            S_msrSemiTonesPitchAndOctave& lilypondFixedOctaveEntryVariable);
 
     virtual               ~lilypondFixedOctaveEntryAtom ();
 
@@ -564,27 +564,27 @@ class EXP lilypondAccidentalStyleKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lilypondAccidentalStyleKindAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      lpsrAccidentalStyleKind&
-                         lilypondAccidentalStyleKindVariable);
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            lpsrAccidentalStyleKind&
+                                               lilypondAccidentalStyleKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondAccidentalStyleKindAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      lpsrAccidentalStyleKind&
-                         lilypondAccidentalStyleKindVariable);
+                          lilypondAccidentalStyleKindAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            lpsrAccidentalStyleKind&
+                                               lilypondAccidentalStyleKindVariable);
 
     virtual               ~lilypondAccidentalStyleKindAtom ();
 
@@ -652,27 +652,27 @@ class EXP lilypondChordsDisplayAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lilypondChordsDisplayAtom> create (
-      const string&         shortName,
-      const string&         longName,
-      const string&         description,
-      const string&         valueSpecification,
-      const string&         variableName,
-      list<pair<string, string> >&
-                            lilypondChordsDisplayVariable);
+                            const string&         shortName,
+                            const string&         longName,
+                            const string&         description,
+                            const string&         valueSpecification,
+                            const string&         variableName,
+                            list<pair<string, string> >&
+                                                  lilypondChordsDisplayVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondChordsDisplayAtom (
-      const string&         shortName,
-      const string&         longName,
-      const string&         description,
-      const string&         valueSpecification,
-      const string&         variableName,
-      list<pair<string, string> >&
-                            lilypondChordsDisplayVariable);
+                          lilypondChordsDisplayAtom (
+                            const string&         shortName,
+                            const string&         longName,
+                            const string&         description,
+                            const string&         valueSpecification,
+                            const string&         variableName,
+                            list<pair<string, string> >&
+                                                  lilypondChordsDisplayVariable);
 
     virtual               ~lilypondChordsDisplayAtom ();
 
@@ -744,27 +744,27 @@ class EXP lilypondLyricsDurationsKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lilypondLyricsDurationsKindAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      lpsrLyricsDurationsKind&
-                         lilypondLyricsDurationsKindVariable);
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            lpsrLyricsDurationsKind&
+                                               lilypondLyricsDurationsKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondLyricsDurationsKindAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      lpsrLyricsDurationsKind&
-                         lilypondLyricsDurationsKindVariable);
+                          lilypondLyricsDurationsKindAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            lpsrLyricsDurationsKind&
+                                               lilypondLyricsDurationsKindVariable);
 
     virtual               ~lilypondLyricsDurationsKindAtom ();
 
@@ -857,7 +857,7 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsr2lilypondOahGroup ();
+                          lpsr2lilypondOahGroup ();
 
     virtual               ~lpsr2lilypondOahGroup ();
 
@@ -1878,25 +1878,25 @@ class EXP lilypondBreakPageAfterMeasureNumberAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lilypondBreakPageAfterMeasureNumberAtom> create (
-      string       shortName,
-      string       longName,
-      string       description,
-      string       valueSpecification,
-      string       variableName,
-      set<string>& S_lilypondAbsoluteOctaveEntryAtomtringSetVariable);
+                            string       shortName,
+                            string       longName,
+                            string       description,
+                            string       valueSpecification,
+                            string       variableName,
+                            set<string>& S_lilypondAbsoluteOctaveEntryAtomtringSetVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondBreakPageAfterMeasureNumberAtom (
-      string       shortName,
-      string       longName,
-      string       description,
-      string       valueSpecification,
-      string       variableName,
-      set<string>& fStringSetVariable);
+                          lilypondBreakPageAfterMeasureNumberAtom (
+                            string       shortName,
+                            string       longName,
+                            string       description,
+                            string       valueSpecification,
+                            string       variableName,
+                            set<string>& fStringSetVariable);
 
     virtual               ~lilypondBreakPageAfterMeasureNumberAtom ();
 

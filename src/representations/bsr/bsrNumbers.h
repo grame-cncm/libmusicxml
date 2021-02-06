@@ -27,21 +27,21 @@ class EXP bsrNumber : public bsrLineContentsElement
     // ------------------------------------------------------
 
     static SMARTP<bsrNumber> create (
-      int       inputLineNumber,
-      int       numberValue,
-      bsrNumberSignIsNeededKind
-                numberSignIsNeededKind);
+                            int       inputLineNumber,
+                            int       numberValue,
+                            bsrNumberSignIsNeededKind
+                                      numberSignIsNeededKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrNumber (
-      int       inputLineNumber,
-      int       numberValue,
-      bsrNumberSignIsNeededKind
-                numberSignIsNeededKind);
+                          bsrNumber (
+                            int       inputLineNumber,
+                            int       numberValue,
+                            bsrNumberSignIsNeededKind
+                                      numberSignIsNeededKind);
 
     virtual               ~bsrNumber ();
 

@@ -71,6 +71,8 @@ msrTuplet::msrTuplet (
   rational                memberNotesDisplayWholeNotes)
     : msrTupletElement (inputLineNumber)
 {
+  fTupletKind = k_NoTuplet;
+
   fTupletNumber = tupletNumber;
 
   fTupletBracketKind    = tupletBracketKind;
@@ -144,6 +146,51 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
 */
 
   return newbornClone;
+}
+
+// measure upLink
+S_msrMeasure msrTuplet::fetchTupletMeasureUpLink () const
+{
+  S_msrMeasure result;
+
+  switch (fTupletKind) {
+    case k_NoTuplet:
+      break;
+
+    case kTupletInMeasure:
+      result = fTupletDirectMeasureUpLink;
+      break;
+
+    case kTupletInTuplet:
+      if (fTupletDirectTupletUpLink) {
+        result =
+          fTupletDirectTupletUpLink->
+            fetchTupletMeasureUpLink ();
+      }
+      break;
+  } // switch
+
+  return result;
+}
+
+// tuplet upLink
+S_msrTuplet msrTuplet::fetchTupletTupletUpLink () const
+{
+  S_msrTuplet result;
+
+  switch (fTupletKind) {
+    case k_NoTuplet:
+      break;
+
+    case kTupletInMeasure:
+      break;
+
+    case kTupletInTuplet:
+      result = fTupletDirectTupletUpLink;
+      break;
+  } // switch
+
+  return result;
 }
 
 string msrTuplet::tupletTypeKindAsString (
@@ -256,7 +303,7 @@ void msrTuplet::appendNoteToTuplet (
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceTuplets ()) {
     gLogStream <<
-      "Adding note " <<
+      "Appending note " <<
       note->asShortString () <<
       // the information is missing to display it the normal way
       " to tuplet " <<
@@ -314,13 +361,16 @@ void msrTuplet::appendChordToTuplet (S_msrChord chord)
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceTuplets ()) {
     gLogStream <<
-      "Adding chord " <<
+      "Appending chord " <<
       chord->asString () <<
       " to tuplet " <<
       asString () <<
       endl;
   }
 #endif
+
+  // set the chord kind
+  chord->setChordKind (kChordInTuplet);
 
   // append chord to elements list
   fTupletElementsList.push_back (chord);
@@ -352,12 +402,12 @@ void msrTuplet::appendChordToTuplet (S_msrChord chord)
 */
 }
 
-void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
+void msrTuplet::appendTupletToTuplet (S_msrTuplet tuplet)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceTuplets ()) {
     gLogStream <<
-      "Adding tuplet " <<
+      "Appending tuplet " <<
       tuplet->asString () <<
       " to tuplet " <<
       asString () <<
@@ -373,6 +423,9 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
       this->getTupletNormalNotes (),
       this->getTupletNormalNotes ();
   */
+
+  // set the tuplet kind
+  tuplet->setTupletKind (kTupletInTuplet);
 
   // append tuplet to elements list
   fTupletElementsList.push_back (tuplet);
@@ -391,14 +444,14 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   fTupletDisplayWholeNotes.rationalise ();
 }
 
-void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
+void msrTuplet::appendTupletToTupletClone (S_msrTuplet tuplet)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceTuplets ()) {
     gLogStream <<
-      "Adding tuplet " <<
+      "Appending tuplet " <<
       tuplet->asString () <<
-      " to tuplet " <<
+      " to tuplet clone " <<
       asString () <<
       endl;
   }
@@ -892,8 +945,8 @@ string msrTuplet::asString () const
   stringstream s;
 
   s <<
-    "[" <<
-    "Tuplet " <<
+    "[Tuplet" <<
+    ", tupletKind: " << tupletKindAsString (fTupletKind) <<
     fTupletFactor.asString () <<
     " " << fMeasureElementSoundingWholeNotes << " tupletSoundingWholeNotes" <<
     ", measure ' " <<
@@ -960,6 +1013,7 @@ void msrTuplet::print (ostream& os) const
 {
   os <<
     "Tuplet " <<
+    ", tupletKind: " << tupletKindAsString (fTupletKind) <<
     fTupletNumber <<
     ", " <<
     fTupletFactor.asString () <<

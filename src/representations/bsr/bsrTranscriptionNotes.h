@@ -30,17 +30,17 @@ class EXP bsrTranscriptionNotesElement : public bsrElement
     // ------------------------------------------------------
 
     static SMARTP<bsrTranscriptionNotesElement> create (
-      int    inputLineNumber,
-      string transcriptionNoteText);
+                            int    inputLineNumber,
+                            string transcriptionNoteText);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrTranscriptionNotesElement (
-      int    inputLineNumber,
-      string transcriptionNoteText);
+                          bsrTranscriptionNotesElement (
+                            int    inputLineNumber,
+                            string transcriptionNoteText);
 
     virtual               ~bsrTranscriptionNotesElement ();
 
@@ -105,15 +105,15 @@ class EXP bsrTranscriptionNotes : public bsrLine
     // ------------------------------------------------------
 
     static SMARTP<bsrTranscriptionNotes> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrTranscriptionNotes (
-      int inputLineNumber);
+                          bsrTranscriptionNotes (
+                            int inputLineNumber);
 
     virtual               ~bsrTranscriptionNotes ();
 

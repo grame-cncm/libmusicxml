@@ -45,9 +45,9 @@ class EXP lpsr2lilypondOah2manPageGenerator : virtual public oah2manPageGenerato
 {
   public:
 
-    lpsr2lilypondOah2manPageGenerator (
-      const S_oahHandler handler,
-      ostream&           manPageOutputStream);
+                          lpsr2lilypondOah2manPageGenerator (
+                            const S_oahHandler handler,
+                            ostream&           manPageOutputStream);
 
     virtual               ~lpsr2lilypondOah2manPageGenerator ();
 

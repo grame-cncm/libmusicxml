@@ -41,7 +41,7 @@ class EXP musicxmlOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    musicxmlOahGroup ();
+                          musicxmlOahGroup ();
 
     virtual               ~musicxmlOahGroup ();
 

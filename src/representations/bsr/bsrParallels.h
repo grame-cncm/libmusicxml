@@ -41,15 +41,15 @@ class EXP bsrParallel : public bsrElement
     // ------------------------------------------------------
 
     static SMARTP<bsrParallel> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrParallel (
-      int inputLineNumber);
+                          bsrParallel (
+                            int inputLineNumber);
 
     virtual               ~bsrParallel ();
 

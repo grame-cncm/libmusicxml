@@ -31,9 +31,9 @@ class EXP bsrLine : public bsrPageElement
     // ------------------------------------------------------
 
     static SMARTP<bsrLine> create (
-      int inputLineNumber,
-      int printLineNumber,
-      int cellsPerLine);
+                            int inputLineNumber,
+                            int printLineNumber,
+                            int cellsPerLine);
 
     SMARTP<bsrLine> createLineNewbornClone ();
 
@@ -42,10 +42,10 @@ class EXP bsrLine : public bsrPageElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrLine (
-      int inputLineNumber,
-      int printLineNumber,
-      int cellsPerLine);
+                          bsrLine (
+                            int inputLineNumber,
+                            int printLineNumber,
+                            int cellsPerLine);
 
     virtual               ~bsrLine ();
 

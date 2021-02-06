@@ -18,8 +18,8 @@ class EXP bsrDynamics : public bsrLineContentsElement
     // ------------------------------------------------------
 
     static SMARTP<bsrDynamics> create (
-      int             inputLineNumber,
-      msrDynamicsKind dynamicsKind);
+                            int             inputLineNumber,
+                            msrDynamicsKind dynamicsKind);
 
   protected:
 

@@ -34,7 +34,7 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
     // creation
     // ------------------------------------------------------
 
-                          static SMARTP<Mikrokosmos3WanderingOahGroup> create ();
+    static SMARTP<Mikrokosmos3WanderingOahGroup> create ();
 
   private:
 

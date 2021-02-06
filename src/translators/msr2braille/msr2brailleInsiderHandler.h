@@ -31,17 +31,17 @@ class EXP msr2brailleInsiderHandler : public oahInsiderHandler
     // ------------------------------------------------------
 
     static SMARTP<msr2brailleInsiderHandler> create (
-      string executableName,
-      string handlerHeader);
+                            string executableName,
+                            string handlerHeader);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2brailleInsiderHandler (
-      string executableName,
-      string handlerHeader);
+                          msr2brailleInsiderHandler (
+                            string executableName,
+                            string handlerHeader);
 
     virtual               ~msr2brailleInsiderHandler ();
 
@@ -101,8 +101,8 @@ class EXP msr2brailleInsiderOahGroup : public oahGroup
   public:
 
     static SMARTP<msr2brailleInsiderOahGroup> create (
-      string executableName,
-      string handlerHeader);
+                            string executableName,
+                            string handlerHeader);
 
   public:
 
@@ -116,9 +116,9 @@ class EXP msr2brailleInsiderOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msr2brailleInsiderOahGroup (
-      string executableName,
-      string handlerHeader);
+                          msr2brailleInsiderOahGroup (
+                            string executableName,
+                            string handlerHeader);
 
     virtual               ~msr2brailleInsiderOahGroup ();
 

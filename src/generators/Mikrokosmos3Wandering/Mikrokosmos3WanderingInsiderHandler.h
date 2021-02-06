@@ -35,7 +35,7 @@ class EXP Mikrokosmos3WanderingInsiderHandler : public oahInsiderHandler
     // creation
     // ------------------------------------------------------
 
-                          static SMARTP<Mikrokosmos3WanderingInsiderHandler> create (
+    static SMARTP<Mikrokosmos3WanderingInsiderHandler> create (
                             const string&       executableName,
                             const string&       handlerHeader,
                             generatorOutputKind generatorOutputKind);
@@ -146,7 +146,7 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    Mikrokosmos3WanderingInsiderOahGroup ();
+                          Mikrokosmos3WanderingInsiderOahGroup ();
 
     virtual               ~Mikrokosmos3WanderingInsiderOahGroup ();
 

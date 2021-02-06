@@ -27,15 +27,15 @@ class EXP bsrTimeItem : public bsrElement
     // ------------------------------------------------------
 
     static SMARTP<bsrTimeItem> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrTimeItem (
-      int inputLineNumber);
+                          bsrTimeItem (
+                            int inputLineNumber);
 
     virtual               ~bsrTimeItem ();
 
@@ -124,17 +124,17 @@ class EXP bsrTime : public bsrLineContentsElement
     // ------------------------------------------------------
 
     static SMARTP<bsrTime> create (
-      int         inputLineNumber,
-      bsrTimeKind timeKind);
+                            int         inputLineNumber,
+                            bsrTimeKind timeKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrTime (
-      int         inputLineNumber,
-      bsrTimeKind timeKind);
+                          bsrTime (
+                            int         inputLineNumber,
+                            bsrTimeKind timeKind);
 
     virtual               ~bsrTime ();
 

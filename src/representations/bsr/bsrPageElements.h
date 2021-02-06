@@ -17,7 +17,7 @@ class EXP bsrPageElement : public bsrElement
 
 /*
     static SMARTP<bsrPageElement> create (
-      int inputLineNumber);
+                            int inputLineNumber);
 */
 
   protected:
@@ -25,8 +25,8 @@ class EXP bsrPageElement : public bsrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrPageElement (
-      int inputLineNumber);
+                          bsrPageElement (
+                            int inputLineNumber);
 
     virtual               ~bsrPageElement ();
 
