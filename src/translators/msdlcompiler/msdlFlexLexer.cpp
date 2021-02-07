@@ -581,9 +581,11 @@ using namespace std;
 
 extern int msdllval;
 
+/* JMI
 static int utf16     = 0;
 static int bigendian = 1;
 static int start     = 1;
+*/
 
 /* ---------------------------------------------------------------------- */
 /* The current token description                                          */
@@ -591,7 +593,7 @@ static int start     = 1;
 
 /* JMI
 
-union msdlTokenDescription
+Äunion msdlTokenDescription
 {
 	double							    fDoubleNumber;
 	string						    	fIdent;
@@ -729,13 +731,13 @@ int returnToken (
   return tokenNumber;
 }
 
-#line 732 "msdlFlexLexer.cpp"
+#line 734 "msdlFlexLexer.cpp"
 /* ---------------------------------------------------------------------- */
 /* Options                                                                */
 /* ---------------------------------------------------------------------- */
 #define YY_NO_INPUT 1
-#line 229 "msdl.ll"
-#line 738 "msdlFlexLexer.cpp"
+#line 231 "msdl.ll"
+#line 740 "msdlFlexLexer.cpp"
 /* ---------------------------------------------------------------------- */
 /* Regular expressions                                                    */
 /* ---------------------------------------------------------------------- */
@@ -743,11 +745,11 @@ int returnToken (
 /* Start conditions                                                       */
 /* ---------------------------------------------------------------------- */
 
-#line 264 "msdl.ll"
+#line 266 "msdl.ll"
   // Code run each time a pattern is matched.
 // JMI  # define YY_USER_ACTION  loc.columns (yyleng);
-#line 749 "msdlFlexLexer.cpp"
-#line 750 "msdlFlexLexer.cpp"
+#line 751 "msdlFlexLexer.cpp"
+#line 752 "msdlFlexLexer.cpp"
 
 #define INITIAL 0
 #define PARENTHESIZED_COMMENT_MODE 1
@@ -881,19 +883,19 @@ YY_DECL
 		}
 
 	{
-#line 269 "msdl.ll"
+#line 271 "msdl.ll"
 
 
 
 
-#line 274 "msdl.ll"
+#line 276 "msdl.ll"
   /* -------------------------------------------------------------------- */
   /* Code local to "yylex"                                                */
   /* -------------------------------------------------------------------- */
 
 
 
-#line 896 "msdlFlexLexer.cpp"
+#line 898 "msdlFlexLexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -962,14 +964,14 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 280 "msdl.ll"
+#line 282 "msdl.ll"
 {
             BEGIN PARENTHESIZED_COMMENT_MODE;
           }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 284 "msdl.ll"
+#line 286 "msdl.ll"
 {
             BEGIN INITIAL;
           }
@@ -977,7 +979,7 @@ YY_RULE_SETUP
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 288 "msdl.ll"
+#line 290 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), PARENTHESIZED_COMMENT);
@@ -985,7 +987,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 294 "msdl.ll"
+#line 296 "msdl.ll"
 {
             BEGIN COMMENT_TO_END_OF_LINE_MODE;
           }
@@ -993,14 +995,14 @@ YY_RULE_SETUP
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 298 "msdl.ll"
+#line 300 "msdl.ll"
 {
             BEGIN INITIAL;
           }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 302 "msdl.ll"
+#line 304 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), COMMENT_TO_END_OF_LINE);
@@ -1008,7 +1010,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 307 "msdl.ll"
+#line 309 "msdl.ll"
 {
 /*
             msdlKeywordKind
@@ -1030,17 +1032,17 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 326 "msdl.ll"
+#line 328 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), INTEGER);
           }
 	YY_BREAK
 case 9:
-#line 332 "msdl.ll"
+#line 334 "msdl.ll"
 case 10:
 YY_RULE_SETUP
-#line 332 "msdl.ll"
+#line 334 "msdl.ll"
 {
             // yylval.fNombre = atof (yytext);
             return
@@ -1049,7 +1051,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 338 "msdl.ll"
+#line 340 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), SPACES);
@@ -1058,7 +1060,7 @@ YY_RULE_SETUP
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 343 "msdl.ll"
+#line 345 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), END_OF_LINE);
@@ -1067,7 +1069,7 @@ YY_RULE_SETUP
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 348 "msdl.ll"
+#line 350 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), SINGLE_QUOTED_STRING);
@@ -1076,7 +1078,7 @@ YY_RULE_SETUP
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 353 "msdl.ll"
+#line 355 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), DOUBLE_QUOTED_STRING);
@@ -1084,7 +1086,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 359 "msdl.ll"
+#line 361 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), DOT);
@@ -1092,7 +1094,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 364 "msdl.ll"
+#line 366 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), COMMA);
@@ -1100,7 +1102,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 369 "msdl.ll"
+#line 371 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), EQUAL_SIGN);
@@ -1108,7 +1110,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 374 "msdl.ll"
+#line 376 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), COLON);
@@ -1116,7 +1118,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 379 "msdl.ll"
+#line 381 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), SEMI_COLON);
@@ -1124,7 +1126,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 384 "msdl.ll"
+#line 386 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), LEFT_BRACKET);
@@ -1132,7 +1134,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 389 "msdl.ll"
+#line 391 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), RIGHT_BRACKET);
@@ -1140,7 +1142,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 394 "msdl.ll"
+#line 396 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), DOUBLE_BAR);
@@ -1148,7 +1150,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 399 "msdl.ll"
+#line 401 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), END_OF_MEASURE);
@@ -1156,7 +1158,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 404 "msdl.ll"
+#line 406 "msdl.ll"
 {
             return
               returnToken (lineno (), YYText (), OTHER_CHARACTER);
@@ -1165,17 +1167,17 @@ YY_RULE_SETUP
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(PARENTHESIZED_COMMENT_MODE):
 case YY_STATE_EOF(COMMENT_TO_END_OF_LINE_MODE):
-#line 409 "msdl.ll"
+#line 411 "msdl.ll"
 {
             yyterminate();
           }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 414 "msdl.ll"
+#line 416 "msdl.ll"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 1178 "msdlFlexLexer.cpp"
+#line 1180 "msdlFlexLexer.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2145,7 +2147,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 414 "msdl.ll"
+#line 416 "msdl.ll"
 
 
 

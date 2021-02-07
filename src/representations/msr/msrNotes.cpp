@@ -3417,34 +3417,38 @@ void msrNote::browseData (basevisitor* v)
 {
   // browse the grace notes group before if any
   if (fNoteGraceNotesGroupBefore) {
-/* JMI
     // fetch the score
     S_msrScore
-      score = // JMI ???
+      score =
         fetchNoteScoreUpLink ();
 
-    if (score) { // JMI ???
-      bool inhibitGraceNotesGroupsBrowsing =
-        score->getInhibitGraceNotesGroupsBrowsing ();
-      if (inhibitGraceNotesGroupsBrowsing) {
+    if (score) {
+      bool
+        inhibitGraceNotesGroupsBeforeBrowsing =
+          score->getInhibitGraceNotesGroupsBeforeBrowsing ();
 
-    if (false) { // JMI
+      if (inhibitGraceNotesGroupsBeforeBrowsing) {
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalMsrOahGroup->getTraceMsrVisitors () || gGlobalTraceOahGroup->getTraceGraceNotes ()) {
-        gLogStream <<
-          "% ==> visiting grace notes groups before is inhibited" <<
-          endl;
-      }
+        if (
+          gGlobalMsrOahGroup->getTraceMsrVisitors ()
+            ||
+          gGlobalTraceOahGroup->getTraceNotes ()
+            ||
+          gGlobalTraceOahGroup->getTraceGraceNotes ()
+        ) {
+          gLogStream <<
+            "% ==> visiting grace notes groups before is inhibited" <<
+            endl;
+        }
 #endif
+      }
+      else {
+        // browse the grace notes group before
+        msrBrowser<msrGraceNotesGroup> browser (v);
+        browser.browse (*fNoteGraceNotesGroupBefore);
+      }
     }
-    else {
-*/
-    // browse the grace notes group before
-    msrBrowser<msrGraceNotesGroup> browser (v);
-    browser.browse (*fNoteGraceNotesGroupBefore);
-// JMI    }
   }
-// JMI  }
 
   if (fNoteOctaveShift) {
     // browse the octave shift
@@ -3831,22 +3835,31 @@ void msrNote::browseData (basevisitor* v)
         fNoteDirectMeasureUpLink->
           fetchMeasureScoreUpLink ();
 
-    bool inhibitGraceNotesGroupsBrowsing =
-      score->getInhibitGraceNotesGroupsBrowsing ();
+    if (score) {
+      bool
+        inhibitGraceNotesGroupsAfterBrowsing =
+          score->getInhibitGraceNotesGroupsAfterBrowsing ();
 
-    if (inhibitGraceNotesGroupsBrowsing) {
+      if (inhibitGraceNotesGroupsAfterBrowsing) {
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalMsrOahGroup->getTraceMsrVisitors () || gGlobalTraceOahGroup->getTraceGraceNotes ()) {
-        gLogStream <<
-          "% ==> visiting grace notes groups before is inhibited" <<
-          endl;
-      }
+        if (
+          gGlobalMsrOahGroup->getTraceMsrVisitors ()
+            ||
+          gGlobalTraceOahGroup->getTraceNotes ()
+            ||
+          gGlobalTraceOahGroup->getTraceGraceNotes ()
+        ) {
+          gLogStream <<
+            "% ==> visiting grace notes groups after is inhibited" <<
+            endl;
+        }
 #endif
-    }
-    else {
-      // browse the after grace notes grup
-      msrBrowser<msrGraceNotesGroup> browser (v);
-      browser.browse (*fNoteGraceNotesGroupAfter);
+      }
+      else {
+        // browse the grace notes group after
+        msrBrowser<msrGraceNotesGroup> browser (v);
+        browser.browse (*fNoteGraceNotesGroupAfter);
+      }
     }
   }
 }

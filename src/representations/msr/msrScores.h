@@ -193,15 +193,48 @@ class EXP msrScore : public msrElement
                               { return fScoreInstrumentAbbreviationsMaxLength; }
 
     // inhibiting browsing
-    void                  setInhibitGraceNotesGroupsBrowsing ()
+    void                  setInhibitGraceNotesGroupsBeforeBrowsing ()
                               {
-                                fInhibitGraceNotesGroupsBrowsing = true;
+                                fInhibitGraceNotesGroupsBeforeBrowsing = true;
                               }
 
-    bool                  getInhibitGraceNotesGroupsBrowsing () const
+    bool                  getInhibitGraceNotesGroupsBeforeBrowsing () const
                               {
                                 return
-                                  fInhibitGraceNotesGroupsBrowsing;
+                                  fInhibitGraceNotesGroupsBeforeBrowsing;
+                              };
+
+    void                  setInhibitGraceNotesGroupsAfterBrowsing ()
+                              {
+                                fInhibitGraceNotesGroupsAfterBrowsing = true;
+                              }
+
+    bool                  getInhibitGraceNotesGroupsAfterBrowsing () const
+                              {
+                                return
+                                  fInhibitGraceNotesGroupsAfterBrowsing;
+                              };
+
+    void                  setInhibitChordsInGraceNotesGroupsBrowsing ()
+                              {
+                                fInhibitChordsInGraceNotesGroupsBrowsing = true;
+                              }
+
+    bool                  getInhibitChordsInGraceNotesGroupsBrowsing () const
+                              {
+                                return
+                                  fInhibitChordsInGraceNotesGroupsBrowsing;
+                              };
+
+    void                  setInhibitTupletsInGraceNotesGroupsBrowsing ()
+                              {
+                                fInhibitTupletsInGraceNotesGroupsBrowsing = true;
+                              }
+
+    bool                  getInhibitTupletsInGraceNotesGroupsBrowsing () const
+                              {
+                                return
+                                  fInhibitTupletsInGraceNotesGroupsBrowsing;
                               };
 
     void                  setInhibitMeasuresRepeatReplicasBrowsing ()
@@ -338,7 +371,13 @@ class EXP msrScore : public msrElement
 
     // grace notes groups before are handled at the note level,
     // and should be not be browsed afterwards
-    bool                  fInhibitGraceNotesGroupsBrowsing;
+    bool                  fInhibitGraceNotesGroupsBeforeBrowsing;
+    bool                  fInhibitGraceNotesGroupsAfterBrowsing;
+
+    bool                  fInhibitChordsInGraceNotesGroupsBrowsing;
+
+    // not relevant, since there are not tuplets in grace notes groups ??? JMI
+    bool                  fInhibitTupletsInGraceNotesGroupsBrowsing;
 
     // in <measure-repeat/>, the measure replicas are explicit,
     // whereas LilyPond only needs the repeated measure

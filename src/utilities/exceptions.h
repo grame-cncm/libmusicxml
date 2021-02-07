@@ -249,18 +249,34 @@ class EXP msgMsrScoreToMusicXMLException : public msgException
 };
 
 //______________________________________________________________________________
-class EXP msgMsplException : public msgException
+class EXP msgMsdrException : public msgException
 {
   public:
-    msgMsplException (string const& exceptionDescription) throw ()
+    msgMsdrException (string const& exceptionDescription) throw ()
       : msgException (exceptionDescription)
     {}
 };
 
-class EXP msgMsplInternalException: public msgException
+class EXP msgMsdrInternalException: public msgException
 {
   public:
-    msgMsplInternalException (string const& exceptionDescription) throw ()
+    msgMsdrInternalException (string const& exceptionDescription) throw ()
+      : msgException (exceptionDescription)
+    {}
+};
+
+class EXP msgMsdlException : public msgException
+{
+  public:
+    msgMsdlException (string const& exceptionDescription) throw ()
+      : msgException (exceptionDescription)
+    {}
+};
+
+class EXP msgMsdlInternalException: public msgException
+{
+  public:
+    msgMsdlInternalException (string const& exceptionDescription) throw ()
       : msgException (exceptionDescription)
     {}
 };

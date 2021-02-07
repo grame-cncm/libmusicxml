@@ -160,9 +160,33 @@ lpsr2lilypondTranslator::lpsr2lilypondTranslator (
 
   // inhibit the browsing of grace notes groups before,
   // since they are handled at the note level
+if (false) // JMI
   fVisitedLpsrScore->
     getMsrScore ()->
-      setInhibitGraceNotesGroupsBrowsing ();
+      setInhibitGraceNotesGroupsBeforeBrowsing ();
+
+  // inhibit the browsing of grace notes groups after,
+  // since they are handled at the note level
+if (false) // JMI
+  fVisitedLpsrScore->
+    getMsrScore ()->
+      setInhibitGraceNotesGroupsAfterBrowsing ();
+
+  // inhibit the browsing of chords in grace notes groups,
+  // since they are handled at the note level
+if (true) // JMI
+  fVisitedLpsrScore->
+    getMsrScore ()->
+      setInhibitChordsInGraceNotesGroupsBrowsing ();
+
+  // inhibit the browsing of tuplets in grace notes groups,
+  // since they are handled at the note level
+// not relevant, since there are not tuplets in grace notes groups ??? JMI
+/* JMI
+  fVisitedLpsrScore->
+    getMsrScore ()->
+      setInhibitTupletsInGraceNotesGroupsBrowsing ();
+*/
 
   // inhibit the browsing of measures repeats replicas,
   // since Lilypond only needs the repeat measure
@@ -170,13 +194,12 @@ lpsr2lilypondTranslator::lpsr2lilypondTranslator (
     getMsrScore ()->
       setInhibitMeasuresRepeatReplicasBrowsing ();
 
-/* JMI
   // inhibit the browsing of measures repeat replicas,
   // since Lilypond only needs the measure number
+if (false) // JMI
   fVisitedLpsrScore->
     getMsrScore ()->
       setInhibitRestMeasuresBrowsing ();
-*/
 
   // header handling
   fOnGoingHeader = false;
@@ -9147,9 +9170,12 @@ void lpsr2lilypondTranslator::visitStart (S_msrHarmony& elt)
       "% --> Start visiting msrHarmony '" <<
       elt->asString () <<
       "'" <<
-      ", fOnGoingNotesStack.size () = " <<  fOnGoingNotesStack.size () <<
-      ", fOnGoingChord = " << booleanAsString (fOnGoingChord) <<
-      ", fOnGoingHarmonyVoice = " << booleanAsString (fOnGoingHarmonyVoice) <<
+      ", fOnGoingNotesStack.size () = " <<
+      fOnGoingNotesStack.size () <<
+      ", fOnGoingChord = " <<
+      booleanAsString (fOnGoingChord) <<
+      ", fOnGoingHarmonyVoice = " <<
+      booleanAsString (fOnGoingHarmonyVoice) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
 
@@ -9236,9 +9262,12 @@ void lpsr2lilypondTranslator::visitStart (S_msrFiguredBass& elt)
       "% --> Start visiting msrFiguredBass '" <<
       elt->asString () <<
       "'" <<
-      ", fOnGoingNotesStack.size () = " << fOnGoingNotesStack.size () <<
-      ", fOnGoingChord = " << booleanAsString (fOnGoingChord) <<
-      ", fOnGoingFiguredBassVoice = " << booleanAsString (fOnGoingFiguredBassVoice) <<
+      ", fOnGoingNotesStack.size () = " <<
+      fOnGoingNotesStack.size () <<
+      ", fOnGoingChord = " <<
+      booleanAsString (fOnGoingChord) <<
+      ", fOnGoingFiguredBassVoice = " <<
+      booleanAsString (fOnGoingFiguredBassVoice) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
 
@@ -9253,7 +9282,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrFiguredBass& elt)
 #ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
       fLilypondCodeStream <<
-        "%{ fOnGoingNotesStack.size () S_msrFiguredBass JMI " << fCurrentFiguredBass->asString () << " %}" <<
+        "%{ fOnGoingNotesStack.size () S_msrFiguredBass JMI " <<
+        fCurrentFiguredBass->asString () <<
+        " %}" <<
         endl;
     }
 #endif
@@ -13576,9 +13607,12 @@ void lpsr2lilypondTranslator::visitStart (S_msrGraceNotesGroup& elt)
     s <<
       "% --> Start visiting msrGraceNotesGroup " <<
       elt->asShortString () <<
-      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
-      ", fOnGoingGraceNotesGroup: " << booleanAsString (fOnGoingGraceNotesGroup) <<
-      ", fOnGoingChordGraceNotesGroupLink: " << booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
+      ", fOnGoingChord: " <<
+      booleanAsString (fOnGoingChord) <<
+      ", fOnGoingGraceNotesGroup: " <<
+      booleanAsString (fOnGoingGraceNotesGroup) <<
+      ", fOnGoingChordGraceNotesGroupLink: " <<
+      booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
 
@@ -13840,10 +13874,14 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     s <<
       "% --> Start visiting note " <<
       elt->asShortString () <<
-      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
-      ", fOnGoingGraceNotesGroup: " << booleanAsString (fOnGoingGraceNotesGroup) <<
+      ", fOnGoingChord: " <<
+      booleanAsString (fOnGoingChord) <<
+      ", fOnGoingGraceNotesGroup: " <<
+      booleanAsString (fOnGoingGraceNotesGroup) <<
       ", fOnGoingChordGraceNotesGroupLink: " <<
       booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
+      ", fOnGoingRestMeasures: " <<
+      booleanAsString (fOnGoingRestMeasures) <<
       ", line " << inputLineNumber <<
       endl;
 
@@ -14084,9 +14122,14 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     s <<
       "% --> Actually handling note " <<
       elt->asShortString () <<
-      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
-      ", fOnGoingGraceNotesGroup: " << booleanAsString (fOnGoingGraceNotesGroup) <<
-      ", fOnGoingChordGraceNotesGroupLink: " << booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
+      ", fOnGoingChord: " <<
+      booleanAsString (fOnGoingChord) <<
+      ", fOnGoingGraceNotesGroup: " <<
+      booleanAsString (fOnGoingGraceNotesGroup) <<
+      ", fOnGoingChordGraceNotesGroupLink: " <<
+      booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
+      ", fOnGoingRestMeasures: " <<
+      booleanAsString (fOnGoingRestMeasures) <<
       ", line " << inputLineNumber <<
       endl;
 
@@ -17021,6 +17064,12 @@ void lpsr2lilypondTranslator::visitStart (S_msrChord& elt)
     s <<
       "% --> Start visiting msrChord " <<
       elt->asShortString () <<
+      ", fOnGoingChord: " <<
+      booleanAsString (fOnGoingChord) <<
+      ", fOnGoingGraceNotesGroup: " <<
+      booleanAsString (fOnGoingGraceNotesGroup) <<
+      ", fOnGoingChordGraceNotesGroupLink: " <<
+      booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
 
@@ -17123,6 +17172,13 @@ void lpsr2lilypondTranslator::visitStart (S_msrTuplet& elt)
 
     s <<
       "% --> Start visiting msrTuplet" <<
+      elt->asShortString () <<
+      ", fOnGoingChord: " <<
+      booleanAsString (fOnGoingChord) <<
+      ", fOnGoingGraceNotesGroup: " <<
+      booleanAsString (fOnGoingGraceNotesGroup) <<
+      ", fOnGoingChordGraceNotesGroupLink: " <<
+      booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       ", line " << inputLineNumber <<
       endl;
 

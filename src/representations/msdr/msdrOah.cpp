@@ -114,12 +114,12 @@ void msprPitchesLanguageAtom::applyAtomWithValue (
     stringstream s;
 
     s <<
-      "LPSR pitches language '" << theString <<
+      "MSDR pitches language '" << theString <<
       "' is unknown" <<
       endl <<
       "The " <<
       gGlobalQuarterTonesPitchesLanguageKindsMap.size () <<
-      " known LPSR pitches languages are:" <<
+      " known MSDR pitches languages are:" <<
       endl;
 
     gIndenter++;
@@ -242,7 +242,7 @@ void msprPitchesLanguageAtom::print (ostream& os) const
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsLpsrPitchesLanguageVariable" << " : \"" <<
+    "fOptionsMsdrPitchesLanguageVariable" << " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable) <<
     "\"" <<
@@ -312,7 +312,7 @@ msprChordsLanguageAtom::msprChordsLanguageAtom (
       description,
       valueSpecification,
       variableName),
-    fLpsrChordsLanguageKindVariable (
+    fMsdrChordsLanguageKindVariable (
       msprChordsLanguageKindVariable)
 {}
 
@@ -344,32 +344,32 @@ void msprChordsLanguageAtom::applyAtomWithValue (
 
   map<string, msprChordsLanguageKind>::const_iterator
     it =
-      gGlobalLpsrChordsLanguageKindsMap.find (theString);
+      gGlobalMsdrChordsLanguageKindsMap.find (theString);
 
-  if (it == gGlobalLpsrChordsLanguageKindsMap.end ()) {
+  if (it == gGlobalMsdrChordsLanguageKindsMap.end ()) {
     // no, language is unknown in the map
     stringstream s;
 
     s <<
-      "LPSR chords language '" << theString <<
+      "MSDR chords language '" << theString <<
       "' is unknown" <<
       endl <<
       "The " <<
-      gGlobalLpsrChordsLanguageKindsMap.size () - 1 <<
-      " known LPSR chords languages apart from the default Ignatzek are:" <<
+      gGlobalMsdrChordsLanguageKindsMap.size () - 1 <<
+      " known MSDR chords languages apart from the default Ignatzek are:" <<
       endl;
 
     gIndenter++;
 
     s <<
-      existingLpsrChordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
+      existingMsdrChordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
     gIndenter--;
 
     oahError (s.str ());
   }
 
-  setLpsrChordsLanguageKindVariable (
+  setMsdrChordsLanguageKindVariable (
     (*it).second);
 }
 
@@ -442,7 +442,7 @@ string msprChordsLanguageAtom::asShortNamedOptionString () const
 
   s <<
     "-" << fShortName << " " <<
-    msprChordsLanguageKindAsString (fLpsrChordsLanguageKindVariable);
+    msprChordsLanguageKindAsString (fMsdrChordsLanguageKindVariable);
 
   return s.str ();
 }
@@ -453,7 +453,7 @@ string msprChordsLanguageAtom::asActualLongNamedOptionString () const
 
   s <<
     "-" << fLongName << " " <<
-    msprChordsLanguageKindAsString (fLpsrChordsLanguageKindVariable);
+    msprChordsLanguageKindAsString (fMsdrChordsLanguageKindVariable);
 
   return s.str ();
 }
@@ -476,9 +476,9 @@ void msprChordsLanguageAtom::print (ostream& os) const
     "fVariableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fLpsrChordsLanguageKindVariable" << " : \"" <<
+    "fMsdrChordsLanguageKindVariable" << " : \"" <<
     msprChordsLanguageKindAsString (
-      fLpsrChordsLanguageKindVariable) <<
+      fMsdrChordsLanguageKindVariable) <<
     "\"" <<
     endl;
 
@@ -494,7 +494,7 @@ void msprChordsLanguageAtom::printAtomWithValueOptionsValues (
     fVariableName <<
     " : \"" <<
     msprChordsLanguageKindAsString (
-      fLpsrChordsLanguageKindVariable) <<
+      fMsdrChordsLanguageKindVariable) <<
     "\"";
   if (fVariableHasBeenSet) {
     os <<
@@ -510,218 +510,8 @@ ostream& operator<< (ostream& os, const S_msprChordsLanguageAtom& elt)
   return os;
 }
 
-//______________________________________________________________________________
-S_msprTransposeAtom msprTransposeAtom::create (
-  string  shortName,
-  string  longName,
-  string  description,
-  string  valueSpecification,
-  string  variableName,
-  S_msrSemiTonesPitchAndOctave&
-          semiTonesPitchAndOctaveVariable)
-{
-  msprTransposeAtom* o = new
-    msprTransposeAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName,
-      semiTonesPitchAndOctaveVariable);
-  assert (o != nullptr);
-  return o;
-}
-
-msprTransposeAtom::msprTransposeAtom (
-  string  shortName,
-  string  longName,
-  string  description,
-  string  valueSpecification,
-  string  variableName,
-  S_msrSemiTonesPitchAndOctave&
-          semiTonesPitchAndOctaveVariable)
-  : oahAtomWithValue (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName),
-    fSemiTonesPitchAndOctaveVariable (
-      semiTonesPitchAndOctaveVariable)
-{}
-
-msprTransposeAtom::~msprTransposeAtom ()
-{}
-
-void msprTransposeAtom::applyAtomWithValue (
-  const string& theString,
-  ostream&      os)
-{
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "==> oahAtom is of type 'msprTransposeAtom'" <<
-      endl;
-  }
-#endif
-
-  // theString contains the language name:
-  // is it in the chords languages map?
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "==> oahAtom is of type 'msprTransposeAtom'" <<
-      endl;
-  }
-#endif
-
-  // create the semitones pitch and octave from theString
-  S_msrSemiTonesPitchAndOctave
-    semiTonesPitchAndOctave =
-      msrSemiTonesPitchAndOctave::createFromString (
-        K_NO_INPUT_LINE_NUMBER,
-        theString);
-
-  // set the transpose atom variable value
-  setSemiTonesPitchAndOctaveVariable (
-    semiTonesPitchAndOctave);
-}
-
-void msprTransposeAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprTransposeAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_msprTransposeAtom>*
-    p =
-      dynamic_cast<visitor<S_msprTransposeAtom>*> (v)) {
-        S_msprTransposeAtom elem = this;
-
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-          gLogStream <<
-            ".\\\" ==> Launching msprTransposeAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void msprTransposeAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprTransposeAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_msprTransposeAtom>*
-    p =
-      dynamic_cast<visitor<S_msprTransposeAtom>*> (v)) {
-        S_msprTransposeAtom elem = this;
-
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-          gLogStream <<
-            ".\\\" ==> Launching msprTransposeAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void msprTransposeAtom::browseData (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprTransposeAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string msprTransposeAtom::asShortNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fShortName << " " <<
-    fSemiTonesPitchAndOctaveVariable->asString ();
-
-  return s.str ();
-}
-
-string msprTransposeAtom::asActualLongNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fLongName << " " <<
-    fSemiTonesPitchAndOctaveVariable->asString ();
-
-  return s.str ();
-}
-
-void msprTransposeAtom::print (ostream& os) const
-{
-  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "msprTransposeAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  oahElement::printOahElementEssentials (
-    os, fieldWidth);
-
-  gIndenter--;
-}
-
-void msprTransposeAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : ";
-  if (fSemiTonesPitchAndOctaveVariable) {
-    os << endl;
-    gIndenter++;
-    os <<
-      fSemiTonesPitchAndOctaveVariable <<
-      ", variableHasBeenSet: " <<
-      booleanAsString (fVariableHasBeenSet);
-    gIndenter--;
-  }
-  else {
-    os <<
-      "none" <<
-      endl;
-  }
-}
-
-ostream& operator<< (ostream& os, const S_msprTransposeAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 //_______________________________________________________________________________
-S_msprOahGroup gGlobalLpsrOahGroup;
+S_msprOahGroup gGlobalMsprOahGroup;
 
 S_msprOahGroup msprOahGroup::create ()
 {
@@ -732,24 +522,24 @@ S_msprOahGroup msprOahGroup::create ()
 
 msprOahGroup::msprOahGroup ()
   : oahGroup (
-    "LPSR",
+    "MSDR",
     "hmspr", "help-mspr",
-R"(These options control the way LPSR data is handled.)",
+R"(These options control the way MSDR data is handled.)",
     kElementVisibilityWhole)
 {
-  initializeLpsrOahGroup ();
+  initializeMsdrOahGroup ();
 }
 
 msprOahGroup::~msprOahGroup ()
 {}
 
 #ifdef TRACING_IS_ENABLED
-void msprOahGroup::initializeLpsrTraceOah ()
+void msprOahGroup::initializeMsdrTraceOah ()
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "LPSR Trace",
+        "MSDR Trace",
         "hmsprtrace", "help-mspr-trace",
 R"()",
       kElementVisibilityWhole,
@@ -757,69 +547,21 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-  // trace- mspr
+  // trace MSPR
 
-  fTraceLpsr            = false;
+  fTraceMsdr            = false;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tmspr", "trace-mspr",
-R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
-        "traceLpsr",
-        fTraceLpsr));
-
-  // trace lilypond version
-
-  fTraceLilypondVersion = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "tlpv", "trace-lilypond-version",
-R"(Write a trace of the LilyPond version to standard error.)",
-        "traceLilypondVersion",
-        fTraceLilypondVersion));
-
-  // trace mspr visitors
-
-  fTraceLpsrVisitors    = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "tmsprv", "trace-mspr-visitors",
-R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
-        "traceLpsrVisitors",
-        fTraceLpsrVisitors));
-
-  // trace mspr blocks
-
-  fTraceLpsrBlocks      = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "tmsprb", "trace-mspr-blocks",
-R"(Write a trace of the LPSR blocks to standard error.)",
-        "traceLpsrBlocks",
-        fTraceLpsrBlocks));
-
-  // trace scheme functions
-
-  fTraceSchemeFunctions = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "tsf", "trace-scheme-functions",
-R"(Write a trace of the activity regarding Scheme functions to standard error.)",
-        "traceSchemeFunctions",
-        fTraceSchemeFunctions));
+R"(Write a trace of the MSDR graphs visiting activity to standard error.)",
+        "traceMsdr",
+        fTraceMsdr));
 }
 #endif
 
-void msprOahGroup::initializeLpsrDisplayOptions ()
+void msprOahGroup::initializeMsdrDisplayOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -832,557 +574,33 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-  // display LPSR
+  // display MSDR
 
-  fDisplayLpsr = false;
+  fDisplayMsdr = false;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dmspr", "display-mspr",
-R"(Write the contents of the LPSR data to standard error.)",
-        "displayLpsr",
-        fDisplayLpsr));
+R"(Write the contents of the MSDR data to standard error.)",
+        "displayMsdr",
+        fDisplayMsdr));
 
-  // display LPSR short
+  // display MSDR short
 
-  fDisplayLpsrShort = false;
+  fDisplayMsdrShort = false;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dmsprs", "display-mspr-short",
-R"(Write the contents of the LPSR data, short version, to standard error.)",
-        "displayLpsrShort",
-        fDisplayLpsrShort));
+R"(Write the contents of the MSDR data, short version, to standard error.)",
+        "displayMsdrShort",
+        fDisplayMsdrShort));
 }
 
-void msprOahGroup::initializeLpsrPaperOptions ()
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Paper",
-        "hmsprpaper", "help-mspr-paper",
-R"()",
-      kElementVisibilityWhole,
-      this);
 
-  appendSubGroupToGroup (subGroup);
-
-  // all paper variables
-
-  fAllPaperVariables = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-         "apv", "all-paper-variables",
-R"(Generate LilyPond comments containing paper variables
-that are not present in the MusicXML data nor specified in options.
-Default values are supplied.
-This helps the user adapting the generate code for their needs.)",
-        "allPaperVariables",
-        fAllPaperVariables));
-
-  // length unit kind
-
-  fLengthUnitKindDefaultValue = kMillimeterUnit; // default value;
-  fLengthUnitKind = fLengthUnitKindDefaultValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahLengthUnitKindAtom::create (
-        "length-unit", "",
-        regex_replace (
-          regex_replace (
-            regex_replace (
-R"(Set the LilyPond length variables unit to UNIT in the forthcoming options.
-The NUMBER LilyPond length variables units available are:
-LENTGTH_UNITS.
-This option should precede options that set paper size and indents
-if they don't specify a unit.
-The default is 'DEFAULT_VALUE'.)",
-              regex ("NUMBER"),
-              to_string (gGlobalMsrLengthUnitKindsMap.size ())),
-            regex ("LENTGTH_UNITS"),
-            gIndenter.indentMultiLineString (
-              existingMsrLengthUnitKinds (K_NAMES_LIST_MAX_LENGTH))),
-          regex ("DEFAULT_VALUE"),
-          msrLengthUnitKindAsString (
-            fLengthUnitKindDefaultValue)),
-        "UNIT",
-        "lengthUnitKind",
-        fLengthUnitKind));
-
-  // paper height
-
-  fPaperHeight.setLengthUnitKind (kMillimeterUnit);
-  fPaperHeight.setLengthValue (297);
-
-  fPaperHeightAtom =
-    oahLengthAtom::create (
-      "paper-height", "",
-R"(Set the LilyPond 'paper-height' paper variable to HEIGHT in the LilyPond code.
-HEIGHT should be a positive floating point or integer number,
-immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-By default, LilyPond uses 297 mm (A4 format).)",
-      "HEIGHT",
-      "paperHeight",
-      fPaperHeight);
-  subGroup->
-    appendAtomToSubGroup (
-      fPaperHeightAtom);
-
-  // paper width
-
-  fPaperWidth.setLengthUnitKind (kMillimeterUnit);
-  fPaperWidth.setLengthValue (210);
-
-  fPaperWidthAtom =
-    oahLengthAtom::create (
-      "paper-width", "",
-R"(Set the LilyPond 'paper-width' paper variable to WIDTH in the LilyPond code.
-WIDTH should be a positive floating point or integer number,
-immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-By default, LilyPond uses 210 mm (A4 format).)",
-      "WIDTH",
-      "paperWidth",
-      fPaperWidth);
-  subGroup->
-    appendAtomToSubGroup (
-      fPaperWidthAtom);
-
-  // left margin
-
-  fPaperLeftMargin.setLengthUnitKind (kMillimeterUnit);
-  fPaperLeftMargin.setLengthValue (15);
-
-  fPaperLeftMarginAtom =
-    oahLengthAtom::create (
-      "left-margin", "",
-R"(Set the LilyPond 'left-margin' paper variable to MARGIN in the LilyPond code.
-WIDTH should be a positive floating point or integer number,
-immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-By default, this is left to LilyPond'.)",
-      "MARGIN",
-      "paperLeftMargin",
-      fPaperLeftMargin);
-  subGroup->
-    appendAtomToSubGroup (
-      fPaperLeftMarginAtom);
-
-  // right margin
-
-  fPaperRightMargin.setLengthUnitKind (kMillimeterUnit);
-  fPaperRightMargin.setLengthValue (15);
-
-  fPaperRightMarginAtom =
-    oahLengthAtom::create (
-      "right-margin", "",
-R"(Set the LilyPond 'right-margin' paper variable to MARGIN in the LilyPond code.
-WIDTH should be a positive floating point or integer number,
-immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-By default, this is left to LilyPond'.)",
-      "MARGIN",
-      "paperRightMargin",
-      fPaperRightMargin);
-  subGroup->
-    appendAtomToSubGroup (
-      fPaperRightMarginAtom);
-
-  // top margin
-
-  fPaperTopMargin.setLengthUnitKind (kMillimeterUnit);
-  fPaperTopMargin.setLengthValue (15);
-
-  fPaperTopMarginAtom =
-    oahLengthAtom::create (
-      "top-margin", "",
-R"(Set the LilyPond 'top-margin' paper variable to MARGIN in the LilyPond code.
-WIDTH should be a positive floating point or integer number,
-immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-By default, this is left to LilyPond'.)",
-      "MARGIN",
-      "paperTopMargin",
-      fPaperTopMargin);
-  subGroup->
-    appendAtomToSubGroup (
-      fPaperTopMarginAtom);
-
-  // bottom margin
-
-  fPaperBottomMargin.setLengthUnitKind (kMillimeterUnit);
-  fPaperBottomMargin.setLengthValue (15);
-
-  fPaperBottomMarginAtom =
-    oahLengthAtom::create (
-      "bottom-margin", "",
-R"(Set the LilyPond 'bottom-margin' paper variable to MARGIN in the LilyPond code.
-WIDTH should be a positive floating point or integer number,
-immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-By default, this is left to LilyPond'.)",
-      "MARGIN",
-      "paperBottomMargin",
-      fPaperBottomMargin);
-  subGroup->
-    appendAtomToSubGroup (
-      fPaperBottomMarginAtom);
-
-/* JMI superflous
-  // a4
-
-   subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "a4", "",
-R"(Set the LilyPond 'paper-width' and 'paper-height' paper variables
-to 210 mm  and 297 mm respectively in the LilyPond code.
-WIDTH should be a positive floating point or integer number,
-immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-By default is 297 mm (A4 format).)",
-        "WIDTH",
-        "paperWidth",
-        fPaperWidth));
-*/
-
-  // fPaperHorizontalShift is 0.0 mm by default
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahLengthAtom::create (
-        "hshift", "horizontal-shift",
-R"(Set the LilyPond 'horizontal-shift' paper variable to SHIFT in the LilyPond code.
-SHIFT should be a floating point or integer number,
-immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-The default value is 0.0 mm.)",
-        "SHIFT",
-        "paperHorizontalShift",
-        fPaperHorizontalShift));
-
-  // fPaperIndent is 0.0 mm by default
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahLengthAtom::create (
-        "indent", "",
-R"(Set the LilyPond 'indent' paper variable to INDENT in the LilyPond code.
-INDENT should be a floating point or integer number,
-immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-The default value is 0.0 mm.)",
-        "INDENT",
-        "paperIndent",
-        fPaperIndent));
-
-  // short indent
-
-  // fPaperShortIndent is 0.0 mm by default
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahLengthAtom::create (
-        "short-indent", "",
-R"(Set the LilyPond 'short-indent' paper variable to SHORT_INDENT in the LilyPond code.
-SHORT_INDENT should be a floating point or integer number,
-immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-The default value is 0.0 mm.)",
-        "SHORT_INDENT",
-        "paperShortIndent",
-        fPaperShortIndent));
-
-  // fMarkupSystemSpacingPadding is 0.0 mm by default
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahLengthAtom::create (
-        "mssp", "markup-system-spacing-padding",
-R"(Set the LilyPond 'markup-system-spacing.padding' paper variable
-to PADDING in the LilyPond code.
-PADDING should be a floating point or integer number,
-immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-LilyPond's default value is 0.0 mm.)",
-        "INDENT",
-        "markupSystemSpacingPadding",
-        fMarkupSystemSpacingPadding));
-
-  // ragged bottom
-
-  fRaggedBottom = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "ragged-bottom", "",
-R"(Set the LilyPond 'ragged-bottom' paper variable to '##f' in the LilyPond code.
-LilyPond's default value is '##t'.)",
-        "raggedBottom",
-        fRaggedBottom));
-
-  // ragged last
-
-  fRaggedLast = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "ragged-last", "",
-R"(Set the LilyPond 'ragged-last' paper variable to '##f' in the LilyPond code.
-LilyPond's default value is '##t'.)",
-        "raggedLast",
-        fRaggedLast));
-
-  // ragged last bottom
-
-  fRaggedLastBottom = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "ragged-last-bottom", "",
-R"(Set the LilyPond 'ragged-last-bottom' paper variable to '##f' in the LilyPond code.
-LilyPond's default value is '##t'.)",
-        "raggedLastBottom",
-        fRaggedLastBottom));
-
-  // ragged right
-
-  fRaggedRight = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "ragged-right", "",
-R"(Set the LilyPond 'ragged-right' paper variable to '##f' in the LilyPond code.
-LilyPond's default value is '##t'.)",
-        "raggedRight",
-        fRaggedRight));
-
-/* LPSR or LilyPond option?"
-  // tagline
-
-  fTagline = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "tagline", "",
-R"(Set the LilyPond 'tagline' paper variable to '##f' in the LilyPond code.
-LilyPond's default value is '##t'.)",
-        "tagline",
-        fTagline));
-*/
-
-  // page count
-
-  fPageCount = 0;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahIntegerAtom::create (
-        "page-count", "",
-R"(Set the LilyPond 'page-count' paper variable to PAGE_COUNT in the LilyPond code.
-PAGE_COUNT should be a positive integer.
-By default, this is left to LilyPond'.)",
-        "PAGE_COUNT",
-        "pageCount",
-        fPageCount));
-
-  // system count
-
-  fSystemCount = 0;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahIntegerAtom::create (
-        "system-count", "",
-R"(Set the LilyPond 'system-count' paper variable to SYSTEM_COUNT in the LilyPond code.
-SYSTEM_COUNT should be a positive integer.
-By default, this is left to LilyPond'.)",
-        "SYSTEM_COUNT",
-        "systemCount",
-        fSystemCount));
-}
-
-void msprOahGroup::initializeLpsrMeasuresOptions ()
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Measures",
-        "hmsprmeasures", "help-mspr-measures",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // replicate empty measure
-
-  fReplicateEmptyMeasureNumber = "";
-  fReplicateEmptyMeasureReplicas = 0;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahStringAndIntegerAtom::create (
-        "rem", "replicate-empty-measure",
-R"###(Replicate an empty mesure, adding empty others according to SPECIFICATION.
-SPECIFICATION should be of the form 'MEASURE_NUMBER REPLICATES',
-where MEASURE_NUMBER is a string, and REPLICATES is the number
-of empty measures to add after measure MEASURE_NUMBER.
-MEASURE_NUMBER should be the number of an existing, empty measure,
-and REPLICATES should be at least 1, , such as '17 3'.
-This comes in handly when MusicXML data obtained by scanning contains
-a single empty measure when there were several in the original score.
-This option can be used any number of times.)###",
-        "SPECIFICATION",
-        "replicateEmptyMeasureNumber",
-        fReplicateEmptyMeasureNumber,
-        "replicateEmptyMeasureReplicas",
-        fReplicateEmptyMeasureReplicas));
-}
-
-void msprOahGroup::initializeLpsrTemposOptions ()
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Tempos",
-        "hmsprtempos", "help-mspr-tempos",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // convert tempos to rehearsal marks
-
-  fConvertTemposToRehearsalMarks = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "cttrm", "convert-tempos-to-rehearsal-marks",
-R"(Convert tempos to rehearsal marks.
-This may come in handy when MusicXML data has been obtained
-from scanned instrumental music images.)",
-        "convertTemposToRehearsalMarks",
-        fConvertTemposToRehearsalMarks));
-}
-
-void msprOahGroup::initializeLpsrWordsOptions ()
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Words",
-        "hmsprwords", "help-mspr-words",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // convert words to tempo
-
-  fConvertWordsToTempo = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "cwtt", "convert-words-to-tempo",
-R"(Convert words to tempo.
-This may come in handy when MusicXML data has been obtained
-from scanned instrumental music images.)",
-        "convertWordsToTempo",
-        fConvertWordsToTempo));
-
-  // add words from the lyrics
-
-  fAddWordsFromTheLyrics = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "awftl", "add-words-from-the-lyrics",
-R"(Add words with the lyrics contents, keeping the latter untouched.
-This may come in handy when MusicXML data has been obtained from scanned images.)",
-        "addWordsFromTheLyrics",
-        fAddWordsFromTheLyrics));
-
-  // convert words to rehearsal marks
-
-  fConvertWordsToRehearsalMarks = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "cwtrm", "convert-words-to-rehearsal-marks",
-R"(Convert words to rehearsal marks.
-This may come in handy when MusicXML data has been obtained
-from scanned instrumental music images.)",
-        "convertWordsToRehearsalMarks",
-        fConvertWordsToRehearsalMarks));
-
-/* JMI
-  // convert words to dal segno
-  subGroup->
-    appendAtomToSubGroup (
-      msprDalSegnoAtom::create (
-        "ds", "dal-segno",
-R"(Convert words elements STRING to an MSR 'dal segno' element'.)",
-        "STRING",
-        "convertWordsToRehearsalMarks",
-        fConvertWordsToDalSegno));
-
-  // convert words to dal segno al fine
-  subGroup->
-    appendAtomToSubGroup (
-      msprDalSegnoAlFineAtom::create (
-        "dsaf", "dal-segno-al-fine",
-R"(Convert words elements STRING to an MSR 'dal segno al fine' element.)",
-        "STRING",
-        "convertWordsToRehearsalMarks",
-        fConvertWordsToDalSegno));
-
-  // convert words to dal segno al coda
-  subGroup->
-    appendAtomToSubGroup (
-      msprDalSegnoAlCodaAtom::create (
-        "dsac", "dal-segno-al-coda",
-R"(Convert words elements STRING to an MSR 'dal segno al coda' element.)",
-        "STRING",
-        "convertWordsToRehearsalMarks",
-        fConvertWordsToDalSegno));
-*/
-
-/* JMI
-
-        regex_replace (
-          regex_replace (
-            regex_replace (
-R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
-as well as in the generated LilyPond code.
-The NUMBER LilyPond pitches languages available are:
-PITCHES_LANGUAGES.
-The default is 'DEFAULT_VALUE'.)",
-              regex ("NUMBER"),
-              to_string (gGlobalQuarterTonesPitchesLanguageKindsMap.size ())),
-            regex ("PITCHES_LANGUAGES"),
-            gIndenter.indentMultiLineString (
-              existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
-          regex ("DEFAULT_VALUE"),
-          msrQuarterTonesPitchesLanguageKindAsString (
-            msrQuarterTonesPitchesLanguageKindDefaultValue)),
-        "LANGUAGE",
-        "msprPitchesLanguage",
-        fLpsrQuarterTonesPitchesLanguageKind));
-
-    map<string, msrDalSegno::msrDalSegnoKind>
-                          fConvertWordsToDalSegno;
-                          */
-}
-
-void msprOahGroup::initializeLpsrLanguagesOptions ()
+void msprOahGroup::initializeMsdrLanguagesOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -1397,16 +615,16 @@ R"()",
 
   // mspr pitches language
 
-  if (! setLpsrQuarterTonesPitchesLanguage ("nederlands")) {
+  if (! setMsdrQuarterTonesPitchesLanguage ("nederlands")) {
     stringstream s;
 
     s <<
       "INTERNAL INITIALIZATION ERROR: "
-      "LPSR pitches language 'nederlands' is unknown" <<
+      "MSDR pitches language 'nederlands' is unknown" <<
       endl <<
       "The " <<
       gGlobalQuarterTonesPitchesLanguageKindsMap.size () <<
-      " known LPSR pitches languages are:" <<
+      " known MSDR pitches languages are:" <<
       endl;
 
     gIndenter++;
@@ -1421,9 +639,9 @@ R"()",
 
   const msrQuarterTonesPitchesLanguageKind
     msrQuarterTonesPitchesLanguageKindDefaultValue =
-      fLpsrQuarterTonesPitchesLanguageKind;
+      fMsdrQuarterTonesPitchesLanguageKind;
 
-  fLpsrQuarterTonesPitchesLanguageKind =
+  fMsdrQuarterTonesPitchesLanguageKind =
     msrQuarterTonesPitchesLanguageKindDefaultValue;
 
   subGroup->
@@ -1433,9 +651,9 @@ R"()",
         regex_replace (
           regex_replace (
             regex_replace (
-R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
+R"(Use LANGUAGE to display note pitches in the MSDR logs and views,
 as well as in the generated LilyPond code.
-The NUMBER LPSR pitches languages available are:
+The NUMBER MSDR pitches languages available are:
 PITCHES_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
@@ -1448,7 +666,7 @@ The default is 'DEFAULT_VALUE'.)",
             msrQuarterTonesPitchesLanguageKindDefaultValue)),
         "LANGUAGE",
         "msprPitchesLanguage",
-        fLpsrQuarterTonesPitchesLanguageKind));
+        fMsdrQuarterTonesPitchesLanguageKind));
 
   // mspr chords language
 
@@ -1456,7 +674,7 @@ The default is 'DEFAULT_VALUE'.)",
     msprChordsLanguageKindDefaultValue =
       k_IgnatzekChords; // LilyPond default
 
-  fLpsrChordsLanguageKind =
+  fMsdrChordsLanguageKind =
     msprChordsLanguageKindDefaultValue;
 
   subGroup->
@@ -1467,56 +685,25 @@ The default is 'DEFAULT_VALUE'.)",
           regex_replace (
             regex_replace (
 R"(Use LANGUAGE to display chord names, their root and bass notes,
-in the LPSR logs and views and the generated LilyPond code.
-The NUMBER LPSR chords pitches languages available are:
+in the MSDR logs and views and the generated LilyPond code.
+The NUMBER MSDR chords pitches languages available are:
 CHORDS_LANGUAGES.
 'ignatzek' is Ignatzek's jazz-like, english naming used by LilyPond by default.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
-              to_string (gGlobalLpsrChordsLanguageKindsMap.size ())),
+              to_string (gGlobalMsdrChordsLanguageKindsMap.size ())),
             regex ("CHORDS_LANGUAGES"),
             gIndenter.indentMultiLineString (
-              existingLpsrChordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
+              existingMsdrChordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
           regex ("DEFAULT_VALUE"),
           msprChordsLanguageKindAsString (
             msprChordsLanguageKindDefaultValue)),
         "LANGUAGE",
         "mspr-chords-language",
-        fLpsrChordsLanguageKind));
+        fMsdrChordsLanguageKind));
 }
 
-void msprOahGroup::initializeLpsrTransposeOptions ()
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Transpose",
-        "hmsprt", "help-mspr-transpose",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // mspr transpose
-
-  subGroup->
-    appendAtomToSubGroup (
-      msprTransposeAtom::create (
-        "lpt", "mspr-transpose",
-R"(Use TRANSPOSITION to tranpose in the LPSR data,
-thus in the generated LilyPond code as well.
-TRANSPOSITION should contain a diatonic pitch, followed if needed
-by a sequence of ',' or '\'' octave indications.
-Such indications cannot be mixed.
-For example, 'a', 'f' and 'bes,' can be used respectively
-for instruments in 'a', 'f' and B flat respectively)",
-        "TRANSPOSITION",
-        "msprTranspose",
-        fTransposeSemiTonesPitchAndOctave));
-}
-
-void msprOahGroup::initializeLpsrQuitAfterSomePassesOptions ()
+void msprOahGroup::initializeMsdrQuitAfterSomePassesOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -1538,7 +725,7 @@ R"()",
       oahBooleanAtom::create (
         "q3", "quitAfterPass-3",
 R"(Quit after pass 3, i.e. after conversion
-of the MSR to LPSR.)",
+of the MSR to MSDR.)",
         "quitAfterPass3",
         fQuitAfterPass3);
 
@@ -1547,51 +734,29 @@ of the MSR to LPSR.)",
       quit3OahBooleanAtom);
 }
 
-void msprOahGroup::initializeLpsrOahGroup ()
+void msprOahGroup::initializeMsdrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   // trace and display
   // --------------------------------------
-  initializeLpsrTraceOah ();
+  initializeMsdrTraceOah ();
 #endif
 
   // display
   // --------------------------------------
-  initializeLpsrDisplayOptions ();
-
-  // paper
-  // --------------------------------------
-  initializeLpsrPaperOptions ();
-
-  // measures
-  // --------------------------------------
-  initializeLpsrMeasuresOptions ();
-
-  // tempos
-  // --------------------------------------
-  initializeLpsrTemposOptions ();
-
-  // words
-  // --------------------------------------
-  initializeLpsrWordsOptions ();
+  initializeMsdrDisplayOptions ();
 
   // languages
   // --------------------------------------
-  initializeLpsrLanguagesOptions ();
-
-/* superfluous JMI ???
-  // transpose
-  // --------------------------------------
-  initializeLpsrTransposeOptions ();
-*/
+  initializeMsdrLanguagesOptions ();
 
   // quit after some passes
   // --------------------------------------
-  initializeLpsrQuitAfterSomePassesOptions ();
+  initializeMsdrQuitAfterSomePassesOptions ();
 }
 
 //______________________________________________________________________________
-bool msprOahGroup::setLpsrQuarterTonesPitchesLanguage (string language)
+bool msprOahGroup::setMsdrQuarterTonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
   map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
@@ -1603,25 +768,25 @@ bool msprOahGroup::setLpsrQuarterTonesPitchesLanguage (string language)
     return false;
   }
 
-  fLpsrQuarterTonesPitchesLanguageKind = (*it).second;
+  fMsdrQuarterTonesPitchesLanguageKind = (*it).second;
 
   return true;
 }
 
 //______________________________________________________________________________
-bool msprOahGroup::setLpsrChordsLanguage (string language)
+bool msprOahGroup::setMsdrChordsLanguage (string language)
 {
   // is language in the chords languages map?
   map<string, msprChordsLanguageKind>::const_iterator
     it =
-      gGlobalLpsrChordsLanguageKindsMap.find (language);
+      gGlobalMsdrChordsLanguageKindsMap.find (language);
 
-  if (it == gGlobalLpsrChordsLanguageKindsMap.end ()) {
+  if (it == gGlobalMsdrChordsLanguageKindsMap.end ()) {
     // no, language is unknown in the map
     return false;
   }
 
-  fLpsrChordsLanguageKind = (*it).second;
+  fMsdrChordsLanguageKind = (*it).second;
 
   return true;
 }
@@ -1630,15 +795,11 @@ bool msprOahGroup::setLpsrChordsLanguage (string language)
 void msprOahGroup::enforceGroupQuietness ()
 {
 #ifdef TRACING_IS_ENABLED
-  fTraceLpsr = false;
-  fTraceLilypondVersion = false;
-  fTraceLpsrVisitors = false;
-  fTraceLpsrBlocks = false;
-  fTraceSchemeFunctions = false;
+  fTraceMsdr = false;
 #endif
 
-  fDisplayLpsr = false;
-  fDisplayLpsrShort = false;
+  fDisplayMsdr = false;
+  fDisplayMsdrShort = false;
 }
 
 //______________________________________________________________________________
@@ -1712,10 +873,10 @@ void msprOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void msprOahGroup::printLpsrOahValues (unsigned int fieldWidth)
+void msprOahGroup::printMsdrOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
-    "The LPSR options are:" <<
+    "The MSDR options are:" <<
     endl;
 
   gIndenter++;
@@ -1730,25 +891,9 @@ void msprOahGroup::printLpsrOahValues (unsigned int fieldWidth)
   gIndenter++;
 
   gLogStream << left <<
-    setw (fieldWidth) << "traceLpsr" << " : " <<
-    booleanAsString (fTraceLpsr) <<
+    setw (fieldWidth) << "traceMsdr" << " : " <<
+    booleanAsString (fTraceMsdr) <<
     endl <<
-
-    setw (fieldWidth) << "traceLilypondVersion" << " : " <<
-    booleanAsString (fTraceLilypondVersion) <<
-    endl <<
-
-    setw (fieldWidth) << "traceLpsrVisitors" << " : " <<
-    booleanAsString (fTraceLpsrVisitors) <<
-    endl <<
-
-    setw (fieldWidth) << "traceLpsrBlocks" << " : " <<
-    booleanAsString (fTraceLpsrBlocks) <<
-    endl <<
-
-    setw (fieldWidth) << "traceSchemeFunctions" << " : " <<
-    booleanAsString (fTraceSchemeFunctions) <<
-    endl;
 
   gIndenter--;
 #endif
@@ -1762,156 +907,11 @@ void msprOahGroup::printLpsrOahValues (unsigned int fieldWidth)
   gIndenter++;
 
   gLogStream << left <<
-    setw (fieldWidth) << "displayLpsr" << " : " <<
-    booleanAsString (fDisplayLpsr) <<
+    setw (fieldWidth) << "displayMsdr" << " : " <<
+    booleanAsString (fDisplayMsdr) <<
     endl <<
-    setw (fieldWidth) << "displayLpsrShort" << " : " <<
-    booleanAsString (fDisplayLpsrShort) <<
-    endl;
-
-  gIndenter--;
-
-  // paper
-  // --------------------------------------
-
-  gLogStream <<
-    "Paper:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "allPaperVariables" << " : " <<
-    booleanAsString (fAllPaperVariables) <<
-    endl <<
-
-    setw (fieldWidth) << "lengthUnitKind" << " : " <<
-    msrLengthUnitKindAsString (fLengthUnitKind) <<
-    endl <<
-
-    setw (fieldWidth) << "paperHeight" << " : " <<
-    fPaperHeight.asString () <<
-    endl <<
-    setw (fieldWidth) << "paperWidth" << " : " <<
-    fPaperWidth.asString () <<
-    endl <<
-
-    setw (fieldWidth) << "paperLeftMargin" << " : " <<
-    fPaperLeftMargin.asString () <<
-    endl <<
-    setw (fieldWidth) << "paperRightMargin" << " : " <<
-    fPaperRightMargin.asString () <<
-    endl <<
-    setw (fieldWidth) << "paperTopMargin" << " : " <<
-    fPaperTopMargin.asString () <<
-    endl <<
-    setw (fieldWidth) << "paperBottomMargin" << " : " <<
-    fPaperBottomMargin.asString () <<
-    endl <<
-
-    setw (fieldWidth) << "paperIndent" << " : " <<
-    fPaperIndent.asString () <<
-    endl <<
-    setw (fieldWidth) << "paperShortIndent" << " : " <<
-    fPaperShortIndent.asString () <<
-    endl <<
-
-    setw (fieldWidth) << "markupSystemPpacingPadding" << " : " <<
-    fMarkupSystemSpacingPadding.asString () <<
-    endl <<
-
-    setw (fieldWidth) << "raggedBottom" << " : " <<
-    booleanAsString (fRaggedBottom) <<
-    endl <<
-    setw (fieldWidth) << "raggedLastBottom" << " : " <<
-    booleanAsString (fRaggedLastBottom) <<
-    endl <<
-    setw (fieldWidth) << "raggedLast" << " : " <<
-    booleanAsString (fRaggedLast) <<
-    endl <<
-    setw (fieldWidth) << "raggedRight" << " : " <<
-    booleanAsString (fRaggedRight) <<
-    endl <<
-
-    setw (fieldWidth) << "tagline" << " : " <<
-    booleanAsString (fTagline) <<
-    endl <<
-
-    setw (fieldWidth) << "pageCount" << " : " <<
-    fPageCount <<
-    endl <<
-    setw (fieldWidth) << "systemCount" << " : " <<
-    fSystemCount <<
-    endl;
-
-  gIndenter--;
-
-/* JMI
-  // measures
-  // --------------------------------------
-
-  gLogStream <<
-    "Measures:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "resetMeasureElementMeasureNumberMap" << " : ";
-  if (! fAddEmptyMeasuresStringToIntMap.size ()) {
-    gLogStream << "empty";
-  }
-  else {
-    map<string, int>::const_iterator
-      iBegin = fAddEmptyMeasuresStringToIntMap.begin (),
-      iEnd   = fAddEmptyMeasuresStringToIntMap.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      gLogStream << (*i).first << "=" << (*i).second;
-      if (++i == iEnd) break;
-      gLogStream << ",";
-    } // for
-  }
-  gLogStream << endl;
-
-  gIndenter--;
-*/
-
-  // tempos
-  // --------------------------------------
-
-  gLogStream <<
-    "Tempos:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "convertTemposToRehearsalMarks" << " : " <<
-    booleanAsString (fConvertTemposToRehearsalMarks) <<
-    endl << endl;
-
-  gIndenter--;
-
-  // words
-  // --------------------------------------
-
-  gLogStream <<
-    "Words:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "convertWordsToTempo" << " : " <<
-    booleanAsString (fConvertWordsToTempo) <<
-    endl <<
-    setw (fieldWidth) << "addWordsFromTheLyrics" << " : " <<
-    booleanAsString (fAddWordsFromTheLyrics) <<
-    endl <<
-
-    setw (fieldWidth) << "convertWordsToRehearsalMarks" << " : " <<
-    booleanAsString (fConvertWordsToRehearsalMarks) <<
+    setw (fieldWidth) << "displayMsdrShort" << " : " <<
+    booleanAsString (fDisplayMsdrShort) <<
     endl;
 
   gIndenter--;
@@ -1928,41 +928,15 @@ void msprOahGroup::printLpsrOahValues (unsigned int fieldWidth)
   gLogStream << left <<
     setw (fieldWidth) << "msprQuarterTonesPitchesLanguage" << " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
-      fLpsrQuarterTonesPitchesLanguageKind) <<
+      fMsdrQuarterTonesPitchesLanguageKind) <<
     "\"" <<
     endl <<
 
     setw (fieldWidth) << "msprChordsLanguage" << " : \"" <<
     msprChordsLanguageKindAsString (
-      fLpsrChordsLanguageKind) <<
+      fMsdrChordsLanguageKind) <<
     "\"" <<
     endl;
-
-  gIndenter--;
-
-  // transpose
-  // --------------------------------------
-
-  gLogStream <<
-    "Transpose:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "transposeSemiTonesPitchAndOctave" << " : ";
-
-    if (fTransposeSemiTonesPitchAndOctave) {
-      gLogStream <<
-        fTransposeSemiTonesPitchAndOctave->asString ();
-    }
-    else {
-      gLogStream <<
-        "none";
-    }
-  gLogStream << endl;
-
-  gIndenter--;
 
   gIndenter--;
 }
@@ -1974,26 +948,26 @@ ostream& operator<< (ostream& os, const S_msprOahGroup& elt)
 }
 
 //______________________________________________________________________________
-S_msprOahGroup createGlobalLpsrOahGroup ()
+S_msprOahGroup createGlobalMsdrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
   gLogStream <<
-    "Creating global LPSR OAH group" <<
+    "Creating global MSDR OAH group" <<
     endl;
 #endif
 #endif
 
   // protect library against multiple initializations
-  if (! gGlobalLpsrOahGroup) {
+  if (! gGlobalMsdrOahGroup) {
     // create the global options group
-    gGlobalLpsrOahGroup =
+    gGlobalMsdrOahGroup =
       msprOahGroup::create ();
-    assert (gGlobalLpsrOahGroup != 0);
+    assert (gGlobalMsdrOahGroup != 0);
   }
 
   // return the global OAH group
-  return gGlobalLpsrOahGroup;
+  return gGlobalMsdrOahGroup;
 }
 
 

@@ -83,10 +83,14 @@ int main (int argc, char *argv[])
 
 // JMI  msrMoment::testMsrMomentComparisons (cerr); // BLARK
 
-  // fetch executable name
+  // the executable name
+  // ------------------------------------------------------
+
   string executableName = argv [0];
 
-  // are there 'insider' and/or 'regular' options present?
+  // are there insider and/or functions/strings options present?
+  // ------------------------------------------------------
+
   bool insiderOptions = false;
   bool regularOptions = false;
 
@@ -191,6 +195,8 @@ int main (int argc, char *argv[])
   }
 
   // check indentation
+  // ------------------------------------------------------
+
   if (gIndenter != 0) {
     gLogStream <<
       "### " <<

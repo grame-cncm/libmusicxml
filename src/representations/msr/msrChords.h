@@ -11,6 +11,7 @@
 #include "msrLigatures.h"
 #include "msrNotes.h"
 #include "msrOrnaments.h"
+#include "msrScores.h"
 #include "msrSegnosAndCodas.h"
 #include "msrSingleTremolos.h"
 #include "msrSlashes.h"
@@ -94,14 +95,6 @@ class EXP msrChord : public msrTupletElement
     // set and get
     // ------------------------------------------------------
 
-    // chord kind
-    void                  setChordKind (
-                            msrChordKind chordKind)
-                              { fChordKind = chordKind; }
-
-    msrChordKind          getChordKind () const
-                              { return fChordKind; }
-
     // measure upLink
     void                  setChordDirectMeasureUpLink (
                             const S_msrMeasure& measure)
@@ -125,6 +118,14 @@ class EXP msrChord : public msrTupletElement
 
     S_msrGraceNotesGroup  getChordDirectGraceNotesGroupUpLink () const
                             { return fChordDirectGraceNotesGroupUpLink; }
+
+    // chord kind
+    void                  setChordKind (
+                            msrChordKind chordKind)
+                              { fChordKind = chordKind; }
+
+    msrChordKind          getChordKind () const
+                              { return fChordKind; }
 
      // whole notes
     void                  setChordSoundingWholeNotes (
@@ -359,6 +360,9 @@ class EXP msrChord : public msrTupletElement
     // grace notes group upLink
     S_msrGraceNotesGroup  fetchChordGraceNotesGroupUpLink () const;
 
+    // score upLink
+    S_msrScore            fetchChordScoreUpLink () const;
+
     // notes
     void                  addFirstNoteToChord (
                             S_msrNote  note,
@@ -491,8 +495,6 @@ class EXP msrChord : public msrTupletElement
     // private fields
     // ------------------------------------------------------
 
-    msrChordKind          fChordKind;
-
     // measure upLink
     S_msrMeasure          fChordDirectMeasureUpLink;
 
@@ -501,6 +503,8 @@ class EXP msrChord : public msrTupletElement
 
     // grace notes group uplink
     S_msrGraceNotesGroup  fChordDirectGraceNotesGroupUpLink;
+
+    msrChordKind          fChordKind;
 
     // sounding whole notes
     // no need for 'rational fChordSoundingWholeNotes;',

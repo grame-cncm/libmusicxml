@@ -66,7 +66,8 @@ msrScore::msrScore (
   fScoreInstrumentAbbreviationsMaxLength = 0;
 
   // grace notes groups before should be browsed by default
-  fInhibitGraceNotesGroupsBrowsing = false;
+  fInhibitGraceNotesGroupsBeforeBrowsing = false;
+  fInhibitGraceNotesGroupsAfterBrowsing  = false;
 
   // measures repeats replicas should be browsed by default
   fInhibitMeasuresRepeatReplicasBrowsing = false;
@@ -116,6 +117,11 @@ S_msrScore msrScore::createScoreNewbornClone ()
     fScoreInstrumentAbbreviationsMaxLength;
 
   // inhibiting browsing
+
+  newbornClone->fInhibitGraceNotesGroupsBeforeBrowsing =
+    fInhibitGraceNotesGroupsBeforeBrowsing;
+  newbornClone->fInhibitGraceNotesGroupsAfterBrowsing =
+    fInhibitGraceNotesGroupsAfterBrowsing;
 
   newbornClone->fInhibitMeasuresRepeatReplicasBrowsing =
     fInhibitMeasuresRepeatReplicasBrowsing;
@@ -593,6 +599,23 @@ void msrScore::print (ostream& os) const
     endl<<
 
     setw (fieldWidth) <<
+    "inhibitGraceNotesGroupsBeforeBrowsing" <<  " : " <<
+    booleanAsString (
+      fInhibitGraceNotesGroupsBeforeBrowsing) <<
+    endl<<
+    setw (fieldWidth) <<
+    "inhibitGraceNotesGroupsAfterBrowsing" <<  " : " <<
+    booleanAsString (
+      fInhibitGraceNotesGroupsAfterBrowsing) <<
+    endl<<
+
+    setw (fieldWidth) <<
+    "inhibitMeasuresRepeatReplicasBrowsing" <<  " : " <<
+    booleanAsString (
+      fInhibitMeasuresRepeatReplicasBrowsing) <<
+    endl<<
+
+    setw (fieldWidth) <<
     "inhibitRestMeasuresBrowsing" <<  " : " <<
     booleanAsString (
       fInhibitRestMeasuresBrowsing) <<
@@ -772,6 +795,23 @@ void msrScore::printShort (ostream& os) const
     endl<<
 
     setw (fieldWidth) <<
+    "inhibitGraceNotesGroupsBeforeBrowsing" <<  " : " <<
+    booleanAsString (
+      fInhibitGraceNotesGroupsBeforeBrowsing) <<
+    endl<<
+    setw (fieldWidth) <<
+    "inhibitGraceNotesGroupsAfterBrowsing" <<  " : " <<
+    booleanAsString (
+      fInhibitGraceNotesGroupsAfterBrowsing) <<
+    endl<<
+
+    setw (fieldWidth) <<
+    "inhibitMeasuresRepeatReplicasBrowsing" <<  " : " <<
+    booleanAsString (
+      fInhibitMeasuresRepeatReplicasBrowsing) <<
+    endl<<
+
+    setw (fieldWidth) <<
     "inhibitRestMeasuresBrowsing" <<  " : " <<
     booleanAsString (
       fInhibitRestMeasuresBrowsing) <<
@@ -940,6 +980,23 @@ void msrScore::printSummary (ostream& os) const
     setw (fieldWidth) <<
     "scoreInstrumentAbbreviationsMaxLength" <<  " : " <<
     fScoreInstrumentAbbreviationsMaxLength <<
+    endl<<
+
+    setw (fieldWidth) <<
+    "inhibitGraceNotesGroupsBeforeBrowsing" <<  " : " <<
+    booleanAsString (
+      fInhibitGraceNotesGroupsBeforeBrowsing) <<
+    endl<<
+    setw (fieldWidth) <<
+    "inhibitGraceNotesGroupsAfterBrowsing" <<  " : " <<
+    booleanAsString (
+      fInhibitGraceNotesGroupsAfterBrowsing) <<
+    endl<<
+
+    setw (fieldWidth) <<
+    "inhibitMeasuresRepeatReplicasBrowsing" <<  " : " <<
+    booleanAsString (
+      fInhibitMeasuresRepeatReplicasBrowsing) <<
     endl<<
 
     setw (fieldWidth) <<

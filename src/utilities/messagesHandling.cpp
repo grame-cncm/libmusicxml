@@ -476,10 +476,10 @@ EXP void msplError (
     message);
 
   if (! gGlobalGeneralOahGroup->getDontShowErrors ()) { // JMI
-    throw msgMsplException (message);
+    throw msgMsdlException (message);
   }
 
-  throw msgMsplException (message);
+  throw msgMsdlException (message);
 }
 
 EXP void msplInternalError (
@@ -507,7 +507,7 @@ EXP void msplInternalError (
 
   gIndenter.setIndent (saveIndent);
 
-  throw msgMsplInternalException (message);
+  throw msgMsdlInternalException (message);
 }
 
 //______________________________________________________________________________

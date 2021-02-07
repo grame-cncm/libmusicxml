@@ -212,6 +212,24 @@ S_msrGraceNotesGroup msrChord::fetchChordGraceNotesGroupUpLink () const
   return result;
 }
 
+// score upLink
+S_msrScore msrChord::fetchChordScoreUpLink () const
+{
+  S_msrScore result;
+
+  S_msrMeasure
+    measure =
+      fetchChordMeasureUpLink ();
+
+  if (measure) {
+    result =
+      measure ->
+        fetchMeasureScoreUpLink ();
+  }
+
+  return result;
+}
+
 void msrChord::setChordSoundingWholeNotes (
   rational wholeNotes)
 {
@@ -936,6 +954,36 @@ void msrChord::acceptOut (basevisitor* v)
 
 void msrChord::browseData (basevisitor* v)
 {
+  // should this chord be browsed?
+  // fetch the score
+  S_msrScore
+    score =
+      fetchChordScoreUpLink ();
+
+  if (score) {
+    bool
+      inhibitChordsInGraceNotesGroupsBrowsing =
+        score->getInhibitChordsInGraceNotesGroupsBrowsing ();
+
+    if (inhibitChordsInGraceNotesGroupsBrowsing) {
+#ifdef TRACING_IS_ENABLED
+      if (
+        gGlobalMsrOahGroup->getTraceMsrVisitors ()
+          ||
+        gGlobalTraceOahGroup->getTraceNotes ()
+          ||
+        gGlobalTraceOahGroup->getTraceGraceNotes ()
+      ) {
+        gLogStream <<
+          "% ==> visiting grace notes groups before is inhibited" <<
+          endl;
+      }
+#endif
+
+      return;
+    }
+  }
+
   if (fChordGraceNotesGroupLinkBefore) {
     // browse the grace notes group before
     msrBrowser<msrChordGraceNotesGroupLink> browser (v);
