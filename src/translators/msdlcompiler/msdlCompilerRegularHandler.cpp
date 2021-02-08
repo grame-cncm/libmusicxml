@@ -129,8 +129,6 @@ void msdlCompilerRegularHandler::createRegularHandlerGroups ()
 
   createFilesRegularGroup ();
 
-  createAPIRegularGroup ();
-
   createGenerateCodeRegularGroup ();
 
   // create the groups needed according to the generated output kind
@@ -262,37 +260,6 @@ void msdlCompilerRegularHandler::createInformationsRegularGroup ()
   registerAtomInRegularSubgroup ("display-options-handler", subGroup);
   registerAtomInRegularSubgroup ("display-options-handler-summary", subGroup);
   registerAtomInRegularSubgroup ("display-options-handler-essentials", subGroup);
-}
-
-void msdlCompilerRegularHandler::createAPIRegularGroup ()
-{
-  // group
-
-  S_oahGroup
-    group =
-      oahGroup::create (
-        "Generation API group",
-        "generation-api-group", "",
-        "",
-        kElementVisibilityWhole);
-  appendGroupToRegulalHandler (group);
-
-  // subgroup
-
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Generation API",
-        "generation-api", "",
-        "",
-        kElementVisibilityWhole,
-        group);
-  group->
-    appendSubGroupToGroup (subGroup);
-
-  // atoms
-
-  registerAtomInRegularSubgroup (K_GENERATION_API_KIND_LONG_NAME, subGroup);
 }
 
 void msdlCompilerRegularHandler::createOutputRegularGroup ()

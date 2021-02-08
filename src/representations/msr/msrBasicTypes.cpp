@@ -10349,7 +10349,7 @@ msrClefKind clefKindFromString (
       "\" is unknown" <<
       ", line = " << inputLineNumber;
 
-    msplError (
+    msdlError (
       gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
@@ -10560,7 +10560,7 @@ msrModeKind modeKindFromString (
       "\" is unknown" <<
       ", line = " << inputLineNumber;
 
-    msplError (
+    msdlError (
       gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,

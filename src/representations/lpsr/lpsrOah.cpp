@@ -1454,7 +1454,7 @@ The default is 'DEFAULT_VALUE'.)",
 
   const lpsrChordsLanguageKind
     lpsrChordsLanguageKindDefaultValue =
-      k_IgnatzekChords; // LilyPond default
+      kChordsIgnatzek; // LilyPond default
 
   fLpsrChordsLanguageKind =
     lpsrChordsLanguageKindDefaultValue;

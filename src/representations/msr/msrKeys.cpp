@@ -483,7 +483,7 @@ S_msrKey msrKey::createTraditionalKeyFromString (
       "traditional key string \"" << keyString <<
       "\" is ill-formed";
 
-    msplError (
+    msdlError (
       gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,

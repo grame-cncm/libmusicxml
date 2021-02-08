@@ -45,7 +45,7 @@ From FlexLexer.h:
 
 // JMI #include "msdlKeywords.h"
 
-#include "msdlParser.hpp"
+#include "msdlBisonParser.hpp"
 
 
 using namespace std;
@@ -68,7 +68,7 @@ static int start     = 1;
 
 /* JMI
 
-Äunion msdlTokenDescription
+Äunion msdrTokenDescription
 {
 	double							    fDoubleNumber;
 	string						    	fIdent;

@@ -10,10 +10,10 @@
   research@grame.fr
 */
 
-#ifndef ___msprOah___
-#define ___msprOah___
+#ifndef ___msdrOah___
+#define ___msdrOah___
 
-#include "msprBasicTypes.h"
+#include "msdrBasicTypes.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -27,37 +27,125 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP msprPitchesLanguageAtom : public oahAtomWithValue
+class EXP msdrKeywordsLanguageAtom : public oahAtomWithValue
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msprPitchesLanguageAtom> create (
+    static SMARTP<msdrKeywordsLanguageAtom> create (
                             string             shortName,
                             string             longName,
                             string             description,
                             string             valueSpecification,
                             string             variableName,
-                            msrQuarterTonesPitchesLanguageKind&
-                                               msprPitchesLanguageKindVariable);
+                            msdrKeywordsLanguageKind&
+                                               msdrKeywordsLanguageKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-                          msprPitchesLanguageAtom (
+                          msdrKeywordsLanguageAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            msdrKeywordsLanguageKind&
+                                               msdrKeywordsLanguageKindVariable);
+
+    virtual               ~msdrKeywordsLanguageAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setMsdrKeywordsLanguageKindVariable (
+                            msdrKeywordsLanguageKind value)
+                              {
+                                fMsdrKeywordsLanguageKindVariable = value;
+                              }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  applyAtomWithValue (
+                            const string& theString,
+                            ostream&      os) override;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
+
+    void                  browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
+
+    void                  print (ostream& os) const override;
+
+    void                  printAtomWithValueOptionsValues (
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    msdrKeywordsLanguageKind&
+                          fMsdrKeywordsLanguageKindVariable;
+};
+typedef SMARTP<msdrKeywordsLanguageAtom> S_msdrKeywordsLanguageAtom;
+EXP ostream& operator<< (ostream& os, const S_msdrKeywordsLanguageAtom& elt);
+
+//______________________________________________________________________________
+class EXP msdrPitchesLanguageAtom : public oahAtomWithValue
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msdrPitchesLanguageAtom> create (
                             string             shortName,
                             string             longName,
                             string             description,
                             string             valueSpecification,
                             string             variableName,
                             msrQuarterTonesPitchesLanguageKind&
-                                               msprPitchesLanguageKindVariable);
+                                               msdrPitchesLanguageKindVariable);
 
-    virtual               ~msprPitchesLanguageAtom ();
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          msdrPitchesLanguageAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            msrQuarterTonesPitchesLanguageKind&
+                                               msdrPitchesLanguageKindVariable);
+
+    virtual               ~msdrPitchesLanguageAtom ();
 
   public:
 
@@ -111,61 +199,81 @@ class EXP msprPitchesLanguageAtom : public oahAtomWithValue
     msrQuarterTonesPitchesLanguageKind&
                           fMsrQuarterTonesPitchesLanguageKindVariable;
 };
-typedef SMARTP<msprPitchesLanguageAtom> S_msprPitchesLanguageAtom;
-EXP ostream& operator<< (ostream& os, const S_msprPitchesLanguageAtom& elt);
+typedef SMARTP<msdrPitchesLanguageAtom> S_msdrPitchesLanguageAtom;
+EXP ostream& operator<< (ostream& os, const S_msdrPitchesLanguageAtom& elt);
 
 //______________________________________________________________________________
-class EXP msprChordsLanguageAtom : public oahAtomWithValue
+class EXP msdrOahGroup : public oahGroup
 {
   public:
 
-    // creation
+    static SMARTP<msdrOahGroup> create ();
+
+  public:
+
+    // initialisation
     // ------------------------------------------------------
 
-    static SMARTP<msprChordsLanguageAtom> create (
-                            string             shortName,
-                            string             longName,
-                            string             description,
-                            string             valueSpecification,
-                            string             variableName,
-                            msprChordsLanguageKind&
-                                               msprChordsLanguageKindVariable);
+    void                  initializeMsdrOahGroup ();
 
-  protected:
+  public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-                          msprChordsLanguageAtom (
-                            string             shortName,
-                            string             longName,
-                            string             description,
-                            string             valueSpecification,
-                            string             variableName,
-                            msprChordsLanguageKind&
-                                               msprChordsLanguageKindVariable);
+                          msdrOahGroup ();
 
-    virtual               ~msprChordsLanguageAtom ();
-
-  public:
+    virtual               ~msdrOahGroup ();
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setmsprChordsLanguageKindVariable (
-                            msprChordsLanguageKind value)
-                              {
-                                fmsprChordsLanguageKindVariable = value;
-                              }
+    // trace
+    // --------------------------------------
+
+#ifdef TRACING_IS_ENABLED
+    void                  setTraceMsdr ()
+                              { fTraceMsdr = true; }
+    bool                  getTraceMsdr () const
+                              { return fTraceMsdr; }
+#endif
+
+    // display
+    // --------------------------------------
+
+    void                  setDisplayMsdr ()
+                              { fDisplayMsdr = true; }
+
+    bool                  getDisplayMsdr () const
+                              { return fDisplayMsdr; }
+
+    void                  setDisplayMsdrShort ()
+                              { fDisplayMsdrShort = true; }
+
+    bool                  getDisplayMsdrShort () const
+                              { return fDisplayMsdrShort; }
+
+    msrQuarterTonesPitchesLanguageKind
+                          getMsdrQuarterTonesPitchesLanguageKind () const
+                              { return fMsdrQuarterTonesPitchesLanguageKind; }
 
   public:
 
     // public services
     // ------------------------------------------------------
 
-    void                  applyAtomWithValue (
-                            const string& theString,
-                            ostream&      os) override;
+    // languages
+    bool                  setMsdrQuarterTonesPitchesLanguage (string language);
+
+    bool                  setMsdrKeywordsLanguage (string language);
+
+    // quiet mode
+    void                  enforceGroupQuietness () override;
+
+    // consistency check
+    void                  checkGroupOptionsConsistency () override;
+
+    void                  enforceQuietness (); // JMI
 
   public:
 
@@ -182,101 +290,9 @@ class EXP msprChordsLanguageAtom : public oahAtomWithValue
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const override;
-    string                asActualLongNamedOptionString () const override;
+    void                  printMsdrOahHelp ();
 
-    void                  print (ostream& os) const override;
-
-    void                  printAtomWithValueOptionsValues (
-                            ostream&     os,
-                            unsigned int valueFieldWidth) const override;
-
-  private:
-
-    // private fields
-    // ------------------------------------------------------
-
-    msprChordsLanguageKind&
-                          fmsprChordsLanguageKindVariable;
-};
-typedef SMARTP<msprChordsLanguageAtom> S_msprChordsLanguageAtom;
-EXP ostream& operator<< (ostream& os, const S_msprChordsLanguageAtom& elt);
-
-//______________________________________________________________________________
-class EXP msprOahGroup : public oahGroup
-{
-  public:
-
-    static SMARTP<msprOahGroup> create ();
-
-  public:
-
-    // initialisation
-    // ------------------------------------------------------
-
-    void                  initializeMsprOahGroup ();
-
-  public:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-                          msprOahGroup ();
-
-    virtual               ~msprOahGroup ();
-
-    // set and get
-    // ------------------------------------------------------
-
-    // trace
-    // --------------------------------------
-
-#ifdef TRACING_IS_ENABLED
-    void                  setTraceMspr ()
-                              { fTraceMspr = true; }
-    bool                  getTraceMspr () const
-                              { return fTraceMspr; }
-#endif
-
-    // display
-    // --------------------------------------
-
-    void                  setDisplayMspr ()
-                              { fDisplayMspr = true; }
-    bool                  getDisplayMspr () const
-                              { return fDisplayMspr; }
-
-    void                  setDisplayMsprShort ()
-                              { fDisplayMsprShort = true; }
-    bool                  getDisplayMsprShort () const
-                              { return fDisplayMsprShort; }
-
-  public:
-
-    // quiet mode
-    // ------------------------------------------------------
-
-    void                  enforceQuietness ();
-
-  public:
-
-    // public services
-    // ------------------------------------------------------
-
-    // quiet mode
-    void                  enforceGroupQuietness () override;
-
-    // consistency check
-    void                  checkGroupOptionsConsistency () override;
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    void                  printMsprOahHelp ();
-
-    void                  printMsprOahValues (unsigned int fieldWidth);
+    void                  printMsdrOahValues (unsigned int fieldWidth);
 
   private:
 
@@ -284,12 +300,14 @@ class EXP msprOahGroup : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACING_IS_ENABLED
-    void                  initializeMsprTraceOah ();
+    void                  initializeMsdrTraceOah ();
 #endif
 
-    void                  initializeMsprDisplayOptions ();
+    void                  initializeMsdrDisplayOptions ();
 
-    void                  initializeMsprQuitAfterSomePassesOptions ();
+    void                  initializeMsdrLanguagesOptions ();
+
+    void                  initializeMsdrQuitAfterSomePassesOptions ();
 
   private:
 
@@ -300,38 +318,38 @@ class EXP msprOahGroup : public oahGroup
     // --------------------------------------
 
 #ifdef TRACING_IS_ENABLED
-    bool                  fTraceMspr;
+    bool                  fTraceMsdr;
 
-    bool                  fTraceMsprVisitors;
+    bool                  fTraceMsdrVisitors;
 #endif
 
     // display
     // --------------------------------------
 
-    bool                  fDisplayMspr;
-    bool                  fDisplayMsprShort;
+    bool                  fDisplayMsdr;
+    bool                  fDisplayMsdrShort;
 
     // languages
     // --------------------------------------
 
-    msrQuarterTonesPitchesLanguageKind
-                          fMsprQuarterTonesPitchesLanguageKind;
+    msdrKeywordsLanguageKind
+                          fMsdrKeywordsLanguageKind;
 
-    msprChordsLanguageKind
-                          fMsprChordsLanguageKind;
+    msrQuarterTonesPitchesLanguageKind
+                          fMsdrQuarterTonesPitchesLanguageKind;
 
     // quit after some passes
     // --------------------------------------
 
     bool                  fQuitAfterPass3;
 };
-typedef SMARTP<msprOahGroup> S_msprOahGroup;
-EXP ostream& operator<< (ostream& os, const S_msprOahGroup& elt);
+typedef SMARTP<msdrOahGroup> S_msdrOahGroup;
+EXP ostream& operator<< (ostream& os, const S_msdrOahGroup& elt);
 
-EXP extern S_msprOahGroup gGlobalMsprOahGroup;
+EXP extern S_msdrOahGroup gGlobalMsdrOahGroup;
 
 //______________________________________________________________________________
-EXP S_msprOahGroup createGlobalMsprOahGroup ();
+EXP S_msdrOahGroup createGlobalMsdrOahGroup ();
 
 
 }

@@ -447,7 +447,7 @@ void bsrInternalError (
 }
 
 //______________________________________________________________________________
-EXP void msplWarning (
+EXP void msdlWarning (
   std::string inputSourceName,
   int         inputLineNumber,
   std::string message)
@@ -460,7 +460,7 @@ EXP void msplWarning (
 
 }
 
-EXP void msplError (
+EXP void msdlError (
   std::string inputSourceName,
   int         inputLineNumber,
   std::string sourceCodeFileName,
@@ -482,7 +482,7 @@ EXP void msplError (
   throw msgMsdlException (message);
 }
 
-EXP void msplInternalError (
+EXP void msdlInternalError (
   std::string inputSourceName,
   int         inputLineNumber,
   std::string sourceCodeFileName,

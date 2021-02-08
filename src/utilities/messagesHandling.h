@@ -140,19 +140,19 @@ EXP void bsrInternalError (
   string message);
 
 //______________________________________________________________________________
-EXP void msplWarning (
+EXP void msdlWarning (
   string inputSourceName,
   int    inputLineNumber,
   string message);
 
-EXP void msplError (
+EXP void msdlError (
   string inputSourceName,
   int    inputLineNumber,
   string sourceCodeFileName,
   int    sourceCodeLineNumber,
   string message);
 
-EXP void msplInternalError (
+EXP void msdlInternalError (
   string inputSourceName,
   int    inputLineNumber,
   string sourceCodeFileName,

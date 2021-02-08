@@ -96,8 +96,11 @@ void initializeLpsrAccidentalStyleKindsMap ();
 // chords languages
 //______________________________________________________________________________
 enum lpsrChordsLanguageKind {
-  k_IgnatzekChords, // LilyPond default
-  k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords
+  kChordsIgnatzek, // LilyPond default
+  kChordsGerman,
+  kChordsSemiGerman,
+  kChordsItalian,
+  kChordsFrench
 };
 
 string lpsrChordsLanguageKindAsString (

@@ -132,7 +132,7 @@ S_msrClef msrClef::createClefFromString (
       "clefString \"" << clefString <<
       "\" is ill-formed";
 
-    msplError (
+    msdlError (
       gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,

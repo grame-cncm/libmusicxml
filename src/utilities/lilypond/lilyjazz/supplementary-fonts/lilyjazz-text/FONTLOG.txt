@@ -1,0 +1,30 @@
+FONTLOG for the lilyjazz-text font
+==================================
+
+This file provides detailed information on the lilyjazz-text font software. This information should be distributed along with the lilyjazz-text fonts and any derivative works.
+
+
+Basic font information
+----------------------
+lilyjazz-text is a typeface designed by Torsten Hämmerle to resemble a hand-written text font more suitable to jazz-like hand-written scores. Since Torsten is no longer available to publicly maintain lilyjazz-text, Abraham Lee has become the current designer and maintainer for the forseeable future. This font software is not designed for use in a word-processing application, although all the glyphs may be accessed at their respective Unicode points. It was originally designed for use with LilyPond, the automatic music engraver.
+
+More information about the introduction of lilyjazz-text to the general LilyPond user base can be found at:
+
+http://lists.gnu.org/archive/html/lilypond-user/2013-03/msg00608.html
+
+More information about LilyPond can be found at:
+
+http://www.lilypond.org/
+
+Changelog
+---------
+
+12 March 2013 (Torsten Hämmerle) LilyJAZZText version 0.1
+- Initial design of most common text characters.
+
+30 July 2014 (Abraham Lee) LilyJAZZText version 1.0
+- Added more common ASCII characters (like the ampersand, comma, etc.)
+
+30 March 2015 (Abraham Lee) lilyjazz-text version 1.1
+- Renamed the font to "lilyjazz-text" to be more consistent with the rest of
+  the lilyjazz font family names and updated OFL with this name.

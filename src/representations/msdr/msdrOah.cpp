@@ -26,7 +26,7 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "msprOah.h"
+#include "msdrOah.h"
 
 #include "messagesHandling.h"
 
@@ -37,35 +37,269 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_msprPitchesLanguageAtom msprPitchesLanguageAtom::create (
+S_msdrKeywordsLanguageAtom msdrKeywordsLanguageAtom::create (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
   string             variableName,
-  msrQuarterTonesPitchesLanguageKind&
-                     msprPitchesLanguageKindVariable)
+  msdrKeywordsLanguageKind&
+                     msdrKeywordsLanguageKindVariable)
 {
-  msprPitchesLanguageAtom* o = new
-    msprPitchesLanguageAtom (
+  msdrKeywordsLanguageAtom* o = new
+    msdrKeywordsLanguageAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName,
-      msprPitchesLanguageKindVariable);
+      msdrKeywordsLanguageKindVariable);
   assert (o != nullptr);
   return o;
 }
 
-msprPitchesLanguageAtom::msprPitchesLanguageAtom (
+msdrKeywordsLanguageAtom::msdrKeywordsLanguageAtom (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  msdrKeywordsLanguageKind&
+                     msdrKeywordsLanguageKindVariable)
+  : oahAtomWithValue (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fMsdrKeywordsLanguageKindVariable (
+      msdrKeywordsLanguageKindVariable)
+{}
+
+msdrKeywordsLanguageAtom::~msdrKeywordsLanguageAtom ()
+{}
+
+void msdrKeywordsLanguageAtom::applyAtomWithValue (
+  const string& theString,
+  ostream&      os)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "==> oahAtom is of type 'msdrKeywordsLanguageAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the language name:
+  // is it in the keywords languages map?
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "==> oahAtom is of type 'msdrKeywordsLanguageAtom'" <<
+      endl;
+  }
+#endif
+
+  map<string, msdrKeywordsLanguageKind>::const_iterator
+    it =
+      gGlobalMsdrKeywordsLanguageKindsMap.find (theString);
+
+  if (it == gGlobalMsdrKeywordsLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+    stringstream s;
+
+    s <<
+      "MSDR keywords language '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gGlobalMsdrKeywordsLanguageKindsMap.size () - 1 <<
+      " known MSDR keywords languages apart from the default Ignatzek are:" <<
+      endl;
+
+    ++gIndenter;
+
+    s <<
+      existingMsdrKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    --gIndenter;
+
+    oahError (s.str ());
+  }
+
+  setMsdrKeywordsLanguageKindVariable (
+    (*it).second);
+}
+
+void msdrKeywordsLanguageAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> msdrKeywordsLanguageAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msdrKeywordsLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_msdrKeywordsLanguageAtom>*> (v)) {
+        S_msdrKeywordsLanguageAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching msdrKeywordsLanguageAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msdrKeywordsLanguageAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> msdrKeywordsLanguageAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msdrKeywordsLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_msdrKeywordsLanguageAtom>*> (v)) {
+        S_msdrKeywordsLanguageAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching msdrKeywordsLanguageAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msdrKeywordsLanguageAtom::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> msdrKeywordsLanguageAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string msdrKeywordsLanguageAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    msdrKeywordsLanguageKindAsString (fMsdrKeywordsLanguageKindVariable);
+
+  return s.str ();
+}
+
+string msdrKeywordsLanguageAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    msdrKeywordsLanguageKindAsString (fMsdrKeywordsLanguageKindVariable);
+
+  return s.str ();
+}
+
+void msdrKeywordsLanguageAtom::print (ostream& os) const
+{
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "msdrKeywordsLanguageAtom:" <<
+    endl;
+
+  ++gIndenter;
+
+  printAtomWithValueEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fMsdrKeywordsLanguageKindVariable" << " : \"" <<
+    msdrKeywordsLanguageKindAsString (
+      fMsdrKeywordsLanguageKindVariable) <<
+    "\"" <<
+    endl;
+
+  --gIndenter;
+}
+
+void msdrKeywordsLanguageAtom::printAtomWithValueOptionsValues (
+  ostream&     os,
+  unsigned int valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : \"" <<
+    msdrKeywordsLanguageKindAsString (
+      fMsdrKeywordsLanguageKindVariable) <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
+}
+
+ostream& operator<< (ostream& os, const S_msdrKeywordsLanguageAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msdrPitchesLanguageAtom msdrPitchesLanguageAtom::create (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
   string             variableName,
   msrQuarterTonesPitchesLanguageKind&
-                     msprPitchesLanguageKindVariable)
+                     msdrPitchesLanguageKindVariable)
+{
+  msdrPitchesLanguageAtom* o = new
+    msdrPitchesLanguageAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      msdrPitchesLanguageKindVariable);
+  assert (o != nullptr);
+  return o;
+}
+
+msdrPitchesLanguageAtom::msdrPitchesLanguageAtom (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  msrQuarterTonesPitchesLanguageKind&
+                     msdrPitchesLanguageKindVariable)
   : oahAtomWithValue (
       shortName,
       longName,
@@ -73,13 +307,13 @@ msprPitchesLanguageAtom::msprPitchesLanguageAtom (
       valueSpecification,
       variableName),
     fMsrQuarterTonesPitchesLanguageKindVariable (
-      msprPitchesLanguageKindVariable)
+      msdrPitchesLanguageKindVariable)
 {}
 
-msprPitchesLanguageAtom::~msprPitchesLanguageAtom ()
+msdrPitchesLanguageAtom::~msdrPitchesLanguageAtom ()
 {}
 
-void msprPitchesLanguageAtom::applyAtomWithValue (
+void msdrPitchesLanguageAtom::applyAtomWithValue (
   const string& theString,
   ostream&      os)
 {
@@ -87,7 +321,7 @@ void msprPitchesLanguageAtom::applyAtomWithValue (
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
-      "==> oahAtom is of type 'msprPitchesLanguageAtom'" <<
+      "==> oahAtom is of type 'msdrPitchesLanguageAtom'" <<
       endl;
   }
 #endif
@@ -98,7 +332,7 @@ void msprPitchesLanguageAtom::applyAtomWithValue (
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
-      "==> oahAtom is of type 'msprPitchesLanguageAtom'" <<
+      "==> oahAtom is of type 'msdrPitchesLanguageAtom'" <<
       endl;
   }
 #endif
@@ -122,12 +356,12 @@ void msprPitchesLanguageAtom::applyAtomWithValue (
       " known MSDR pitches languages are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -136,25 +370,25 @@ void msprPitchesLanguageAtom::applyAtomWithValue (
     (*it).second);
 }
 
-void msprPitchesLanguageAtom::acceptIn (basevisitor* v)
+void msdrPitchesLanguageAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> msprPitchesLanguageAtom::acceptIn ()" <<
+      ".\\\" ==> msdrPitchesLanguageAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_msprPitchesLanguageAtom>*
+  if (visitor<S_msdrPitchesLanguageAtom>*
     p =
-      dynamic_cast<visitor<S_msprPitchesLanguageAtom>*> (v)) {
-        S_msprPitchesLanguageAtom elem = this;
+      dynamic_cast<visitor<S_msdrPitchesLanguageAtom>*> (v)) {
+        S_msdrPitchesLanguageAtom elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching msprPitchesLanguageAtom::visitStart ()" <<
+            ".\\\" ==> Launching msdrPitchesLanguageAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -162,25 +396,25 @@ void msprPitchesLanguageAtom::acceptIn (basevisitor* v)
   }
 }
 
-void msprPitchesLanguageAtom::acceptOut (basevisitor* v)
+void msdrPitchesLanguageAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> msprPitchesLanguageAtom::acceptOut ()" <<
+      ".\\\" ==> msdrPitchesLanguageAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_msprPitchesLanguageAtom>*
+  if (visitor<S_msdrPitchesLanguageAtom>*
     p =
-      dynamic_cast<visitor<S_msprPitchesLanguageAtom>*> (v)) {
-        S_msprPitchesLanguageAtom elem = this;
+      dynamic_cast<visitor<S_msdrPitchesLanguageAtom>*> (v)) {
+        S_msdrPitchesLanguageAtom elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching msprPitchesLanguageAtom::visitEnd ()" <<
+            ".\\\" ==> Launching msdrPitchesLanguageAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -188,18 +422,18 @@ void msprPitchesLanguageAtom::acceptOut (basevisitor* v)
   }
 }
 
-void msprPitchesLanguageAtom::browseData (basevisitor* v)
+void msdrPitchesLanguageAtom::browseData (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> msprPitchesLanguageAtom::browseData ()" <<
+      ".\\\" ==> msdrPitchesLanguageAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-string msprPitchesLanguageAtom::asShortNamedOptionString () const
+string msdrPitchesLanguageAtom::asShortNamedOptionString () const
 {
   stringstream s;
 
@@ -211,7 +445,7 @@ string msprPitchesLanguageAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string msprPitchesLanguageAtom::asActualLongNamedOptionString () const
+string msdrPitchesLanguageAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -223,15 +457,15 @@ string msprPitchesLanguageAtom::asActualLongNamedOptionString () const
   return s.str ();
 }
 
-void msprPitchesLanguageAtom::print (ostream& os) const
+void msdrPitchesLanguageAtom::print (ostream& os) const
 {
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "msprPitchesLanguageAtom:" <<
+    "msdrPitchesLanguageAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -248,10 +482,10 @@ void msprPitchesLanguageAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
-void msprPitchesLanguageAtom::printAtomWithValueOptionsValues (
+void msdrPitchesLanguageAtom::printAtomWithValueOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -270,304 +504,70 @@ void msprPitchesLanguageAtom::printAtomWithValueOptionsValues (
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_msprPitchesLanguageAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_msprChordsLanguageAtom msprChordsLanguageAtom::create (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
-  msprChordsLanguageKind&
-                     msprChordsLanguageKindVariable)
-{
-  msprChordsLanguageAtom* o = new
-    msprChordsLanguageAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName,
-      msprChordsLanguageKindVariable);
-  assert (o != nullptr);
-  return o;
-}
-
-msprChordsLanguageAtom::msprChordsLanguageAtom (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
-  msprChordsLanguageKind&
-                     msprChordsLanguageKindVariable)
-  : oahAtomWithValue (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName),
-    fMsdrChordsLanguageKindVariable (
-      msprChordsLanguageKindVariable)
-{}
-
-msprChordsLanguageAtom::~msprChordsLanguageAtom ()
-{}
-
-void msprChordsLanguageAtom::applyAtomWithValue (
-  const string& theString,
-  ostream&      os)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "==> oahAtom is of type 'msprChordsLanguageAtom'" <<
-      endl;
-  }
-#endif
-
-  // theString contains the language name:
-  // is it in the chords languages map?
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "==> oahAtom is of type 'msprChordsLanguageAtom'" <<
-      endl;
-  }
-#endif
-
-  map<string, msprChordsLanguageKind>::const_iterator
-    it =
-      gGlobalMsdrChordsLanguageKindsMap.find (theString);
-
-  if (it == gGlobalMsdrChordsLanguageKindsMap.end ()) {
-    // no, language is unknown in the map
-    stringstream s;
-
-    s <<
-      "MSDR chords language '" << theString <<
-      "' is unknown" <<
-      endl <<
-      "The " <<
-      gGlobalMsdrChordsLanguageKindsMap.size () - 1 <<
-      " known MSDR chords languages apart from the default Ignatzek are:" <<
-      endl;
-
-    gIndenter++;
-
-    s <<
-      existingMsdrChordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
-
-    gIndenter--;
-
-    oahError (s.str ());
-  }
-
-  setMsdrChordsLanguageKindVariable (
-    (*it).second);
-}
-
-void msprChordsLanguageAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprChordsLanguageAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_msprChordsLanguageAtom>*
-    p =
-      dynamic_cast<visitor<S_msprChordsLanguageAtom>*> (v)) {
-        S_msprChordsLanguageAtom elem = this;
-
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-          gLogStream <<
-            ".\\\" ==> Launching msprChordsLanguageAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void msprChordsLanguageAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprChordsLanguageAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_msprChordsLanguageAtom>*
-    p =
-      dynamic_cast<visitor<S_msprChordsLanguageAtom>*> (v)) {
-        S_msprChordsLanguageAtom elem = this;
-
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-          gLogStream <<
-            ".\\\" ==> Launching msprChordsLanguageAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void msprChordsLanguageAtom::browseData (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprChordsLanguageAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string msprChordsLanguageAtom::asShortNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fShortName << " " <<
-    msprChordsLanguageKindAsString (fMsdrChordsLanguageKindVariable);
-
-  return s.str ();
-}
-
-string msprChordsLanguageAtom::asActualLongNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fLongName << " " <<
-    msprChordsLanguageKindAsString (fMsdrChordsLanguageKindVariable);
-
-  return s.str ();
-}
-
-void msprChordsLanguageAtom::print (ostream& os) const
-{
-  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "msprChordsLanguageAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  printAtomWithValueEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fVariableName" << " : " <<
-    fVariableName <<
-    setw (fieldWidth) <<
-    "fMsdrChordsLanguageKindVariable" << " : \"" <<
-    msprChordsLanguageKindAsString (
-      fMsdrChordsLanguageKindVariable) <<
-    "\"" <<
-    endl;
-
-  gIndenter--;
-}
-
-void msprChordsLanguageAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : \"" <<
-    msprChordsLanguageKindAsString (
-      fMsdrChordsLanguageKindVariable) <<
-    "\"";
-  if (fVariableHasBeenSet) {
-    os <<
-      ", variableHasBeenSet: " <<
-      booleanAsString (fVariableHasBeenSet);
-  }
-  os << endl;
-}
-
-ostream& operator<< (ostream& os, const S_msprChordsLanguageAtom& elt)
+ostream& operator<< (ostream& os, const S_msdrPitchesLanguageAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //_______________________________________________________________________________
-S_msprOahGroup gGlobalMsprOahGroup;
+S_msdrOahGroup gGlobalMsdrOahGroup;
 
-S_msprOahGroup msprOahGroup::create ()
+S_msdrOahGroup msdrOahGroup::create ()
 {
-  msprOahGroup* o = new msprOahGroup ();
+  msdrOahGroup* o = new msdrOahGroup ();
   assert (o != nullptr);
   return o;
 }
 
-msprOahGroup::msprOahGroup ()
+msdrOahGroup::msdrOahGroup ()
   : oahGroup (
     "MSDR",
-    "hmspr", "help-mspr",
+    "hmsdr", "help-msdr",
 R"(These options control the way MSDR data is handled.)",
     kElementVisibilityWhole)
 {
   initializeMsdrOahGroup ();
 }
 
-msprOahGroup::~msprOahGroup ()
+msdrOahGroup::~msdrOahGroup ()
 {}
 
 #ifdef TRACING_IS_ENABLED
-void msprOahGroup::initializeMsdrTraceOah ()
+void msdrOahGroup::initializeMsdrTraceOah ()
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
         "MSDR Trace",
-        "hmsprtrace", "help-mspr-trace",
+        "hmsdrtrace", "help-msdr-trace",
 R"()",
       kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
 
-  // trace MSPR
+  // trace MSDR
 
   fTraceMsdr            = false;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "tmspr", "trace-mspr",
+        "tmsdr", "trace-msdr",
 R"(Write a trace of the MSDR graphs visiting activity to standard error.)",
         "traceMsdr",
         fTraceMsdr));
 }
 #endif
 
-void msprOahGroup::initializeMsdrDisplayOptions ()
+void msdrOahGroup::initializeMsdrDisplayOptions ()
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
         "Display",
-        "hmsprd", "help-mspr-display",
+        "hmsdrd", "help-msdr-display",
 R"()",
       kElementVisibilityWhole,
       this);
@@ -581,7 +581,7 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "dmspr", "display-mspr",
+        "dmsdr", "display-msdr",
 R"(Write the contents of the MSDR data to standard error.)",
         "displayMsdr",
         fDisplayMsdr));
@@ -593,29 +593,29 @@ R"(Write the contents of the MSDR data to standard error.)",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "dmsprs", "display-mspr-short",
+        "dmsdrs", "display-msdr-short",
 R"(Write the contents of the MSDR data, short version, to standard error.)",
         "displayMsdrShort",
         fDisplayMsdrShort));
 }
 
 
-void msprOahGroup::initializeMsdrLanguagesOptions ()
+void msdrOahGroup::initializeMsdrLanguagesOptions ()
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
         "Languages",
-        "hmsprl", "help-mspr-languages",
+        "hmsdrl", "help-msdr-languages",
 R"()",
       kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
 
-  // mspr pitches language
+  // msdr pitches language
 
-  if (! setMsdrQuarterTonesPitchesLanguage ("nederlands")) {
+  if (! setMsdrQuarterTonesPitchesLanguage ("english")) {
     stringstream s;
 
     s <<
@@ -627,12 +627,12 @@ R"()",
       " known MSDR pitches languages are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -646,13 +646,12 @@ R"()",
 
   subGroup->
     appendAtomToSubGroup (
-      msprPitchesLanguageAtom::create (
-        "lppl", "mspr-pitches-language",
+      msdrPitchesLanguageAtom::create (
+        "msdpl", "msdr-pitches-language",
         regex_replace (
           regex_replace (
             regex_replace (
-R"(Use LANGUAGE to display note pitches in the MSDR logs and views,
-as well as in the generated LilyPond code.
+R"(Use LANGUAGE to input note pitches.
 The NUMBER MSDR pitches languages available are:
 PITCHES_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
@@ -665,51 +664,49 @@ The default is 'DEFAULT_VALUE'.)",
           msrQuarterTonesPitchesLanguageKindAsString (
             msrQuarterTonesPitchesLanguageKindDefaultValue)),
         "LANGUAGE",
-        "msprPitchesLanguage",
+        "msdrPitchesLanguage",
         fMsdrQuarterTonesPitchesLanguageKind));
 
-  // mspr chords language
+  // msdr keywords language
 
-  const msprChordsLanguageKind
-    msprChordsLanguageKindDefaultValue =
-      k_IgnatzekChords; // LilyPond default
+  const msdrKeywordsLanguageKind
+    msdrKeywordsLanguageKindDefaultValue =
+      kKeywordsEnglish; // MSDL default
 
-  fMsdrChordsLanguageKind =
-    msprChordsLanguageKindDefaultValue;
+  fMsdrKeywordsLanguageKind =
+    msdrKeywordsLanguageKindDefaultValue;
 
   subGroup->
     appendAtomToSubGroup (
-      msprChordsLanguageAtom::create (
-        "lpcl", "mspr-chords-language",
+      msdrKeywordsLanguageAtom::create (
+        "msdkl", "msdr-keywords-language",
         regex_replace (
           regex_replace (
             regex_replace (
-R"(Use LANGUAGE to display chord names, their root and bass notes,
-in the MSDR logs and views and the generated LilyPond code.
-The NUMBER MSDR chords pitches languages available are:
-CHORDS_LANGUAGES.
-'ignatzek' is Ignatzek's jazz-like, english naming used by LilyPond by default.
+R"(Use LANGUAGE to input keyword names.
+The NUMBER MSDR keywords pitches languages available are:
+KEYWORDS_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
-              to_string (gGlobalMsdrChordsLanguageKindsMap.size ())),
-            regex ("CHORDS_LANGUAGES"),
+              to_string (gGlobalMsdrKeywordsLanguageKindsMap.size ())),
+            regex ("KEYWORDS_LANGUAGES"),
             gIndenter.indentMultiLineString (
-              existingMsdrChordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
+              existingMsdrKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
           regex ("DEFAULT_VALUE"),
-          msprChordsLanguageKindAsString (
-            msprChordsLanguageKindDefaultValue)),
+          msdrKeywordsLanguageKindAsString (
+            msdrKeywordsLanguageKindDefaultValue)),
         "LANGUAGE",
-        "mspr-chords-language",
-        fMsdrChordsLanguageKind));
+        "msdr-keywords-language",
+        fMsdrKeywordsLanguageKind));
 }
 
-void msprOahGroup::initializeMsdrQuitAfterSomePassesOptions ()
+void msdrOahGroup::initializeMsdrQuitAfterSomePassesOptions ()
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
         "Quit after some passes",
-        "hlquit", "help-mspr-quit",
+        "hlquit", "help-msdr-quit",
 R"()",
       kElementVisibilityWhole,
       this);
@@ -734,7 +731,7 @@ of the MSR to MSDR.)",
       quit3OahBooleanAtom);
 }
 
-void msprOahGroup::initializeMsdrOahGroup ()
+void msdrOahGroup::initializeMsdrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   // trace and display
@@ -756,7 +753,25 @@ void msprOahGroup::initializeMsdrOahGroup ()
 }
 
 //______________________________________________________________________________
-bool msprOahGroup::setMsdrQuarterTonesPitchesLanguage (string language)
+bool msdrOahGroup::setMsdrKeywordsLanguage (string language)
+{
+  // is language in the keywords languages map?
+  map<string, msdrKeywordsLanguageKind>::const_iterator
+    it =
+      gGlobalMsdrKeywordsLanguageKindsMap.find (language);
+
+  if (it == gGlobalMsdrKeywordsLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+    return false;
+  }
+
+  fMsdrKeywordsLanguageKind = (*it).second;
+
+  return true;
+}
+
+//______________________________________________________________________________
+bool msdrOahGroup::setMsdrQuarterTonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
   map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
@@ -774,25 +789,7 @@ bool msprOahGroup::setMsdrQuarterTonesPitchesLanguage (string language)
 }
 
 //______________________________________________________________________________
-bool msprOahGroup::setMsdrChordsLanguage (string language)
-{
-  // is language in the chords languages map?
-  map<string, msprChordsLanguageKind>::const_iterator
-    it =
-      gGlobalMsdrChordsLanguageKindsMap.find (language);
-
-  if (it == gGlobalMsdrChordsLanguageKindsMap.end ()) {
-    // no, language is unknown in the map
-    return false;
-  }
-
-  fMsdrChordsLanguageKind = (*it).second;
-
-  return true;
-}
-
-//______________________________________________________________________________
-void msprOahGroup::enforceGroupQuietness ()
+void msdrOahGroup::enforceGroupQuietness ()
 {
 #ifdef TRACING_IS_ENABLED
   fTraceMsdr = false;
@@ -803,31 +800,31 @@ void msprOahGroup::enforceGroupQuietness ()
 }
 
 //______________________________________________________________________________
-void msprOahGroup::checkGroupOptionsConsistency ()
+void msdrOahGroup::checkGroupOptionsConsistency ()
 {
   // JMI
 }
 
 //______________________________________________________________________________
-void msprOahGroup::acceptIn (basevisitor* v)
+void msdrOahGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> msprOahGroup::acceptIn ()" <<
+      ".\\\" ==> msdrOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_msprOahGroup>*
+  if (visitor<S_msdrOahGroup>*
     p =
-      dynamic_cast<visitor<S_msprOahGroup>*> (v)) {
-        S_msprOahGroup elem = this;
+      dynamic_cast<visitor<S_msdrOahGroup>*> (v)) {
+        S_msdrOahGroup elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching msprOahGroup::visitStart ()" <<
+            ".\\\" ==> Launching msdrOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -835,25 +832,25 @@ void msprOahGroup::acceptIn (basevisitor* v)
   }
 }
 
-void msprOahGroup::acceptOut (basevisitor* v)
+void msdrOahGroup::acceptOut (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> msprOahGroup::acceptOut ()" <<
+      ".\\\" ==> msdrOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_msprOahGroup>*
+  if (visitor<S_msdrOahGroup>*
     p =
-      dynamic_cast<visitor<S_msprOahGroup>*> (v)) {
-        S_msprOahGroup elem = this;
+      dynamic_cast<visitor<S_msdrOahGroup>*> (v)) {
+        S_msdrOahGroup elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching msprOahGroup::visitEnd ()" <<
+            ".\\\" ==> Launching msdrOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -861,25 +858,25 @@ void msprOahGroup::acceptOut (basevisitor* v)
   }
 }
 
-void msprOahGroup::browseData (basevisitor* v)
+void msdrOahGroup::browseData (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> msprOahGroup::browseData ()" <<
+      ".\\\" ==> msdrOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void msprOahGroup::printMsdrOahValues (unsigned int fieldWidth)
+void msdrOahGroup::printMsdrOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The MSDR options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   // trace
@@ -888,14 +885,14 @@ void msprOahGroup::printMsdrOahValues (unsigned int fieldWidth)
     "Trace:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "traceMsdr" << " : " <<
     booleanAsString (fTraceMsdr) <<
     endl <<
 
-  gIndenter--;
+  --gIndenter;
 #endif
 
   // display
@@ -904,7 +901,7 @@ void msprOahGroup::printMsdrOahValues (unsigned int fieldWidth)
     "Display:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "displayMsdr" << " : " <<
@@ -914,7 +911,7 @@ void msprOahGroup::printMsdrOahValues (unsigned int fieldWidth)
     booleanAsString (fDisplayMsdrShort) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // languages
   // --------------------------------------
@@ -923,32 +920,32 @@ void msprOahGroup::printMsdrOahValues (unsigned int fieldWidth)
     "Languages:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
-    setw (fieldWidth) << "msprQuarterTonesPitchesLanguage" << " : \"" <<
+    setw (fieldWidth) << "msdrQuarterTonesPitchesLanguage" << " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fMsdrQuarterTonesPitchesLanguageKind) <<
     "\"" <<
     endl <<
 
-    setw (fieldWidth) << "msprChordsLanguage" << " : \"" <<
-    msprChordsLanguageKindAsString (
-      fMsdrChordsLanguageKind) <<
+    setw (fieldWidth) << "msdrKeywordsLanguage" << " : \"" <<
+    msdrKeywordsLanguageKindAsString (
+      fMsdrKeywordsLanguageKind) <<
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
-ostream& operator<< (ostream& os, const S_msprOahGroup& elt)
+ostream& operator<< (ostream& os, const S_msdrOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msprOahGroup createGlobalMsdrOahGroup ()
+S_msdrOahGroup createGlobalMsdrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -962,7 +959,7 @@ S_msprOahGroup createGlobalMsdrOahGroup ()
   if (! gGlobalMsdrOahGroup) {
     // create the global options group
     gGlobalMsdrOahGroup =
-      msprOahGroup::create ();
+      msdrOahGroup::create ();
     assert (gGlobalMsdrOahGroup != 0);
   }
 
@@ -972,899 +969,3 @@ S_msprOahGroup createGlobalMsdrOahGroup ()
 
 
 }
-
-
-/* JMI
-//______________________________________________________________________________
-S_msprDalSegnoAtom msprDalSegnoAtom::create (
-  string              shortName,
-  string              longName,
-  string              description,
-  string              valueSpecification,
-  string              variableName,
-  map<string, msrDalSegno::msrDalSegnoKind>&
-                      stringToDalSegnoKindMapVariable)
-{
-  msprDalSegnoAtom* o = new
-    msprDalSegnoAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName,
-      stringToDalSegnoKindMapVariable);
-  assert (o != nullptr);
-  return o;
-}
-
-msprDalSegnoAtom::msprDalSegnoAtom (
-  string              shortName,
-  string              longName,
-  string              description,
-  string              valueSpecification,
-  string              variableName,
-  map<string, msrDalSegno::msrDalSegnoKind>&
-                      stringToDalSegnoKindMapVariable)
-  : oahAtomWithValue (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName),
-    fStringToDalSegnoKindMapVariable (
-      stringToDalSegnoKindMapVariable)
-{
-  fMultipleOccurrencesAllowed = true;
-}
-
-msprDalSegnoAtom::~msprDalSegnoAtom ()
-{}
-
-void msprDalSegnoAtom::applyAtomWithValue (
-  const string& theString,
-  ostream&      os)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "==> oahAtom is of type 'msprDalSegnoAtom'" <<
-      endl;
-  }
-#endif
-
-  // theString contains the dal segno specification
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "==> oahAtom is of type 'msprDalSegnoAtom'" <<
-      endl;
-  }
-#endif
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "--> theString = \"" << theString << "\", " <<
-      endl;
-  }
-#endif
-
-  // is this part name in the part renaming map?
-  map<string, msrDalSegno::msrDalSegnoKind>::iterator
-    it =
-      fStringToDalSegnoKindMapVariable.find (theString);
-
-  if (it != fStringToDalSegnoKindMapVariable.end ()) {
-    // yes, issue error message
-    stringstream s;
-
-    s <<
-      "Dal segno \"" << theString << "\" occurs more that once" <<
-      "in a '--dal-segno' option";
-
-    oahError (s.str ());
-  }
-
-  else {
-    fStringToDalSegnoKindMapVariable [theString] = msrDalSegno::kDalSegno;
-  }
-}
-
-void msprDalSegnoAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprDalSegnoAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_msprDalSegnoAtom>*
-    p =
-      dynamic_cast<visitor<S_msprDalSegnoAtom>*> (v)) {
-        S_msprDalSegnoAtom elem = this;
-
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-          gLogStream <<
-            ".\\\" ==> Launching msprDalSegnoAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void msprDalSegnoAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprDalSegnoAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_msprDalSegnoAtom>*
-    p =
-      dynamic_cast<visitor<S_msprDalSegnoAtom>*> (v)) {
-        S_msprDalSegnoAtom elem = this;
-
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-          gLogStream <<
-            ".\\\" ==> Launching msprDalSegnoAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void msprDalSegnoAtom::browseData (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprDalSegnoAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string msprDalSegnoAtom::asShortNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fShortName << " ";
-
-  if (! fStringToDalSegnoKindMapVariable.size ()) {
-    s << "none";
-  }
-  else {
-    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
-      iBegin = fStringToDalSegnoKindMapVariable.begin (),
-      iEnd   = fStringToDalSegnoKindMapVariable.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      s << (*i).first << "=" << (*i).second;
-      if (++i == iEnd) break;
-      s << ",";
-    } // for
-  }
-
-  return s.str ();
-}
-
-string msprDalSegnoAtom::asActualLongNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fLongName << " ";
-
-  if (! fStringToDalSegnoKindMapVariable.size ()) {
-    s << "none";
-  }
-  else {
-    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
-      iBegin = fStringToDalSegnoKindMapVariable.begin (),
-      iEnd   = fStringToDalSegnoKindMapVariable.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      s << (*i).first << "=" << (*i).second;
-      if (++i == iEnd) break;
-      s << ",";
-    } // for
-  }
-
-  return s.str ();
-}
-
-void msprDalSegnoAtom::print (ostream& os) const
-{
-  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "msprDalSegnoAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  printAtomWithValueEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fVariableName" << " : " <<
-    fVariableName <<
-    setw (fieldWidth) <<
-    "fStringToDalSegnoKindMapVariable" << " : " <<
-    endl;
-
-  if (! fStringToDalSegnoKindMapVariable.size ()) {
-    os << "none";
-  }
-  else {
-    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
-      iBegin = fStringToDalSegnoKindMapVariable.begin (),
-      iEnd   = fStringToDalSegnoKindMapVariable.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i).first << " --> " << (*i).second;
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-
-  gIndenter--;
-
-  os << endl;
-}
-
-void msprDalSegnoAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : ";
-
-  if (! fStringToDalSegnoKindMapVariable.size ()) {
-    os <<
-      "none" <<
-      endl;
-  }
-  else {
-    os << endl;
-    gIndenter++;
-
-    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
-      iBegin = fStringToDalSegnoKindMapVariable.begin (),
-      iEnd   = fStringToDalSegnoKindMapVariable.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os <<
-        "\"" <<
-        (*i).first <<
-        "\" --> \"" <<
-        (*i).second <<
-        "\"" <<
-        endl;
-      if (++i == iEnd) break;
-    } // for
-
-    os <<
-      ", variableHasBeenSet: " <<
-      booleanAsString (fVariableHasBeenSet);
-
-    gIndenter--;
-  }
-}
-
-ostream& operator<< (ostream& os, const S_msprDalSegnoAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_msprDalSegnoAlFineAtom msprDalSegnoAlFineAtom::create (
-  string              shortName,
-  string              longName,
-  string              description,
-  string              valueSpecification,
-  string              variableName,
-  map<string, msrDalSegno::msrDalSegnoKind>&
-                      stringToDalSegnoKindMapVariable)
-{
-  msprDalSegnoAlFineAtom* o = new
-    msprDalSegnoAlFineAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName,
-      stringToDalSegnoKindMapVariable);
-  assert (o != nullptr);
-  return o;
-}
-
-msprDalSegnoAlFineAtom::msprDalSegnoAlFineAtom (
-  string              shortName,
-  string              longName,
-  string              description,
-  string              valueSpecification,
-  string              variableName,
-  map<string, msrDalSegno::msrDalSegnoKind>&
-                      stringToDalSegnoKindMapVariable)
-  : oahAtomWithValue (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName),
-    fStringToDalSegnoKindMapVariable (
-      stringToDalSegnoKindMapVariable)
-{
-  fMultipleOccurrencesAllowed = true;
-}
-
-msprDalSegnoAlFineAtom::~msprDalSegnoAlFineAtom ()
-{}
-
-void msprDalSegnoAlFineAtom::applyAtomWithValue (
-  const string& theString,
-  ostream&      os)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "==> oahAtom is of type 'msprDalSegnoAlFineAtom'" <<
-      endl;
-  }
-#endif
-
-  // theString contains the dal segno al fine specification
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "==> oahAtom is of type 'msprDalSegnoAlFineAtom'" <<
-      endl;
-  }
-#endif
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "--> theString = \"" << theString << "\", " <<
-      endl;
-  }
-#endif
-
-  // is this part name in the part renaming map?
-  map<string, msrDalSegno::msrDalSegnoKind>::iterator
-    it =
-      fStringToDalSegnoKindMapVariable.find (theString);
-
-  if (it != fStringToDalSegnoKindMapVariable.end ()) {
-    // yes, issue error message
-    stringstream s;
-
-    s <<
-      "Dal segno \"" << theString << "\" occurs more that once" <<
-      "in a '--dal-segno-al-fine' option";
-
-    oahError (s.str ());
-  }
-
-  else {
-    fStringToDalSegnoKindMapVariable [theString] = msrDalSegno::kDalSegno;
-  }
-}
-
-void msprDalSegnoAlFineAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprDalSegnoAlFineAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_msprDalSegnoAlFineAtom>*
-    p =
-      dynamic_cast<visitor<S_msprDalSegnoAlFineAtom>*> (v)) {
-        S_msprDalSegnoAlFineAtom elem = this;
-
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-          gLogStream <<
-            ".\\\" ==> Launching msprDalSegnoAlFineAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void msprDalSegnoAlFineAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprDalSegnoAlFineAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_msprDalSegnoAlFineAtom>*
-    p =
-      dynamic_cast<visitor<S_msprDalSegnoAlFineAtom>*> (v)) {
-        S_msprDalSegnoAlFineAtom elem = this;
-
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-          gLogStream <<
-            ".\\\" ==> Launching msprDalSegnoAlFineAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void msprDalSegnoAlFineAtom::browseData (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprDalSegnoAlFineAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string msprDalSegnoAlFineAtom::asShortNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fShortName << " ";
-
-  if (! fStringToDalSegnoKindMapVariable.size ()) {
-    s << "none";
-  }
-  else {
-    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
-      iBegin = fStringToDalSegnoKindMapVariable.begin (),
-      iEnd   = fStringToDalSegnoKindMapVariable.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      s << (*i).first << "=" << (*i).second;
-      if (++i == iEnd) break;
-      s << ",";
-    } // for
-  }
-
-  return s.str ();
-}
-
-string msprDalSegnoAlFineAtom::asActualLongNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fLongName << " ";
-
-  if (! fStringToDalSegnoKindMapVariable.size ()) {
-    s << "none";
-  }
-  else {
-    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
-      iBegin = fStringToDalSegnoKindMapVariable.begin (),
-      iEnd   = fStringToDalSegnoKindMapVariable.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      s << (*i).first << "=" << (*i).second;
-      if (++i == iEnd) break;
-      s << ",";
-    } // for
-  }
-
-  return s.str ();
-}
-
-void msprDalSegnoAlFineAtom::print (ostream& os) const
-{
-  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "msprDalSegnoAlFineAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  printAtomWithValueEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fVariableName" << " : " <<
-    fVariableName <<
-    setw (fieldWidth) <<
-    "fStringToDalSegnoKindMapVariable" << " : " <<
-    endl;
-
-  if (! fStringToDalSegnoKindMapVariable.size ()) {
-    os << "none";
-  }
-  else {
-    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
-      iBegin = fStringToDalSegnoKindMapVariable.begin (),
-      iEnd   = fStringToDalSegnoKindMapVariable.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i).first << " --> " << (*i).second;
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-
-  gIndenter--;
-
-  os << endl;
-}
-
-void msprDalSegnoAlFineAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : ";
-
-  if (! fStringToDalSegnoKindMapVariable.size ()) {
-    os <<
-      "none" <<
-      endl;
-  }
-  else {
-    os << endl;
-    gIndenter++;
-
-    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
-      iBegin = fStringToDalSegnoKindMapVariable.begin (),
-      iEnd   = fStringToDalSegnoKindMapVariable.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os <<
-        "\"" <<
-        (*i).first <<
-        "\" --> \"" <<
-        (*i).second <<
-        "\"" <<
-        endl;
-      if (++i == iEnd) break;
-    } // for
-
-    os <<
-      ", variableHasBeenSet: " <<
-      booleanAsString (fVariableHasBeenSet);
-
-    gIndenter--;
-  }
-}
-
-ostream& operator<< (ostream& os, const S_msprDalSegnoAlFineAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_msprDalSegnoAlCodaAtom msprDalSegnoAlCodaAtom::create (
-  string              shortName,
-  string              longName,
-  string              description,
-  string              valueSpecification,
-  string              variableName,
-  map<string, msrDalSegno::msrDalSegnoKind>&
-                      stringToDalSegnoKindMapVariable)
-{
-  msprDalSegnoAlCodaAtom* o = new
-    msprDalSegnoAlCodaAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName,
-      stringToDalSegnoKindMapVariable);
-  assert (o != nullptr);
-  return o;
-}
-
-msprDalSegnoAlCodaAtom::msprDalSegnoAlCodaAtom (
-  string              shortName,
-  string              longName,
-  string              description,
-  string              valueSpecification,
-  string              variableName,
-  map<string, msrDalSegno::msrDalSegnoKind>&
-                      stringToDalSegnoKindMapVariable)
-  : oahAtomWithValue (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName),
-    fStringToDalSegnoKindMapVariable (
-      stringToDalSegnoKindMapVariable)
-{
-  fMultipleOccurrencesAllowed = true;
-}
-
-msprDalSegnoAlCodaAtom::~msprDalSegnoAlCodaAtom ()
-{}
-
-void msprDalSegnoAlCodaAtom::applyAtomWithValue (
-  const string& theString,
-  ostream&      os)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "==> oahAtom is of type 'msprDalSegnoAlCodaAtom'" <<
-      endl;
-  }
-#endif
-
-  // theString contains the dal segno specification
-  // decipher it to extract the old and new part names
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "==> oahAtom is of type 'msprDalSegnoAlCodaAtom'" <<
-      endl;
-  }
-#endif
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogStream <<
-      "--> theString = \"" << theString << "\", " <<
-      endl;
-  }
-#endif
-
-  // is this part name in the part renaming map?
-  map<string, msrDalSegno::msrDalSegnoKind>::iterator
-    it =
-      fStringToDalSegnoKindMapVariable.find (theString);
-
-  if (it != fStringToDalSegnoKindMapVariable.end ()) {
-    // yes, issue error message
-    stringstream s;
-
-    s <<
-      "Dal segno al coda value \"" << theString << "\" occurs more that once" <<
-      "in a '--dal-segno' option";
-
-    oahError (s.str ());
-  }
-
-  else {
-    fStringToDalSegnoKindMapVariable [theString] = msrDalSegno::kDalSegno;
-  }
-}
-
-void msprDalSegnoAlCodaAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprDalSegnoAlCodaAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_msprDalSegnoAlCodaAtom>*
-    p =
-      dynamic_cast<visitor<S_msprDalSegnoAlCodaAtom>*> (v)) {
-        S_msprDalSegnoAlCodaAtom elem = this;
-
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-          gLogStream <<
-            ".\\\" ==> Launching msprDalSegnoAlCodaAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void msprDalSegnoAlCodaAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprDalSegnoAlCodaAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_msprDalSegnoAlCodaAtom>*
-    p =
-      dynamic_cast<visitor<S_msprDalSegnoAlCodaAtom>*> (v)) {
-        S_msprDalSegnoAlCodaAtom elem = this;
-
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-          gLogStream <<
-            ".\\\" ==> Launching msprDalSegnoAlCodaAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void msprDalSegnoAlCodaAtom::browseData (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> msprDalSegnoAlCodaAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string msprDalSegnoAlCodaAtom::asShortNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fShortName << " ";
-
-  if (! fStringToDalSegnoKindMapVariable.size ()) {
-    s << "none";
-  }
-  else {
-    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
-      iBegin = fStringToDalSegnoKindMapVariable.begin (),
-      iEnd   = fStringToDalSegnoKindMapVariable.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      s << (*i).first << "=" << (*i).second;
-      if (++i == iEnd) break;
-      s << ",";
-    } // for
-  }
-
-  return s.str ();
-}
-
-string msprDalSegnoAlCodaAtom::asActualLongNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fLongName << " ";
-
-  if (! fStringToDalSegnoKindMapVariable.size ()) {
-    s << "none";
-  }
-  else {
-    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
-      iBegin = fStringToDalSegnoKindMapVariable.begin (),
-      iEnd   = fStringToDalSegnoKindMapVariable.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      s << (*i).first << "=" << (*i).second;
-      if (++i == iEnd) break;
-      s << ",";
-    } // for
-  }
-
-  return s.str ();
-}
-
-void msprDalSegnoAlCodaAtom::print (ostream& os) const
-{
-  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "msprDalSegnoAlCodaAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  printAtomWithValueEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fVariableName" << " : " <<
-    fVariableName <<
-    setw (fieldWidth) <<
-    "fStringToDalSegnoKindMapVariable" << " : " <<
-    endl;
-
-  if (! fStringToDalSegnoKindMapVariable.size ()) {
-    os << "none";
-  }
-  else {
-    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
-      iBegin = fStringToDalSegnoKindMapVariable.begin (),
-      iEnd   = fStringToDalSegnoKindMapVariable.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i).first << " --> " << (*i).second;
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-
-  gIndenter--;
-
-  os << endl;
-}
-
-void msprDalSegnoAlCodaAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : ";
-
-  if (! fStringToDalSegnoKindMapVariable.size ()) {
-    os <<
-      "none" <<
-      endl;
-  }
-  else {
-    os << endl;
-    gIndenter++;
-
-    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
-      iBegin = fStringToDalSegnoKindMapVariable.begin (),
-      iEnd   = fStringToDalSegnoKindMapVariable.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os <<
-        "\"" <<
-        (*i).first <<
-        "\" --> \"" <<
-        (*i).second <<
-        "\"" <<
-        endl;
-      if (++i == iEnd) break;
-    } // for
-
-    os <<
-      ", variableHasBeenSet: " <<
-      booleanAsString (fVariableHasBeenSet);
-
-    gIndenter--;
-  }
-}
-
-ostream& operator<< (ostream& os, const S_msprDalSegnoAlCodaAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-*/
-

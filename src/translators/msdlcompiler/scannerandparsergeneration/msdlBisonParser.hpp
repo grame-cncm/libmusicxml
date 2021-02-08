@@ -35,8 +35,8 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
-#ifndef YY_MSDL_MSDLPARSER_HPP_INCLUDED
-# define YY_MSDL_MSDLPARSER_HPP_INCLUDED
+#ifndef YY_MSDL_MSDLBISONPARSER_HPP_INCLUDED
+# define YY_MSDL_MSDLBISONPARSER_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -106,4 +106,4 @@ extern YYSTYPE msdllval;
 
 int msdlparse (void);
 
-#endif /* !YY_MSDL_MSDLPARSER_HPP_INCLUDED  */
+#endif /* !YY_MSDL_MSDLBISONPARSER_HPP_INCLUDED  */

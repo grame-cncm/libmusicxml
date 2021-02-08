@@ -121,7 +121,7 @@ class EXP Mikrokosmos3WanderingInsiderHandler : public oahInsiderHandler
     // ------------------------------------------------------
 
     // generated output kind
-    generatorOutputKind  fGeneratorOutputKind;
+    generatorOutputKind   fGeneratorOutputKind;
 
 };
 typedef SMARTP<Mikrokosmos3WanderingInsiderHandler> S_Mikrokosmos3WanderingInsiderHandler;

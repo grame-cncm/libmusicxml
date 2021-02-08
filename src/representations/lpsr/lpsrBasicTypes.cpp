@@ -1066,11 +1066,11 @@ map<string, lpsrChordsLanguageKind>
 
 void initializeLpsrChordsLanguageKindsMap ()
 {
-  gGlobalLpsrChordsLanguageKindsMap ["ignatzek"]   = k_IgnatzekChords; // default
-  gGlobalLpsrChordsLanguageKindsMap ["german"]     = k_GermanChords;
-  gGlobalLpsrChordsLanguageKindsMap ["semiGerman"] = k_SemiGermanChords;
-  gGlobalLpsrChordsLanguageKindsMap ["italian"]    = k_ItalianChords;
-  gGlobalLpsrChordsLanguageKindsMap ["french"]     = k_FrenchChords;
+  gGlobalLpsrChordsLanguageKindsMap ["ignatzek"]   = kChordsIgnatzek; // default
+  gGlobalLpsrChordsLanguageKindsMap ["german"]     = kChordsGerman;
+  gGlobalLpsrChordsLanguageKindsMap ["semiGerman"] = kChordsSemiGerman;
+  gGlobalLpsrChordsLanguageKindsMap ["italian"]    = kChordsItalian;
+  gGlobalLpsrChordsLanguageKindsMap ["french"]     = kChordsFrench;
 }
 
 string lpsrChordsLanguageKindAsString (
@@ -1079,19 +1079,19 @@ string lpsrChordsLanguageKindAsString (
   string result;
 
   switch (languageKind) {
-    case k_IgnatzekChords: // default value
+    case kChordsIgnatzek: // default value
       result = "ignatzek";
       break;
-    case k_GermanChords:
+    case kChordsGerman:
       result = "german";
       break;
-    case k_SemiGermanChords:
+    case kChordsSemiGerman:
       result = "semiGerman";
       break;
-    case k_ItalianChords:
+    case kChordsItalian:
       result = "italian";
       break;
-    case k_FrenchChords:
+    case kChordsFrench:
       result = "french";
       break;
   } // switch

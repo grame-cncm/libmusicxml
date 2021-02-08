@@ -8926,7 +8926,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
 
   // chords language?
   if (! gGlobalLpsr2lilypondOahGroup->getUseLilypondDefaultLanguages ()) { // JMI HasBeenSet???
-    if (gGlobalLpsrOahGroup->getLpsrChordsLanguageKind () != k_IgnatzekChords) {
+    if (gGlobalLpsrOahGroup->getLpsrChordsLanguageKind () != kChordsIgnatzek) {
       fLilypondCodeStream <<
         "\\" <<
         lpsrChordsLanguageKindAsString (

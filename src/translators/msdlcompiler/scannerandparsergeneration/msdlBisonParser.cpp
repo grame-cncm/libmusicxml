@@ -145,10 +145,10 @@ char doctypeStart[MAXLEN];
 char doctypePub[MAXLEN];
 char doctypeSys[MAXLEN];
 
-msdlReader * gMsplReader;
+msdlReader * gMsdlReader;
 
 static void init (msdlReader * theMsdlReader) {
-	gMsplReader = theMsdlReader;
+	gMsdlReader = theMsdlReader;
 	msdlStandalone = -1;
 	eltName[0]		= 0;
 	attributeName[0] = 0;
@@ -1479,7 +1479,7 @@ bool readMsdlStream (FILE * fd, msdlReader * theMsdlReader)
  	return ret==0;
 }
 
-void	yyerror(const char *s)	{ gMsplReader->error (s, msdllineno); }
+void	yyerror(const char *s)	{ gMsdlReader->error (s, msdllineno); }
 
 
 // the reader class

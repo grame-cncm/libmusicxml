@@ -117,8 +117,6 @@ class EXP msdlCompilerRegularHandler : public oahRegularHandler
 
     void                  createInformationsRegularGroup ();
 
-    void                  createAPIRegularGroup ();
-
     void                  createGenerateCodeRegularGroup ();
 
     void                  createOutputRegularGroup ();

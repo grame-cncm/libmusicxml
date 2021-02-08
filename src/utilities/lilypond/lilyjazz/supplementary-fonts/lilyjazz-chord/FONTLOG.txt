@@ -1,0 +1,47 @@
+FONTLOG for the lilyjazz-chord font
+===================================
+
+This file provides detailed information on the lilyjazz-chord font software. This information should be distributed along with the lilyjazz-chord font and any derivative works.
+
+
+Basic font information
+----------------------
+lilyjazz-chord is a typeface designed by Jean-Pierre G., specifically to make chords easier to write in LilyPond. Generally a regular text font, there are a few custom glyph code points pertaining to chords that supersede the normal characters:
+
+- "<" : the flat symbol
+- ">" : the sharp symbol
+- "^" : the "major" triangle symbol
+- "0" : the "diminished" circle symbol
+- "@" : the "half-diminished" slashed-circle symbol
+- "[" : a thinner left parenthesis for stacked number chords
+- "]" : a thinner right parenthesis for stacked number chords
+
+On 28 July, 2014, Jean-Pierre corresponded with Abraham Lee:
+
+    The font is free for use and distribution.
+    You can use it as you want.
+    I never plan to work more on that so you can upgrade it.
+
+From at day on, Abraham Lee has become the current designer and maintainer for the forseeable future. This font software is not designed for use in a word-processing application, although all the glyphs may be accessed at their respective Unicode points. It was originally designed for use with LilyPond, the automatic music engraver.
+
+More information about the introduction of lilyjazz-chord can be found at:
+
+https://sites.google.com/site/jpgzic/
+
+More information about LilyPond can be found at:
+
+http://www.lilypond.org/
+
+Changelog
+---------
+
+18 April 2010 (Jean-Pierre G.) LilyJAZZChord version 0.1
+- Initial design of the basic alphabet/chord glyph set.
+
+30 July 2014 (Abraham Lee) LilyJAZZChord version 1.0
+- Added more ASCII characters for a more complete text font. Font is licensed
+  under SIL OFL with the reserved name "LilyJAZZChord".
+  
+30 March 2015 (Abraham Lee) lilyjazz-chord version 1.1
+- Renamed the font to "lilyjazz-chord" to be more consistent with the rest of
+  the lilyjazz font family names and updated OFL with this name.

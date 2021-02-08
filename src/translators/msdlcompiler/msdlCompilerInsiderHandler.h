@@ -121,7 +121,7 @@ class EXP msdlCompilerInsiderHandler : public oahInsiderHandler
     // ------------------------------------------------------
 
     // generated output kind
-    generatorOutputKind  fGeneratorOutputKind;
+    generatorOutputKind   fGeneratorOutputKind;
 
 };
 typedef SMARTP<msdlCompilerInsiderHandler> S_msdlCompilerInsiderHandler;
@@ -155,12 +155,6 @@ class EXP msdlCompilerInsiderOahGroup : public oahGroup
     // set and get
     // ------------------------------------------------------
 
-    // generation API kind
-    void                  setGenerationAPIKind (msrGenerationAPIKind value)
-                              { fGenerationAPIKind = value; }
-    msrGenerationAPIKind  getGenerationAPIKind () const
-                              { return fGenerationAPIKind; }
-
     // generated output kind
     void                  setGeneratorOutputKind (generatorOutputKind value)
                               { fGeneratorOutputKind = value; }
@@ -193,6 +187,58 @@ class EXP msdlCompilerInsiderOahGroup : public oahGroup
                               { fQuitAfterPass2b = true; }
     bool                  getQuitAfterPass2b () const
                               { return fQuitAfterPass2b; }
+
+/* JMI
+    // UTF encoding
+
+    void                  setUTFKind (bsrUTFKind value)
+                              { fUTFKind = value; }
+    bsrUTFKind            getUTFKind () const
+                              { return fUTFKind;  }
+
+    // byte ordering
+
+    void                  setByteOrderingKind (bsrByteOrderingKind value)
+                              { fByteOrderingKind = value; }
+    bsrByteOrderingKind   getByteOrderingKind () const
+                              { return fByteOrderingKind;  }
+
+    // braille music file name
+
+    void                  setUseEncodingInFileName ()
+                              { fUseEncodingInFileName = true; }
+    bool                  getUseEncodingInFileName () const
+                              { return fUseEncodingInFileName;  }
+
+    // page parameters
+
+    void                  setCellsPerLine (unsigned int value)
+                              { fCellsPerLine = value; }
+    unsigned int          getCellsPerLine () const
+                              { return fCellsPerLine;  }
+
+    void                  setMeasuresPerLine (unsigned int value)
+                              { fMeasuresPerLine = value; }
+    unsigned int          getMeasuresPerLine () const
+                              { return fMeasuresPerLine;  }
+
+    void                  setLinesPerPage (unsigned int value)
+                              { fLinesPerPage = value; }
+    unsigned int          getLinesPerPage () const
+                              { return fLinesPerPage;  }
+
+    // code generation
+
+    void                  setXml2brlInfos ()
+                              { fXml2brlInfos = true; }
+    bool                  getXml2brlInfos () const
+                              { return fXml2brlInfos;  }
+
+    void                  setNoBrailleCode ()
+                              { fNoBrailleCode = true; }
+    bool                  getNoBrailleCode () const
+                              { return fNoBrailleCode;  }
+*/
 
   public:
 
@@ -241,9 +287,6 @@ class EXP msdlCompilerInsiderOahGroup : public oahGroup
     // private fields
     // ------------------------------------------------------
 
-    // generation API kind
-    msrGenerationAPIKind  fGenerationAPIKind;
-
     // generated output kind
     generatorOutputKind   fGeneratorOutputKind;
 
@@ -255,6 +298,26 @@ class EXP msdlCompilerInsiderOahGroup : public oahGroup
     // quit after some passes
     bool                  fQuitAfterPass2a;
     bool                  fQuitAfterPass2b;
+
+    /*
+    // UTF encoding (8 or 16 bits)
+
+    bsrUTFKind            fUTFKind;
+    S_brailleUTFKindAtom  fUTFKindAtom;
+
+    // braille output kind
+
+    bsrBrailleOutputKind  fBrailleOutputKind;
+    S_brailleOutputKindAtom
+                          fBrailleOutputKindAtom;
+
+    // byte ordering
+
+    bsrByteOrderingKind   fByteOrderingKind;
+    S_brailleByteOrderingKindAtom
+                          fByteOrderingKindAtom;
+
+    */
 };
 typedef SMARTP<msdlCompilerInsiderOahGroup> S_msdlCompilerInsiderOahGroup;
 EXP ostream& operator<< (ostream& os, const S_msdlCompilerInsiderOahGroup& elt);

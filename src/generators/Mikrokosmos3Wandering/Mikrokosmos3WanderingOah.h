@@ -87,7 +87,7 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
     void                  setGeneratorOutputKind (generatorOutputKind value)
                               { fGeneratorOutputKind = value; }
 
-    generatorOutputKind  getGeneratorOutputKind () const
+    generatorOutputKind   getGeneratorOutputKind () const
                               { return fGeneratorOutputKind;  }
 
 /* JMI

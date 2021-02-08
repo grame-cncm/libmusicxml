@@ -853,6 +853,13 @@ R"(Options that are used by Mikrokosmos3Wandering are grouped here.)",
 
   fGeneratorOutputKind = k_NoOutput;
 
+  fGenerateComments = false;
+  fGenerateStem = false;
+  fGenerateBars = false;
+
+  fQuitAfterPass2a = false;
+  fQuitAfterPass2b = false;
+
   initializeMikrokosmos3WanderingInsiderOahGroup ();
 }
 

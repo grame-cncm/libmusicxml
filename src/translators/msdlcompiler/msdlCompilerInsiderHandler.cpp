@@ -25,6 +25,8 @@
 #include "outputFileOah.h"
 #include "extraOah.h"
 
+#include "msdrOah.h"
+
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
 #include "msr2mxmlTreeOah.h"
@@ -91,8 +93,8 @@ msdlCompilerInsiderHandler::msdlCompilerInsiderHandler (
   : oahInsiderHandler (
       executableName,
       handlerHeader,
-R"(                Welcome to the MSDL compiler,
-     a generator of Guido, MusicXML, LilyPond or braille music
+R"(                  Welcome to the MSDL compiler,
+     that generates Guido, MusicXML, LilyPond or braille music
           from MSDL (Music Scores Description Language)
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
@@ -333,12 +335,18 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
 
   initializeMSR (); // used whatever the output kind
 
+// JMI ???  initializeMSDR (); // used whatever the output kind
+
   // initialize options handling, phase 2
   // ------------------------------------------------------
 
   // create the MSR OAH group
   appendGroupToHandler (
     createGlobalMsrOahGroup ());
+
+  // create the MSDR OAH group
+  appendGroupToHandler (
+    createGlobalMsdrOahGroup ());
 
   // create the groups needed according to the generated output kind
   /*
@@ -851,10 +859,14 @@ msdlCompilerInsiderOahGroup::msdlCompilerInsiderOahGroup ()
 R"(Options that are used by MSDL ompiler are grouped here.)",
     kElementVisibilityWhole)
 {
-// JMI  fGenerationAPIKind = kMsrFunctionsAPIKind; // default value
-  fGenerationAPIKind = kMsrStringsAPIKind; // default value
-
   fGeneratorOutputKind = k_NoOutput;
+
+  fGenerateComments = false;
+  fGenerateStem = false;
+  fGenerateBars = false;
+
+  fQuitAfterPass2a = false;
+  fQuitAfterPass2b = false;
 
   initializeMsdlCompilerInsiderOahGroup ();
 }
@@ -1007,23 +1019,6 @@ void msdlCompilerInsiderOahGroup::printMsdlCompilerInsiderOahGroupValues (unsign
     endl;
 
   ++gIndenter;
-
-  // generation API kind
-  // --------------------------------------
-
-  gLogStream << left <<
-    setw (fieldWidth) << "Generation API kind:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) <<
-    "msrGenerationAPIKind" << " : " <<
-    msrGenerationAPIKindAsString (fGenerationAPIKind) <<
-    endl;
-
-  --gIndenter;
 
   // generate output kind
   // --------------------------------------
