@@ -15,8 +15,8 @@ pitches english            % default is english
 score helloWorld = "Hello World in MSPL" {
 
   voice {
-    c1 |2
-    finalBar
+    |1 c1
+    finalbar
   }
 
 } % helloWorld

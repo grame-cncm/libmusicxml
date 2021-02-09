@@ -311,13 +311,6 @@ EXP msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
 
   Attempting to use classes to describe this graph would be a nightmare:
   we thus use enum types and uplinks to handles the variants.
-
-  Direct uplinks are stored in fields, meaning that there is
-  at least an indirect uplink though something else in the graph,
-  which can be computed by a fetch*() method.
-
-  When there are no such multiple ways to access the uplink,
-  'Direct' is absent from the field name.
 */
 
 enum msrNoteKind {

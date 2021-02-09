@@ -34,7 +34,7 @@
 #include "msrOah.h"
 #include "msr2lpsrOah.h"
 
-#include "msdrTokensList.h"
+#include "msdrTokens.h"
 
 
 using namespace std;
@@ -43,19 +43,96 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-string msdrTokenDescrKindAsString (msdrTokenDescrKind tokenDescrKind)
+string msdrTokenKindAsString (msdrTokenKind tokenKind)
 {
   string result;
 
-  switch (tokenDescrKind) {
-    case kTokenDescrInteger:
-      result = "tokenDescrInteger";
+  switch (tokenKind) {
+    case kTokenTitle:
+      result = "kTokenTitle";
       break;
-    case kTokenDescrDouble:
-      result = "tokenDescrDouble";
+    case kTokenComposer:
+      result = "kTokenComposer";
       break;
-    case kTokenDescrString:
-      result = "tokenDescrString";
+    case kTokenOpus:
+      result = "kTokenOpus";
+      break;
+
+    case kTokenPitches:
+      result = "kTokenPitches";
+      break;
+
+    case kTokenScore:
+      result = "kTokenScore";
+      break;
+    case kTokenPartGroup:
+      result = "kTokenPartGroup";
+      break;
+    case kTokenPart:
+      result = "kTokenPart";
+      break;
+    case kTokenStaff:
+      result = "kTokenStaff";
+      break;
+    case kTokenVoice:
+      result = "kTokenVoice";
+      break;
+    case kTokenFragment:
+      result = "kTokenFragment";
+      break;
+
+    case kTokenClef:
+      result = "kTokenClef";
+      break;
+
+    case kTokenKey:
+      result = "kTokenKey";
+      break;
+    case kTokenTreble:
+      result = "kTokenTreble";
+      break;
+    case kTokenSoprano:
+      result = "kTokenSoprano";
+      break;
+    case kTokenAlto:
+      result = "kTokenAlto";
+      break;
+    case kTokenBaritone:
+      result = "kTokenBaritone";
+      break;
+    case kTokenBass:
+      result = "kTokenBass";
+      break;
+
+    case kTokenTime:
+      result = "kTokenTime";
+      break;
+
+    case kTokenAnacrusis:
+      result = "kTokenAnacrusis";
+      break;
+
+    case kTokenFinalBar:
+      result = "kTokenFinalBar";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msdrTokenDescriptionKindAsString (msdrTokenDescriptionKind tokenDescriptionKind)
+{
+  string result;
+
+  switch (tokenDescriptionKind) {
+    case kTokenDescriptionInteger:
+      result = "tokenDescriptionInteger";
+      break;
+    case kTokenDescriptionDouble:
+      result = "tokenDescriptionDouble";
+      break;
+    case kTokenDescriptionString:
+      result = "tokenDescriptionString";
       break;
   } // switch
 
@@ -63,16 +140,16 @@ string msdrTokenDescrKindAsString (msdrTokenDescrKind tokenDescrKind)
 }
 
 //_______________________________________________________________________________
-int msdrTokenDescr::getInt () const
+int msdrTokenDescription::getInt () const
 {
   int result;
 
-  switch (fTokenDescrKind) {
-    case kTokenDescrInteger:
+  switch (fTokenDescriptionKind) {
+    case kTokenDescriptionInteger:
       result = fInteger;
       break;
 
-    case kTokenDescrDouble:
+    case kTokenDescriptionDouble:
       {
         string message =
           "MSDL token desr contains a double, not an integer";
@@ -85,7 +162,7 @@ int msdrTokenDescr::getInt () const
       }
       break;
 
-    case kTokenDescrString:
+    case kTokenDescriptionString:
       {
         string message =
           "MSDL token desr contains a string, not an integer";
@@ -102,16 +179,16 @@ int msdrTokenDescr::getInt () const
   return result;
 }
 
-double msdrTokenDescr::getDouble () const
+double msdrTokenDescription::getDouble () const
 {
   double result;
 
-  switch (fTokenDescrKind) {
-    case kTokenDescrInteger:
+  switch (fTokenDescriptionKind) {
+    case kTokenDescriptionInteger:
       result = fInteger;
       break;
 
-    case kTokenDescrDouble:
+    case kTokenDescriptionDouble:
       {
         string message =
           "MSDL token desr contains a double, not an integer";
@@ -124,7 +201,7 @@ double msdrTokenDescr::getDouble () const
       }
       break;
 
-    case kTokenDescrString:
+    case kTokenDescriptionString:
       {
         string message =
           "MSDL token desr contains a string, not an integer";
@@ -142,16 +219,16 @@ double msdrTokenDescr::getDouble () const
   return result;
 }
 
-string msdrTokenDescr::getString () const
+string msdrTokenDescription::getString () const
 {
   string result;
 
-  switch (fTokenDescrKind) {
-    case kTokenDescrInteger:
+  switch (fTokenDescriptionKind) {
+    case kTokenDescriptionInteger:
       result = fInteger;
       break;
 
-    case kTokenDescrDouble:
+    case kTokenDescriptionDouble:
       {
         string message =
           "MSDL token desr contains a double, not an integer";
@@ -164,7 +241,7 @@ string msdrTokenDescr::getString () const
       }
       break;
 
-    case kTokenDescrString:
+    case kTokenDescriptionString:
       {
         string message =
           "MSDL token desr contains a string, not an integer";
@@ -181,26 +258,26 @@ string msdrTokenDescr::getString () const
   return result;
 }
 
-string msdrTokenDescr::asString () const
+string msdrTokenDescription::asString () const
 {
   stringstream s;
 
   s <<
     "MSDL token" <<
-    ", tokenDescrKind = " <<
-    msdrTokenDescrKindAsString (fTokenDescrKind) <<
+    ", tokenDescriptionKind = " <<
+    msdrTokenDescriptionKindAsString (fTokenDescriptionKind) <<
     ": ";
 
-  switch (fTokenDescrKind) {
-    case kTokenDescrInteger:
+  switch (fTokenDescriptionKind) {
+    case kTokenDescriptionInteger:
       s << fInteger;
       break;
 
-    case kTokenDescrDouble:
+    case kTokenDescriptionDouble:
       s << fDouble;
       break;
 
-    case kTokenDescrString:
+    case kTokenDescriptionString:
       s << "\"" << fString << "\"";
       break;
   } // switch
@@ -208,14 +285,42 @@ string msdrTokenDescr::asString () const
   return s.str ();
 }
 
-void msdrTokenDescr::print (ostream& os) const
+void msdrTokenDescription::print (ostream& os) const
 {
   os <<
     asString () <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const msdrTokenDescr& elt)
+ostream& operator<< (ostream& os, const msdrTokenDescription& elt)
+{
+  elt.print (os);
+  return os;
+}
+
+//_______________________________________________________________________________
+string msdrToken::asString () const
+{
+  stringstream s;
+
+  s <<
+    "MSDL token" <<
+    ", tokenKind: " <<
+    msdrTokenKindAsString (fTokenKind) <<
+    ", fTokenDescription: " <<
+    fTokenDescription.asString ();
+
+  return s.str ();
+}
+
+void msdrToken::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const msdrToken& elt)
 {
   elt.print (os);
   return os;
@@ -243,7 +348,7 @@ string msdrTokensList::asString () const
   s <<
     "MSDL tokens list" <<
     singularOrPluralWithoutNumber (
-      fMsdrTokenDescrList.size (), "element", "elements");
+      fTokensList.size (), "element", "elements");
 
   return s.str ();
 }
@@ -257,15 +362,15 @@ void msdrTokensList::print (ostream& os) const
   ++gIndenter;
 
   unsigned
-    msdrTokenDescrListSize =
-      fMsdrTokenDescrList.size ();
+    tokensListSize =
+      fTokensList.size ();
 
-  if (msdrTokenDescrListSize) {
+  if (tokensListSize) {
     ++gIndenter;
 
-    list<msdrTokenDescr>::const_iterator
-      iBegin = fMsdrTokenDescrList.begin (),
-      iEnd   = fMsdrTokenDescrList.end (),
+    list<msdrToken>::const_iterator
+      iBegin = fTokensList.begin (),
+      iEnd   = fTokensList.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -290,3 +395,5 @@ ostream& operator<< (ostream& os, const S_msdrTokensList& elt)
 }
 
 } // namespace
+
+// FOO JMI

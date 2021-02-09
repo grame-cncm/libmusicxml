@@ -74,7 +74,7 @@
 #define yychar          msdlchar
 
 /* First part of user prologue.  */
-#line 1 "msdl.y"
+#line 1 "msdl.yy"
 
 
 /*
@@ -1402,7 +1402,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 173 "msdl.y"
+#line 173 "msdl.yy"
 
 
 

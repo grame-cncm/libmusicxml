@@ -20,14 +20,32 @@
 APPL = msdl
 
 OUT  = msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp msdlBisonParser.cpp msdlFlexLexer
-#OBJ  = msslKeywords.o msdlFlexLexer.o msdlBisonParser.o
+
 OBJ  = msdlFlexLexer.o msdlBisonParser.o
+
+MAIN = NO
+
+ifeq ($(MAIN),YES)
+  OUT  = msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp msdlBisonParser.cpp msdlFlexLexer
+else
+  OUT  = msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp msdlBisonParser.cpp
+endif
+
+# Determine this makefile's path.
+# Be sure to place this BEFORE `include` directives, if any.
+THIS_FILE := $(lastword $(MAKEFILE_LIST))
 
 
 # target
 # ------------------------------------------------------
 
 target : $(OUT)
+#	@echo "target: " $@  # print target name
+#	@$(MAKE) -f $(THIS_FILE) other-target # invoke other target
+
+#other-target:
+#	@echo $@ # print target name
+
 
 
 # scanner
@@ -48,11 +66,11 @@ msdlFlexLexer.cpp : msdl.ll msdlBisonParser.hpp
 BISON = bison # -Wcounterexamples
 PREFIX = msdl
 
-msdlBisonParser.cpp : msdl.y
-	$(BISON) -d -o msdlBisonParser.cpp  -p $(PREFIX) msdl.y
+msdlBisonParser.cpp : msdl.yy
+	$(BISON) -d -o msdlBisonParser.cpp  -p $(PREFIX) msdl.yy
 
-msdlBisonParser.hpp : msdl.y
-	$(BISON) -d -o msdlBisonParser.cpp  -p $(PREFIX) msdl.y
+msdlBisonParser.hpp : msdl.yy
+	$(BISON) -d -o msdlBisonParser.cpp  -p $(PREFIX) msdl.yy
 
 
 # C++ compile
@@ -65,8 +83,12 @@ msdlBisonParser.hpp : msdl.y
 CXXFLAGS = -I..
 
 msdlFlexLexer : msdlFlexLexer.cpp
-	g++ -c -I ../../lib -I ../../elements -o msdlFlexLexer.o msdlFlexLexer.cpp
-#	g++ -I ../../lib -I ../../elements -o msdlFlexLexer msdlFlexLexer.cpp -DLEXER_MAIN
+  ifeq ($(MAIN),YES)
+		g++ -I ../../lib -I ../../elements -o msdlFlexLexer msdlFlexLexer.cpp -DLEXER_MAIN
+  else
+		g++ -c -I ../../lib -I ../../elements -o msdlFlexLexer.o msdlFlexLexer.cpp
+  endif
+
 #	ld msslKeywords.o msdlFlexLexer.o -o msdlFlexLexer
 
 
@@ -78,18 +100,36 @@ msdlBisonParser : msdlBisonParser.cpp
 #	g++ $(DEBUG) $(OBJ) -lstdc++ -o $(APPL)
 
 
+# help
+# ------------------------------------------------------
+
+help:
+	@echo "What you can do:"
+	@echo "  build the lexer and parser code:                         make"
+	@echo "  build the lexer and parser code and msdlFlexLexer:       make MAIN=YES"
+	@echo "  test msdlFlexLexer:                                      make test"
+	@echo "  copy the lexer and parser code to the containing folder: make copyup"
+	@echo "  remove all generated files:                              make clean"
+
+
+# exec
+# ------------------------------------------------------
+
+exec:
+	@$(MAKE) -f $(THIS_FILE) MAIN=YES
+
 # test
 # ------------------------------------------------------
 
 test:
-	./msdlFlexLexer <../HelloWorld.msdl
+	./msdlFlexLexer < Test.msdl
 
 
-# exeok
+# keepexec
 # ------------------------------------------------------
 
-exeok : $(OUT)
-	cp -p msdlFlexLexer ../msdlFlexLexer_OK
+keepexec : $(OUT)
+	cp -p msdlFlexLexer msdlFlexLexer_OK
 
 
 # copyup
