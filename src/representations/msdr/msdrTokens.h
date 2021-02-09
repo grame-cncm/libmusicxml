@@ -13,6 +13,8 @@
 #ifndef ___msdrTokensList___
 #define ___msdrTokensList___
 
+#include "smartpointer.h"
+
 
 using namespace std;
 
@@ -21,6 +23,8 @@ namespace MusicXML2
 
 //________________________________________________________________________
 enum msdrTokenKind {
+  k_NoToken,  // 0, which is returned by yylex() at the end of file
+
   kTokenTitle,
   kTokenComposer,
   kTokenOpus,
@@ -63,8 +67,15 @@ string msdrTokenDescriptionKindAsString (
   msdrTokenDescriptionKind tokenDescriptionKind);
 
 //________________________________________________________________________
-class EXP msdrTokenDescription
+class EXP msdrTokenDescription : public smartable
 {
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msdrTokenDescription> create ();
+
   public:
 
     // constructors/destructor
@@ -128,11 +139,19 @@ class EXP msdrTokenDescription
     double                fDouble;
     string                fString;
 };
+typedef SMARTP<msdrTokenDescription> S_msdrTokenDescription;
 EXP ostream& operator<< (ostream& os, const msdrTokenDescription& elt);
 
 //________________________________________________________________________
-class EXP msdrToken
+class EXP msdrToken : public smartable
 {
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msdrToken> create ();
+
   public:
 
     // constructors/destructor
@@ -192,6 +211,7 @@ class EXP msdrToken
     // its descritption with variants handling
     msdrTokenDescription  fTokenDescription;
 };
+typedef SMARTP<msdrToken> S_msdrToken;
 EXP ostream& operator<< (ostream& os, const msdrToken& elt);
 
 //________________________________________________________________________
@@ -228,7 +248,7 @@ class EXP msdrTokensList : public smartable
     // ------------------------------------------------------
 
     void                  appendTokenToTokensList (
-                              msdrToken& token);
+                            const msdrToken& token);
 
   public:
 

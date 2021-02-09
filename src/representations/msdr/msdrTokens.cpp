@@ -48,6 +48,10 @@ string msdrTokenKindAsString (msdrTokenKind tokenKind)
   string result;
 
   switch (tokenKind) {
+    case k_NoToken:
+      result = "*noToken*";
+      break;
+
     case kTokenTitle:
       result = "kTokenTitle";
       break;
@@ -140,9 +144,23 @@ string msdrTokenDescriptionKindAsString (msdrTokenDescriptionKind tokenDescripti
 }
 
 //_______________________________________________________________________________
+S_msdrTokenDescription msdrTokenDescription::create ()
+{
+  msdrTokenDescription* o =
+    new msdrTokenDescription ();
+  assert (o != nullptr);
+  return o;
+}
+
+msdrTokenDescription::msdrTokenDescription ()
+{}
+
+msdrTokenDescription::~msdrTokenDescription ()
+{}
+
 int msdrTokenDescription::getInt () const
 {
-  int result;
+  int result = 0;
 
   switch (fTokenDescriptionKind) {
     case kTokenDescriptionInteger:
@@ -181,7 +199,7 @@ int msdrTokenDescription::getInt () const
 
 double msdrTokenDescription::getDouble () const
 {
-  double result;
+  double result = 0.0;
 
   switch (fTokenDescriptionKind) {
     case kTokenDescriptionInteger:
@@ -299,6 +317,38 @@ ostream& operator<< (ostream& os, const msdrTokenDescription& elt)
 }
 
 //_______________________________________________________________________________
+msdrToken::msdrToken (
+  msdrTokenKind tokenKind)
+    : fTokenKind (tokenKind)
+{}
+
+msdrToken::msdrToken (
+  msdrTokenKind tokenKind,
+  int           value)
+    : fTokenKind (tokenKind)
+{
+  fTokenDescription.setInt (value);
+}
+
+msdrToken::msdrToken (
+  msdrTokenKind tokenKind,
+  string        value)
+    : fTokenKind (tokenKind)
+{
+  fTokenDescription.setString (value);
+}
+
+msdrToken::msdrToken (
+  msdrTokenKind tokenKind,
+  double        value)
+    : fTokenKind (tokenKind)
+{
+  fTokenDescription.setDouble (value);
+}
+
+msdrToken::~msdrToken ()
+{}
+
 string msdrToken::asString () const
 {
   stringstream s;
@@ -340,6 +390,12 @@ msdrTokensList::msdrTokensList ()
 
 msdrTokensList::~msdrTokensList ()
 {}
+
+void msdrTokensList::appendTokenToTokensList (
+  const msdrToken& token)
+{
+  fTokensList.push_back (token);
+}
 
 string msdrTokensList::asString () const
 {
@@ -394,6 +450,5 @@ ostream& operator<< (ostream& os, const S_msdrTokensList& elt)
   return os;
 }
 
-} // namespace
 
-// FOO JMI
+} // namespace
