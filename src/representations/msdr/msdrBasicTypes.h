@@ -26,27 +26,6 @@
 namespace MusicXML2
 {
 
-// keywords languages
-//______________________________________________________________________________
-enum msdrKeywordsLanguageKind {
-  kKeywordsEnglish, // MSDL default
-
-  kKeywordsFrench,
-  kKeywordsItalian,
-  kKeywordsGerman,
-  kKeywordsEspanol
-};
-
-string msdrKeywordsLanguageKindAsString (
-  msdrKeywordsLanguageKind languageKind);
-
-extern map<string, msdrKeywordsLanguageKind>
-  gGlobalMsdrKeywordsLanguageKindsMap;
-
-string existingMsdrKeywordsLanguageKinds (unsigned int namesListMaxLength);
-
-void initializeMsdrKeywordsLanguageKindsMap ();
-
 // pitches languages
 //______________________________________________________________________________
 enum msdrPitchesLanguageKind {

@@ -14,6 +14,7 @@
 #define ___msdrOah___
 
 #include "msdrBasicTypes.h"
+#include "msdrKeywords.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
