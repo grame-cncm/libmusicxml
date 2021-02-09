@@ -89,8 +89,6 @@ msdlFlexLexer : msdlFlexLexer.cpp
 		g++ -c -I ../../lib -I ../../elements -o msdlFlexLexer.o msdlFlexLexer.cpp
   endif
 
-#	ld msslKeywords.o msdlFlexLexer.o -o msdlFlexLexer
-
 
 msdlBisonParser : msdlBisonParser.cpp
 	g++ -I ../../lib -I ../../elements -o msdlBisonParser msdlBisonParser.cpp -DPARSER_MAIN
@@ -136,7 +134,7 @@ keepexec : $(OUT)
 # ------------------------------------------------------
 
 copyup:
-	cp -p msdlKeywords.h msdlKeywords.cpp msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp .. #  msdlBisonParser.cpp
+	cp -p msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp .. #  msdlBisonParser.cpp
 
 
 # clean
