@@ -1,19 +1,11 @@
 %{
-
 /*
-  MusicXML Library
-  Copyright (C) Grame 2006-2013
-
-  This Source Code Form is subject to the terms of the Mozilla Public
-  License, v. 2.0. If a copy of the MPL was not distributed with this
-  file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
-  Grame Research Laboratory, 11, cours de Verdun Gensoul 69002 Lyon - France
-  research@grame.fr
-*/
-
-/*
-	MSDL grammar definition.
+  Basic xml grammar definition
+  This is a basic definition of the xml grammar necessary to cover
+  the MusicXML format. It is a simplified form based on the XML document
+  grammar as defined in
+  "XML in a nutshell - 2nd edition" E.R.Harold and W.S.Means,
+  O'Reilly, June 2002, pp:366--371
 */
 
 
@@ -21,28 +13,33 @@
 #include <string.h>
 #include <iostream>
 
-#include "msdlReader.h"
+#include "msdrTokens.h"
+#include "msdlFlexLexer.cpp"
+  // the lexical analyzer code, including things such as
+  // yy_scan_string, yy_delete_buffer, msdlrestart and BEGIN(INITIAL);
 
-#include "msdlFlexLexer.h"
 
+class reader
+{
+	public:
+				 reader() {}
+		virtual ~reader() {};
 
-using namespace std;
+		virtual void	error (const char* s, int lineno) = 0;
+};
+
 
 int yyline = 1;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 //int		yyparse (void);
 void	yyerror(const char *s);
-
 int		msdlwrap();
-
-bool	readMsdlFile   (const char * file, msdlReader * theMsdlReader);
-bool	readMsdlStream (FILE * file, msdlReader * theMsdlReader);
-bool	readMsdlBuffer (const char * buffer, msdlReader * theMsdlReader);
-
+bool	readfile   (const char * file, reader * r);
+bool	readstream (FILE * file, reader * r);
+bool	readbuffer (const char * buffer, reader * r);
 #ifdef __cplusplus
 }
 #endif
@@ -52,35 +49,13 @@ extern char * msdltext;
 extern int msdllineno;
 extern FILE * msdlin;
 
-#define YYERROR_VERBOSE
-#define ERROR(str)	{ yyerror(str); YYABORT; }
-#define MAXLEN	1024
-#define VLEN	256
-char attributeName[MAXLEN];
-char attributeVal[MAXLEN];
+//#define YYERROR_VERBOSE
+//#define ERROR(str)	{ yyerror(str); YYABORT; }
 
-char msdlversion[VLEN];
-char msdlencoding[MAXLEN];
-int msdlStandalone = -1;
+reader * gReader;
 
-char eltName[MAXLEN];
-char doctypeStart[MAXLEN];
-char doctypePub[MAXLEN];
-char doctypeSys[MAXLEN];
-
-msdlReader * gMsdlReader;
-
-static void init (msdlReader * theMsdlReader) {
-	gMsdlReader = theMsdlReader;
-	msdlStandalone = -1;
-	eltName[0]		= 0;
-	attributeName[0] = 0;
-	attributeVal[0] = 0;
-	msdlversion[0]   = 0;
-	msdlencoding[0]  = 0;
-	doctypeStart[0]	= 0;
-	doctypePub[0]	= 0;
-	doctypeSys[0]	= 0;
+static void init (reader * r) {
+	gReader = r;
 }
 
 static char * unquote (char * text) {
@@ -101,77 +76,145 @@ int		msdlwrap()		{ return(1); }
 %}
 
 
-%start Description
+%skeleton "lalr1.cc" // -*- C++ -*-
+%require "3.7.4"
+%defines
+
+
+%define api.token.raw
+
+// JMI %define api.token.constructor
+// JMI %define api.value.type variant
+%define parse.assert
+
+%code requires {
+  #include <string>
+
+  using namespace std;
+
+  class msdlDriver;
+
+//  msdlDriver & drv;
+}
+
+// The parsing context.
+%param {msdlDriver & drv}
+
+%locations
+
+%define parse.trace
+%define parse.error detailed
+%define parse.lac full
+
+%code {
+  #include "msdlDriver.h"
+}
+
+
+/* Description du terminal courant */
+/* ------------------------------- */
+
+%union {
+	int  								  fInteger;
+	double								fDouble;
+	string*								fIdentifier;
+	string*								fString;
+	}
+
 
 %token
-  PARENTHESIZED_COMMENT COMMENT_TO_END_OF_LINE
+  SPACES                  _("spaces")
+  END_OF_LINE             _("end of line")
 
-  LEFT_BRACKET RIGHT_BRACKET
+  PARENTHESIZED_COMMENT   _("parenthesized comment")
+  COMMENT_TO_END_OF_LINE  _("comment to end of line")
 
-  DOT
+  EQUAL_SIGN              "="
 
-  SCORE
-  PART_GROUP
-  GROUP
-  STAFF
-  VOICE
-  FRAGMENT
+  COMMA                   ","
+  COLON                   ";"
+  SEMI_COLON              ":"
 
-  ANACRUSIS
+  LEFT_PARENTHESIS        "("
+  RIGHT_PARENTHESIS       ")"
 
-  CLEF
-  TREBLE
-  ALTO
-  TENOR
-  BARYTON
-  BASS
+  LEFT_BRACKET            "["
+  RIGHT_BRACKET           "]"
 
-  KEY
+  DOT                     "."
 
-  TIME
+  MEASURE                 "|"
+  DOUBLE_BAR              "||"
 
-  KEYWORD
+  INTEGER                 _("integer")
+  DOUBLE                  _("double")
 
-  NAME
+  SINGLE_QUOTED_STRING    _("single quoted string")
+  DOUBLE_QUOTED_STRING    _("double quoted string")
 
-  INTEGER DOUBLE
+  IDENTIFIER              _("identifier")
 
-  SINGLE_QUOTED_STRING DOUBLE_QUOTED_STRING
+  OTHER_CHARACTER         _("other character")
+;
 
-  SPACES END_OF_LINE
+%start description
 
-  EQUAL_SIGN
 
-  COMMA COLON SEMI_COLON
+%%              /* beginning of rules section */
 
-  END_OF_MEASURE
+description	:
+  declarations
+    { cout << "description" << endl; }
+;
 
-  DOUBLE_BAR
-  FINAL_BAR
+declarations :
+  declarations declaration
+| declaration
+;
 
-  OTHER_CHARACTER
+declaration :
+  other
+    { cout << "declaration" << endl; }
+;
+
+other :
+  "spaces"
+| "end of line"
+
+| "parenthesized comment"
+| "comment to end of line"
+
+| "="
+
+| ","
+| ":"
+| ";"
+
+| "("
+| ")"
+
+| "["
+| "]"
+
+| "."
+
+| "|"
+| "||"
+
+| "integer"
+| "double"
+
+| "single quoted string"
+| "double quoted string"
+
+| "identifier"
+
+| "other character"
 ;
 
 
-%% /* beginning of rules section */
-
-
-Description	: CommentsOrOthers ;
-
-CommentsOrOthers 	:
-  CommentOrOther
-| CommentsOrOthers CommentOrOther;
-
-CommentOrOther	:
-  PARENTHESIZED_COMMENT | COMMENT_TO_END_OF_LINE
-| NAME
-| KEYWORD
-| SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING
-| SPACES
-
 
 %%
-
 
 /* ---------------------------------------------------------------------- */
 /* Service code                                                           */
@@ -180,132 +223,81 @@ CommentOrOther	:
 #define yy_delete_buffer	msdl_delete_buffer
 #define yy_scan_string		msdl_scan_string
 
-bool readMsdlBuffer (const char * buffer, msdlReader * theMsdlReader)
+bool readbuffer (const char * buffer, reader * r)
 {
-	if (! buffer) return false;		// error for empty buffers
+	if (!buffer) return false;		// error for empty buffers
 
-	init (theMsdlReader);
+	init(r);
 	YY_BUFFER_STATE b;
-
-  // Copy string into new buffer and Switch buffers
-  b = yy_scan_string (buffer);
-
-  // Parse the string
-	int ret = yyparse ();
-
+    // Copy string into new buffer and Switch buffers
+    b = yy_scan_string (buffer);
+    // Parse the string
+	int ret = yyparse();
     // Delete the new buffer
-	yy_delete_buffer (b);
-
+//	yy_delete_buffer(b);
 	BEGIN(INITIAL);
  	return ret==0;
 }
 
-bool readMsdlFile (const char * file, msdlReader * theMsdlReader)
+bool readfile (const char * file, reader * r)
 {
 	FILE * fd = fopen (file, "r");
 	if (!fd) {
 		cerr << "can't open file '" << file << "'" << endl;
 		return false;
 	}
-	init (theMsdlReader);
-	msdlrestart(fd);
+	init(r);
+//	msdlrestart(fd);
 	msdlin = fd;
-
-  int ret;
-
-#ifdef LEX_ONLY
-
-  FlexLexer* lexer = new yyFlexLexer;
-  while (lexer->yylex () != 0);
-  ret = 0;
-
-#else
-
- 	ret = yyparse();
-
-#endif
-
-
- 	fclose (fd);
-// JMI	BEGIN(INITIAL);
- 	return ret==0;
-}
-
-bool readMsdlStream (FILE * fd, msdlReader * theMsdlReader)
-{
-	if (! fd) return false;
-
-	init( theMsdlReader);
-
-	msdlrestart (fd);
-	msdlin = fd;
-
  	int ret = yyparse();
-
-// JMI	BEGIN(INITIAL);
+ 	fclose (fd);
+	BEGIN(INITIAL);
  	return ret==0;
 }
 
-void	yyerror(const char *s)	{ gMsdlReader->error (s, msdllineno); }
+bool readstream (FILE * fd, reader * r)
+{
+	if (!fd) return false;
+	init(r);
+//	msdlrestart(fd);
+	msdlin = fd;
+ 	int ret = yyparse();
+	BEGIN(INITIAL);
+ 	return ret==0;
+}
+
+void	yyerror(const char *s)	{ gReader->error (s, msdllineno); }
 
 
-// the reader class
-//______________________________________________________________________________
-class testMsdlReader : public msdlReader
+#ifdef PARSER_MAIN
+
+class testreader : public reader
 {
 	public:
-
-		bool	                msdlDecl (
-		                        const char* version, const char *encoding, int standalone)
-		                          {
-                                cout << "msdlDecl: " << version << " " << encoding << " " << standalone << endl;
-                                return true;
-                              }
-
-		bool	                docType (
-		                        const char* start, bool status, const char *pub, const char *sys)
-		                          {
-                                cout << "docType: " << start << " " << (status ? "PUBLIC" : "SYSTEM") << " " << pub << " " << sys << endl;
-                                return true;
-                              }
-
-		bool	newElement (const char* eltName) {
-			cout << "newElement: " << eltName << endl;
-			return true;
-		}
-		bool	newAttribute (const char* eltName, const char *val) {
-			cout << "    newAttribute: " << eltName << "=" << val << endl;
-			return true;
-		}
-		void	setValue (const char* value) {
-			cout << "  -> value: " << value << endl;
-		}
-		bool	endElement (const char* eltName) {
-			cout << "endElement: " << eltName << endl;
-			return true;
-		}
 		void	error (const char* s, int lineno) {
 			cerr << s  << " on line " << lineno << endl;
 		}
 };
 
 
-#ifdef PARSER_MAIN
-
-// the main() function
-//______________________________________________________________________________
 int main (int argc, char * argv [])
 {
-	if (argc > 1) {
-		testMsdlReader theMsdlReader;
+  testreader r;
 
-		return
-		  readMsdlFile (argv[1], &theMsdlReader)
-		    ? 0
-		    : 1;
-	}
+  switch (argc) {
+    case 0:
+  		return readstream (stdin, &r) ? 0 : 1;
+      break;
+    case 1:
+  		return readfile (argv [1], &r) ? 0 : 1;
+      break;
+    default:
+      ;
+  } // switch
 
- 	return 0;
+  std::cout << "MSDL LEXICAL AND SYNTACTICAL ANALYSIS SUCCEEDED." << std::endl;
+  return 0;
 }
 
 #endif
+

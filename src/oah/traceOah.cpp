@@ -1618,7 +1618,7 @@ R"(Moments in measures)",
   // fTraceDetailedMeasureNumbersSet is empty
 }
 
-void traceOahGroup::initializeScoreToVoicesTraceOah ()
+void traceOahGroup::initializeBooksToVoicesTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -1631,13 +1631,13 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-  // the 'score to voices' multiplex booleans atom
+  // the 'books to voices' multiplex booleans atom
 
   S_oahMultiplexBooleansAtom
-    scoreToVoicesMultiplexBooleansAtom =
+    bookstoVoicesMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
-        "tistv", "trace-in-score-to-voices",
-        "Trace SHORT_NAME/LONG_NAME in score to voices.",
+        "tibtv", "trace-in-books-to-voices",
+        "Trace SHORT_NAME/LONG_NAME in books to voices.",
         "SHORT_NAME",
         "LONG_NAME",
         fShortTracePrefix,
@@ -1645,26 +1645,45 @@ R"()",
 
   subGroup->
     appendAtomToSubGroup (
-      scoreToVoicesMultiplexBooleansAtom);
+      bookstoVoicesMultiplexBooleansAtom);
 
-  // score
+  // books
 
-  fTraceScore = false;
+  fTraceBooks = false;
 
   S_oahTwoBooleansAtom
-    traceScoreBooleanAtom =
+    traceBooksBooleanAtom =
       oahTwoBooleansAtom::create (
         "tscore", "trace-score",
-R"(Score)",
-        "traceScore",
-        fTraceScore,
+R"(Books)",
+        "traceBooks",
+        fTraceBooks,
         fTracePasses);
   subGroup->
     appendAtomToSubGroup (
-      traceScoreBooleanAtom);
-  scoreToVoicesMultiplexBooleansAtom->
+      traceBooksBooleanAtom);
+  bookstoVoicesMultiplexBooleansAtom->
     addBooleanAtom (
-      traceScoreBooleanAtom);
+      traceBooksBooleanAtom);
+
+  // scores
+
+  fTraceScores = false;
+
+  S_oahTwoBooleansAtom
+    traceScoresBooleanAtom =
+      oahTwoBooleansAtom::create (
+        "tscore", "trace-score",
+R"(Score)",
+        "traceScores",
+        fTraceScores,
+        fTracePasses);
+  subGroup->
+    appendAtomToSubGroup (
+      traceScoresBooleanAtom);
+  bookstoVoicesMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceScoresBooleanAtom);
 
   // part groups
 
@@ -1681,7 +1700,7 @@ R"(Part groups)",
   subGroup->
     appendAtomToSubGroup (
       tracePartGroupsBooleanAtom);
-  scoreToVoicesMultiplexBooleansAtom->
+  bookstoVoicesMultiplexBooleansAtom->
     addBooleanAtom (
       tracePartGroupsBooleanAtom);
 
@@ -1702,7 +1721,7 @@ This option implies '-tpgrps, -trace-part-groups'.)",
   subGroup->
     appendAtomToSubGroup (
       tracePartGroupsDetailsBooleanAtom);
-  scoreToVoicesMultiplexBooleansAtom->
+  bookstoVoicesMultiplexBooleansAtom->
     addBooleanAtom (
       tracePartGroupsDetailsBooleanAtom);
 
@@ -1721,7 +1740,7 @@ R"(Parts)",
   subGroup->
     appendAtomToSubGroup (
       tracePartsBooleanAtom);
-  scoreToVoicesMultiplexBooleansAtom->
+  bookstoVoicesMultiplexBooleansAtom->
     addBooleanAtom (
       tracePartsBooleanAtom);
 
@@ -1740,7 +1759,7 @@ R"(Staves)",
   subGroup->
     appendAtomToSubGroup (
       traceStavesBooleanAtom);
-  scoreToVoicesMultiplexBooleansAtom->
+  bookstoVoicesMultiplexBooleansAtom->
     addBooleanAtom (
       traceStavesBooleanAtom);
 
@@ -1759,7 +1778,7 @@ R"(Staff details)",
   subGroup->
     appendAtomToSubGroup (
       traceStaffDetailsBooleanAtom);
-  scoreToVoicesMultiplexBooleansAtom->
+  bookstoVoicesMultiplexBooleansAtom->
     addBooleanAtom (
       traceStaffDetailsBooleanAtom);
 
@@ -1778,7 +1797,7 @@ R"(Staff changes)",
   subGroup->
     appendAtomToSubGroup (
       traceStaffChangesBooleanAtom);
-  scoreToVoicesMultiplexBooleansAtom->
+  bookstoVoicesMultiplexBooleansAtom->
     addBooleanAtom (
       traceStaffChangesBooleanAtom);
 
@@ -1797,7 +1816,7 @@ R"(Voices)",
   subGroup->
     appendAtomToSubGroup (
       traceVoicesBooleanAtom);
-  scoreToVoicesMultiplexBooleansAtom->
+  bookstoVoicesMultiplexBooleansAtom->
     addBooleanAtom (
       traceVoicesBooleanAtom);
 
@@ -1818,7 +1837,7 @@ This option implies '-tvoices, -trace-voices'.)",
   subGroup->
     appendAtomToSubGroup (
       traceVoicesDetailsBooleanAtom);
-  scoreToVoicesMultiplexBooleansAtom->
+  bookstoVoicesMultiplexBooleansAtom->
     addBooleanAtom (
       traceVoicesDetailsBooleanAtom);
 }
@@ -2329,7 +2348,7 @@ void traceOahGroup::initializeTraceOahGroup ()
   initializeOptionsTraceAndDisplayOptions ();
 
   // score to voices
-  initializeScoreToVoicesTraceOah ();
+  initializeBooksToVoicesTraceOah ();
 
   // print layouts
   initializePrintLayoutsTraceOah ();
@@ -2496,8 +2515,8 @@ void traceOahGroup::printAtomWithValueOptionsValues (
     endl <<
 
     // score
-    setw (valueFieldWidth) << "traceScore" << " : " <<
-    booleanAsString (fTraceScore) <<
+    setw (valueFieldWidth) << "traceScores" << " : " <<
+    booleanAsString (fTraceScores) <<
     endl <<
 
     // identification
@@ -2942,8 +2961,8 @@ void traceOahGroup::printTraceOahValues (unsigned int fieldWidth)
     endl <<
 
     // score
-    setw (fieldWidth) << "traceScore" << " : " <<
-    booleanAsString (fTraceScore) <<
+    setw (fieldWidth) << "traceScores" << " : " <<
+    booleanAsString (fTraceScores) <<
     endl <<
 
     // identification

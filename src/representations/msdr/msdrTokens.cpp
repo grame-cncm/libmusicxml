@@ -52,72 +52,157 @@ string msdrTokenKindAsString (msdrTokenKind tokenKind)
       result = "*noToken*";
       break;
 
+    // language-independant tokens
+    // ------------------------------------
+
+    case kTokenSpaces:
+      result = "tokenSpaces";
+      break;
+    case kTokenEndOfLine:
+      result = "tokenEndOfLine";
+      break;
+
+    case kTokenParenthesizedComment:
+      result = "tokenParenthesizedComment";
+      break;
+
+    case kTokenCommentToEndOfLine:
+      result = "tokenCommentToEndOfLine";
+      break;
+
+    case kTokenEqualSign:
+      result = "tokenEqualSign";
+      break;
+
+    case kTokenComma:
+      result = "tokenComma";
+      break;
+    case kTokenColon:
+      result = "tokenColon";
+      break;
+    case kTokenSemiColon:
+      result = "tokenSemiColon";
+      break;
+
+    case kTokenLeftParenthesis:
+      result = "tokenLeftParenthesis";
+      break;
+    case kTokenRightParenthesis:
+      result = "tokenRightParenthesis";
+      break;
+
+    case kTokenLeftBracket:
+      result = "tokenLeftBracket";
+      break;
+    case kTokenRightBracket:
+      result = "tokenRightBracket";
+      break;
+
+    case kTokenDot:
+      result = "tokenDot";
+      break;
+
+    case kTokenMeasure:
+      result = "tokenMeasure";
+      break;
+    case kTokenDoubleBar:
+      result = "tokenDoubleBar";
+      break;
+
+    case kTokenInteger:
+      result = "tokenInteger";
+      break;
+    case kTokenDouble:
+      result = "tokenDouble";
+      break;
+
+    case kTokenSingleQuotedString:
+      result = "tokenSingleQuotedString";
+      break;
+    case kTokenDoubleQuotedString:
+      result = "tokenDoubleQuotedString";
+      break;
+
+    case kTokenIdentifier:
+      result = "tokenName";
+      break;
+
+    case kTokenOtherCaracter:
+      result = "tokenOtherCaracter";
+      break;
+
+    // language-dependant keywords
+    // ------------------------------------
+
     case kTokenTitle:
-      result = "kTokenTitle";
+      result = "tokenTitle";
       break;
     case kTokenComposer:
-      result = "kTokenComposer";
+      result = "tokenComposer";
       break;
     case kTokenOpus:
-      result = "kTokenOpus";
+      result = "tokenOpus";
       break;
 
     case kTokenPitches:
-      result = "kTokenPitches";
-      break;
-
-    case kTokenScore:
-      result = "kTokenScore";
-      break;
-    case kTokenPartGroup:
-      result = "kTokenPartGroup";
-      break;
-    case kTokenPart:
-      result = "kTokenPart";
-      break;
-    case kTokenStaff:
-      result = "kTokenStaff";
-      break;
-    case kTokenVoice:
-      result = "kTokenVoice";
-      break;
-    case kTokenFragment:
-      result = "kTokenFragment";
-      break;
-
-    case kTokenClef:
-      result = "kTokenClef";
-      break;
-
-    case kTokenKey:
-      result = "kTokenKey";
-      break;
-    case kTokenTreble:
-      result = "kTokenTreble";
-      break;
-    case kTokenSoprano:
-      result = "kTokenSoprano";
-      break;
-    case kTokenAlto:
-      result = "kTokenAlto";
-      break;
-    case kTokenBaritone:
-      result = "kTokenBaritone";
-      break;
-    case kTokenBass:
-      result = "kTokenBass";
-      break;
-
-    case kTokenTime:
-      result = "kTokenTime";
+      result = "tokenPitches";
       break;
 
     case kTokenAnacrusis:
-      result = "kTokenAnacrusis";
+      result = "tokenAnacrusis";
+      break;
+
+    case kTokenBook:
+      result = "tokenBook";
+      break;
+    case kTokenScore:
+      result = "tokenScore";
+      break;
+    case kTokenPartGroup:
+      result = "tokenPartGroup";
+      break;
+    case kTokenPart:
+      result = "tokenPart";
+      break;
+    case kTokenStaff:
+      result = "tokenStaff";
+      break;
+    case kTokenVoice:
+      result = "tokenVoice";
+      break;
+    case kTokenFragment:
+      result = "tokenFragment";
+      break;
+
+    case kTokenClef:
+      result = "tokenClef";
+      break;
+
+    case kTokenKey:
+      result = "tokenKey";
+      break;
+    case kTokenTreble:
+      result = "tokenTreble";
+      break;
+    case kTokenSoprano:
+      result = "tokenSoprano";
+      break;
+    case kTokenAlto:
+      result = "tokenAlto";
+      break;
+    case kTokenBaritone:
+      result = "tokenBaritone";
+      break;
+    case kTokenBass:
+      result = "tokenBass";
+      break;
+
+    case kTokenTime:
+      result = "tokenTime";
       break;
 
     case kTokenFinalBar:
-      result = "kTokenFinalBar";
+      result = "tokenFinalBar";
       break;
   } // switch
 

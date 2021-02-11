@@ -12,9 +12,7 @@
 
 #include <iomanip>      // for 'setw()'
 
-#include "messagesHandling.h"
-
-#include "msrScores.h"
+#include "msr.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -22,7 +20,9 @@
 #endif
 
 #include "oahOah.h"
+#include "generalOah.h"
 
+#include "mxmlTree2msrOah.h"
 #include "msrOah.h"
 
 
@@ -33,19 +33,19 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_msrScore msrScore::create (
+S_msrBook msrBook::create (
   int inputLineNumber)
 {
-  msrScore* o =
-    new msrScore (
+  msrBook* o =
+    new msrBook (
       inputLineNumber);
   assert (o != nullptr);
   return o;
 }
 
-msrScore::msrScore (
+msrBook::msrBook (
   int inputLineNumber)
-    : msrBookElement (inputLineNumber)
+    : msrElement (inputLineNumber)
 {
   // create the identification
   fIdentification =
@@ -53,17 +53,17 @@ msrScore::msrScore (
       inputLineNumber);
 
   // number of measures
-  fScoreNumberOfMeasures = 0;
+  fBookNumberOfMeasures = 0;
 
   // part group names max length
-  fScorePartGroupNamesMaxLength = 0;
+  fBookElementNamesMaxLength = 0;
 
   // part names max length
-  fScorePartNamesMaxLength = 0;
+  fBookElementNamesMaxLength = 0;
 
   // set instrument names max lengthes
-  fScoreInstrumentNamesMaxLength         = 0;
-  fScoreInstrumentAbbreviationsMaxLength = 0;
+  fBookInstrumentNamesMaxLength         = 0;
+  fBookInstrumentAbbreviationsMaxLength = 0;
 
   // grace notes groups before should be browsed by default
   fInhibitGraceNotesGroupsBeforeBrowsing = false;
@@ -76,45 +76,45 @@ msrScore::msrScore (
   fInhibitRestMeasuresBrowsing = false;
 }
 
-msrScore::~msrScore ()
+msrBook::~msrBook ()
 {}
 
-S_msrScore msrScore::createScoreNewbornClone ()
+S_msrBook msrBook::createBookNewbornClone ()
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceScores ()) {
+  if (gGlobalTraceOahGroup->getTraceBooks ()) {
     gLogStream <<
       "Creating a newborn clone of a score" <<
       endl;
   }
 #endif
 
-  S_msrScore
+  S_msrBook
     newbornClone =
-      msrScore::create (
+      msrBook::create (
         fInputLineNumber);
 
   // number of measures
-  newbornClone->fScoreNumberOfMeasures =
-    fScoreNumberOfMeasures;
+  newbornClone->fBookNumberOfMeasures =
+    fBookNumberOfMeasures;
 
   // part group names max length
 
-  newbornClone->fScorePartGroupNamesMaxLength =
-    fScorePartGroupNamesMaxLength;
+  newbornClone->fBookElementNamesMaxLength =
+    fBookElementNamesMaxLength;
 
   // part names max length
 
-  newbornClone->fScorePartNamesMaxLength =
-    fScorePartNamesMaxLength;
+  newbornClone->fBookElementNamesMaxLength =
+    fBookElementNamesMaxLength;
 
   // instrument names max lengthes
 
-  newbornClone->fScoreInstrumentNamesMaxLength =
-    fScoreInstrumentNamesMaxLength;
+  newbornClone->fBookInstrumentNamesMaxLength =
+    fBookInstrumentNamesMaxLength;
 
-  newbornClone->fScoreInstrumentAbbreviationsMaxLength =
-    fScoreInstrumentAbbreviationsMaxLength;
+  newbornClone->fBookInstrumentAbbreviationsMaxLength =
+    fBookInstrumentAbbreviationsMaxLength;
 
   // inhibiting browsing
 
@@ -132,43 +132,44 @@ S_msrScore msrScore::createScoreNewbornClone ()
   return newbornClone;
 }
 
-void msrScore::setScoreMasterVoice (
+void msrBook::setBookMasterVoice (
   S_msrVoice masterVoice)
-{ fScoreMasterVoice = masterVoice; }
+{ fBookMasterVoice = masterVoice; }
 
-S_msrVoice msrScore::getScoreMasterVoice () const
-{ return fScoreMasterVoice; }
+S_msrVoice msrBook::getBookMasterVoice () const
+{ return fBookMasterVoice; }
 
-void msrScore::registerVoiceInScoreAllVoicesList (
+void msrBook::registerVoiceInBookAllVoicesList (
   S_msrVoice voice)
 {
   // register voice in this staff
-  fScoreAllVoicesList.push_back (voice);
+  fBookAllVoicesList.push_back (voice);
 }
 
-void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
+void msrBook::addBookElementToBook (
+  S_msrBookElement bookElement)
 {
-  if (fScorePartGroupsSet.count (partGroup)) {
+  if (fBookElementsSet.count (bookElement)) {
     stringstream s;
 
     s <<
       "part group '" <<
-      partGroup->getPartGroupCombinedName () <<
+      bookElement <<
       "' already exists in this score";
 
     msrInternalError (
       gGlobalOahOahGroup->getInputSourceName (),
-      partGroup->getInputLineNumber (),
+      bookElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
   }
 
   // register it in this score
-  fScorePartGroupsSet.insert (partGroup);
-  fPartGroupsList.push_back (partGroup);
+  fBookElementsSet.insert (bookElement);
+  fBookElementsList.push_back (bookElement);
 }
 
-void msrScore::appendCreditToScore (S_msrCredit credit)
+void msrBook::appendCreditToBook (S_msrCredit credit)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceCredits ()) {
@@ -183,144 +184,235 @@ void msrScore::appendCreditToScore (S_msrCredit credit)
   fCreditsList.push_back (credit);
 }
 
-S_msrPart msrScore::fetchPartFromScoreByItsPartID (
-  int    inputLineNumber,
-  string partID)
+void msrBook::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
+  int inputLineNumber)
 {
-  S_msrPart result;
+/* JMI
+  if (
+    fIdentification->getWorkTitle ().size ()
+      &&
+    gGlobalMxmlTree2msrOahGroup->getUseFilenameAsWorkTitle ()
+  ) {
+    string
+      inputSourceName =
+        gGlobalOahOahGroup->getInputSourceName ();
 
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTracePartGroupsDetails ()) {
-    gLogStream <<
-      "fetchPartFromScoreByItsPartID(" << partID << "), fPartGroupsList contains:" <<
-      endl;
-
-    ++gIndenter;
-
-    for (
-      list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
-        i != fPartGroupsList.end ();
-        ++i
-      ) {
-      gLogStream <<
-        (*i)->getPartGroupCombinedName () <<
-        ", " <<
-        (*i)->getPartGroupName () <<
-        endl;
-    } // for
-
-    --gIndenter;
-
-    gLogStream <<
-      "<=- fetchPartFromScoreByItsPartID(" << partID << ")" <<
-      endl << endl;
+    if (inputSourceName == "-") {
+      inputSourceName = "Standard_input";
+    }
   }
+*/
+
+  /*
+  <credit page="1">
+    <credit-words default-x="548" default-y="1382" font-family="FreeSerif" font-size="26" font-weight="bold" justify="center" valign="top" xml:space="preserve">"R E Q U I E M"    from    D E A T H N O T E</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="548" default-y="1331" font-family="FreeSerif" font-size="16" font-style="italic" justify="center" valign="top">Theme from L's death. For SATB choir.</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="1046" default-y="1253" font-family="FreeSerif" font-size="12" justify="right" valign="bottom">Yoshihisa Hirano &amp; Hideki Taniuchi</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="51" default-y="1253" font-family="FreeSerif" font-size="12" valign="bottom" xml:lang="fr">arrangement and lyrics by Andrés Rojas</credit-words>
+  </credit>
+
+  */
+
+  // credits on top of page one can be used as identification
+  if (fCreditsList.size () >= 1) {
+    list<S_msrCredit>::const_iterator
+      iBegin = fCreditsList.begin (),
+      iEnd   = fCreditsList.end (),
+      i      = iBegin;
+
+    int topCreditsCounter    = 0;
+    int bottomCreditsCounter = 0;
+
+    for ( ; ; ) {
+      S_msrCredit credit = (*i);
+
+      if (credit->getCreditPageNumber () == 1) {
+        const vector<S_msrCreditWords>&
+          creditWordsVector =
+            credit->
+              getCreditWordsList ();
+
+        if (creditWordsVector.size () >= 1) {
+          S_msrCreditWords
+            creditWords =
+              creditWordsVector.front ();
+
+          string
+            creditWordsContents =
+              creditWords->
+                getCreditWordsContents ();
+
+          switch (creditWords->getCreditWordsVerticalAlignmentKind ()) {
+            case kVerticalAlignmentNone:
+              break;
+
+            case kVerticalAlignmentTop:
+              ++topCreditsCounter;
+
+              switch (topCreditsCounter) {
+                case 1:
+#ifdef TRACING_IS_ENABLED
+                  if (gGlobalTraceOahGroup->getTraceCredits ()) {
+                    gLogStream <<
+                      "Using credit words '" <<
+                      creditWordsContents <<
+                      "' as score title" <<
+                      endl;
+              }
 #endif
 
-  for (
-    list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
-    i != fPartGroupsList.end ();
-    ++i
-  ) {
-    S_msrPart
-      part =
-        (*i)->
-          fetchPartFromPartGroupByItsPartID (
-            inputLineNumber,
-            partID);
+                  fIdentification->
+                    setWorkTitle (
+                      inputLineNumber,
+                      creditWordsContents);
+                  break;
 
-    if (part) {
-      result = part;
-      break;
-    }
-  } // for
+                case 2:
+#ifdef TRACING_IS_ENABLED
+                  if (gGlobalTraceOahGroup->getTraceCredits ()) {
+                    gLogStream <<
+                      "Using credit words '" <<
+                      creditWordsContents <<
+                      "' as movement title" <<
+                      endl;
+              }
+#endif
 
-  return result;
-}
+                  fIdentification->
+                    setMovementTitle (
+                      inputLineNumber,
+                      creditWordsContents);
+                  break;
 
-void msrScore::collectScorePartsList (
-  int              inputLineNumber,
-  list<S_msrPart>& partsList)
-{
-  S_msrPart result;
+                default:
+                  ;
+              } // switch
+              break;
 
-  for (
-    list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
-    i != fPartGroupsList.end ();
-    ++i
-  ) {
-    S_msrPartGroup
-      partGroup = (*i);
-      partGroup->
-        collectPartGroupPartsList (
-          inputLineNumber,
-          partsList);
-  } // for
+            case kVerticalAlignmentMiddle:
+              break;
+
+            case kVerticalAlignmentBottom:
+              ++bottomCreditsCounter;
+
+              switch (bottomCreditsCounter) {
+                case 1:
+#ifdef TRACING_IS_ENABLED
+                  if (gGlobalTraceOahGroup->getTraceCredits ()) {
+                    gLogStream <<
+                      "Using credit words '" <<
+                      creditWordsContents <<
+                      "' as composer" <<
+                      endl;
+              }
+#endif
+
+                  fIdentification->
+                    appendComposer (
+                      inputLineNumber,
+                      creditWordsContents);
+                  break;
+
+                case 2:
+#ifdef TRACING_IS_ENABLED
+                  if (gGlobalTraceOahGroup->getTraceCredits ()) {
+                    gLogStream <<
+                      "Using credit words '" <<
+                      creditWordsContents <<
+                      "' as poet" <<
+                      endl;
+              }
+#endif
+
+                  fIdentification->
+                    appendPoet (
+                      inputLineNumber,
+                      creditWordsContents);
+                  break;
+
+                default:
+                  ;
+              } // switch
+              break;
+          } // switch
+        }
+      }
+
+      if (++i == iEnd) break;
+//      s << ", ";
+    } // for
+  }
 }
 
 /*
-S_msrPartGroup msrScore::fetchScorePartGroup (
+S_msrBookElement msrBook::fetchBookElement (
   int partGroupNumber)
 {
-  S_msrPartGroup result;
+  S_msrBookElement result;
 
-  if (fScorePartGroupsMap.count (partGroupNumber)) {
-    result = fScorePartGroupsMap [partGroupNumber];
+  if (fBookElementsMap.count (partGroupNumber)) {
+    result = fBookElementsMap [partGroupNumber];
   }
 
   return result;
 }
 */
 
-void msrScore::acceptIn (basevisitor* v)
+void msrBook::acceptIn (basevisitor* v)
 {
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
-      "% ==> msrScore::acceptIn ()" <<
+      "% ==> msrBook::acceptIn ()" <<
       endl;
   }
 
-  if (visitor<S_msrScore>*
+  if (visitor<S_msrBook>*
     p =
-      dynamic_cast<visitor<S_msrScore>*> (v)) {
-        S_msrScore elem = this;
+      dynamic_cast<visitor<S_msrBook>*> (v)) {
+        S_msrBook elem = this;
 
         if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
           gLogStream <<
-            "% ==> Launching msrScore::visitStart ()" <<
+            "% ==> Launching msrBook::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrScore::acceptOut (basevisitor* v)
+void msrBook::acceptOut (basevisitor* v)
 {
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
-      "% ==> msrScore::acceptOut ()" <<
+      "% ==> msrBook::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_msrScore>*
+  if (visitor<S_msrBook>*
     p =
-      dynamic_cast<visitor<S_msrScore>*> (v)) {
-        S_msrScore elem = this;
+      dynamic_cast<visitor<S_msrBook>*> (v)) {
+        S_msrBook elem = this;
 
         if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
           gLogStream <<
-            "% ==> Launching msrScore::visitEnd ()" <<
+            "% ==> Launching msrBook::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void msrScore::browseData (basevisitor* v)
+void msrBook::browseData (basevisitor* v)
 {
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
-      "% ==> msrScore::browseData ()" <<
+      "% ==> msrBook::browseData ()" <<
       endl;
   }
 
@@ -371,26 +463,26 @@ void msrScore::browseData (basevisitor* v)
   } // for
 
   for (
-    list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
-    i != fPartGroupsList.end ();
+    list<S_msrBookElement>::const_iterator i = fBookElementsList.begin ();
+    i != fBookElementsList.end ();
     ++i
   ) {
     // browse the part group
-    msrBrowser<msrPartGroup> browser (v);
+    msrBrowser<msrBookElement> browser (v);
     browser.browse (*(*i));
   } // for
 
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
-      "% <== msrScore::browseData ()" <<
+      "% <== msrBook::browseData ()" <<
       endl;
   }
 }
 
-void msrScore::print (ostream& os) const
+void msrBook::print (ostream& os) const
 {
   os <<
-    "MSR Score" <<
+    "MSR book" <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -398,38 +490,38 @@ void msrScore::print (ostream& os) const
 
   const unsigned int fieldWidth = 38;
 
-  unsigned int partGroupsListSize =
-    fPartGroupsList.size ();
+  unsigned int bookElementsListSize =
+    fBookElementsList.size ();
 
   os << left <<
     setw (fieldWidth) <<
-    "partGroupsListSize" << " : " <<
-    partGroupsListSize <<
+    "bookElementsListSize" << " : " <<
+    bookElementsListSize <<
     endl <<
 
     setw (fieldWidth) <<
     "scoreNumberOfMeasures" << " : " <<
-    fScoreNumberOfMeasures <<
+    fBookNumberOfMeasures <<
     endl <<
 
     setw (fieldWidth) <<
     "scorePartGroupNamesMaxLength" <<  " : " <<
-    fScorePartGroupNamesMaxLength <<
+    fBookElementNamesMaxLength <<
     endl<<
 
     setw (fieldWidth) <<
     "scorePartNamesMaxLength" <<  " : " <<
-    fScorePartNamesMaxLength <<
+    fBookElementNamesMaxLength <<
     endl<<
 
     setw (fieldWidth) <<
     "scoreInstrumentNamesMaxLength" <<  " : " <<
-    fScoreInstrumentNamesMaxLength <<
+    fBookInstrumentNamesMaxLength <<
     endl<<
 
     setw (fieldWidth) <<
     "scoreInstrumentAbbreviationsMaxLength" <<  " : " <<
-    fScoreInstrumentAbbreviationsMaxLength <<
+    fBookInstrumentAbbreviationsMaxLength <<
     endl<<
 
     setw (fieldWidth) <<
@@ -531,18 +623,18 @@ void msrScore::print (ostream& os) const
   os << endl;
 
   // print all the voices if any
-  unsigned int scoreAllVoicesListSize = fScoreAllVoicesList.size ();
+  unsigned int scoreAllVoicesListSize = fBookAllVoicesList.size ();
 
   os <<
     setw (fieldWidth) <<
-    "ScoreAllVoicesList";
+    "BookAllVoicesList";
   if (scoreAllVoicesListSize) {
     os << endl;
     ++gIndenter;
 
     list<S_msrVoice>::const_iterator
-      iBegin = fScoreAllVoicesList.begin (),
-      iEnd   = fScoreAllVoicesList.end (),
+      iBegin = fBookAllVoicesList.begin (),
+      iEnd   = fBookAllVoicesList.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_msrVoice voice = (*i);
@@ -562,10 +654,10 @@ void msrScore::print (ostream& os) const
   }
 
   // print the part groups if any
-  if (partGroupsListSize) {
-    list<S_msrPartGroup>::const_iterator
-      iBegin = fPartGroupsList.begin (),
-      iEnd   = fPartGroupsList.end (),
+  if (bookElementsListSize) {
+    list<S_msrBookElement>::const_iterator
+      iBegin = fBookElementsList.begin (),
+      iEnd   = fBookElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -582,50 +674,50 @@ void msrScore::print (ostream& os) const
   --gIndenter;
 }
 
-void msrScore::printShort (ostream& os) const
+void msrBook::printShort (ostream& os) const
 {
   os <<
-    "MSR Score, short version" <<
+    "MSR book, short version" <<
     endl;
 
   ++gIndenter;
 
   const unsigned int fieldWidth = 38;
 
-  unsigned int partGroupsListSize =
-    fPartGroupsList.size ();
+  unsigned int bookElementsListSize =
+    fBookElementsList.size ();
 
   os << left <<
     setw (fieldWidth) <<
-    "partGroupsListSize" << " : " <<
-    partGroupsListSize <<
+    "bookElementsListSize" << " : " <<
+    bookElementsListSize <<
     endl <<
 
     setw (fieldWidth) <<
     "scoreNumberOfMeasures" << " : " <<
-    fScoreNumberOfMeasures <<
+    fBookNumberOfMeasures <<
     endl;
 
 /*
   os << left <<
     setw (fieldWidth) <<
     "scorePartGroupNamesMaxLength" <<  " : " <<
-    fScorePartGroupNamesMaxLength <<
+    fBookElementNamesMaxLength <<
     endl<<
 
     setw (fieldWidth) <<
     "scorePartNamesMaxLength" <<  " : " <<
-    fScorePartNamesMaxLength <<
+    fBookElementNamesMaxLength <<
     endl<<
 
     setw (fieldWidth) <<
     "scoreInstrumentNamesMaxLength" <<  " : " <<
-    fScoreInstrumentNamesMaxLength <<
+    fBookInstrumentNamesMaxLength <<
     endl<<
 
     setw (fieldWidth) <<
     "scoreInstrumentAbbreviationsMaxLength" <<  " : " <<
-    fScoreInstrumentAbbreviationsMaxLength <<
+    fBookInstrumentAbbreviationsMaxLength <<
     endl<<
 
     setw (fieldWidth) <<
@@ -729,18 +821,18 @@ void msrScore::printShort (ostream& os) const
   os << endl;
 
   // print all the voices if any
-  unsigned int scoreAllVoicesListSize = fScoreAllVoicesList.size ();
+  unsigned int scoreAllVoicesListSize = fBookAllVoicesList.size ();
 
   os <<
     setw (fieldWidth) <<
-    "ScoreAllVoicesList";
+    "BookAllVoicesList";
   if (scoreAllVoicesListSize) {
     os << endl;
     ++gIndenter;
 
     list<S_msrVoice>::const_iterator
-      iBegin = fScoreAllVoicesList.begin (),
-      iEnd   = fScoreAllVoicesList.end (),
+      iBegin = fBookAllVoicesList.begin (),
+      iEnd   = fBookAllVoicesList.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_msrVoice voice = (*i);
@@ -761,10 +853,10 @@ void msrScore::printShort (ostream& os) const
 */
 
   // print the part groups if any
-  if (partGroupsListSize) {
-    list<S_msrPartGroup>::const_iterator
-      iBegin = fPartGroupsList.begin (),
-      iEnd   = fPartGroupsList.end (),
+  if (bookElementsListSize) {
+    list<S_msrBookElement>::const_iterator
+      iBegin = fBookElementsList.begin (),
+      iEnd   = fBookElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       (*i)->printShort (os);
@@ -781,7 +873,7 @@ void msrScore::printShort (ostream& os) const
   --gIndenter;
 }
 
-void msrScore::printSummary (ostream& os) const
+void msrBook::printSummary (ostream& os) const
 {
   os <<
     "MSR component" << // JMI summary ???
@@ -791,29 +883,29 @@ void msrScore::printSummary (ostream& os) const
 
   const unsigned int fieldWidth = 38;
 
-  unsigned int partGroupsListSize =
-    fPartGroupsList.size ();
+  unsigned int bookElementsListSize =
+    fBookElementsList.size ();
 
   // print global information
   os << left <<
     setw (fieldWidth) <<
-    "partGroupsListSize" << " : " <<
-    partGroupsListSize <<
+    "bookElementsListSize" << " : " <<
+    bookElementsListSize <<
     endl <<
 
     setw (fieldWidth) <<
     "scoreNumberOfMeasures" << " : " <<
-    fScoreNumberOfMeasures <<
+    fBookNumberOfMeasures <<
     endl <<
 
     setw (fieldWidth) <<
     "scoreInstrumentNamesMaxLength" <<  " : " <<
-    fScoreInstrumentNamesMaxLength <<
+    fBookInstrumentNamesMaxLength <<
     endl <<
 
     setw (fieldWidth) <<
     "scoreInstrumentAbbreviationsMaxLength" <<  " : " <<
-    fScoreInstrumentAbbreviationsMaxLength <<
+    fBookInstrumentAbbreviationsMaxLength <<
     endl<<
 
     setw (fieldWidth) <<
@@ -839,25 +931,6 @@ void msrScore::printSummary (ostream& os) const
       fInhibitRestMeasuresBrowsing) <<
     endl<<
     endl;
-
-  // print the implicit part group contents
-  // it is the only element in fPartGroupsList JMI single variable
-  if (partGroupsListSize) {
-    os <<
-      "Parts and part groups structure:" <<
-      endl;
-
-    ++gIndenter;
-
-    fPartGroupsList.front () ->
-      printPartGroupParts (
-        fInputLineNumber,
-        os);
-
-    --gIndenter;
-
-    os << endl;
-  }
 
   // print the identification if any
   if (fIdentification) {
@@ -915,10 +988,10 @@ void msrScore::printSummary (ostream& os) const
     os << endl;
   }
 
-  if (partGroupsListSize) {
-    list<S_msrPartGroup>::const_iterator
-      iBegin = fPartGroupsList.begin (),
-      iEnd   = fPartGroupsList.end (),
+  if (bookElementsListSize) {
+    list<S_msrBookElement>::const_iterator
+      iBegin = fBookElementsList.begin (),
+      iEnd   = fBookElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       (*i)->
@@ -931,7 +1004,7 @@ void msrScore::printSummary (ostream& os) const
   --gIndenter;
 }
 
-ostream& operator<< (ostream& os, const S_msrScore& elt)
+ostream& operator<< (ostream& os, const S_msrBook& elt)
 {
   elt->print (os);
   return os;

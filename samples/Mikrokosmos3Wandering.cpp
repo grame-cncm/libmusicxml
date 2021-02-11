@@ -164,7 +164,7 @@ void enforceSomeOptions (
   // ------------------------------------------------------
 
 /*
-  gGlobalTraceOahGroup->setTraceScore ();
+  gGlobalTraceOahGroup->setTraceScores ();
   gGlobalTraceOahGroup->setTracePartGroups ();
   gGlobalTraceOahGroup->setTraceParts ();
   gGlobalTraceOahGroup->setTraceStaves ();

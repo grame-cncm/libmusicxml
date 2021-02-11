@@ -61,14 +61,15 @@ enum msdrKeywordKind {
 
 	kMsdrKeywordPitches,
 
+  kMsdrKeywordAnacrusis,
+
+	kMsdrKeywordBook,
 	kMsdrKeywordScore,
 	kMsdrKeywordPartGroup,
 	kMsdrKeywordGroup,
 	kMsdrKeywordStaff,
   kMsdrKeywordVoice,
   kMsdrKeywordFragment,
-
-  kMsdrKeywordAnacrusis,
 
   kMsdrKeywordClef,
   kMsdrKeywordTreble,

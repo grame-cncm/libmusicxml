@@ -193,14 +193,15 @@ void initializeEnglishKeywordsNamesMap ()
   // english
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordPitches]   = "pitches";
 
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordAnacrusis] = "anacrusis";
+
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordBook]      = "book";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordScore]     = "score";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordPartGroup] = "partgroup";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordGroup]     = "group";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordStaff]     = "staff";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordVoice]     = "voice";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordFragment]  = "fragment";
-
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordAnacrusis] = "anacrusis";
 
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordClef]      = "clef";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordTreble]    = "soprano";
@@ -222,14 +223,15 @@ void initializeFrenchKeywordsNamesMap ()
   // french
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordPitches]   = "hauteurDesNotes";
 
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordAnacrusis] = "anacrouse";
+
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordBook]      = "livre";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordScore]     = "partition";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordPartGroup] = "partgroup";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordGroup]     = "groupe";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordStaff]     = "portée";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordVoice]     = "voix";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordFragment]  = "fragment";
-
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordAnacrusis] = "anacrouse";
 
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordClef]      = "clé";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordTreble]    = "soprano";
@@ -251,14 +253,15 @@ void initializeItalianKeywordsNamesMap ()
   // english
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordPitches]   = "pitches";
 
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordScore]     = "score";
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordAnacrusis] = "anacrusis";
+
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordBook]      = "libro";
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordScore]     = "partitura";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordPartGroup] = "partgroup";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordGroup]     = "group";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordStaff]     = "staff";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordVoice]     = "voice";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordFragment]  = "fragment";
-
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordAnacrusis] = "anacrusis";
 
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordClef]      = "clef";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordTreble]    = "soprano";
@@ -280,14 +283,15 @@ void initializeGermanKeywordsNamesMap ()
   // english
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordPitches]   = "pitches";
 
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordAnacrusis] = "anacrusis";
+
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordBook]      = "Buch";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordScore]     = "score";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordPartGroup] = "partgroup";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordGroup]     = "group";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordStaff]     = "staff";
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordVoice]     = "voice";
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordVoice]     = "Stimme";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordFragment]  = "fragment";
-
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordAnacrusis] = "anacrusis";
 
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordClef]      = "clef";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordTreble]    = "soprano";
@@ -309,14 +313,15 @@ void initializeSpanishKeywordsNamesMap ()
   // english
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordPitches]   = "pitches";
 
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordAnacrusis] = "anacrusis";
+
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordBook]      = "book";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordScore]     = "score";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordPartGroup] = "partgroup";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordGroup]     = "group";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordStaff]     = "staff";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordVoice]     = "voice";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordFragment]  = "fragment";
-
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordAnacrusis] = "anacrusis";
 
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordClef]      = "clef";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordTreble]    = "soprano";
@@ -338,14 +343,15 @@ void initializeDutchKeywordsNamesMap ()
   // english
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordPitches]   = "pitches";
 
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordAnacrusis] = "anacrusis";
+
+  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordBook]      = "book";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordScore]     = "score";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordPartGroup] = "partgroup";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordGroup]     = "group";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordStaff]     = "staff";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordVoice]     = "voice";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordFragment]  = "fragment";
-
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordAnacrusis] = "anacrusis";
 
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordClef]      = "clef";
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordTreble]    = "soprano";
@@ -378,6 +384,9 @@ string msdrKeywordKindAsString (msdrKeywordKind keywordKind)
       result = "msdrKeywordPitches";
       break;
 
+    case kMsdrKeywordBook:
+      result = "msdrKeywordBook";
+      break;
     case kMsdrKeywordScore:
       result = "msdrKeywordScore";
       break;

@@ -116,7 +116,13 @@
 #include "msrPartGroupElements.h"
 #include "msrPartGroups.h"
 
+#include "msrBookElements.h"
+#include "msrBooks.h"
+
 #include "msrScores.h"
+
+#include "msrBookElements.h"
+#include "msrBooks.h"
 
 #include "msrMidi.h"
 

@@ -13,6 +13,8 @@
 #ifndef ___msdrTokensList___
 #define ___msdrTokensList___
 
+#include <list>
+
 #include "smartpointer.h"
 
 
@@ -25,12 +27,53 @@ namespace MusicXML2
 enum msdrTokenKind {
   k_NoToken,  // 0, which is returned by yylex() at the end of file
 
+  // language-independant tokens
+  // ------------------------------------
+  kTokenSpaces,
+  kTokenEndOfLine,
+
+  kTokenParenthesizedComment,
+  kTokenCommentToEndOfLine,
+
+  kTokenEqualSign,
+
+  kTokenComma,
+  kTokenColon,
+  kTokenSemiColon,
+
+  kTokenLeftParenthesis,
+  kTokenRightParenthesis,
+
+  kTokenLeftBracket,
+  kTokenRightBracket,
+
+  kTokenDot,
+
+  kTokenMeasure,
+  kTokenDoubleBar,
+
+  kTokenInteger,
+  kTokenDouble,
+
+  kTokenSingleQuotedString,
+  kTokenDoubleQuotedString,
+
+  kTokenIdentifier,
+
+  kTokenOtherCaracter,
+
+  // language-dependant keywords
+  // ------------------------------------
+
   kTokenTitle,
   kTokenComposer,
   kTokenOpus,
 
   kTokenPitches,
 
+  kTokenAnacrusis,
+
+  kTokenBook,
   kTokenScore,
   kTokenPartGroup,
   kTokenPart,
@@ -48,8 +91,6 @@ enum msdrTokenKind {
   kTokenBass,
 
   kTokenTime,
-
-  kTokenAnacrusis,
 
   kTokenFinalBar
 };

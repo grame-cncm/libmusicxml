@@ -17,85 +17,34 @@
 # variables
 # ------------------------------------------------------
 
-APPL = msdl
+#OBJ  = msdlFlexLexer.o msdlBisonParser.o
 
-OUT  = msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp msdlBisonParser.cpp msdlFlexLexer
+MAIN = NO           # LEXER or PARSER
 
-OBJ  = msdlFlexLexer.o msdlBisonParser.o
-
-MAIN = NO
-
+# determine OUT
 ifeq ($(MAIN),YES)
   OUT  = msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp msdlBisonParser.cpp msdlFlexLexer
 else
-  OUT  = msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp msdlBisonParser.cpp
+  OUT  = msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp msdlBisonParser.cpp msdlBisonParser
 endif
 
 # Determine this makefile's path.
 # Be sure to place this BEFORE `include` directives, if any.
 THIS_FILE := $(lastword $(MAKEFILE_LIST))
 
+#CXXFLAGS = -I..
+
 
 # target
 # ------------------------------------------------------
 
 target : $(OUT)
+	ls -salGT *
 #	@echo "target: " $@  # print target name
 #	@$(MAKE) -f $(THIS_FILE) other-target # invoke other target
 
 #other-target:
 #	@echo $@ # print target name
-
-
-
-# scanner
-# ------------------------------------------------------
-
-FLEX = flex # --c++  # --trace --verbose # --debug
-
-msdlFlexLexer.h : msdl.ll msdlBisonParser.hpp
-	flex -o msdlFlexLexer.cpp msdl.ll
-
-msdlFlexLexer.cpp : msdl.ll msdlBisonParser.hpp
-	flex -o msdlFlexLexer.cpp msdl.ll
-
-
-# parser
-# ------------------------------------------------------
-
-BISON = bison # -Wcounterexamples
-PREFIX = msdl
-
-msdlBisonParser.cpp : msdl.yy
-	$(BISON) -d -o msdlBisonParser.cpp  -p $(PREFIX) msdl.yy
-
-msdlBisonParser.hpp : msdl.yy
-	$(BISON) -d -o msdlBisonParser.cpp  -p $(PREFIX) msdl.yy
-
-
-# C++ compile
-# ------------------------------------------------------
-
-# for tests, these symbols can be defined:
-#   LEXER_MAIN  creates a main() function in msdlFlexLexer.cpp
-#   PARSER_MAIN creates a main() function in msdlBisonParser.cpp
-
-CXXFLAGS = -I..
-
-msdlFlexLexer : msdlFlexLexer.cpp
-  ifeq ($(MAIN),YES)
-		g++ -I ../../lib -I ../../elements -o msdlFlexLexer msdlFlexLexer.cpp -DLEXER_MAIN
-  else
-		g++ -c -I ../../lib -I ../../elements -o msdlFlexLexer.o msdlFlexLexer.cpp
-  endif
-
-
-msdlBisonParser : msdlBisonParser.cpp
-	g++ -I ../../lib -I ../../elements -o msdlBisonParser msdlBisonParser.cpp -DPARSER_MAIN
-
-
-#msdl : $(OBJ)
-#	g++ $(DEBUG) $(OBJ) -lstdc++ -o $(APPL)
 
 
 # help
@@ -104,27 +53,101 @@ msdlBisonParser : msdlBisonParser.cpp
 help:
 	@echo "What you can do:"
 	@echo "  build the lexer and parser code:                         make"
-	@echo "  build the lexer and parser code and msdlFlexLexer:       make MAIN=YES"
+	@echo "  make the lexer or parser code executable:                make MAIN=LEXER|PARSER"
 	@echo "  test msdlFlexLexer:                                      make test"
 	@echo "  copy the lexer and parser code to the containing folder: make copyup"
 	@echo "  remove all generated files:                              make clean"
 
 
-# exec
+# scanner
 # ------------------------------------------------------
 
-exec:
-	@$(MAKE) -f $(THIS_FILE) MAIN=YES
+msdlFlexLexer.h : msdl.ll msdlBisonParser.hpp
+	flex \
+	  -I \
+	  -o msdlFlexLexer.cpp \
+	  --prefix=msdl \
+	  msdl.ll
+
+# LEXER_MAIN enables the main() function in msdlFlexLexer.cpp
+
+msdlFlexLexer : msdlFlexLexer.cpp
+  ifeq ($(MAIN),LEXER)
+		g++  \
+      -DLEXER_MAIN \
+      -I ../../../lib \
+      -I ../../../elements \
+      -o msdlFlexLexer \
+      msdlFlexLexer.cpp
+  else
+		g++ -c\
+      -I ../../../lib \
+      -I ../../../elements \
+      -o msdlFlexLexer \
+      msdlFlexLexer.cpp
+  endif
+
+
+# parser
+# ------------------------------------------------------
+
+msdlBisonParser.hpp : msdl.yy
+	bison \
+	  --defines=msdlBisonParser.hpp \
+	  -o msdlBisonParser.cpp \
+	  -Dapi.prefix={msdl} \
+	  msdl.yy
+
+# PARSER_MAIN enables the main() function in msdlBisonParser.cpp
+
+msdlBisonParser : msdlBisonParser.hpp msdlBisonParser.cpp
+  ifeq ($(MAIN),PARSER)
+		g++ \
+      -DPARSER_MAIN \
+      -I ../../../lib \
+      -I ../../../elements \
+      -I ../../../representations/msdr \
+      -o msdlBisonParser \
+      msdlBisonParser.cpp
+  else
+		g++ -c \
+      -I ../../../lib \
+      -I ../../../elements \
+      -I ../../../representations/msdr \
+      -o msdlBisonParser \
+      msdlBisonParser.cpp
+  endif
+
 
 # test
 # ------------------------------------------------------
 
-test:
-	./msdlFlexLexer < Test.msdl
+msdlTest: msdlDriver.o msdlBisonParser.o msdlFlexLexer.o msdlTest.o
+	g++ -o msdlTest msdlDriver.o msdlBisonParser.o msdlFlexLexer.o msdlTest.o
 
+msdlDriver.o: msdlDriver.cpp msdlDriver.h msdlBisonParser.hpp
+	g++ -c msdlDriver.cpp
+
+msdlTest.o: msdlTest.cpp
+	g++ -c msdlTest.cpp
+
+test : msdlTest
+	./msdlTest < Test.msdl
+#	./msdlFlexLexer < Test.msdl
+
+
+# exec
+# ------------------------------------------------------
+
+.PHONY : exec
+
+exec :
+	@$(MAKE) -f $(THIS_FILE) MAIN=YES
 
 # keepexec
 # ------------------------------------------------------
+
+.PHONY : keepexec
 
 keepexec : $(OUT)
 	cp -p msdlFlexLexer msdlFlexLexer_OK
@@ -133,12 +156,17 @@ keepexec : $(OUT)
 # copyup
 # ------------------------------------------------------
 
-copyup:
+.PHONY : copyup
+
+copyup :
 	cp -p msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp .. #  msdlBisonParser.cpp
 
 
 # clean
 # ------------------------------------------------------
 
-clean:
-	rm -f $(APPL) $(OUT) $(OBJ)
+.PHONY : clean
+
+clean :
+	rm -f $(OUT) location.hh msdlDriver.o msdlTest.o
+#	rm -f $(OUT) $(OBJ)

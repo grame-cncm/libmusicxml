@@ -66,7 +66,7 @@ class EXP traceOahGroup : public oahGroup
 
     void                  initializeNotesAttachmentsTraceOah ();
 
-    void                  initializeScoreToVoicesTraceOah ();
+    void                  initializeBooksToVoicesTraceOah ();
 
     void                  initializeSegmentsAndMeasuresTraceOah ();
 
@@ -143,14 +143,19 @@ class EXP traceOahGroup : public oahGroup
                               { return fTraceForTests; }
 
 
-    // score to voices
+    // books to voices
     // --------------------------------------
 
-    // score
-    void                  setTraceScore ()
-                              { fTraceScore = true; }
-    bool                  getTraceScore () const
-                              { return fTraceScore; }
+    // books
+    void                  setTraceBooks ()
+                              { fTraceBooks = true; }
+    bool                  getTraceBooks () const
+                              { return fTraceBooks; }
+    // scores
+    void                  setTraceScores ()
+                              { fTraceScores = true; }
+    bool                  getTraceScores () const
+                              { return fTraceScores; }
     // part groups
     void                  setTracePartGroups ()
                               { fTracePartGroups = true; }
@@ -682,11 +687,13 @@ class EXP traceOahGroup : public oahGroup
     bool                  fTraceForTests;
 
 
-    // score to voices
+    // scores to voices
     // --------------------------------------
 
-    // score
-    bool                  fTraceScore;
+    // books
+    bool                  fTraceBooks;
+    // scores
+    bool                  fTraceScores;
     // part groups
     bool                  fTracePartGroups;
     bool                  fTracePartGroupsDetails;

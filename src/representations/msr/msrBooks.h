@@ -10,21 +10,21 @@
   research@grame.fr
 */
 
-#ifndef ___msrScores___
-#define ___msrScores___
+#ifndef ___msrBooks___
+#define ___msrBooks___
 
 #include <iostream>
 
 #include <list>
 #include <set>
 
-#include "msrBookElements.h"
+#include "msrElements.h"
 
 #include "msrCredits.h"
 #include "msrIdentification.h"
 #include "msrScaling.h"
-#include "msrMusicXMLSpecifics.h"
-#include "msrPartGroups.h"
+
+#include "msrBookElements.h"
 #include "msrVoices.h"
 
 
@@ -35,34 +35,34 @@ namespace MusicXML2
 class msrPart;
 typedef SMARTP<msrPart> S_msrPart;
 
-class msrPartGroup;
-typedef SMARTP<msrPartGroup> S_msrPartGroup;
+class msrBook;
+typedef SMARTP<msrBook> S_msrBook;
 
 class msrVoice;
 typedef SMARTP<msrVoice> S_msrVoice;
 
 //______________________________________________________________________________
-class EXP msrScore : public msrBookElement
+class EXP msrBook : public msrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrScore> create (
+    static SMARTP<msrBook> create (
                             int inputLineNumber);
 
-    SMARTP<msrScore> createScoreNewbornClone ();
+    SMARTP<msrBook> createBookNewbornClone ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-                          msrScore (
+                          msrBook (
                             int inputLineNumber);
 
-    virtual               ~msrScore ();
+    virtual               ~msrBook ();
 
   public:
 
@@ -118,25 +118,25 @@ class EXP msrScore : public msrBookElement
     S_msrAppearance       getAppearance () const
                               { return fAppearance; }
 
-    // part groups
-    const list<S_msrPartGroup>&
-                          getPartGroupsList () const
-                              { return fPartGroupsList; }
+    // book elements
+    const list<S_msrBookElement>&
+                          getBookElementsList () const
+                              { return fBookElementsList; }
 
 //* JMI
     // master voice
-    void                  setScoreMasterVoice (
+    void                  setBookMasterVoice (
                             S_msrVoice masterVoice);
 
-    S_msrVoice            getScoreMasterVoice () const;
+    S_msrVoice            getBookMasterVoice () const;
 
 /* JMI
-    void                  setScoreMasterVoice (
+    void                  setBookMasterVoice (
                             S_msrVoice masterVoice)
-                              { fScoreMasterVoice = masterVoice; }
+                              { fBookMasterVoice = masterVoice; }
 
-    S_msrVoice            getScoreMasterVoice () const
-                              { return fScoreMasterVoice; }
+    S_msrVoice            getBookMasterVoice () const
+                              { return fBookMasterVoice; }
 */
 
     // credits
@@ -145,15 +145,15 @@ class EXP msrScore : public msrBookElement
                               { return fCreditsList; }
 
     // measures
-    void                  setScoreNumberOfMeasures (
+    void                  setBookNumberOfMeasures (
                             int scoreNumberOfMeasures)
                               {
-                                fScoreNumberOfMeasures =
+                                fBookNumberOfMeasures =
                                   scoreNumberOfMeasures;
                               }
 
-    unsigned int          getScoreNumberOfMeasures () const
-                              { return fScoreNumberOfMeasures; }
+    unsigned int          getBookNumberOfMeasures () const
+                              { return fBookNumberOfMeasures; }
 
     void                  setStaffContainsRestMeasures (
                             bool staffContainsRestMeasures)
@@ -165,32 +165,25 @@ class EXP msrScore : public msrBookElement
     bool                  getStaffContainsRestMeasures () const
                               { return fStaffContainsRestMeasures; }
 
-    // part group names max length
-    void                  setScorePartGroupNamesMaxLength (int value)
-                              { fScorePartGroupNamesMaxLength = value; }
+    // book element names max length
+    void                  setBookElementNamesMaxLength (int value)
+                              { fBookElementNamesMaxLength = value; }
 
-    unsigned int          getScorePartGroupNamesMaxLength () const
-                              { return fScorePartGroupNamesMaxLength; }
-
-    // part names max length
-    void                  setScorePartNamesMaxLength (int value)
-                              { fScorePartNamesMaxLength = value; }
-
-    unsigned int          getScorePartNamesMaxLength () const
-                              { return fScorePartNamesMaxLength; }
+    unsigned int          getBookElementNamesMaxLength () const
+                              { return fBookElementNamesMaxLength; }
 
     // instrument names max lengthes
-    void                  setScoreInstrumentNamesMaxLength (int value)
-                              { fScoreInstrumentNamesMaxLength = value; }
+    void                  setBookInstrumentNamesMaxLength (int value)
+                              { fBookInstrumentNamesMaxLength = value; }
 
-    unsigned int          getScoreInstrumentNamesMaxLength () const
-                              { return fScoreInstrumentNamesMaxLength; }
+    unsigned int          getBookInstrumentNamesMaxLength () const
+                              { return fBookInstrumentNamesMaxLength; }
 
-    void                  setScoreInstrumentAbbreviationsMaxLength (int value)
-                              { fScoreInstrumentAbbreviationsMaxLength = value; }
+    void                  setBookInstrumentAbbreviationsMaxLength (int value)
+                              { fBookInstrumentAbbreviationsMaxLength = value; }
 
-    unsigned int          getScoreInstrumentAbbreviationsMaxLength () const
-                              { return fScoreInstrumentAbbreviationsMaxLength; }
+    unsigned int          getBookInstrumentAbbreviationsMaxLength () const
+                              { return fBookInstrumentAbbreviationsMaxLength; }
 
     // inhibiting browsing
     void                  setInhibitGraceNotesGroupsBeforeBrowsing ()
@@ -261,7 +254,7 @@ class EXP msrScore : public msrBookElement
 
     // voices
 
-    void                  registerVoiceInScoreAllVoicesList (
+    void                  registerVoiceInBookAllVoicesList (
                             S_msrVoice voice);
 
   public:
@@ -269,17 +262,21 @@ class EXP msrScore : public msrBookElement
     // public services
     // ------------------------------------------------------
 
-    void                  addPartGroupToScore (
-                            S_msrPartGroup partGroup);
+    void                  addBookElementToBook (
+                            S_msrBookElement bookElement);
 
-    void                  appendCreditToScore (
+    void                  appendCreditToBook (
                             S_msrCredit credit);
 
-    S_msrPart             fetchPartFromScoreByItsPartID (
-                            int    inputLineNumber,
-                            string partID);
+    void                  fetchIdentificationFromCreditsIfAny (
+                            int inputLineNumber);
 
-    void                  collectScorePartsList (
+/* JMI
+    void                  setHeaderFromOptionsIfAny (
+                            int inputLineNumber);
+*/
+
+    void                  collectBookElementsList (
                             int    inputLineNumber,
                             list<S_msrPart>& partsList);
 
@@ -328,36 +325,32 @@ class EXP msrScore : public msrBookElement
     // credits
     list<S_msrCredit>     fCreditsList;
 
-    // part groups
-    set<S_msrPartGroup>   fScorePartGroupsSet;
+    // book elements
+    set<S_msrBookElement> fBookElementsSet;
 
-    list<S_msrPartGroup>  fPartGroupsList;
+    list<S_msrBookElement>fBookElementsList;
 
     // master voice
 
 // JMI
-    S_msrVoice            fScoreMasterVoice;
+    S_msrVoice            fBookMasterVoice;
 
     // number of measures
 
-    unsigned int          fScoreNumberOfMeasures;
+    unsigned int          fBookNumberOfMeasures;
 
     // rest measures
 
     bool                  fStaffContainsRestMeasures;
 
-    // part group names max length
+    // book element names max length
 
-    unsigned int          fScorePartGroupNamesMaxLength;
-
-    // part names max length
-
-    unsigned int          fScorePartNamesMaxLength;
+    unsigned int          fBookElementNamesMaxLength;
 
     // instrument names max lengthes
 
-    unsigned int          fScoreInstrumentNamesMaxLength;
-    unsigned int          fScoreInstrumentAbbreviationsMaxLength;
+    unsigned int          fBookInstrumentNamesMaxLength;
+    unsigned int          fBookInstrumentAbbreviationsMaxLength;
 
     // inhibiting browsing
 
@@ -381,10 +374,10 @@ class EXP msrScore : public msrBookElement
 
     // voices
 
-    list<S_msrVoice>      fScoreAllVoicesList;
+    list<S_msrVoice>      fBookAllVoicesList;
 };
-typedef SMARTP<msrScore> S_msrScore;
-EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
+typedef SMARTP<msrBook> S_msrBook;
+EXP ostream& operator<< (ostream& os, const S_msrBook& elt);
 
 
 }

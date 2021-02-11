@@ -43,50 +43,35 @@ From FlexLexer.h:
 #include <iomanip>
 #include <iostream>
 
-// JMI #include "msdlKeywords.h"
+#include "msdrKeywords.h"
+#include "msdrTokens.h"
 
+// NO JMI #include <FlexLexer.h>
 #include "msdlBisonParser.hpp"
 
 
-using namespace std;
-// JMI using namespace MusicXML2;
+// JMI using namespace std;
+using namespace MusicXML2;
 
 
-#define YY_NO_UNISTD_H
+//#define YY_NO_UNISTD_H
 
-extern int msdllval;
+// JMI extern int msdllval;
 
-/* JMI
-static int utf16     = 0;
-static int bigendian = 1;
-static int start     = 1;
-*/
 
 /* ---------------------------------------------------------------------- */
 /* The current token description                                          */
 /* ---------------------------------------------------------------------- */
 
-/* JMI
-
-Äunion msdrTokenDescription
-{
-	double							    fDoubleNumber;
-	string						    	fIdent;
-	string						    	fString;
-};
-
-*/
-
 #undef yyFlexLexer
 #define yyFlexLexer msdlFlexLexer
-// NO JMI #include <FlexLexer.h>
 
 bool gTraduire =  true;
 
-int returnToken (
-  int    inputLineNumber,
-  string tokenText,
-  int    tokenNumber)
+msdrTokenKind returnToken (
+  int           inputLineNumber,
+  string        tokenText,
+  msdrTokenKind tokenKind)
 {
   // write a trace of the token?
   if (gTraduire) {
@@ -104,95 +89,84 @@ int returnToken (
 
     cout <<
       left <<
-      setw (tokenNameWidth);
+      setw (tokenNameWidth) <<
+      msdrTokenKindAsString (tokenKind);
 
-    switch (tokenNumber) {
-      case PARENTHESIZED_COMMENT:
-        cout << "PARENTHESIZED_COMMENT";
-        break;
-      case COMMENT_TO_END_OF_LINE:
-        cout << "COMMENT_TO_END_OF_LINE";
-        break;
+    switch (tokenKind) {
+      // language-independant tokens
+      // ------------------------------------
 
-      case LEFT_BRACKET:
-        cout << "LEFT_BRACKET";
-        doWriteTokenText = false;
+      case kTokenSpaces:
         break;
-      case RIGHT_BRACKET:
-        cout << "RIGHT_BRACKET";
+      case kTokenEndOfLine:
         doWriteTokenText = false;
         break;
 
-      case DOT:
-        cout << "DOT";
+      case kTokenParenthesizedComment:
+        break;
+      case kTokenCommentToEndOfLine:
+        break;
+
+      case kTokenEqualSign:
         doWriteTokenText = false;
         break;
 
-      case KEYWORD:
-        cout << "KEYWORD";
+      case kTokenComma:
+        doWriteTokenText = false;
         break;
-
-      case NAME:
-        cout << "NAME";
+      case kTokenColon:
+        doWriteTokenText = false;
         break;
-
-      case INTEGER:
-        cout << "INTEGER";
-        break;
-      case DOUBLE:
-        cout << "DOUBLE";
-        break;
-
-      case SINGLE_QUOTED_STRING:
-        cout << "SINGLE_QUOTED_STRING";
-        break;
-      case DOUBLE_QUOTED_STRING:
-        cout << "DOUBLE_QUOTED_STRING";
-        break;
-
-      case SPACES:
-        cout << "SPACES";
-        break;
-
-      case END_OF_LINE:
-        cout << "END_OF_LINE";
+      case kTokenSemiColon:
         doWriteTokenText = false;
         break;
 
-      case EQUAL_SIGN:
-        cout << "EQUAL_SIGN";
+      case kTokenLeftParenthesis :
+        doWriteTokenText = false;
+        break;
+      case kTokenRightParenthesis :
         doWriteTokenText = false;
         break;
 
-      case COMMA:
-        cout << "COMMA";
+      case kTokenLeftBracket:
         doWriteTokenText = false;
         break;
-      case COLON:
-        cout << "COLON";
-        doWriteTokenText = false;
-        break;
-      case SEMI_COLON:
-        cout << "SEMI_COLON";
+      case kTokenRightBracket:
         doWriteTokenText = false;
         break;
 
-      case END_OF_MEASURE:
-        cout << "END_OF_MEASURE";
+      case kTokenDot:
         doWriteTokenText = false;
         break;
 
-      case DOUBLE_BAR:
-        cout << "DOUBLE_BAR";
+      case kTokenMeasure:
+        doWriteTokenText = false;
+        break;
+      case kTokenDoubleBar:
         doWriteTokenText = false;
         break;
 
-      case OTHER_CHARACTER:
-        cout << "OTHER_CHARACTER";
+      case kTokenInteger:
+        break;
+      case kTokenDouble:
+        break;
+
+      case kTokenSingleQuotedString:
+        break;
+      case kTokenDoubleQuotedString:
+        break;
+
+      case kTokenOtherCaracter:
+        break;
+
+      case kTokenIdentifier:
         break;
 
       default:
-        ; // don't care, those are flex internals
+        // language-dependant keywords
+        // ------------------------------------
+        // JMI ???; // don't care, those are flex internals
+        cout << " (keyword)";
     } // switch
 
     if (doWriteTokenText) {
@@ -203,7 +177,7 @@ int returnToken (
     cout << endl;
     }
 
-  return tokenNumber;
+  return tokenKind;
 }
 
 %}
@@ -235,14 +209,6 @@ int returnToken (
 /* Regular expressions                                                    */
 /* ---------------------------------------------------------------------- */
 
-letter		               [a-zA-ZˆŽ™Œ¾Ï‚Î®çèéëêô]
-firstchar	               [a-zA-Z_]
-namechar	               [a-zA-Z0-9_]
-name                     {firstchar}{namechar}*
-
-digit		                 [0-9]
-decimalInteger           {digit}+
-
 space		                 [ \t]
 spaces                   {space}+
 
@@ -252,7 +218,14 @@ spaceOrEndOfLine         [ \t\x0a\x0d]
 singleQuotedStringChar   [^']
 doubleQuotedStringChar   [^"]
 
+digit		                 [0-9]
+decimalInteger           {digit}+
+
 exponent			 					 [eE][+-]?{decimalInteger}
+letter		               [a-zA-ZˆŽ™Œ¾Ï‚Î®çèéëêô]
+firstchar	               [a-zA-Z_]
+namechar	               [a-zA-Z0-9_]
+name                     {firstchar}{namechar}*
 
 
 /* ---------------------------------------------------------------------- */
@@ -288,7 +261,7 @@ exponent			 					 [eE][+-]?{decimalInteger}
 
 <PARENTHESIZED_COMMENT_MODE>([^%]|"%"[^}])*	{
             return
-              returnToken (lineno (), YYText (), PARENTHESIZED_COMMENT);
+              returnToken (lineno (), YYText (), kTokenParenthesizedComment);
           }
 
 
@@ -302,8 +275,105 @@ exponent			 					 [eE][+-]?{decimalInteger}
 
 <COMMENT_TO_END_OF_LINE_MODE>.*	{
             return
-              returnToken (lineno (), YYText (), COMMENT_TO_END_OF_LINE);
+              returnToken (lineno (), YYText (), kTokenCommentToEndOfLine);
           }
+
+
+{spaces}  {
+            return
+              returnToken (lineno (), YYText (), kTokenSpaces);
+          }
+
+{endOfLine}	{
+            return
+              returnToken (lineno (), YYText (), kTokenEndOfLine);
+          }
+
+
+"="       {
+            return
+              returnToken (lineno (), YYText (), kTokenEqualSign);
+          }
+
+
+","       {
+            return
+              returnToken (lineno (), YYText (), kTokenComma);
+          }
+
+":"       {
+            return
+              returnToken (lineno (), YYText (), kTokenColon);
+          }
+
+";"       {
+            return
+              returnToken (lineno (), YYText (), kTokenSemiColon);
+          }
+
+
+"("       {
+            return
+              returnToken (lineno (), YYText (), kTokenLeftParenthesis);
+          }
+
+")"       {
+            return
+              returnToken (lineno (), YYText (), kTokenRightParenthesis);
+          }
+
+
+"{"       {
+            return
+              returnToken (lineno (), YYText (), kTokenLeftBracket);
+          }
+
+"}"       {
+            return
+              returnToken (lineno (), YYText (), kTokenRightBracket);
+          }
+
+
+"."       {
+            return
+              returnToken (lineno (), YYText (), kTokenDot);
+          }
+
+
+"|"       {
+            return
+              returnToken (lineno (), YYText (), kTokenMeasure);
+          }
+
+"||"      {
+            return
+              returnToken (lineno (), YYText (), kTokenDoubleBar);
+          }
+
+
+{decimalInteger} {
+            return
+              returnToken (lineno (), YYText (), kTokenInteger);
+          }
+
+{decimalInteger}"."{decimalInteger}({exponent})? |
+{decimalInteger}({exponent})?	{
+            // yylval.fNombre = atof (yytext);
+            return
+              returnToken (lineno (), YYText (), kTokenDouble);
+          }
+
+
+"'"{singleQuotedStringChar}*"'" {
+            return
+              returnToken (lineno (), YYText (), kTokenSingleQuotedString);
+          }
+
+"\""{doubleQuotedStringChar}*"\"" {
+            return
+              returnToken (lineno (), YYText (), kTokenDoubleQuotedString);
+          }
+
 
 {name}    {
 /*
@@ -313,7 +383,7 @@ exponent			 					 [eE][+-]?{decimalInteger}
 
             if (keywordKind == k_NoMsdlKeywordKind) {
               return
-                returnToken (lineno (), YYText (), NAME);
+                returnToken (lineno (), YYText (), kTokenIdentifier);
             }
             else {
               return
@@ -321,90 +391,12 @@ exponent			 					 [eE][+-]?{decimalInteger}
             }
 */
             return
-              returnToken (lineno (), YYText (), NAME);
-          }
-
-{decimalInteger} {
-            return
-              returnToken (lineno (), YYText (), INTEGER);
-          }
-
-{decimalInteger}"."{decimalInteger}({exponent})? |
-{decimalInteger}({exponent})?	{
-            // yylval.fNombre = atof (yytext);
-            return
-              returnToken (lineno (), YYText (), DOUBLE);
-          }
-
-{spaces}  {
-            return
-              returnToken (lineno (), YYText (), SPACES);
-          }
-
-{endOfLine}	{
-            return
-              returnToken (lineno (), YYText (), END_OF_LINE);
-          }
-
-"'"{singleQuotedStringChar}*"'" {
-            return
-              returnToken (lineno (), YYText (), SINGLE_QUOTED_STRING);
-          }
-
-"\""{doubleQuotedStringChar}*"\"" {
-            return
-              returnToken (lineno (), YYText (), DOUBLE_QUOTED_STRING);
-          }
-
-
-"."       {
-            return
-              returnToken (lineno (), YYText (), DOT);
-          }
-
-","       {
-            return
-              returnToken (lineno (), YYText (), COMMA);
-          }
-
-"="       {
-            return
-              returnToken (lineno (), YYText (), EQUAL_SIGN);
-          }
-
-":"       {
-            return
-              returnToken (lineno (), YYText (), COLON);
-          }
-
-";"       {
-            return
-              returnToken (lineno (), YYText (), SEMI_COLON);
-          }
-
-"{"       {
-            return
-              returnToken (lineno (), YYText (), LEFT_BRACKET);
-          }
-
-"}"       {
-            return
-              returnToken (lineno (), YYText (), RIGHT_BRACKET);
-          }
-
-"||"      {
-            return
-              returnToken (lineno (), YYText (), DOUBLE_BAR);
-          }
-
-"|"       {
-            return
-              returnToken (lineno (), YYText (), END_OF_MEASURE);
+              returnToken (lineno (), YYText (), kTokenIdentifier);
           }
 
 .         {
             return
-              returnToken (lineno (), YYText (), OTHER_CHARACTER);
+              returnToken (lineno (), YYText (), kTokenOtherCaracter);
           }
 
 <<EOF>>		{
@@ -421,15 +413,19 @@ exponent			 					 [eE][+-]?{decimalInteger}
 
 #ifdef LEXER_MAIN
 
-int main (void)
+int main (int argc, char * argv[])
 {
+/*
+	if (argc > 1) {
+		testreader r;
+
+		return readfile (argv[1], &r) ? 0 : 1;
+	}
+*/
+
   msdlFlexLexer lexer;
 
   lexer.switch_streams (&std::cin, &std::cout);
-
-#ifdef LEX_ONLY
-  // JMI
-#endif
 
   while (lexer.yylex ());
 
