@@ -14,7 +14,7 @@
 #define ___oahElements___
 
 #include "browser.h"
-#include "exceptions.h"
+#include "waeExceptions.h"
 
 
 using namespace std;

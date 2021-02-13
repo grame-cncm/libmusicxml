@@ -1,4 +1,5 @@
 %{
+
 /* ---------------------------------------------------------------------- */
 /* Code global to "yylex"                                                 */
 /* ---------------------------------------------------------------------- */
@@ -19,45 +20,17 @@
 	MSDL lexical definition.
 */
 
-/*
-From FlexLexer.h:
-
-// This file defines FlexLexer, an abstract class which specifies the
-// external interface provided to flex C++ lexer objects, and yyFlexLexer,
-// which defines a particular lexer class.
-//
-// If you want to create multiple lexer classes, you use the -P flag
-// to rename each yyFlexLexer to some other xxFlexLexer.  You then
-// include <FlexLexer.h> in your other sources once per lexer class:
-//
-//      #undef yyFlexLexer
-//      #define yyFlexLexer xxFlexLexer
-//      #include <FlexLexer.h>
-//
-//      #undef yyFlexLexer
-//      #define yyFlexLexer zzFlexLexer
-//      #include <FlexLexer.h>
-//      ...
-*/
-
 #include <iomanip>
 #include <iostream>
 
 #include "msdrKeywords.h"
 #include "msdrTokens.h"
 
-// NO JMI #include <FlexLexer.h>
-#include "msdlBisonParser.hpp"
+#include "msdlDriver.h"
+#include "msdlParser.h"
 
 
-// JMI using namespace std;
 using namespace MusicXML2;
-
-
-//#define YY_NO_UNISTD_H
-
-// JMI extern int msdllval;
-
 
 /* ---------------------------------------------------------------------- */
 /* The current token description                                          */
@@ -68,13 +41,13 @@ using namespace MusicXML2;
 
 bool gTraduire =  true;
 
-msdrTokenKind returnToken (
+void handleMsdrToken (
   int           inputLineNumber,
   string        tokenText,
   msdrTokenKind tokenKind)
 {
-  // write a trace of the token?
   if (gTraduire) {
+    // write a trace of the token?
     const unsigned int lineNumberWidth =  4;
     const unsigned int tokenNameWidth  = 23;
 
@@ -96,7 +69,7 @@ msdrTokenKind returnToken (
       // language-independant tokens
       // ------------------------------------
 
-      case kTokenSpaces:
+      case kTokenBlanks:
         break;
       case kTokenEndOfLine:
         doWriteTokenText = false;
@@ -156,9 +129,6 @@ msdrTokenKind returnToken (
       case kTokenDoubleQuotedString:
         break;
 
-      case kTokenOtherCaracter:
-        break;
-
       case kTokenIdentifier:
         break;
 
@@ -175,9 +145,9 @@ msdrTokenKind returnToken (
     }
 
     cout << endl;
-    }
+  }
 
-  return tokenKind;
+  // append the MSDL token to the tokens list JMI
 }
 
 %}
@@ -187,7 +157,14 @@ msdrTokenKind returnToken (
 /* Options                                                                */
 /* ---------------------------------------------------------------------- */
 
+/*
 %option c++
+
+#define YYPARSE_PARAM scanner
+#define YYLEX_PARAM   scanner
+
+%option debug
+*/
 
 %option 8bit
 
@@ -196,9 +173,9 @@ msdrTokenKind returnToken (
 %option warn
 %option nounput nomain noinput noyywrap yylineno
 
-%option prefix="msdl"
+%option interactive
 
-%option header-file="msdlFlexLexer.h"
+%option prefix="msdl"
 
 
 %{
@@ -209,11 +186,11 @@ msdrTokenKind returnToken (
 /* Regular expressions                                                    */
 /* ---------------------------------------------------------------------- */
 
-space		                 [ \t]
-spaces                   {space}+
+blank		                 [ \t\r]
+blanks                   {blank}+
 
 endOfLine                [\x0a\x0d]
-spaceOrEndOfLine         [ \t\x0a\x0d]
+blankOrEndOfLine         [ \t\r\x0a\x0d]
 
 singleQuotedStringChar   [^']
 doubleQuotedStringChar   [^"]
@@ -232,13 +209,13 @@ name                     {firstchar}{namechar}*
 /* Start conditions                                                       */
 /* ---------------------------------------------------------------------- */
 
-%S PARENTHESIZED_COMMENT_MODE COMMENT_TO_END_OF_LINE_MODE
-
-
 %{
   // Code run each time a pattern is matched.
-// JMI  # define YY_USER_ACTION  loc.columns (yyleng);
+//  # define YY_USER_ACTION  loc.columns (yyleng);
 %}
+
+
+%s PARENTHESIZED_COMMENT_MODE COMMENT_TO_END_OF_LINE_MODE
 
 
 %%	/* The language terminals and corresponding semantic actions */
@@ -248,6 +225,13 @@ name                     {firstchar}{namechar}*
   /* -------------------------------------------------------------------- */
   /* Code local to "yylex"                                                */
   /* -------------------------------------------------------------------- */
+
+  // A handy shortcut to the location held by the driver.
+//JMI  NO, code will be included in msdlBisonParser.cpp
+//  msdl::location& loc = drv.getLocation ();
+
+  // Code run each time yylex is called.
+//  loc.step ();
 %}
 
 
@@ -260,8 +244,9 @@ name                     {firstchar}{namechar}*
           }
 
 <PARENTHESIZED_COMMENT_MODE>([^%]|"%"[^}])*	{
-            return
-              returnToken (lineno (), YYText (), kTokenParenthesizedComment);
+            handleMsdrToken (msdllineno, msdltext, kTokenParenthesizedComment) ;
+
+            return msdl::parser::token::MSDL_PARENTHESIZED_COMMENT;
           }
 
 
@@ -274,104 +259,124 @@ name                     {firstchar}{namechar}*
           }
 
 <COMMENT_TO_END_OF_LINE_MODE>.*	{
-            return
-              returnToken (lineno (), YYText (), kTokenCommentToEndOfLine);
+            handleMsdrToken (msdllineno, msdltext, kTokenParenthesizedComment) ;
+
+            return MSDL_COMMENT_TO_END_OF_LINE;
           }
 
 
-{spaces}  {
-            return
-              returnToken (lineno (), YYText (), kTokenSpaces);
+{blanks}  {
+            handleMsdrToken (msdllineno, msdltext, kTokenBlanks) ;
+
+         //   loc.step ();
+            return MSDL_SPACES;
           }
 
 {endOfLine}	{
-            return
-              returnToken (lineno (), YYText (), kTokenEndOfLine);
+            handleMsdrToken (msdllineno, msdltext, kTokenEndOfLine) ;
+
+       //     loc.lines (yyleng); loc.step ();
+            return MSDL_END_OF_LINE;
           }
 
 
 "="       {
-            return
-              returnToken (lineno (), YYText (), kTokenEqualSign);
+            handleMsdrToken (msdllineno, msdltext, kTokenEqualSign) ;
+
+            return MSDL_EQUAL_SIGN;
           }
 
 
 ","       {
-            return
-              returnToken (lineno (), YYText (), kTokenComma);
+            handleMsdrToken (msdllineno, msdltext, kTokenComma) ;
+
+            return MSDL_COMMA;
           }
 
 ":"       {
-            return
-              returnToken (lineno (), YYText (), kTokenColon);
+            handleMsdrToken (msdllineno, msdltext, kTokenColon) ;
+
+            return MSDL_COLON;
           }
 
 ";"       {
-            return
-              returnToken (lineno (), YYText (), kTokenSemiColon);
+            handleMsdrToken (msdllineno, msdltext, kTokenSemiColon) ;
+
+            return MSDL_SEMI_COLON;
           }
 
 
 "("       {
-            return
-              returnToken (lineno (), YYText (), kTokenLeftParenthesis);
+            handleMsdrToken (msdllineno, msdltext, kTokenLeftParenthesis) ;
+
+            return MSDL_LEFT_PARENTHESIS;
           }
 
 ")"       {
-            return
-              returnToken (lineno (), YYText (), kTokenRightParenthesis);
+            handleMsdrToken (msdllineno, msdltext, kTokenRightParenthesis) ;
+
+            return MSDL_RIGHT_PARENTHESIS;
           }
 
 
 "{"       {
-            return
-              returnToken (lineno (), YYText (), kTokenLeftBracket);
+            handleMsdrToken (msdllineno, msdltext, kTokenLeftBracket) ;
+
+            return MSDL_LEFT_BRACKET;
           }
 
 "}"       {
-            return
-              returnToken (lineno (), YYText (), kTokenRightBracket);
+            handleMsdrToken (msdllineno, msdltext, kTokenRightBracket) ;
+
+            return MSDL_RIGHT_BRACKET;
           }
 
 
 "."       {
-            return
-              returnToken (lineno (), YYText (), kTokenDot);
+            handleMsdrToken (msdllineno, msdltext, kTokenDot) ;
+
+            return MSDL_DOT;
           }
 
 
 "|"       {
-            return
-              returnToken (lineno (), YYText (), kTokenMeasure);
+            handleMsdrToken (msdllineno, msdltext, kTokenMeasure) ;
+
+            return MSDL_MEASURE;
           }
 
 "||"      {
-            return
-              returnToken (lineno (), YYText (), kTokenDoubleBar);
+            handleMsdrToken (msdllineno, msdltext, kTokenDoubleBar) ;
+
+            return MSDL_DOUBLE_BAR;
           }
 
 
 {decimalInteger} {
-            return
-              returnToken (lineno (), YYText (), kTokenInteger);
+            handleMsdrToken (msdllineno, msdltext, kTokenInteger) ;
+
+            return MSDL_INTEGER;
           }
 
 {decimalInteger}"."{decimalInteger}({exponent})? |
 {decimalInteger}({exponent})?	{
+            handleMsdrToken (msdllineno, msdltext, kTokenDouble) ;
+
             // yylval.fNombre = atof (yytext);
-            return
-              returnToken (lineno (), YYText (), kTokenDouble);
+            return MSDL_DOUBLE;
           }
 
 
 "'"{singleQuotedStringChar}*"'" {
-            return
-              returnToken (lineno (), YYText (), kTokenSingleQuotedString);
+            handleMsdrToken (msdllineno, msdltext, kTokenSingleQuotedString) ;
+
+            return MSDL_SINGLE_QUOTED_STRING;
           }
 
 "\""{doubleQuotedStringChar}*"\"" {
-            return
-              returnToken (lineno (), YYText (), kTokenDoubleQuotedString);
+            handleMsdrToken (msdllineno, msdltext, kTokenDoubleQuotedString) ;
+
+            return MSDL_DOUBLE_QUOTED_STRING;
           }
 
 
@@ -379,24 +384,24 @@ name                     {firstchar}{namechar}*
 /*
             msdlKeywordKind
               keywordKind =
-                msdlKeywordKindFromString (YYText ());
+                msdlKeywordKindFromString (msdltext);
 
             if (keywordKind == k_NoMsdlKeywordKind) {
               return
-                returnToken (lineno (), YYText (), kTokenIdentifier);
             }
             else {
               return
-                returnToken (lineno (), YYText (), KEYWORD);
             }
 */
-            return
-              returnToken (lineno (), YYText (), kTokenIdentifier);
+            handleMsdrToken (msdllineno, msdltext, kTokenIdentifier) ;
+
+            return MSDL_IDENTIFIER;
           }
 
 .         {
-            return
-              returnToken (lineno (), YYText (), kTokenOtherCaracter);
+            handleMsdrToken (msdllineno, msdltext, k_NoToken); // JMI
+
+            return MSDL_OTHER_CHARACTER;
           }
 
 <<EOF>>		{
@@ -411,17 +416,38 @@ name                     {firstchar}{namechar}*
 /* Service code                                                           */
 /* ---------------------------------------------------------------------- */
 
+void
+msdlDriver::scanBegin ()
+{
+  yy_flex_debug = fTraceScanning;
+
+  if (fFile.empty () || fFile == "-") {
+    yyin = stdin;
+  }
+  else if (!(yyin = fopen (fFile.c_str (), "r"))) {
+      std::cerr << "cannot open " << fFile << ": " << strerror (errno) << '\n';
+      exit (EXIT_FAILURE);
+  }
+}
+
+void
+msdlDriver::scanEnd ()
+{
+  fclose (yyin);
+}
+
+/*
 #ifdef LEXER_MAIN
 
 int main (int argc, char * argv[])
 {
-/*
+//*
 	if (argc > 1) {
 		testreader r;
 
 		return readfile (argv[1], &r) ? 0 : 1;
 	}
-*/
+//* /
 
   msdlFlexLexer lexer;
 
@@ -434,4 +460,4 @@ int main (int argc, char * argv[])
 }
 
 #endif
-
+*/

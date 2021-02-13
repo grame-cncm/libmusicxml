@@ -31,7 +31,7 @@
 #include "lpsrOah.h"
 #include "lpsr2lilypondOah.h"
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 
 using namespace std;

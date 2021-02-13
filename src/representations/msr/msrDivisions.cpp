@@ -24,7 +24,7 @@
 #include "musicxmlOah.h"
 #include "msrOah.h"
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 
 using namespace std;

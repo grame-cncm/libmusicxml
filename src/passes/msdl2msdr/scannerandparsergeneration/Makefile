@@ -17,20 +17,24 @@
 # variables
 # ------------------------------------------------------
 
-#OBJ  = msdlFlexLexer.o msdlBisonParser.o
+# Determine this makefile's path.
+# Be sure to place this BEFORE `include` directives, if any.
+THIS_FILE := $(lastword $(MAKEFILE_LIST))
 
 MAIN = NO           # LEXER or PARSER
 
 # determine OUT
 ifeq ($(MAIN),YES)
-  OUT  = msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp msdlBisonParser.cpp msdlFlexLexer
+  OUT  = msdlScanner.h msdlScanner.cpp msdlParser.h msdlParser.cpp msdlScanner
 else
-  OUT  = msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp msdlBisonParser.cpp msdlBisonParser
+  OUT  = msdlScanner.h msdlScanner.cpp msdlParser.h msdlParser.cpp msdlParser
 endif
 
-# Determine this makefile's path.
-# Be sure to place this BEFORE `include` directives, if any.
-THIS_FILE := $(lastword $(MAKEFILE_LIST))
+# determine INCS
+INCS = \
+  -I ../../../lib \
+  -I ../../../elements \
+  -I ../../../representations/msdr \
 
 #CXXFLAGS = -I..
 
@@ -38,7 +42,7 @@ THIS_FILE := $(lastword $(MAKEFILE_LIST))
 # target
 # ------------------------------------------------------
 
-target : $(OUT)
+target : $(THIS_FILE) $(OUT)
 	ls -salGT *
 #	@echo "target: " $@  # print target name
 #	@$(MAKE) -f $(THIS_FILE) other-target # invoke other target
@@ -52,88 +56,92 @@ target : $(OUT)
 
 help:
 	@echo "What you can do:"
-	@echo "  build the lexer and parser code:                         make"
-	@echo "  make the lexer or parser code executable:                make MAIN=LEXER|PARSER"
-	@echo "  test msdlFlexLexer:                                      make test"
-	@echo "  copy the lexer and parser code to the containing folder: make copyup"
-	@echo "  remove all generated files:                              make clean"
+	@echo "  build the scanner and parser code:                         make"
+	@echo "  make the scanner or parser code executable:                make MAIN=LEXER|PARSER"
+	@echo "  test msdl scanner and or parser:                           make test"
+	@echo "  copy the scanner and parser code to the containing folder: make copyup"
+	@echo "  remove all generated files:                                make clean"
+
+
+# driver
+# ------------------------------------------------------
+
+msdlDriver.o: msdlDriver.cpp msdlDriver.h msdlParser.h
+	g++ -c $(INCS) \
+	  msdlDriver.cpp
 
 
 # scanner
 # ------------------------------------------------------
 
-msdlFlexLexer.h : msdl.ll msdlBisonParser.hpp
+msdlScanner.cpp msdlScanner.h : $(THIS_FILE) msdl.ll msdlParser.h
 	flex \
-	  -I \
-	  -o msdlFlexLexer.cpp \
-	  --prefix=msdl \
+	  --header-file=msdlScanner.h \
+	  --outfile=msdlScanner.cpp \
 	  msdl.ll
 
-# LEXER_MAIN enables the main() function in msdlFlexLexer.cpp
+# LEXER_MAIN enables the main() function in msdlScanner.cpp
 
-msdlFlexLexer : msdlFlexLexer.cpp
+msdlScanner.o: msdlScanner.cpp msdlParser.h msdlDriver.h
+	g++ -c $(INCS) \
+	  msdlScanner.cpp
+
+msdlScanner : msdlScanner.cpp
   ifeq ($(MAIN),LEXER)
-		g++  \
+		g++ $(INCS) \
       -DLEXER_MAIN \
-      -I ../../../lib \
-      -I ../../../elements \
-      -o msdlFlexLexer \
-      msdlFlexLexer.cpp
+      -o msdlScanner \
+      msdlScanner.cpp
   else
-		g++ -c\
-      -I ../../../lib \
-      -I ../../../elements \
-      -o msdlFlexLexer \
-      msdlFlexLexer.cpp
+		g++ -c $(INCS) \
+      -o msdlScanner \
+      msdlScanner.cpp
   endif
 
 
 # parser
 # ------------------------------------------------------
 
-msdlBisonParser.hpp : msdl.yy
+msdlParser.cpp msdlParser.h : $(THIS_FILE) msdl.yy
 	bison \
-	  --defines=msdlBisonParser.hpp \
-	  -o msdlBisonParser.cpp \
-	  -Dapi.prefix={msdl} \
+	  --defines=msdlParser.h \
+	  --output-file=msdlParser.cpp \
 	  msdl.yy
 
-# PARSER_MAIN enables the main() function in msdlBisonParser.cpp
+# PARSER_MAIN enables the main() function in msdlParser.cpp
 
-msdlBisonParser : msdlBisonParser.hpp msdlBisonParser.cpp
+msdlParser.o: msdlParser.cpp msdlScanner.h msdlDriver.h
+	g++ -c $(INCS) \
+	  msdlParser.cpp
+
+msdlParser : msdlParser.h msdlParser.cpp
   ifeq ($(MAIN),PARSER)
-		g++ \
+		g++ $(INCS) \
       -DPARSER_MAIN \
-      -I ../../../lib \
-      -I ../../../elements \
-      -I ../../../representations/msdr \
-      -o msdlBisonParser \
-      msdlBisonParser.cpp
+      -o msdlParser \
+      msdlParser.cpp
   else
-		g++ -c \
-      -I ../../../lib \
-      -I ../../../elements \
-      -I ../../../representations/msdr \
-      -o msdlBisonParser \
-      msdlBisonParser.cpp
+		g++ -c $(INCS) \
+      -o msdlParser \
+      msdlParser.cpp
   endif
 
 
 # test
 # ------------------------------------------------------
 
-msdlTest: msdlDriver.o msdlBisonParser.o msdlFlexLexer.o msdlTest.o
-	g++ -o msdlTest msdlDriver.o msdlBisonParser.o msdlFlexLexer.o msdlTest.o
-
-msdlDriver.o: msdlDriver.cpp msdlDriver.h msdlBisonParser.hpp
-	g++ -c msdlDriver.cpp
+msdlTest: msdlDriver.o msdlScanner.o msdlParser.o msdlTest.o
+	g++ $(INCS) \
+	  -o msdlTest \
+	  msdlDriver.o msdlScanner.o msdlParser.o msdlTest.o
 
 msdlTest.o: msdlTest.cpp
-	g++ -c msdlTest.cpp
+	g++ -c$(INCS) \
+	  msdlTest.cpp
 
 test : msdlTest
 	./msdlTest < Test.msdl
-#	./msdlFlexLexer < Test.msdl
+#	./msdlScanner < Test.msdl
 
 
 # exec
@@ -150,7 +158,7 @@ exec :
 .PHONY : keepexec
 
 keepexec : $(OUT)
-	cp -p msdlFlexLexer msdlFlexLexer_OK
+	cp -p msdlScanner msdlFlexLexer_OK
 
 
 # copyup
@@ -159,7 +167,7 @@ keepexec : $(OUT)
 .PHONY : copyup
 
 copyup :
-	cp -p msdlFlexLexer.h msdlFlexLexer.cpp msdlBisonParser.hpp .. #  msdlBisonParser.cpp
+	cp -p msdlScanner.h msdlScanner.cpp msdlParser.h .. #  msdlParser.cpp
 
 
 # clean

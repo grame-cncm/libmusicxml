@@ -10,12 +10,14 @@
   research@grame.fr
 */
 
-#ifndef ___msdrTokensList___
-#define ___msdrTokensList___
+#ifndef ___msdrTokens___
+#define ___msdrTokens___
 
 #include <list>
 
 #include "smartpointer.h"
+
+#include "msdrKeywords.h"
 
 
 using namespace std;
@@ -27,9 +29,9 @@ namespace MusicXML2
 enum msdrTokenKind {
   k_NoToken,  // 0, which is returned by yylex() at the end of file
 
-  // language-independant tokens
+  // language-independent tokens
   // ------------------------------------
-  kTokenSpaces,
+  kTokenBlanks,
   kTokenEndOfLine,
 
   kTokenParenthesizedComment,
@@ -41,6 +43,15 @@ enum msdrTokenKind {
   kTokenColon,
   kTokenSemiColon,
 
+  kTokenPlus,
+  kTokenMinus,
+  kTokenStar,
+  kTokenSlash,
+
+  kTokenConcat,
+
+  kTokenQuestionMark,
+
   kTokenLeftParenthesis,
   kTokenRightParenthesis,
 
@@ -51,6 +62,10 @@ enum msdrTokenKind {
 
   kTokenMeasure,
   kTokenDoubleBar,
+  kTokenFinalBar,
+
+  kTokenRepeatStart,
+  kTokenRepeatEnd,
 
   kTokenInteger,
   kTokenDouble,
@@ -60,9 +75,7 @@ enum msdrTokenKind {
 
   kTokenIdentifier,
 
-  kTokenOtherCaracter,
-
-  // language-dependant keywords
+  // language-dependent keywords
   // ------------------------------------
 
   kTokenTitle,
@@ -90,15 +103,14 @@ enum msdrTokenKind {
   kTokenBaritone,
   kTokenBass,
 
-  kTokenTime,
-
-  kTokenFinalBar
+  kTokenTime
 };
 
 string msdrTokenKindAsString (
   msdrTokenKind tokenKind);
 
 enum msdrTokenDescriptionKind {
+  kTokenDescriptionKeyword,
   kTokenDescriptionInteger,
   kTokenDescriptionDouble,
   kTokenDescriptionString
@@ -129,13 +141,21 @@ class EXP msdrTokenDescription : public smartable
     // set and get
     // ------------------------------------------------------
 
-    void                  setInt (int value)
+    void                  setKeywordKind (msdrKeywordKind value)
+                              {
+                                fTokenDescriptionKind = kTokenDescriptionKeyword;
+                                fKeywordKind          = value;
+                              }
+
+    msdrKeywordKind       getKeywordKind () const;
+
+    void                  setInteger (int value)
                               {
                                 fTokenDescriptionKind = kTokenDescriptionInteger;
                                 fInteger              = value;
                               }
 
-    int                   getInt () const;
+    int                   getInteger () const;
 
     void                  setDouble (double value)
                               {
@@ -176,6 +196,7 @@ class EXP msdrTokenDescription : public smartable
     msdrTokenDescriptionKind
                           fTokenDescriptionKind;
 
+    msdrKeywordKind       fKeywordKind;
     int                   fInteger;
     double                fDouble;
     string                fString;
@@ -200,6 +221,10 @@ class EXP msdrToken : public smartable
 
                           msdrToken (
                             msdrTokenKind tokenKind);
+
+                          msdrToken (
+                            msdrTokenKind   tokenKind,
+                            msdrKeywordKind value);
 
                           msdrToken (
                             msdrTokenKind tokenKind,
@@ -237,6 +262,8 @@ class EXP msdrToken : public smartable
     // ------------------------------------------------------
 
     string                asString () const;
+
+    string                asMsdlString () const;
 
     void                  print (ostream& os) const;
 
@@ -312,5 +339,6 @@ EXP ostream& operator<< (ostream& os, const S_msdrTokensList& elt);
 
 
 }
+
 
 #endif

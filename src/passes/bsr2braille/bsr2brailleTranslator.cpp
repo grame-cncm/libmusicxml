@@ -14,7 +14,7 @@
 #include <cmath>
 #include <string>
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 #include "bsr2brailleTranslator.h"
 

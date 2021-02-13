@@ -20,12 +20,12 @@
   #include "traceOah.h"
 #endif
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "musicxml2mxmlTreeOah.h"
+#include "msdl2msdrOah.h"
 
 #include "oahAtomsCollection.h"
 
@@ -37,71 +37,67 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 
-S_musicxml2mxmlTreeOahGroup gGlobalMusicxml2mxmlTreeOahGroup;
+S_msdl2msdrOahGroup gGlobalMsdl2msdrOahGroup;
 
-S_musicxml2mxmlTreeOahGroup musicxml2mxmlTreeOahGroup::create ()
+S_msdl2msdrOahGroup msdl2msdrOahGroup::create ()
 {
-  musicxml2mxmlTreeOahGroup* o = new musicxml2mxmlTreeOahGroup ();
+  msdl2msdrOahGroup* o = new msdl2msdrOahGroup ();
   assert (o != nullptr);
   return o;
 }
 
-musicxml2mxmlTreeOahGroup::musicxml2mxmlTreeOahGroup ()
+msdl2msdrOahGroup::msdl2msdrOahGroup ()
   : oahGroup (
-    "Mxmltree2msr",
-    "hmxmlt2msr", "help-mxmlTree-to-msr",
-R"(These options control the way xmlelement trees are translated to MSR.)",
+    "Msdl2msdr",
+    "hmsdl2msdr", "help-msdl-to-msdr",
+R"(These options control the way xmlelement are translated to MSDR.)",
     kElementVisibilityWhole)
 {
-  initializeMusicxml2mxmlTree ();
+  initializeMsdl2msdr ();
 }
 
-musicxml2mxmlTreeOahGroup::~musicxml2mxmlTreeOahGroup ()
+msdl2msdrOahGroup::~msdl2msdrOahGroup ()
 {}
 
 #ifdef TRACING_IS_ENABLED
-void musicxml2mxmlTreeOahGroup::initializeMusicxml2mxmlTreeTraceOah ()
+void msdl2msdrOahGroup::initializeMsdl2msdrTraceOah ()
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "musicxml2mxmlTree Trace",
-        "hmxml2mxmlt", "help-musicxml-to-mxmlTree-trace",
+        "msdl2msdl Trace",
+        "hmsdl2msdlt", "help-msdl-to-msdl-trace",
 R"()",
         kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
 
-  // the 'MusicXML' multiplex booleans atom
+  // MSDL tokens
 
-  S_oahMultiplexBooleansAtom
-    musicXMLMultiplexBooleansAtom =
-      oahMultiplexBooleansAtom::create (
-        "tmd", "trace-musicxml-data",
-        "Trace SHORT_NAME/LONG_NAME when converting MusicXML data to an xmlelement tree.",
-        "SHORT_NAME",
-        "LONG_NAME",
-        gGlobalTraceOahGroup->getShortTracePrefix (),
-        gGlobalTraceOahGroup->getLongTracePrefix ());
+  fTraceTokens = false;
 
   subGroup->
     appendAtomToSubGroup (
-      musicXMLMultiplexBooleansAtom);
+      oahBooleanAtom::create (
+        "ttoks", "trace-tokens",
+R"(Write a trace of the MSDL tokens handling activity to standard error.)",
+        "traceTokens",
+        fTraceTokens));
 }
 #endif
 
-void musicxml2mxmlTreeOahGroup::initializeMusicxml2mxmlTree ()
+void msdl2msdrOahGroup::initializeMsdl2msdr ()
 {
 #ifdef TRACING_IS_ENABLED
   // trace
   // --------------------------------------
-  initializeMusicxml2mxmlTreeTraceOah ();
+  initializeMsdl2msdrTraceOah ();
 #endif
 }
 
 //______________________________________________________________________________
-void musicxml2mxmlTreeOahGroup::enforceGroupQuietness ()
+void msdl2msdrOahGroup::enforceGroupQuietness ()
 {
 #ifdef TRACING_IS_ENABLED
 // JMI
@@ -109,31 +105,31 @@ void musicxml2mxmlTreeOahGroup::enforceGroupQuietness ()
 }
 
 //______________________________________________________________________________
-void musicxml2mxmlTreeOahGroup::checkGroupOptionsConsistency ()
+void msdl2msdrOahGroup::checkGroupOptionsConsistency ()
 {
   // JMI
 }
 
 //______________________________________________________________________________
-void musicxml2mxmlTreeOahGroup::acceptIn (basevisitor* v)
+void msdl2msdrOahGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> musicxml2mxmlTreeOahGroup::acceptIn ()" <<
+      ".\\\" ==> msdl2msdrOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_musicxml2mxmlTreeOahGroup>*
+  if (visitor<S_msdl2msdrOahGroup>*
     p =
-      dynamic_cast<visitor<S_musicxml2mxmlTreeOahGroup>*> (v)) {
-        S_musicxml2mxmlTreeOahGroup elem = this;
+      dynamic_cast<visitor<S_msdl2msdrOahGroup>*> (v)) {
+        S_msdl2msdrOahGroup elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching musicxml2mxmlTreeOahGroup::visitStart ()" <<
+            ".\\\" ==> Launching msdl2msdrOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -141,25 +137,25 @@ void musicxml2mxmlTreeOahGroup::acceptIn (basevisitor* v)
   }
 }
 
-void musicxml2mxmlTreeOahGroup::acceptOut (basevisitor* v)
+void msdl2msdrOahGroup::acceptOut (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> musicxml2mxmlTreeOahGroup::acceptOut ()" <<
+      ".\\\" ==> msdl2msdrOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_musicxml2mxmlTreeOahGroup>*
+  if (visitor<S_msdl2msdrOahGroup>*
     p =
-      dynamic_cast<visitor<S_musicxml2mxmlTreeOahGroup>*> (v)) {
-        S_musicxml2mxmlTreeOahGroup elem = this;
+      dynamic_cast<visitor<S_msdl2msdrOahGroup>*> (v)) {
+        S_msdl2msdrOahGroup elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching musicxml2mxmlTreeOahGroup::visitEnd ()" <<
+            ".\\\" ==> Launching msdl2msdrOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -167,22 +163,22 @@ void musicxml2mxmlTreeOahGroup::acceptOut (basevisitor* v)
   }
 }
 
-void musicxml2mxmlTreeOahGroup::browseData (basevisitor* v)
+void msdl2msdrOahGroup::browseData (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> musicxml2mxmlTreeOahGroup::browseData ()" <<
+      ".\\\" ==> msdl2msdrOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void musicxml2mxmlTreeOahGroup::printMusicxml2mxmlTreeValues (unsigned int fieldWidth)
+void msdl2msdrOahGroup::printMsdl2msdrValues (unsigned int fieldWidth)
 {
   gLogStream <<
-    "The MusicXML options are:" <<
+    "The msdl2msdr options are:" <<
     endl;
 
   ++gIndenter;
@@ -197,38 +193,52 @@ void musicxml2mxmlTreeOahGroup::printMusicxml2mxmlTreeValues (unsigned int field
 
   ++gIndenter;
 
+  // MSDL tokens
+  // --------------------------------------
+
+  gLogStream <<
+    "MSDL tokens:" <<
+    endl;
+
+  ++gIndenter;
+
+  gLogStream << left <<
+    setw (fieldWidth) << "traceTokens" << " : " <<
+      booleanAsString (fTraceTokens) <<
+      endl;
+
   --gIndenter;
 #endif
 
   --gIndenter;
 }
 
-ostream& operator<< (ostream& os, const S_musicxml2mxmlTreeOahGroup& elt)
+ostream& operator<< (ostream& os, const S_msdl2msdrOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_musicxml2mxmlTreeOahGroup createGlobalMusicxml2mxmlTreeOahGroup ()
+S_msdl2msdrOahGroup createGlobalMsdl2msdrOahGroup ()
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
   gLogStream <<
-    "Creating global xml2mxmlTree OAH group" <<
+    "Creating global msdl2msdr OAH group" <<
     endl;
 #endif
 #endif
 {
   // protect library against multiple initializations
-  if (! gGlobalMusicxml2mxmlTreeOahGroup) {
+  if (! gGlobalMsdl2msdrOahGroup) {
     // create the global OAH group
-    gGlobalMusicxml2mxmlTreeOahGroup =
-      musicxml2mxmlTreeOahGroup::create ();
-    assert (gGlobalMusicxml2mxmlTreeOahGroup != 0);
+    gGlobalMsdl2msdrOahGroup =
+      msdl2msdrOahGroup::create ();
+    assert (gGlobalMsdl2msdrOahGroup != 0);
   }
 
   // return global OAH group
-  return gGlobalMusicxml2mxmlTreeOahGroup;
+  return gGlobalMsdl2msdrOahGroup;
 }
 
 

@@ -32,7 +32,7 @@
 
 
 /**
- ** \file msdlBisonParser.hpp
+ ** \file msdlParser.h
  ** Define the msdl::parser class.
  */
 
@@ -42,10 +42,10 @@
 // especially those whose name start with YY_ or yy_.  They are
 // private implementation details that can be changed or removed.
 
-#ifndef YY_MSDL_MSDLBISONPARSER_HPP_INCLUDED
-# define YY_MSDL_MSDLBISONPARSER_HPP_INCLUDED
+#ifndef YY_MSDL_MSDLPARSER_H_INCLUDED
+# define YY_MSDL_MSDLPARSER_H_INCLUDED
 // "%code requires" blocks.
-#line 90 "msdl.yy"
+#line 94 "msdl.yy"
 
   #include <string>
 
@@ -53,9 +53,7 @@
 
   class msdlDriver;
 
-//  msdlDriver & drv;
-
-#line 59 "msdlBisonParser.hpp"
+#line 57 "msdlParser.h"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -192,7 +190,7 @@
 #endif  /* ! defined MSDLDEBUG */
 
 namespace msdl {
-#line 196 "msdlBisonParser.hpp"
+#line 194 "msdlParser.h"
 
 
 
@@ -205,7 +203,7 @@ namespace msdl {
     /// Symbol semantic values.
     union semantic_type
     {
-#line 117 "msdl.yy"
+#line 119 "msdl.yy"
 
 	int  								  fInteger;
 	double								fDouble;
@@ -213,7 +211,7 @@ namespace msdl {
 	string*								fString;
 	
 
-#line 217 "msdlBisonParser.hpp"
+#line 215 "msdlParser.h"
 
     };
 #else
@@ -245,31 +243,31 @@ namespace msdl {
     {
       enum token_kind_type
       {
-        MSDLEMPTY = -2,
-    MSDLEOF = 0,                   // "end of file"
-    MSDLerror = 1,                 // error
-    MSDLUNDEF = 2,                 // "invalid token"
-    SPACES = 3,                    // "spaces"
-    END_OF_LINE = 4,               // "end of line"
-    PARENTHESIZED_COMMENT = 5,     // "parenthesized comment"
-    COMMENT_TO_END_OF_LINE = 6,    // "comment to end of line"
-    EQUAL_SIGN = 7,                // "="
-    COMMA = 8,                     // ","
-    COLON = 9,                     // ";"
-    SEMI_COLON = 10,               // ":"
-    LEFT_PARENTHESIS = 11,         // "("
-    RIGHT_PARENTHESIS = 12,        // ")"
-    LEFT_BRACKET = 13,             // "["
-    RIGHT_BRACKET = 14,            // "]"
-    DOT = 15,                      // "."
-    MEASURE = 16,                  // "|"
-    DOUBLE_BAR = 17,               // "||"
-    INTEGER = 18,                  // "integer"
-    DOUBLE = 19,                   // "double"
-    SINGLE_QUOTED_STRING = 20,     // "single quoted string"
-    DOUBLE_QUOTED_STRING = 21,     // "double quoted string"
-    IDENTIFIER = 22,               // "identifier"
-    OTHER_CHARACTER = 23           // "other character"
+        MSDL_MSDLEMPTY = -2,
+    MSDL_EOF = 0,                  // EOF
+    MSDL_MSDLerror = 256,          // error
+    MSDL_MSDLUNDEF = 257,          // "invalid token"
+    MSDL_SPACES = 258,             // "spaces"
+    MSDL_END_OF_LINE = 259,        // "end of line"
+    MSDL_PARENTHESIZED_COMMENT = 260, // "parenthesized comment"
+    MSDL_COMMENT_TO_END_OF_LINE = 261, // "comment to end of line"
+    MSDL_EQUAL_SIGN = 262,         // "="
+    MSDL_COMMA = 263,              // ","
+    MSDL_COLON = 264,              // ";"
+    MSDL_SEMI_COLON = 265,         // ":"
+    MSDL_LEFT_PARENTHESIS = 266,   // "("
+    MSDL_RIGHT_PARENTHESIS = 267,  // ")"
+    MSDL_LEFT_BRACKET = 268,       // "["
+    MSDL_RIGHT_BRACKET = 269,      // "]"
+    MSDL_DOT = 270,                // "."
+    MSDL_MEASURE = 271,            // "|"
+    MSDL_DOUBLE_BAR = 272,         // "||"
+    MSDL_INTEGER = 273,            // "integer"
+    MSDL_DOUBLE = 274,             // "double"
+    MSDL_SINGLE_QUOTED_STRING = 275, // "single quoted string"
+    MSDL_DOUBLE_QUOTED_STRING = 276, // "double quoted string"
+    MSDL_IDENTIFIER = 277,         // "identifier"
+    MSDL_OTHER_CHARACTER = 278     // "other character"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -288,7 +286,7 @@ namespace msdl {
       {
         YYNTOKENS = 24, ///< Number of tokens.
         S_YYEMPTY = -2,
-        S_YYEOF = 0,                             // "end of file"
+        S_YYEOF = 0,                             // EOF
         S_YYerror = 1,                           // error
         S_YYUNDEF = 2,                           // "invalid token"
         S_SPACES = 3,                            // "spaces"
@@ -851,9 +849,9 @@ namespace msdl {
 
 
 } // msdl
-#line 855 "msdlBisonParser.hpp"
+#line 853 "msdlParser.h"
 
 
 
 
-#endif // !YY_MSDL_MSDLBISONPARSER_HPP_INCLUDED
+#endif // !YY_MSDL_MSDLPARSER_H_INCLUDED

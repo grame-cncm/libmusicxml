@@ -17,7 +17,7 @@
 #include "bsrNumbers.h"
 
 #include "utilities.h"
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

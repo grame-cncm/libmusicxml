@@ -32,7 +32,7 @@
 
 #include "msr2lpsrTranslator.h"
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 
 using namespace std;

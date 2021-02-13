@@ -213,9 +213,6 @@ void initializeEnglishKeywordsNamesMap ()
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordKey]       = "key";
 
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordTime]      = "time";
-
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordDoubleBar] = "doubleBar";
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordFinalBar]  = "finalBar";
 }
 
 void initializeFrenchKeywordsNamesMap ()
@@ -243,9 +240,6 @@ void initializeFrenchKeywordsNamesMap ()
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordKey]       = "armure";
 
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordTime]      = "métrique";
-
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordDoubleBar] = "barreDouble";
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordFinalBar]  = "barreFinale";
 }
 
 void initializeItalianKeywordsNamesMap ()
@@ -273,9 +267,6 @@ void initializeItalianKeywordsNamesMap ()
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordKey]       = "key";
 
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordTime]      = "time";
-
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordDoubleBar] = "doubleBar";
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordFinalBar]  = "finalBar";
 }
 
 void initializeGermanKeywordsNamesMap ()
@@ -303,9 +294,6 @@ void initializeGermanKeywordsNamesMap ()
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordKey]       = "key";
 
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordTime]      = "time";
-
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordDoubleBar] = "doubleBar";
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordFinalBar]  = "finalBar";
 }
 
 void initializeSpanishKeywordsNamesMap ()
@@ -333,9 +321,6 @@ void initializeSpanishKeywordsNamesMap ()
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordKey]       = "key";
 
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordTime]      = "time";
-
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordDoubleBar] = "doubleBar";
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordFinalBar]  = "finalBar";
 }
 
 void initializeDutchKeywordsNamesMap ()
@@ -363,9 +348,6 @@ void initializeDutchKeywordsNamesMap ()
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordKey]       = "key";
 
   gGlobalEnglishKeywordsNamesMap [kMsdrKeywordTime]      = "time";
-
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordDoubleBar] = "doubleBar";
-  gGlobalEnglishKeywordsNamesMap [kMsdrKeywordFinalBar]  = "finalBar";
 }
 
 
@@ -435,13 +417,6 @@ string msdrKeywordKindAsString (msdrKeywordKind keywordKind)
 
     case kMsdrKeywordTime:
       result = "msdrKeywordTime";
-      break;
-
-    case kMsdrKeywordDoubleBar:
-      result = "msdrKeywordDoubleBar";
-      break;
-    case kMsdrKeywordFinalBar:
-      result = "msdrKeywordFinalBar";
       break;
   } // switch
 

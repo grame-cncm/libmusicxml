@@ -18,40 +18,43 @@ anacrusis                 % measure numbers start at 0
 % the score
 % -----------------------------------------------
 
-score SATB = "SATB in MSPL" {
+score SATB = "SATB in MSPL"
+{
 
-  staff sopranoAndAltoStaff = "Soprano & Alto" {
+  staff sopranoAndAltoStaff = "Soprano & Alto"
+    {
+      voice soprano = "Soprano" "S."
+        {
+          |1 clef treble      % '|' is the beginning of the measure
+                              % and 1 is the number of this measure
+          c''1
+          |||                   % final bar
+        } % soprano
 
-    voice soprano = "Soprano" "S." {
-      |1 clef treble      % '|' is the beginning of the measure
-                          % and 1 is the number of this measure
-      c''1
-      finalBar
-    } % soprano
+      voice alto = "Alto" "A."
+        {
+          |1 clef treble
+          c'1
+          |||                   % final bar
+        } % alto
+    } % sopranoAndAltoStaff
 
-    voice alto = "Alto" "A." {
-      |1 clef treble
-      c'1
-      finalBar
-    } % alto
+  staff tenorAndBassStaff = "Tenor & Bass"
+    {
+      voice tenor = "Tenor" "T."
+        {
+          |1 clef bass
+          c1
+          |||                   % final bar
+        } % tenor
 
-  } % sopranoAndAltoStaff
-
-  staff tenorAndBassStaff = "Tenor & Bass" {
-
-    voice tenor = "Tenor" "T." {
-      |1 clef bass
-      c1
-      finalBar
-    } % tenor
-
-    voice bass = "Bass" "B." {
-      |1 clef bass
-      c,1
-      finalBar
-    } % tenor
-
-  } % tenorAndBassStaff
+      voice bass = "Bass" "B."
+        {
+          |1 clef bass
+          c,1
+          |||                   % final bar
+        } % tenor
+    } % tenorAndBassStaff
 
 } % SATB
 

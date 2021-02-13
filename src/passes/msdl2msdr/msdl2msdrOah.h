@@ -36,7 +36,7 @@ class EXP msdl2msdrOahGroup : public oahGroup
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeMusicxml2msdr ();
+    void                  initializeMsdl2msdr ();
 
   protected:
 
@@ -51,6 +51,14 @@ class EXP msdl2msdrOahGroup : public oahGroup
 
     // set and get
     // ------------------------------------------------------
+
+#ifdef TRACING_IS_ENABLED
+    bool                  getTraceTokens () const
+                              { return fTraceTokens; }
+#endif
+
+    bool                  getQuitOnLexicalErrors () const
+                              { return fQuitOnLexicalErrors; }
 
   public:
 
@@ -69,7 +77,7 @@ class EXP msdl2msdrOahGroup : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACING_IS_ENABLED
-    void                  initializeMusicxml2msdrTraceOah ();
+    void                  initializeMsdl2msdrTraceOah ();
 #endif
 
   public:
@@ -87,22 +95,29 @@ class EXP msdl2msdrOahGroup : public oahGroup
     // print
     // ------------------------------------------------------
 
-    void                  printMusicxml2msdrHelp ();
+    void                  printMsdl2msdrHelp ();
 
-    void                  printMusicxml2msdrValues (unsigned int fieldWidth);
+    void                  printMsdl2msdrValues (unsigned int fieldWidth);
 
   public:
 
     // fields
     // ------------------------------------------------------
+
+    // trace
+#ifdef TRACING_IS_ENABLED
+    bool                  fTraceTokens;
+#endif
+
+    bool                  fQuitOnLexicalErrors;
 };
 typedef SMARTP<msdl2msdrOahGroup> S_msdl2msdrOahGroup;
 EXP ostream& operator<< (ostream& os, const S_msdl2msdrOahGroup& elt);
 
-EXP extern S_msdl2msdrOahGroup gGlobalMusicxml2msdrOahGroup;
+EXP extern S_msdl2msdrOahGroup gGlobalMsdl2msdrOahGroup;
 
 //______________________________________________________________________________
-EXP S_msdl2msdrOahGroup createGlobalMusicxml2msdrOahGroup ();
+EXP S_msdl2msdrOahGroup createGlobalMsdl2msdrOahGroup ();
 
 
 }

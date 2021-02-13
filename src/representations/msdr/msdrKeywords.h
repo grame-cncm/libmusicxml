@@ -80,10 +80,7 @@ enum msdrKeywordKind {
 
   kMsdrKeywordKey,
 
-  kMsdrKeywordTime,
-
-	kMsdrKeywordDoubleBar, // superfluous since there is '||' ??? JMI
-	kMsdrKeywordFinalBar
+  kMsdrKeywordTime
 };
 
 string msdrKeywordKindAsString (msdrKeywordKind keywordKind);

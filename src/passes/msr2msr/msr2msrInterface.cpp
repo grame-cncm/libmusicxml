@@ -34,7 +34,7 @@
 
 #include "mxmlTree2msrTranslatorInterface.h"
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 
 using namespace std;

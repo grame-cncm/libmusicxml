@@ -14,7 +14,7 @@
 #define ___msr___
 
 #include "utilities.h"
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 #include "msrBasicTypes.h"
 #include "msrElements.h"

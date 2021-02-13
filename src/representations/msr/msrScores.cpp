@@ -12,7 +12,7 @@
 
 #include <iomanip>      // for 'setw()'
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 #include "msrScores.h"
 

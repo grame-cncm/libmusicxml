@@ -22,7 +22,7 @@
   #include "traceOah.h"
 #endif
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 //#include "generatorsBasicTypes.h"
 

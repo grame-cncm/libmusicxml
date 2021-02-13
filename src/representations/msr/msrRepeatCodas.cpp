@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 #include "msrRepeatCodas.h"
 

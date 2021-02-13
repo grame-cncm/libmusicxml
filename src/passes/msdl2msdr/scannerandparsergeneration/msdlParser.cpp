@@ -41,6 +41,7 @@
 // First part of user prologue.
 #line 1 "msdl.yy"
 
+
 /*
   Basic xml grammar definition
   This is a basic definition of the xml grammar necessary to cover
@@ -50,17 +51,22 @@
   O'Reilly, June 2002, pp:366--371
 */
 
+/*
+	MSDL syntactical definition.
+*/
 
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
 
+#include "msdrKeywords.h"
 #include "msdrTokens.h"
-#include "msdlFlexLexer.cpp"
-  // the lexical analyzer code, including things such as
-  // yy_scan_string, yy_delete_buffer, msdlrestart and BEGIN(INITIAL);
+
+#include "msdlScanner.h"
+#include "msdlDriver.h"
 
 
+/*
 class reader
 {
 	public:
@@ -114,20 +120,21 @@ static void store (char * dst, const char * text) {
 }
 
 int		msdlwrap()		{ return(1); }
+*/
 
 
-#line 120 "msdlBisonParser.cpp"
+#line 127 "msdlParser.cpp"
 
 
-#include "msdlBisonParser.hpp"
+#include "msdlParser.h"
 
 
 // Unqualified %code blocks.
-#line 109 "msdl.yy"
+#line 111 "msdl.yy"
 
-  #include "msdlDriver.h"
+/*  #include "msdlDriver.h" JMI */
 
-#line 131 "msdlBisonParser.cpp"
+#line 138 "msdlParser.cpp"
 
 
 #ifndef YY_
@@ -223,7 +230,7 @@ int		msdlwrap()		{ return(1); }
 #define YYRECOVERING()  (!!yyerrstatus_)
 
 namespace msdl {
-#line 227 "msdlBisonParser.cpp"
+#line 234 "msdlParser.cpp"
 
   /// Build a parser object.
   parser::parser (msdlDriver & drv_yyarg)
@@ -698,20 +705,38 @@ namespace msdl {
         {
           switch (yyn)
             {
-  case 2: // description: declarations
-#line 167 "msdl.yy"
+  case 2: // description: %empty
+#line 176 "msdl.yy"
+    {}
+#line 712 "msdlParser.cpp"
+    break;
+
+  case 3: // description: declarations
+#line 178 "msdl.yy"
     { cout << "description" << endl; }
-#line 705 "msdlBisonParser.cpp"
+#line 718 "msdlParser.cpp"
     break;
 
-  case 5: // declaration: other
-#line 177 "msdl.yy"
+  case 4: // declarations: declarations declaration
+#line 183 "msdl.yy"
+    {}
+#line 724 "msdlParser.cpp"
+    break;
+
+  case 5: // declarations: declaration
+#line 185 "msdl.yy"
+  {}
+#line 730 "msdlParser.cpp"
+    break;
+
+  case 6: // declaration: other
+#line 190 "msdl.yy"
     { cout << "declaration" << endl; }
-#line 711 "msdlBisonParser.cpp"
+#line 736 "msdlParser.cpp"
     break;
 
 
-#line 715 "msdlBisonParser.cpp"
+#line 740 "msdlParser.cpp"
 
             default:
               break;
@@ -895,7 +920,7 @@ namespace msdl {
   {
     static const char *const yy_sname[] =
     {
-    N_("end of file"), N_("error"), N_("invalid token"), N_("spaces"),
+    "EOF", N_("error"), N_("invalid token"), N_("spaces"),
   N_("end of line"), N_("parenthesized comment"),
   N_("comment to end of line"), "=", ",", ";", ":", "(", ")", "[", "]",
   ".", "|", "||", N_("integer"), N_("double"), N_("single quoted string"),
@@ -906,7 +931,7 @@ namespace msdl {
        internationalizable.  */
     static signed char yytranslatable[] =
     {
-         1,     1,     1,     1,     1,     1,     1,     0,     0,     0,
+         0,     1,     1,     1,     1,     1,     1,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     1,     1,
        1,     1,     1,     1
     };
@@ -1190,9 +1215,9 @@ namespace msdl {
   const signed char
   parser::yydefact_[] =
   {
-       0,     6,     7,     8,     9,    10,    11,    13,    12,    14,
-      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,     0,     2,     4,     5,     1,     3
+       2,     7,     8,     9,    10,    11,    12,    14,    13,    15,
+      16,    17,    18,    19,    20,    21,    22,    23,    24,    25,
+      26,    27,     0,     3,     5,     6,     1,     4
   };
 
   const signed char
@@ -1234,17 +1259,17 @@ namespace msdl {
   const signed char
   parser::yyr1_[] =
   {
-       0,    24,    25,    26,    26,    27,    28,    28,    28,    28,
+       0,    24,    25,    25,    26,    26,    27,    28,    28,    28,
       28,    28,    28,    28,    28,    28,    28,    28,    28,    28,
-      28,    28,    28,    28,    28,    28,    28
+      28,    28,    28,    28,    28,    28,    28,    28
   };
 
   const signed char
   parser::yyr2_[] =
   {
-       0,     2,     1,     2,     1,     1,     1,     1,     1,     1,
+       0,     2,     0,     1,     2,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1
+       1,     1,     1,     1,     1,     1,     1,     1
   };
 
 
@@ -1254,9 +1279,9 @@ namespace msdl {
   const unsigned char
   parser::yyrline_[] =
   {
-       0,   166,   166,   171,   172,   176,   181,   182,   184,   185,
-     187,   189,   190,   191,   193,   194,   196,   197,   199,   201,
-     202,   204,   205,   207,   208,   210,   212
+       0,   175,   175,   177,   182,   184,   189,   194,   195,   197,
+     198,   200,   202,   203,   204,   206,   207,   209,   210,   212,
+     214,   215,   217,   218,   220,   221,   223,   225
   };
 
   void
@@ -1289,19 +1314,69 @@ namespace msdl {
   parser::symbol_kind_type
   parser::yytranslate_ (int t)
   {
-    return static_cast<symbol_kind_type> (t);
+    // YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to
+    // TOKEN-NUM as returned by yylex.
+    static
+    const signed char
+    translate_table[] =
+    {
+       0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15,    16,    17,    18,    19,    20,    21,    22,    23
+    };
+    // Last valid token kind.
+    const int code_max = 278;
+
+    if (t <= 0)
+      return symbol_kind::S_YYEOF;
+    else if (t <= code_max)
+      return YY_CAST (symbol_kind_type, translate_table[t]);
+    else
+      return symbol_kind::S_YYUNDEF;
   }
 
 } // msdl
-#line 1297 "msdlBisonParser.cpp"
+#line 1365 "msdlParser.cpp"
 
-#line 217 "msdl.yy"
+#line 229 "msdl.yy"
 
 
 /* ---------------------------------------------------------------------- */
 /* Service code                                                           */
 /* ---------------------------------------------------------------------- */
 
+void
+msdl::parser::error (const location_type& l, const std::string& m)
+{
+  std::cerr << l << ": " << m << std::endl;
+}
+
+/*
 #define yy_delete_buffer	msdl_delete_buffer
 #define yy_scan_string		msdl_scan_string
 
@@ -1350,7 +1425,6 @@ bool readstream (FILE * fd, reader * r)
 
 void	yyerror(const char *s)	{ gReader->error (s, msdllineno); }
 
-
 #ifdef PARSER_MAIN
 
 class testreader : public reader
@@ -1382,4 +1456,5 @@ int main (int argc, char * argv [])
 }
 
 #endif
+*/
 

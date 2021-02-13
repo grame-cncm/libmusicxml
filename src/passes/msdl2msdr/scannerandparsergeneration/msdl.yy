@@ -1,4 +1,5 @@
 %{
+
 /*
   Basic xml grammar definition
   This is a basic definition of the xml grammar necessary to cover
@@ -8,17 +9,22 @@
   O'Reilly, June 2002, pp:366--371
 */
 
+/*
+	MSDL syntactical definition.
+*/
 
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
 
+#include "msdrKeywords.h"
 #include "msdrTokens.h"
-#include "msdlFlexLexer.cpp"
-  // the lexical analyzer code, including things such as
-  // yy_scan_string, yy_delete_buffer, msdlrestart and BEGIN(INITIAL);
+
+#include "msdlScanner.h"
+#include "msdlDriver.h"
 
 
+/*
 class reader
 {
 	public:
@@ -72,19 +78,17 @@ static void store (char * dst, const char * text) {
 }
 
 int		msdlwrap()		{ return(1); }
+*/
 
 %}
 
 
 %skeleton "lalr1.cc" // -*- C++ -*-
 %require "3.7.4"
-%defines
+//%defines
 
+//%define api.token.raw
 
-%define api.token.raw
-
-// JMI %define api.token.constructor
-// JMI %define api.value.type variant
 %define parse.assert
 
 %code requires {
@@ -93,8 +97,6 @@ int		msdlwrap()		{ return(1); }
   using namespace std;
 
   class msdlDriver;
-
-//  msdlDriver & drv;
 }
 
 // The parsing context.
@@ -107,7 +109,7 @@ int		msdlwrap()		{ return(1); }
 %define parse.lac full
 
 %code {
-  #include "msdlDriver.h"
+/*  #include "msdlDriver.h" JMI */
 }
 
 
@@ -121,6 +123,11 @@ int		msdlwrap()		{ return(1); }
 	string*								fString;
 	}
 
+
+// the tokens
+%define api.prefix {msdl}
+
+%define api.token.prefix {MSDL_}
 
 %token
   SPACES                  _("spaces")
@@ -155,6 +162,8 @@ int		msdlwrap()		{ return(1); }
   IDENTIFIER              _("identifier")
 
   OTHER_CHARACTER         _("other character")
+
+  EOF 0
 ;
 
 %start description
@@ -163,13 +172,17 @@ int		msdlwrap()		{ return(1); }
 %%              /* beginning of rules section */
 
 description	:
-  declarations
+  %empty
+    {}
+| declarations
     { cout << "description" << endl; }
 ;
 
 declarations :
   declarations declaration
+    {}
 | declaration
+  {}
 ;
 
 declaration :
@@ -213,13 +226,19 @@ other :
 ;
 
 
-
 %%
 
 /* ---------------------------------------------------------------------- */
 /* Service code                                                           */
 /* ---------------------------------------------------------------------- */
 
+void
+msdl::parser::error (const location_type& l, const std::string& m)
+{
+  std::cerr << l << ": " << m << std::endl;
+}
+
+/*
 #define yy_delete_buffer	msdl_delete_buffer
 #define yy_scan_string		msdl_scan_string
 
@@ -268,7 +287,6 @@ bool readstream (FILE * fd, reader * r)
 
 void	yyerror(const char *s)	{ gReader->error (s, msdllineno); }
 
-
 #ifdef PARSER_MAIN
 
 class testreader : public reader
@@ -300,4 +318,5 @@ int main (int argc, char * argv [])
 }
 
 #endif
+*/
 

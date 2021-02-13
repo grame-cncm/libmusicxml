@@ -14,7 +14,7 @@
 
 #include <regex>
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 #include "msr2summaryVisitor.h"
 

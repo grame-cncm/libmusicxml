@@ -2,9 +2,9 @@
 #define msdlHEADER_H 1
 #define msdlIN_HEADER 1
 
-#line 5 "msdlFlexLexer.h"
+#line 5 "msdlScanner.h"
 
-#line 7 "msdlFlexLexer.h"
+#line 7 "msdlScanner.h"
 
 #define  YY_INT_ALIGNED short int
 
@@ -18,13 +18,185 @@
 #define FLEX_BETA
 #endif
 
-    /* The c++ scanner is a mess. The FlexLexer.h header file relies on the
-     * following macro. This is required in order to pass the c++-multiple-scanners
-     * test in the regression suite. We get reports that it breaks inheritance.
-     * We will address this in a future release of flex, or omit the C++ scanner
-     * altogether.
-     */
-    #define yyFlexLexer msdlFlexLexer
+#ifdef yy_create_buffer
+#define msdl_create_buffer_ALREADY_DEFINED
+#else
+#define yy_create_buffer msdl_create_buffer
+#endif
+
+#ifdef yy_delete_buffer
+#define msdl_delete_buffer_ALREADY_DEFINED
+#else
+#define yy_delete_buffer msdl_delete_buffer
+#endif
+
+#ifdef yy_scan_buffer
+#define msdl_scan_buffer_ALREADY_DEFINED
+#else
+#define yy_scan_buffer msdl_scan_buffer
+#endif
+
+#ifdef yy_scan_string
+#define msdl_scan_string_ALREADY_DEFINED
+#else
+#define yy_scan_string msdl_scan_string
+#endif
+
+#ifdef yy_scan_bytes
+#define msdl_scan_bytes_ALREADY_DEFINED
+#else
+#define yy_scan_bytes msdl_scan_bytes
+#endif
+
+#ifdef yy_init_buffer
+#define msdl_init_buffer_ALREADY_DEFINED
+#else
+#define yy_init_buffer msdl_init_buffer
+#endif
+
+#ifdef yy_flush_buffer
+#define msdl_flush_buffer_ALREADY_DEFINED
+#else
+#define yy_flush_buffer msdl_flush_buffer
+#endif
+
+#ifdef yy_load_buffer_state
+#define msdl_load_buffer_state_ALREADY_DEFINED
+#else
+#define yy_load_buffer_state msdl_load_buffer_state
+#endif
+
+#ifdef yy_switch_to_buffer
+#define msdl_switch_to_buffer_ALREADY_DEFINED
+#else
+#define yy_switch_to_buffer msdl_switch_to_buffer
+#endif
+
+#ifdef yypush_buffer_state
+#define msdlpush_buffer_state_ALREADY_DEFINED
+#else
+#define yypush_buffer_state msdlpush_buffer_state
+#endif
+
+#ifdef yypop_buffer_state
+#define msdlpop_buffer_state_ALREADY_DEFINED
+#else
+#define yypop_buffer_state msdlpop_buffer_state
+#endif
+
+#ifdef yyensure_buffer_stack
+#define msdlensure_buffer_stack_ALREADY_DEFINED
+#else
+#define yyensure_buffer_stack msdlensure_buffer_stack
+#endif
+
+#ifdef yylex
+#define msdllex_ALREADY_DEFINED
+#else
+#define yylex msdllex
+#endif
+
+#ifdef yyrestart
+#define msdlrestart_ALREADY_DEFINED
+#else
+#define yyrestart msdlrestart
+#endif
+
+#ifdef yylex_init
+#define msdllex_init_ALREADY_DEFINED
+#else
+#define yylex_init msdllex_init
+#endif
+
+#ifdef yylex_init_extra
+#define msdllex_init_extra_ALREADY_DEFINED
+#else
+#define yylex_init_extra msdllex_init_extra
+#endif
+
+#ifdef yylex_destroy
+#define msdllex_destroy_ALREADY_DEFINED
+#else
+#define yylex_destroy msdllex_destroy
+#endif
+
+#ifdef yyget_debug
+#define msdlget_debug_ALREADY_DEFINED
+#else
+#define yyget_debug msdlget_debug
+#endif
+
+#ifdef yyset_debug
+#define msdlset_debug_ALREADY_DEFINED
+#else
+#define yyset_debug msdlset_debug
+#endif
+
+#ifdef yyget_extra
+#define msdlget_extra_ALREADY_DEFINED
+#else
+#define yyget_extra msdlget_extra
+#endif
+
+#ifdef yyset_extra
+#define msdlset_extra_ALREADY_DEFINED
+#else
+#define yyset_extra msdlset_extra
+#endif
+
+#ifdef yyget_in
+#define msdlget_in_ALREADY_DEFINED
+#else
+#define yyget_in msdlget_in
+#endif
+
+#ifdef yyset_in
+#define msdlset_in_ALREADY_DEFINED
+#else
+#define yyset_in msdlset_in
+#endif
+
+#ifdef yyget_out
+#define msdlget_out_ALREADY_DEFINED
+#else
+#define yyget_out msdlget_out
+#endif
+
+#ifdef yyset_out
+#define msdlset_out_ALREADY_DEFINED
+#else
+#define yyset_out msdlset_out
+#endif
+
+#ifdef yyget_leng
+#define msdlget_leng_ALREADY_DEFINED
+#else
+#define yyget_leng msdlget_leng
+#endif
+
+#ifdef yyget_text
+#define msdlget_text_ALREADY_DEFINED
+#else
+#define yyget_text msdlget_text
+#endif
+
+#ifdef yyget_lineno
+#define msdlget_lineno_ALREADY_DEFINED
+#else
+#define yyget_lineno msdlget_lineno
+#endif
+
+#ifdef yyset_lineno
+#define msdlset_lineno_ALREADY_DEFINED
+#else
+#define yyset_lineno msdlset_lineno
+#endif
+
+#ifdef yywrap
+#define msdlwrap_ALREADY_DEFINED
+#else
+#define yywrap msdlwrap
+#endif
 
 #ifdef yyalloc
 #define msdlalloc_ALREADY_DEFINED
@@ -44,9 +216,49 @@
 #define yyfree msdlfree
 #endif
 
+#ifdef yytext
+#define msdltext_ALREADY_DEFINED
+#else
+#define yytext msdltext
+#endif
+
+#ifdef yyleng
+#define msdlleng_ALREADY_DEFINED
+#else
+#define yyleng msdlleng
+#endif
+
+#ifdef yyin
+#define msdlin_ALREADY_DEFINED
+#else
+#define yyin msdlin
+#endif
+
+#ifdef yyout
+#define msdlout_ALREADY_DEFINED
+#else
+#define yyout msdlout
+#endif
+
+#ifdef yy_flex_debug
+#define msdl_flex_debug_ALREADY_DEFINED
+#else
+#define yy_flex_debug msdl_flex_debug
+#endif
+
+#ifdef yylineno
+#define msdllineno_ALREADY_DEFINED
+#else
+#define yylineno msdllineno
+#endif
+
 /* First, we deal with  platform-specific or compiler-specific issues. */
 
 /* begin standard C headers. */
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include <stdlib.h>
 
 /* end standard C headers. */
 
@@ -119,12 +331,6 @@ typedef unsigned int flex_uint32_t;
 #endif /* ! FLEXINT_H */
 
 /* begin standard C++ headers. */
-#include <iostream>
-#include <errno.h>
-#include <cstdlib>
-#include <cstdio>
-#include <cstring>
-/* end standard C++ headers. */
 
 /* TODO: this is always defined, so inline it */
 #define yyconst const
@@ -160,12 +366,13 @@ typedef size_t yy_size_t;
 
 extern int yyleng;
 
+extern FILE *yyin, *yyout;
+
 #ifndef YY_STRUCT_YY_BUFFER_STATE
 #define YY_STRUCT_YY_BUFFER_STATE
 struct yy_buffer_state
 	{
-
-	std::streambuf* yy_input_file;
+	FILE *yy_input_file;
 
 	char *yy_ch_buf;		/* input buffer */
 	char *yy_buf_pos;		/* current position in input buffer */
@@ -212,19 +419,34 @@ struct yy_buffer_state
 	};
 #endif /* !YY_STRUCT_YY_BUFFER_STATE */
 
+void yyrestart ( FILE *input_file  );
+void yy_switch_to_buffer ( YY_BUFFER_STATE new_buffer  );
+YY_BUFFER_STATE yy_create_buffer ( FILE *file, int size  );
+void yy_delete_buffer ( YY_BUFFER_STATE b  );
+void yy_flush_buffer ( YY_BUFFER_STATE b  );
+void yypush_buffer_state ( YY_BUFFER_STATE new_buffer  );
+void yypop_buffer_state ( void );
+
+YY_BUFFER_STATE yy_scan_buffer ( char *base, yy_size_t size  );
+YY_BUFFER_STATE yy_scan_string ( const char *yy_str  );
+YY_BUFFER_STATE yy_scan_bytes ( const char *bytes, int len  );
+
 void *yyalloc ( yy_size_t  );
 void *yyrealloc ( void *, yy_size_t  );
 void yyfree ( void *  );
 
 /* Begin user sect3 */
+
+#define msdlwrap() (/*CONSTCOND*/1)
 #define YY_SKIP_YYWRAP
 
+extern int yylineno;
+
+extern char *yytext;
+#ifdef yytext_ptr
+#undef yytext_ptr
+#endif
 #define yytext_ptr yytext
-#define YY_INTERACTIVE
-
-#include <FlexLexer.h>
-
-int yyFlexLexer::yywrap() { return 1; }
 
 #ifdef YY_HEADER_EXPORT_START_CONDITIONS
 #define INITIAL 0
@@ -243,6 +465,47 @@ int yyFlexLexer::yywrap() { return 1; }
 
 #ifndef YY_EXTRA_TYPE
 #define YY_EXTRA_TYPE void *
+#endif
+
+/* Accessor methods to globals.
+   These are made visible to non-reentrant scanners for convenience. */
+
+int yylex_destroy ( void );
+
+int yyget_debug ( void );
+
+void yyset_debug ( int debug_flag  );
+
+YY_EXTRA_TYPE yyget_extra ( void );
+
+void yyset_extra ( YY_EXTRA_TYPE user_defined  );
+
+FILE *yyget_in ( void );
+
+void yyset_in  ( FILE * _in_str  );
+
+FILE *yyget_out ( void );
+
+void yyset_out  ( FILE * _out_str  );
+
+			int yyget_leng ( void );
+
+char *yyget_text ( void );
+
+int yyget_lineno ( void );
+
+void yyset_lineno ( int _line_number  );
+
+/* Macros after this point can all be overridden by user definitions in
+ * section 1.
+ */
+
+#ifndef YY_SKIP_YYWRAP
+#ifdef __cplusplus
+extern "C" int yywrap ( void );
+#else
+extern int yywrap ( void );
+#endif
 #endif
 
 #ifndef yytext_ptr
@@ -277,7 +540,10 @@ static int yy_flex_strlen ( const char * );
  */
 #ifndef YY_DECL
 #define YY_DECL_IS_OURS 1
-#define YY_DECL int yyFlexLexer::yylex()
+
+extern int yylex (void);
+
+#define YY_DECL int yylex (void)
 #endif /* !YY_DECL */
 
 /* yy_get_previous_state - get the state just before the EOB char was reached */
@@ -439,9 +705,9 @@ static int yy_flex_strlen ( const char * );
 #undef yyTABLES_NAME
 #endif
 
-#line 408 "msdl.ll"
+#line 416 "msdl.ll"
 
 
-#line 445 "msdlFlexLexer.h"
+#line 711 "msdlScanner.h"
 #undef msdlIN_HEADER
 #endif /* msdlHEADER_H */

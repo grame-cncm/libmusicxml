@@ -15,7 +15,7 @@
 #include <climits>      // INT_MIN, INT_MAX
 
 #include "utilities.h"
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 #include "msrSegnosAndCodas.h"
 

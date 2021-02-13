@@ -249,6 +249,22 @@ class EXP msgMsrScoreToMusicXMLException : public msgException
 };
 
 //______________________________________________________________________________
+class EXP msgMsdlException : public msgException
+{
+  public:
+    msgMsdlException (string const& exceptionDescription) throw ()
+      : msgException (exceptionDescription)
+    {}
+};
+
+class EXP msgMsdlInternalException: public msgException
+{
+  public:
+    msgMsdlInternalException (string const& exceptionDescription) throw ()
+      : msgException (exceptionDescription)
+    {}
+};
+
 class EXP msgMsdrException : public msgException
 {
   public:
@@ -265,18 +281,18 @@ class EXP msgMsdrInternalException: public msgException
     {}
 };
 
-class EXP msgMsdlException : public msgException
+class EXP msgMsdlToMsdrScoreException : public msgException
 {
   public:
-    msgMsdlException (string const& exceptionDescription) throw ()
+    msgMsdlToMsdrScoreException (string const& exceptionDescription) throw ()
       : msgException (exceptionDescription)
     {}
 };
 
-class EXP msgMsdlInternalException: public msgException
+class EXP msgMsdlToMsdrInternalException: public msgException
 {
   public:
-    msgMsdlInternalException (string const& exceptionDescription) throw ()
+    msgMsdlToMsdrInternalException (string const& exceptionDescription) throw ()
       : msgException (exceptionDescription)
     {}
 };

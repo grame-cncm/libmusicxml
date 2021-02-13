@@ -12,7 +12,7 @@
 
 #include <iomanip>
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 #include "msrBeatsRepeats.h"
 

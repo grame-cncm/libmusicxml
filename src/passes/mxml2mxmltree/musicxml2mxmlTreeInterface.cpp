@@ -20,7 +20,7 @@
 #include "xmlfile.h"
 #include "xmlreader.h"
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 #include "musicxml2mxmlTreeInterface.h"
 

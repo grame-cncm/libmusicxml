@@ -12,7 +12,7 @@
 
 #include <climits>      // INT_MIN, INT_MAX
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 #include "msrMeasures.h"
 

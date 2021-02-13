@@ -27,7 +27,7 @@
 
 #include "version.h"
 
-#include "messagesHandling.h"
+#include "waeMessagesHandling.h"
 
 
 using namespace std;

@@ -570,7 +570,7 @@ From FlexLexer.h:
 
 // JMI #include "msdlKeywords.h"
 
-#include "msdlBisonParser.hpp"
+#include "msdlParser"
 
 
 using namespace std;

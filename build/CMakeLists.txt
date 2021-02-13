@@ -55,11 +55,14 @@ if (ALL)
 endif()
 
 if (MSDL)
+	message (STATUS "MSDL is on")
 	set (LIB on)
 	set (LILY on)
 	set (BRAILLE on)
 	set (MXML on)
 	set (GUIDO on)
+else ()
+  message (STATUS "MSDL is off")
 endif()
 
 if (LILY OR BRAILLE OR MXML OR GUIDO)
@@ -151,7 +154,7 @@ if (LIB)
     add_definitions(-DXML)
 endif()
 
-set (SRCFOLDERS ${SRCFOLDERS} utilities oah)
+set (SRCFOLDERS ${SRCFOLDERS} utilities oah wae)
 
 if (MSR)
 	set (SRCFOLDERS ${SRCFOLDERS} representations/musicxml passes/mxml2mxmltree representations/mxmltree passes/mxmltree2msr representations/msr passes/msr2msr generators generators/msrgenerators generators/Mikrokosmos3Wandering)
@@ -174,7 +177,7 @@ if (GUIDO)
 endif()
 
 if (MSDL)
-	set (SRCFOLDERS ${SRCFOLDERS} representations/msdr passes/msdl2msr translators/msdlcompiler)
+	set (SRCFOLDERS ${SRCFOLDERS} representations/msdr passes/msdl2msdr passes/msdl2msr translators/msdlcompiler)
 endif()
 
 foreach(folder ${SRCFOLDERS})

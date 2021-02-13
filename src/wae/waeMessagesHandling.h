@@ -18,7 +18,7 @@
 
 #include "exports.h"
 
-#include "exceptions.h"
+#include "waeExceptions.h"
 
 
 using namespace std;
