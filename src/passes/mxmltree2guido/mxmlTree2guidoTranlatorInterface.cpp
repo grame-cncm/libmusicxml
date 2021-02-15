@@ -84,7 +84,7 @@ void generateGuidoFromMxmlTree (
     guidoData = v.convert (mxmlTree);
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     cerr <<
       "xmlFile2gmn() outputFileName = \"" <<
       outputFileName <<
@@ -95,7 +95,7 @@ void generateGuidoFromMxmlTree (
 
   if (! outputFileName.size ()) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       cerr <<
         "xmlFile2gmn() output goes to standard output" <<
         endl;
@@ -110,7 +110,7 @@ void generateGuidoFromMxmlTree (
 
   else {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       cerr <<
         "xmlFile2gmn() output goes to file \"" <<
         outputFileName <<

@@ -40,12 +40,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_Mikrokosmos3WanderingRegularHandler Mikrokosmos3WanderingRegularHandler::create (
@@ -87,24 +81,24 @@ Mikrokosmos3WanderingRegularHandler::Mikrokosmos3WanderingRegularHandler (
   // create the regular handler groups
   createRegularHandlerGroups ();
 
+    // print the options handler initial state
+    gLogStream <<
+      "Mikrokosmos3WanderingRegularHandler \"" <<
+      fHandlerHeader <<
+      "\" has been initialized as:" <<
+      endl;
+
+    ++gIndenter;
+
+    gLogStream <<
+      "===> printHelp():" <<
+      endl;
+    this->printHelp (gOutputStream); // JMI
+
+    --gIndenter;
+
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  // print the options handler initial state
-  gLogStream <<
-    "Mikrokosmos3WanderingRegularHandler \"" <<
-    fHandlerHeader <<
-    "\" has been initialized as:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream <<
-    "===> printHelp():" <<
-    endl;
-  this->printHelp (gOutputStream); // JMI
-
-  --gIndenter;
-#endif
+  if (getTraceOah ()) {}
 #endif
 }
 
@@ -114,13 +108,13 @@ Mikrokosmos3WanderingRegularHandler::~Mikrokosmos3WanderingRegularHandler ()
 void Mikrokosmos3WanderingRegularHandler::createRegularHandlerGroups ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the regular handler groups for \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the regular handler groups for \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   createInformationsRegularGroup ();
@@ -213,13 +207,13 @@ void Mikrokosmos3WanderingRegularHandler::createRegularHandlerGroups ()
   */
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "All the regular handler groups for \"" <<
-    fHandlerHeader <<
-    "\" have been created" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "All the regular handler groups for \"" <<
+      fHandlerHeader <<
+      "\" have been created" <<
+      endl;
+  }
 #endif
 }
 
@@ -492,10 +486,11 @@ void Mikrokosmos3WanderingRegularHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("display-msr-skeleton", subGroup);
   registerAtomInRegularSubgroup ("display-msr", subGroup);
 
-  registerAtomInRegularSubgroup ("trace-oah", subGroup);
+#ifdef TRACING_IS_ENABLED
+  registerAtomInRegularSubgroup (K_TRACE_OAH_LONG_OPTION_NAME, subGroup);
   registerAtomInRegularSubgroup ("trace-oah-details", subGroup);
   registerAtomInRegularSubgroup ("trace-passes", subGroup);
-
+#endif
 
   // atoms from the insider handler depending on the generated output kind
   switch (fGeneratorOutputKind) {
@@ -504,11 +499,16 @@ void Mikrokosmos3WanderingRegularHandler::createOahRegularGroup ()
       break;
 
     case kGuidoOutput:
+#ifdef TRACING_IS_ENABLED
       registerAtomInRegularSubgroup ("trace-encoding", subGroup);
       registerAtomInRegularSubgroup ("trace-divisions", subGroup);
+#endif
       break;
 
     case kLilyPondOutput:
+      registerAtomInRegularSubgroup ("jianpu", subGroup);
+      registerAtomInRegularSubgroup ("lyluatex", subGroup);
+
       registerAtomInRegularSubgroup ("lilypond-comments", subGroup);
       registerAtomInRegularSubgroup ("xml2ly-infos", subGroup);
       registerAtomInRegularSubgroup ("input-line-numbers", subGroup);
@@ -520,8 +520,10 @@ void Mikrokosmos3WanderingRegularHandler::createOahRegularGroup ()
       break;
 
     case kMusicXMLOutput:
+#ifdef TRACING_IS_ENABLED
       registerAtomInRegularSubgroup ("trace-encoding", subGroup);
       registerAtomInRegularSubgroup ("trace-divisions", subGroup);
+#endif
       break;
 
     case kMidiOutput:
@@ -1075,7 +1077,9 @@ void Mikrokosmos3WanderingRegularHandler::createChordsRegularGroup ()
 
   // atoms
 
+#ifdef TRACING_IS_ENABLED
   registerAtomInRegularSubgroup ("trace-chords", subGroup);
+#endif
 }
 
 void Mikrokosmos3WanderingRegularHandler::createTiesRegularGroup ()
@@ -1271,7 +1275,9 @@ void Mikrokosmos3WanderingRegularHandler::createTupletsRegularGroup ()
 
   // atoms
 
+#ifdef TRACING_IS_ENABLED
   registerAtomInRegularSubgroup ("trace-tuplets", subGroup);
+#endif
 }
 
 void Mikrokosmos3WanderingRegularHandler::createLyricsRegularGroup ()
@@ -1375,7 +1381,7 @@ void Mikrokosmos3WanderingRegularHandler::createFiguredBassesRegularGroup ()
 void Mikrokosmos3WanderingRegularHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking options and arguments from argc/argv in \"" <<
       fHandlerHeader <<

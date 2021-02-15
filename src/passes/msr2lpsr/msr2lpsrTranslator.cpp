@@ -547,10 +547,10 @@ void msr2lpsrTranslator::setPaperIndentsIfNeeded (
 //________________________________________________________________________
 void msr2lpsrTranslator::visitStart (S_msrScore& elt)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
       "--> Start visiting msrScore" <<
@@ -621,10 +621,10 @@ void msr2lpsrTranslator::visitStart (S_msrScore& elt)
 
 void msr2lpsrTranslator::visitEnd (S_msrScore& elt)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
       "--> End visiting msrScore" <<
@@ -4546,10 +4546,10 @@ void msr2lpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 //________________________________________________________________________
 void msr2lpsrTranslator::visitStart (S_msrChordGraceNotesGroupLink& elt)
 {
-#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
       "--> Start visiting msrChordGraceNotesGroupLink " <<

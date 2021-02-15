@@ -524,6 +524,10 @@ ostream& operator<< (ostream& os, const msdrTokenDescription& elt)
 }
 
 //_______________________________________________________________________________
+msdrToken::msdrToken ()
+    : fTokenKind (k_NoToken)
+{}
+
 msdrToken::msdrToken (
   msdrTokenKind tokenKind)
     : fTokenKind (tokenKind)

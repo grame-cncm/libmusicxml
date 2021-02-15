@@ -48,12 +48,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 EXP xmlErr msrScore2brailleWithHandler (
@@ -196,7 +190,7 @@ EXP xmlErr msrScore2brailleWithHandler (
           fetchOutputFileNameFromTheOptions ();
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         err <<
           "xmlFile2braille() outputFileName = \"" <<
           outputFileName <<
@@ -207,16 +201,16 @@ EXP xmlErr msrScore2brailleWithHandler (
 
     if (! outputFileName.size ()) {
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         err <<
           "xmlFile2braille() output goes to standard output" <<
           endl;
       }
 #endif
 
-      // convert the BSR score to braille text
+      // convert the BSR score to braille
       try {
-        convertBsrScoreToBrailleText (
+        convertBsrScoreToBraille (
           finalizedBsrScore,
           gGlobalBsrOahGroup,
           passNumber2,
@@ -235,7 +229,7 @@ EXP xmlErr msrScore2brailleWithHandler (
 
     else {
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         err <<
           "xmlFile2braille() output goes to file \"" <<
           outputFileName <<
@@ -272,12 +266,12 @@ EXP xmlErr msrScore2brailleWithHandler (
           message <<
           endl;
 
-        throw msgBsrScoreToBrailleTextException (message);
+        throw msgBsrScoreToBrailleException (message);
       }
 
-      // convert the finalized BSR score to braille text
+      // convert the finalized BSR score to braille
       try {
-        convertBsrScoreToBrailleText (
+        convertBsrScoreToBraille (
           finalizedBsrScore,
           gGlobalBsrOahGroup,
           passNumber2,

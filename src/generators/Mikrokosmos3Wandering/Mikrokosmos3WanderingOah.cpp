@@ -52,8 +52,8 @@ S_Mikrokosmos3WanderingOahGroup Mikrokosmos3WanderingOahGroup::create ()
 Mikrokosmos3WanderingOahGroup::Mikrokosmos3WanderingOahGroup ()
   : oahGroup (
     "Mikrokosmos3Wandering",
-    "hbsr2brl", "help-bsr-to-braille",
-R"(These options control the way BSR data is translated to braille music.)",
+    "hmkk-group", "help-mikrokosmos-group",
+R"(These options control the way Mikrokosmos3Wandering works.)",
     kElementVisibilityWhole)
 {
   fGenerationAPIKind = kMsrFunctionsAPIKind;
@@ -236,7 +236,7 @@ void Mikrokosmos3WanderingOahGroup::initializeMikrokosmos3WanderingOahGroup ()
 
   // generation API
   // --------------------------------------
-  initializeGenerationAPIOptions ();
+// JMI  initializeGenerationAPIOptions ();
 
   // generate code
   // --------------------------------------
@@ -439,11 +439,11 @@ ostream& operator<< (ostream& os, const S_Mikrokosmos3WanderingOahGroup& elt)
 S_Mikrokosmos3WanderingOahGroup createGlobalMikrokosmos3WanderingOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global Mikrokosmos3Wandering OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global Mikrokosmos3Wandering OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

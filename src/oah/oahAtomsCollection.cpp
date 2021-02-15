@@ -30,12 +30,6 @@
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before "trace-oah", if present, has been applied
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_oahAtomSynonym oahAtomSynonym::create (
@@ -74,7 +68,7 @@ oahAtomSynonym::~oahAtomSynonym ()
 void oahAtomSynonym::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a oahAtomSynonym" <<
       endl;
@@ -245,7 +239,7 @@ void oahMacroAtom::appendAtomStringPairToMacro (
 void oahMacroAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a oahMacroAtom" <<
       endl;
@@ -575,7 +569,7 @@ oahOptionsUsageAtom::~oahOptionsUsageAtom ()
 void oahOptionsUsageAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<
@@ -771,7 +765,7 @@ oahHelpAtom::~oahHelpAtom ()
 void oahHelpAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<
@@ -924,7 +918,7 @@ oahHelpSummaryAtom::~oahHelpSummaryAtom ()
 void oahHelpSummaryAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<
@@ -1077,7 +1071,7 @@ oahAboutAtom::~oahAboutAtom ()
 void oahAboutAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a oahAboutAtom" <<
       endl;
@@ -1228,7 +1222,7 @@ oahVersionAtom::~oahVersionAtom ()
 void oahVersionAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a oahVersionAtom" <<
       endl;
@@ -1387,7 +1381,7 @@ oahContactAtom::~oahContactAtom ()
 void oahContactAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a oahContactAtom" <<
       endl;
@@ -1551,7 +1545,7 @@ oahBooleanAtom::~oahBooleanAtom ()
 void oahBooleanAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<
@@ -1566,8 +1560,8 @@ void oahBooleanAtom::applyElement (ostream& os)
 void oahBooleanAtom::setBooleanVariable (bool value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    if (fLongName == "trace-oah") { // JMI
+  if (getTraceOah ()) {
+    if (fLongName == K_TRACE_OAH_LONG_OPTION_NAME) {
       // get the options handler
       S_oahHandler
         handler =
@@ -1740,7 +1734,7 @@ oahTwoBooleansAtom::~oahTwoBooleansAtom ()
 void oahTwoBooleansAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<
@@ -1755,7 +1749,7 @@ void oahTwoBooleansAtom::applyElement (ostream& os)
 void oahTwoBooleansAtom::setTwoBooleansVariables (bool value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -1941,7 +1935,7 @@ oahThreeBooleansAtom::~oahThreeBooleansAtom ()
 void oahThreeBooleansAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<
@@ -1956,7 +1950,7 @@ void oahThreeBooleansAtom::applyElement (ostream& os)
 void oahThreeBooleansAtom::setThreeBooleansVariables (bool value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -2211,7 +2205,7 @@ void oahCombinedBooleansAtom::addBooleanAtomByName (
 void oahCombinedBooleansAtom::setCombinedBooleanVariables (bool value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -2252,7 +2246,7 @@ void oahCombinedBooleansAtom::setCombinedBooleanVariables (bool value)
 void oahCombinedBooleansAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<
@@ -2839,7 +2833,7 @@ void oahMultiplexBooleansAtom::addBooleanAtomByName (
 void oahMultiplexBooleansAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<
@@ -3224,7 +3218,7 @@ void oahIntegerAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for integer string \"" << theString <<
@@ -3268,7 +3262,7 @@ void oahIntegerAtom::applyAtomWithValue (
 void oahIntegerAtom::setIntegerVariable (int value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -3477,7 +3471,7 @@ void oahTwoIntegersAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for integer string \"" << theString <<
@@ -3527,7 +3521,7 @@ void oahTwoIntegersAtom::applyAtomWithValue (
 void oahTwoIntegersAtom::setIntegerVariable (int value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -3749,7 +3743,7 @@ void oahFloatAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for float string \"" << theString <<
@@ -3794,7 +3788,7 @@ void oahFloatAtom::applyAtomWithValue (
 void oahFloatAtom::setFloatVariable (float value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -3988,7 +3982,7 @@ void oahStringAtom::applyAtomWithValue (
 void oahStringAtom::setStringVariable (string value)
   {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -4301,7 +4295,7 @@ void oahMonoplexStringAtom::addStringAtomByName (
 void oahMonoplexStringAtom::applyElement (ostream& os) // JMI
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Applying monoplex string atom '" <<
       fetchNames () <<
@@ -4581,7 +4575,7 @@ void oahStringWithDefaultValueAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<
@@ -4624,7 +4618,7 @@ void oahStringWithDefaultValueAtom::acceptIn (basevisitor* v)
 void oahStringWithDefaultValueAtom::setStringVariable (string value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -4811,7 +4805,7 @@ void oahRationalAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for rational string \"" << theString <<
@@ -4849,7 +4843,7 @@ void oahRationalAtom::applyAtomWithValue (
         rational (numerator, denominator);
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "rationalValue = " <<
         rationalValue <<
@@ -5493,7 +5487,7 @@ void oahIntSetAtom::applyAtomWithValue (
   // decipher it to extract duration and perSecond values
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling atom '" <<
       fetchNames () <<
@@ -5515,7 +5509,7 @@ void oahIntSetAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for reset measure number string \"" << theString <<
@@ -5554,7 +5548,7 @@ void oahIntSetAtom::applyAtomWithValue (
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "lilypondMeasureNumber = " <<
       lilypondMeasureNumber <<
@@ -5806,7 +5800,7 @@ void oahStringSetAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'oahStringSetAtom'" <<
       endl;
@@ -5818,7 +5812,7 @@ void oahStringSetAtom::applyAtomWithValue (
   string partName = theString;
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> partName = \"" << partName << "\", " <<
       endl;
@@ -6089,7 +6083,7 @@ void oahStringToIntMapAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'oahStringToIntMapAtom'" <<
       endl;
@@ -6100,7 +6094,7 @@ void oahStringToIntMapAtom::applyAtomWithValue (
   // decipher it to extract duration and perSecond values
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'oahStringToIntMapAtom'" <<
       endl;
@@ -6125,7 +6119,7 @@ void oahStringToIntMapAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for reset measure number string \"" << theString <<
@@ -6167,7 +6161,7 @@ void oahStringToIntMapAtom::applyAtomWithValue (
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "musicXMLMeasureNumber = " <<
       musicXMLMeasureNumber <<
@@ -6456,7 +6450,7 @@ void oahStringAndIntegerAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for integer string \"" << theString <<
@@ -6501,7 +6495,7 @@ void oahStringAndIntegerAtom::applyAtomWithValue (
 void oahStringAndIntegerAtom::setIntegerVariable (int value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -6519,7 +6513,7 @@ void oahStringAndIntegerAtom::setIntegerVariable (int value)
 void oahStringAndIntegerAtom::setStringVariable (string value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -6765,7 +6759,7 @@ void oahStringAndTwoIntegersAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for integer string \"" << theString <<
@@ -6817,7 +6811,7 @@ void oahStringAndTwoIntegersAtom::applyAtomWithValue (
 void oahStringAndTwoIntegersAtom::setStringVariable (string value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -6835,7 +6829,7 @@ void oahStringAndTwoIntegersAtom::setStringVariable (string value)
 void oahStringAndTwoIntegersAtom::setPrimaryIntegerVariable (int value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -6853,7 +6847,7 @@ void oahStringAndTwoIntegersAtom::setPrimaryIntegerVariable (int value)
 void oahStringAndTwoIntegersAtom::setSecondaryIntegerVariable (int value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Setting option '" <<
       fetchNames () <<
@@ -7073,7 +7067,7 @@ void oahLengthUnitKindAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'oahLengthUnitKindAtom'" <<
       endl;
@@ -7084,7 +7078,7 @@ void oahLengthUnitKindAtom::applyAtomWithValue (
   // is it in the score output kinds map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'oahLengthUnitKindAtom'" <<
       endl;
@@ -7304,7 +7298,7 @@ void oahLengthAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'oahLengthAtom'" <<
       endl;
@@ -7312,7 +7306,7 @@ void oahLengthAtom::applyAtomWithValue (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'oahLengthAtom'" <<
       endl;
@@ -7337,7 +7331,7 @@ void oahLengthAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for integer string \"" << theString <<
@@ -7590,7 +7584,7 @@ void oahMidiTempoAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'oahMidiTempoAtom'" <<
       endl;
@@ -7601,7 +7595,7 @@ void oahMidiTempoAtom::applyAtomWithValue (
   // decipher it to extract duration and perSecond values
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'oahMidiTempoAtom'" <<
       endl;
@@ -7626,7 +7620,7 @@ void oahMidiTempoAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for MIDI tempo string \"" << theString <<
@@ -7667,7 +7661,7 @@ void oahMidiTempoAtom::applyAtomWithValue (
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "midiTempoDuration  = " <<
       midiTempoDuration <<
@@ -7884,7 +7878,7 @@ void oahOptionNameHelpAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<
@@ -8063,7 +8057,7 @@ void oahAProposOptionNameAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<
@@ -8242,7 +8236,7 @@ void oahFindStringAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<

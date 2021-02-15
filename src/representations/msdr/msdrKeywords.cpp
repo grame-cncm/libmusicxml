@@ -484,7 +484,7 @@ void initializeMSDLKeywords ()
 
   if (! pThisMethodHasBeenRun) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+    if (getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
       gLogStream <<
         "Initializing MSR basic types handling" <<
         endl;

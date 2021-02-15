@@ -214,10 +214,10 @@ class EXP msgBsrScoreToFinalizedBsrScoreException : public msgException
     {}
 };
 
-class EXP msgBsrScoreToBrailleTextException : public msgException
+class EXP msgBsrScoreToBrailleException : public msgException
 {
   public:
-    msgBsrScoreToBrailleTextException (string const& exceptionDescription) throw ()
+    msgBsrScoreToBrailleException (string const& exceptionDescription) throw ()
       : msgException (exceptionDescription)
     {}
 };
@@ -289,10 +289,50 @@ class EXP msgMsdlToMsdrScoreException : public msgException
     {}
 };
 
-class EXP msgMsdlToMsdrInternalException: public msgException
+class EXP msgMsdlToMsrInternalException: public msgException
 {
   public:
-    msgMsdlToMsdrInternalException (string const& exceptionDescription) throw ()
+    msgMsdlToMsrInternalException (string const& exceptionDescription) throw ()
+      : msgException (exceptionDescription)
+    {}
+};
+
+class EXP msgMsdlToMsrScoreException : public msgException
+{
+  public:
+    msgMsdlToMsrScoreException (string const& exceptionDescription) throw ()
+      : msgException (exceptionDescription)
+    {}
+};
+
+class EXP msgMsdlToGuidoException: public msgException
+{
+  public:
+    msgMsdlToGuidoException (string const& exceptionDescription) throw ()
+      : msgException (exceptionDescription)
+    {}
+};
+
+class EXP msgMsdlToLilyponException: public msgException
+{
+  public:
+    msgMsdlToLilyponException (string const& exceptionDescription) throw ()
+      : msgException (exceptionDescription)
+    {}
+};
+
+class EXP msgMsdlToBrailleException: public msgException
+{
+  public:
+    msgMsdlToBrailleException (string const& exceptionDescription) throw ()
+      : msgException (exceptionDescription)
+    {}
+};
+
+class EXP msgMsdlToMusicxmlException: public msgException
+{
+  public:
+    msgMsdlToMusicxmlException (string const& exceptionDescription) throw ()
       : msgException (exceptionDescription)
     {}
 };

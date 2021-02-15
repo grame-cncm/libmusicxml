@@ -44,12 +44,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_msr2guidoInsiderHandler msr2guidoInsiderHandler::create (
@@ -82,13 +76,13 @@ Usage: msr2guido ([options] | [MusicXMLFile|-])+
 )")
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Initializing \"" <<
-    fHandlerHeader <<
-    "\" regular options handler" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Initializing \"" <<
+      fHandlerHeader <<
+      "\" regular options handler" <<
+      endl;
+  }
 #endif
 
   // create the msr2guido prefixes
@@ -128,13 +122,13 @@ R"(What msr2guido does:
 void msr2guidoInsiderHandler::createTheMsr2guidoPrefixes ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the msr2guido prefixes in \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the msr2guido prefixes in \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   createTheCommonPrefixes ();
@@ -145,13 +139,13 @@ void msr2guidoInsiderHandler::createTheMsr2guidoOptionGroups (
   string executableName)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the prefixes in \"" <<
-    fHandlerHeader <<
-    "\" insider option groups" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the prefixes in \"" <<
+      fHandlerHeader <<
+      "\" insider option groups" <<
+      endl;
+  }
 #endif
 
   // initialize options handling, phase 1
@@ -225,7 +219,7 @@ void msr2guidoInsiderHandler::createTheMsr2guidoOptionGroups (
 void msr2guidoInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking options and arguments from argc/argv in \"" <<
       fHandlerHeader <<
@@ -241,7 +235,7 @@ void msr2guidoInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 string msr2guidoInsiderHandler::fetchOutputFileNameFromTheOptions () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Fetching the output file name from the options in OAH handler \"" <<
       fHandlerHeader <<
@@ -329,7 +323,7 @@ string msr2guidoInsiderHandler::fetchOutputFileNameFromTheOptions () const
       }
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "msr2guidoInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 1 = \"" <<
           outputFileName <<
@@ -342,7 +336,7 @@ string msr2guidoInsiderHandler::fetchOutputFileNameFromTheOptions () const
        outputFileName += ".gmn";
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "msr2guidoInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 2 = " <<
           outputFileName <<
@@ -588,13 +582,13 @@ msr2guidoInsiderOahGroup::~msr2guidoInsiderOahGroup ()
 void msr2guidoInsiderOahGroup::initializeMsr2guidoInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Initializing \"" <<
     fGroupHeader <<
     "\" group" <<
     endl;
-#endif
+  }
 #endif
 
   // Guido
@@ -612,13 +606,13 @@ void msr2guidoInsiderOahGroup::initializeMsr2guidoInsiderOahGroup ()
 void msr2guidoInsiderOahGroup::createInsiderGuidoSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Creating insider output subgroup in \"" <<
     fGroupHeader <<
     "\"" <<
     endl;
-#endif
+  }
 #endif
 
   S_oahSubGroup
@@ -667,13 +661,13 @@ R"()",
 void msr2guidoInsiderOahGroup::createInsiderQuitSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Creating insider quit subgroup in \"" <<
     fGroupHeader <<
     "\"" <<
     endl;
-#endif
+  }
 #endif
 
   S_oahSubGroup
@@ -779,11 +773,11 @@ void msr2guidoInsiderOahGroup::printMsr2guidoInsiderOahGroupValues (unsigned int
 S_msr2guidoInsiderOahGroup createGlobalMsr2guidoOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global \"msr2guido\" OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msr2guido OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

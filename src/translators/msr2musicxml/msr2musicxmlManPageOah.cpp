@@ -69,7 +69,7 @@ msr2musicxmlManPageGenerateAtom::~msr2musicxmlManPageGenerateAtom ()
 void msr2musicxmlManPageGenerateAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a msr2musicxmlManPageGenerateAtom" <<
       endl;
@@ -388,11 +388,11 @@ S_msr2musicxmlManPageOahGroup createGlobalMsr2musicxmlManPageOahGroupHandler (
   S_oahVisitor theOah2manPageGenerator)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global msr2musicxmlManPage OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msr2musicxmlManPage OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

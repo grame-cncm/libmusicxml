@@ -43,12 +43,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_msr2lilypondRegularHandler msr2lilypondRegularHandler::create (
@@ -86,14 +80,14 @@ msr2lilypondRegularHandler::msr2lilypondRegularHandler (
   createRegularHandlerGroups ();
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   // print the options handler initial state
   gLogStream <<
     "msr2lilypondRegularHandler \"" <<
     fHandlerHeader <<
     "\" has been initialized as:" <<
     endl;
-#endif
+  }
 #endif
   }
 
@@ -103,11 +97,11 @@ msr2lilypondRegularHandler::~msr2lilypondRegularHandler ()
 void msr2lilypondRegularHandler::createRegularHandlerGroups ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the regular handler groups for \"" << fHandlerHeader << "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the regular handler groups for \"" << fHandlerHeader << "\"" <<
+      endl;
+  }
 #endif
 
   createInformationsRegularGroup ();
@@ -176,13 +170,13 @@ void msr2lilypondRegularHandler::createRegularHandlerGroups ()
   createMidiRegularGroup ();
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "All the regular handler groups for \"" <<
-    fHandlerHeader <<
-    "\" have been created" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "All the regular handler groups for \"" <<
+      fHandlerHeader <<
+      "\" have been created" <<
+      endl;
+  }
 #endif
 }
 
@@ -236,12 +230,14 @@ void msr2lilypondRegularHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("display-msr", subGroup);
   registerAtomInRegularSubgroup ("display-lpsr", subGroup);
 
-  registerAtomInRegularSubgroup ("trace-oah", subGroup);
+#ifdef TRACING_IS_ENABLED
+  registerAtomInRegularSubgroup (K_TRACE_OAH_LONG_OPTION_NAME, subGroup);
   registerAtomInRegularSubgroup ("trace-oah-details", subGroup);
   registerAtomInRegularSubgroup ("trace-passes", subGroup);
 
   registerAtomInRegularSubgroup ("trace-msr", subGroup);
   registerAtomInRegularSubgroup ("trace-msr-durations", subGroup);
+#endif
 }
 
 void msr2lilypondRegularHandler::createInformationsRegularGroup ()
@@ -910,7 +906,9 @@ void msr2lilypondRegularHandler::createChordsRegularGroup ()
 
   // atoms
 
+#ifdef TRACING_IS_ENABLED
   registerAtomInRegularSubgroup ("trace-chords", subGroup);
+#endif
 
   registerAtomInRegularSubgroup ("lpsr-pitches-language", subGroup);
 
@@ -1538,6 +1536,7 @@ void msr2lilypondRegularHandler::createOutputRegularGroup ()
   registerAtomInRegularSubgroup ("jazz-fonts", subGroup);
 
   registerAtomInRegularSubgroup ("jianpu", subGroup);
+  registerAtomInRegularSubgroup ("lyluatex", subGroup);
 
   registerAtomInRegularSubgroup ("minimal", subGroup);
 }
@@ -1578,7 +1577,7 @@ void msr2lilypondRegularHandler::createMidiRegularGroup ()
 void msr2lilypondRegularHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking options and arguments from argc/argv in \"" <<
       fHandlerHeader <<

@@ -69,7 +69,7 @@ xml2lyManPageGenerateAtom::~xml2lyManPageGenerateAtom ()
 void xml2lyManPageGenerateAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a xml2lyManPageGenerateAtom" <<
       endl;
@@ -386,11 +386,11 @@ S_xml2lyManPageOahGroup createGlobalXml2lyManPageOahGroup (
   S_oahVisitor theOah2manPageGenerator)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global xml2lyManpage OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global xml2lyManpage OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

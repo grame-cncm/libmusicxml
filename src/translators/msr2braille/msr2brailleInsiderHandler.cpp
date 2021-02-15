@@ -48,12 +48,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_msr2brailleInsiderHandler msr2brailleInsiderHandler::create (
@@ -86,13 +80,13 @@ Usage: msr2braille ([options] | [MusicXMLFile|-])+
 )")
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Initializing msr2braille insider options handler \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Initializing msr2braille insider options handler \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // create the msr2braille prefixes
@@ -138,11 +132,11 @@ R"(What msr2braille does:
 void msr2brailleInsiderHandler::createTheXml2braillePrefixes ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the msr2braille prefixes" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the msr2braille prefixes" <<
+      endl;
+  }
 #endif
 
   createTheCommonPrefixes ();
@@ -153,13 +147,13 @@ void msr2brailleInsiderHandler::createTheXml2brailleOptionGroups (
   string executableName)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the msr2braille insider option groups" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the msr2braille insider option groups" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // initialize options handling, phase 1
@@ -196,7 +190,7 @@ void msr2brailleInsiderHandler::createTheXml2brailleOptionGroups (
 
   // create the msr2braille OAH group
   appendGroupToHandler (
-    createGlobalXml2brailleOahGroup (
+    createGlobalMsr2brailleOahGroup (
       executableName,
       fHandlerHeader));
 
@@ -240,7 +234,7 @@ void msr2brailleInsiderHandler::createTheXml2brailleOptionGroups (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
     // print the options handler initial state
     gLogStream <<
       "msr2brailleInsiderHandler has been initialized as:" <<
@@ -254,7 +248,7 @@ void msr2brailleInsiderHandler::createTheXml2brailleOptionGroups (
       endl;
 
     --gIndenter;
-#endif
+  }
 #endif
 }
 
@@ -262,7 +256,7 @@ void msr2brailleInsiderHandler::createTheXml2brailleOptionGroups (
 void msr2brailleInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking options and arguments from argc/argv in \"" <<
       fHandlerHeader <<
@@ -278,7 +272,7 @@ void msr2brailleInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Fetching the output file name from the options in OAH handler \"" <<
       fHandlerHeader <<
@@ -366,7 +360,7 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
       }
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 1 = \"" <<
           outputFileName <<
@@ -426,7 +420,7 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
       }
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 2 = " <<
           outputFileName <<
@@ -452,7 +446,7 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
       } // switch
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 3 = " <<
           outputFileName <<
@@ -484,7 +478,7 @@ void msr2brailleInsiderHandler::enforceHandlerQuietness ()
     enforceGroupQuietness ();
 #endif
 
-  gGlobalXml2brailleInsiderOahGroup->
+  gGlobalMsr2brailleInsiderOahGroup->
     enforceGroupQuietness ();
 
   gGlobalGeneralOahGroup->
@@ -647,7 +641,7 @@ ostream& operator<< (ostream& os, const S_msr2brailleInsiderHandler& elt)
 }
 
 //_______________________________________________________________________________
-S_msr2brailleInsiderOahGroup gGlobalXml2brailleInsiderOahGroup;
+S_msr2brailleInsiderOahGroup gGlobalMsr2brailleInsiderOahGroup;
 
 S_msr2brailleInsiderOahGroup msr2brailleInsiderOahGroup::create (
   string executableName,
@@ -680,13 +674,13 @@ msr2brailleInsiderOahGroup::~msr2brailleInsiderOahGroup ()
 void msr2brailleInsiderOahGroup::initializeXml2brailleInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream << left <<
-    "Initializing \"" <<
-    fGroupHeader <<
-    "\" group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream << left <<
+      "Initializing \"" <<
+      fGroupHeader <<
+      "\" group" <<
+      endl;
+  }
 #endif
 
   // quit after some passes
@@ -699,13 +693,13 @@ void msr2brailleInsiderOahGroup::initializeXml2brailleInsiderOahGroup ()
 void msr2brailleInsiderOahGroup::createInsiderQuitSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream << left <<
-    "Creating insider quit subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream << left <<
+      "Creating insider quit subgroup in \"" <<
+      fGroupHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   S_oahSubGroup
@@ -786,29 +780,29 @@ void msr2brailleInsiderOahGroup::printXml2brailleInsiderOahGroupValues (unsigned
 }
 
 //______________________________________________________________________________
-S_msr2brailleInsiderOahGroup createGlobalXml2brailleOahGroup (
+S_msr2brailleInsiderOahGroup createGlobalMsr2brailleOahGroup (
   string executableName,
   string handlerHeader)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global \"msr2braille\" OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msr2braille OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations
-  if (! gGlobalXml2brailleInsiderOahGroup) {
+  if (! gGlobalMsr2brailleInsiderOahGroup) {
 
     // create the global OAH group
     // ------------------------------------------------------
 
-    gGlobalXml2brailleInsiderOahGroup =
+    gGlobalMsr2brailleInsiderOahGroup =
       msr2brailleInsiderOahGroup::create (
         executableName,
         handlerHeader);
-    assert (gGlobalXml2brailleInsiderOahGroup != 0);
+    assert (gGlobalMsr2brailleInsiderOahGroup != 0);
 
     // append versions information to list
     // ------------------------------------------------------
@@ -830,7 +824,7 @@ S_msr2brailleInsiderOahGroup createGlobalXml2brailleOahGroup (
   }
 
   // return the global OAH group
-  return gGlobalXml2brailleInsiderOahGroup;
+  return gGlobalMsr2brailleInsiderOahGroup;
 }
 
 

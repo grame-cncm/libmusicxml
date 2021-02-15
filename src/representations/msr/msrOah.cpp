@@ -83,7 +83,7 @@ void msrPitchesLanguageAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msrPitchesLanguageAtom'" <<
       endl;
@@ -94,7 +94,7 @@ void msrPitchesLanguageAtom::applyAtomWithValue (
   // is it in the pitches languages map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msrPitchesLanguageAtom'" <<
       endl;
@@ -322,7 +322,7 @@ void msrRenamePartAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msrRenamePartAtom'" <<
       endl;
@@ -333,7 +333,7 @@ void msrRenamePartAtom::applyAtomWithValue (
   // decipher it to extract the old and new part names
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msrRenamePartAtom'" <<
       endl;
@@ -353,7 +353,7 @@ void msrRenamePartAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for part rename string '" << theString <<
@@ -365,7 +365,7 @@ void msrRenamePartAtom::applyAtomWithValue (
 
   if (smSize == 3) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       for (unsigned i = 0; i < smSize; ++i) {
         gLogStream <<
           "[" << sm [i] << "] ";
@@ -390,7 +390,7 @@ void msrRenamePartAtom::applyAtomWithValue (
     newPartName = sm [2];
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> oldPartName = \"" << oldPartName << "\", " <<
       "--> newPartName = \"" << newPartName << "\"" <<
@@ -1324,11 +1324,11 @@ ostream& operator<< (ostream& os, const S_msrOahGroup& elt)
 S_msrOahGroup createGlobalMsrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global MSR OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global MSR OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

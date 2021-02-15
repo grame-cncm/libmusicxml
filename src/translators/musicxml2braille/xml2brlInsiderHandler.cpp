@@ -48,12 +48,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_xml2brlInsiderHandler xml2brlInsiderHandler::create (
@@ -86,13 +80,13 @@ Usage: xml2brl ([options] | [MusicXMLFile|-])+
 )")
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Initializing xml2brl insider options handler \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Initializing xml2brl insider options handler \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // create the xml2brl prefixes
@@ -139,11 +133,11 @@ R"(What xml2brl does:
 void xml2brlInsiderHandler::createTheXml2brlPrefixes ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the xml2brl prefixes" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the xml2brl prefixes" <<
+      endl;
+  }
 #endif
 
   createTheCommonPrefixes ();
@@ -154,13 +148,13 @@ void xml2brlInsiderHandler::createTheXml2brlOptionGroups (
   string executableName)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the xml2brl insider option groups" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the xml2brl insider option groups" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // initialize options handling, phase 1
@@ -241,7 +235,7 @@ void xml2brlInsiderHandler::createTheXml2brlOptionGroups (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
     // print the options handler initial state
     gLogStream <<
       "xml2brlInsiderHandler has been initialized as:" <<
@@ -255,7 +249,7 @@ void xml2brlInsiderHandler::createTheXml2brlOptionGroups (
       endl;
 
     --gIndenter;
-#endif
+  }
 #endif
 }
 
@@ -263,7 +257,7 @@ void xml2brlInsiderHandler::createTheXml2brlOptionGroups (
 void xml2brlInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking options and arguments from argc/argv in \"" <<
       fHandlerHeader <<
@@ -279,7 +273,7 @@ void xml2brlInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 string xml2brlInsiderHandler::fetchOutputFileNameFromTheOptions () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Fetching the output file name from the options in OAH handler \"" <<
       fHandlerHeader <<
@@ -367,7 +361,7 @@ string xml2brlInsiderHandler::fetchOutputFileNameFromTheOptions () const
       }
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "xml2brlInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 1 = \"" <<
           outputFileName <<
@@ -427,7 +421,7 @@ string xml2brlInsiderHandler::fetchOutputFileNameFromTheOptions () const
       }
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "xml2brlInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 2 = " <<
           outputFileName <<
@@ -453,7 +447,7 @@ string xml2brlInsiderHandler::fetchOutputFileNameFromTheOptions () const
       } // switch
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "xml2brlInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 3 = " <<
           outputFileName <<
@@ -681,13 +675,13 @@ xml2brlInsiderOahGroup::~xml2brlInsiderOahGroup ()
 void xml2brlInsiderOahGroup::initializeXml2brlInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream << left <<
-    "Initializing \"" <<
-    fGroupHeader <<
-    "\" group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream << left <<
+      "Initializing \"" <<
+      fGroupHeader <<
+      "\" group" <<
+      endl;
+  }
 #endif
 
   // quit after some passes
@@ -700,13 +694,13 @@ void xml2brlInsiderOahGroup::initializeXml2brlInsiderOahGroup ()
 void xml2brlInsiderOahGroup::createInsiderQuitSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream << left <<
-    "Creating insider quit subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream << left <<
+      "Creating insider quit subgroup in \"" <<
+      fGroupHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   S_oahSubGroup
@@ -792,11 +786,11 @@ S_xml2brlInsiderOahGroup createGlobalXml2brlOahGroup (
   string handlerHeader)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global \"xml2brl\" OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global xml2brl OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

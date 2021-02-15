@@ -403,11 +403,11 @@ ostream& operator<< (ostream& os, const S_msr2bsrOahGroup& elt)
 S_msr2bsrOahGroup createGlobalMsr2bsrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global msr2bsr OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msr2bsr OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

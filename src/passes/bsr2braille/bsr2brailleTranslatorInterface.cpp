@@ -35,7 +35,7 @@ using namespace std;
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-void convertBsrScoreToBrailleText (
+void convertBsrScoreToBraille (
   const S_bsrScore originalBsrScore,
   S_bsrOahGroup    bsrOpts,
   string           passNumber,
@@ -91,7 +91,7 @@ void convertBsrScoreToBrailleText (
   // check indentation
   if (gIndenter != 0) {
     gLogStream <<
-      "### convertBsrScoreToBrailleText gIndenter final value: " <<
+      "### convertBsrScoreToBraille gIndenter final value: " <<
       gIndenter.getIndent () <<
       " ###" <<
       endl;

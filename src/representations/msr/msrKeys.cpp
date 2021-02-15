@@ -437,7 +437,7 @@ S_msrKey msrKey::createTraditionalKeyFromString (
     );
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "regularExpression = " <<
       regularExpression <<
@@ -453,7 +453,7 @@ S_msrKey msrKey::createTraditionalKeyFromString (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for traditional key string \"" << keyString <<
@@ -510,7 +510,7 @@ S_msrKey msrKey::createTraditionalKeyFromString (
         keyMode);
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "keyTonic = \"" <<
       keyTonic <<

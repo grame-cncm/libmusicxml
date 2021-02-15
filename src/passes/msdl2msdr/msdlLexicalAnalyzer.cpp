@@ -19,6 +19,9 @@
   #include "traceOah.h"
 #endif
 
+#include "msdlLexicalEnglishWaeHandler.h"
+#include "msdlLexicalFrenchWaeHandler.h"
+
 #include "msdlLexicalAnalyzer.h"
 
 #include "waeExceptions.h"
@@ -46,8 +49,15 @@ msdlLexicalAnalyzer::msdlLexicalAnalyzer (
   fCurrentDouble  = 0.0;
 
   fSourceIsLexicallyCorrect = true;
-}
 
+  fLexicalWaeHandler = msdlLexicalFrenchWaeHandler::create ();
+
+#ifdef TRACING_IS_ENABLED
+  fTraceTokens = gGlobalMsdl2msdrOahGroup->getTraceTokens ();
+#endif
+
+  fAppendTokensToList = false;
+}
 
 msdlLexicalAnalyzer::~ msdlLexicalAnalyzer ()
 {}
@@ -89,7 +99,7 @@ string msdlLexicalAnalyzer::currentPositionAsString () const
           "-----------------------------------------------------";
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+  if (fTraceTokens) {
   /*
     return
       MiseEnForme (
@@ -159,15 +169,11 @@ msdlLexicalAnalyzer::EchoDesCaracteresAcceptes ()
 }
 
 // --------------------------------------------------------------------------
-//  msdlLexicalAnalyzer::acceptATerminal
+//  msdlLexicalAnalyzer::nextTokenPlease
 // --------------------------------------------------------------------------
 
-msdrTokenKind msdlLexicalAnalyzer::acceptATerminal ()
+msdrTokenKind msdlLexicalAnalyzer::nextTokenPlease ()
 {
-#ifdef TRACING_IS_ENABLED
-  bool traceTokens = gGlobalMsdl2msdrOahGroup->getTraceTokens ();
-#endif
-
   // the first character is already available
   fTokenStartPosition = fCurrentPositionInLine;
   nextCharacterPlease ();
@@ -178,9 +184,11 @@ msdrTokenKind msdlLexicalAnalyzer::acceptATerminal ()
     case ' ' :
     case '\t' :
     case '\xD' :
-      if (traceTokens) {
+#ifdef TRACING_IS_ENABLED
+      if (fTraceTokens) {
         cout << fCurrentCharacter;
       }
+#endif
 
       nextCharacterPlease ();
       fTokenStartPosition = fCurrentPositionInLine;
@@ -189,9 +197,11 @@ msdrTokenKind msdlLexicalAnalyzer::acceptATerminal ()
       break;
 
     case '\n' :
-      if (traceTokens) {
+#ifdef TRACING_IS_ENABLED
+      if (fTraceTokens) {
         cout << fCurrentCharacter;
       }
+#endif
 
       nextCharacterPlease ();
       handleAnEndOfLine ();
@@ -218,36 +228,20 @@ msdrTokenKind msdlLexicalAnalyzer::acceptATerminal ()
             } // while
 
             nextCharacterPlease ();
-          }
+          } // do
           while (fCurrentCharacter != '/');
 
-          if (traceTokens) {
+#ifdef TRACING_IS_ENABLED
+          if (fTraceTokens) {
             EchoDesCaracteresAcceptes ();
           }
+#endif
 
           nextCharacterPlease ();
 
           fTokenStartPosition = fCurrentPositionInLine;
 
           fCurrentTokenKind = kTokenParenthesizedComment;
-          break;
-
-        case '/': // '//' up to this point, comment to end of line
-          do {
-            nextCharacterPlease ();
-          } while (fCurrentCharacter != '\n');
-
-          oneCharacterBackwards ();
-
-          if (traceTokens) {
-            EchoDesCaracteresAcceptes ();
-          }
-
-          nextCharacterPlease ();
-
-          fTokenStartPosition = fCurrentPositionInLine;
-
-          fCurrentTokenKind = kTokenCommentToEndOfLine;
           break;
 
         default:
@@ -273,12 +267,14 @@ msdrTokenKind msdlLexicalAnalyzer::acceptATerminal ()
             } // while
 
             nextCharacterPlease ();
-          }
+          } // do
           while (fCurrentCharacter != '}');
 
-          if (traceTokens) {
+#ifdef TRACING_IS_ENABLED
+          if (fTraceTokens) {
             EchoDesCaracteresAcceptes ();
           }
+#endif
 
           nextCharacterPlease ();
 
@@ -290,13 +286,16 @@ msdrTokenKind msdlLexicalAnalyzer::acceptATerminal ()
         default: // '%' up to this point, comment to end of line
           do {
             nextCharacterPlease ();
-          } while (fCurrentCharacter != '\n');
+          } // do
+          while (fCurrentCharacter != '\n');
 
           oneCharacterBackwards ();
 
-          if (traceTokens) {
+#ifdef TRACING_IS_ENABLED
+          if (fTraceTokens) {
             EchoDesCaracteresAcceptes ();
           }
+#endif
 
           fTokenStartPosition = fCurrentPositionInLine;
 
@@ -351,10 +350,12 @@ msdrTokenKind msdlLexicalAnalyzer::acceptATerminal ()
         fCurrentTokenKind = kTokenConcat;
       }
       else {
-        if (traceTokens) {
+#ifdef TRACING_IS_ENABLED
+        if (fTraceTokens) {
           cout << fCurrentCharacter;
         }
-        fLexicalWaeHandler->illegalCharacter ('!');
+ #endif
+       fLexicalWaeHandler->illegalCharacter ('!');
 
         nextCharacterPlease ();
         fTokenStartPosition = fCurrentPositionInLine;
@@ -397,17 +398,21 @@ msdrTokenKind msdlLexicalAnalyzer::acceptATerminal ()
       break;
 
    case '\'': //  single-quoted string
-      if (traceTokens) {
+#ifdef TRACING_IS_ENABLED
+      if (fTraceTokens) {
         cout << fCurrentCharacter;
       }
+#endif
 
       fCurrentTokenKind = acceptASingleQuotedString ();
       break;
 
     case '"': //  double-quoted string
-      if (traceTokens) {
+#ifdef TRACING_IS_ENABLED
+      if (fTraceTokens) {
         cout << fCurrentCharacter;
       }
+#endif
 
       fCurrentTokenKind = acceptADoubleQuotedString ();
       break;
@@ -425,9 +430,11 @@ msdrTokenKind msdlLexicalAnalyzer::acceptATerminal ()
       else { // illegal character
         fLexicalWaeHandler->illegalCharacter (fCurrentCharacter);
 
-        if (traceTokens) {
+#ifdef TRACING_IS_ENABLED
+        if (fTraceTokens) {
           cout << fCurrentCharacter;
         }
+#endif
 
         nextCharacterPlease ();
         fTokenStartPosition = fCurrentPositionInLine;
@@ -437,7 +444,7 @@ msdrTokenKind msdlLexicalAnalyzer::acceptATerminal ()
     }  //  switch (fCurrentCharacter)
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+  if (fTraceTokens) {
     ++gIndenter;
     cout <<
       msdrTokenKindAsString (fCurrentTokenKind) << endl;
@@ -446,7 +453,7 @@ msdrTokenKind msdlLexicalAnalyzer::acceptATerminal ()
 #endif
 
 /*
-  if (traceTokens) {
+  if (fTraceTokens) {
     switch (fCurrentTokenKind) {
       case kTokenIdentifier :
       case t_FIN :
@@ -469,7 +476,7 @@ msdrTokenKind msdlLexicalAnalyzer::acceptAName ()
   // a name can be an identifier or a keyword
   do { // accepting all alphanumeric characters and '_'
     nextCharacterPlease ();
-  }
+  } // do
   while (isalnum (fCurrentCharacter) || fCurrentCharacter == '_');
 
   oneCharacterBackwards ();
@@ -491,7 +498,7 @@ msdrTokenKind msdlLexicalAnalyzer::acceptANumber ()
   // accept digits sequence
   do {
     nextCharacterPlease ();
-  }
+  } // do
   while (isdigit (fCurrentCharacter));
 
   bool doubleNumber = true;
@@ -503,7 +510,7 @@ msdrTokenKind msdlLexicalAnalyzer::acceptANumber ()
       if (isdigit (fCurrentCharacter)) {
         do { //  on consomme tous les chiffres
           nextCharacterPlease ();
-        }
+        } // do
         while (isdigit (fCurrentCharacter));
 
         if (
@@ -553,7 +560,7 @@ void msdlLexicalAnalyzer::acceptAnExponent ()
   if (isdigit (fCurrentCharacter)) {
     do { // on consomme tous les chiffres
       nextCharacterPlease ();
-    }
+    } // do
     while (isdigit (fCurrentCharacter));
   }
 
@@ -740,7 +747,7 @@ void msdlLexicalAnalyzer::handleMsdrToken (
 {
 #ifdef TRACING_IS_ENABLED
   // write a trace of the token?
-  if (gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+  if (fTraceTokens) {
     const unsigned int lineNumberWidth =  4;
     const unsigned int tokenNameWidth  = 23;
 
@@ -840,14 +847,17 @@ void msdlLexicalAnalyzer::handleMsdrToken (
   }
 #endif
 
-  // append the MSDL token to the tokens list JMI
+  // append the MSDL token to the tokens list if needed
+  if (fAppendTokensToList) {
+    fTokensList.appendTokenToTokensList (fCurrentToken);
+  }
 }
 
-void msdlLexicalAnalyzer::analyze ()
+void msdlLexicalAnalyzer::performLexicalAnalysis ()
 {
   try {
     while (true) { // loop till end of file
-      acceptATerminal ();
+      nextTokenPlease ();
     } // while
   }
   catch (msgMsdlToMsdrScoreException& e) {
@@ -869,3 +879,27 @@ void msdlLexicalAnalyzer::analyze ()
 
 
 }
+
+/*
+        case '\': // '//' up to this point, comment to end of line JMI
+          do {
+            nextCharacterPlease ();
+          } // do
+          while (fCurrentCharacter != '\n');
+
+          oneCharacterBackwards ();
+
+#ifdef TRACING_IS_ENABLED
+          if (fTraceTokens) {
+            EchoDesCaracteresAcceptes ();
+          }
+#endif
+
+          nextCharacterPlease ();
+
+          fTokenStartPosition = fCurrentPositionInLine;
+
+          fCurrentTokenKind = kTokenCommentToEndOfLine;
+          break;
+
+*/

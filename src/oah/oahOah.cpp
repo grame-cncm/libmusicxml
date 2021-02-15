@@ -62,7 +62,7 @@ void insiderOahAtom::applyElement (ostream& os)
 {
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a insiderOahAtom" <<
       endl;
@@ -190,7 +190,7 @@ void regularOahAtom::applyElement (ostream& os)
 {
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a regularOahAtom" <<
       endl;
@@ -750,11 +750,11 @@ S_oahOahGroup createGlobalOahOahGroup (
   string executableName)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global global OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global global OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations
@@ -822,7 +822,7 @@ void oahOptionalValuesStyleKindAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'oahOptionalValuesStyleKindAtom'" <<
       endl;
@@ -833,7 +833,7 @@ void oahOptionalValuesStyleKindAtom::applyAtomWithValue (
   // is it in the optional values style kinds map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'oahOptionalValuesStyleKindAtom'" <<
       endl;

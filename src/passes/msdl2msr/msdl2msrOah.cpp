@@ -52,8 +52,8 @@ S_msdl2msrOahGroup msdl2msrOahGroup::create ()
 msdl2msrOahGroup::msdl2msrOahGroup ()
   : oahGroup (
     "msdl2msr",
-    "hbsr2brl", "help-bsr-to-braille",
-R"(These options control the way BSR data is translated to braille music.)",
+    "hmsdl2msr", "help-msdl-to-msr",
+R"(These options control the way the MSDL to MSR translator works.)",
     kElementVisibilityWhole)
 {
   fGeneratorOutputKind = k_NoOutput;
@@ -374,11 +374,11 @@ ostream& operator<< (ostream& os, const S_msdl2msrOahGroup& elt)
 S_msdl2msrOahGroup createGlobalMsdl2msrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global msdl2msr OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msdl2msr OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

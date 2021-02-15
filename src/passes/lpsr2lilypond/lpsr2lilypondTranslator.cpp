@@ -1607,10 +1607,10 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeNote (S_msrNote note)
 void lpsr2lilypondTranslator::generateCodeForNote (
   S_msrNote note)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     note->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     stringstream s;
 
@@ -2012,10 +2012,10 @@ void lpsr2lilypondTranslator::generateCodeForNoteUnpitchedInMeasure (S_msrNote n
 
 void lpsr2lilypondTranslator::generateCodeForNoteRegularInChord (S_msrNote note)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     note->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     stringstream s;
 
@@ -2252,10 +2252,10 @@ void lpsr2lilypondTranslator::generateCodeForNoteUnpitchedInTuplet (S_msrNote no
 
 void lpsr2lilypondTranslator::generateCodeForNoteRegularInGraceNotesGroup (S_msrNote note)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     note->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     stringstream s;
 
@@ -2360,10 +2360,10 @@ void lpsr2lilypondTranslator::generateCodeForNoteSkipInGraceNotesGroup (S_msrNot
 
 void lpsr2lilypondTranslator::generateCodeForNoteInChordInGraceNotesGroup (S_msrNote note)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     note->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     stringstream s;
 
@@ -4576,6 +4576,36 @@ string lpsr2lilypondTranslator::generateMultilineMarkup (
   return s.str ();
 }
 
+// the LyLuaTeX postamble and postamble
+//______________________________________________________________________________
+string pLyLuaTexPreamble =
+R"(
+% !TEX TS-program = LuaLaTeX+se
+
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[nofragment, insert=systems, debug=true, program=/Applications/LilyPond.app/Contents/Resources/bin/lilypond]{lyluatex}
+
+% -------------------------------------------------------------------------
+\begin{document}
+% -------------------------------------------------------------------------
+
+% the LilyPond score
+
+\begin{center}
+\begin{lilypond}
+)";
+
+string pLyLuaTexPostamble =
+R"(
+\end{lilypond}
+\end{center}
+
+% -------------------------------------------------------------------------
+\end{document}
+% -------------------------------------------------------------------------
+)";
+
 //________________________________________________________________________
 void lpsr2lilypondTranslator::visitStart (S_lpsrScore& elt)
 {
@@ -4592,6 +4622,12 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrScore& elt)
     fLilypondCodeStream << s.str ();
   }
 #endif
+
+  // generate a LyLuaTeX preamble if needed
+  if (gGlobalLpsr2lilypondOahGroup->getLyLuaTexOutput ()) {
+    fLilypondCodeStream <<
+      pLyLuaTexPreamble;
+  }
 
   // LilyPond version
   generateLilypondVersion ();
@@ -4649,7 +4685,13 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrScore& elt)
 
   // final empty line in LilyPond code
   // to help copy/paste it
-  fLilypondCodeStream << endl;
+// JMI  fLilypondCodeStream << endl;
+
+  // generate a LyLuaTeX postamble if needed
+  if (gGlobalLpsr2lilypondOahGroup->getLyLuaTexOutput ()) {
+    fLilypondCodeStream <<
+      pLyLuaTexPostamble;
+  }
 }
 
 //________________________________________________________________________
@@ -5026,8 +5068,10 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
     over those found in the identification
   */
 
+#ifdef TRACING_IS_ENABLED
   unsigned int fieldWidth =
     identification -> maxIdentificationNamesLength ();
+#endif
 
   // work number
   string
@@ -14935,10 +14979,10 @@ void lpsr2lilypondTranslator::generateNoteTechnicalsWithStrings (S_msrNote note)
 
 void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
     stringstream s;
 

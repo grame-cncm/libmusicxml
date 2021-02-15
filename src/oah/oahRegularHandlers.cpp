@@ -32,12 +32,6 @@
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before "trace-oah", if present, has been applied
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 /* this class is purely virtual
@@ -70,7 +64,7 @@ oahRegularHandler::oahRegularHandler (
 {
   // create the 'insider view' handler
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Creating the insider view handler for \"" <<
       fHandlerHeader <<
@@ -92,13 +86,13 @@ oahRegularHandler::~oahRegularHandler ()
 void oahRegularHandler::initializeOahRegularHandler ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
     gLogStream <<
       "Initializing the regular handler \"" <<
       fHandlerHeader <<
       "\"" <<
       endl;
-#endif
+  }
 #endif
 
   // get the prefixes from fInsiderHandler
@@ -110,7 +104,7 @@ void oahRegularHandler::initializeOahRegularHandler ()
   // in the subclasses for code homogeneity
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   // print the options handler initial state
   gLogStream <<
     "oahRegularHandler \"" <<
@@ -127,7 +121,7 @@ void oahRegularHandler::initializeOahRegularHandler ()
     endl << endl;
 
   --gIndenter;
-#endif
+  }
 #endif
 }
 
@@ -141,15 +135,15 @@ void oahRegularHandler::appendGroupToRegulalHandler (
     "group is null");
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Appending group \"" <<
-    group->getGroupHeader () <<
-    "\" to regular handler \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Appending group \"" <<
+      group->getGroupHeader () <<
+      "\" to regular handler \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // a regular group should not be displayed
@@ -178,15 +172,15 @@ void oahRegularHandler::prependGroupToRegularHandler (
     "group is null");
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Prepending group \"" <<
-    group->getGroupHeader () <<
-    "\" to regular handler \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Prepending group \"" <<
+      group->getGroupHeader () <<
+      "\" to regular handler \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // a regular group should not be displayed

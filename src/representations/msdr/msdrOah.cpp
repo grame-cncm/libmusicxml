@@ -84,7 +84,7 @@ void msdrKeywordsLanguageAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msdrKeywordsLanguageAtom'" <<
       endl;
@@ -95,7 +95,7 @@ void msdrKeywordsLanguageAtom::applyAtomWithValue (
   // is it in the keywords languages map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msdrKeywordsLanguageAtom'" <<
       endl;
@@ -319,7 +319,7 @@ void msdrPitchesLanguageAtom::applyAtomWithValue (
 {
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msdrPitchesLanguageAtom'" <<
       endl;
@@ -330,7 +330,7 @@ void msdrPitchesLanguageAtom::applyAtomWithValue (
   // is it in the pitches languages map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msdrPitchesLanguageAtom'" <<
       endl;
@@ -948,11 +948,11 @@ ostream& operator<< (ostream& os, const S_msdrOahGroup& elt)
 S_msdrOahGroup createGlobalMsdrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global MSDR OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global MSDR OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

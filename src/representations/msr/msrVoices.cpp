@@ -2068,10 +2068,10 @@ void msrVoice::appendHarmonyToVoice (
 void msrVoice::appendHarmonyToHarmonyVoice (
   S_msrHarmony harmony)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     harmony->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "Appending harmony " << harmony->asString () <<
@@ -2097,10 +2097,10 @@ void msrVoice::appendHarmonyToHarmonyVoice (
 void msrVoice::appendFiguredBassToFiguredBassVoice (
   S_msrFiguredBass figuredBass)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     figuredBass->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "Appending figuredBass " << figuredBass->asString () <<
@@ -2226,10 +2226,10 @@ void msrVoice::appendFiguredBassToVoice (
 void msrVoice::appendFiguredBassToVoiceClone (
   S_msrFiguredBass figuredBass)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     figuredBass->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
     gLogStream <<
       "Appending figured bass " << figuredBass->asString () <<

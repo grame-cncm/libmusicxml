@@ -33,12 +33,6 @@
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before "trace-oah", if present, has been applied
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 // handler used thru...?
 //______________________________________________________________________________
@@ -382,16 +376,16 @@ void oahAtom::appendAtomToElementsList (
   S_oahHandler handler)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-if (false)
-  gLogStream <<
-    "Registering atom " <<
-    fetchNamesBetweenQuotes () <<
-    " in handler \"" <<
-    handler->getHandlerHeader () <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    if (false)
+      gLogStream <<
+        "Registering atom " <<
+        fetchNamesBetweenQuotes () <<
+        " in handler \"" <<
+        handler->getHandlerHeader () <<
+        "\"" <<
+        endl;
+  }
 #endif
 
   ++gIndenter;
@@ -1096,15 +1090,15 @@ void oahSubGroup::appendSubGroupToElementsList (
   S_oahHandler handler)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Appending subgroup \"" <<
-    fSubGroupHeader <<
-    "\" in the elements list in handler \"" <<
-    handler->getHandlerHeader () <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Appending subgroup \"" <<
+      fSubGroupHeader <<
+      "\" in the elements list in handler \"" <<
+      handler->getHandlerHeader () <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   ++gIndenter;
@@ -1137,15 +1131,15 @@ void oahSubGroup::registerNamesInSubGroupToTheNamesToElementsMap (
   S_oahHandler handler)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Registering the names in subgroup \"" <<
-    fSubGroupHeader <<
-    "\" in the names to elements map in handler \"" <<
-    handler->getHandlerHeader () <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Registering the names in subgroup \"" <<
+      fSubGroupHeader <<
+      "\" in the names to elements map in handler \"" <<
+      handler->getHandlerHeader () <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   ++gIndenter;
@@ -1219,7 +1213,7 @@ S_oahElement oahSubGroup::fetchOptionByNameInSubGroup (
 void oahSubGroup::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Applying element " <<
       fetchNames () <<
@@ -1741,7 +1735,7 @@ void oahSubGroup::printSubGroupSpecificHelpOrOptionsSummary (
   S_oahSubGroup subGroup) const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     os << "oahSubGroup::printSubGroupSpecificHelpOrOptionsSummary" << endl;
   }
 #endif
@@ -1964,15 +1958,15 @@ void oahGroup::appendGroupToElementsList (
   S_oahHandler handler)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Appending group \"" <<
-    fGroupHeader <<
-    "\" to elements list in handler \"" <<
-    handler->getHandlerHeader () <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Appending group \"" <<
+      fGroupHeader <<
+      "\" to elements list in handler \"" <<
+      handler->getHandlerHeader () <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   ++gIndenter;
@@ -2012,15 +2006,15 @@ void oahGroup::registerNamesInGroupToTheNamesToElementsMap (
   S_oahHandler handler)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Registering the names in group \"" <<
-    fGroupHeader <<
-    "\" in the names to elements map in handler \"" <<
-    handler->getHandlerHeader () <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Registering the names in group \"" <<
+      fGroupHeader <<
+      "\" in the names to elements map in handler \"" <<
+      handler->getHandlerHeader () <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   ++gIndenter;
@@ -2098,7 +2092,7 @@ S_oahElement oahGroup::fetchOptionByNameInGroup (
 void oahGroup::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Applying element '" <<
       fetchNames () <<
@@ -2150,7 +2144,7 @@ void oahGroup::checkGroupOptionsConsistency ()
 void oahGroup::checkGroupSubGroupsOptionsConsistency ()
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Checking the consistency of OAH group \"" <<
       fGroupHeader <<
@@ -2593,7 +2587,7 @@ void oahGroup::printGroupAndSubGroupSpecificHelp (
   S_oahSubGroup subGroup) const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     os << "oahGroup::printGroupAndSubGroupSpecificHelp" << endl;
   }
 #endif
@@ -2789,15 +2783,15 @@ oahHandler::oahHandler (
 void oahHandler::initializeHandler ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Initializing handler \"" <<
-    fHandlerHeader <<
-    "\" for \"" <<
-    fHandlerExecutableName <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Initializing handler \"" <<
+      fHandlerHeader <<
+      "\" for \"" <<
+      fHandlerExecutableName <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // arguments handling
@@ -2874,16 +2868,16 @@ void oahHandler::registerElementNamesInHandler (
   S_oahElement element)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-if (true)
-  gLogStream <<
-    "Registering the names of " <<
-    element->fetchNamesBetweenQuotes () <<
-    " in handler \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    if (true) // JMI
+      gLogStream <<
+        "Registering the names of " <<
+        element->fetchNamesBetweenQuotes () <<
+        " in handler \"" <<
+        fHandlerHeader <<
+        "\"" <<
+        endl;
+  }
 #endif
 
   ++gIndenter;
@@ -3019,13 +3013,13 @@ if (true)
 void oahHandler::registerNamesInHandlerToTheNamesToElementsMap ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Registering the names in handler \"" <<
-    fHandlerHeader <<
-    "\" in its names to elements map" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Registering the names in handler \"" <<
+      fHandlerHeader <<
+      "\" in its names to elements map" <<
+      endl;
+  }
 #endif
 
   ++gIndenter;
@@ -3048,16 +3042,16 @@ void oahHandler::registerNamesInHandlerToTheNamesToElementsMap ()
 
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-if (false) // JMI
-  displayNamesToElementsMapShort (gLogStream);
+  if (getTraceOah ()) {
+    if (false) // JMI
+      displayNamesToElementsMapShort (gLogStream);
 
-  gLogStream <<
-    "All the names in handler \"" <<
-    fHandlerHeader <<
-    "\" have been registered in the names to elements map" <<
-    endl;
-#endif
+      gLogStream <<
+        "All the names in handler \"" <<
+        fHandlerHeader <<
+        "\" have been registered in the names to elements map" <<
+        endl;
+  }
 #endif
 
   --gIndenter;
@@ -3067,18 +3061,18 @@ void oahHandler::appendElementToElementsList (
   S_oahElement element)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-if (true) // JMI
-  gLogStream <<
-    "Registering element " <<
-    element->fetchNamesBetweenQuotes () <<
-    " in \"" <<
-    fHandlerExecutableName <<
-    "\" handler \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    if (true) // JMI
+      gLogStream <<
+        "Registering element " <<
+        element->fetchNamesBetweenQuotes () <<
+        " in \"" <<
+        fHandlerExecutableName <<
+        "\" handler \"" <<
+        fHandlerHeader <<
+        "\"" <<
+        endl;
+  }
 #endif
 
   // insert element into the registered elements list
@@ -3114,7 +3108,7 @@ void oahHandler::checkOptionsAndArgumentsFromOptionsVector ()
 
   if (argumentsNumber > 0) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         singularOrPluralWithoutNumber (
           argumentsNumber, "There is", "There are") <<
@@ -3146,7 +3140,7 @@ void oahHandler::checkOptionsAndArgumentsFromOptionsVector ()
 
   else {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "There are no arguments to " <<
         fHandlerExecutableName <<
@@ -3160,13 +3154,13 @@ void oahHandler::checkOptionsAndArgumentsFromOptionsVector ()
 void oahHandler::createTheCommonPrefixes ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the common prefixes in \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the common prefixes in \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   ++gIndenter;
@@ -3217,7 +3211,7 @@ void oahHandler::createTheCommonPrefixes ()
 void oahHandler::checkNoInputSourceInArgumentsVector () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking no input source in argument vector in \"" <<
       fHandlerHeader <<
@@ -3230,7 +3224,7 @@ void oahHandler::checkNoInputSourceInArgumentsVector () const
     fHandlerArgumentsVector.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+  if (getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
     if (argumentsNumber > 0) {
       gLogStream <<
         singularOrPluralWithoutNumber (
@@ -3297,7 +3291,7 @@ void oahHandler::checkNoInputSourceInArgumentsVector () const
 void oahHandler::checkSingleInputSourceInArgumentsVector () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking single input source in argument vector in \"" <<
       fHandlerHeader <<
@@ -3310,7 +3304,7 @@ void oahHandler::checkSingleInputSourceInArgumentsVector () const
     fHandlerArgumentsVector.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+  if (getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
     if (argumentsNumber > 0) {
       gLogStream <<
         singularOrPluralWithoutNumber (
@@ -3388,14 +3382,14 @@ void oahHandler::setOahHandlerFoundAHelpOption (
   string context)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Setting oahHandlerFoundAHelpOption in handler \"" <<
-    fHandlerHeader <<
-    "\", context: " <<
-    context <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Setting oahHandlerFoundAHelpOption in handler \"" <<
+      fHandlerHeader <<
+      "\", context: " <<
+      context <<
+      endl;
+  }
 #endif
 
   fOahHandlerFoundAHelpOption = true;
@@ -3407,7 +3401,7 @@ void oahHandler::checkHandlerOwnOptionsConsistency ()
 void oahHandler::checkHandlerOptionsConsistency ()
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTracePasses () || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTracePasses () || getTraceOah ()) {
     gLogStream <<
       "oahHandler: checking the consistency of the options in \"" <<
       fHandlerExecutableName <<
@@ -4019,7 +4013,7 @@ void oahHandler::printHandlerAndGroupAndSubGroupSpecificHelp (
   S_oahSubGroup subGroup) const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     os << "oahHandler::printHandlerAndGroupAndSubGroupSpecificHelp" << endl;
   }
 #endif
@@ -4059,7 +4053,7 @@ void oahHandler::printNameIntrospectiveHelp (
   string   name)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     os << "Printing name \"" <<
       name <<
       "\" introspective help in handler \"" <<
@@ -4258,7 +4252,7 @@ void oahHandler::findStringInHandler (
   ostream&      os) const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     os << "Finding string \"" <<
       lowerCaseString <<
       "\" in handler \"" <<
@@ -4426,15 +4420,15 @@ void oahHandler::registerPrefixInHandler (
     "prefix is null");
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Registering prefix " <<
-    prefix->fetchPrefixNames () <<
-    " in handler \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Registering prefix " <<
+      prefix->fetchPrefixNames () <<
+      " in handler \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   string prefixName = prefix->getPrefixName ();
@@ -4493,15 +4487,15 @@ void oahHandler::appendGroupToHandler (
     "group is null");
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Appending group \"" <<
-    group->getGroupHeader () <<
-    "\" to handler \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Appending group \"" <<
+      group->getGroupHeader () <<
+      "\" to handler \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // append group to elements list
@@ -4526,15 +4520,15 @@ void oahHandler::prependGroupToHandler (
     "group is null");
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Prepending group \"" <<
-    group->getGroupHeader () <<
-    "\" to handler \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Prepending group \"" <<
+      group->getGroupHeader () <<
+      "\" to handler \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // prepend group  to elements list
@@ -4916,7 +4910,7 @@ void oahHandler::checkMissingPendingArgvAtomWithValueValue (
   string context)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     ++gIndenter;
 
     gLogStream <<
@@ -4959,7 +4953,7 @@ void oahHandler::checkMissingPendingArgvAtomWithValueValue (
 
   if (fPendingArgvAtomWithValue) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "Checking missing value for pending atom with mandatory value \"" <<
         lastOptionNameFound <<
@@ -5027,7 +5021,7 @@ void oahHandler::checkMissingPendingArgvAtomWithValueValue (
 
     // forget about this pending atom with mandatory value
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "Forgetting about the pending argv atom with mandatory value when handling atom name \"" <<
         lastOptionNameFound <<
@@ -5043,7 +5037,7 @@ void oahHandler::checkMissingPendingArgvAtomWithValueValue (
   else {
     // no atom with mandatory value is pending
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "No argv atom with mandatory value is pending when handling atom name \"" <<
         lastOptionNameFound <<
@@ -5067,7 +5061,7 @@ void oahHandler::registerElementUse (
     "elementUsed is null");
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Registering element use " <<
       elementUsed->fetchNamesBetweenQuotes () <<
@@ -5097,7 +5091,7 @@ void oahHandler::handleOptionPrefixName (
   string stringAfterEqualsSign)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option prefix name \"" <<
       prefixName <<
@@ -5119,7 +5113,7 @@ void oahHandler::handleOptionPrefixName (
   unsigned int chunksListSize = chunksList.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << chunksListSize << " chunk[s]" <<
       " in '" << stringAfterEqualsSign <<
@@ -5168,7 +5162,7 @@ void oahHandler::handleOptionPrefixName (
             prefix->getPrefixErsatz () + singleOptionName;
 
 #ifdef TRACING_IS_ENABLED
-        if (gGlobalTraceOahGroup->getTraceOah ()) {
+        if (getTraceOah ()) {
           gLogStream <<
             "Expanding option \"" << singleOptionName <<
             "\" to \"" << uncontractedOptionName <<
@@ -5206,7 +5200,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
   bool result = true; // until the contrary is known
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Checking whether optionName \"" <<
       optionName <<
@@ -5239,7 +5233,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
         "Considering single-character '" << singleCharacterString << "'" <<
         endl;
     }
-    else if (gGlobalTraceOahGroup->getTraceOah ()) {
+    else if (getTraceOah ()) {
       gLogStream <<
         "'" << singleCharacterString << "' ";
     }
@@ -5264,7 +5258,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
   } // for
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream << endl;
     }
 #endif
@@ -5273,7 +5267,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
     clusterElementsList.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "clusterElementsListSize = " << clusterElementsListSize <<
       endl;
@@ -5324,7 +5318,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
     optionName.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "optionNameSize = " << optionNameSize <<
       endl;
@@ -5347,7 +5341,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
 
       // handle element name
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       if (element) { // JMI should not be necessary...
         gLogStream <<
           "handling single-character options cluster element " <<
@@ -5364,7 +5358,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
 
   else {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "OptionName \"" <<
         optionName <<
@@ -5393,7 +5387,7 @@ void oahHandler::handleNameContainingEqualSign (
       optionName.substr (equalsSignPosition + 1);
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Deciphering option name \"" <<
       optionName <<
@@ -5414,7 +5408,7 @@ void oahHandler::handleNameContainingEqualSign (
   if (prefix) {
     // handle prefix name
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "Option name \"" <<
         stringBeforeEqualsSign <<
@@ -5448,7 +5442,7 @@ void oahHandler::handleNameContainingEqualSign (
             dynamic_cast<oahStringWithDefaultValueAtom*>(&(*element))
       ) {
 #ifdef TRACING_IS_ENABLED
-        if (gGlobalTraceOahGroup->getTraceOah ()) {
+        if (getTraceOah ()) {
           gLogStream <<
             "Option \"" <<
             stringBeforeEqualsSign <<
@@ -5517,7 +5511,7 @@ void oahHandler::handleOptionsVectorOptionName (
   string valueUsed)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling options vector option name \"" <<
       optionName <<
@@ -5538,7 +5532,7 @@ void oahHandler::handleOptionsVectorOptionName (
   if (element) {
     // optionName is known, let's handle it
 #ifdef TRACING_IS_ENABLED
-if (gGlobalTraceOahGroup->getTraceOah ()) {
+if (getTraceOah ()) {
   gLogStream <<
     "Handling option name \"" <<
     optionName <<
@@ -5558,7 +5552,7 @@ if (gGlobalTraceOahGroup->getTraceOah ()) {
   else {
     // optionName is unknown
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       if (false) // JMI
         this->printHelp (gOutputStream);
 
@@ -5586,7 +5580,7 @@ string oahHandler::handleArgvOptionName (
   const string& optionName)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling argv option name \"" <<
       optionName <<
@@ -5625,7 +5619,7 @@ string oahHandler::handleArgvOptionName (
         trailerAfterFirstDash.substr (1, string::npos);
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "\"" << currentOptionName << "\" is a double-dashed option" <<
           endl;
@@ -5639,7 +5633,7 @@ string oahHandler::handleArgvOptionName (
     currentOptionName = trailerAfterFirstDash;
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "\"" << currentOptionName << "\" is a single-dashed option" <<
         endl;
@@ -5659,7 +5653,7 @@ void oahHandler::handleOptionsVectorElement (
   string optionValue)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       endl <<
       "----------------------------------------------------------" <<
@@ -5733,7 +5727,7 @@ void oahHandler::handleArgvOptionValueOrArgument (
   const string& theString)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling argv option value or argument \"" <<
       theString <<
@@ -5773,7 +5767,7 @@ void oahHandler::handleArgvOptionValueOrArgument (
     // theString is the value for the pending atom with mandatory value
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
     gLogStream <<
       "The value associated to atom \"" <<
       fNameUsedForPendingArgvAtomWithValue <<
@@ -5781,7 +5775,7 @@ void oahHandler::handleArgvOptionValueOrArgument (
       fNameUsedForPendingArgvAtomWithValue <<
       "\" in argv is \"" << theString << "\"" <<
       endl;
-#endif
+  }
 #endif
 
     registerElementUse (
@@ -5791,7 +5785,7 @@ void oahHandler::handleArgvOptionValueOrArgument (
 
     // forget about this pending atom with mandatory value
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "handleArgvOptionValueOrArgument() Forgetting about the pending atom with mandatory value" <<
         endl;
@@ -5806,7 +5800,7 @@ void oahHandler::handleArgvOptionValueOrArgument (
     // theString is an argument
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "\"" << theString << "\" is an argument, not an option" <<
           endl;
@@ -5825,15 +5819,15 @@ oahElementHelpOnlyKind oahHandler::handleOptionsFromOptionsVector (
   clock_t startClock = clock ();
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Forcing OAH trace of vector options handling in " <<
-    "\"" << fHandlerHeader << "\"" <<
-    " for \"" << fHandlerExecutableName << "\"" <<
-    endl;
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Forcing OAH trace of vector options handling in " <<
+      "\"" << fHandlerHeader << "\"" <<
+      " for \"" << fHandlerExecutableName << "\"" <<
+      endl;
 
     gGlobalTraceOahGroup->setTraceOah ();
-#endif
+  }
 #endif
 
   oahElementHelpOnlyKind result;
@@ -5847,10 +5841,10 @@ oahElementHelpOnlyKind oahHandler::handleOptionsFromOptionsVector (
     theOptionsVector);
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  // display the arguments vector
-  displayArgumentsVector (fHandlerArgumentsVector);
-#endif
+  if (getTraceOah ()) {
+    // display the arguments vector
+    displayArgumentsVector (fHandlerArgumentsVector);
+  }
 #endif
 
   // apply the options in the elements uses list
@@ -5861,12 +5855,12 @@ oahElementHelpOnlyKind oahHandler::handleOptionsFromOptionsVector (
   checkOptionsAndArgumentsFromOptionsVector ();
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "result oahElementHelpOnlyKind: " <<
-    elementHelpOnlyKindAsString (result) <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "result oahElementHelpOnlyKind: " <<
+      elementHelpOnlyKindAsString (result) <<
+      endl;
+  }
 #endif
 
   // register time spent
@@ -5890,23 +5884,23 @@ oahElementHelpOnlyKind oahHandler::handleOptionsAndArgumentsFromArgcAndArgv (
   clock_t startClock = clock ();
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Forcing OAH trace of argc/argv elements handling in \"" <<
-    fHandlerHeader <<
-    "\" for \"" <<
-    fHandlerExecutableName <<
-    "\"" <<
-    endl;
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Forcing OAH trace of argc/argv elements handling in \"" <<
+      fHandlerHeader <<
+      "\" for \"" <<
+      fHandlerExecutableName <<
+      "\"" <<
+      endl;
 
     gGlobalTraceOahGroup->setTraceOah ();
-#endif
+  }
 #endif
 
   oahElementHelpOnlyKind result;
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "The contents of argv is:" <<
       endl;
@@ -5939,10 +5933,10 @@ oahElementHelpOnlyKind oahHandler::handleOptionsAndArgumentsFromArgcAndArgv (
     argc, argv);
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  // display the arguments vector
-  displayArgumentsVector (fHandlerArgumentsVector);
-#endif
+  if (getTraceOah ()) {
+    // display the arguments vector
+    displayArgumentsVector (fHandlerArgumentsVector);
+  }
 #endif
 
   // apply the options in the elements uses list
@@ -5953,12 +5947,12 @@ oahElementHelpOnlyKind oahHandler::handleOptionsAndArgumentsFromArgcAndArgv (
   checkOptionsAndArgumentsFromArgcAndArgv ();
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "result oahElementHelpOnlyKind: " <<
-    elementHelpOnlyKindAsString (result) <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "result oahElementHelpOnlyKind: " <<
+      elementHelpOnlyKindAsString (result) <<
+      endl;
+  }
 #endif
 
   // register time spent
@@ -5979,13 +5973,13 @@ void oahHandler::createElementUsesListFromOptionsVector (
   const optionsVector& theOptionsVector)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating atom uses list from options vector in \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating atom uses list from options vector in \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // sanity check
@@ -6023,11 +6017,11 @@ void oahHandler::createElementUsesListFromOptionsVector (
   ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  displayOptionsVector (
-    theOptionsVector,
-    gLogStream);
-#endif
+  if (getTraceOah ()) {
+    displayOptionsVector (
+      theOptionsVector,
+      gLogStream);
+  }
 #endif
 
   // register executable name
@@ -6049,11 +6043,11 @@ void oahHandler::createElementUsesListFromOptionsVector (
 
   else {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
     gLogStream <<
       "The options vector is empty in \"" << fHandlerHeader << "\"" <<
       endl;
-#endif
+  }
 #endif
   }
 
@@ -6065,9 +6059,9 @@ void oahHandler::createElementUsesListFromOptionsVector (
   checkOptionsAndArgumentsFromOptionsVector ();
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  displayElementUsesList ();
-#endif
+  if (getTraceOah ()) {
+    displayElementUsesList ();
+  }
 #endif
 }
 
@@ -6076,16 +6070,16 @@ void oahHandler::createElementUsesListFromArgcAndArgv (
   char* argv[])
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-if (false) // JMI
-  this->printHelp (gOutputStream);
+  if (getTraceOah ()) {
+    if (false) // JMI
+      this->printHelp (gOutputStream);
 
-  gLogStream <<
-    "Creating atom uses list from argc/argv in \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+      gLogStream <<
+        "Creating atom uses list from argc/argv in \"" <<
+        fHandlerHeader <<
+        "\"" <<
+        endl;
+  }
 #endif
 
   // sanity check
@@ -6138,7 +6132,7 @@ if (false) // JMI
 
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
     // print current option
     gLogStream <<
       endl <<
@@ -6150,7 +6144,7 @@ if (false) // JMI
       currentString <<
       "\"" <<
       endl;
-#endif
+  }
 #endif
 
     ++gIndenter;
@@ -6162,11 +6156,11 @@ if (false) // JMI
       if (currentString.size () == 1) {
         // currentString is the stdin indicator, thus an argument
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
         gLogStream <<
           "\"" << currentString << "\" is the '-' stdin indicator" <<
           endl;
-#endif
+  }
 #endif
 
         // append it the the arguments vector
@@ -6205,29 +6199,29 @@ if (false) // JMI
   --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  displayElementUsesList ();
-#endif
+  if (getTraceOah ()) {
+    displayElementUsesList ();
+  }
 #endif
 }
 
 oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Applying options from elements uses list in \"" <<
-    fHandlerHeader << "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Applying options from elements uses list in \"" <<
+      fHandlerHeader << "\"" <<
+      endl;
+  }
 #endif
 
   ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  displayElementUsesList ();
-#endif
+  if (getTraceOah ()) {
+    displayElementUsesList ();
+  }
 #endif
 
   if (fElementUsesList.size ()) {
@@ -6250,7 +6244,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
       ++counter;
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
       gLogStream <<
         endl <<
         "----------------------------------------------------------" <<
@@ -6264,12 +6258,12 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
         "\" with value \"" <<
         valueUsed << "\"" <<
         endl;
-#endif
+  }
 #endif
 
       if (elementUsed) {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
         oahElementKind
           atomValueExpectedKind =
             elementUsed->getElementKind ();
@@ -6279,7 +6273,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
           elementKindAsString (atomValueExpectedKind) <<
           "'" <<
           endl;
-#endif
+  }
 #endif
 
         // the output of the help should go to standard output,
@@ -6433,7 +6427,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
   // ------------------------------------------------------
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     if (fOahHandlerFoundAHelpOption) {
       gLogStream <<
         "This is a help-only run " <<
@@ -6477,7 +6471,7 @@ void oahHandler::handleKnownOptionsVectorElementUnderName (
 {
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling argv known element " <<
       element->fetchNamesBetweenQuotes () <<
@@ -6489,7 +6483,7 @@ void oahHandler::handleKnownOptionsVectorElementUnderName (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Element \"" <<
       element->fetchNamesBetweenQuotes () <<
@@ -6581,7 +6575,7 @@ void oahHandler::handleKnownOptionsVectorElementUnderName (
         atomSynonym->getOriginalOahAtom ();
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "Atom name \"" << optionNameUsed << "\" is a synonym for \"" <<
         originalOahAtom->asString () <<
@@ -6627,7 +6621,7 @@ void oahHandler::handleKnownArgvElementUnderName (
   string       optionNameUsed)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling argv known element " <<
       element->fetchNamesBetweenQuotes () <<
@@ -6639,7 +6633,7 @@ void oahHandler::handleKnownArgvElementUnderName (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Element " <<
       element->fetchNamesBetweenQuotes () <<
@@ -6731,7 +6725,7 @@ void oahHandler::handleKnownArgvElementUnderName (
         atomSynonym->getOriginalOahAtom ();
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "Atom name \"" << optionNameUsed << "\" is a synonym for \"" <<
         originalOahAtom->asString () <<
@@ -6771,7 +6765,7 @@ void oahHandler::handleKnownOptionsVectorAtomUnderName (
   string    valueUsed)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling known options vector atom " <<
       atom->fetchNamesBetweenQuotes () <<
@@ -6823,7 +6817,7 @@ void oahHandler::handleKnownArgvAtomUnderName (
   string    optionNameUsed)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling known argv atom " <<
       atom->fetchNamesBetweenQuotes () <<
@@ -6897,7 +6891,7 @@ void oahHandler::handleUnknownOptionName (
   string optionName)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling unknown option name \"" <<
       optionName <<
@@ -6939,7 +6933,7 @@ void oahHandler::handleOptionNameCommon (
   const string& optionName)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling valueless option name \"" <<
       optionName <<
@@ -6968,7 +6962,7 @@ void oahHandler::handleOptionNameCommon (
     if (element) {
       // optionName is known, let's handle it
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Handling option name \"" <<
       optionName <<

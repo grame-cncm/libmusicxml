@@ -69,7 +69,7 @@ msr2lilypondManPageGenerateAtom::~msr2lilypondManPageGenerateAtom ()
 void msr2lilypondManPageGenerateAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a msr2lilypondManPageGenerateAtom" <<
       endl;
@@ -386,11 +386,11 @@ S_msr2lilypondManPageOahGroup createGlobalMsr2lilypondManPageOahGroup (
   S_oahVisitor theOah2manPageGenerator)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global msr2lilypondManpage OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msr2lilypondManpage OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

@@ -43,12 +43,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_xml2brlRegularHandler xml2brlRegularHandler::create (
@@ -86,14 +80,14 @@ xml2brlRegularHandler::xml2brlRegularHandler (
   createRegularHandlerGroups ();
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  // print the options handler initial state
-  gLogStream <<
-    "xml2brlRegularHandler \"" <<
-    fHandlerHeader <<
-    "\" has been initialized as:" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    // print the options handler initial state
+    gLogStream <<
+      "xml2brlRegularHandler \"" <<
+      fHandlerHeader <<
+      "\" has been initialized as:" <<
+      endl;
+  }
 #endif
 }
 
@@ -103,13 +97,13 @@ xml2brlRegularHandler::~xml2brlRegularHandler ()
 void xml2brlRegularHandler::createRegularHandlerGroups ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the regular handler groups for \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the regular handler groups for \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   createInformationsRegularGroup ();
@@ -167,13 +161,13 @@ void xml2brlRegularHandler::createRegularHandlerGroups ()
   createOutputRegularGroup ();
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "All the regular handler groups for \"" <<
-    fHandlerHeader <<
-    "\" have been created" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "All the regular handler groups for \"" <<
+      fHandlerHeader <<
+      "\" have been created" <<
+      endl;
+  }
 #endif
 }
 
@@ -227,11 +221,13 @@ void xml2brlRegularHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("display-msr", subGroup);
   registerAtomInRegularSubgroup ("display-bsr", subGroup);
 
-  registerAtomInRegularSubgroup ("trace-oah", subGroup);
+#ifdef TRACING_IS_ENABLED
+  registerAtomInRegularSubgroup (K_TRACE_OAH_LONG_OPTION_NAME, subGroup);
   registerAtomInRegularSubgroup ("trace-oah-details", subGroup);
   registerAtomInRegularSubgroup ("trace-passes", subGroup);
 
   registerAtomInRegularSubgroup ("trace-bsr", subGroup);
+#endif
 }
 
 void xml2brlRegularHandler::createInformationsRegularGroup ()
@@ -853,7 +849,9 @@ void xml2brlRegularHandler::createChordsRegularGroup ()
 
   // atoms
 
+#ifdef TRACING_IS_ENABLED
   registerAtomInRegularSubgroup ("trace-chords", subGroup);
+#endif
 }
 
 void xml2brlRegularHandler::createTiesRegularGroup ()
@@ -1042,7 +1040,9 @@ void xml2brlRegularHandler::createTupletsRegularGroup ()
 
   // atoms
 
+#ifdef TRACING_IS_ENABLED
   registerAtomInRegularSubgroup ("trace-tuplets", subGroup);
+#endif
 }
 
 void xml2brlRegularHandler::createStringsRegularGroup ()
@@ -1239,7 +1239,7 @@ void xml2brlRegularHandler::createOutputRegularGroup ()
 void xml2brlRegularHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking options and arguments from argc/argv in \"" <<
       fHandlerHeader <<

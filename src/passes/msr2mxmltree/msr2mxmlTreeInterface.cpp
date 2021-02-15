@@ -93,6 +93,7 @@ Sxmlelement convertMsrScoreToMxmltree (
     startClock,
     endClock);
 
+#ifdef TRACING_IS_ENABLED
   if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTree ()) {
     gLogStream <<
       endl <<
@@ -114,6 +115,7 @@ Sxmlelement convertMsrScoreToMxmltree (
       "<!-- ----------------------------------------------------------- -->" <<
       endl << endl;
   }
+#endif
 
   // return it
   return resultingMxmlTree;

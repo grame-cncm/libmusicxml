@@ -1026,7 +1026,9 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
     i != fStaffVoiceNumbersToRegularVoicesMap.end ();
     ++i
   ) {
+#ifdef TRACING_IS_ENABLED
     int        number = (*i).first;
+#endif
     S_msrVoice voice  = (*i).second;
 
     if (

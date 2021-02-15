@@ -211,14 +211,15 @@ ostream& operator<< (ostream& os, const S_musicxml2mxmlTreeOahGroup& elt)
 
 //______________________________________________________________________________
 S_musicxml2mxmlTreeOahGroup createGlobalMusicxml2mxmlTreeOahGroup ()
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global xml2mxmlTree OAH group" <<
-    endl;
-#endif
-#endif
 {
+#ifdef TRACING_IS_ENABLED
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global musicxml2mxmlTree OAH group" <<
+      endl;
+  }
+#endif
+
   // protect library against multiple initializations
   if (! gGlobalMusicxml2mxmlTreeOahGroup) {
     // create the global OAH group

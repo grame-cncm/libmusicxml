@@ -487,7 +487,7 @@ void lpsrScore::setJianpuFileIncludeIsNeeded ()
 void lpsrScore::setScmAndAccregSchemeModulesAreNeeded ()
 {
   if (! fScmAndAccregSchemeModulesAreNeeded) {
-    addAccordionRegistrationSchemeModulesToScore ();
+    addAccordionRegistrationSchemeModulesToScore (); // JMI
 
     fScmAndAccregSchemeModulesAreNeeded = true;
   }

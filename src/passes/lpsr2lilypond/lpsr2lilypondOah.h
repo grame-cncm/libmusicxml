@@ -832,7 +832,9 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
     // ------------------------------------------------------
 
     enum scoreNotationKind {
-      kWesternNotation, kJianpuNotation, kABCNotation
+      kWesternNotation,
+      kJianpuNotation,
+      kABCNotation // not used yet
     };
 
     static string scoreNotationKindAsString (
@@ -880,6 +882,19 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
 
     string                getLilypondVersionDefaultValue () const
                               { return fLilypondVersionDefaultValue; }
+    // score notation
+    // --------------------------------------
+
+    void                  setJianpu ()
+                              { fJianpu = true; }
+    bool                  getJianpu () const
+                              { return fJianpu; }
+
+    void                  setLyLuaTexOutput ()
+                              { fLyLuaTexOutput = true; }
+    bool                  getLyLuaTexOutput () const
+                              { return fLyLuaTexOutput; }
+
     // global staff size
     // --------------------------------------
 
@@ -1341,16 +1356,6 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
                               { return fGenerateCommentedOutVariables; }
 
 
-    // score notation
-    // --------------------------------------
-
-    void                  setJianpu ()
-                              { fJianpu = true; }
-    bool                  getJianpu () const
-                              { return fJianpu; }
-
-
-
     // lyrics
     // --------------------------------------
 
@@ -1420,6 +1425,8 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
 
     void                  initializeLilypondVersionOptions ();
 
+    void                  initializeScoreNotationOptions ();
+
     void                  initializeGlobalStaffSizeOptions ();
 
     void                  initializeIdentificationOptions ();
@@ -1455,8 +1462,6 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
     void                  initializeFontsOptions ();
 
     void                  initializeCodeGenerationOptions ();
-
-    void                  initializeScoreNotationOptions ();
 
     void                  initializeMidiOptions ();
 
@@ -1503,6 +1508,18 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
     S_oahStringAtom       fLilypondVersionAtom;
 
     string                fLilypondVersionDefaultValue;
+
+    // score notation
+    // --------------------------------------
+
+    // scoreNotationKind     fScoreNotationKind; JMI ???
+    bool                  fJianpu;
+
+    // lyluatex output
+    // --------------------------------------
+
+    // to embed LilyPond code in LyLuaTex code
+    bool                  fLyLuaTexOutput;
 
     // global staff size
     // --------------------------------------
@@ -1780,14 +1797,6 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
 
     bool                  fGenerateCommentedOutVariables;
                             // this is to avoid having to add them by hand
-
-    // score notation
-    // --------------------------------------
-
-    // scoreNotationKind     fScoreNotationKind; JMI ???
-    bool                  fJianpu;
-
-
 
     // lyrics
     // --------------------------------------

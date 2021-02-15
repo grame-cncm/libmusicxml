@@ -213,11 +213,11 @@ ostream& operator<< (ostream& os, const S_msr2mxmlTreeOahGroup& elt)
 S_msr2mxmlTreeOahGroup createGlobalMsr2mxmlTreeOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global msr2mxmlTree OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msr2mxmlTree OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

@@ -53,7 +53,7 @@ msdl2msdrTokensListTranslator::~msdl2msdrTokensListTranslator ()
 void msdl2msdrTokensListTranslator::buildMsdrTokensList ()
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) { // getTraceTokens JMI
+  if (getTraceOah ()) { // getTraceTokens JMI
     gLogStream <<
       "Build MSDL tokens list" <<
       endl;

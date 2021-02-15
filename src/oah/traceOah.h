@@ -16,7 +16,8 @@
 
 #include "enableTracingIfDesired.h"
 
-#ifdef TRACING_IS_ENABLED
+#ifdef TRACING_IS_ENABLED // encompasses this whole file
+
 
 #include <set>
 
@@ -27,6 +28,14 @@
 
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+// tracing should be available for options and help before they have been setup
+extern void setTraceOah ();
+extern bool getTraceOah ();
+
+#define K_TRACE_OAH_SHORT_OPTION_NAME "toah"
+#define K_TRACE_OAH_LONG_OPTION_NAME  "trace-oah"
 
 //______________________________________________________________________________
 class EXP traceOahGroup : public oahGroup
@@ -667,7 +676,9 @@ class EXP traceOahGroup : public oahGroup
     S_oahPrefix           fLongTracePrefix;
 
     bool                  fTraceOah;
-    S_oahAtom             fTraceOahAtom; // to detect its use early
+                            // unused, only for the help
+                            // since this option is detected early
+    S_oahAtom             fTraceOahAtom; // to detect its use early // JMI ???
 
     bool                  fTraceOahDetails;
 

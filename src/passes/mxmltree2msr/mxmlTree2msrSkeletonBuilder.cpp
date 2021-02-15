@@ -2204,7 +2204,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart ( S_software& elt )
       ) {
         // handle it at once
 #ifdef TRACING_IS_ENABLED
-        if (gGlobalTraceOahGroup->getTraceOah ()) {
+        if (getTraceOah ()) {
           gLogStream <<
             "Setting '-cubase' option" <<
             endl;

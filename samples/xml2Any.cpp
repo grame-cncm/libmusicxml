@@ -35,12 +35,6 @@
 using namespace std;
 using namespace MusicXML2;
 
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 #ifndef WIN32
@@ -90,14 +84,14 @@ static bool arguments2optionsVector (int argc, char *argv[], optionsVector& theO
 	argvElements2stringsVector (argc, argv, stringsVector);
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  cerr << "arguments2optionsVector: stringsVector size: " << stringsVector.size() << endl;
-	cerr << "==> stringsVector:" << endl;
-	for (auto str: stringsVector) {
-	  cerr << "   " << str << endl;
-	} // for
-	cerr << endl;
-#endif
+  if (getTraceOah ()) {
+    cerr << "arguments2optionsVector: stringsVector size: " << stringsVector.size() << endl;
+    cerr << "==> stringsVector:" << endl;
+    for (auto str: stringsVector) {
+      cerr << "   " << str << endl;
+    } // for
+    cerr << endl;
+  }
 #endif
 
   // populate the optionsVector
@@ -110,10 +104,10 @@ static bool arguments2optionsVector (int argc, char *argv[], optionsVector& theO
 	  string str = stringsVector [i];
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-	  cerr << "--> curOption: " << curOption << endl;
-	  cerr << "--> str      : " << str << endl;
-#endif
+    if (getTraceOah ()) {
+      cerr << "--> curOption: " << curOption << endl;
+      cerr << "--> str      : " << str << endl;
+    }
 #endif
 
 		if (curOption.empty ()) {	// wait for option
@@ -207,9 +201,9 @@ int main (int argc, char *argv[])
   }
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  displayOptionsVector (theOptionsVector, cerr);
-#endif
+  if (getTraceOah ()) {
+    displayOptionsVector (theOptionsVector, cerr);
+  }
 #endif
 
   // take generatorOutputKind options into account if any
@@ -239,9 +233,9 @@ int main (int argc, char *argv[])
 	} // for
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  displayOptionsVector (theOptionsVector, cerr);
-#endif
+  if (getTraceOah ()) {
+    displayOptionsVector (theOptionsVector, cerr);
+  }
 #endif
 
   // the default is '-lilypond'
@@ -250,12 +244,12 @@ int main (int argc, char *argv[])
   }
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  cerr <<
-    "==> generatorOutputKind: " <<
-    generatorOutputKindAsString (gGeneratorOutputKind) <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    cerr <<
+      "==> generatorOutputKind: " <<
+      generatorOutputKindAsString (gGeneratorOutputKind) <<
+      endl;
+  }
 #endif
 
   // should we generate LilyPond, braille music or MusicXML?
@@ -267,9 +261,9 @@ int main (int argc, char *argv[])
 
     // MusicXML data comes from standard input
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
     cerr << "Reading standard input" << endl;
-#endif
+  }
 #endif
 
     switch (gGeneratorOutputKind) {
@@ -311,26 +305,26 @@ int main (int argc, char *argv[])
     } // switch
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-    if (err != 0) {
-      cerr <<
-        executableName <<
-        ", " <<
-        generatorOutputKindAsString (gGeneratorOutputKind) <<
-        ", from stdin, err = " <<
-        err <<
-        endl;
+    if (getTraceOah ()) {
+      if (err != 0) {
+        cerr <<
+          executableName <<
+          ", " <<
+          generatorOutputKindAsString (gGeneratorOutputKind) <<
+          ", from stdin, err = " <<
+          err <<
+          endl;
+      }
     }
-#endif
 #endif
   }
 
   else {
     // MusicXML data comes from a file
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-    cerr << "Reading file '" << inputFileName << "'" << endl;
-#endif
+    if (getTraceOah ()) {
+      cerr << "Reading file '" << inputFileName << "'" << endl;
+    }
 #endif
 
     switch (gGeneratorOutputKind) {
@@ -372,17 +366,17 @@ int main (int argc, char *argv[])
     } // switch
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-    if (err != 0) {
-      cerr <<
-        executableName <<
-        ", " <<
-        generatorOutputKindAsString (gGeneratorOutputKind) <<
-        ", from a file \"" << inputFileName << "\", err = " <<
-        err <<
-        endl;
+    if (getTraceOah ()) {
+      if (err != 0) {
+        cerr <<
+          executableName <<
+          ", " <<
+          generatorOutputKindAsString (gGeneratorOutputKind) <<
+          ", from a file \"" << inputFileName << "\", err = " <<
+          err <<
+          endl;
+      }
     }
-#endif
 #endif
   }
 

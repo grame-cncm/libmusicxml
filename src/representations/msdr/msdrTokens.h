@@ -219,6 +219,8 @@ class EXP msdrToken : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
+                          msdrToken ();
+
                           msdrToken (
                             msdrTokenKind tokenKind);
 

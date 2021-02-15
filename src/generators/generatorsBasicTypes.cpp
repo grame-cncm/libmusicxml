@@ -195,7 +195,7 @@ void generatorOutputKindAtom::applyAtomWithValue (
   // is it in the  output kinds map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> handling atom '" << fetchNames () << "; which is of type 'generatorOutputKindAtom'" <<
       " with value \"" << theString << "\"" <<

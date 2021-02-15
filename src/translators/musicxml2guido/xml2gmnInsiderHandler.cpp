@@ -44,12 +44,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_xml2gmnInsiderHandler xml2gmnInsiderHandler::create (
@@ -82,13 +76,13 @@ Usage: xml2gmn ([options] | [MusicXMLFile|-])+
 )")
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Initializing \"" <<
-    fHandlerHeader <<
-    "\" regular options handler" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Initializing \"" <<
+      fHandlerHeader <<
+      "\" regular options handler" <<
+      endl;
+  }
 #endif
 
   // create the xml2gmn prefixes
@@ -129,13 +123,13 @@ R"(What xml2gmn does:
 void xml2gmnInsiderHandler::createTheXml2gmnPrefixes ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the xml2gmn prefixes in \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the xml2gmn prefixes in \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   createTheCommonPrefixes ();
@@ -146,13 +140,13 @@ void xml2gmnInsiderHandler::createTheXml2gmnOptionGroups (
   string executableName)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the prefixes in \"" <<
-    fHandlerHeader <<
-    "\" insider option groups" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the prefixes in \"" <<
+      fHandlerHeader <<
+      "\" insider option groups" <<
+      endl;
+  }
 #endif
 
   // initialize options handling, phase 1
@@ -226,7 +220,7 @@ void xml2gmnInsiderHandler::createTheXml2gmnOptionGroups (
 void xml2gmnInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking options and arguments from argc/argv in \"" <<
       fHandlerHeader <<
@@ -242,7 +236,7 @@ void xml2gmnInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 string xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Fetching the output file name from the options in OAH handler \"" <<
       fHandlerHeader <<
@@ -330,7 +324,7 @@ string xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions () const
       }
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 1 = \"" <<
           outputFileName <<
@@ -343,7 +337,7 @@ string xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions () const
        outputFileName += ".gmn";
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 2 = " <<
           outputFileName <<
@@ -589,13 +583,13 @@ xml2gmnInsiderOahGroup::~xml2gmnInsiderOahGroup ()
 void xml2gmnInsiderOahGroup::initializeXml2gmnInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Initializing \"" <<
     fGroupHeader <<
     "\" group" <<
     endl;
-#endif
+  }
 #endif
 
   // Guido
@@ -613,13 +607,13 @@ void xml2gmnInsiderOahGroup::initializeXml2gmnInsiderOahGroup ()
 void xml2gmnInsiderOahGroup::createInsiderGuidoSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Creating insider output subgroup in \"" <<
     fGroupHeader <<
     "\"" <<
     endl;
-#endif
+  }
 #endif
 
   S_oahSubGroup
@@ -668,13 +662,13 @@ R"()",
 void xml2gmnInsiderOahGroup::createInsiderQuitSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Creating insider quit subgroup in \"" <<
     fGroupHeader <<
     "\"" <<
     endl;
-#endif
+  }
 #endif
 
   S_oahSubGroup
@@ -780,11 +774,11 @@ void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (unsigned int fie
 S_xml2gmnInsiderOahGroup createGlobalXml2gmnOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global \"xml2gmn\" OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global xml2gmn OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

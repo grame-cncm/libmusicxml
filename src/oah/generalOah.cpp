@@ -336,11 +336,11 @@ ostream& operator<< (ostream& os, const S_generalOahGroup& elt)
 S_generalOahGroup createGlobalGeneralOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global general OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global general OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

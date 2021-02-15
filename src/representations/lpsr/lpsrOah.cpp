@@ -85,7 +85,7 @@ void lpsrPitchesLanguageAtom::applyAtomWithValue (
 {
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lpsrPitchesLanguageAtom'" <<
       endl;
@@ -96,7 +96,7 @@ void lpsrPitchesLanguageAtom::applyAtomWithValue (
   // is it in the pitches languages map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lpsrPitchesLanguageAtom'" <<
       endl;
@@ -324,7 +324,7 @@ void lpsrChordsLanguageAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lpsrChordsLanguageAtom'" <<
       endl;
@@ -335,7 +335,7 @@ void lpsrChordsLanguageAtom::applyAtomWithValue (
   // is it in the chords languages map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lpsrChordsLanguageAtom'" <<
       endl;
@@ -559,7 +559,7 @@ void lpsrTransposeAtom::applyAtomWithValue (
 {
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lpsrTransposeAtom'" <<
       endl;
@@ -570,7 +570,7 @@ void lpsrTransposeAtom::applyAtomWithValue (
   // is it in the chords languages map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lpsrTransposeAtom'" <<
       endl;
@@ -1977,11 +1977,11 @@ ostream& operator<< (ostream& os, const S_lpsrOahGroup& elt)
 S_lpsrOahGroup createGlobalLpsrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global LPSR OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global LPSR OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations
@@ -2051,7 +2051,7 @@ void lpsrDalSegnoAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lpsrDalSegnoAtom'" <<
       endl;
@@ -2061,7 +2061,7 @@ void lpsrDalSegnoAtom::applyAtomWithValue (
   // theString contains the dal segno specification
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lpsrDalSegnoAtom'" <<
       endl;
@@ -2069,7 +2069,7 @@ void lpsrDalSegnoAtom::applyAtomWithValue (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> theString = \"" << theString << "\", " <<
       endl;
@@ -2348,7 +2348,7 @@ void lpsrDalSegnoAlFineAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lpsrDalSegnoAlFineAtom'" <<
       endl;
@@ -2358,7 +2358,7 @@ void lpsrDalSegnoAlFineAtom::applyAtomWithValue (
   // theString contains the dal segno al fine specification
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lpsrDalSegnoAlFineAtom'" <<
       endl;
@@ -2366,7 +2366,7 @@ void lpsrDalSegnoAlFineAtom::applyAtomWithValue (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> theString = \"" << theString << "\", " <<
       endl;
@@ -2645,7 +2645,7 @@ void lpsrDalSegnoAlCodaAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lpsrDalSegnoAlCodaAtom'" <<
       endl;
@@ -2656,7 +2656,7 @@ void lpsrDalSegnoAlCodaAtom::applyAtomWithValue (
   // decipher it to extract the old and new part names
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lpsrDalSegnoAlCodaAtom'" <<
       endl;
@@ -2664,7 +2664,7 @@ void lpsrDalSegnoAlCodaAtom::applyAtomWithValue (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> theString = \"" << theString << "\", " <<
       endl;

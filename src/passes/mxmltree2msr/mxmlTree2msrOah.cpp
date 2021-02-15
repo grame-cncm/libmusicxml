@@ -85,7 +85,7 @@ void msrDalSegnoAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msrDalSegnoAtom'" <<
       endl;
@@ -95,7 +95,7 @@ void msrDalSegnoAtom::applyAtomWithValue (
   // theString contains the dal segno specification
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msrDalSegnoAtom'" <<
       endl;
@@ -103,7 +103,7 @@ void msrDalSegnoAtom::applyAtomWithValue (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> theString = \"" << theString << "\", " <<
       endl;
@@ -378,7 +378,7 @@ void msrReplaceClefAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msrReplaceClefAtom'" <<
       endl;
@@ -389,7 +389,7 @@ void msrReplaceClefAtom::applyAtomWithValue (
   // decipher it to extract the old and new clef names
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> theString = \"" << theString << "\", " <<
       endl;
@@ -410,7 +410,7 @@ void msrReplaceClefAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for part transpose string '" << theString <<
@@ -422,7 +422,7 @@ void msrReplaceClefAtom::applyAtomWithValue (
 
   if (smSize == 3) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       for (unsigned i = 0; i < smSize; ++i) {
         gLogStream <<
           "[" << sm [i] << "] ";
@@ -447,7 +447,7 @@ void msrReplaceClefAtom::applyAtomWithValue (
     destinationClefName = sm [2];
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> originalClefName = \"" << originalClefName << "\", " <<
       "--> destinationClefName = \"" << destinationClefName << "\"" <<
@@ -1598,7 +1598,7 @@ void mxmlTree2msrOahGroup::enforceGroupQuietness ()
 void mxmlTree2msrOahGroup::checkGroupOptionsConsistency ()
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Checking the consistency of mxmlTree2msrOahGroup group \"" <<
       fGroupHeader <<
@@ -2151,11 +2151,11 @@ S_mxmlTree2msrOahGroup createGlobalMxmlTree2msrOahGroup (
   S_oahHandler handler)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global xmlTree2msr OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global mxmlTree2msr OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

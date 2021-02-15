@@ -29,10 +29,10 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
+#include "msrGeneratorsOah.h"
+
 #include "Mikrokosmos3WanderingInsiderHandler.h"
 #include "Mikrokosmos3WanderingRegularHandler.h"
-
-#include "Mikrokosmos3WanderingGenerator.h"
 
 #include "msr2lilypond.h"
 #include "msr2musicxml.h"
@@ -42,12 +42,6 @@
 
 using namespace MusicXML2;
 
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 #ifndef WIN32
@@ -96,14 +90,14 @@ static bool arguments2optionsVector (
 	argvElements2stringsVector (argc, argv, stringsVector);
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  cerr << "arguments2optionsVector: stringsVector size: " << stringsVector.size() << endl;
-	cerr << "==> stringsVector:" << endl;
-	for (auto str: stringsVector) {
-	  cerr << "   " << str << endl;
-	} // for
-	cerr << endl;
-#endif
+  if (getTraceOah ()) {
+    cerr << "arguments2optionsVector: stringsVector size: " << stringsVector.size() << endl;
+    cerr << "==> stringsVector:" << endl;
+    for (auto str: stringsVector) {
+      cerr << "   " << str << endl;
+    } // for
+    cerr << endl;
+  }
 #endif
 
   // populate the optionsVector
@@ -115,10 +109,10 @@ static bool arguments2optionsVector (
 	  string str = stringsVector [i];
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
 	  cerr << "--> curOption: " << curOption << endl;
 	  cerr << "--> str      : " << str << endl;
-#endif
+  }
 #endif
 
 		if (curOption.empty ()) {	// wait for option
@@ -126,6 +120,12 @@ static bool arguments2optionsVector (
 			  curOption = str;
       }
 			else {
+#ifdef TRACING_IS_ENABLED
+        if (getTraceOah ()) {
+          cerr << "--> str contains an argument: " << str << endl;
+        }
+#endif
+
 			  return false;
       }
 		}
@@ -268,7 +268,7 @@ int main (int argc, char * argv[])
 
   string executableName = argv [0];
 
-  // are there insider and/or functions/strings options present?
+  // are there insider/regular or trace OAH options present?
   // ------------------------------------------------------
 
   bool insiderOptions = false;
@@ -279,6 +279,16 @@ int main (int argc, char * argv[])
 
     string argumentWithoutDash = argumentAsString.substr (1);
 
+#ifdef TRACING_IS_ENABLED
+    if (
+      argumentWithoutDash == K_TRACE_OAH_SHORT_OPTION_NAME
+        ||
+      argumentWithoutDash == K_TRACE_OAH_LONG_OPTION_NAME
+    ) {
+      setTraceOah ();
+    }
+#endif
+
 		if (argumentWithoutDash == K_INSIDER_OPTION_NAME) {
 		  insiderOptions = true;
 		}
@@ -288,13 +298,13 @@ int main (int argc, char * argv[])
 	} // for
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  cerr <<
-    executableName << " main()" <<
-    ", insiderOptions: " << booleanAsString (insiderOptions) <<
-    ", regularOptions: " << booleanAsString (regularOptions) <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    cerr <<
+      executableName << " main()" <<
+      ", insiderOptions: " << booleanAsString (insiderOptions) <<
+      ", regularOptions: " << booleanAsString (regularOptions) <<
+      endl;
+  }
 #endif
 
   if (insiderOptions && regularOptions) {
@@ -319,18 +329,19 @@ int main (int argc, char * argv[])
 	optionsVector theOptionsVector;
 
 	if (! arguments2optionsVector (argc, argv, theOptionsVector)) {
+	  // arguments2optionsVector() returned false
     cerr <<
       executableName <<
-      ": arguments2optionsVector() returned false" <<
+      " does not take arguments, quitting" <<
       endl;
 
     return 1;
 	}
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  displayOptionsVector (theOptionsVector, cerr);
-#endif
+  if (getTraceOah ()) {
+    displayOptionsVector (theOptionsVector, cerr);
+  }
 #endif
 
   // fetch the generated output kind from theOptionsVector,
@@ -373,12 +384,12 @@ int main (int argc, char * argv[])
 
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  cerr <<
-    "==> generatorOutputKind: " <<
-    generatorOutputKindAsString (theGeneratorOutputKind) <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    cerr <<
+      "==> generatorOutputKind: " <<
+      generatorOutputKindAsString (theGeneratorOutputKind) <<
+      endl;
+  }
 #endif
 
   switch (theGeneratorOutputKind) {
@@ -408,7 +419,7 @@ int main (int argc, char * argv[])
   S_oahHandler handler;
 
   try {
-    // create an Mikrokosmos3Wandering insider OAH handler
+    // create a generators insider OAH handler
     // ------------------------------------------------------
 
     S_Mikrokosmos3WanderingInsiderHandler
@@ -422,11 +433,11 @@ int main (int argc, char * argv[])
     // ------------------------------------------------------
 
     if (insiderOptions) {
-      // use the insider Mikrokosmos3Wandering OAH handler
+      // use the insider generators OAH handler
       handler = insiderOahHandler;
     }
     else {
-      // create a regular Mikrokosmos3Wandering OAH handler
+      // create a regular generators OAH handler
       handler =
         Mikrokosmos3WanderingRegularHandler::create (
           executableName,
@@ -464,6 +475,9 @@ int main (int argc, char * argv[])
     return kInvalidFile;
   }
 
+  // has the output kind been chosen?
+  // ------------------------------------------------------
+
   switch (theGeneratorOutputKind) {
     case k_NoOutput:
       {
@@ -490,6 +504,8 @@ int main (int argc, char * argv[])
   } // switch
 
   // check indentation
+  // ------------------------------------------------------
+
   if (gIndenter != 0) {
     gLogStream <<
       "### " <<
@@ -501,6 +517,9 @@ int main (int argc, char * argv[])
 
     gIndenter.resetToZero ();
   }
+
+  // display the OAH handler if needed
+  // ------------------------------------------------------
 
   if (gGlobalOahOahGroup->getDisplayOahHandler ()) {
     gLogStream <<
@@ -540,16 +559,16 @@ int main (int argc, char * argv[])
 
   msrGenerationAPIKind
     theGenerationAPIKind =
-      gGlobalMikrokosmos3WanderingOahGroup->
+      gGlobalMsrGeneratorsOahGroup->
         getGenerationAPIKind ();
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  cerr <<
-    "==> generationAPIKind: " <<
-    msrGenerationAPIKindAsString (theGenerationAPIKind) <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    cerr <<
+      "==> generationAPIKind: " <<
+      msrGenerationAPIKindAsString (theGenerationAPIKind) <<
+      endl;
+  }
 #endif
 
   // create and populate the theMsrScore
@@ -575,7 +594,7 @@ int main (int argc, char * argv[])
   }
 #endif
 
-  // the Mikrokosmos3WanderingGenerator
+  // the generatorsGenerator
   S_Mikrokosmos3WanderingGenerator
     generator =
       Mikrokosmos3WanderingGenerator::create ();
@@ -675,16 +694,16 @@ int main (int argc, char * argv[])
   } // switch
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  if (err != 0) {
-    cerr <<
-      executableName << ", " <<
-      generatorOutputKindAsString (theGeneratorOutputKind) <<
-      ", err = " <<
-      err <<
-      endl;
-  }
-#endif
+  if (getTraceOah ()) {
+    if (err != 0) {
+      cerr <<
+        executableName << ", " <<
+        generatorOutputKindAsString (theGeneratorOutputKind) <<
+        ", err = " <<
+        err <<
+        endl;
+    }
+ }
 #endif
 
   // display the input line numbers for which messages have been issued

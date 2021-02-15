@@ -101,7 +101,7 @@ void bsrFacSimileKindAtom::applyAtomWithValue (
   // JMI ???
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'bsrFacSimileKindAtom'" <<
       endl;
@@ -297,7 +297,7 @@ void bsrTextsLanguageAtom::applyAtomWithValue (
   // JMI ???
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'bsrTextsLanguageAtom'" <<
       endl;
@@ -876,11 +876,11 @@ ostream& operator<< (ostream& os, const S_bsrOahGroup& elt)
 S_bsrOahGroup createGlobalBsrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global BSR OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global BSR OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

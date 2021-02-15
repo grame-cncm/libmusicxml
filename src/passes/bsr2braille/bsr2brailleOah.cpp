@@ -84,7 +84,7 @@ void brailleOutputKindAtom::applyAtomWithValue (
   // is it in the  output kinds map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> handling atom '" << fetchNames () << "; which is of type 'brailleOutputKindAtom'" <<
       " with value \"" << theString << "\"" <<
@@ -309,7 +309,7 @@ void brailleUTFKindAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> handling atom '" << fetchNames () << "; which is of type 'brailleUTFKindAtom'" <<
       " with value \"" << theString << "\"" <<
@@ -527,7 +527,7 @@ void brailleByteOrderingKindAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> handling atom '" << fetchNames () << "; which is of type 'brailleByteOrderingKindAtom'" <<
       " with value \"" << theString << "\"" <<
@@ -1095,11 +1095,11 @@ ostream& operator<< (ostream& os, const S_bsr2brailleOahGroup& elt)
 S_bsr2brailleOahGroup createGlobalBsr2brailleOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global bsr2braille OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global bsr2braille OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

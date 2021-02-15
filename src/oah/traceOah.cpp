@@ -16,7 +16,8 @@
 
 #include "enableTracingIfDesired.h"
 
-#ifdef TRACING_IS_ENABLED
+
+#ifdef TRACING_IS_ENABLED // encompasses this whole file
 
 #include "traceOah.h"
 
@@ -32,6 +33,15 @@ using namespace std;
 
 namespace MusicXML2
 {
+
+//_______________________________________________________________________________
+static bool gTraceOah = false;
+
+void setTraceOah ()
+  { gTraceOah = true; }
+
+bool getTraceOah ()
+  { return gTraceOah; }
 
 //_______________________________________________________________________________
 S_traceOahGroup gGlobalTraceOahGroup;
@@ -68,17 +78,12 @@ traceOahGroup::~traceOahGroup ()
 
 void traceOahGroup::createTheTracePrefixes (S_oahHandler handler)
 {
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the trace prefixes in \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the OAH trace prefixes" <<
+      endl;
+  }
 
-#ifdef TRACING_IS_ENABLED
   ++gIndenter;
 
   // the 'trace' prefixes
@@ -101,9 +106,7 @@ void traceOahGroup::createTheTracePrefixes (S_oahHandler handler)
       fLongTracePrefix);
 
   --gIndenter;
-#endif
 }
-
 
 void traceOahGroup::initializePrintLayoutsTraceOah ()
 {
@@ -1654,7 +1657,7 @@ R"()",
   S_oahTwoBooleansAtom
     traceBooksBooleanAtom =
       oahTwoBooleansAtom::create (
-        "tscore", "trace-score",
+        "tbook", "trace-books",
 R"(Books)",
         "traceBooks",
         fTraceBooks,
@@ -1673,7 +1676,7 @@ R"(Books)",
   S_oahTwoBooleansAtom
     traceScoresBooleanAtom =
       oahTwoBooleansAtom::create (
-        "tscore", "trace-score",
+        "tscores", "trace-scores",
 R"(Score)",
         "traceScores",
         fTraceScores,
@@ -2065,11 +2068,11 @@ R"()",
 
   fTraceOahAtom =
     oahBooleanAtom::create (
-      "toah", "trace-oah",
+      K_TRACE_OAH_SHORT_OPTION_NAME, K_TRACE_OAH_LONG_OPTION_NAME,
 R"(Write a trace of options and help handling to standard error.
 This option should best appear early.)",
       "traceOah",
-      fTraceOah);
+     fTraceOah);
 
   subGroup->
     appendAtomToSubGroup (
@@ -2415,65 +2418,55 @@ void traceOahGroup::checkGroupOptionsConsistency ()
 //______________________________________________________________________________
 void traceOahGroup::acceptIn (basevisitor* v)
 {
-#ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
       ".\\\" ==> traceOahGroup::acceptIn ()" <<
       endl;
   }
-#endif
 
   if (visitor<S_traceOahGroup>*
     p =
       dynamic_cast<visitor<S_traceOahGroup>*> (v)) {
         S_traceOahGroup elem = this;
 
-#ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
             ".\\\" ==> Launching traceOahGroup::visitStart ()" <<
             endl;
         }
-#endif
         p->visitStart (elem);
   }
 }
 
 void traceOahGroup::acceptOut (basevisitor* v)
 {
-#ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
       ".\\\" ==> traceOahGroup::acceptOut ()" <<
       endl;
   }
-#endif
 
   if (visitor<S_traceOahGroup>*
     p =
       dynamic_cast<visitor<S_traceOahGroup>*> (v)) {
         S_traceOahGroup elem = this;
 
-#ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
             ".\\\" ==> Launching traceOahGroup::visitEnd ()" <<
             endl;
         }
-#endif
         p->visitEnd (elem);
   }
 }
 
 void traceOahGroup::browseData (basevisitor* v)
 {
-#ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
       ".\\\" ==> traceOahGroup::browseData ()" <<
       endl;
   }
-#endif
 
   oahGroup::browseData (v);
 }
@@ -3383,13 +3376,11 @@ ostream& operator<< (ostream& os, const S_traceOahGroup& elt)
 S_traceOahGroup createGlobalTraceOahGroup (
   S_oahHandler handler)
 {
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global trace OAH group" <<
-    endl;
-#endif
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global trace OAH group" <<
+      endl;
+  }
 
   // protect library against multiple initializations
   if (! gGlobalTraceOahGroup) {
@@ -3406,6 +3397,7 @@ S_traceOahGroup createGlobalTraceOahGroup (
 
 
 }
+
 
 #endif
 

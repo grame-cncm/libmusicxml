@@ -417,7 +417,7 @@ void initializeBSRBasicTypes ()
 
   if (! pThisMethodHasBeenRun) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+    if (getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
       gLogStream <<
         "Initializing BSR basic types handling" <<
         endl;

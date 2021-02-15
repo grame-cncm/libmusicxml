@@ -72,7 +72,7 @@ extraShowAllHarmoniesStructuresAtom::~extraShowAllHarmoniesStructuresAtom ()
 void extraShowAllHarmoniesStructuresAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a extraShowAllHarmoniesStructuresAtom" <<
       endl;
@@ -88,7 +88,7 @@ void extraShowAllHarmoniesStructuresAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a extraShowAllHarmoniesStructuresAtom" <<
       endl;
@@ -243,7 +243,7 @@ void extraShowAllHarmoniesContentsAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'extraShowAllHarmoniesContentsAtom'" <<
       endl;
@@ -254,7 +254,7 @@ void extraShowAllHarmoniesContentsAtom::applyAtomWithValue (
   // is it in the accidental styles map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'extraShowAllHarmoniesContentsAtom'" <<
       ", theString = \"" << theString << "\"" <<
@@ -484,7 +484,7 @@ void extraShowHarmonyDetailsAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'extraShowHarmonyDetailsAtom'" <<
       endl;
@@ -494,7 +494,7 @@ void extraShowHarmonyDetailsAtom::applyAtomWithValue (
   // theString contains the pitch name in the current language
   // is it in the accidental styles map?
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'extraShowHarmonyDetailsAtom'" <<
       ", theString = \"" << theString << "\"" <<
@@ -518,7 +518,7 @@ void extraShowHarmonyDetailsAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for Harmony details string '" << theString <<
@@ -529,7 +529,7 @@ void extraShowHarmonyDetailsAtom::applyAtomWithValue (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       smSize << " elements: ";
     for (unsigned i = 0; i < smSize; ++i) {
@@ -558,7 +558,7 @@ void extraShowHarmonyDetailsAtom::applyAtomWithValue (
     harmonyName = sm [2];
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> rootName = \"" << rootName << "\", " <<
       "--> harmonyName = \"" << harmonyName << "\"" <<
@@ -780,7 +780,7 @@ void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'extraShowHarmonyAnalysisAtom'" <<
       endl;
@@ -791,7 +791,7 @@ void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
   // is it in the accidental styles map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'extraShowHarmonyAnalysisAtom'" <<
       ", theString = \"" << theString << "\"" <<
@@ -817,7 +817,7 @@ void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for Harmony analysis string '" << theString <<
@@ -829,7 +829,7 @@ void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
 
   if (smSize == 4) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         smSize << " elements: ";
       for (unsigned i = 0; i < smSize; ++i) {
@@ -874,7 +874,7 @@ void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> rootName = \"" << rootName << "\", " <<
       "--> harmonyName = \"" << harmonyName << "\"" <<
@@ -1342,11 +1342,11 @@ ostream& operator<< (ostream& os, const S_extraOahGroup& elt)
 S_extraOahGroup createGlobalExtraOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global extra OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global extra OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

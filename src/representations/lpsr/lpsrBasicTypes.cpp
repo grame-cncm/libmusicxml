@@ -1358,7 +1358,7 @@ void initializeLPSRBasicTypes ()
 
   if (! pThisMethodHasBeenRun) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+    if (getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
       gLogStream <<
         "Initializing LPSR basic types handling" <<
         endl;

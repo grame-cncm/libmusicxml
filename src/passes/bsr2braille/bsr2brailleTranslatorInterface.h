@@ -25,7 +25,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-EXP void convertBsrScoreToBrailleText (
+EXP void convertBsrScoreToBraille (
   const S_bsrScore originalBsrScore,
   S_bsrOahGroup    bsrOpts,
   string           passNumber,

@@ -505,7 +505,7 @@ void yyset_lineno ( int _line_number  );
 extern "C" int yywrap ( void );
 #else
 extern int yywrap ( void );
-#endif
+  }
 #endif
 
 #ifndef yytext_ptr

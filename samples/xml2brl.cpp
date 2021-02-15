@@ -37,12 +37,6 @@
 using namespace std;
 using namespace MusicXML2;
 
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gLogStream has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 #ifndef WIN32
@@ -84,7 +78,9 @@ int main (int argc, char *argv[])
   // fetch executable name
   string executableName = argv [0];
 
-  // are there insider and/or regular options present?
+  // are there insider/regular or trace OAH options present?
+  // ------------------------------------------------------
+
   bool insiderOptions = false;
   bool regularOptions = false;
 
@@ -92,6 +88,16 @@ int main (int argc, char *argv[])
 	  string argumentAsString = string (argv [i]);
 
     string argumentWithoutDash = argumentAsString.substr (1);
+
+#ifdef TRACING_IS_ENABLED
+    if (
+      argumentWithoutDash == K_TRACE_OAH_SHORT_OPTION_NAME
+        ||
+      argumentWithoutDash == K_TRACE_OAH_LONG_OPTION_NAME
+    ) {
+      setTraceOah ();
+    }
+#endif
 
 		if (argumentWithoutDash == K_INSIDER_OPTION_NAME) {
 		  insiderOptions = true;
@@ -102,13 +108,13 @@ int main (int argc, char *argv[])
 	} // for
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  cerr <<
-    executableName << " main()" <<
-    ", insiderOptions: " << booleanAsString (insiderOptions) <<
-    ", regularOptions: " << booleanAsString (regularOptions) <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    cerr <<
+      executableName << " main()" <<
+      ", insiderOptions: " << booleanAsString (insiderOptions) <<
+      ", regularOptions: " << booleanAsString (regularOptions) <<
+      endl;
+  }
 #endif
 
   if (insiderOptions && regularOptions) {
@@ -212,18 +218,18 @@ int main (int argc, char *argv[])
         fetchOutputFileNameFromTheOptions ();
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  string separator =
-    "%--------------------------------------------------------------";
+  if (getTraceOah ()) {
+    string separator =
+      "%--------------------------------------------------------------";
 
-  gLogStream <<
-    executableName << ": " <<
-    "inputSourceName = \"" << inputSourceName << "\"" <<
-    ", outputFileName = \"" << outputFileName << "\"" <<
-    endl <<
-    separator <<
-    endl;
-#endif
+    gLogStream <<
+      executableName << ": " <<
+      "inputSourceName = \"" << inputSourceName << "\"" <<
+      ", outputFileName = \"" << outputFileName << "\"" <<
+      endl <<
+      separator <<
+      endl;
+  }
 #endif
 
   // what if no input source name has been supplied?
@@ -344,9 +350,9 @@ int main (int argc, char *argv[])
     if (inputSourceName == "-") {
       // MusicXML data comes from standard input
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-      cerr << "Reading standard input" << endl;
-#endif
+      if (getTraceOah ()) {
+          cerr << "Reading standard input" << endl;
+      }
 #endif
 
       err =
@@ -356,9 +362,9 @@ int main (int argc, char *argv[])
     else {
       // MusicXML data comes from a file
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-      cerr << "Reading file \"" << inputSourceName << "\"" << endl;
-#endif
+      if (getTraceOah ()) {
+          cerr << "Reading file \"" << inputSourceName << "\"" << endl;
+      }
 #endif
 
       err =

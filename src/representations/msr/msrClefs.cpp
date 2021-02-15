@@ -86,7 +86,7 @@ S_msrClef msrClef::createClefFromString (
     );
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "regularExpression = " <<
       regularExpression <<
@@ -102,7 +102,7 @@ S_msrClef msrClef::createClefFromString (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for clef string \"" << clefString <<
@@ -149,7 +149,7 @@ S_msrClef msrClef::createClefFromString (
         clefName);
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "clefName = \"" <<
       beatsNumber <<

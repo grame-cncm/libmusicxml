@@ -26,12 +26,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 /* this class is purely virtual
@@ -66,13 +60,13 @@ oahInsiderHandler::oahInsiderHandler (
       handlerUsage)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Initializing \"" <<
-    fHandlerHeader <<
-    "\" insider handler" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Initializing \"" <<
+      fHandlerHeader <<
+      "\" insider handler" <<
+      endl;
+  }
 #endif
 }
 

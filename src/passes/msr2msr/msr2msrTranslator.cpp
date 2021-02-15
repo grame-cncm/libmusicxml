@@ -356,10 +356,10 @@ void msr2msrTranslator::handlePartHiddenMeasureAndBarlineDescrList ()
 //________________________________________________________________________
 void msr2msrTranslator::visitStart (S_msrScore& elt)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
       "--> Start visiting msrScore" <<
@@ -371,10 +371,10 @@ void msr2msrTranslator::visitStart (S_msrScore& elt)
 
 void msr2msrTranslator::visitEnd (S_msrScore& elt)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
       "--> End visiting msrScore" <<
@@ -758,6 +758,7 @@ void msr2msrTranslator::visitEnd (S_msrPartGroup& elt)
 //________________________________________________________________________
 void msr2msrTranslator::visitStart (S_msrPart& elt)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     elt->getInputLineNumber ();
 
@@ -765,7 +766,6 @@ void msr2msrTranslator::visitStart (S_msrPart& elt)
     partCombinedName =
       elt->getPartCombinedName ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
       "--> Start visiting msrPart " <<

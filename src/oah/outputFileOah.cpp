@@ -84,13 +84,13 @@ void outputFileOahGroup::initializeOutputFileOah ()
 void outputFileOahGroup::initializeOutputFileNameOptions ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Creating insider output file subgroup in \"" <<
     fGroupHeader <<
     "\"" <<
     endl;
-#endif
+  }
 #endif
 
   S_oahSubGroup
@@ -313,11 +313,11 @@ ostream& operator<< (ostream& os, const S_outputFileOahGroup& elt)
 S_outputFileOahGroup createGlobalOutputFileOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global outputFile OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global outputFile OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

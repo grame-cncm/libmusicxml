@@ -69,7 +69,7 @@ msr2brailleManPageGenerateAtom::~msr2brailleManPageGenerateAtom ()
 void msr2brailleManPageGenerateAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a msr2brailleManPageGenerateAtom" <<
       endl;
@@ -373,11 +373,11 @@ S_msr2brailleManPageOahGroup createGlobalXml2brailleManPageOahHandler (
   S_oahVisitor theOah2manPageGenerator)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global xmlblrManPage OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global xml2blrManPage OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

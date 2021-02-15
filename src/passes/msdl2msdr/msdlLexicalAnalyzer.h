@@ -71,7 +71,9 @@ class msdlLexicalAnalyzer : public smartable
     // public services
     // ------------------------------------------------------
 
-    void                  analyze ();
+    msdrTokenKind         nextTokenPlease ();
+
+    void                  performLexicalAnalysis ();
 
   public:
 
@@ -94,8 +96,6 @@ class msdlLexicalAnalyzer : public smartable
 
     void                  appendFragmentToCurrentString (string fragment)
                               { fCurrentString += fragment; }
-
-    msdrTokenKind         acceptATerminal ();
 
     msdrTokenKind         acceptASingleQuotedString ();
     msdrTokenKind         acceptADoubleQuotedString ();
@@ -125,6 +125,15 @@ class msdlLexicalAnalyzer : public smartable
 
     S_msdlLexicalWaeHandler
                           fLexicalWaeHandler;
+
+#ifdef TRACING_IS_ENABLED
+    bool                  fTraceTokens;
+#endif
+
+    msdrToken             fCurrentToken;
+
+    bool                  fAppendTokensToList;
+    msdrTokensList        fTokensList;
 
     string                fCurrentLine;
     unsigned int          fCurrentLineSize;

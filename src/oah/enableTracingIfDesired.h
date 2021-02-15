@@ -13,10 +13,8 @@
 #ifndef ___enableTracingIfDesired___
 #define ___enableTracingIfDesired___
 
-
-// comment the following definition if no tracing is desired
-
 #ifndef TRACING_IS_ENABLED
+  // comment the following definition if no tracing is desired
   #define TRACING_IS_ENABLED
 #endif
 

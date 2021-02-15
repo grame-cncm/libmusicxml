@@ -579,7 +579,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for semitones pitch and octave string '" << theString <<
@@ -605,7 +605,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
       octaveIndication = sm [2];
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "--> pitch = \"" << pitch << "\", " <<
         "--> octaveIndication = \"" << octaveIndication << "\"" <<
@@ -627,7 +627,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
           octaveIndication);
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "--> semiTonesPitchKind = \"" <<
         msrSemiTonesPitchKindAsString (
@@ -851,7 +851,7 @@ S_msrQuarterTonesPitchAndOctave msrQuarterTonesPitchAndOctave::createFromString 
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for quartertones pitch and octave string '" << theString <<
@@ -877,7 +877,7 @@ S_msrQuarterTonesPitchAndOctave msrQuarterTonesPitchAndOctave::createFromString 
       octaveIndication = sm [2];
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "--> pitch = \"" << pitch << "\", " <<
         "--> octaveIndication = \"" << octaveIndication << "\"" <<
@@ -901,7 +901,7 @@ S_msrQuarterTonesPitchAndOctave msrQuarterTonesPitchAndOctave::createFromString 
           octaveIndication);
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       gLogStream <<
         "--> quarterTonesPitchKind = \"" <<
           msrQuarterTonesPitchKindAsString (
@@ -22252,7 +22252,7 @@ msrRGBColor::msrRGBColor (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for RGB color string '" << theString <<
@@ -22264,7 +22264,7 @@ msrRGBColor::msrRGBColor (
 
   if (smSize == 4) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       for (unsigned i = 0; i < smSize; ++i) {
         gLogStream <<
           "[" << sm [i] << "] ";
@@ -22290,7 +22290,7 @@ msrRGBColor::msrRGBColor (
     BString = sm [3];
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> RString = \"" << RString << "\", " <<
       "--> GString = \"" << GString << "\"" <<
@@ -22459,7 +22459,7 @@ void initializeMSRBasicTypes ()
 
   if (! pThisMethodHasBeenRun) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+    if (getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
       gLogStream <<
         "Initializing MSR basic types handling" <<
         endl;

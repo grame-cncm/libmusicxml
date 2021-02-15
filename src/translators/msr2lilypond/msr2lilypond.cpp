@@ -42,12 +42,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 EXP xmlErr msrScore2lilypondWithHandler (
@@ -61,7 +55,7 @@ EXP xmlErr msrScore2lilypondWithHandler (
   S_oahHandler handler)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Translating an MSR score to LilyPond in \"" <<
       handler->getHandlerHeader () <<
@@ -144,7 +138,7 @@ EXP xmlErr msrScore2lilypondWithHandler (
           fetchOutputFileNameFromTheOptions ();
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       err <<
         "xmlFile2lilypond() outputFileName = \"" <<
         outputFileName <<
@@ -155,7 +149,7 @@ EXP xmlErr msrScore2lilypondWithHandler (
 
     if (! outputFileName.size ()) {
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         err <<
           "xmlFile2lilypond() output goes to standard output" <<
           endl;
@@ -191,7 +185,7 @@ EXP xmlErr msrScore2lilypondWithHandler (
 
     else {
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         err <<
           "xmlFile2lilypond() output goes to file \"" <<
           outputFileName <<

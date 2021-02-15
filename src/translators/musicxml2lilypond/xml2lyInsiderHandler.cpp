@@ -48,12 +48,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalTraceOahGroup->fTraceOah has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_xml2lyInsiderHandler xml2lyInsiderHandler::create (
@@ -93,13 +87,13 @@ Usage: xml2ly ([options] | [MusicXMLFile|-])+
     )
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Initializing xml2ly insider options handler \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Initializing xml2ly insider options handler \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // create the xml2ly prefixes
@@ -173,11 +167,11 @@ string xml2lyInsiderHandler::usageFromUsedThruKind (
 void xml2lyInsiderHandler::createTheXml2lyPrefixes ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the xml2ly prefixes" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the xml2ly prefixes" <<
+      endl;
+  }
 #endif
 
   createTheCommonPrefixes ();
@@ -188,13 +182,13 @@ void xml2lyInsiderHandler::createTheXml2lyOptionGroups (
   string executableName)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the xml2ly insider option groups" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the xml2ly insider option groups" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // initialize options handling, phase 1
@@ -305,7 +299,7 @@ if (gGlobalTraceOahGroup->getTraceOahDetails ()) {
 void xml2lyInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking options and arguments from argc/argv in \"" <<
       fHandlerHeader <<
@@ -321,7 +315,7 @@ void xml2lyInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 string xml2lyInsiderHandler::fetchOutputFileNameFromTheOptions () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Fetching the output file name from the options in OAH handler \"" <<
       fHandlerHeader <<
@@ -409,7 +403,7 @@ string xml2lyInsiderHandler::fetchOutputFileNameFromTheOptions () const
       }
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "xml2lyInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 1 = \"" <<
           outputFileName <<
@@ -422,7 +416,7 @@ string xml2lyInsiderHandler::fetchOutputFileNameFromTheOptions () const
        outputFileName += ".ly";
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "xml2lyInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 2 = " <<
           outputFileName <<
@@ -641,13 +635,13 @@ xml2lyInsiderOahGroup::~xml2lyInsiderOahGroup ()
 void xml2lyInsiderOahGroup::initializeXml2lyInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Initializing \"" <<
     fGroupHeader <<
     "\" group" <<
     endl;
-#endif
+  }
 #endif
 
   // quit after some passes
@@ -660,13 +654,13 @@ void xml2lyInsiderOahGroup::initializeXml2lyInsiderOahGroup ()
 void xml2lyInsiderOahGroup::createInsiderQuitSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Creating insider quit subgroup in \"" <<
     fGroupHeader <<
     "\"" <<
     endl;
-#endif
+  }
 #endif
 
   S_oahSubGroup
@@ -750,11 +744,11 @@ void xml2lyInsiderOahGroup::printXml2lyInsiderOahGroupValues (unsigned int field
 S_xml2lyInsiderOahGroup createGlobalXml2lyInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global xml2ly OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global xml2ly OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

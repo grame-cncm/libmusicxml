@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-//#include <iomanip>      // setw, setprecision, ...
+#include <iomanip>      // setw, setprecision, ...
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -20,7 +20,6 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-/*
 #include "msr.h"
 #include "lpsr.h"
 
@@ -32,34 +31,27 @@
 #include "msr2mxmlTreeOah.h"
 
 #include "version.h"
-*/
 
-// JMI #include "msdlCompilerOah.h"
-#include "msdlCompilerRegularHandler.h"
+#include "generatorsOah.h"
+#include "generatorsRegularHandler.h"
 
 
 using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
-S_msdlCompilerRegularHandler msdlCompilerRegularHandler::create (
+S_generatorsRegularHandler generatorsRegularHandler::create (
   string              executableName,
   string              handlerHeader,
-  S_msdlCompilerInsiderHandler
+  S_generatorsInsiderHandler
                       insiderOahHandler,
   generatorOutputKind theGeneratorOutputKind)
 {
   // create the regular handler
-  msdlCompilerRegularHandler* o = new
-    msdlCompilerRegularHandler (
+  generatorsRegularHandler* o = new
+    generatorsRegularHandler (
       executableName,
       handlerHeader,
       insiderOahHandler,
@@ -69,10 +61,10 @@ S_msdlCompilerRegularHandler msdlCompilerRegularHandler::create (
   return o;
 }
 
-msdlCompilerRegularHandler::msdlCompilerRegularHandler (
+generatorsRegularHandler::generatorsRegularHandler (
   string              executableName,
   string              handlerHeader,
-  S_msdlCompilerInsiderHandler
+  S_generatorsInsiderHandler
                       insiderOahHandler,
   generatorOutputKind theGeneratorOutputKind)
   : oahRegularHandler (
@@ -90,39 +82,39 @@ msdlCompilerRegularHandler::msdlCompilerRegularHandler (
   createRegularHandlerGroups ();
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  // print the options handler initial state
-  gLogStream <<
-    "msdlCompilerRegularHandler \"" <<
-    fHandlerHeader <<
-    "\" has been initialized as:" <<
-    endl;
+  if (getTraceOah ()) {
+    // print the options handler initial state
+    gLogStream <<
+      "generatorsRegularHandler \"" <<
+      fHandlerHeader <<
+      "\" has been initialized as:" <<
+      endl;
 
-  ++gIndenter;
+    ++gIndenter;
 
-  gLogStream <<
-    "===> printHelp():" <<
-    endl;
-  this->printHelp (gOutputStream); // JMI
+    gLogStream <<
+      "===> printHelp():" <<
+      endl;
+    this->printHelp (gOutputStream); // JMI
 
-  --gIndenter;
-#endif
+    --gIndenter;
+  }
 #endif
 }
 
-msdlCompilerRegularHandler::~msdlCompilerRegularHandler ()
+generatorsRegularHandler::~generatorsRegularHandler ()
 {}
 
-void msdlCompilerRegularHandler::createRegularHandlerGroups ()
+void generatorsRegularHandler::createRegularHandlerGroups ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the regular handler groups for \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the regular handler groups for \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   createInformationsRegularGroup ();
@@ -213,17 +205,17 @@ void msdlCompilerRegularHandler::createRegularHandlerGroups ()
   */
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "All the regular handler groups for \"" <<
-    fHandlerHeader <<
-    "\" have been created" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "All the regular handler groups for \"" <<
+      fHandlerHeader <<
+      "\" have been created" <<
+      endl;
+  }
 #endif
 }
 
-void msdlCompilerRegularHandler::createInformationsRegularGroup ()
+void generatorsRegularHandler::createInformationsRegularGroup ()
 {
   // group
 
@@ -262,7 +254,7 @@ void msdlCompilerRegularHandler::createInformationsRegularGroup ()
   registerAtomInRegularSubgroup ("display-options-handler-essentials", subGroup);
 }
 
-void msdlCompilerRegularHandler::createOutputRegularGroup ()
+void generatorsRegularHandler::createOutputRegularGroup ()
 {
   // group
 
@@ -299,6 +291,8 @@ void msdlCompilerRegularHandler::createOutputRegularGroup ()
       break;
 
     case kLilyPondOutput:
+      registerAtomInRegularSubgroup ("jianpu", subGroup);
+      registerAtomInRegularSubgroup ("lyluatex", subGroup);
       break;
 
     case kBrailleOutput:
@@ -313,7 +307,7 @@ void msdlCompilerRegularHandler::createOutputRegularGroup ()
   } // switch
 }
 
-void msdlCompilerRegularHandler::createGuidoRegularGroup ()
+void generatorsRegularHandler::createGuidoRegularGroup ()
 {
   // group
 
@@ -346,7 +340,7 @@ void msdlCompilerRegularHandler::createGuidoRegularGroup ()
   registerAtomInRegularSubgroup ("generate-bars", subGroup);
 }
 
-void msdlCompilerRegularHandler::createBrailleRegularGroup ()
+void generatorsRegularHandler::createBrailleRegularGroup ()
 {
   // group
 
@@ -380,7 +374,7 @@ void msdlCompilerRegularHandler::createBrailleRegularGroup ()
 }
 
 //_______________________________________________________________________________
-void msdlCompilerRegularHandler::createFilesRegularGroup ()
+void generatorsRegularHandler::createFilesRegularGroup ()
 {
   // group
 
@@ -412,7 +406,7 @@ void msdlCompilerRegularHandler::createFilesRegularGroup ()
   registerAtomInRegularSubgroup ("auto-output-file-name", subGroup);
 }
 
-void msdlCompilerRegularHandler::createOahRegularGroup ()
+void generatorsRegularHandler::createOahRegularGroup ()
 {
   // group
 
@@ -461,10 +455,11 @@ void msdlCompilerRegularHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("display-msr-skeleton", subGroup);
   registerAtomInRegularSubgroup ("display-msr", subGroup);
 
-  registerAtomInRegularSubgroup ("trace-oah", subGroup);
+#ifdef TRACING_IS_ENABLED
+  registerAtomInRegularSubgroup (K_TRACE_OAH_LONG_OPTION_NAME, subGroup);
   registerAtomInRegularSubgroup ("trace-oah-details", subGroup);
   registerAtomInRegularSubgroup ("trace-passes", subGroup);
-
+#endif
 
   // atoms from the insider handler depending on the generated output kind
   switch (fGeneratorOutputKind) {
@@ -473,8 +468,10 @@ void msdlCompilerRegularHandler::createOahRegularGroup ()
       break;
 
     case kGuidoOutput:
+#ifdef TRACING_IS_ENABLED
       registerAtomInRegularSubgroup ("trace-encoding", subGroup);
       registerAtomInRegularSubgroup ("trace-divisions", subGroup);
+#endif
       break;
 
     case kLilyPondOutput:
@@ -489,8 +486,10 @@ void msdlCompilerRegularHandler::createOahRegularGroup ()
       break;
 
     case kMusicXMLOutput:
+#ifdef TRACING_IS_ENABLED
       registerAtomInRegularSubgroup ("trace-encoding", subGroup);
       registerAtomInRegularSubgroup ("trace-divisions", subGroup);
+#endif
       break;
 
     case kMidiOutput:
@@ -498,7 +497,7 @@ void msdlCompilerRegularHandler::createOahRegularGroup ()
   } // switch
 }
 
-void msdlCompilerRegularHandler::createWarningAndErrorsRegularGroup ()
+void generatorsRegularHandler::createWarningAndErrorsRegularGroup ()
 {
   // group
 
@@ -533,7 +532,7 @@ void msdlCompilerRegularHandler::createWarningAndErrorsRegularGroup ()
   registerAtomInRegularSubgroup ("dont-quit-on-errors", subGroup);
 }
 
-void msdlCompilerRegularHandler::createGenerateCodeRegularGroup ()
+void generatorsRegularHandler::createGenerateCodeRegularGroup ()
 {
   // group
 
@@ -570,7 +569,7 @@ void msdlCompilerRegularHandler::createGenerateCodeRegularGroup ()
 // JMI  registerAtomInRegularSubgroup (K_GENERATED_OUTPUT_KIND_MIDI_NAME, subGroup);
 }
 
-void msdlCompilerRegularHandler::createPresentationRegularGroup ()
+void generatorsRegularHandler::createPresentationRegularGroup ()
 {
   // group
 
@@ -602,7 +601,7 @@ void msdlCompilerRegularHandler::createPresentationRegularGroup ()
   registerAtomInRegularSubgroup ("use-lyricists-as-poets", subGroup);
 }
 
-void msdlCompilerRegularHandler::createPartsRegularGroup ()
+void generatorsRegularHandler::createPartsRegularGroup ()
 {
   // group
 
@@ -637,7 +636,7 @@ void msdlCompilerRegularHandler::createPartsRegularGroup ()
   registerAtomInRegularSubgroup ("msr-rename-part", subGroup);
 }
 
-void msdlCompilerRegularHandler::createStavesRegularGroup ()
+void generatorsRegularHandler::createStavesRegularGroup ()
 {
   // group
 
@@ -668,7 +667,7 @@ void msdlCompilerRegularHandler::createStavesRegularGroup ()
   registerAtomInRegularSubgroup ("create-voices-staff-relative-numbers", subGroup);
 }
 
-void msdlCompilerRegularHandler::createVoicesRegularGroup ()
+void generatorsRegularHandler::createVoicesRegularGroup ()
 {
   // group
 
@@ -699,7 +698,7 @@ void msdlCompilerRegularHandler::createVoicesRegularGroup ()
   registerAtomInRegularSubgroup ("create-single-line-staves-as-rythmic", subGroup);
 }
 
-void msdlCompilerRegularHandler::createClefsRegularGroup ()
+void generatorsRegularHandler::createClefsRegularGroup ()
 {
   // group
 
@@ -731,7 +730,7 @@ void msdlCompilerRegularHandler::createClefsRegularGroup ()
   registerAtomInRegularSubgroup ("ignore-redundant-clefs", subGroup);
 }
 
-void msdlCompilerRegularHandler::createKeysRegularGroup ()
+void generatorsRegularHandler::createKeysRegularGroup ()
 {
   // group
 
@@ -763,7 +762,7 @@ void msdlCompilerRegularHandler::createKeysRegularGroup ()
   registerAtomInRegularSubgroup ("ignore-redundant-keys", subGroup);
 }
 
-void msdlCompilerRegularHandler::createTimesRegularGroup ()
+void generatorsRegularHandler::createTimesRegularGroup ()
 {
   // group
 
@@ -794,7 +793,7 @@ void msdlCompilerRegularHandler::createTimesRegularGroup ()
   registerAtomInRegularSubgroup ("ignore-redundant-times", subGroup);
 }
 
-void msdlCompilerRegularHandler::createMeasuresRegularGroup ()
+void generatorsRegularHandler::createMeasuresRegularGroup ()
 {
   // group
 
@@ -826,7 +825,7 @@ void msdlCompilerRegularHandler::createMeasuresRegularGroup ()
   registerAtomInRegularSubgroup ("add-empty-measures", subGroup);
 }
 
-void msdlCompilerRegularHandler::createRestsRegularGroup ()
+void generatorsRegularHandler::createRestsRegularGroup ()
 {
   // group
 
@@ -858,7 +857,7 @@ void msdlCompilerRegularHandler::createRestsRegularGroup ()
   registerAtomInRegularSubgroup ("delay-rests-slashes", subGroup);
 }
 
-void msdlCompilerRegularHandler::createNotesRegularGroup ()
+void generatorsRegularHandler::createNotesRegularGroup ()
 {
   // group
 
@@ -890,7 +889,7 @@ void msdlCompilerRegularHandler::createNotesRegularGroup ()
   registerAtomInRegularSubgroup ("msr-pitches-language", subGroup);
 }
 
-void msdlCompilerRegularHandler::creatBeamsRegularGroup ()
+void generatorsRegularHandler::creatBeamsRegularGroup ()
 {
   // group
 
@@ -921,7 +920,7 @@ void msdlCompilerRegularHandler::creatBeamsRegularGroup ()
   registerAtomInRegularSubgroup ("delay-rests-beams", subGroup);
 }
 
-void msdlCompilerRegularHandler::createArticulationsRegularGroup ()
+void generatorsRegularHandler::createArticulationsRegularGroup ()
 {
   // group
 
@@ -951,7 +950,7 @@ void msdlCompilerRegularHandler::createArticulationsRegularGroup ()
   registerAtomInRegularSubgroup ("omit-articulations", subGroup);
 }
 
-void msdlCompilerRegularHandler::createOrnamentsRegularGroup ()
+void generatorsRegularHandler::createOrnamentsRegularGroup ()
 {
   // group
 
@@ -983,7 +982,7 @@ void msdlCompilerRegularHandler::createOrnamentsRegularGroup ()
   registerAtomInRegularSubgroup ("omit-ornaments", subGroup);
 }
 
-void msdlCompilerRegularHandler::createGraceNotesRegularGroup ()
+void generatorsRegularHandler::createGraceNotesRegularGroup ()
 {
   // group
 
@@ -1016,7 +1015,7 @@ void msdlCompilerRegularHandler::createGraceNotesRegularGroup ()
   registerAtomInRegularSubgroup ("beam-all-grace-notes", subGroup);
 }
 
-void msdlCompilerRegularHandler::createChordsRegularGroup ()
+void generatorsRegularHandler::createChordsRegularGroup ()
 {
   // group
 
@@ -1044,10 +1043,12 @@ void msdlCompilerRegularHandler::createChordsRegularGroup ()
 
   // atoms
 
+#ifdef TRACING_IS_ENABLED
   registerAtomInRegularSubgroup ("trace-chords", subGroup);
+#endif
 }
 
-void msdlCompilerRegularHandler::createTiesRegularGroup ()
+void generatorsRegularHandler::createTiesRegularGroup ()
 {
   // group
 
@@ -1078,7 +1079,7 @@ void msdlCompilerRegularHandler::createTiesRegularGroup ()
   registerAtomInRegularSubgroup ("omit-ties", subGroup);
 }
 
-void msdlCompilerRegularHandler::createSlursRegularGroup ()
+void generatorsRegularHandler::createSlursRegularGroup ()
 {
   // group
 
@@ -1111,7 +1112,7 @@ void msdlCompilerRegularHandler::createSlursRegularGroup ()
   registerAtomInRegularSubgroup ("delay-rests-slurs", subGroup);
 }
 
-void msdlCompilerRegularHandler::createLigaturesRegularGroup ()
+void generatorsRegularHandler::createLigaturesRegularGroup ()
 {
   // group
 
@@ -1142,7 +1143,7 @@ void msdlCompilerRegularHandler::createLigaturesRegularGroup ()
   registerAtomInRegularSubgroup ("delay-rests-ligatures", subGroup);
 }
 
-void msdlCompilerRegularHandler::createDynamicsRegularGroup ()
+void generatorsRegularHandler::createDynamicsRegularGroup ()
 {
   // group
 
@@ -1177,7 +1178,7 @@ void msdlCompilerRegularHandler::createDynamicsRegularGroup ()
   registerAtomInRegularSubgroup ("delay-rests-dynamics", subGroup);
 }
 
-void msdlCompilerRegularHandler::createWedgesRegularGroup ()
+void generatorsRegularHandler::createWedgesRegularGroup ()
 {
   // group
 
@@ -1212,7 +1213,7 @@ void msdlCompilerRegularHandler::createWedgesRegularGroup ()
   registerAtomInRegularSubgroup ("delay-rests-wedges", subGroup);
 }
 
-void msdlCompilerRegularHandler::createTupletsRegularGroup ()
+void generatorsRegularHandler::createTupletsRegularGroup ()
 {
   // group
 
@@ -1240,10 +1241,12 @@ void msdlCompilerRegularHandler::createTupletsRegularGroup ()
 
   // atoms
 
+#ifdef TRACING_IS_ENABLED
   registerAtomInRegularSubgroup ("trace-tuplets", subGroup);
+#endif
 }
 
-void msdlCompilerRegularHandler::createLyricsRegularGroup ()
+void generatorsRegularHandler::createLyricsRegularGroup ()
 {
   // group
 
@@ -1274,7 +1277,7 @@ void msdlCompilerRegularHandler::createLyricsRegularGroup ()
   registerAtomInRegularSubgroup ("omit-lyrics", subGroup);
 }
 
-void msdlCompilerRegularHandler::createHarmoniesRegularGroup ()
+void generatorsRegularHandler::createHarmoniesRegularGroup ()
 {
   // group
 
@@ -1307,7 +1310,7 @@ void msdlCompilerRegularHandler::createHarmoniesRegularGroup ()
   registerAtomInRegularSubgroup ("show-harmony-voices", subGroup);
 }
 
-void msdlCompilerRegularHandler::createFiguredBassesRegularGroup ()
+void generatorsRegularHandler::createFiguredBassesRegularGroup ()
 {
   // group
 
@@ -1341,10 +1344,10 @@ void msdlCompilerRegularHandler::createFiguredBassesRegularGroup ()
 }
 
 //______________________________________________________________________________
-void msdlCompilerRegularHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
+void generatorsRegularHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking options and arguments from argc/argv in \"" <<
       fHandlerHeader <<
@@ -1357,12 +1360,12 @@ void msdlCompilerRegularHandler::checkOptionsAndArgumentsFromArgcAndArgv () cons
 }
 
 //______________________________________________________________________________
-void msdlCompilerRegularHandler::print (ostream& os) const
+void generatorsRegularHandler::print (ostream& os) const
 {
   const unsigned int fieldWidth = 27;
 
   os <<
-    "msdlCompilerRegularHandler '" << fHandlerHeader << "':" <<
+    "generatorsRegularHandler '" << fHandlerHeader << "':" <<
     endl;
 
   ++gIndenter;
@@ -1402,7 +1405,7 @@ void msdlCompilerRegularHandler::print (ostream& os) const
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_msdlCompilerRegularHandler& elt)
+ostream& operator<< (ostream& os, const S_generatorsRegularHandler& elt)
 {
   elt->print (os);
   return os;

@@ -44,12 +44,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_msr2musicxmlInsiderHandler msr2musicxmlInsiderHandler::create (
@@ -82,13 +76,13 @@ Usage: msr2musicxml ([options] | [MusicXMLFile|-])+
 )")
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Initializing \"" <<
-    fHandlerHeader <<
-    "\" regular options handler" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Initializing \"" <<
+      fHandlerHeader <<
+      "\" regular options handler" <<
+      endl;
+  }
 #endif
 
   // create the msr2musicxml prefixes
@@ -128,13 +122,13 @@ R"(What msr2musicxml does:
 void msr2musicxmlInsiderHandler::createTheMsr2musicxmlPrefixes ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the msr2musicxml prefixes in \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the msr2musicxml prefixes in \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   createTheCommonPrefixes ();
@@ -145,13 +139,13 @@ void msr2musicxmlInsiderHandler::createTheMsr2musicxmlOptionGroups (
   string executableName)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the prefixes in \"" <<
-    fHandlerHeader <<
-    "\" insider option groups" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the prefixes in \"" <<
+      fHandlerHeader <<
+      "\" insider option groups" <<
+      endl;
+  }
 #endif
 
   // initialize options handling, phase 1
@@ -225,7 +219,7 @@ void msr2musicxmlInsiderHandler::createTheMsr2musicxmlOptionGroups (
 void msr2musicxmlInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking options and arguments from argc/argv in \"" <<
       fHandlerHeader <<
@@ -241,7 +235,7 @@ void msr2musicxmlInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () cons
 string msr2musicxmlInsiderHandler::fetchOutputFileNameFromTheOptions () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Fetching the output file name from the options in OAH handler \"" <<
       fHandlerHeader <<
@@ -329,7 +323,7 @@ string msr2musicxmlInsiderHandler::fetchOutputFileNameFromTheOptions () const
       }
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "msr2musicxmlInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 1 = \"" <<
           outputFileName <<
@@ -342,7 +336,7 @@ string msr2musicxmlInsiderHandler::fetchOutputFileNameFromTheOptions () const
        outputFileName += ".xml";
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "msr2musicxmlInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 2 = " <<
           outputFileName <<
@@ -588,13 +582,13 @@ msr2musicxmlInsiderOahGroup::~msr2musicxmlInsiderOahGroup ()
 void msr2musicxmlInsiderOahGroup::initializeMsr2musicxmlInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Initializing \"" <<
     fGroupHeader <<
     "\" group" <<
     endl;
-#endif
+  }
 #endif
 
   // quit after some passes
@@ -607,13 +601,13 @@ void msr2musicxmlInsiderOahGroup::initializeMsr2musicxmlInsiderOahGroup ()
 void msr2musicxmlInsiderOahGroup::createInsiderQuitSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Creating insider quit subgroup in \"" <<
     fGroupHeader <<
     "\"" <<
     endl;
-#endif
+  }
 #endif
 
   S_oahSubGroup
@@ -697,11 +691,11 @@ void msr2musicxmlInsiderOahGroup::printMsr2musicxmlInsiderOahGroupValues (unsign
 S_msr2musicxmlInsiderOahGroup createGlobalMsr2musicxmlOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global \"msr2musicxml\" OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msr2musicxml OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

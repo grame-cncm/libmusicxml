@@ -48,12 +48,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 static xmlErr xmlFile2lilypondWithHandler (
@@ -62,6 +56,7 @@ static xmlErr xmlFile2lilypondWithHandler (
   std::ostream& err,
   S_oahHandler  handler)
 {
+#ifdef TRACING_IS_ENABLED
   if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTree ()) {
     gLogStream <<
       endl <<
@@ -81,6 +76,7 @@ static xmlErr xmlFile2lilypondWithHandler (
       "<!-- ----------------------------------------------------------- -->" <<
       endl << endl;
   }
+#endif
 
   // has quiet mode been requested?
   // ------------------------------------------------------
@@ -231,7 +227,7 @@ static xmlErr xmlFile2lilypondWithHandler (
           fetchOutputFileNameFromTheOptions ();
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       err <<
         "xmlFile2lilypond() outputFileName = \"" <<
         outputFileName <<
@@ -242,7 +238,7 @@ static xmlErr xmlFile2lilypondWithHandler (
 
     if (! outputFileName.size ()) {
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         err <<
           "xmlFile2lilypond() output goes to standard output" <<
           endl;
@@ -278,7 +274,7 @@ static xmlErr xmlFile2lilypondWithHandler (
 
     else {
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         err <<
           "xmlFile2lilypond() output goes to file \"" <<
           outputFileName <<
@@ -381,11 +377,11 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
 
 	else {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   err <<
     "xmlFile2musicxml(), xmlfile is NULL" <<
     endl;
-#endif
+  }
 #endif
 
     return kInvalidFile;
@@ -408,9 +404,9 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
 
 	// print the options vector
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
       displayOptionsVector (options, err);
-#endif
+  }
 #endif
 
   // are there 'insider' and/or 'regular' options present?
@@ -433,13 +429,13 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
 	} // for
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "xmlFile2lilypond()" <<
-    ", insiderOptions: " << booleanAsString (insiderOptions) <<
-    ", regularOptions: " << booleanAsString (regularOptions) <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "xmlFile2lilypond()" <<
+      ", insiderOptions: " << booleanAsString (insiderOptions) <<
+      ", regularOptions: " << booleanAsString (regularOptions) <<
+      endl;
+  }
 #endif
 
   if (insiderOptions && regularOptions) {

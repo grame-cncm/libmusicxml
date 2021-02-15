@@ -67,7 +67,7 @@ EXP void generateMusicXMLFromMxmlTree (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     cerr <<
       "generateMusicXMLFromMxmlTree() outputFileName = \"" <<
       outputFileName <<
@@ -83,7 +83,7 @@ EXP void generateMusicXMLFromMxmlTree (
   xmlFile->set (mxmlTree);
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     cerr <<
       "xmlFile2musicxml() outputFileName = \"" <<
       outputFileName <<
@@ -94,7 +94,7 @@ EXP void generateMusicXMLFromMxmlTree (
 
   if (! outputFileName.size ()) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       cerr <<
         "xmlFile2musicxml() output goes to standard output" <<
         endl;
@@ -108,7 +108,7 @@ EXP void generateMusicXMLFromMxmlTree (
 
   else {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       cerr <<
         "xmlFile2musicxml() output goes to file \"" <<
         outputFileName <<

@@ -296,11 +296,11 @@ ostream& operator<< (ostream& os, const S_musicxmlOahGroup& elt)
 S_musicxmlOahGroup createGlobalMusicxmlOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
+  if (getTraceOah ()) {
+    gLogStream <<
       "Creating global MusicXML OAH group" <<
-    endl;
-#endif
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

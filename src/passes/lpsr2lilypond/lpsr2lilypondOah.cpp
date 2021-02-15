@@ -87,7 +87,7 @@ void lilypondScoreOutputKindAtom::applyAtomWithValue (
   // JMI ???
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondScoreOutputKindAtom'" <<
       endl;
@@ -282,7 +282,7 @@ void lilypondTransposePartNameAtom::applyAtomWithValue (
   ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondTransposePartNameAtom'" <<
       endl;
@@ -309,7 +309,7 @@ void lilypondTransposePartNameAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for part transpose string '" << theString <<
@@ -321,7 +321,7 @@ void lilypondTransposePartNameAtom::applyAtomWithValue (
 
   if (smSize == 3) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       for (unsigned i = 0; i < smSize; ++i) {
         gLogStream <<
           "[" << sm [i] << "] ";
@@ -346,7 +346,7 @@ void lilypondTransposePartNameAtom::applyAtomWithValue (
     destinationPitchName = sm [2];
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> partName = \"" << partName << "\", " <<
       "--> destinationPitchName = \"" << destinationPitchName << "\"" <<
@@ -634,7 +634,7 @@ void lilypondTransposePartIDAtom::applyAtomWithValue (
   ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondTransposePartIDAtom'" <<
       endl;
@@ -658,7 +658,7 @@ void lilypondTransposePartIDAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for part transpose string '" << theString <<
@@ -670,7 +670,7 @@ void lilypondTransposePartIDAtom::applyAtomWithValue (
 
   if (smSize == 3) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       for (unsigned i = 0; i < smSize; ++i) {
         gLogStream <<
           "[" << sm [i] << "] ";
@@ -695,7 +695,7 @@ void lilypondTransposePartIDAtom::applyAtomWithValue (
     destinationPitchName = sm [2];
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> partID = \"" << partID << "\", " <<
       "--> destinationPitchName = \"" << destinationPitchName << "\"" <<
@@ -975,7 +975,7 @@ lilypondAbsoluteOctaveEntryAtom::~lilypondAbsoluteOctaveEntryAtom ()
 void lilypondAbsoluteOctaveEntryAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a lilypondAbsoluteOctaveEntryAtom" <<
       endl;
@@ -1137,7 +1137,7 @@ void lilypondRelativeOctaveEntryAtom::applyAtomWithValue (
   ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondRelativeOctaveEntryAtom'" <<
       endl;
@@ -1148,7 +1148,7 @@ void lilypondRelativeOctaveEntryAtom::applyAtomWithValue (
   // is it in the score output kinds map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondRelativeOctaveEntryAtom'" <<
       endl;
@@ -1395,7 +1395,7 @@ void lilypondFixedOctaveEntryAtom::applyAtomWithValue (
   ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondFixedOctaveEntryAtom'" <<
       endl;
@@ -1605,7 +1605,7 @@ void lilypondAccidentalStyleKindAtom::applyAtomWithValue (
   ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondAccidentalStyleKindAtom'" <<
       endl;
@@ -1616,7 +1616,7 @@ void lilypondAccidentalStyleKindAtom::applyAtomWithValue (
   // is it in the accidental styles map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondAccidentalStyleKindAtom'" <<
       endl;
@@ -1842,7 +1842,7 @@ void lilypondChordsDisplayAtom::applyAtomWithValue (
   ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondChordsDisplayAtom'" <<
       endl;
@@ -1888,7 +1888,7 @@ void lilypondChordsDisplayAtom::applyAtomWithValue (
   //   '<c ees ges bes> \super {"-7(" {\small\raise #0.5 \flat} "5)"}'
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondChordsDisplayAtom'" <<
       endl;
@@ -1909,7 +1909,7 @@ void lilypondChordsDisplayAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for chords display string '" << theString <<
@@ -1944,7 +1944,7 @@ void lilypondChordsDisplayAtom::applyAtomWithValue (
   string chordsDisplaycode = sm [2];
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "FAA chordContents  = " <<
       chordContents <<
@@ -2202,7 +2202,7 @@ void lilypondLyricsDurationsKindAtom::applyAtomWithValue (
   ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondLyricsDurationsKindAtom'" <<
       endl;
@@ -2213,7 +2213,7 @@ void lilypondLyricsDurationsKindAtom::applyAtomWithValue (
   // is it in the lyrics alignment kinds map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondLyricsDurationsKindAtom'" <<
       endl;
@@ -2449,6 +2449,50 @@ The default is 'DEFAULT_VALUE'.)",
   subGroup->
     appendAtomToSubGroup (
       fLilypondVersionAtom);
+}
+
+void lpsr2lilypondOahGroup::initializeScoreNotationOptions ()
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Score notation",
+        "hlpsn", "help-lilypond-score-notation",
+R"()",
+      kElementVisibilityWhole,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // score notation
+  // --------------------------------------
+
+//  fScoreNotationKind =  lpsr2lilypondOahGroup::kWesternNotation;
+    // default value
+
+  fJianpu = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "jianpu", "",
+R"(Generate the score using the Jianpu (numbered) notation
+instead of the default western notation.
+That option needs lilypond-Jianpu to be accessible to LilyPond
+(https://github.com/nybbs2003/lilypond-Jianpu/jianpu10a.ly).)",
+        "jianpu",
+        fJianpu));
+
+  fLyLuaTexOutput = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "lyluatex", "",
+R"(Generate lyLuaTeX code arout the LilyPond code to produce a '.tex' file.
+(lyLuaTeX is available at https://www.ctan.org/pkg/lyluatex).)",
+        "lyLuaTexOutput",
+        fLyLuaTexOutput));
 }
 
 void lpsr2lilypondOahGroup::initializeGlobalStaffSizeOptions ()
@@ -4146,39 +4190,6 @@ to avoid having to add them by hand afterwards.)",
         fGenerateCommentedOutVariables));
 }
 
-void lpsr2lilypondOahGroup::initializeScoreNotationOptions ()
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Score notation",
-        "hlpsn", "help-lilypond-score-notation",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // score notation
-  // --------------------------------------
-
-//  fScoreNotationKind =  lpsr2lilypondOahGroup::kWesternNotation;
-    // default value
-
-  fJianpu = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "jianpu", "",
-R"(Generate the score using the Jianpu (numbered) notation
-instead of the default western notation.
-That option needs lilypond-Jianpu to be accessible to LilyPond
-(https://github.com/nybbs2003/lilypond-Jianpu/jianpu10a.ly).)",
-        "jianpu",
-        fJianpu));
-}
-
 void lpsr2lilypondOahGroup::initializeMidiOptions ()
 {
   S_oahSubGroup
@@ -4327,6 +4338,10 @@ void lpsr2lilypondOahGroup::initializeLpsr2lilypondOahGroup ()
   // --------------------------------------
   initializeLilypondVersionOptions ();
 
+  // score notation
+  // --------------------------------------
+  initializeScoreNotationOptions ();
+
   // global staff size
   // --------------------------------------
   initializeGlobalStaffSizeOptions ();
@@ -4398,10 +4413,6 @@ void lpsr2lilypondOahGroup::initializeLpsr2lilypondOahGroup ()
   // code generation
   // --------------------------------------
   initializeCodeGenerationOptions ();
-
-  // score notation
-  // --------------------------------------
-  initializeScoreNotationOptions ();
 
   // midi
   // --------------------------------------
@@ -6004,7 +6015,7 @@ ostream& operator<< (ostream& os, const S_lpsr2lilypondOahGroup& elt)
 S_lpsr2lilypondOahGroup createGlobalLpsr2lilypondOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+  if (getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
     gLogStream <<
       "Initializing LilyPond OAH handling" <<
       endl;
@@ -6074,7 +6085,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::applyAtomWithValue (
   ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondBreakPageAfterMeasureNumberAtom'" <<
       endl;
@@ -6085,7 +6096,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::applyAtomWithValue (
   // decipher it to extract duration and perSecond values
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'lilypondBreakPageAfterMeasureNumberAtom'" <<
       endl;
@@ -6110,7 +6121,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::applyAtomWithValue (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for reset measure number string '" << theString <<
@@ -6151,7 +6162,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::applyAtomWithValue (
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     os <<
       "musicXMLMeasureNumber  = " <<
       musicXMLMeasureNumber <<

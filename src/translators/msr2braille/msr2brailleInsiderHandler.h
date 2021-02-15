@@ -187,10 +187,10 @@ class EXP msr2brailleInsiderOahGroup : public oahGroup
 typedef SMARTP<msr2brailleInsiderOahGroup> S_msr2brailleInsiderOahGroup;
 EXP ostream& operator<< (ostream& os, const S_msr2brailleInsiderOahGroup& elt);
 
-EXP extern S_msr2brailleInsiderOahGroup gGlobalXml2brailleInsiderOahGroup;
+EXP extern S_msr2brailleInsiderOahGroup gGlobalMsr2brailleInsiderOahGroup;
 
 //______________________________________________________________________________
-S_msr2brailleInsiderOahGroup createGlobalXml2brailleOahGroup (
+S_msr2brailleInsiderOahGroup createGlobalMsr2brailleOahGroup (
   string executableName,
   string handlerHeader);
 

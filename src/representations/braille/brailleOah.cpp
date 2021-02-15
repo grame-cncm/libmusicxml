@@ -154,11 +154,11 @@ ostream& operator<< (ostream& os, const S_brailleOahGroup& elt)
 S_brailleOahGroup createGlobalBrailleOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global braille OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global braille OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

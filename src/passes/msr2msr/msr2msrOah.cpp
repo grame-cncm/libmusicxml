@@ -84,7 +84,7 @@ void msrOmitPartAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msrOmitPartAtom'" <<
       endl;
@@ -96,7 +96,7 @@ void msrOmitPartAtom::applyAtomWithValue (
   string partName = theString;
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> partName = \"" << partName << "\", " <<
       endl;
@@ -370,7 +370,7 @@ void msrKeepPartAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msrKeepPartAtom'" <<
       endl;
@@ -382,7 +382,7 @@ void msrKeepPartAtom::applyAtomWithValue (
   string partName = theString;
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "--> partName = \"" << partName << "\", " <<
       endl;
@@ -1020,11 +1020,11 @@ ostream& operator<< (ostream& os, const S_msr2msrOahGroup& elt)
 S_msr2msrOahGroup createGlobalMsr2msrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global msr2msr OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msr2msr OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

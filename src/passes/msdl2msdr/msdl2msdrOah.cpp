@@ -221,14 +221,15 @@ ostream& operator<< (ostream& os, const S_msdl2msdrOahGroup& elt)
 
 //______________________________________________________________________________
 S_msdl2msdrOahGroup createGlobalMsdl2msdrOahGroup ()
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global msdl2msdr OAH group" <<
-    endl;
-#endif
-#endif
 {
+#ifdef TRACING_IS_ENABLED
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msdl2msdr OAH group" <<
+      endl;
+  }
+#endif
+
   // protect library against multiple initializations
   if (! gGlobalMsdl2msdrOahGroup) {
     // create the global OAH group

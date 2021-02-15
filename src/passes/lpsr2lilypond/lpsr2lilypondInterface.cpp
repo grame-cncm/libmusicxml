@@ -117,7 +117,7 @@ EXP void convertLpsrScoreToLilypondCodeWithHandler (
         fetchOutputFileNameFromTheOptions ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     err <<
       "xmlFile2lilypond() outputFileName = \"" <<
       outputFileName <<
@@ -128,7 +128,7 @@ EXP void convertLpsrScoreToLilypondCodeWithHandler (
 
   if (! outputFileName.size ()) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       err <<
         "xmlFile2lilypond() output goes to standard output" <<
         endl;
@@ -164,7 +164,7 @@ EXP void convertLpsrScoreToLilypondCodeWithHandler (
 
   else {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
+    if (getTraceOah ()) {
       err <<
         "xmlFile2lilypond() output goes to file \"" <<
         outputFileName <<

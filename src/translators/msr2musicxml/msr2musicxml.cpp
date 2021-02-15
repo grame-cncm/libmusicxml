@@ -49,12 +49,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 EXP xmlErr msrScore2musicxmlWithHandler (
@@ -70,7 +64,7 @@ EXP xmlErr msrScore2musicxmlWithHandler (
   S_oahHandler handler)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Translating an MSR score to MusicXML in \"" <<
       handler->getHandlerHeader () <<
@@ -134,6 +128,7 @@ EXP xmlErr msrScore2musicxmlWithHandler (
     return kInvalidFile;
   }
 
+#ifdef TRACING_IS_ENABLED
   if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTree ()) {
     gLogStream <<
       endl <<
@@ -155,6 +150,7 @@ EXP xmlErr msrScore2musicxmlWithHandler (
       "<!-- ----------------------------------------------------------- -->" <<
       endl << endl;
   }
+#endif
 
   // convert the second mxmlTree into MusicXML text
   // ------------------------------------------------------

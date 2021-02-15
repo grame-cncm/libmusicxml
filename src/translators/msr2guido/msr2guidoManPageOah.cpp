@@ -69,7 +69,7 @@ msr2guidoManPageGenerateAtom::~msr2guidoManPageGenerateAtom ()
 void msr2guidoManPageGenerateAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a msr2guidoManPageGenerateAtom" <<
       endl;
@@ -388,11 +388,11 @@ S_msr2guidoManPageOahGroup createGlobalMsr2guidoManPageOahGroupHandler (
   S_oahVisitor theOah2manPageGenerator)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global msr2guidoManPage OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msr2guidoManPage OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

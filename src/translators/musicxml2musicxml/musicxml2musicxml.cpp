@@ -51,12 +51,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 static xmlErr xmlFile2musicxmlWithHandler (
@@ -65,6 +59,7 @@ static xmlErr xmlFile2musicxmlWithHandler (
   std::ostream& err,
   S_oahHandler  handler)
 {
+#ifdef TRACING_IS_ENABLED
   if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTree ()) {
     gLogStream <<
       endl <<
@@ -84,6 +79,7 @@ static xmlErr xmlFile2musicxmlWithHandler (
       "<!-- ----------------------------------------------------------- -->" <<
       endl << endl;
   }
+#endif
 
   // has quiet mode been requested?
   // ------------------------------------------------------
@@ -263,11 +259,11 @@ static xmlErr xmlFile2musicxmlWithOptionsVector (
 
 	else {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   err <<
     "xmlFile2musicxml(), xmlfile is NULL" <<
     endl;
-#endif
+  }
 #endif
 
     return kInvalidFile;
@@ -290,9 +286,9 @@ static xmlErr xmlFile2musicxmlWithOptionsVector (
 
 	// print the options vector
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
       displayOptionsVector (options, err);
-#endif
+  }
 #endif
 
   // are there 'insider' and/or 'regular' options present?
@@ -313,13 +309,13 @@ static xmlErr xmlFile2musicxmlWithOptionsVector (
 	} // for
 
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "xmlFile2musicxml()" <<
-    ", insiderOptions: " << booleanAsString (insiderOptions) <<
-    ", regularOptions: " << booleanAsString (regularOptions) <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "xmlFile2musicxml()" <<
+      ", insiderOptions: " << booleanAsString (insiderOptions) <<
+      ", regularOptions: " << booleanAsString (regularOptions) <<
+      endl;
+  }
 #endif
 
   if (insiderOptions && regularOptions) {

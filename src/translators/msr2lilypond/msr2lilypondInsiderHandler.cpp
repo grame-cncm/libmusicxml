@@ -48,12 +48,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalTraceOahGroup->fTraceOah has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_msr2lilypondInsiderHandler msr2lilypondInsiderHandler::create (
@@ -93,13 +87,13 @@ Usage: msr2lilypond ([options] | [MusicXMLFile|-])+
     )
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Initializing msr2lilypond insider options handler \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Initializing msr2lilypond insider options handler \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // create the msr2lilypond prefixes
@@ -172,11 +166,11 @@ string msr2lilypondInsiderHandler::usageFromUsedThruKind (
 void msr2lilypondInsiderHandler::createTheMsr2lilypondPrefixes ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the msr2lilypond prefixes" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the msr2lilypond prefixes" <<
+      endl;
+  }
 #endif
 
   createTheCommonPrefixes ();
@@ -187,13 +181,13 @@ void msr2lilypondInsiderHandler::createTheMsr2lilypondOptionGroups (
   string executableName)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the msr2lilypond insider option groups" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the msr2lilypond insider option groups" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   // initialize options handling, phase 1
@@ -304,7 +298,7 @@ if (gGlobalTraceOahGroup->getTraceOahDetails ()) {
 void msr2lilypondInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking options and arguments from argc/argv in \"" <<
       fHandlerHeader <<
@@ -320,7 +314,7 @@ void msr2lilypondInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () cons
 string msr2lilypondInsiderHandler::fetchOutputFileNameFromTheOptions () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Fetching the output file name from the options in OAH handler \"" <<
       fHandlerHeader <<
@@ -408,7 +402,7 @@ string msr2lilypondInsiderHandler::fetchOutputFileNameFromTheOptions () const
       }
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "msr2lilypondInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 1 = \"" <<
           outputFileName <<
@@ -421,7 +415,7 @@ string msr2lilypondInsiderHandler::fetchOutputFileNameFromTheOptions () const
        outputFileName += ".ly";
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
+      if (getTraceOah ()) {
         gLogStream <<
           "msr2lilypondInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 2 = " <<
           outputFileName <<
@@ -640,13 +634,13 @@ msr2lilypondInsiderOahGroup::~msr2lilypondInsiderOahGroup ()
 void msr2lilypondInsiderOahGroup::initializeMsr2lilypondInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Initializing \"" <<
     fGroupHeader <<
     "\" group" <<
     endl;
-#endif
+  }
 #endif
 
   // quit after some passes
@@ -659,13 +653,13 @@ void msr2lilypondInsiderOahGroup::initializeMsr2lilypondInsiderOahGroup ()
 void msr2lilypondInsiderOahGroup::createInsiderQuitSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
+  if (getTraceOah ()) {
   gLogStream << left <<
     "Creating insider quit subgroup in \"" <<
     fGroupHeader <<
     "\"" <<
     endl;
-#endif
+  }
 #endif
 
   S_oahSubGroup
@@ -749,11 +743,11 @@ void msr2lilypondInsiderOahGroup::printMsr2lilypondInsiderOahGroupValues (unsign
 S_msr2lilypondInsiderOahGroup createGlobalMsr2lilypondInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global msr2lilypond OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msr2lilypond OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

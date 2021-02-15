@@ -49,12 +49,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 EXP xmlErr msrScore2guidoWithHandler (
@@ -124,6 +118,7 @@ EXP xmlErr msrScore2guidoWithHandler (
     return kInvalidFile;
   }
 
+#ifdef TRACING_IS_ENABLED
   if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTree ()) {
     gLogStream <<
       endl <<
@@ -145,6 +140,7 @@ EXP xmlErr msrScore2guidoWithHandler (
       "<!-- ----------------------------------------------------------- -->" <<
       endl << endl;
   }
+#endif
 
   // generate Guido from the second mxmlTree
   // ------------------------------------------------------

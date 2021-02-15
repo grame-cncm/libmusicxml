@@ -2894,10 +2894,10 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrStaff& elt)
 //________________________________________________________________________
 void msr2mxmlTreeTranslator::visitStart (S_msrVoice& elt)
 {
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
       "--> Start visiting msrVoice \"" <<

@@ -69,7 +69,7 @@ Mikrokosmos3WanderingManPageGenerateAtom::~Mikrokosmos3WanderingManPageGenerateA
 void Mikrokosmos3WanderingManPageGenerateAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> option '" << fetchNames () << "' is a Mikrokosmos3WanderingManPageGenerateAtom" <<
       endl;
@@ -388,11 +388,11 @@ S_Mikrokosmos3WanderingManPageOahGroup createGlobalMikrokosmos3WanderingManPageO
   S_oahVisitor theOah2manPageGenerator)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global Mikrokosmos3WanderingManPage OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+        "Creating global Mikrokosmos3WanderingManPage OAH group" <<
+        endl;
+  }
 #endif
 
   // protect library against multiple initializations

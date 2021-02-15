@@ -29,6 +29,8 @@
 #include "mxmlTreeOah.h"
 #include "msr2mxmlTreeOah.h"
 
+#include "msrGeneratorsOah.h"
+
 #include "msrOah.h"
 #include "msr2msrOah.h"
 
@@ -60,12 +62,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-/*
-  ENFORCE_TRACE_OAH can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
-*/
-
-//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_Mikrokosmos3WanderingInsiderHandler Mikrokosmos3WanderingInsiderHandler::create (
@@ -100,16 +96,15 @@ R"(                Welcome to Mikrokosmos3Wandering,
       generatorOutputKind)),
     fGeneratorOutputKind (
       generatorOutputKind)
-
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Initializing \"" <<
-    fHandlerHeader <<
-    "\" regular options handler" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Initializing \"" <<
+      fHandlerHeader <<
+      "\" regular options handler" <<
+      endl;
+  }
 #endif
 
   // create the Mikrokosmos3Wandering prefixes
@@ -277,13 +272,13 @@ R"(
 void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingPrefixes ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the Mikrokosmos3Wandering prefixes in \"" <<
-    fHandlerHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the Mikrokosmos3Wandering prefixes in \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   createTheCommonPrefixes ();
@@ -295,13 +290,13 @@ void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingOptionGr
   generatorOutputKind generatorOutputKind)
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating the prefixes in \"" <<
-    fHandlerHeader <<
-    "\" insider option groups" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating the prefixes in \"" <<
+      fHandlerHeader <<
+      "\" insider option groups" <<
+      endl;
+  }
 #endif
 
   // initialize options handling, phase 1
@@ -322,6 +317,10 @@ void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingOptionGr
   // create the general OAH group
   appendGroupToHandler (
     createGlobalGeneralOahGroup ());
+
+  // create the MSR generator OAH group
+  appendGroupToHandler (
+    createGlobalMsrGeneratorsOahGroup ());
 
   // create the output file OAH group
   appendGroupToHandler (
@@ -456,7 +455,7 @@ void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingOptionGr
 void Mikrokosmos3WanderingInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "checking options and arguments from argc/argv in \"" <<
       fHandlerHeader <<
@@ -472,7 +471,7 @@ void Mikrokosmos3WanderingInsiderHandler::checkOptionsAndArgumentsFromArgcAndArg
 string Mikrokosmos3WanderingInsiderHandler::fetchOutputFileNameFromTheOptions () const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Fetching the output file name from the options in OAH handler \"" <<
       fHandlerHeader <<
@@ -502,7 +501,7 @@ string Mikrokosmos3WanderingInsiderHandler::fetchOutputFileNameFromTheOptions ()
         getVariableHasBeenSet ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "Mikrokosmos3WanderingInsiderHandler::fetchOutputFileNameFromTheOptions()" <<
       " outputFileNameHasBeenSet: " <<
@@ -621,7 +620,7 @@ string Mikrokosmos3WanderingInsiderHandler::fetchOutputFileNameFromTheOptions ()
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "outputFileName: " <<
       outputFileName <<
@@ -870,13 +869,13 @@ Mikrokosmos3WanderingInsiderOahGroup::~Mikrokosmos3WanderingInsiderOahGroup ()
 void Mikrokosmos3WanderingInsiderOahGroup::initializeMikrokosmos3WanderingInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream << left <<
-    "Initializing \"" <<
-    fGroupHeader <<
-    "\" group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream << left <<
+      "Initializing \"" <<
+      fGroupHeader <<
+      "\" group" <<
+      endl;
+  }
 #endif
 
   // Guido
@@ -893,13 +892,13 @@ void Mikrokosmos3WanderingInsiderOahGroup::initializeMikrokosmos3WanderingInside
 void Mikrokosmos3WanderingInsiderOahGroup::createInsiderGuidoSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream << left <<
-    "Creating insider Guido subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream << left <<
+      "Creating insider Guido subgroup in \"" <<
+      fGroupHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   S_oahSubGroup
@@ -948,13 +947,13 @@ R"(Generate barlines in the Guido output.)",
 void Mikrokosmos3WanderingInsiderOahGroup::createInsiderQuitSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream << left <<
-    "Creating insider quit subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream << left <<
+      "Creating insider quit subgroup in \"" <<
+      fGroupHeader <<
+      "\"" <<
+      endl;
+  }
 #endif
 
   S_oahSubGroup
@@ -1094,11 +1093,11 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
 S_Mikrokosmos3WanderingInsiderOahGroup createGlobalMikrokosmos3WanderingInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global \"Mikrokosmos3Wandering\" insider OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global Mikrokosmos3Wandering insider OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

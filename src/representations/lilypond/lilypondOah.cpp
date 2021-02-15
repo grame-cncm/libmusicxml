@@ -158,11 +158,11 @@ ostream& operator<< (ostream& os, const S_lilypondOahGroup& elt)
 S_lilypondOahGroup createGlobalLilypondOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global xml2xml OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global lilypond OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations

@@ -170,7 +170,7 @@ void msrGenerationAPIKindAtom::applyAtomWithValue (
   // is it in the  output kinds map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> handling atom '" << fetchNames () << "; which is of type 'msrGenerationAPIKindAtom'" <<
       " with value \"" << theString << "\"" <<

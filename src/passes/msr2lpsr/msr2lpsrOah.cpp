@@ -82,7 +82,7 @@ void msr2lpsrScoreOutputKindAtom::applyAtomWithValue (
   ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msr2lpsrScoreOutputKindAtom'" <<
       endl;
@@ -93,7 +93,7 @@ void msr2lpsrScoreOutputKindAtom::applyAtomWithValue (
   // is it in the score output kinds map?
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
+  if (getTraceOah ()) {
     gLogStream <<
       "==> oahAtom is of type 'msr2lpsrScoreOutputKindAtom'" <<
       endl;
@@ -555,11 +555,11 @@ ostream& operator<< (ostream& os, const S_msr2lpsrOahGroup& elt)
 S_msr2lpsrOahGroup createGlobalMsr2lpsrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream <<
-    "Creating global msr2lpsr OAH group" <<
-    endl;
-#endif
+  if (getTraceOah ()) {
+    gLogStream <<
+      "Creating global msr2lpsr OAH group" <<
+      endl;
+  }
 #endif
 
   // protect library against multiple initializations
