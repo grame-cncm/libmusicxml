@@ -32,7 +32,7 @@
 #include "waeExceptions.h"
 #include "waeMessagesHandling.h"
 
-#include "msdlLexicalAnalyzer.h"
+#include "msdlScanner.h"
 
 #include "msdl2brlInsiderHandler.h"
 #include "msdl2brlRegularHandler.h"
@@ -74,9 +74,9 @@ xmlErr msdlStream2brailleWithHandler (
   // ------------------------------------------------------
 
   try {
-    msdlLexicalAnalyzer analyser (inputStream);
+    msdlScanner analyser (inputStream);
 
-    analyser.performLexicalAnalysis ();
+    analyser.scan ();
     /*
     theMsrScore =
       convertMxmlTreeToMsrScoreSkeleton (

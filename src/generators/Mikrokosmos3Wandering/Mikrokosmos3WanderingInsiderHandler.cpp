@@ -125,7 +125,7 @@ string Mikrokosmos3WanderingInsiderHandler::usageInformation (
   stringstream s;
 
   s <<
-R"(Usage: Mikrokosmos3Wandering ([options] | [MusicXMLFile|-])+
+R"(Usage: Mikrokosmos3Wandering [option]*
 )" <<
     endl <<
     "The help below is available when generating " <<
@@ -437,7 +437,7 @@ void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingOptionGr
       break;
   } // switch
 
-  // create the Mikrokosmos3Wandering OAH group // JMI ???
+  // create the Mikrokosmos3Wandering OAH group
   appendGroupToHandler (
     createGlobalMikrokosmos3WanderingOahGroup ());
 

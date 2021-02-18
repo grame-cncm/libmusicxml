@@ -1536,7 +1536,7 @@ R"()",
   S_oahBooleanAtom
     quit3OahBooleanAtom =
       oahBooleanAtom::create (
-        "q3", "quitAfterPass-3",
+        "lq3", "lpsr-quit-after-pass-3",
 R"(Quit after pass 3, i.e. after conversion
 of the MSR to LPSR.)",
         "quitAfterPass3",

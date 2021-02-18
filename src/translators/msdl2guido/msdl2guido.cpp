@@ -32,7 +32,7 @@
 #include "waeExceptions.h"
 #include "waeMessagesHandling.h"
 
-#include "msdlLexicalAnalyzer.h"
+#include "msdlScanner.h"
 
 #include "msdl2gmnInsiderHandler.h"
 #include "msdl2gmnRegularHandler.h"
@@ -80,9 +80,9 @@ xmlErr msdlStream2guidoWithHandler (
   // ------------------------------------------------------
 
   try {
-    msdlLexicalAnalyzer analyser (inputStream);
+    msdlScanner analyser (inputStream);
 
-    analyser.performLexicalAnalysis ();
+    analyser.scan ();
     /*
     theMsrScore =
       convertMxmlTreeToMsrScoreSkeleton (

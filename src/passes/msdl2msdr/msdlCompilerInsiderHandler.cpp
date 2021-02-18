@@ -25,6 +25,10 @@
 #include "outputFileOah.h"
 #include "extraOah.h"
 
+#include "msdrOah.h"
+
+#include "msdl2msdrOah.h"
+
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
 #include "msr2mxmlTreeOah.h"
@@ -53,7 +57,7 @@
 
 #include "version.h"
 
-#include "generatorsInsiderHandler.h"
+#include "msdlCompilerInsiderHandler.h"
 
 
 using namespace std;
@@ -62,14 +66,14 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_generatorsInsiderHandler generatorsInsiderHandler::create (
+S_msdlCompilerInsiderHandler msdlCompilerInsiderHandler::create (
   const string&       executableName,
   const string&       handlerHeader,
   generatorOutputKind generatorOutputKind)
 {
   // create the insider handler
-  generatorsInsiderHandler* o = new
-    generatorsInsiderHandler (
+  msdlCompilerInsiderHandler* o = new
+    msdlCompilerInsiderHandler (
       executableName,
       handlerHeader,
       generatorOutputKind);
@@ -78,15 +82,16 @@ S_generatorsInsiderHandler generatorsInsiderHandler::create (
   return o;
 }
 
-generatorsInsiderHandler::generatorsInsiderHandler (
+msdlCompilerInsiderHandler::msdlCompilerInsiderHandler (
   const string&       executableName,
   const string&       handlerHeader,
   generatorOutputKind generatorOutputKind)
   : oahInsiderHandler (
       executableName,
       handlerHeader,
-R"(                Welcome to generators,
-     a generator of Guido, MusicXML, LilyPond or braille music
+R"(                  Welcome to the MSDL compiler,
+     that generates Guido, MusicXML, LilyPond or braille music
+          from MSDL (Music Scores Description Language)
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
@@ -105,25 +110,25 @@ R"(                Welcome to generators,
   }
 #endif
 
-  // create the generators prefixes
-  createTheGeneratorsPrefixes ();
+  // create the msdlCompiler prefixes
+  createTheMsdlCompilerPrefixes ();
 
-  // create the generators option groups
-  createTheGeneratorsOptionGroups (
+  // create the msdlCompiler option groups
+  createTheMsdlCompilerOptionGroups (
     executableName,
     generatorOutputKind);
 }
 
-generatorsInsiderHandler::~generatorsInsiderHandler ()
+msdlCompilerInsiderHandler::~msdlCompilerInsiderHandler ()
 {}
 
-string generatorsInsiderHandler::usageInformation (
+string msdlCompilerInsiderHandler::usageInformation (
   generatorOutputKind generatorOutputKind)
 {
   stringstream s;
 
   s <<
-R"(Usage: generators ([options] | [MusicXMLFile|-])+
+R"(Usage: msdl ([options] | [MSDMLFile|-])+
 )" <<
     endl <<
     "The help below is available when generating " <<
@@ -133,7 +138,7 @@ R"(Usage: generators ([options] | [MusicXMLFile|-])+
   return s.str ();
 }
 
-void generatorsInsiderHandler::handlerOahError (
+void msdlCompilerInsiderHandler::handlerOahError (
   const string& errorMessage)
 {
   stringstream s;
@@ -147,14 +152,14 @@ void generatorsInsiderHandler::handlerOahError (
   oahError (s.str ());
 }
 
-string generatorsInsiderHandler::handlerExecutableAboutInformation () const
+string msdlCompilerInsiderHandler::handlerExecutableAboutInformation () const
 {
   return
-    generatorsAboutInformation (
+    msdlCompilerAboutInformation (
       fGeneratorOutputKind);
 }
 
-string generatorsInsiderHandler::generatorsAboutInformation (
+string msdlCompilerInsiderHandler::msdlCompilerAboutInformation (
   generatorOutputKind theGeneratorOutputKind) const
 {
   string result;
@@ -190,16 +195,16 @@ string generatorsInsiderHandler::generatorsAboutInformation (
   stringstream commonHeadPartStream;
 
   commonHeadPartStream <<
-R"(What generators does:
+R"(What msdl does:
 
-    This multi-pass generator basically performs )" <<
+    This multi-pass MSDL compiler basically performs )" <<
     passesNumber <<
     " passes when generating " <<
     generatorOutputKindAsString (theGeneratorOutputKind) <<
     " output:" <<
     endl <<
 R"(
-        Pass 1:  generate and MSR programmatically)";
+        Pass 1:  convert the MSDL data to an MSR)";
 
   string specificPart;
 
@@ -267,12 +272,12 @@ R"(
 }
 
 //______________________________________________________________________________
-void generatorsInsiderHandler::createTheGeneratorsPrefixes ()
+void msdlCompilerInsiderHandler::createTheMsdlCompilerPrefixes ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
     gLogStream <<
-      "Creating the generators prefixes in \"" <<
+      "Creating the msdlCompiler prefixes in \"" <<
       fHandlerHeader <<
       "\"" <<
       endl;
@@ -283,7 +288,7 @@ void generatorsInsiderHandler::createTheGeneratorsPrefixes ()
 }
 
 //______________________________________________________________________________
-void generatorsInsiderHandler::createTheGeneratorsOptionGroups (
+void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
   const string&       executableName,
   generatorOutputKind generatorOutputKind)
 {
@@ -325,16 +330,21 @@ void generatorsInsiderHandler::createTheGeneratorsOptionGroups (
 
   initializeMSR (); // used whatever the output kind
 
+// JMI ???  initializeMSDR (); // used whatever the output kind
+
   // initialize options handling, phase 2
   // ------------------------------------------------------
+
+  // create the msdl2msr OAH group
+  createGlobalMsdl2msrOahGroup ();
 
   // create the MSR OAH group
   appendGroupToHandler (
     createGlobalMsrOahGroup ());
 
-  // create the generators OAH group // JMI ???
+  // create the MSDR OAH group
   appendGroupToHandler (
-    createGlobalGeneratorsOahGroup ());
+    createGlobalMsdrOahGroup ());
 
   // create the groups needed according to the generated output kind
   /*
@@ -435,8 +445,12 @@ void generatorsInsiderHandler::createTheGeneratorsOptionGroups (
       break;
   } // switch
 
+  // create the msdlCompiler OAH group
   appendGroupToHandler (
-    createGlobalGeneratorsInsiderOahGroup ());
+    createGlobalMsdl2msdrOahGroup ());
+
+  appendGroupToHandler (
+    createGlobalMsdlCompilerInsiderOahGroup ());
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group
@@ -446,7 +460,7 @@ void generatorsInsiderHandler::createTheGeneratorsOptionGroups (
 }
 
 //______________________________________________________________________________
-void generatorsInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
+void msdlCompilerInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
@@ -457,12 +471,10 @@ void generatorsInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
       endl;
   }
 #endif
-
-// JMI, no, only for Mkk  checkNoInputSourceInArgumentsVector ();
 }
 
 //______________________________________________________________________________
-string generatorsInsiderHandler::fetchOutputFileNameFromTheOptions () const
+string msdlCompilerInsiderHandler::fetchOutputFileNameFromTheOptions () const
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
@@ -497,7 +509,7 @@ string generatorsInsiderHandler::fetchOutputFileNameFromTheOptions () const
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
     gLogStream <<
-      "generatorsInsiderHandler::fetchOutputFileNameFromTheOptions()" <<
+      "msdlCompilerInsiderHandler::fetchOutputFileNameFromTheOptions()" <<
       " outputFileNameHasBeenSet: " <<
       booleanAsString (outputFileNameHasBeenSet) <<
       " autoOutputFileNameHasBeenSet: " <<
@@ -626,18 +638,18 @@ string generatorsInsiderHandler::fetchOutputFileNameFromTheOptions () const
 }
 
 //______________________________________________________________________________
-void generatorsInsiderHandler::checkHandlerOptionsConsistency ()
+void msdlCompilerInsiderHandler::checkHandlerOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
-void generatorsInsiderHandler::enforceHandlerQuietness ()
+void msdlCompilerInsiderHandler::enforceHandlerQuietness ()
 {
 #ifdef TRACING_IS_ENABLED
   gGlobalTraceOahGroup->
     enforceGroupQuietness ();
 #endif
 
-  gGlobalGeneratorsInsiderOahGroup->
+  gGlobalMsdlCompilerInsiderOahGroup->
     enforceGroupQuietness ();
 
   gGlobalGeneralOahGroup->
@@ -665,11 +677,11 @@ void generatorsInsiderHandler::enforceHandlerQuietness ()
 }
 
 //______________________________________________________________________________
-void generatorsInsiderOahGroup::enforceGroupQuietness ()
+void msdlCompilerInsiderOahGroup::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void generatorsInsiderOahGroup::checkGroupOptionsConsistency ()
+void msdlCompilerInsiderOahGroup::checkGroupOptionsConsistency ()
 {
 /* JMI
 
@@ -689,7 +701,7 @@ void generatorsInsiderOahGroup::checkGroupOptionsConsistency ()
     stringstream s;
 
     s <<
-      "generatorsInsiderOahGroup: a MusicXML output file name must be chosen with '-o, -output-file-name";
+      "msdlCompilerInsiderOahGroup: a MusicXML output file name must be chosen with '-o, -output-file-name";
 
     oahError (s.str ());
   }
@@ -706,25 +718,25 @@ void generatorsInsiderOahGroup::checkGroupOptionsConsistency ()
 }
 
 //______________________________________________________________________________
-void generatorsInsiderOahGroup::acceptIn (basevisitor* v)
+void msdlCompilerInsiderOahGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> generatorsInsiderOahGroup::acceptIn ()" <<
+      ".\\\" ==> msdlCompilerInsiderOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_generatorsInsiderOahGroup>*
+  if (visitor<S_msdlCompilerInsiderOahGroup>*
     p =
-      dynamic_cast<visitor<S_generatorsInsiderOahGroup>*> (v)) {
-        S_generatorsInsiderOahGroup elem = this;
+      dynamic_cast<visitor<S_msdlCompilerInsiderOahGroup>*> (v)) {
+        S_msdlCompilerInsiderOahGroup elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching generatorsInsiderOahGroup::visitStart ()" <<
+            ".\\\" ==> Launching msdlCompilerInsiderOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -732,25 +744,25 @@ void generatorsInsiderOahGroup::acceptIn (basevisitor* v)
   }
 }
 
-void generatorsInsiderOahGroup::acceptOut (basevisitor* v)
+void msdlCompilerInsiderOahGroup::acceptOut (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> generatorsInsiderOahGroup::acceptOut ()" <<
+      ".\\\" ==> msdlCompilerInsiderOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_generatorsInsiderOahGroup>*
+  if (visitor<S_msdlCompilerInsiderOahGroup>*
     p =
-      dynamic_cast<visitor<S_generatorsInsiderOahGroup>*> (v)) {
-        S_generatorsInsiderOahGroup elem = this;
+      dynamic_cast<visitor<S_msdlCompilerInsiderOahGroup>*> (v)) {
+        S_msdlCompilerInsiderOahGroup elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching generatorsInsiderOahGroup::visitEnd ()" <<
+            ".\\\" ==> Launching msdlCompilerInsiderOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -758,12 +770,12 @@ void generatorsInsiderOahGroup::acceptOut (basevisitor* v)
   }
 }
 
-void generatorsInsiderOahGroup::browseData (basevisitor* v)
+void msdlCompilerInsiderOahGroup::browseData (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> generatorsInsiderOahGroup::browseData ()" <<
+      ".\\\" ==> msdlCompilerInsiderOahGroup::browseData ()" <<
       endl;
   }
 #endif
@@ -772,12 +784,12 @@ void generatorsInsiderOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void generatorsInsiderHandler::print (ostream& os) const
+void msdlCompilerInsiderHandler::print (ostream& os) const
 {
   const unsigned int fieldWidth = 27;
 
   os <<
-    "generatorsInsiderHandler:" <<
+    "msdlCompilerInsiderHandler:" <<
     endl;
 
   ++gIndenter;
@@ -817,28 +829,28 @@ void generatorsInsiderHandler::print (ostream& os) const
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_generatorsInsiderHandler& elt)
+ostream& operator<< (ostream& os, const S_msdlCompilerInsiderHandler& elt)
 {
   elt->print (os);
   return os;
 }
 
 //_______________________________________________________________________________
-S_generatorsInsiderOahGroup gGlobalGeneratorsInsiderOahGroup;
+S_msdlCompilerInsiderOahGroup gGlobalMsdlCompilerInsiderOahGroup;
 
-S_generatorsInsiderOahGroup generatorsInsiderOahGroup::create ()
+S_msdlCompilerInsiderOahGroup msdlCompilerInsiderOahGroup::create ()
 {
-  generatorsInsiderOahGroup* o = new generatorsInsiderOahGroup ();
+  msdlCompilerInsiderOahGroup* o = new msdlCompilerInsiderOahGroup ();
   assert (o != nullptr);
 
   return o;
 }
 
-generatorsInsiderOahGroup::generatorsInsiderOahGroup ()
+msdlCompilerInsiderOahGroup::msdlCompilerInsiderOahGroup ()
   : oahGroup (
-    "generators",
-    "hgens", "help-generators",
-R"(Options that are used by generators are grouped here.)",
+    "msdlCompiler",
+    "hmsdlc", "help-msdl-compiler",
+R"(Options that are used by MSDL ompiler are grouped here.)",
     kElementVisibilityWhole)
 {
   fGeneratorOutputKind = k_NoOutput;
@@ -850,22 +862,22 @@ R"(Options that are used by generators are grouped here.)",
   fQuitAfterPass2a = false;
   fQuitAfterPass2b = false;
 
-  initializeGeneratorsInsiderOahGroup ();
+  initializeMsdlCompilerInsiderOahGroup ();
 }
 
-generatorsInsiderOahGroup::~generatorsInsiderOahGroup ()
+msdlCompilerInsiderOahGroup::~msdlCompilerInsiderOahGroup ()
 {}
 
 //_______________________________________________________________________________
-void generatorsInsiderOahGroup::initializeGeneratorsInsiderOahGroup ()
+void msdlCompilerInsiderOahGroup::initializeMsdlCompilerInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
-  gLogStream << left <<
-    "Initializing \"" <<
-    fGroupHeader <<
-    "\" group" <<
-    endl;
+    gLogStream << left <<
+      "Initializing \"" <<
+      fGroupHeader <<
+      "\" group" <<
+      endl;
   }
 #endif
 
@@ -880,15 +892,15 @@ void generatorsInsiderOahGroup::initializeGeneratorsInsiderOahGroup ()
   createInsiderQuitSubGroup ();
 }
 
-void generatorsInsiderOahGroup::createInsiderGuidoSubGroup ()
+void msdlCompilerInsiderOahGroup::createInsiderGuidoSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
-  gLogStream << left <<
-    "Creating insider Guido subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
+    gLogStream << left <<
+      "Creating insider Guido subgroup in \"" <<
+      fGroupHeader <<
+      "\"" <<
+      endl;
   }
 #endif
 
@@ -935,15 +947,15 @@ R"(Generate barlines in the Guido output.)",
 }
 
 //_______________________________________________________________________________
-void generatorsInsiderOahGroup::createInsiderQuitSubGroup ()
+void msdlCompilerInsiderOahGroup::createInsiderQuitSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
-  gLogStream << left <<
-    "Creating insider quit subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
+    gLogStream << left <<
+      "Creating insider quit subgroup in \"" <<
+      fGroupHeader <<
+      "\"" <<
+      endl;
   }
 #endif
 
@@ -994,11 +1006,10 @@ of the MusicXML tree to MSR.)",
 }
 
 //______________________________________________________________________________
-void generatorsInsiderOahGroup::printGeneratorsInsiderOahGroupValues (
-  unsigned int fieldWidth)
+void msdlCompilerInsiderOahGroup::printMsdlCompilerInsiderOahGroupValues (unsigned int fieldWidth)
 {
   gLogStream <<
-    "The generators options are:" <<
+    "The MSDL compiler options are:" <<
     endl;
 
   ++gIndenter;
@@ -1065,25 +1076,25 @@ void generatorsInsiderOahGroup::printGeneratorsInsiderOahGroupValues (
 }
 
 //______________________________________________________________________________
-S_generatorsInsiderOahGroup createGlobalGeneratorsInsiderOahGroup ()
+S_msdlCompilerInsiderOahGroup createGlobalMsdlCompilerInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
     gLogStream <<
-      "Creating global generators insider OAH group" <<
+      "Creating global msdlCompiler insider OAH group" <<
       endl;
   }
 #endif
 
   // protect library against multiple initializations
-  if (! gGlobalGeneratorsInsiderOahGroup) {
+  if (! gGlobalMsdlCompilerInsiderOahGroup) {
 
     // create the global OAH group
     // ------------------------------------------------------
 
-    gGlobalGeneratorsInsiderOahGroup =
-      generatorsInsiderOahGroup::create ();
-    assert (gGlobalGeneratorsInsiderOahGroup != 0);
+    gGlobalMsdlCompilerInsiderOahGroup =
+      msdlCompilerInsiderOahGroup::create ();
+    assert (gGlobalMsdlCompilerInsiderOahGroup != 0);
 
     // append versions information to list
     // ------------------------------------------------------
@@ -1095,7 +1106,7 @@ S_generatorsInsiderOahGroup createGlobalGeneratorsInsiderOahGroup ()
   }
 
   // return the global OAH group
-  return gGlobalGeneratorsInsiderOahGroup;
+  return gGlobalMsdlCompilerInsiderOahGroup;
 }
 
 

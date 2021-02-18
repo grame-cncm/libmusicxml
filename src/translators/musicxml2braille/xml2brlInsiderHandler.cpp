@@ -76,7 +76,7 @@ R"(                         Welcome to xml2brl,
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
 R"(
-Usage: xml2brl ([options] | [MusicXMLFile|-])+
+Usage: xml2brl [[option]* [MusicXMLFile|-] [[option]*
 )")
 {
 #ifdef TRACING_IS_ENABLED

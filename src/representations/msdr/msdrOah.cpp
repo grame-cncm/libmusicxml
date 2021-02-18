@@ -706,7 +706,7 @@ void msdrOahGroup::initializeMsdrQuitAfterSomePassesOptions ()
     subGroup =
       oahSubGroup::create (
         "Quit after some passes",
-        "hlquit", "help-msdr-quit",
+        "hmquit", "help-msdr-quit",
 R"()",
       kElementVisibilityWhole,
       this);
@@ -720,7 +720,7 @@ R"()",
   S_oahBooleanAtom
     quit3OahBooleanAtom =
       oahBooleanAtom::create (
-        "q3", "quitAfterPass-3",
+        "mq3", "msdr-quit-after-pass-3",
 R"(Quit after pass 3, i.e. after conversion
 of the MSR to MSDR.)",
         "quitAfterPass3",

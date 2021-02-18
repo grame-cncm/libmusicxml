@@ -72,7 +72,7 @@ R"(                      Welcome to msdl2gmn,
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
 R"(
-Usage: msdl2gmn ([options] | [MusicXMLFile|-])+
+Usage: msdl2gmn [option]* [MSDLFile] [option]*
 )")
 {
 #ifdef TRACING_IS_ENABLED

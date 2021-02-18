@@ -32,7 +32,7 @@
 #include "waeExceptions.h"
 #include "waeMessagesHandling.h"
 
-#include "msdlLexicalAnalyzer.h"
+#include "msdlScanner.h"
 
 #include "msdl2xmlInsiderHandler.h"
 #include "msdl2xmlRegularHandler.h"
@@ -81,9 +81,9 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
   // ------------------------------------------------------
 
   try {
-    msdlLexicalAnalyzer analyser (inputStream);
+    msdlScanner analyser (inputStream);
 
-    analyser.performLexicalAnalysis ();
+    analyser.scan ();
     /*
     theMsrScore =
       convertMxmlTreeToMsrScoreSkeleton (

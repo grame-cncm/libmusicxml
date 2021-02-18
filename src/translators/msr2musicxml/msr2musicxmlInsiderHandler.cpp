@@ -72,7 +72,7 @@ R"(                      Welcome to msr2musicxml,
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
 R"(
-Usage: msr2musicxml ([options] | [MusicXMLFile|-])+
+Usage: msr2musicxml [[option]* [MusicXMLFile|-] [[option]*
 )")
 {
 #ifdef TRACING_IS_ENABLED

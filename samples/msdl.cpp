@@ -29,13 +29,8 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-/* JMI
 #include "msdlCompilerInsiderHandler.h"
 #include "msdlCompilerRegularHandler.h"
-*/
-
-#include "generatorsInsiderHandler.h"
-#include "generatorsRegularHandler.h"
 
 #include "msdl2guido.h"
 #include "msdl2lilypond.h"
@@ -590,12 +585,12 @@ int main (int argc, char * argv[])
   S_oahHandler handler;
 
   try {
-    // create a generators insider OAH handler
+    // create an msdlCompiler insider OAH handler
     // ------------------------------------------------------
 
-    S_generatorsInsiderHandler
+    S_msdlCompilerInsiderHandler
       insiderOahHandler =
-        generatorsInsiderHandler::create (
+        msdlCompilerInsiderHandler::create (
           executableName,
           executableName + " insider OAH handler with argc/argv",
           theGeneratorOutputKind);
@@ -604,13 +599,13 @@ int main (int argc, char * argv[])
     // ------------------------------------------------------
 
     if (insiderOptions) {
-      // use the insider generators OAH handler
+      // use the insider msdlCompiler OAH handler
       handler = insiderOahHandler;
     }
     else {
-      // create a regular generators OAH handler
+      // create a regular msdlCompiler OAH handler
       handler =
-        generatorsRegularHandler::create (
+        msdlCompilerRegularHandler::create (
           executableName,
           executableName + " regular OAH handler with argc/argv",
           insiderOahHandler,
@@ -751,6 +746,7 @@ int main (int argc, char * argv[])
   }
 #endif
 
+/* JMI
   // what if no input source name has been supplied?
   if (! inputSourceName.size ()) {
     if (handler->getOahHandlerFoundAHelpOption ()) {
@@ -768,6 +764,7 @@ int main (int argc, char * argv[])
       oahError (s.str ());
     }
   }
+*/
 
   // set the desired options
   // ------------------------------------------------------
@@ -804,7 +801,7 @@ int main (int argc, char * argv[])
     gLogStream <<
       "Launching the conversion of ";
 
-    if (inputSourceName == "-") {
+    if (! inputSourceName.size ()) {
       gLogStream <<
         "standard input";
     }
@@ -916,7 +913,7 @@ int main (int argc, char * argv[])
   xmlErr err = kNoErr;
 
   try {
-    if (inputSourceName == "-") {
+    if (! inputSourceName.size ()) {
       // MSDL data comes from standard input
 #ifdef TRACING_IS_ENABLED
       if (getTraceOah ()) {

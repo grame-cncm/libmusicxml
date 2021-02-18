@@ -76,7 +76,7 @@ R"(                         Welcome to msr2braille,
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
 R"(
-Usage: msr2braille ([options] | [MusicXMLFile|-])+
+Usage: msr2braille [option]* [MusicXMLFile|-] [[option]*
 )")
 {
 #ifdef TRACING_IS_ENABLED

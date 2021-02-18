@@ -1355,8 +1355,6 @@ void msdlCompilerRegularHandler::checkOptionsAndArgumentsFromArgcAndArgv () cons
       endl;
   }
 #endif
-
-  checkNoInputSourceInArgumentsVector ();
 }
 
 //______________________________________________________________________________

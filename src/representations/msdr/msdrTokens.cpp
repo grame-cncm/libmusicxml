@@ -49,16 +49,31 @@ string msdrTokenKindAsString (
   stringstream s;
 
   switch (tokenKind) {
+    case k_TokenEOF:
+      s << "EOFToken";
+      break;
+
     case k_NoToken:
       s << "*noToken*";
+      break;
+
+    case k_TokenMalformed:
+      s << "*malformedToken*";
       break;
 
     // language-independent tokens
     // ------------------------------------
 
-    case kTokenBlanks:
-      s << "tokenBlanks";
+    case kTokenSpace:
+      s << "tokenSpace";
       break;
+    case kTokenTab:
+      s << "tokenTab";
+      break;
+    case kTokenCarriageReturn:
+      s << "tokenCarriageReturn";
+      break;
+
     case kTokenEndOfLine:
       s << "tokenEndOfLine";
       break;
@@ -97,6 +112,9 @@ string msdrTokenKindAsString (
     case kTokenSlash:
       s << "tokenSlash";
       break;
+    case kTokenPercent:
+      s << "tokenPercent";
+      break;
 
     case kTokenConcat:
       s << "tokenConcat";
@@ -120,6 +138,9 @@ string msdrTokenKindAsString (
       s << "tokenRightBracket";
       break;
 
+    case kTokenQuote:
+      s << "tokenQuote";
+      break;
     case kTokenDot:
       s << "tokenDot";
       break;
@@ -148,11 +169,8 @@ string msdrTokenKindAsString (
       s << "tokenDouble";
       break;
 
-    case kTokenSingleQuotedString:
-      s << "tokenSingleQuotedString";
-      break;
-    case kTokenDoubleQuotedString:
-      s << "tokenDoubleQuotedString";
+    case kTokenString:
+      s << "tokenString";
       break;
 
     case kTokenIdentifier:
@@ -247,6 +265,8 @@ string msdrTokenDescriptionKindAsString (msdrTokenDescriptionKind tokenDescripti
     case kTokenDescriptionDouble:
       result = "tokenDescriptionDouble";
       break;
+    case kTokenDescriptionCharacter:
+      result = "tokenDescriptionCharacter";
     case kTokenDescriptionString:
       result = "tokenDescriptionString";
       break;
@@ -296,6 +316,19 @@ msdrKeywordKind msdrTokenDescription::getKeywordKind () const
       {
         string message =
           "MSDL token desr contains a double, not an keyword";
+
+        gLogStream <<
+          message <<
+          endl;
+
+        throw msgMsdlException (message);
+      }
+      break;
+
+    case kTokenDescriptionCharacter:
+      {
+        string message =
+          "MSDL token desr contains a character, not an keyword";
 
         gLogStream <<
           message <<
@@ -357,6 +390,19 @@ int msdrTokenDescription::getInteger () const
       }
       break;
 
+    case kTokenDescriptionCharacter:
+      {
+        string message =
+          "MSDL token desr contains a character, not an integer";
+
+        gLogStream <<
+          message <<
+          endl;
+
+        throw msgMsdlException (message);
+      }
+      break;
+
     case kTokenDescriptionString:
       {
         string message =
@@ -409,6 +455,19 @@ double msdrTokenDescription::getDouble () const
       result = fDouble;
       break;
 
+    case kTokenDescriptionCharacter:
+      {
+        string message =
+          "MSDL token desr contains a character, not a double";
+
+        gLogStream <<
+          message <<
+          endl;
+
+        throw msgMsdlException (message);
+      }
+      break;
+
     case kTokenDescriptionString:
       {
         string message =
@@ -423,6 +482,70 @@ double msdrTokenDescription::getDouble () const
       break;
   } // switch
 
+
+  return result;
+}
+
+char msdrTokenDescription::getCharacter () const
+{
+  char result;
+
+  switch (fTokenDescriptionKind) {
+    case kTokenDescriptionKeyword:
+      {
+        string message =
+          "MSDL token desr contains a keyword, not a character";
+
+        gLogStream <<
+          message <<
+          endl;
+
+        throw msgMsdlException (message);
+      }
+      break;
+
+    case kTokenDescriptionInteger:
+      {
+        string message =
+          "MSDL token desr contains an integer, not a character";
+
+        gLogStream <<
+          message <<
+          endl;
+
+        throw msgMsdlException (message);
+      }
+      break;
+
+    case kTokenDescriptionDouble:
+      {
+        string message =
+          "MSDL token desr contains a double, not a character";
+
+        gLogStream <<
+          message <<
+          endl;
+
+        throw msgMsdlException (message);
+      }
+      break;
+
+    case kTokenDescriptionCharacter:
+      result = fCharacter;
+      break;
+
+    case kTokenDescriptionString:
+      {
+        string message =
+          "MSDL token desr contains a double, not a character";
+
+        gLogStream <<
+          message <<
+          endl;
+
+        throw msgMsdlException (message);
+      }
+  } // switch
 
   return result;
 }
@@ -471,6 +594,10 @@ string msdrTokenDescription::getString () const
       }
       break;
 
+    case kTokenDescriptionCharacter:
+      result = fCharacter;
+      break;
+
     case kTokenDescriptionString:
       result = fString;
       break;
@@ -484,7 +611,7 @@ string msdrTokenDescription::asString () const
   stringstream s;
 
   s <<
-    "MSDL token" <<
+    "[MSDL tokenDescription" <<
     ", tokenDescriptionKind = " <<
     msdrTokenDescriptionKindAsString (fTokenDescriptionKind) <<
     ": ";
@@ -502,10 +629,16 @@ string msdrTokenDescription::asString () const
       s << fDouble;
       break;
 
+    case kTokenDescriptionCharacter:
+      s << "'" << fString << "'";
+      break;
+
     case kTokenDescriptionString:
       s << "\"" << fString << "\"";
       break;
   } // switch
+
+  s << "]";
 
   return s.str ();
 }
@@ -513,8 +646,32 @@ string msdrTokenDescription::asString () const
 void msdrTokenDescription::print (ostream& os) const
 {
   os <<
-    asString () <<
-    endl;
+    msdrTokenDescriptionKindAsString (fTokenDescriptionKind) <<
+    ": ";
+
+  switch (fTokenDescriptionKind) {
+    case kTokenDescriptionKeyword:
+      os << msdrKeywordKindAsString (fKeywordKind);
+      break;
+
+    case kTokenDescriptionInteger:
+      os << fInteger;
+      break;
+
+    case kTokenDescriptionDouble:
+      os << fDouble;
+      break;
+
+    case kTokenDescriptionCharacter:
+      os << "'" << fString << "'";
+      break;
+
+    case kTokenDescriptionString:
+      os << "\"" << fString << "\"";
+      break;
+  } // switch
+
+  os << "]";
 }
 
 ostream& operator<< (ostream& os, const msdrTokenDescription& elt)
@@ -526,18 +683,24 @@ ostream& operator<< (ostream& os, const msdrTokenDescription& elt)
 //_______________________________________________________________________________
 msdrToken::msdrToken ()
     : fTokenKind (k_NoToken)
-{}
+{
+  initializeToken ();
+}
 
 msdrToken::msdrToken (
   msdrTokenKind tokenKind)
     : fTokenKind (tokenKind)
-{}
+{
+  initializeToken ();
+}
 
 msdrToken::msdrToken (
   msdrTokenKind   tokenKind,
   msdrKeywordKind value)
     : fTokenKind (tokenKind)
 {
+  initializeToken ();
+
   fTokenDescription.setKeywordKind (value);
 }
 
@@ -546,6 +709,8 @@ msdrToken::msdrToken (
   int           value)
     : fTokenKind (tokenKind)
 {
+  initializeToken ();
+
   fTokenDescription.setInteger (value);
 }
 
@@ -554,6 +719,8 @@ msdrToken::msdrToken (
   string        value)
     : fTokenKind (tokenKind)
 {
+  initializeToken ();
+
   fTokenDescription.setString (value);
 }
 
@@ -562,11 +729,19 @@ msdrToken::msdrToken (
   double        value)
     : fTokenKind (tokenKind)
 {
+  initializeToken ();
+
   fTokenDescription.setDouble (value);
 }
 
 msdrToken::~msdrToken ()
 {}
+
+void msdrToken::initializeToken ()
+{
+  fTokenLineNumber     = 0;
+  fTokenPositionInLine = 0;
+}
 
 string msdrToken::asString () const
 {
@@ -582,24 +757,44 @@ string msdrToken::asString () const
   return s.str ();
 }
 
-//_______________________________________________________________________________
 string msdrToken::asMsdlString () const
 {
   string result;
 
   stringstream s;
 
+  s <<
+    msdrTokenKindAsString (fTokenKind) <<
+    " ";
+
   switch (fTokenKind) {
+    case k_TokenEOF:
+      s << "TokenEOF";
+      break;
+
     case k_NoToken:
       // should not occur
+      break;
+
+    case k_TokenMalformed:
+      s << "*TokenMalformed*";
       break;
 
     // language-independent tokens
     // ------------------------------------
 
-    case kTokenBlanks:
+    case kTokenSpace:
+      s << "TokenSpace";
+      break;
+    case kTokenTab:
+      s << "TokenTab";
+      break;
+    case kTokenCarriageReturn:
+      s << "TokenCarriageReturn";
+      break;
+
     case kTokenEndOfLine:
-      s << fTokenDescription.getString ();
+      s << "TokenEOL";
       break;
 
     case kTokenParenthesizedComment:
@@ -636,6 +831,9 @@ string msdrToken::asMsdlString () const
     case kTokenSlash:
       s << "/";
       break;
+    case kTokenPercent:
+      s << "%";
+      break;
 
     case kTokenConcat:
       s << "!!";
@@ -659,6 +857,9 @@ string msdrToken::asMsdlString () const
       s << "}";
       break;
 
+    case kTokenQuote:
+      s << "'";
+      break;
     case kTokenDot:
       s << ".";
       break;
@@ -687,15 +888,12 @@ string msdrToken::asMsdlString () const
       s << fTokenDescription.getDouble ();
       break;
 
-    case kTokenSingleQuotedString:
-      s << "\"" << fTokenDescription.getString () << "\"";
-      break;
-    case kTokenDoubleQuotedString:
+    case kTokenString:
       s << "'" << fTokenDescription.getString () << "'";
       break;
 
     case kTokenIdentifier:
-      s << fTokenDescription.getString ();
+      s << "\"" << fTokenDescription.getString () << "\"";
       break;
 
     // language-dependent keywords
@@ -712,8 +910,149 @@ string msdrToken::asMsdlString () const
 void msdrToken::print (ostream& os) const
 {
   os <<
-    asString () <<
+    msdrTokenKindAsString (fTokenKind) <<
+    ", fTokenLineNumber: " << fTokenLineNumber <<
+    ", fTokenPositionInLine: " << fTokenPositionInLine <<
     endl;
+
+  switch (fTokenKind) {
+    case k_TokenEOF:
+      os << "END_OF_FILE";
+      break;
+
+    case k_NoToken:
+      // should not occur
+      break;
+
+    case k_TokenMalformed:
+      os << "\"" << fTokenDescription.getString () << "\"";
+      break;
+
+    // language-independent tokens
+    // ------------------------------------
+
+    case kTokenSpace:
+      os << "SPACE";
+      break;
+    case kTokenTab:
+      os << "TAB";
+      break;
+    case kTokenCarriageReturn:
+      os << "CARRIAGE_RETURN";
+      break;
+
+    case kTokenEndOfLine:
+      os << "END_OF_LINE";
+      break;
+
+    case kTokenParenthesizedComment:
+      os << "\"" << fTokenDescription.getString () << "\"";
+      break;
+
+    case kTokenCommentToEndOfLine:
+      os << "\"" << fTokenDescription.getString () << "\"";
+      break;
+
+    case kTokenEqualSign:
+      os << "=";
+      break;
+
+    case kTokenComma:
+      os << ",";
+      break;
+    case kTokenColon:
+      os << ":";
+      break;
+    case kTokenSemiColon:
+      os << ";";
+      break;
+
+    case kTokenPlus:
+      os << "+";
+      break;
+    case kTokenMinus:
+      os << "-";
+      break;
+    case kTokenStar:
+      os << "*";
+      break;
+    case kTokenSlash:
+      os << "/";
+      break;
+    case kTokenPercent:
+      os << "%";
+      break;
+
+    case kTokenConcat:
+      os << "!!";
+      break;
+
+    case kTokenQuestionMark:
+      os << "?";
+      break;
+
+    case kTokenLeftParenthesis:
+      os << "(";
+      break;
+    case kTokenRightParenthesis:
+      os << ")";
+      break;
+
+    case kTokenLeftBracket:
+      os << "{";
+      break;
+    case kTokenRightBracket:
+      os << "}";
+      break;
+
+    case kTokenQuote:
+      os << "'";
+      break;
+    case kTokenDot:
+      os << ".";
+      break;
+
+    case kTokenMeasure:
+      os << "|";
+      break;
+    case kTokenDoubleBar:
+      os << "||";
+      break;
+    case kTokenFinalBar:
+      os << "|||";
+      break;
+
+    case kTokenRepeatStart:
+      os << "|||:";
+      break;
+    case kTokenRepeatEnd:
+      os << ":|||";
+      break;
+
+    case kTokenInteger:
+      os << fTokenDescription.getInteger ();
+      break;
+    case kTokenDouble:
+      os << fTokenDescription.getDouble ();
+      break;
+
+    case kTokenString:
+      os << "'" << fTokenDescription.getString () << "'";
+      break;
+
+    case kTokenIdentifier:
+      os << "\"" << fTokenDescription.getString () << "\"";
+      break;
+
+    // language-dependent keywords
+    // ------------------------------------
+
+    default:
+      os <<
+        msdrKeywordKindAsString (fTokenDescription.getKeywordKind ());
+  } // switch
+
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const msdrToken& elt)

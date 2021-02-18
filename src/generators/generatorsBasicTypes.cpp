@@ -98,7 +98,7 @@ void initializeGeneratorOutputKindsMap ()
   gGlobalGeneratorOutputKindsMap ["lilypond"] = kLilyPondOutput;
   gGlobalGeneratorOutputKindsMap ["braille"]  = kBrailleOutput;
   gGlobalGeneratorOutputKindsMap ["musicxml"] = kMusicXMLOutput;
-  gGlobalGeneratorOutputKindsMap ["midi"] = kMidiOutput;
+  gGlobalGeneratorOutputKindsMap ["midi"]     = kMidiOutput;
 }
 
 string existingGeneratorOutputKinds (

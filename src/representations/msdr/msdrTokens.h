@@ -27,11 +27,18 @@ namespace MusicXML2
 
 //________________________________________________________________________
 enum msdrTokenKind {
-  k_NoToken,  // 0, which is returned by yylex() at the end of file
+  k_TokenEOF,  // 0, which is expected by yyparse() at the end of the input
+
+  k_NoToken,
+
+  k_TokenMalformed, // for error recovery
 
   // language-independent tokens
   // ------------------------------------
-  kTokenBlanks,
+  kTokenSpace,
+  kTokenTab,
+  kTokenCarriageReturn,
+
   kTokenEndOfLine,
 
   kTokenParenthesizedComment,
@@ -47,6 +54,7 @@ enum msdrTokenKind {
   kTokenMinus,
   kTokenStar,
   kTokenSlash,
+  kTokenPercent,
 
   kTokenConcat,
 
@@ -58,6 +66,7 @@ enum msdrTokenKind {
   kTokenLeftBracket,
   kTokenRightBracket,
 
+  kTokenQuote,
   kTokenDot,
 
   kTokenMeasure,
@@ -70,8 +79,7 @@ enum msdrTokenKind {
   kTokenInteger,
   kTokenDouble,
 
-  kTokenSingleQuotedString,
-  kTokenDoubleQuotedString,
+  kTokenString,
 
   kTokenIdentifier,
 
@@ -113,6 +121,7 @@ enum msdrTokenDescriptionKind {
   kTokenDescriptionKeyword,
   kTokenDescriptionInteger,
   kTokenDescriptionDouble,
+  kTokenDescriptionCharacter,
   kTokenDescriptionString
 };
 
@@ -165,6 +174,14 @@ class EXP msdrTokenDescription : public smartable
 
     double                getDouble () const;
 
+    void                  setCharacter (char value)
+                              {
+                                fTokenDescriptionKind = kTokenDescriptionCharacter;
+                                fCharacter            = value;
+                              }
+
+    char                  getCharacter () const;
+
     void                  setString (string value)
                               {
                                 fTokenDescriptionKind = kTokenDescriptionString;
@@ -197,8 +214,11 @@ class EXP msdrTokenDescription : public smartable
                           fTokenDescriptionKind;
 
     msdrKeywordKind       fKeywordKind;
+
     int                   fInteger;
     double                fDouble;
+
+    char                  fCharacter;
     string                fString;
 };
 typedef SMARTP<msdrTokenDescription> S_msdrTokenDescription;
@@ -245,13 +265,36 @@ class EXP msdrToken : public smartable
     // set and get
     // ------------------------------------------------------
 
+    void                  setTokenKind (msdrTokenKind tokenKind)
+                              { fTokenKind = tokenKind; }
+
     msdrTokenKind         getTokenKind () const
                               { return fTokenKind; }
 
+    msdrTokenKind&        getTokenKindToModify ()
+                              { return fTokenKind; }
+
+    void                  setTokenDescription (msdrTokenDescription& tokenDescription)
+                              { fTokenDescription = tokenDescription; }
 
     const msdrTokenDescription&
                           getTokenDescription () const
                               { return fTokenDescription; }
+
+    msdrTokenDescription& getTokenDescriptionToModify ()
+                              { return fTokenDescription; }
+
+    void                  setTokenLineNumber (int tokenLineNumber)
+                              { fTokenLineNumber = tokenLineNumber; }
+
+    int                   getTokenLineNumber () const
+                              { return fTokenLineNumber; }
+
+    void                  setTokenPositionInLine (int tokenPositionInLine)
+                              { fTokenPositionInLine = tokenPositionInLine; }
+
+    int                   getTokenPositionInLine () const
+                              { return fTokenPositionInLine; }
 
   public:
 
@@ -271,15 +314,24 @@ class EXP msdrToken : public smartable
 
   private:
 
+    // private methods
+    // ------------------------------------------------------
+
+    void                  initializeToken ();
+
+  private:
+
     // private fields
     // ------------------------------------------------------
 
     // the MSDL token
     msdrTokenKind         fTokenKind;
 
-
     // its descritption with variants handling
     msdrTokenDescription  fTokenDescription;
+
+    int                   fTokenLineNumber;
+    int                   fTokenPositionInLine;
 };
 typedef SMARTP<msdrToken> S_msdrToken;
 EXP ostream& operator<< (ostream& os, const msdrToken& elt);

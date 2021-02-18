@@ -12,6 +12,8 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include <regex>
+
 #include "version.h"
 #include "utilities.h"
 
@@ -53,7 +55,7 @@ msdl2msdrOahGroup::msdl2msdrOahGroup ()
 R"(These options control the way xmlelement are translated to MSDR.)",
     kElementVisibilityWhole)
 {
-  initializeMsdl2msdr ();
+  initializeMsdl2msdrGroup ();
 }
 
 msdl2msdrOahGroup::~msdl2msdrOahGroup ()
@@ -84,16 +86,141 @@ R"()",
 R"(Write a trace of the MSDL tokens handling activity to standard error.)",
         "traceTokens",
         fTraceTokens));
+
+  // MSDL tokens details
+
+  fTraceTokensDetails = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahTwoBooleansAtom::create (
+        "ttoksd", "trace-tokens-details",
+R"(Write a trace of the MSDL tokens handling activity with more details to standard error.)",
+        "traceTokensDetails",
+        fTraceTokensDetails,
+        fTraceTokens));
 }
 #endif
 
-void msdl2msdrOahGroup::initializeMsdl2msdr ()
+void msdl2msdrOahGroup::initializeGenerateCodeOptions ()
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Generated output",
+        "hgc", "help-generate-output",
+R"()",
+      kElementVisibilityWhole,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // generator output kind
+
+  const generatorOutputKind
+    generatorOutputKindDefaultValue =
+      kLilyPondOutput; // default value
+
+  fGeneratorOutputKindAtom =
+    generatorOutputKindAtom::create (
+      K_GENERATED_OUTPUT_KIND_SHORT_NAME, K_GENERATED_OUTPUT_KIND_LONG_NAME,
+      regex_replace (
+        regex_replace (
+          regex_replace (
+  R"(Generate GENERATED_OUTPUT_KIND code to the output.
+  The NUMBER generated output kinds available are:
+  GENERATED_OUTPUT_KINDS.
+  The default is 'DEFAULT_VALUE'.)",
+            regex ("NUMBER"),
+            to_string (gGlobalGeneratorOutputKindsMap.size ())),
+          regex ("GENERATED_OUTPUT_KINDS"),
+          existingGeneratorOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
+        regex ("DEFAULT_VALUE"),
+        generatorOutputKindAsString (
+          generatorOutputKindDefaultValue)),
+      "GENERATED_OUTPUT_KIND",
+      "generatorOutputKind",
+      fGeneratorOutputKind);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fGeneratorOutputKindAtom);
+
+  // generator output macros
+
+  S_oahMacroAtom
+    guidoMacroAtom =
+      oahMacroAtom::create (
+        K_GENERATED_OUTPUT_KIND_GUIDO_NAME, "",
+        "Generate Guido output");
+  guidoMacroAtom->
+    appendAtomStringPairToMacro (
+      fGeneratorOutputKindAtom, "guido");
+  subGroup->
+    appendAtomToSubGroup (
+      guidoMacroAtom);
+
+
+  S_oahMacroAtom
+    lilypondMacroAtom =
+      oahMacroAtom::create (
+        K_GENERATED_OUTPUT_KIND_LIlYPOND_NAME, "",
+        "Generate LilyPond output");
+  lilypondMacroAtom->
+    appendAtomStringPairToMacro (
+      fGeneratorOutputKindAtom, "lilypond");
+  subGroup->
+    appendAtomToSubGroup (
+      lilypondMacroAtom);
+
+  S_oahMacroAtom
+    brailleMacroAtom =
+      oahMacroAtom::create (
+        K_GENERATED_OUTPUT_KIND_BRAILLE_NAME, "",
+        "Generate braille music output");
+  brailleMacroAtom->
+    appendAtomStringPairToMacro (
+      fGeneratorOutputKindAtom, K_GENERATED_OUTPUT_KIND_BRAILLE_NAME);
+  subGroup->
+    appendAtomToSubGroup (
+      brailleMacroAtom);
+
+  S_oahMacroAtom
+    musicxmlMacroAtom =
+      oahMacroAtom::create (
+        K_GENERATED_OUTPUT_KIND_MUSICXML_NAME, "",
+        "Generate MusicXML output");
+  musicxmlMacroAtom->
+    appendAtomStringPairToMacro (
+      fGeneratorOutputKindAtom, "musicxml");
+  subGroup->
+    appendAtomToSubGroup (
+      musicxmlMacroAtom);
+
+/* JMI
+  S_oahMacroAtom
+    midiMacroAtom =
+      oahMacroAtom::create (
+        K_GENERATED_OUTPUT_KIND_MIDI_NAME, "",
+        "Generate MIDI output");
+  midiMacroAtom->
+    appendAtomStringPairToMacro (
+      fGeneratorOutputKindAtom, "midi");
+  subGroup->
+    appendAtomToSubGroup (
+      midiMacroAtom);
+      */
+}
+
+void msdl2msdrOahGroup::initializeMsdl2msdrGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   // trace
   // --------------------------------------
   initializeMsdl2msdrTraceOah ();
 #endif
+
+  initializeGenerateCodeOptions ();
 }
 
 //______________________________________________________________________________

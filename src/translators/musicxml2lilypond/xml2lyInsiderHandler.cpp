@@ -80,7 +80,7 @@ R"(                       Welcome to xml2ly,
 )",
 /* JMI
 R"(
-Usage: xml2ly ([options] | [MusicXMLFile|-])+
+Usage: xml2ly [[option]* [MusicXMLFile|-] [[option]*
 )"
 */
       usageFromUsedThruKind (handlerUsedThruKind)
@@ -151,7 +151,7 @@ string xml2lyInsiderHandler::usageFromUsedThruKind (
       }
       break;
     case kHandlerUsedThruArgcAndArgv:
-      result = fHandlerExecutableName + " ([options] | [MusicXMLFile|-])+";
+      result = fHandlerExecutableName + " [[option]* [MusicXMLFile|-] [[option]*"; // JMI ???
       break;
     case kHandlerUsedThruOptionsVector:
       result = "Usage: [options]";

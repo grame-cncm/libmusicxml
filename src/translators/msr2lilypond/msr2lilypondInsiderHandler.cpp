@@ -80,7 +80,7 @@ R"(                      Welcome to msr2lilypond,
 )",
 /* JMI
 R"(
-Usage: msr2lilypond ([options] | [MusicXMLFile|-])+
+Usage: msr2lilypond [[option]* [MusicXMLFile|-] [[option]*
 )"
 */
       usageFromUsedThruKind (handlerUsedThruKind)
@@ -150,7 +150,7 @@ string msr2lilypondInsiderHandler::usageFromUsedThruKind (
       }
       break;
     case kHandlerUsedThruArgcAndArgv:
-      result = fHandlerExecutableName + " ([options] | [MusicXMLFile|-])+";
+      result = fHandlerExecutableName + " [[option]* [MusicXMLFile|-] [[option]*"; // JMI ???
       break;
     case kHandlerUsedThruOptionsVector:
       result = "Usage: [options]";

@@ -17,6 +17,8 @@
 
 #include "oahBasicTypes.h"
 
+#include "generatorsBasicTypes.h"
+
 
 namespace MusicXML2
 {
@@ -36,7 +38,7 @@ class EXP msdl2msdrOahGroup : public oahGroup
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeMsdl2msdr ();
+    void                  initializeMsdl2msdrGroup ();
 
   protected:
 
@@ -55,6 +57,8 @@ class EXP msdl2msdrOahGroup : public oahGroup
 #ifdef TRACING_IS_ENABLED
     bool                  getTraceTokens () const
                               { return fTraceTokens; }
+    bool                  getTraceTokensDetails () const
+                              { return fTraceTokensDetails; }
 #endif
 
     bool                  getQuitOnLexicalErrors () const
@@ -79,6 +83,8 @@ class EXP msdl2msdrOahGroup : public oahGroup
 #ifdef TRACING_IS_ENABLED
     void                  initializeMsdl2msdrTraceOah ();
 #endif
+
+    void                  initializeGenerateCodeOptions ();
 
   public:
 
@@ -107,7 +113,12 @@ class EXP msdl2msdrOahGroup : public oahGroup
     // trace
 #ifdef TRACING_IS_ENABLED
     bool                  fTraceTokens;
+    bool                  fTraceTokensDetails;
 #endif
+
+    generatorOutputKind   fGeneratorOutputKind;
+    S_generatorOutputKindAtom
+                          fGeneratorOutputKindAtom;
 
     bool                  fQuitOnLexicalErrors;
 };

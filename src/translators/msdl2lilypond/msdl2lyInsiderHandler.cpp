@@ -80,7 +80,7 @@ R"(                       Welcome to msdl2ly,
 )",
 /* JMI
 R"(
-Usage: msdl2ly ([options] | [MusicXMLFile|-])+
+Usage: msdl2ly [option]* [MSDLFile] [option]*
 )"
 */
       usageFromUsedThruKind (handlerUsedThruKind)
@@ -151,7 +151,7 @@ string msdl2lyInsiderHandler::usageFromUsedThruKind (
       }
       break;
     case kHandlerUsedThruArgcAndArgv:
-      result = fHandlerExecutableName + " ([options] | [MusicXMLFile|-])+";
+      result = fHandlerExecutableName + " ([options] | [MSDLFile])+";
       break;
     case kHandlerUsedThruOptionsVector:
       result = "Usage: [options]";
