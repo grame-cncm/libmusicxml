@@ -31,8 +31,8 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 // tracing should be available for options and help before they have been setup
-extern void setTraceOah ();
-extern bool getTraceOah ();
+EXP extern void setTraceOah ();
+EXP extern bool getTraceOah ();
 
 #define K_TRACE_OAH_SHORT_OPTION_NAME "toah"
 #define K_TRACE_OAH_LONG_OPTION_NAME  "trace-oah"

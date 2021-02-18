@@ -37,10 +37,10 @@ namespace MusicXML2
 //_______________________________________________________________________________
 static bool gTraceOah = false;
 
-void setTraceOah ()
+EXP void setTraceOah ()
   { gTraceOah = true; }
 
-bool getTraceOah ()
+EXP bool getTraceOah ()
   { return gTraceOah; }
 
 //_______________________________________________________________________________
