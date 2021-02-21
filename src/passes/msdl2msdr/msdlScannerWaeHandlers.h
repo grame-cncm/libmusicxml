@@ -60,6 +60,13 @@ class EXP msdlScannerWaeHandler : public waeHandler
 
     virtual void          illegalEscapedCharacterInString (char theChar) = 0;
 
+    virtual void          inputIsLexicallyCorrect (int numberOfTokens) = 0;
+    virtual void          inputIsLexicallyIncorrect (int numberOfTokens) = 0;
+
+    virtual void          inputIsAlreadyInMsdlKeywordsLanguage (
+                            msdlKeywordsLanguageKind
+                              keywordsTranslationLanguage) = 0;
+
   public:
 
     // print
@@ -113,6 +120,13 @@ class EXP msdlScannerEnglishWaeHandler : public msdlScannerWaeHandler
     void                  digitExpectedInExponent (char theChar) override;
 
     void                  illegalEscapedCharacterInString (char theChar) override;
+
+    void                  inputIsLexicallyCorrect (int numberOfTokens) override;
+    void                  inputIsLexicallyIncorrect (int numberOfTokens) override;
+
+    void                  inputIsAlreadyInMsdlKeywordsLanguage (
+                            msdlKeywordsLanguageKind
+                              keywordsTranslationLanguage) override;
 
   public:
 
@@ -168,6 +182,13 @@ class EXP msdlScannerFrenchWaeHandler : public msdlScannerWaeHandler
 
     void                  illegalEscapedCharacterInString (char theChar) override;
 
+    void                  inputIsLexicallyCorrect (int numberOfTokens) override;
+    void                  inputIsLexicallyIncorrect (int numberOfTokens) override;
+
+    void                  inputIsAlreadyInMsdlKeywordsLanguage (
+                            msdlKeywordsLanguageKind
+                              keywordsTranslationLanguage) override;
+
   public:
 
     // print
@@ -184,6 +205,250 @@ class EXP msdlScannerFrenchWaeHandler : public msdlScannerWaeHandler
 };
 typedef SMARTP<msdlScannerFrenchWaeHandler> S_msdlScannerFrenchWaeHandler;
 EXP ostream& operator<< (ostream& os, const S_msdlScannerFrenchWaeHandler& elt);
+
+//________________________________________________________________________
+class EXP msdlScannerItalianWaeHandler : public msdlScannerWaeHandler
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msdlScannerItalianWaeHandler> create ();
+
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          msdlScannerItalianWaeHandler ();
+
+    virtual               ~msdlScannerItalianWaeHandler ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  illegalCharacter (char theChar) override;
+    void                  illegalCharacters (string theString) override;
+
+    void                  digitExpectedAfterDecimalDot (char theChar) override;
+    void                  digitExpectedInExponent (char theChar) override;
+
+    void                  illegalEscapedCharacterInString (char theChar) override;
+
+    void                  inputIsLexicallyCorrect (int numberOfTokens) override;
+    void                  inputIsLexicallyIncorrect (int numberOfTokens) override;
+
+    void                  inputIsAlreadyInMsdlKeywordsLanguage (
+                            msdlKeywordsLanguageKind
+                              keywordsTranslationLanguage) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    void                  print (ostream& os) const;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<msdlScannerItalianWaeHandler> S_msdlScannerItalianWaeHandler;
+EXP ostream& operator<< (ostream& os, const S_msdlScannerItalianWaeHandler& elt);
+
+//________________________________________________________________________
+class EXP msdlScannerGermanWaeHandler : public msdlScannerWaeHandler
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msdlScannerGermanWaeHandler> create ();
+
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          msdlScannerGermanWaeHandler ();
+
+    virtual               ~msdlScannerGermanWaeHandler ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  illegalCharacter (char theChar) override;
+    void                  illegalCharacters (string theString) override;
+
+    void                  digitExpectedAfterDecimalDot (char theChar) override;
+    void                  digitExpectedInExponent (char theChar) override;
+
+    void                  illegalEscapedCharacterInString (char theChar) override;
+
+    void                  inputIsLexicallyCorrect (int numberOfTokens) override;
+    void                  inputIsLexicallyIncorrect (int numberOfTokens) override;
+
+    void                  inputIsAlreadyInMsdlKeywordsLanguage (
+                            msdlKeywordsLanguageKind
+                              keywordsTranslationLanguage) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    void                  print (ostream& os) const;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<msdlScannerGermanWaeHandler> S_msdlScannerGermanWaeHandler;
+EXP ostream& operator<< (ostream& os, const S_msdlScannerGermanWaeHandler& elt);
+
+//________________________________________________________________________
+class EXP msdlScannerSpanishWaeHandler : public msdlScannerWaeHandler
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msdlScannerSpanishWaeHandler> create ();
+
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          msdlScannerSpanishWaeHandler ();
+
+    virtual               ~msdlScannerSpanishWaeHandler ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  illegalCharacter (char theChar) override;
+    void                  illegalCharacters (string theString) override;
+
+    void                  digitExpectedAfterDecimalDot (char theChar) override;
+    void                  digitExpectedInExponent (char theChar) override;
+
+    void                  illegalEscapedCharacterInString (char theChar) override;
+
+    void                  inputIsLexicallyCorrect (int numberOfTokens) override;
+    void                  inputIsLexicallyIncorrect (int numberOfTokens) override;
+
+    void                  inputIsAlreadyInMsdlKeywordsLanguage (
+                            msdlKeywordsLanguageKind
+                              keywordsTranslationLanguage) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    void                  print (ostream& os) const;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<msdlScannerSpanishWaeHandler> S_msdlScannerSpanishWaeHandler;
+EXP ostream& operator<< (ostream& os, const S_msdlScannerSpanishWaeHandler& elt);
+
+//________________________________________________________________________
+class EXP msdlScannerDutchWaeHandler : public msdlScannerWaeHandler
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msdlScannerDutchWaeHandler> create ();
+
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          msdlScannerDutchWaeHandler ();
+
+    virtual               ~msdlScannerDutchWaeHandler ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  illegalCharacter (char theChar) override;
+    void                  illegalCharacters (string theString) override;
+
+    void                  digitExpectedAfterDecimalDot (char theChar) override;
+    void                  digitExpectedInExponent (char theChar) override;
+
+    void                  illegalEscapedCharacterInString (char theChar) override;
+
+    void                  inputIsLexicallyCorrect (int numberOfTokens) override;
+    void                  inputIsLexicallyIncorrect (int numberOfTokens) override;
+
+    void                  inputIsAlreadyInMsdlKeywordsLanguage (
+                            msdlKeywordsLanguageKind
+                              keywordsTranslationLanguage) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    void                  print (ostream& os) const;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<msdlScannerDutchWaeHandler> S_msdlScannerDutchWaeHandler;
+EXP ostream& operator<< (ostream& os, const S_msdlScannerDutchWaeHandler& elt);
 
 
 }

@@ -27,6 +27,8 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
+#include "msdlOah.h"
+
 #include "msdl2msdrOah.h"
 
 #include "oahAtomsCollection.h"
@@ -101,6 +103,140 @@ R"(Write a trace of the MSDL tokens handling activity with more details to stand
         fTraceTokens));
 }
 #endif
+
+void msdl2msdrOahGroup::initializeMsdlLanguagesOptions ()
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Languages",
+        "hmsdll", "help-msdl-languages",
+R"()",
+      kElementVisibilityWhole,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  if (! setMsdlQuarterTonesPitchesLanguage ("english")) {
+    stringstream s;
+
+    s <<
+      "INTERNAL INITIALIZATION ERROR: "
+      "MSDR pitches default language 'english' is unknown" <<
+      endl <<
+      "The " <<
+      gGlobalQuarterTonesPitchesLanguageKindsMap.size () <<
+      " known MSDL pitches languages are:" <<
+      endl;
+
+    ++gIndenter;
+
+    s <<
+      existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    --gIndenter;
+
+    oahError (s.str ());
+  }
+
+  // MSDL pitches language
+
+  const msrQuarterTonesPitchesLanguageKind
+    msrQuarterTonesPitchesLanguageKindDefaultValue =
+      fMsdlQuarterTonesPitchesLanguageKind;
+
+  fMsdlQuarterTonesPitchesLanguageKind =
+    msrQuarterTonesPitchesLanguageKindDefaultValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      msdlPitchesLanguageAtom::create (
+        "msdlpl", "msdl-pitches-language",
+        regex_replace (
+          regex_replace (
+            regex_replace (
+R"(Use LANGUAGE to input note pitches.
+The NUMBER MSDL pitches languages available are:
+PITCHES_LANGUAGES.
+The default is 'DEFAULT_VALUE'.)",
+              regex ("NUMBER"),
+              to_string (gGlobalQuarterTonesPitchesLanguageKindsMap.size ())),
+            regex ("PITCHES_LANGUAGES"),
+            gIndenter.indentMultiLineString (
+              existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
+          regex ("DEFAULT_VALUE"),
+          msrQuarterTonesPitchesLanguageKindAsString (
+            msrQuarterTonesPitchesLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "msdlPitchesLanguage",
+        fMsdlQuarterTonesPitchesLanguageKind));
+
+  // MSDL keywords input language
+
+  const msdlKeywordsLanguageKind
+    msdlKeywordsLanguageKindDefaultValue =
+      kKeywordsEnglish; // MSDL default
+
+  fMsdlKeywordsInputLanguageKind =
+    msdlKeywordsLanguageKindDefaultValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      msdlKeywordsLanguageAtom::create (
+        "mkl", "msdl-keywords-input-language",
+        regex_replace (
+          regex_replace (
+            regex_replace (
+R"(Use LANGUAGE to input keyword names.
+The NUMBER MSDL keywords pitches languages available are:
+KEYWORDS_LANGUAGES.
+The default is 'DEFAULT_VALUE'.)",
+              regex ("NUMBER"),
+              to_string (gGlobalMsdlKeywordsLanguageKindsMap.size ())),
+            regex ("KEYWORDS_LANGUAGES"),
+            gIndenter.indentMultiLineString (
+              existingMsdlKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
+          regex ("DEFAULT_VALUE"),
+          msdlKeywordsLanguageKindAsString (
+            msdlKeywordsLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "msdl-keywords-language",
+        fMsdlKeywordsInputLanguageKind));
+
+  // MSDL keywords translation language
+
+  const msdlKeywordsLanguageKind
+    msdlKeywordsTranslationLanguageKindDefaultValue =
+      kKeywordsEnglish; // MSDL default
+
+  fMsdlKeywordsTranslationLanguageKind =
+    msdlKeywordsTranslationLanguageKindDefaultValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      msdlKeywordsLanguageAtom::create (
+        "mktl", "msdl-keywords-translation-language",
+        regex_replace (
+          regex_replace (
+            regex_replace (
+R"(Use LANGUAGE to output translated keyword names.
+This option causes the translated MSDL text to be written to standard output,
+followed by a quit.
+The NUMBER MSDL keywords pitches languages available are:
+KEYWORDS_LANGUAGES.
+The default is 'DEFAULT_VALUE'.)",
+              regex ("NUMBER"),
+              to_string (gGlobalMsdlKeywordsLanguageKindsMap.size ())),
+            regex ("KEYWORDS_LANGUAGES"),
+            gIndenter.indentMultiLineString (
+              existingMsdlKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
+          regex ("DEFAULT_VALUE"),
+          msdlKeywordsLanguageKindAsString (
+            msdlKeywordsLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "msdl-keywords-language",
+        fMsdlKeywordsTranslationLanguageKind));
+}
 
 void msdl2msdrOahGroup::initializeGenerateCodeOptions ()
 {
@@ -220,7 +356,27 @@ void msdl2msdrOahGroup::initializeMsdl2msdrGroup ()
   initializeMsdl2msdrTraceOah ();
 #endif
 
+  initializeMsdlLanguagesOptions ();
+
   initializeGenerateCodeOptions ();
+}
+
+//______________________________________________________________________________
+bool msdl2msdrOahGroup::setMsdlQuarterTonesPitchesLanguage (string language)
+{
+  // is language in the pitches languages map?
+  map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
+    it =
+      gGlobalQuarterTonesPitchesLanguageKindsMap.find (language);
+
+  if (it == gGlobalQuarterTonesPitchesLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+    return false;
+  }
+
+  fMsdlQuarterTonesPitchesLanguageKind = (*it).second;
+
+  return true;
 }
 
 //______________________________________________________________________________

@@ -13,22 +13,22 @@
 #ifndef __msdl2msdrTokensListTranslatorInterface__
 #define __msdl2msdrTokensListTranslatorInterface__
 
-#include "msdrTokens.h"
+#include "msdlTokens.h"
 
 #include "msrOah.h" // JMI ???
 
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-EXP S_msdrTokensList convertMsdlToMsdrTokensList (
+EXP S_msdrTokensList convertMsdlToMsdlTokensList (
   S_msrOahGroup& msrOpts,
   string         passNumber,
   string         passDescription);
 
 //_______________________________________________________________________________
-EXP void displayMsdrTokensList (
+EXP void displayMsdlTokensList (
   S_msrOahGroup&   msrOpts,
-  S_msdrTokensList theMsdrTokensList,
+  S_msdrTokensList theMsdlTokensList,
   string           passNumber,
   string           passDescription);
 

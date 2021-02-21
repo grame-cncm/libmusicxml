@@ -15,6 +15,8 @@
 
 #include "msrBasicTypes.h"
 
+#include "msdlKeywords.h"
+
 #include "oahBasicTypes.h"
 
 #include "oahAtomsCollection.h"
@@ -56,6 +58,12 @@ class EXP msdlCompilerInsiderHandler : public oahInsiderHandler
 
     // set and get
     // ------------------------------------------------------
+
+    // generated output kind
+    void                  setGeneratorOutputKind (generatorOutputKind value)
+                              { fGeneratorOutputKind = value; }
+    generatorOutputKind   getGeneratorOutputKind () const
+                              { return fGeneratorOutputKind; }
 
   private:
 
@@ -122,7 +130,6 @@ class EXP msdlCompilerInsiderHandler : public oahInsiderHandler
 
     // generated output kind
     generatorOutputKind   fGeneratorOutputKind;
-
 };
 typedef SMARTP<msdlCompilerInsiderHandler> S_msdlCompilerInsiderHandler;
 EXP ostream& operator<< (ostream& os, const S_msdlCompilerInsiderHandler& elt);
@@ -154,6 +161,22 @@ class EXP msdlCompilerInsiderOahGroup : public oahGroup
 
     // set and get
     // ------------------------------------------------------
+
+    // keywords input language
+    void                  setKeywordsInputLanguageKind (
+                            msdlKeywordsLanguageKind value)
+                              { fKeywordsInputLanguageKind = value; }
+    msdlKeywordsLanguageKind
+                          getKeywordsInputLanguageKind () const
+                              { return fKeywordsInputLanguageKind; }
+
+    // keywords translation language
+    void                  setKeywordsTranslationLanguageKind (
+                            msdlKeywordsLanguageKind value)
+                              { fKeywordsTranslationLanguageKind = value; }
+    msdlKeywordsLanguageKind
+                          getKeywordsTranslationLanguageKind () const
+                              { return fKeywordsTranslationLanguageKind; }
 
     // generated output kind
     void                  setGeneratorOutputKind (generatorOutputKind value)
@@ -286,6 +309,14 @@ class EXP msdlCompilerInsiderOahGroup : public oahGroup
 
     // private fields
     // ------------------------------------------------------
+
+    // keywords input language
+    msdlKeywordsLanguageKind
+                          fKeywordsInputLanguageKind;
+
+    // keywords translation language
+    msdlKeywordsLanguageKind
+                          fKeywordsTranslationLanguageKind;
 
     // generated output kind
     generatorOutputKind   fGeneratorOutputKind;

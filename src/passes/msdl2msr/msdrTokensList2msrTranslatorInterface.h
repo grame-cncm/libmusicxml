@@ -22,7 +22,7 @@
 
 #include "waeMessagesHandling.h"
 
-#include "msdrTokens.h"
+#include "msdlTokens.h"
 
 #include "msrOah.h"
 
@@ -31,7 +31,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-EXP void createMsrFromMsdrTokensList (
+EXP void createMsrFromMsdlTokensList (
   S_msdrTokensList tokensList,
   string           passNumber,
   string           passDescription);

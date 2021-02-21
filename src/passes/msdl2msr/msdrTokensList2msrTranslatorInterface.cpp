@@ -43,7 +43,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-void createMsrFromMsdrTokensList (
+void createMsrFromMsdlTokensList (
   S_msdrTokensList tokensList,
   string           passNumber,
   string           passDescription)
@@ -52,7 +52,7 @@ void createMsrFromMsdrTokensList (
   msgAssert (
     __FILE__, __LINE__,
     tokensList != nullptr,
-    "createMsrFromMsdrTokensList(): tokensList is null");
+    "createMsrFromMsdlTokensList(): tokensList is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -82,7 +82,7 @@ void createMsrFromMsdrTokensList (
     translator ();
 
   // browse the mxmlTree
-  translator.buildMsdrTokensList ();
+  translator.buildMsdlTokensList ();
 */
 
   // register time spent
@@ -107,7 +107,7 @@ void createMsrFromMsdrTokensList (
   }
 
 /* JMI
-  S_msdrTokensList tokensList = translator.getMsdrTokensList ();
+  S_msdrTokensList tokensList = translator.getMsdlTokensList ();
 
 
   // display the MSR score if requested

@@ -10,8 +10,8 @@
 #define __AnalyseurDescendantLista__
 
 
-#include "msdrKeywords.h"
-#include "msdrTokens.h"
+#include "msdlKeywords.h"
+#include "msdlTokens.h"
 
 #include "DecodageDOptionsSyntaxe.h"
 

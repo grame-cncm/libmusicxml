@@ -37,7 +37,7 @@ using namespace std;
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-S_msdrTokensList convertMsdlToMsdrTokensList (
+S_msdrTokensList convertMsdlToMsdlTokensList (
   S_msrOahGroup& msrOpts,
   string         passNumber,
   string         passDescription)
@@ -47,7 +47,7 @@ S_msdrTokensList convertMsdlToMsdrTokensList (
   msgAssert (
     __FILE__, __LINE__,
     mxmlTree != nullptr,
-    "convertMsdlToMsdrTokensList(): mxmlTree is null");
+    "convertMsdlToMsdlTokensList(): mxmlTree is null");
 */
 
   // start the clock
@@ -78,11 +78,11 @@ S_msdrTokensList convertMsdlToMsdrTokensList (
   msdl2msdrTokensListTranslator translator;
 
   // build the MSDL tokens list
-  translator.buildMsdrTokensList ();
+  translator.buildMsdlTokensList ();
 
   // fetch the MSDL tokens list
   tokensList =
-    translator.getMsdrTokensList ();
+    translator.getMsdlTokensList ();
 
   // register time spent
   clock_t endClock = clock ();
@@ -126,7 +126,7 @@ S_msdrTokensList convertMsdlToMsdrTokensList (
 
   if (msrOpts->getDisplayMsrSkeleton ()) {
     // display the MSDL tokens list
-    displayMsdrTokensList (
+    displayMsdlTokensList (
       msrOpts,
       tokensList,
       passNumber,
@@ -137,17 +137,17 @@ S_msdrTokensList convertMsdlToMsdrTokensList (
 }
 
 //_______________________________________________________________________________
-void displayMsdrTokensList (
+void displayMsdlTokensList (
   S_msrOahGroup&   msrOpts,
-  S_msdrTokensList theMsdrTokensList,
+  S_msdrTokensList theMsdlTokensList,
   string           passNumber,
   string           passDescription)
 {
   // sanity check
   msgAssert (
     __FILE__, __LINE__,
-    theMsdrTokensList != nullptr,
-    "theMsdrTokensList is null");
+    theMsdlTokensList != nullptr,
+    "theMsdlTokensList is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -164,7 +164,7 @@ void displayMsdrTokensList (
     endl <<
     separator <<
     endl << endl <<
-    theMsdrTokensList;
+    theMsdlTokensList;
 
   // register time spent
   clock_t endClock = clock ();

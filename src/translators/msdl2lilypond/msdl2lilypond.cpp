@@ -76,8 +76,11 @@ xmlErr msdlStream2lilypondWithHandler (
   try {
     msdlScanner analyser (inputStream);
 
-    analyser.scan ();
-    /*
+//    analyser.scanAllTheInputAtOnce (kIgnoreSeparatorTokensNo);
+//    analyser.scanAllTheInputAtOnce (kIgnoreSeparatorTokensYes);
+    analyser.translateAllTheInputToKeywordsLanguage ();
+
+      /*
     theMsrScore =
       convertMxmlTreeToMsrScoreSkeleton (
         mxmlTree,

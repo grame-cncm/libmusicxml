@@ -17,8 +17,8 @@
 
 #include "smartpointer.h"
 
-#include "msdrKeywords.h"
-#include "msdrTokens.h"
+#include "msdlKeywords.h"
+#include "msdlTokens.h"
 
 #include "msdlScannerWaeHandlers.h"
 
@@ -27,6 +27,15 @@ using namespace std;
 
 namespace MusicXML2
 {
+
+//________________________________________________________________________
+enum msdlIgnoreSeparatorTokensKind {
+  kIgnoreSeparatorTokensNo,
+  kIgnoreSeparatorTokensYes
+};
+
+string msdlIgnoreSeparatorTokensKindAsString (
+  msdlIgnoreSeparatorTokensKind ignoreSeparatorTokensKind);
 
 //________________________________________________________________________
 class msdlScanner : public smartable
@@ -64,9 +73,15 @@ class msdlScanner : public smartable
     // ------------------------------------------------------
 
 
-    msdrTokenKind         nextTokenPlease ();
+    msdrTokenKind         fetchNextToken (
+                            msdlIgnoreSeparatorTokensKind
+                              ignoreSeparatorTokens = kIgnoreSeparatorTokensNo);
 
-    void                  scan ();
+    void                  scanAllTheInputAtOnce (
+                            msdlIgnoreSeparatorTokensKind
+                              ignoreSeparatorTokens = kIgnoreSeparatorTokensNo);
+
+    void                  translateAllTheInputToKeywordsLanguage ();
 
   public:
 
@@ -86,7 +101,9 @@ class msdlScanner : public smartable
 
     void                  populateInputString (istream& inputStream);
 
-    char                  nextCharacterPlease ();
+    char                  fetchNextCharacter ();
+
+     void                 handleEndOfLine ();
 
     string                currentCharacterAsString () const;
 
@@ -95,14 +112,9 @@ class msdlScanner : public smartable
 
     void                  acceptAString ();
 
-    void                  appendChunkToCurrentString (string chunk)
-                              { fCurrentString += chunk; }
-
     void                  acceptAName ();
 
     void                  acceptAnInteger ();
-
-    virtual void          lexicalError (string message);
 
   private:
 
@@ -123,28 +135,29 @@ class msdlScanner : public smartable
     bool                  fTraceTokensDetails;
 #endif
 
-    unsigned int          fCurrentPositionInInput;
+    int                   fCurrentPositionInInput;
     char                  fCurrentCharacter;
     bool                  fNextCharacterIsAvailable;
 
-    unsigned int          fCurrentLineNumber;
-    unsigned int          fCurrentLineSize;
-    unsigned int          fCurrentPositionInLine;
+    int                   fCurrentLineNumber;
+    int                   fCurrentLineSize;
+    int                   fCurrentPositionInLine;
                             // 0 before the first character in the line,
                             // then from 1 to the length of the line
 
-    unsigned int          fCurrentTokenPositionInInput;
-    unsigned int          fCurrentTokenPositionInLine;
+    int                   fCurrentTokenPositionInInput;
+    int                   fCurrentTokenPositionInLine;
 
     msdrToken             fCurrentToken;
     msdrTokenKind&        fCurrentTokenKind;
     msdrTokenDescription& fCurrentTokenDescription;
     int                   fTokensCounter;
 
+    msdlKeywordsLanguageKind
+                          fKeywordsInputLanguageKind;
+
     bool                  fAppendTokensToList;
     msdrTokensList        fTokensList;
-
-    string                fCurrentString; // to concatenate chunks into
 
     bool                  fSourceIsLexicallyCorrect;
 };

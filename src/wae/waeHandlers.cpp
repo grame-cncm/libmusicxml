@@ -30,12 +30,12 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-// #include "msdrOah.h"
+// #include "msdlOah.h"
 #include "msrOah.h"
 #include "msr2lpsrOah.h"
 
-#include "msdrKeywords.h"
-#include "msdrTokens.h"
+#include "msdlKeywords.h"
+#include "msdlTokens.h"
 
 #include "waeHandlers.h"
 

@@ -19,7 +19,7 @@
 // since that could kill a session on a web server, for example
 
 #ifndef ABORT_TO_DEBUG_ERRORS
-  #define ABORT_TO_DEBUG_ERRORS
+//  #define ABORT_TO_DEBUG_ERRORS
 #endif
 
 #endif

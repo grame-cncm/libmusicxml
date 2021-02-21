@@ -20,5 +20,3 @@ score helloWorld = "Hello World in MSPL" {
   }
 
 } % helloWorld
-
-

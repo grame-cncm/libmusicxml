@@ -17,6 +17,8 @@
 
 #include "oahBasicTypes.h"
 
+#include "msdlKeywords.h"
+
 #include "generatorsBasicTypes.h"
 
 
@@ -61,6 +63,21 @@ class EXP msdl2msdrOahGroup : public oahGroup
                               { return fTraceTokensDetails; }
 #endif
 
+    msdlKeywordsLanguageKind
+                          getMsdlKeywordsLanguageKind () const
+                              { return fMsdlKeywordsInputLanguageKind; }
+
+    msrQuarterTonesPitchesLanguageKind
+                          getMsdlQuarterTonesPitchesLanguageKind () const
+                              { return fMsdlQuarterTonesPitchesLanguageKind; }
+
+    msdlKeywordsLanguageKind
+                          getMsdlKeywordsTranslationLanguageKind () const
+                              { return fMsdlKeywordsTranslationLanguageKind; }
+
+    generatorOutputKind   getGeneratorOutputKind () const
+                              { return fGeneratorOutputKind; }
+
     bool                  getQuitOnLexicalErrors () const
                               { return fQuitOnLexicalErrors; }
 
@@ -68,6 +85,11 @@ class EXP msdl2msdrOahGroup : public oahGroup
 
     // public services
     // ------------------------------------------------------
+
+    // languages
+    bool                  setMsdlQuarterTonesPitchesLanguage (string language);
+
+    bool                  setMsdlKeywordsLanguage (string language);
 
     // quiet mode
     void                  enforceGroupQuietness () override;
@@ -83,6 +105,8 @@ class EXP msdl2msdrOahGroup : public oahGroup
 #ifdef TRACING_IS_ENABLED
     void                  initializeMsdl2msdrTraceOah ();
 #endif
+
+    void                  initializeMsdlLanguagesOptions ();
 
     void                  initializeGenerateCodeOptions ();
 
@@ -116,9 +140,27 @@ class EXP msdl2msdrOahGroup : public oahGroup
     bool                  fTraceTokensDetails;
 #endif
 
+    // languages
+    // --------------------------------------
+
+    msdlKeywordsLanguageKind
+                          fMsdlKeywordsInputLanguageKind;
+
+    msrQuarterTonesPitchesLanguageKind
+                          fMsdlQuarterTonesPitchesLanguageKind;
+
+    msdlKeywordsLanguageKind
+                          fMsdlKeywordsTranslationLanguageKind;
+
+    // output kind
+    // --------------------------------------
+
     generatorOutputKind   fGeneratorOutputKind;
     S_generatorOutputKindAtom
                           fGeneratorOutputKindAtom;
+
+    // quit
+    // --------------------------------------
 
     bool                  fQuitOnLexicalErrors;
 };

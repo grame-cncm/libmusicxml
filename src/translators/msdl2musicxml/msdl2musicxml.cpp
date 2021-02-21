@@ -83,7 +83,7 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
   try {
     msdlScanner analyser (inputStream);
 
-    analyser.scan ();
+    analyser.scanAllTheInputAtOnce ();
     /*
     theMsrScore =
       convertMxmlTreeToMsrScoreSkeleton (

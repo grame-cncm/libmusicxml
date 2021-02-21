@@ -13,7 +13,7 @@
 #ifndef ___msdl2msdrTokensListTranslator___
 #define ___msdl2msdrTokensListTranslator___
 
-#include "msdrTokens.h"
+#include "msdlTokens.h"
 
 //#include "msdrTokensList2msrOah.h"
 
@@ -38,22 +38,22 @@ class EXP msdl2msdrTokensListTranslator
     // set and get
     // ------------------------------------------------------
 
-    S_msdrTokensList      getMsdrTokensList () const
-                              { return fMsdrTokensList; }
+    S_msdrTokensList      getMsdlTokensList () const
+                              { return fMsdlTokensList; }
 
   public:
 
     // public services
     // ------------------------------------------------------
 
-    void                  buildMsdrTokensList ();
+    void                  buildMsdlTokensList ();
 
   private:
 
     // private fields
     // ------------------------------------------------------
 
-    S_msdrTokensList      fMsdrTokensList;
+    S_msdrTokensList      fMsdlTokensList;
 };
 
 

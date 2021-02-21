@@ -802,12 +802,13 @@ void msr2bsrTranslator::visitStart (S_msrClef& elt)
         bClefKind = bsrClef::kClefKindGTreble;
         break;
       case kSopranoClef:
-        bClefKind = bsrClef::kClefKindNone;
+        bClefKind = bsrClef::kClefKindGSoprano;
         break;
       case kMezzoSopranoClef:
+        bClefKind = bsrClef::kClefKindGSoprano; // JMI ???
         break;
       case kAltoClef:
-        bClefKind = bsrClef::kClefKindNone;
+        bClefKind = bsrClef::kClefKindCAlto;
         break;
       case kTenorClef:
         bClefKind = bsrClef::kClefKindCTenor;

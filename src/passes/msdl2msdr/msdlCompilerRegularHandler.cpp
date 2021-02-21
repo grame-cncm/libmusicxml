@@ -158,7 +158,7 @@ void msdlCompilerRegularHandler::createRegularHandlerGroups ()
       break;
   } // switch
 
-  createOutputRegularGroup ();
+// JMI  createOutputRegularGroup ();
 
   createOahRegularGroup ();
 

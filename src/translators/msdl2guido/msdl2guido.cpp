@@ -82,7 +82,7 @@ xmlErr msdlStream2guidoWithHandler (
   try {
     msdlScanner analyser (inputStream);
 
-    analyser.scan ();
+    analyser.scanAllTheInputAtOnce ();
     /*
     theMsrScore =
       convertMxmlTreeToMsrScoreSkeleton (

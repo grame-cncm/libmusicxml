@@ -43,14 +43,14 @@ namespace MusicXML2
 msdl2msdrTokensListTranslator::msdl2msdrTokensListTranslator ()
 {
   // the MSDL tokens list we're building
-  fMsdrTokensList =
+  fMsdlTokensList =
     msdrTokensList::create ();
 }
 
 msdl2msdrTokensListTranslator::~msdl2msdrTokensListTranslator ()
 {}
 
-void msdl2msdrTokensListTranslator::buildMsdrTokensList ()
+void msdl2msdrTokensListTranslator::buildMsdlTokensList ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) { // getTraceTokens JMI

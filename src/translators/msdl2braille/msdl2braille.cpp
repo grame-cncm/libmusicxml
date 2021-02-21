@@ -76,7 +76,7 @@ xmlErr msdlStream2brailleWithHandler (
   try {
     msdlScanner analyser (inputStream);
 
-    analyser.scan ();
+    analyser.scanAllTheInputAtOnce ();
     /*
     theMsrScore =
       convertMxmlTreeToMsrScoreSkeleton (

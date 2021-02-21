@@ -14843,6 +14843,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromString (
       iBegin = (*pitchNamesMapPTR).begin (),
       iEnd   = (*pitchNamesMapPTR).end (),
       i      = iBegin;
+
     for ( ; ; ) {
       if ((*i).second == quarterTonesPitchName) {
         result = (*i).first;

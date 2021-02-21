@@ -12,6 +12,8 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include <regex>
+
 #include "enableExtraOahIfDesired.h"
 
 #include "enableTracingIfDesired.h"
@@ -25,7 +27,9 @@
 #include "outputFileOah.h"
 #include "extraOah.h"
 
-#include "msdrOah.h"
+#include "msdl.h"
+
+#include "msdlOah.h"
 
 #include "msdl2msdrOah.h"
 
@@ -330,7 +334,7 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
 
   initializeMSR (); // used whatever the output kind
 
-// JMI ???  initializeMSDR (); // used whatever the output kind
+  initializeMSDL (); // used whatever the output kind
 
   // initialize options handling, phase 2
   // ------------------------------------------------------
@@ -344,7 +348,7 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
 
   // create the MSDR OAH group
   appendGroupToHandler (
-    createGlobalMsdrOahGroup ());
+    createGlobalMsdlOahGroup ());
 
   // create the groups needed according to the generated output kind
   /*
@@ -853,6 +857,9 @@ msdlCompilerInsiderOahGroup::msdlCompilerInsiderOahGroup ()
 R"(Options that are used by MSDL ompiler are grouped here.)",
     kElementVisibilityWhole)
 {
+  fKeywordsInputLanguageKind       = kKeywordsEnglish; // MSDL default
+  fKeywordsTranslationLanguageKind = kKeywordsEnglish; // MSDL default
+
   fGeneratorOutputKind = k_NoOutput;
 
   fGenerateComments = false;
@@ -914,6 +921,64 @@ R"()",
       this);
 
   appendSubGroupToGroup (subGroup);
+
+/* JMI
+  // keywords input language
+
+  msdlKeywordsLanguageKind
+    msrKeywordsInputLanguageKindDefaultValue = kKeywordsEnglish;
+
+  subGroup->
+    appendAtomToSubGroup (
+      msdlKeywordsLanguageAtom::create (
+        "mkil", "msl-keywords-input-language",
+        regex_replace (
+          regex_replace (
+            regex_replace (
+R"(Use language LANGUAGE as MSDL keywords input language.
+The NUMBER MSDL keywords languages available are:
+KEYWORDS_LANGUAGES.
+The default is 'DEFAULT_VALUE'.)",
+              regex ("NUMBER"),
+              to_string (gGlobalQuarterTonesPitchesLanguageKindsMap.size ())),
+            regex ("KEYWORDS_LANGUAGES"),
+            gIndenter.indentMultiLineString (
+              existingMsdlKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
+          regex ("DEFAULT_VALUE"),
+          msdlKeywordsLanguageKindAsString (
+            msrKeywordsInputLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "keywordsInputLanguageKind",
+        fKeywordsInputLanguageKind));
+
+  // keywords translation language
+
+  msdlKeywordsLanguageKind
+    msrKeywordsTranslationLanguageKindDefaultValue = kKeywordsEnglish;
+
+  subGroup->
+    appendAtomToSubGroup (
+      msdlKeywordsLanguageAtom::create (
+        "mktl", "msl-keywords-translation-language",
+        regex_replace (
+          regex_replace (
+            regex_replace (
+R"(Use language LANGUAGE as MSDL keywords translation language.
+The NUMBER MSDL keywords languages available are:
+KEYWORDS_LANGUAGES.
+The default is 'DEFAULT_VALUE'.)",
+              regex ("NUMBER"),
+              to_string (gGlobalQuarterTonesPitchesLanguageKindsMap.size ())),
+            regex ("KEYWORDS_LANGUAGES"),
+            gIndenter.indentMultiLineString (
+              existingMsdlKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
+          regex ("DEFAULT_VALUE"),
+          msdlKeywordsLanguageKindAsString (
+            msrKeywordsTranslationLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "keywordsTranslationLanguageKind",
+        fKeywordsTranslationLanguageKind));
+*/
 
   // generate comments
 
@@ -1041,6 +1106,15 @@ void msdlCompilerInsiderOahGroup::printMsdlCompilerInsiderOahGroupValues (unsign
   ++gIndenter;
 
   gLogStream << left <<
+    setw (fieldWidth) <<
+    "keywordsInputLanguageKind" << " : " <<
+    msdlKeywordsLanguageKindAsString (fKeywordsInputLanguageKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "keywordsTranslationLanguageKind" << " : " <<
+    msdlKeywordsLanguageKindAsString (fKeywordsTranslationLanguageKind) <<
+    endl <<
+
     setw (fieldWidth) <<
     "generateComments" << " : " << booleanAsString (fGenerateComments) <<
     endl <<
