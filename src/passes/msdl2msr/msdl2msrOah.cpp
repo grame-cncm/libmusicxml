@@ -73,6 +73,7 @@ msdl2msrOahGroup::~msdl2msrOahGroup ()
 
 void msdl2msrOahGroup::initializeGenerateCodeOptions ()
 {
+/* JMI
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
@@ -166,7 +167,6 @@ R"()",
     appendAtomToSubGroup (
       musicxmlMacroAtom);
 
-/* JMI
   S_oahMacroAtom
     midiMacroAtom =
       oahMacroAtom::create (

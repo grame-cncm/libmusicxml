@@ -123,6 +123,8 @@ void msdlCompilerRegularHandler::createRegularHandlerGroups ()
 
   createFilesRegularGroup ();
 
+  createLexicalRegularGroup ();
+
   createGenerateCodeRegularGroup ();
 
   // create the groups needed according to the generated output kind
@@ -532,8 +534,43 @@ void msdlCompilerRegularHandler::createWarningAndErrorsRegularGroup ()
   registerAtomInRegularSubgroup ("dont-quit-on-errors", subGroup);
 }
 
+void msdlCompilerRegularHandler::createLexicalRegularGroup ()
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Lexical group",
+        "hl-group", "help-lexical-group",
+        "",
+        kElementVisibilityWhole);
+  appendGroupToRegulalHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Lexical",
+        "hl", "help-lexical",
+        "",
+        kElementVisibilityWhole,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  registerAtomInRegularSubgroup ("msdl-pitches-language", subGroup);
+
+  registerAtomInRegularSubgroup ("msdl-keywords-input-language", subGroup);
+  registerAtomInRegularSubgroup ("msdl-keywords-translation-language", subGroup);
+}
+
 void msdlCompilerRegularHandler::createGenerateCodeRegularGroup ()
 {
+/* JMI
   // group
 
   S_oahGroup
@@ -567,6 +604,7 @@ void msdlCompilerRegularHandler::createGenerateCodeRegularGroup ()
   registerAtomInRegularSubgroup (K_GENERATED_OUTPUT_KIND_BRAILLE_NAME, subGroup);
   registerAtomInRegularSubgroup (K_GENERATED_OUTPUT_KIND_MUSICXML_NAME, subGroup);
 // JMI  registerAtomInRegularSubgroup (K_GENERATED_OUTPUT_KIND_MIDI_NAME, subGroup);
+*/
 }
 
 void msdlCompilerRegularHandler::createPresentationRegularGroup ()

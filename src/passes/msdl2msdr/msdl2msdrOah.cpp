@@ -188,7 +188,7 @@ The default is 'DEFAULT_VALUE'.)",
           regex_replace (
             regex_replace (
 R"(Use LANGUAGE to input keyword names.
-The NUMBER MSDL keywords pitches languages available are:
+The NUMBER MSDL keywords input languages available are:
 KEYWORDS_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
@@ -222,7 +222,7 @@ The default is 'DEFAULT_VALUE'.)",
 R"(Use LANGUAGE to output translated keyword names.
 This option causes the translated MSDL text to be written to standard output,
 followed by a quit.
-The NUMBER MSDL keywords pitches languages available are:
+The NUMBER MSDL keywords translation languages available are:
 KEYWORDS_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
@@ -240,6 +240,7 @@ The default is 'DEFAULT_VALUE'.)",
 
 void msdl2msdrOahGroup::initializeGenerateCodeOptions ()
 {
+/* JMI
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
@@ -333,7 +334,7 @@ R"()",
     appendAtomToSubGroup (
       musicxmlMacroAtom);
 
-/* JMI
+/ * JMI
   S_oahMacroAtom
     midiMacroAtom =
       oahMacroAtom::create (

@@ -1437,8 +1437,6 @@ void msdlScanner::translateAllTheInputToKeywordsLanguage ()
     return;
   }
 
-  ++gIndenter;
-
   int numberOfTokens = 0;
 
   try {
@@ -1490,7 +1488,8 @@ void msdlScanner::translateAllTheInputToKeywordsLanguage ()
 #endif
 
       // write it translated to standard output
-      gOutputStream <<
+//      gOutputStream <<
+      cout << // JMI
         fCurrentToken.asMsdlString (keywordsTranslationLanguage);
     }
     while (tokenKind != k_TokenEOF); // do
@@ -1502,19 +1501,17 @@ void msdlScanner::translateAllTheInputToKeywordsLanguage ()
     displayException (e, gOutputStream);
   }
 
-  --gIndenter;
-
-  if (fSourceIsLexicallyCorrect) {
-    fScannerWaeHandler->
-      inputIsLexicallyCorrect (numberOfTokens);
-  }
-  else {
-    fScannerWaeHandler->
-      inputIsLexicallyIncorrect (numberOfTokens);
-  }
-
 #ifdef TRACING_IS_ENABLED
   if (fTraceTokens) {
+    if (fSourceIsLexicallyCorrect) {
+      fScannerWaeHandler->
+        inputIsLexicallyCorrect (numberOfTokens);
+    }
+    else {
+      fScannerWaeHandler->
+        inputIsLexicallyIncorrect (numberOfTokens);
+    }
+
     gLogStream <<
       endl <<
       "<== translateAllTheInputToKeywordsLanguage()" <<

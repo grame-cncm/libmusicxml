@@ -29,6 +29,8 @@
 
 #include "msdl.h"
 
+#include "generatorsOah.h"
+
 #include "msdlOah.h"
 
 #include "msdl2msdrOah.h"
@@ -324,6 +326,10 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
   // create the general OAH group
   appendGroupToHandler (
     createGlobalGeneralOahGroup ());
+
+  // create the generators OAH group
+  appendGroupToHandler (
+    createGlobalGeneratorsOahGroup ());
 
   // create the output file OAH group
   appendGroupToHandler (
