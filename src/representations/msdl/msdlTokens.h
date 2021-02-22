@@ -19,6 +19,8 @@
 
 #include "msdlKeywords.h"
 
+#include "msdlOah.h"
+
 
 using namespace std;
 
@@ -33,8 +35,9 @@ enum msdrTokenKind {
 
   k_TokenMalformed, // for error recovery
 
-  // language-independent tokens
+  // separators, for use by MSDL whole input translation
   // ------------------------------------
+
   kTokenSpace,
   kTokenTab,
   kTokenCarriageReturn,
@@ -43,6 +46,9 @@ enum msdrTokenKind {
 
   kTokenParenthesizedComment,
   kTokenCommentToEndOfLine,
+
+  // language-independent tokens
+  // ------------------------------------
 
   kTokenEqualSign,
 
@@ -54,7 +60,7 @@ enum msdrTokenKind {
   kTokenMinus,
   kTokenStar,
   kTokenSlash,
-  kTokenPercent,
+  kTokenPercent, // don't keep JMI ???
 
   kTokenConcat,
 
@@ -310,7 +316,8 @@ class EXP msdrToken : public smartable
     string                asString () const;
 
     string                asMsdlString (
-                            msdlKeywordsLanguageKind languageKind) const;
+                            msdlKeywordsLanguageKind languageKind,
+                            msdlCommentsTypeKind     commentsTypeKind) const;
 
     void                  print (ostream& os) const;
 
@@ -382,7 +389,8 @@ class EXP msdrTokensList : public smartable
     string                asString () const;
 
     string                asMsdlString (
-                            msdlKeywordsLanguageKind languageKind) const;
+                            msdlKeywordsLanguageKind languageKind,
+                            msdlCommentsTypeKind     commentsTypeKind) const;
 
     void                  print (ostream& os) const;
 

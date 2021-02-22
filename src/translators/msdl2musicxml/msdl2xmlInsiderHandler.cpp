@@ -25,6 +25,8 @@
 #include "outputFileOah.h"
 #include "generalOah.h"
 
+#include "msdl2msdrOah.h"
+
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
 #include "msr2mxmlTreeOah.h"
@@ -300,7 +302,7 @@ string msdl2xmlInsiderHandler::fetchOutputFileNameFromTheOptions () const
           gGlobalOahOahGroup->getInputSourceName ();
 
       // determine output file base name
-      if (inputSourceName == "-") {
+      if (inputSourceName == MSDR_STANDARD_INPUT_NAME) {
         outputFileName = "stdin";
       }
 

@@ -81,9 +81,10 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
   // ------------------------------------------------------
 
   try {
-    msdlScanner analyser (inputStream);
+    msdlScanner scanner (inputStream);
 
-    analyser.scanAllTheInputAtOnce ();
+    scanner.scanWholeInputAtOnce (); // TEMP JMI
+
     /*
     theMsrScore =
       convertMxmlTreeToMsrScoreSkeleton (

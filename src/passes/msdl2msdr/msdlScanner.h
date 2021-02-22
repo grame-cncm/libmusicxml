@@ -77,18 +77,14 @@ class msdlScanner : public smartable
                             msdlIgnoreSeparatorTokensKind
                               ignoreSeparatorTokens = kIgnoreSeparatorTokensNo);
 
-    void                  scanAllTheInputAtOnce (
-                            msdlIgnoreSeparatorTokensKind
-                              ignoreSeparatorTokens = kIgnoreSeparatorTokensNo);
-
-    void                  translateAllTheInputToKeywordsLanguage ();
+    void                  scanWholeInputAtOnce (); // for tests
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                currentPositionAsString () const;
+    string                currentLocationAsString () const;
 
     string                asString () const;
 
@@ -115,6 +111,14 @@ class msdlScanner : public smartable
     void                  acceptAName ();
 
     void                  acceptAnInteger ();
+
+    void                  scanAllTheInputAtOnce (
+                            msdlIgnoreSeparatorTokensKind
+                              ignoreSeparatorTokens);
+
+    void                  translateAllTheInputToKeywordsLanguage (
+                            msdlKeywordsLanguageKind keywordsTranslationLanguage,
+                            msdlCommentsTypeKind     commentsTypeKind);
 
   private:
 

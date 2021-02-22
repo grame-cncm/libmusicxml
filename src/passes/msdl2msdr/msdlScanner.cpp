@@ -35,6 +35,7 @@ using namespace std;
 namespace MusicXML2
 {
 
+//________________________________________________________________________
 string msdlIgnoreSeparatorTokensKindAsString (
   msdlIgnoreSeparatorTokensKind ignoreSeparatorTokensKind);
 void displayStreamState (const ios& stream) {
@@ -93,32 +94,33 @@ msdlScanner::msdlScanner (
 
   fTokensCounter = 0;
 
-  fKeywordsInputLanguageKind = kKeywordsEnglish, // MSDL default
+  fKeywordsInputLanguageKind =
+    gGlobalMsdl2msdrOahGroup->getMsdlKeywordsLanguageKind ();
 
   fSourceIsLexicallyCorrect = true;
 
   // create the MSDL scanner WAE handler
   switch (gGlobalMsdl2msdrOahGroup->getMsdlKeywordsLanguageKind ()) {
-    case k_NoKeywordLanguage:
+    case k_NoKeywordsLanguage:
       // should not occur
       break;
 
-    case kKeywordsEnglish:
+    case kKeywordsLanguageEnglish:
       fScannerWaeHandler = msdlScannerEnglishWaeHandler::create ();
       break;
-    case kKeywordsFrench:
+    case kKeywordsLanguageFrench:
       fScannerWaeHandler = msdlScannerFrenchWaeHandler::create ();
       break;
-    case kKeywordsItalian:
+    case kKeywordsLanguageItalian:
       fScannerWaeHandler = msdlScannerItalianWaeHandler::create ();
       break;
-    case kKeywordsGerman:
+    case kKeywordsLanguageGerman:
       fScannerWaeHandler = msdlScannerGermanWaeHandler::create ();
       break;
-    case kKeywordsSpanish:
+    case kKeywordsLanguageSpanish:
       fScannerWaeHandler = msdlScannerSpanishWaeHandler::create ();
       break;
-    case kKeywordsNederlands:
+    case kKeywordsLanguageNederlands:
       fScannerWaeHandler = msdlScannerDutchWaeHandler::create ();
       break;
   } // switch
@@ -532,7 +534,7 @@ msdrTokenKind msdlScanner::fetchNextToken (
         onceMore = true; // false for error recovery??? JMI
         break;
 
-      // language-independent tokens
+      // separators, for use by MSDL whole input translation
       // ------------------------------------
 
       case kTokenSpace:
@@ -714,7 +716,7 @@ void msdlScanner::handlePercent ()
       {
         fetchNextCharacter ();
 
-        unsigned commentStartPositionInInput = fCurrentTokenPositionInInput;
+        int commentStartPositionInInput = fCurrentTokenPositionInInput;
 
         do {
           while (fCurrentCharacter != '%') {
@@ -758,12 +760,9 @@ void msdlScanner::handlePercent ()
       }
       break;
 
-    case '%': // '%%' up to this point, comment to end of line
+    default: // '%' up to this point, comment to end of line
       {
-        // consume the second '%'
-        fetchNextCharacter ();
-
-        unsigned commentStartPositionInInput = fCurrentTokenPositionInInput;
+        int commentStartPositionInInput = fCurrentTokenPositionInInput;
 
         while (fCurrentCharacter != '\n') {
           // consume this comment character
@@ -777,17 +776,13 @@ void msdlScanner::handlePercent ()
 
         string commentString =
           fInputString.substr (
-            commentStartPositionInInput + 2,
-            fCurrentPositionInInput - commentStartPositionInInput - 2);
+            commentStartPositionInInput + 1,
+            fCurrentPositionInInput - commentStartPositionInInput - 1);
 
         fCurrentTokenKind = kTokenCommentToEndOfLine;
         fCurrentTokenDescription.setString (commentString);
       }
       break;
-
-    default:
-      fCurrentTokenKind = kTokenPercent;
-      fNextCharacterIsAvailable = false;
   } // switch
 }
 
@@ -1241,10 +1236,10 @@ void msdlScanner::acceptAString ()
 }
 
 // --------------------------------------------------------------------------
-//  msdlScanner::currentPositionAsString
+//  msdlScanner::currentLocationAsString
 // --------------------------------------------------------------------------
 
-string msdlScanner::currentPositionAsString () const
+string msdlScanner::currentLocationAsString () const
 {
   string result;
 
@@ -1268,14 +1263,6 @@ string msdlScanner::currentPositionAsString () const
         */
   }
 #endif
-
-  /*
-    return
-      MiseEnForme (
-        "[L%3d:C%3d]",
-        fCurrentLineNumber,
-        positionCourante - fDebutLigneCourante + 1 );
-      */
 
   return result;
 }
@@ -1332,7 +1319,7 @@ void msdlScanner::scanAllTheInputAtOnce (
       ++numberOfTokens;
 
 #ifdef TRACING_IS_ENABLED
-      if (false && fTraceTokens) {
+      if (fTraceTokensDetails) {
         unsigned int fieldWidth = 23;
 
         gLogStream <<
@@ -1357,12 +1344,7 @@ void msdlScanner::scanAllTheInputAtOnce (
         ++gIndenter;
         gLogStream << fCurrentToken << endl;
         --gIndenter;
-/*
-        gLogStream << left <<
-          setw (fieldWidth) <<
-          "fCurrentTokenKind" << " : " << msdrTokenKindAsString (fCurrentTokenKind) <<
-          endl;
-*/
+
         --gIndenter;
       }
 #endif
@@ -1401,12 +1383,16 @@ void msdlScanner::scanAllTheInputAtOnce (
 //  msdlScanner::translateAllTheInputToKeywordsLanguage
 // --------------------------------------------------------------------------
 
-void msdlScanner::translateAllTheInputToKeywordsLanguage ()
+void msdlScanner::translateAllTheInputToKeywordsLanguage (
+  msdlKeywordsLanguageKind keywordsTranslationLanguage,
+  msdlCommentsTypeKind     commentsTypeKind)
 {
 #ifdef TRACING_IS_ENABLED
   if (fTraceTokens) {
     gLogStream <<
       "==> translateAllTheInputToKeywordsLanguage()" <<
+      ", keywordsTranslationLanguage: " <<
+      msdlKeywordsLanguageKindAsString (keywordsTranslationLanguage) <<
       endl;
   }
 #endif
@@ -1423,12 +1409,7 @@ void msdlScanner::translateAllTheInputToKeywordsLanguage ()
 
   // let's go ahead
 
-  // create the MSDL keywords translation language
-  msdlKeywordsLanguageKind
-    keywordsTranslationLanguage =
-      gGlobalMsdl2msdrOahGroup->
-        getMsdlKeywordsTranslationLanguageKind ();
-
+  // is the MSDL keywords translation language needed?
   if (keywordsTranslationLanguage == fKeywordsInputLanguageKind) {
     fScannerWaeHandler->
       inputIsAlreadyInMsdlKeywordsLanguage (
@@ -1446,8 +1427,9 @@ void msdlScanner::translateAllTheInputToKeywordsLanguage ()
     fetchNextCharacter ();
 
     do { // loop till end of stream
-      // get the next token
+      // fetch the next token
       tokenKind = fetchNextToken (kIgnoreSeparatorTokensNo);
+
       ++numberOfTokens;
 
 #ifdef TRACING_IS_ENABLED
@@ -1462,14 +1444,6 @@ void msdlScanner::translateAllTheInputToKeywordsLanguage ()
         ++gIndenter;
 
         gLogStream << left <<
-        /*
-          setw (fieldWidth) <<
-          "fCurrentTokenPositionInInput" << " : " << fCurrentTokenPositionInInput <<
-          endl <<
-          setw (fieldWidth) <<
-          "fCurrentCharacter" << " : '" << currentCharacterAsString () <<
-          endl <<
-*/
           setw (fieldWidth) <<
           "fCurrentToken" << " : " <<
           endl;
@@ -1477,12 +1451,7 @@ void msdlScanner::translateAllTheInputToKeywordsLanguage ()
         ++gIndenter;
         gLogStream << fCurrentToken << endl;
         --gIndenter;
-/*
-        gLogStream << left <<
-          setw (fieldWidth) <<
-          "fCurrentTokenKind" << " : " << msdrTokenKindAsString (fCurrentTokenKind) <<
-          endl;
-*/
+
         --gIndenter;
       }
 #endif
@@ -1490,7 +1459,9 @@ void msdlScanner::translateAllTheInputToKeywordsLanguage ()
       // write it translated to standard output
 //      gOutputStream <<
       cout << // JMI
-        fCurrentToken.asMsdlString (keywordsTranslationLanguage);
+        fCurrentToken.asMsdlString (
+          keywordsTranslationLanguage,
+          commentsTypeKind);
     }
     while (tokenKind != k_TokenEOF); // do
   }
@@ -1503,21 +1474,76 @@ void msdlScanner::translateAllTheInputToKeywordsLanguage ()
 
 #ifdef TRACING_IS_ENABLED
   if (fTraceTokens) {
-    if (fSourceIsLexicallyCorrect) {
-      fScannerWaeHandler->
-        inputIsLexicallyCorrect (numberOfTokens);
-    }
-    else {
-      fScannerWaeHandler->
-        inputIsLexicallyIncorrect (numberOfTokens);
-    }
-
     gLogStream <<
       endl <<
       "<== translateAllTheInputToKeywordsLanguage()" <<
       endl;
   }
 #endif
+}
+
+// --------------------------------------------------------------------------
+//  msdlScanner::scanWholeInputAtOnce
+// --------------------------------------------------------------------------
+
+void msdlScanner::scanWholeInputAtOnce ()
+{
+#ifdef TRACING_IS_ENABLED
+  if (fTraceTokensDetails) {
+    gLogStream <<
+      "==> scanWholeInputAtOnce()" <<
+      endl;
+  }
+#endif
+
+  if (fInputIsEmpty) {
+#ifdef TRACING_IS_ENABLED
+    gLogStream <<
+      "Input is empty " <<
+      endl;
+#endif
+
+    return;
+  }
+
+  // let's go ahead
+
+  // should we ignore separator tokens?
+  bool
+    ignoreSeparatorTokens =
+      gGlobalMsdl2msdrOahGroup->
+        getIgnoreSeparatorTokens ();
+
+  msdlIgnoreSeparatorTokensKind
+    ignoreSeparatorTokensKind =
+      ignoreSeparatorTokens
+        ? kIgnoreSeparatorTokensYes
+        : kIgnoreSeparatorTokensNo;
+
+  // should we translate the keywords?
+  msdlKeywordsLanguageKind
+    keywordsTranslationLanguageKind =
+      gGlobalMsdl2msdrOahGroup->
+        getMsdlKeywordsTranslationLanguageKind ();
+
+  // what comments type should we use in the translation output?
+  msdlCommentsTypeKind
+    commentsTypeKind =
+      gGlobalMsdl2msdrOahGroup->
+        getMsdlCommentsTypeKind ();
+
+  // do the job
+  switch (keywordsTranslationLanguageKind) {
+    case k_NoKeywordsLanguage:
+      scanAllTheInputAtOnce (
+        ignoreSeparatorTokensKind);
+      break;
+
+    default:
+      translateAllTheInputToKeywordsLanguage (
+        keywordsTranslationLanguageKind,
+        commentsTypeKind);
+  } // switch
 }
 
 

@@ -36,6 +36,123 @@ using namespace std;
 namespace MusicXML2
 {
 
+// the MSDL comments types
+//______________________________________________________________________________
+
+map<string, msdlCommentsTypeKind>
+  gGlobalMsdlCommentsTypeKindsMap;
+
+msdlCommentsTypeKind msdlCommentsTypeKindFromString (std::string theString)
+{
+  msdlCommentsTypeKind result = kCommentsTypePercent; // MSDL default
+
+  map<string, msdlCommentsTypeKind>::const_iterator
+    it =
+      gGlobalMsdlCommentsTypeKindsMap.find (
+        theString);
+
+  if (it == gGlobalMsdlCommentsTypeKindsMap.end ()) {
+    // no, keywords language kind is unknown in the map
+    stringstream s;
+
+    s <<
+      "MSDL language kind '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gGlobalMsdlCommentsTypeKindsMap.size () - 1 <<
+      " known MSDL language kinds are:" <<
+      endl;
+
+    ++gIndenter;
+
+    s <<
+      existingMsdlCommentsTypeKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    --gIndenter;
+
+// JMI    oahError (s.str ());
+  }
+
+  result = (*it).second;
+
+  return result;
+}
+
+void initializeMsdlCommentsTypeKindsMap ()
+{
+  // protect library against multiple initializations
+  static bool pThisMethodHasBeenRun = false;
+
+  if (! pThisMethodHasBeenRun) {
+    gGlobalMsdlCommentsTypeKindsMap ["percent"] = kCommentsTypePercent;
+    gGlobalMsdlCommentsTypeKindsMap ["star"]    = kCommentsTypeStar;
+
+    pThisMethodHasBeenRun = true;
+  }
+}
+
+string msdlCommentsTypeKindAsString (
+  msdlCommentsTypeKind languageKind)
+{
+  string result;
+
+  switch (languageKind) {
+    case kCommentsTypePercent: // MSDL default
+      result = "keywordsEnglish";
+      break;
+    case kCommentsTypeStar:
+      result = "keywordsFrench";
+      break;
+  } // switch
+
+  return result;
+}
+
+string existingMsdlCommentsTypeKinds (unsigned int namesListMaxLength)
+{
+  stringstream s;
+
+  unsigned int
+    msdlCommentsTypeKindsMapSize =
+      gGlobalMsdlCommentsTypeKindsMap.size ();
+
+  if (msdlCommentsTypeKindsMapSize) {
+    unsigned int nextToLast =
+      msdlCommentsTypeKindsMapSize - 1;
+
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
+
+    for (
+      map<string, msdlCommentsTypeKind>::const_iterator i =
+        gGlobalMsdlCommentsTypeKindsMap.begin ();
+      i != gGlobalMsdlCommentsTypeKindsMap.end ();
+      ++i
+    ) {
+      string theString = (*i).first;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= namesListMaxLength) {
+        s << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      s << theString;
+
+      if (count == nextToLast) {
+        s << " and ";
+      }
+      else if (count != msdlCommentsTypeKindsMapSize) {
+        s << ", ";
+      }
+    } // for
+  }
+
+  return s.str ();
+}
+
 //______________________________________________________________________________
 S_msdlKeywordsLanguageAtom msdlKeywordsLanguageAtom::create (
   string             shortName,
@@ -265,6 +382,240 @@ void msdlKeywordsLanguageAtom::printAtomWithValueOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_msdlKeywordsLanguageAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msdlCommentsTypeAtom msdlCommentsTypeAtom::create (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  msdlCommentsTypeKind&
+                     msdlCommentsTypeKindVariable)
+{
+  msdlCommentsTypeAtom* o = new
+    msdlCommentsTypeAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      msdlCommentsTypeKindVariable);
+  assert (o != nullptr);
+  return o;
+}
+
+msdlCommentsTypeAtom::msdlCommentsTypeAtom (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  msdlCommentsTypeKind&
+                     msdlCommentsTypeKindVariable)
+  : oahAtomWithValue (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fMsdlCommentsTypeKindVariable (
+      msdlCommentsTypeKindVariable)
+{}
+
+msdlCommentsTypeAtom::~msdlCommentsTypeAtom ()
+{}
+
+void msdlCommentsTypeAtom::applyAtomWithValue (
+  const string& theString,
+  ostream&      os)
+{
+#ifdef TRACING_IS_ENABLED
+  if (getTraceOah ()) {
+    gLogStream <<
+      "==> oahAtom is of type 'msdlCommentsTypeAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the language name:
+  // is it in the keywords languages map?
+
+#ifdef TRACING_IS_ENABLED
+  if (getTraceOah ()) {
+    gLogStream <<
+      "==> oahAtom is of type 'msdlCommentsTypeAtom'" <<
+      endl;
+  }
+#endif
+
+  map<string, msdlCommentsTypeKind>::const_iterator
+    it =
+      gGlobalMsdlCommentsTypeKindsMap.find (theString);
+
+  if (it == gGlobalMsdlCommentsTypeKindsMap.end ()) {
+    // no, language is unknown in the map
+    stringstream s;
+
+    s <<
+      "MSDR keywords language '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gGlobalMsdlCommentsTypeKindsMap.size () - 1 <<
+      " known MSDR keywords languages are:" <<
+      endl;
+
+    ++gIndenter;
+
+    s <<
+      existingMsdlCommentsTypeKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    --gIndenter;
+
+    oahError (s.str ());
+  }
+
+  setMsdlCommentsTypeKindVariable (
+    (*it).second);
+}
+
+void msdlCommentsTypeAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> msdlCommentsTypeAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msdlCommentsTypeAtom>*
+    p =
+      dynamic_cast<visitor<S_msdlCommentsTypeAtom>*> (v)) {
+        S_msdlCommentsTypeAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching msdlCommentsTypeAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msdlCommentsTypeAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> msdlCommentsTypeAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msdlCommentsTypeAtom>*
+    p =
+      dynamic_cast<visitor<S_msdlCommentsTypeAtom>*> (v)) {
+        S_msdlCommentsTypeAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching msdlCommentsTypeAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msdlCommentsTypeAtom::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> msdlCommentsTypeAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string msdlCommentsTypeAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    msdlCommentsTypeKindAsString (fMsdlCommentsTypeKindVariable);
+
+  return s.str ();
+}
+
+string msdlCommentsTypeAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    msdlCommentsTypeKindAsString (fMsdlCommentsTypeKindVariable);
+
+  return s.str ();
+}
+
+void msdlCommentsTypeAtom::print (ostream& os) const
+{
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "msdlCommentsTypeAtom:" <<
+    endl;
+
+  ++gIndenter;
+
+  printAtomWithValueEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fMsdlCommentsTypeKindVariable" << " : \"" <<
+    msdlCommentsTypeKindAsString (
+      fMsdlCommentsTypeKindVariable) <<
+    "\"" <<
+    endl;
+
+  --gIndenter;
+}
+
+void msdlCommentsTypeAtom::printAtomWithValueOptionsValues (
+  ostream&     os,
+  unsigned int valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : \"" <<
+    msdlCommentsTypeKindAsString (
+      fMsdlCommentsTypeKindVariable) <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
+}
+
+ostream& operator<< (ostream& os, const S_msdlCommentsTypeAtom& elt)
 {
   elt->print (os);
   return os;
@@ -674,7 +1025,7 @@ The default is 'DEFAULT_VALUE'.)",
 
   const msdlKeywordsLanguageKind
     msdlKeywordsLanguageKindDefaultValue =
-      kKeywordsEnglish; // MSDL default
+      kKeywordsLanguageEnglish; // MSDL default
 
   fMsdlKeywordsLanguageKind =
     msdlKeywordsLanguageKindDefaultValue;

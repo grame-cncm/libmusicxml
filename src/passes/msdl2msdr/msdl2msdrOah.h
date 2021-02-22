@@ -21,9 +21,15 @@
 
 #include "generatorsBasicTypes.h"
 
+#include "msdlOah.h"
+
 
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+#define MSDR_STANDARD_INPUT_NAME ""
+//#define MSDR_STANDARD_INPUT_NAME "-"
 
 //______________________________________________________________________________
 class EXP msdl2msdrOahGroup : public oahGroup
@@ -71,9 +77,15 @@ class EXP msdl2msdrOahGroup : public oahGroup
                           getMsdlQuarterTonesPitchesLanguageKind () const
                               { return fMsdlQuarterTonesPitchesLanguageKind; }
 
+    bool                  getIgnoreSeparatorTokens () const
+                              { return fIgnoreSeparatorTokens; }
+
     msdlKeywordsLanguageKind
                           getMsdlKeywordsTranslationLanguageKind () const
                               { return fMsdlKeywordsTranslationLanguageKind; }
+
+    msdlCommentsTypeKind   getMsdlCommentsTypeKind () const
+                              { return fMsdlCommentsTypeKind; }
 
     generatorOutputKind   getGeneratorOutputKind () const
                               { return fGeneratorOutputKind; }
@@ -107,6 +119,8 @@ class EXP msdl2msdrOahGroup : public oahGroup
 #endif
 
     void                  initializeMsdlLanguagesOptions ();
+
+    void                  initializeMsdlWholeInputScansOptions ();
 
     void                  initializeGenerateCodeOptions ();
 
@@ -149,8 +163,15 @@ class EXP msdl2msdrOahGroup : public oahGroup
     msrQuarterTonesPitchesLanguageKind
                           fMsdlQuarterTonesPitchesLanguageKind;
 
+    // whole input scan
+    // --------------------------------------
+
+    bool                  fIgnoreSeparatorTokens;
+
     msdlKeywordsLanguageKind
                           fMsdlKeywordsTranslationLanguageKind;
+
+    msdlCommentsTypeKind  fMsdlCommentsTypeKind;
 
     // output kind
     // --------------------------------------

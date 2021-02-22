@@ -29,8 +29,10 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "msdlCompilerInsiderHandler.h"
-#include "msdlCompilerRegularHandler.h"
+#include "msdl2msdrOah.h"
+
+#include "msdl2msdrInsiderHandler.h"
+#include "msdl2msdrRegularHandler.h"
 
 #include "msdl2guido.h"
 #include "msdl2lilypond.h"
@@ -429,6 +431,8 @@ int main (int argc, char * argv[])
 
 // JMI	catchSignals ();
 
+//  setTraceOah (); // JMI TEMP
+
   // the executable name
   // ------------------------------------------------------
 
@@ -585,12 +589,12 @@ int main (int argc, char * argv[])
   S_oahHandler handler;
 
   try {
-    // create an msdlCompiler insider OAH handler
+    // create an msdl2msdr insider OAH handler
     // ------------------------------------------------------
 
-    S_msdlCompilerInsiderHandler
+    S_msdl2msdrInsiderHandler
       insiderOahHandler =
-        msdlCompilerInsiderHandler::create (
+        msdl2msdrInsiderHandler::create (
           executableName,
           executableName + " insider OAH handler with argc/argv",
           theGeneratorOutputKind);
@@ -599,13 +603,13 @@ int main (int argc, char * argv[])
     // ------------------------------------------------------
 
     if (insiderOptions) {
-      // use the insider msdlCompiler OAH handler
+      // use the insider msdl2msdr OAH handler
       handler = insiderOahHandler;
     }
     else {
-      // create a regular msdlCompiler OAH handler
+      // create a regular msdl2msdr OAH handler
       handler =
-        msdlCompilerRegularHandler::create (
+        msdl2msdrRegularHandler::create (
           executableName,
           executableName + " regular OAH handler with argc/argv",
           insiderOahHandler,
@@ -801,7 +805,7 @@ int main (int argc, char * argv[])
     gLogStream <<
       "Launching the conversion of ";
 
-    if (! inputSourceName.size ()) {
+    if (inputSourceName == MSDR_STANDARD_INPUT_NAME) {
       gLogStream <<
         "standard input";
     }
@@ -894,10 +898,10 @@ int main (int argc, char * argv[])
   // create the MSDR score
   // ------------------------------------------------------
 
-  // the msdlCompilerGenerator
-  S_msdlCompilerGenerator
+  // the msdl2msdrGenerator
+  S_msdl2msdrGenerator
     generator =
-      msdlCompilerGenerator::create ();
+      msdl2msdrGenerator::create ();
 
   // register time spent
   clock_t endClock = clock ();
@@ -913,7 +917,7 @@ int main (int argc, char * argv[])
   xmlErr err = kNoErr;
 
   try {
-    if (! inputSourceName.size ()) {
+    if (inputSourceName == MSDR_STANDARD_INPUT_NAME) {
       // MSDL data comes from standard input
 #ifdef TRACING_IS_ENABLED
       if (getTraceOah ()) {

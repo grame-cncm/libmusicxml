@@ -175,7 +175,7 @@ The default is 'DEFAULT_VALUE'.)",
 
   const msdlKeywordsLanguageKind
     msdlKeywordsLanguageKindDefaultValue =
-      kKeywordsEnglish; // MSDL default
+      kKeywordsLanguageEnglish; // MSDL default
 
   fMsdlKeywordsInputLanguageKind =
     msdlKeywordsLanguageKindDefaultValue;
@@ -183,7 +183,7 @@ The default is 'DEFAULT_VALUE'.)",
   subGroup->
     appendAtomToSubGroup (
       msdlKeywordsLanguageAtom::create (
-        "mkl", "msdl-keywords-input-language",
+        "mkil", "msdl-keywords-input-language",
         regex_replace (
           regex_replace (
             regex_replace (
@@ -202,15 +202,37 @@ The default is 'DEFAULT_VALUE'.)",
         "LANGUAGE",
         "msdl-keywords-language",
         fMsdlKeywordsInputLanguageKind));
+}
+
+void msdl2msdrOahGroup::initializeMsdlWholeInputScansOptions ()
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "MSDL whole input scans",
+        "hmwis", "help-msdl-whole-input-scans",
+R"()",
+        kElementVisibilityWhole,
+        this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // ignore separator tokens
+
+  fIgnoreSeparatorTokens = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "istoks", "ignore-separator-tokens",
+R"(Ignore separator tokens such as space, tab and end of line
+when scanning the whole input at once.)",
+        "ignoreSeparatorTokens",
+        fIgnoreSeparatorTokens));
 
   // MSDL keywords translation language
 
-  const msdlKeywordsLanguageKind
-    msdlKeywordsTranslationLanguageKindDefaultValue =
-      kKeywordsEnglish; // MSDL default
-
-  fMsdlKeywordsTranslationLanguageKind =
-    msdlKeywordsTranslationLanguageKindDefaultValue;
+  fMsdlKeywordsTranslationLanguageKind = k_NoKeywordsLanguage;
 
   subGroup->
     appendAtomToSubGroup (
@@ -218,24 +240,52 @@ The default is 'DEFAULT_VALUE'.)",
         "mktl", "msdl-keywords-translation-language",
         regex_replace (
           regex_replace (
-            regex_replace (
 R"(Use LANGUAGE to output translated keyword names.
 This option causes the translated MSDL text to be written to standard output,
 followed by a quit.
 The NUMBER MSDL keywords translation languages available are:
 KEYWORDS_LANGUAGES.
-The default is 'DEFAULT_VALUE'.)",
-              regex ("NUMBER"),
-              to_string (gGlobalMsdlKeywordsLanguageKindsMap.size ())),
-            regex ("KEYWORDS_LANGUAGES"),
-            gIndenter.indentMultiLineString (
-              existingMsdlKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
-          regex ("DEFAULT_VALUE"),
-          msdlKeywordsLanguageKindAsString (
-            msdlKeywordsLanguageKindDefaultValue)),
+The default is not to translate the keywords.)",
+            regex ("NUMBER"),
+            to_string (gGlobalMsdlKeywordsLanguageKindsMap.size ())),
+          regex ("KEYWORDS_LANGUAGES"),
+          gIndenter.indentMultiLineString (
+            existingMsdlKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
         "LANGUAGE",
         "msdl-keywords-language",
         fMsdlKeywordsTranslationLanguageKind));
+
+  // MSDL comments type
+
+  const msdlCommentsTypeKind
+    msdlCommentsTypeKindDefaultValue =
+      kCommentsTypePercent; // MSDL default
+
+  fMsdlCommentsTypeKind =
+    msdlCommentsTypeKindDefaultValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      msdlCommentsTypeAtom::create (
+        "mct", "msdl-comments-types",
+        regex_replace (
+          regex_replace (
+            regex_replace (
+R"(Use TYPE for the translated comments.
+The NUMBER MSDL comments types available are:
+COMMENTS_TYPES.
+The default is 'DEFAULT_VALUE'.)",
+              regex ("NUMBER"),
+              to_string (gGlobalMsdlCommentsTypeKindsMap.size ())),
+            regex ("COMMENTS_TYPES"),
+            gIndenter.indentMultiLineString (
+              existingMsdlCommentsTypeKinds (K_NAMES_LIST_MAX_LENGTH))),
+          regex ("DEFAULT_VALUE"),
+          msdlCommentsTypeKindAsString (
+            msdlCommentsTypeKindDefaultValue)),
+        "TYPE",
+        "msdlCommentsTypeKind",
+        fMsdlCommentsTypeKind));
 }
 
 void msdl2msdrOahGroup::initializeGenerateCodeOptions ()
@@ -358,6 +408,8 @@ void msdl2msdrOahGroup::initializeMsdl2msdrGroup ()
 #endif
 
   initializeMsdlLanguagesOptions ();
+
+  initializeMsdlWholeInputScansOptions ();
 
   initializeGenerateCodeOptions ();
 }

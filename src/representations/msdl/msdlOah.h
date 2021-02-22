@@ -27,6 +27,28 @@
 namespace MusicXML2
 {
 
+// the MSDL comments types
+//______________________________________________________________________________
+enum msdlCommentsTypeKind {
+  kCommentsTypePercent, // MSDL default
+  kCommentsTypeStar
+};
+
+string msdlCommentsTypeKindAsString (
+  msdlCommentsTypeKind languageKind);
+
+msdlCommentsTypeKind msdlCommentsTypeKindFromString (
+  string theString);
+
+extern map<string, msdlCommentsTypeKind>
+  gGlobalMsdlCommentsTypeKindsMap;
+
+void initializeMsdlCommentsTypeKinds ();
+
+string existingMsdlCommentsTypeKinds (unsigned int namesListMaxLength);
+
+void initializeMsdlCommentsTypeKindsMap ();
+
 //______________________________________________________________________________
 class EXP msdlKeywordsLanguageAtom : public oahAtomWithValue
 {
@@ -114,6 +136,93 @@ class EXP msdlKeywordsLanguageAtom : public oahAtomWithValue
 };
 typedef SMARTP<msdlKeywordsLanguageAtom> S_msdlKeywordsLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_msdlKeywordsLanguageAtom& elt);
+
+//______________________________________________________________________________
+class EXP msdlCommentsTypeAtom : public oahAtomWithValue
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msdlCommentsTypeAtom> create (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            msdlCommentsTypeKind&
+                                               msdlCommentsTypeKindVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          msdlCommentsTypeAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            msdlCommentsTypeKind&
+                                               msdlCommentsTypeKindVariable);
+
+    virtual               ~msdlCommentsTypeAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setMsdlCommentsTypeKindVariable (
+                            msdlCommentsTypeKind value)
+                              {
+                                fMsdlCommentsTypeKindVariable = value;
+                              }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  applyAtomWithValue (
+                            const string& theString,
+                            ostream&      os) override;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
+
+    void                  browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
+
+    void                  print (ostream& os) const override;
+
+    void                  printAtomWithValueOptionsValues (
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    msdlCommentsTypeKind& fMsdlCommentsTypeKindVariable;
+};
+typedef SMARTP<msdlCommentsTypeAtom> S_msdlCommentsTypeAtom;
+EXP ostream& operator<< (ostream& os, const S_msdlCommentsTypeAtom& elt);
 
 //______________________________________________________________________________
 class EXP msdlPitchesLanguageAtom : public oahAtomWithValue

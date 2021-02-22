@@ -132,8 +132,8 @@ void msdlScannerEnglishWaeHandler::inputIsLexicallyCorrect (int numberOfTokens)
 {
   gLogStream <<
     "The MSDL input is lexically correct. It contains " <<
-    numberOfTokens <<
-    " tokens" <<
+    singularOrPlural (
+      numberOfTokens, "token", "tokens") <<
     endl;
 }
 
@@ -141,8 +141,9 @@ void msdlScannerEnglishWaeHandler::inputIsLexicallyIncorrect (int numberOfTokens
 {
   gLogStream <<
     "### The MSDL input is lexically incorrect. It contains " <<
-    numberOfTokens <<
-    " tokens ###" <<
+    singularOrPlural (
+      numberOfTokens, "token", "tokens") <<
+    " ###" <<
     endl;
 }
 
@@ -238,8 +239,8 @@ void msdlScannerFrenchWaeHandler::inputIsLexicallyCorrect (int numberOfTokens)
 {
   gLogStream <<
     "Le texte MSDL est lexicalement correct. Il contient " <<
-    numberOfTokens <<
-    " symboles terminaux" <<
+    singularOrPlural (
+      numberOfTokens, "terminal", "terminaux") <<
     endl;
 }
 
@@ -247,8 +248,9 @@ void msdlScannerFrenchWaeHandler::inputIsLexicallyIncorrect (int numberOfTokens)
 {
   gLogStream <<
     "### Le texte MSDL est lexicalement incorrect. Il contient " <<
-    numberOfTokens <<
-    " symboles terminaux ###" <<
+    singularOrPlural (
+      numberOfTokens, "terminal", "terminaux") <<
+    " ###" <<
     endl;
 }
 
@@ -344,8 +346,8 @@ void msdlScannerItalianWaeHandler::inputIsLexicallyCorrect (int numberOfTokens)
 {
   gLogStream <<
     "The MSDL input is lexically correct. It contains " <<
-    numberOfTokens <<
-    " tokens" <<
+    singularOrPlural (
+      numberOfTokens, "token", "tokens") <<
     endl;
 }
 
@@ -353,8 +355,9 @@ void msdlScannerItalianWaeHandler::inputIsLexicallyIncorrect (int numberOfTokens
 {
   gLogStream <<
     "### The MSDL input is lexically incorrect. It contains " <<
-    numberOfTokens <<
-    " tokens ###" <<
+    singularOrPlural (
+      numberOfTokens, "token", "tokens") <<
+    " ###" <<
     endl;
 }
 
@@ -450,7 +453,8 @@ void msdlScannerGermanWaeHandler::inputIsLexicallyCorrect (int numberOfTokens)
 {
   gLogStream <<
     "The MSDL input is lexically correct. It contains " <<
-    numberOfTokens <<
+    singularOrPlural (
+      numberOfTokens, "token", "tokens") <<
     " tokens" <<
     endl;
 }
@@ -459,8 +463,9 @@ void msdlScannerGermanWaeHandler::inputIsLexicallyIncorrect (int numberOfTokens)
 {
   gLogStream <<
     "### The MSDL input is lexically incorrect. It contains " <<
-    numberOfTokens <<
-    " tokens ###" <<
+    singularOrPlural (
+      numberOfTokens, "token", "tokens") <<
+    " ###" <<
     endl;
 }
 
@@ -556,7 +561,8 @@ void msdlScannerSpanishWaeHandler::inputIsLexicallyCorrect (int numberOfTokens)
 {
   gLogStream <<
     "The MSDL input is lexically correct. It contains " <<
-    numberOfTokens <<
+    singularOrPlural (
+      numberOfTokens, "token", "tokens") <<
     " tokens" <<
     endl;
 }
@@ -565,8 +571,9 @@ void msdlScannerSpanishWaeHandler::inputIsLexicallyIncorrect (int numberOfTokens
 {
   gLogStream <<
     "### The MSDL input is lexically incorrect. It contains " <<
-    numberOfTokens <<
-    " tokens ###" <<
+    singularOrPlural (
+      numberOfTokens, "token", "tokens") <<
+    " ###" <<
     endl;
 }
 
@@ -662,7 +669,8 @@ void msdlScannerDutchWaeHandler::inputIsLexicallyCorrect (int numberOfTokens)
 {
   gLogStream <<
     "The MSDL input is lexically correct. It contains " <<
-    numberOfTokens <<
+    singularOrPlural (
+      numberOfTokens, "token", "tokens") <<
     " tokens" <<
     endl;
 }
@@ -671,8 +679,9 @@ void msdlScannerDutchWaeHandler::inputIsLexicallyIncorrect (int numberOfTokens)
 {
   gLogStream <<
     "### The MSDL input is lexically incorrect. It contains " <<
-    numberOfTokens <<
-    " tokens ###" <<
+    singularOrPlural (
+      numberOfTokens, "token", "tokens") <<
+    " ###" <<
     endl;
 }
 

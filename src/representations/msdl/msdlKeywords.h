@@ -27,14 +27,14 @@ namespace MusicXML2
 // the MSDL keywords languages
 //______________________________________________________________________________
 enum msdlKeywordsLanguageKind {
-  k_NoKeywordLanguage,
+  k_NoKeywordsLanguage,
 
-  kKeywordsEnglish, // MSDL default
-  kKeywordsFrench,
-  kKeywordsItalian,
-  kKeywordsGerman,
-  kKeywordsSpanish,
-  kKeywordsNederlands
+  kKeywordsLanguageEnglish, // MSDL default
+  kKeywordsLanguageFrench,
+  kKeywordsLanguageItalian,
+  kKeywordsLanguageGerman,
+  kKeywordsLanguageSpanish,
+  kKeywordsLanguageNederlands
 };
 
 string msdlKeywordsLanguageKindAsString (

@@ -53,7 +53,7 @@ string msdrTokenKindAsString (
       s << "*malformedToken*";
       break;
 
-    // language-independent tokens
+    // separators, for use by MSDL whole input translation
     // ------------------------------------
 
     case kTokenSpace:
@@ -77,6 +77,9 @@ string msdrTokenKindAsString (
     case kTokenCommentToEndOfLine:
       s << "tokenCommentToEndOfLine";
       break;
+
+    // language-independent tokens
+    // ------------------------------------
 
     case kTokenEqualSign:
       s << "tokenEqualSign";
@@ -761,7 +764,7 @@ string msdrToken::asString () const
       s << "\"" << fTokenDescription.getString () << "\"";
       break;
 
-    // language-independent tokens
+    // separators, for use by MSDL whole input translation
     // ------------------------------------
 
     case kTokenSpace:
@@ -785,6 +788,9 @@ string msdrToken::asString () const
     case kTokenCommentToEndOfLine:
       s << "\"" << fTokenDescription.getString () << "\"";
       break;
+
+    // language-independent tokens
+    // ------------------------------------
 
     case kTokenEqualSign:
       s << "=";
@@ -889,7 +895,8 @@ string msdrToken::asString () const
 }
 
 string msdrToken::asMsdlString (
-  msdlKeywordsLanguageKind languageKind) const
+  msdlKeywordsLanguageKind languageKind,
+  msdlCommentsTypeKind     commentsTypeKind) const
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
@@ -916,7 +923,7 @@ string msdrToken::asMsdlString (
       s << "*TokenMalformed*";
       break;
 
-    // language-independent tokens
+    // separators, for use by MSDL whole input translation
     // ------------------------------------
 
     case kTokenSpace:
@@ -934,12 +941,29 @@ string msdrToken::asMsdlString (
       break;
 
     case kTokenParenthesizedComment:
-      s << "{%" << fTokenDescription.getString () << "%}";
+      switch (commentsTypeKind) {
+        case kCommentsTypePercent:
+          s << "%{" << fTokenDescription.getString () << "%}";
+          break;
+        case kCommentsTypeStar:
+          s << "/*" << fTokenDescription.getString () << "*/";
+          break;
+      } // switch
       break;
 
     case kTokenCommentToEndOfLine:
-      s << "%%" << fTokenDescription.getString ();
+      switch (commentsTypeKind) {
+        case kCommentsTypePercent:
+          s << "%" << fTokenDescription.getString ();
+          break;
+        case kCommentsTypeStar:
+          s << "//" << fTokenDescription.getString ();
+          break;
+      } // switch
       break;
+
+    // language-independent tokens
+    // ------------------------------------
 
     case kTokenEqualSign:
       s << "=";
@@ -1066,7 +1090,7 @@ void msdrToken::print (ostream& os) const
       os << "\"" << fTokenDescription.getString () << "\"";
       break;
 
-    // language-independent tokens
+    // separators, for use by MSDL whole input translation
     // ------------------------------------
 
     case kTokenSpace:
@@ -1090,6 +1114,9 @@ void msdrToken::print (ostream& os) const
     case kTokenCommentToEndOfLine:
       os << "\"" << fTokenDescription.getString () << "\"";
       break;
+
+    // language-independent tokens
+    // ------------------------------------
 
     case kTokenEqualSign:
       os << "=";
