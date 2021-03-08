@@ -24,13 +24,13 @@
 
 #include "waeMessagesHandling.h"
 
-//#include "generatorsBasicTypes.h"
+#include "generatorsBasicTypes.h"
 
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "msdl2msrOah.h"
-#include "msdl2msdrInsiderHandler.h"
+#include "msdlCompilerOah.h"
+#include "msdlCompilerInsiderHandler.h"
 
 
 using namespace std;
@@ -40,20 +40,20 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 
-S_msdl2msrOahGroup gGlobalMsdl2msrOahGroup;
+S_msdlCompilerOahGroup gGlobalmsdlCompilerOahGroup;
 
-S_msdl2msrOahGroup msdl2msrOahGroup::create ()
+S_msdlCompilerOahGroup msdlCompilerOahGroup::create ()
 {
-  msdl2msrOahGroup* o = new msdl2msrOahGroup ();
+  msdlCompilerOahGroup* o = new msdlCompilerOahGroup ();
   assert (o != nullptr);
   return o;
 }
 
-msdl2msrOahGroup::msdl2msrOahGroup ()
+msdlCompilerOahGroup::msdlCompilerOahGroup ()
   : oahGroup (
-    "msdl2msr",
-    "hmsdl2msr", "help-msdl-to-msr",
-R"(These options control the way the MSDL to MSR translator works.)",
+    "msdlCompiler",
+    "hmkk-group", "help-mikrokosmos-group",
+R"(These options control the way msdlCompiler works.)",
     kElementVisibilityWhole)
 {
   fGeneratorOutputKind = k_NoOutput;
@@ -65,15 +65,14 @@ R"(These options control the way the MSDL to MSR translator works.)",
   fByteOrderingKind = kByteOrderingNone;
 
   // initialize it
-  initializeMsdl2msrOahGroup ();
+  initializemsdlCompilerOahGroup ();
 }
 
-msdl2msrOahGroup::~msdl2msrOahGroup ()
+msdlCompilerOahGroup::~msdlCompilerOahGroup ()
 {}
 
-void msdl2msrOahGroup::initializeGenerateCodeOptions ()
+void msdlCompilerOahGroup::initializeGenerateCodeOptions ()
 {
-/* JMI
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
@@ -167,6 +166,7 @@ R"()",
     appendAtomToSubGroup (
       musicxmlMacroAtom);
 
+/* JMI
   S_oahMacroAtom
     midiMacroAtom =
       oahMacroAtom::create (
@@ -181,12 +181,12 @@ R"()",
       */
 }
 
-void msdl2msrOahGroup::initializeMsdl2msrOahGroup ()
+void msdlCompilerOahGroup::initializemsdlCompilerOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   // trace
   // --------------------------------------
-// JMI  initializeMsdl2msrTraceOah ();
+// JMI  initializemsdlCompilerTraceOah ();
 #endif
 
   // generate code
@@ -195,11 +195,11 @@ void msdl2msrOahGroup::initializeMsdl2msrOahGroup ()
 }
 
 //______________________________________________________________________________
-void msdl2msrOahGroup::enforceGroupQuietness ()
+void msdlCompilerOahGroup::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void msdl2msrOahGroup::checkGroupOptionsConsistency ()
+void msdlCompilerOahGroup::checkGroupOptionsConsistency ()
 {
   switch (fGeneratorOutputKind) {
     case k_NoOutput:
@@ -227,25 +227,25 @@ void msdl2msrOahGroup::checkGroupOptionsConsistency ()
 }
 
 //______________________________________________________________________________
-void msdl2msrOahGroup::acceptIn (basevisitor* v)
+void msdlCompilerOahGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> msdl2msrOahGroup::acceptIn ()" <<
+      ".\\\" ==> msdlCompilerOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_msdl2msrOahGroup>*
+  if (visitor<S_msdlCompilerOahGroup>*
     p =
-      dynamic_cast<visitor<S_msdl2msrOahGroup>*> (v)) {
-        S_msdl2msrOahGroup elem = this;
+      dynamic_cast<visitor<S_msdlCompilerOahGroup>*> (v)) {
+        S_msdlCompilerOahGroup elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching msdl2msrOahGroup::visitStart ()" <<
+            ".\\\" ==> Launching msdlCompilerOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -253,25 +253,25 @@ void msdl2msrOahGroup::acceptIn (basevisitor* v)
   }
 }
 
-void msdl2msrOahGroup::acceptOut (basevisitor* v)
+void msdlCompilerOahGroup::acceptOut (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> msdl2msrOahGroup::acceptOut ()" <<
+      ".\\\" ==> msdlCompilerOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_msdl2msrOahGroup>*
+  if (visitor<S_msdlCompilerOahGroup>*
     p =
-      dynamic_cast<visitor<S_msdl2msrOahGroup>*> (v)) {
-        S_msdl2msrOahGroup elem = this;
+      dynamic_cast<visitor<S_msdlCompilerOahGroup>*> (v)) {
+        S_msdlCompilerOahGroup elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching msdl2msrOahGroup::visitEnd ()" <<
+            ".\\\" ==> Launching msdlCompilerOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -279,23 +279,23 @@ void msdl2msrOahGroup::acceptOut (basevisitor* v)
   }
 }
 
-void msdl2msrOahGroup::browseData (basevisitor* v)
+void msdlCompilerOahGroup::browseData (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> msdl2msrOahGroup::browseData ()" <<
+      ".\\\" ==> msdlCompilerOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void msdl2msrOahGroup::printMsdl2msrOahValues (
+void msdlCompilerOahGroup::printmsdlCompilerOahValues (
   unsigned int fieldWidth)
 {
   gLogStream <<
-    "The msdl2msr options are:" <<
+    "The msdlCompiler options are:" <<
     endl;
 
   ++gIndenter;
@@ -364,41 +364,41 @@ void msdl2msrOahGroup::printMsdl2msrOahValues (
   --gIndenter;
 }
 
-ostream& operator<< (ostream& os, const S_msdl2msrOahGroup& elt)
+ostream& operator<< (ostream& os, const S_msdlCompilerOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msdl2msrOahGroup createGlobalMsdl2msrOahGroup ()
+S_msdlCompilerOahGroup createGlobalmsdlCompilerOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
     gLogStream <<
-      "Creating global msdl2msr OAH group" <<
+      "Creating global msdlCompiler OAH group" <<
       endl;
   }
 #endif
 
   // protect library against multiple initializations
-  if (! gGlobalMsdl2msrOahGroup) {
+  if (! gGlobalmsdlCompilerOahGroup) {
 
     // initialize the generated output kinds map
     // ------------------------------------------------------
 
     initializeGeneratorOutputKindsMap ();
 
-    // create the msdl2msr options
+    // create the msdlCompiler options
     // ------------------------------------------------------
 
-    gGlobalMsdl2msrOahGroup =
-      msdl2msrOahGroup::create ();
-    assert (gGlobalMsdl2msrOahGroup != 0);
+    gGlobalmsdlCompilerOahGroup =
+      msdlCompilerOahGroup::create ();
+    assert (gGlobalmsdlCompilerOahGroup != 0);
   }
 
   // return the global OAH group
-  return gGlobalMsdl2msrOahGroup;
+  return gGlobalmsdlCompilerOahGroup;
 }
 
 

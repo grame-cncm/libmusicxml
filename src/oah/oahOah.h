@@ -36,19 +36,19 @@ class EXP insiderOahAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<insiderOahAtom> create (
-      string shortName,
-      string longName,
-      string description);
+                            string shortName,
+                            string longName,
+                            string description);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    insiderOahAtom (
-      string shortName,
-      string longName,
-      string description);
+                          insiderOahAtom (
+                            string shortName,
+                            string longName,
+                            string description);
 
     virtual               ~insiderOahAtom ();
 
@@ -96,19 +96,19 @@ class EXP regularOahAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<regularOahAtom> create (
-      string shortName,
-      string longName,
-      string description);
+                            string shortName,
+                            string longName,
+                            string description);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    regularOahAtom (
-      string shortName,
-      string longName,
-      string description);
+                          regularOahAtom (
+                            string shortName,
+                            string longName,
+                            string description);
 
     virtual               ~regularOahAtom ();
 
@@ -153,7 +153,7 @@ class EXP oahOahGroup : public oahGroup
   public:
 
     static SMARTP<oahOahGroup> create (
-      string executableName);
+                            string executableName);
 
   public:
 
@@ -168,8 +168,8 @@ class EXP oahOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahOahGroup (
-      string executableName);
+                          oahOahGroup (
+                            string executableName);
 
     virtual               ~oahOahGroup ();
 
@@ -292,7 +292,7 @@ class EXP oahOahGroup : public oahGroup
 
     void                  printOahOahValues (int valueFieldWidth);
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const;
 
@@ -359,7 +359,7 @@ EXP S_oahOahGroup createGlobalOahOahGroup (
 
 /* JMI
 //______________________________________________________________________________
-class EXP oahOptionalValuesStyleKindAtom : public oahAtomWithValue
+class EXP oahOptionalValuesStyleKindAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 

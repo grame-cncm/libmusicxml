@@ -38,7 +38,7 @@ class EXP basicOah2manPageGenerator : virtual public oah2manPageGenerator,
 
   public visitor<S_oahHelpSummaryAtom>,
 
-  public visitor<S_oahAtomWithVariableName>,
+  public visitor<S_oahAtomStoringAValueInAVariable>,
 
   public visitor<S_oahOptionNameHelpAtom>,
 
@@ -50,7 +50,7 @@ class EXP basicOah2manPageGenerator : virtual public oah2manPageGenerator,
 
   public visitor<S_oahMultiplexBooleansAtom>,
 
-  public visitor<S_oahAtomWithValue>,
+// JMI  public visitor<S_oahAtomStoringAValueInAVariable>,
 
   public visitor<S_oahIntegerAtom>,
   public visitor<S_oahTwoIntegersAtom>,
@@ -109,8 +109,8 @@ class EXP basicOah2manPageGenerator : virtual public oah2manPageGenerator,
     virtual void visitStart (S_oahHelpSummaryAtom& elt);
     virtual void visitEnd   (S_oahHelpSummaryAtom& elt);
 
-    virtual void visitStart (S_oahAtomWithVariableName& elt);
-    virtual void visitEnd   (S_oahAtomWithVariableName& elt);
+    virtual void visitStart (S_oahAtomStoringAValueInAVariable& elt);
+    virtual void visitEnd   (S_oahAtomStoringAValueInAVariable& elt);
 
     virtual void visitStart (S_oahOptionNameHelpAtom& elt);
     virtual void visitEnd   (S_oahOptionNameHelpAtom& elt);
@@ -128,9 +128,10 @@ class EXP basicOah2manPageGenerator : virtual public oah2manPageGenerator,
     virtual void visitStart (S_oahMultiplexBooleansAtom& elt);
     virtual void visitEnd   (S_oahMultiplexBooleansAtom& elt);
 
-    virtual void visitStart (S_oahAtomWithValue& elt);
-    virtual void visitEnd   (S_oahAtomWithValue& elt);
-
+/*
+    virtual void visitStart (S_oahAtomStoringAValueInAVariable& elt);
+    virtual void visitEnd   (S_oahAtomStoringAValueInAVariable& elt);
+*/
     virtual void visitStart (S_oahIntegerAtom& elt);
     virtual void visitEnd   (S_oahIntegerAtom& elt);
     virtual void visitStart (S_oahTwoIntegersAtom& elt);

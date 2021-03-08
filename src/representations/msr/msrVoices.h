@@ -89,50 +89,47 @@ class msrSyllable;
 typedef SMARTP<msrSyllable> S_msrSyllable;
 
 //______________________________________________________________________________
+// constants
+// ------------------------------------------------------
+
+#define K_NO_VOICE_NUMBER                     -99
+
+#define K_VOICE_HARMONY_VOICE_BASE_NUMBER      20
+#define K_VOICE_FIGURED_BASS_VOICE_BASE_NUMBER 40
+
+// data types
+// ------------------------------------------------------
+
+enum class msrVoiceRepeatPhaseKind {
+  kVoiceRepeatPhaseNone,
+  kVoiceRepeatPhaseAfterCommonPart,
+  kVoiceRepeatPhaseAfterHookedEnding,
+  kVoiceRepeatPhaseAfterHooklessEnding
+};
+
+extern string voiceRepeatPhaseKindAsString (
+  msrVoiceRepeatPhaseKind
+    afterRepeatComponentPhaseKind);
+
+enum class msrVoiceFinalizationStatusKind { // JMI ???
+  kKeepVoice,
+  kEraseVoice
+};
+
+extern string voiceFinalizationStatusKindAsString (
+  msrVoiceFinalizationStatusKind voiceFinalizationStatusKind);
+
+enum class msrVoiceCreateInitialLastSegmentKind {
+  kCreateInitialLastSegmentYes,
+  kCreateInitialLastSegmentNo
+};
+
+extern string voiceFinalizationStatusKindAsString (
+  msrVoiceCreateInitialLastSegmentKind voiceCreateInitialLastSegmentKind);
+
+//______________________________________________________________________________
 class EXP msrVoice : public msrElement
 {
-  public:
-
-    // constants
-    // ------------------------------------------------------
-
-    #define K_NO_VOICE_NUMBER                     -99
-
-    #define K_VOICE_HARMONY_VOICE_BASE_NUMBER      20
-    #define K_VOICE_FIGURED_BASS_VOICE_BASE_NUMBER 40
-
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum msrVoiceRepeatPhaseKind {
-      kVoiceRepeatPhaseNone,
-      kVoiceRepeatPhaseAfterCommonPart,
-      kVoiceRepeatPhaseAfterHookedEnding,
-      kVoiceRepeatPhaseAfterHooklessEnding
-    };
-
-    static string voiceRepeatPhaseKindAsString (
-      msrVoiceRepeatPhaseKind
-        afterRepeatComponentPhaseKind);
-
-    enum msrVoiceFinalizationStatusKind { // JMI ???
-      kKeepVoice,
-      kEraseVoice
-    };
-
-    static string voiceFinalizationStatusKindAsString (
-      msrVoiceFinalizationStatusKind voiceFinalizationStatusKind);
-
-    enum msrVoiceCreateInitialLastSegmentKind {
-      kCreateInitialLastSegmentYes,
-      kCreateInitialLastSegmentNo
-    };
-
-    static string voiceFinalizationStatusKindAsString (
-      msrVoiceCreateInitialLastSegmentKind voiceCreateInitialLastSegmentKind);
-
   public:
 
     // creation from MusicXML
@@ -186,6 +183,11 @@ class EXP msrVoice : public msrElement
                             msrVoiceCreateInitialLastSegmentKind
                                          voiceCreateInitialLastSegmentKind,
                             S_msrStaff   voiceStaffUpLink);
+
+                          msrVoice (
+                            int          inputLineNumber,
+                            msrVoiceKind voiceKind,
+                            int          voiceNumber);
 
     // destructor
     virtual               ~msrVoice ();
@@ -1040,9 +1042,9 @@ class EXP msrVoice : public msrElement
     string                asShortString () const override;
     string                asString () const override;
 
-    void                  displayVoice (
+    virtual void          displayVoice (
                             int    inputLineNumber,
-                            string context);
+                            string context) const;
 
     void                  displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
                             int    inputLineNumber,
@@ -1073,22 +1075,6 @@ class EXP msrVoice : public msrElement
     // voice kind
 
     msrVoiceKind          fVoiceKind;
-
-    // voice numbers
-
-    // voice numbers in MusicXML may be greater than 4
-    // and there can be holes
-    int                   fVoiceNumber;
-
-    // there can only be 4 regular voices in a staff
-    // (those that can contain beamed notes)
-    // and we need a number for the orientation of beams
-    int                   fRegularVoiceStaffSequentialNumber;
-
-    // voice name
-
-    string                fVoiceName;
-
 
     // counters
 
@@ -1162,6 +1148,26 @@ class EXP msrVoice : public msrElement
     msrTupletFactor       fVoiceShortestNoteTupletFactor;
 
     // repeats
+
+  protected:
+
+    // protected fields
+    // ------------------------------------------------------
+
+    // voice numbers
+
+    // voice numbers in MusicXML may be greater than 4
+    // and there can be holes
+    int                   fVoiceNumber;
+
+    // there can only be 4 regular voices in a staff
+    // (those that can contain beamed notes)
+    // and we need a number for the orientation of beams
+    int                   fRegularVoiceStaffSequentialNumber;
+
+    // voice name
+
+    string                fVoiceName;
 
   public:
 

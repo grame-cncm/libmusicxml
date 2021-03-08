@@ -23,12 +23,14 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 EXP xmlErr msdlStream2brailleWithOptionsVector (
+  string               inputSourceName,
   istream&             inputStream,
   const optionsVector& options,
   std::ostream&        out,
   std::ostream&        err);
 
 EXP xmlErr msdlStream2brailleWithHandler (
+  string       inputSourceName,
   istream&     inputStream,
   S_oahHandler handler,
   ostream&     out,

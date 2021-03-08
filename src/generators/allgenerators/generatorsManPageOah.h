@@ -77,7 +77,7 @@ class EXP Mikrokosmos3WanderingManPageGenerateAtom : public oahAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 

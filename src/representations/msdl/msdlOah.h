@@ -27,30 +27,8 @@
 namespace MusicXML2
 {
 
-// the MSDL comments types
 //______________________________________________________________________________
-enum msdlCommentsTypeKind {
-  kCommentsTypePercent, // MSDL default
-  kCommentsTypeStar
-};
-
-string msdlCommentsTypeKindAsString (
-  msdlCommentsTypeKind languageKind);
-
-msdlCommentsTypeKind msdlCommentsTypeKindFromString (
-  string theString);
-
-extern map<string, msdlCommentsTypeKind>
-  gGlobalMsdlCommentsTypeKindsMap;
-
-void initializeMsdlCommentsTypeKinds ();
-
-string existingMsdlCommentsTypeKinds (unsigned int namesListMaxLength);
-
-void initializeMsdlCommentsTypeKindsMap ();
-
-//______________________________________________________________________________
-class EXP msdlKeywordsLanguageAtom : public oahAtomWithValue
+class EXP msdlKeywordsLanguageAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -122,7 +100,7 @@ class EXP msdlKeywordsLanguageAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -138,7 +116,145 @@ typedef SMARTP<msdlKeywordsLanguageAtom> S_msdlKeywordsLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_msdlKeywordsLanguageAtom& elt);
 
 //______________________________________________________________________________
-class EXP msdlCommentsTypeAtom : public oahAtomWithValue
+class EXP oahDisplayMsdlKeywordsInLanguageAtom : public oahHelpAtomExpectingAValue
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahDisplayMsdlKeywordsInLanguageAtom> create (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          oahDisplayMsdlKeywordsInLanguageAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
+
+    virtual               ~oahDisplayMsdlKeywordsInLanguageAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  applyAtomWithValue (
+                            const string& theString,
+                            ostream&      os) override;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
+
+    void                  browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
+
+    void                  print (ostream& os) const override;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<oahDisplayMsdlKeywordsInLanguageAtom> S_oahDisplayMsdlKeywordsInLanguageAtom;
+EXP ostream& operator<< (ostream& os, const S_oahDisplayMsdlKeywordsInLanguageAtom& elt);
+
+//______________________________________________________________________________
+class EXP oahDisplayMsdlTokensInLanguageAtom : public oahHelpAtomExpectingAValue
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahDisplayMsdlTokensInLanguageAtom> create (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          oahDisplayMsdlTokensInLanguageAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
+
+    virtual               ~oahDisplayMsdlTokensInLanguageAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  applyAtomWithValue (
+                            const string& theString,
+                            ostream&      os) override;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
+
+    void                  browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
+
+    void                  print (ostream& os) const override;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<oahDisplayMsdlTokensInLanguageAtom> S_oahDisplayMsdlTokensInLanguageAtom;
+EXP ostream& operator<< (ostream& os, const S_oahDisplayMsdlTokensInLanguageAtom& elt);
+
+//______________________________________________________________________________
+class EXP msdlCommentsTypeAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -210,7 +326,7 @@ class EXP msdlCommentsTypeAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -225,7 +341,95 @@ typedef SMARTP<msdlCommentsTypeAtom> S_msdlCommentsTypeAtom;
 EXP ostream& operator<< (ostream& os, const S_msdlCommentsTypeAtom& elt);
 
 //______________________________________________________________________________
-class EXP msdlPitchesLanguageAtom : public oahAtomWithValue
+class EXP msdlUserLanguageAtom : public oahAtomStoringAValueInAVariable
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msdlUserLanguageAtom> create (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            msdlUserLanguageKind&
+                                               msdlUserLanguageKindVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          msdlUserLanguageAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            msdlUserLanguageKind&
+                                               msdlUserLanguageKindVariable);
+
+    virtual               ~msdlUserLanguageAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setMsdlUserLanguageKindVariable (
+                            msdlUserLanguageKind value)
+                              {
+                                fMsdlUserLanguageVariable = value;
+                              }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  applyAtomWithValue (
+                            const string& theString,
+                            ostream&      os) override;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
+
+    void                  browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
+
+    void                  print (ostream& os) const override;
+
+    void                  printAtomWithVariableOptionsValues (
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    msdlUserLanguageKind&
+                          fMsdlUserLanguageVariable;
+};
+typedef SMARTP<msdlUserLanguageAtom> S_msdlUserLanguageAtom;
+EXP ostream& operator<< (ostream& os, const S_msdlUserLanguageAtom& elt);
+
+//______________________________________________________________________________
+class EXP msdlPitchesLanguageAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -297,7 +501,7 @@ class EXP msdlPitchesLanguageAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -317,21 +521,24 @@ class EXP msdlOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<msdlOahGroup> create ();
+    static SMARTP<msdlOahGroup> create (
+                            string executableName);
 
   public:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeMsdlOahGroup ();
+    void                  initializeMsdlOahGroup (
+                            string executableName);
 
   public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-                          msdlOahGroup ();
+                          msdlOahGroup (
+                            string executableName);
 
     virtual               ~msdlOahGroup ();
 
@@ -415,7 +622,8 @@ class EXP msdlOahGroup : public oahGroup
 
     void                  initializeMsdlDisplayOptions ();
 
-    void                  initializeMsdlLanguagesOptions ();
+    void                  initializeMsdlLanguagesOptions (
+                            string executableName);
 
     void                  initializeMsdlQuitAfterSomePassesOptions ();
 
@@ -439,11 +647,14 @@ class EXP msdlOahGroup : public oahGroup
     bool                  fDisplayMsdl;
     bool                  fDisplayMsdlShort;
 
-    // languages
+    // keywords languages
     // --------------------------------------
 
     msdlKeywordsLanguageKind
                           fMsdlKeywordsLanguageKind;
+
+    // pitches language
+    // --------------------------------------
 
     msrQuarterTonesPitchesLanguageKind
                           fMsdlQuarterTonesPitchesLanguageKind;
@@ -459,7 +670,8 @@ EXP ostream& operator<< (ostream& os, const S_msdlOahGroup& elt);
 EXP extern S_msdlOahGroup gGlobalMsdlOahGroup;
 
 //______________________________________________________________________________
-EXP S_msdlOahGroup createGlobalMsdlOahGroup ();
+EXP S_msdlOahGroup createGlobalMsdlOahGroup (
+  string executableName);
 
 
 }

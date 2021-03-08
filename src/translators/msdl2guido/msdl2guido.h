@@ -23,12 +23,14 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 EXP xmlErr msdlStream2guidoWithOptionsVector (
+  string               inputSourceName,
   istream&             inputStream,
   const optionsVector& options,
   std::ostream&        out,
   std::ostream&        err);
 
 EXP xmlErr msdlStream2guidoWithHandler (
+  string       inputSourceName,
   istream&     inputStream,
   S_oahHandler handler,
   ostream&     out,

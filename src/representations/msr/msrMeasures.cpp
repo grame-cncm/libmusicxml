@@ -3207,7 +3207,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
         getSegmentVoiceUpLink ();
 
   // get voice after repeat component phase kind
-  msrVoice::msrVoiceRepeatPhaseKind
+  msrVoiceRepeatPhaseKind
     currentVoiceRepeatPhaseKind =
       voice->
         getCurrentVoiceRepeatPhaseKind ();
@@ -3239,7 +3239,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       ", newWholeNotesSinceLastRegularMeasureEnd: " <<
       newWholeNotesSinceLastRegularMeasureEnd <<
       ", currentVoiceRepeatPhaseKind: " <<
-      msrVoice::voiceRepeatPhaseKindAsString (
+      voiceRepeatPhaseKindAsString (
         currentVoiceRepeatPhaseKind) <<
     "' in voice \"" << voice->getVoiceName () <<
     ", line " << inputLineNumber <<
@@ -3497,17 +3497,17 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
   // forget about voice after repeat component phase kind if relevant
   switch (currentVoiceRepeatPhaseKind) {
-    case msrVoice::kVoiceRepeatPhaseNone:
+    case msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseNone:
       break;
 
-    case msrVoice::kVoiceRepeatPhaseAfterCommonPart:
-    case msrVoice::kVoiceRepeatPhaseAfterHookedEnding:
-    case msrVoice::kVoiceRepeatPhaseAfterHooklessEnding:
+    case msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseAfterCommonPart:
+    case msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseAfterHookedEnding:
+    case msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseAfterHooklessEnding:
       // reset incomplete measures after repeats detection
       voice->
         setCurrentVoiceRepeatPhaseKind (
           inputLineNumber,
-          msrVoice::kVoiceRepeatPhaseNone);
+          msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseNone);
       break;
   } // switch
 

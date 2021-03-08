@@ -25,18 +25,23 @@
 #include "outputFileOah.h"
 #include "extraOah.h"
 
+// Guido
+#include "xml2gmnInsiderHandler.h"
+
+// MusicXML
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
 #include "msr2mxmlTreeOah.h"
 
-#include "msrGeneratorsOah.h"
-
+// MSR
 #include "msrOah.h"
 #include "msr2msrOah.h"
 
+// MusicXML
 #include "msr2mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
 
+// Lilypond
 #include "lpsr.h"
 
 #include "msr2lpsrOah.h"
@@ -44,6 +49,7 @@
 #include "lpsr2lilypondOah.h"
 #include "lilypondOah.h"
 
+// Braille music
 #include "bsr.h"
 
 #include "msr2bsrOah.h"
@@ -51,7 +57,9 @@
 #include "bsr2brailleOah.h"
 #include "brailleOah.h"
 
-#include "xml2gmnInsiderHandler.h"
+// generation
+#include "msrGeneratorsOah.h"
+
 
 #include "version.h"
 

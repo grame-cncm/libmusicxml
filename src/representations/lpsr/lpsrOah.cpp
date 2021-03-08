@@ -66,7 +66,7 @@ lpsrPitchesLanguageAtom::lpsrPitchesLanguageAtom (
   string             variableName,
   msrQuarterTonesPitchesLanguageKind&
                      lpsrPitchesLanguageKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -233,12 +233,12 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
@@ -251,7 +251,7 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lpsrPitchesLanguageAtom::printAtomWithValueOptionsValues (
+void lpsrPitchesLanguageAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -306,7 +306,7 @@ lpsrChordsLanguageAtom::lpsrChordsLanguageAtom (
   string             variableName,
   lpsrChordsLanguageKind&
                      lpsrChordsLanguageKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -468,12 +468,12 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fLpsrChordsLanguageKindVariable" << " : \"" <<
@@ -485,7 +485,7 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lpsrChordsLanguageAtom::printAtomWithValueOptionsValues (
+void lpsrChordsLanguageAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -540,7 +540,7 @@ lpsrTransposeAtom::lpsrTransposeAtom (
   string  variableName,
   S_msrSemiTonesPitchAndOctave&
           semiTonesPitchAndOctaveVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -690,7 +690,7 @@ void lpsrTransposeAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lpsrTransposeAtom::printAtomWithValueOptionsValues (
+void lpsrTransposeAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -2031,7 +2031,7 @@ lpsrDalSegnoAtom::lpsrDalSegnoAtom (
   string              variableName,
   map<string, msrDalSegno::msrDalSegnoKind>&
                       stringToDalSegnoKindMapVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -2220,12 +2220,12 @@ void lpsrDalSegnoAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fStringToDalSegnoKindMapVariable" << " : " <<
@@ -2251,7 +2251,7 @@ void lpsrDalSegnoAtom::print (ostream& os) const
   os << endl;
 }
 
-void lpsrDalSegnoAtom::printAtomWithValueOptionsValues (
+void lpsrDalSegnoAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -2328,7 +2328,7 @@ lpsrDalSegnoAlFineAtom::lpsrDalSegnoAlFineAtom (
   string              variableName,
   map<string, msrDalSegno::msrDalSegnoKind>&
                       stringToDalSegnoKindMapVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -2517,12 +2517,12 @@ void lpsrDalSegnoAlFineAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fStringToDalSegnoKindMapVariable" << " : " <<
@@ -2548,7 +2548,7 @@ void lpsrDalSegnoAlFineAtom::print (ostream& os) const
   os << endl;
 }
 
-void lpsrDalSegnoAlFineAtom::printAtomWithValueOptionsValues (
+void lpsrDalSegnoAlFineAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -2625,7 +2625,7 @@ lpsrDalSegnoAlCodaAtom::lpsrDalSegnoAlCodaAtom (
   string              variableName,
   map<string, msrDalSegno::msrDalSegnoKind>&
                       stringToDalSegnoKindMapVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -2815,12 +2815,12 @@ void lpsrDalSegnoAlCodaAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fStringToDalSegnoKindMapVariable" << " : " <<
@@ -2846,7 +2846,7 @@ void lpsrDalSegnoAlCodaAtom::print (ostream& os) const
   os << endl;
 }
 
-void lpsrDalSegnoAlCodaAtom::printAtomWithValueOptionsValues (
+void lpsrDalSegnoAlCodaAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

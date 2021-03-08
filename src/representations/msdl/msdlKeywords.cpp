@@ -10,14 +10,9 @@
   research@grame.fr
 */
 
-/*
-#include <iostream>
-#include <sstream>
-
-#include "utilities.h"
-*/
-
 #include "msrBasicTypes.h"
+
+#include "msdlTokens.h"
 
 #include "msdlKeywords.h"
 
@@ -51,7 +46,7 @@ map<msdlKeywordKind, string> gGlobalDutchKeywordsNamesMap;
 
 msdlKeywordsLanguageKind msdlKeywordsLanguageKindFromString (std::string theString)
 {
-  msdlKeywordsLanguageKind result = kKeywordsLanguageEnglish; // MSDL default
+  msdlKeywordsLanguageKind result = msdlKeywordsLanguageKind::kKeywordsEnglish; // MSDL default
 
   map<string, msdlKeywordsLanguageKind>::const_iterator
     it =
@@ -92,12 +87,23 @@ void initializeMsdlKeywordsLanguageKindsMap ()
   static bool pThisMethodHasBeenRun = false;
 
   if (! pThisMethodHasBeenRun) {
-    gGlobalMsdlKeywordsLanguageKindsMap ["english"]   = kKeywordsLanguageEnglish;
-    gGlobalMsdlKeywordsLanguageKindsMap ["francais"]  = kKeywordsLanguageFrench;
-    gGlobalMsdlKeywordsLanguageKindsMap ["italiano"]  = kKeywordsLanguageItalian;
-    gGlobalMsdlKeywordsLanguageKindsMap ["deutsch"]   = kKeywordsLanguageGerman;
-    gGlobalMsdlKeywordsLanguageKindsMap ["espanol"]   = kKeywordsLanguageSpanish;
-    gGlobalMsdlKeywordsLanguageKindsMap ["nedelands"] = kKeywordsLanguageNederlands;
+    gGlobalMsdlKeywordsLanguageKindsMap ["english"]   =
+      msdlKeywordsLanguageKind::kKeywordsEnglish;
+
+    gGlobalMsdlKeywordsLanguageKindsMap ["francais"]  =
+      msdlKeywordsLanguageKind::kKeywordsFrench;
+
+    gGlobalMsdlKeywordsLanguageKindsMap ["italiano"]  =
+      msdlKeywordsLanguageKind::kKeywordsItalian;
+
+    gGlobalMsdlKeywordsLanguageKindsMap ["deutsch"]   =
+      msdlKeywordsLanguageKind::kKeywordsGerman;
+
+    gGlobalMsdlKeywordsLanguageKindsMap ["espanol"]   =
+      msdlKeywordsLanguageKind::kKeywordsSpanish;
+
+    gGlobalMsdlKeywordsLanguageKindsMap ["dutch"] =
+      msdlKeywordsLanguageKind::kKeywordsNederlands;
 
     initializeEnglishKeywordsNamesMap ();
     initializeFrenchKeywordsNamesMap ();
@@ -116,27 +122,27 @@ string msdlKeywordsLanguageKindAsString (
   string result;
 
   switch (languageKind) {
-    case k_NoKeywordsLanguage: // default value
+    case msdlKeywordsLanguageKind::k_NoKeywordsLanguage: // default value
       result = "*noKeywordsLanguage*";
       break;
 
-    case kKeywordsLanguageEnglish: // default value
-      result = "keywordsEnglish";
+    case msdlKeywordsLanguageKind::kKeywordsEnglish: // default value
+      result = "english";
       break;
-    case kKeywordsLanguageFrench:
-      result = "keywordsFrench";
+    case msdlKeywordsLanguageKind::kKeywordsFrench:
+      result = "francais";
       break;
-    case kKeywordsLanguageItalian:
-      result = "keywordsItalian";
+    case msdlKeywordsLanguageKind::kKeywordsItalian:
+      result = "italiano";
       break;
-    case kKeywordsLanguageGerman:
-      result = "keywordsGerman";
+    case msdlKeywordsLanguageKind::kKeywordsGerman:
+      result = "deutsch";
       break;
-    case kKeywordsLanguageSpanish:
-      result = "keywordsSpanish";
+    case msdlKeywordsLanguageKind::kKeywordsSpanish:
+      result = "espanol";
       break;
-    case kKeywordsLanguageNederlands:
-      result = "keywordsNederlands";
+    case msdlKeywordsLanguageKind::kKeywordsNederlands:
+      result = "dutch";
       break;
   } // switch
 
@@ -166,6 +172,8 @@ string existingMsdlKeywordsLanguageKinds (unsigned int namesListMaxLength)
     ) {
       string theString = (*i).first;
 
+      ++count;
+
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
@@ -193,193 +201,187 @@ void initializeEnglishKeywordsNamesMap ()
 {
 
   // english
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordTitle]     = "title";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordComposer]  = "composer";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordOpus]      = "opus";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordTitle]     = "title";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordComposer]  = "composer";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordOpus]      = "opus";
 
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordPitches]   = "pitches";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordPitches]   = "pitches";
 
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordAnacrusis] = "anacrusis";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordAnacrusis] = "anacrusis";
 
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordBook]      = "book";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordScore]     = "score";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordPartGroup] = "partgroup";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordPart]      = "part";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordStaff]     = "staff";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordVoice]     = "voice";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordFragment]  = "fragment";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordBook]      = "book";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordScore]     = "score";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordPartGroup] = "partgroup";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordPart]      = "part";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordMusic]     = "music";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordFragment]  = "fragment";
 
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordClef]      = "clef";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordTreble]    = "treble";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordSoprano]   = "soprano";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordAlto]      = "alto";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordTenor]     = "tenor";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordBaryton]   = "baryton";
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordBass]      = "bass";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordClef]      = "clef";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordTreble]    = "treble";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordSoprano]   = "soprano";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordAlto]      = "alto";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordTenor]     = "tenor";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordBaryton]   = "baryton";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordBass]      = "bass";
 
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordKey]       = "key";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordKey]       = "key";
 
-  gGlobalEnglishKeywordsNamesMap [kMsdlKeywordTime]      = "time";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordTime]      = "time";
 }
 
 void initializeFrenchKeywordsNamesMap ()
 {
   // french
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordTitle]     = "titre";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordComposer]  = "compositeur";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordOpus]      = "opus";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordTitle]     = "titre";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordComposer]  = "compositeur";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordOpus]      = "opus";
 
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordPitches]   = "hauteurDesNotes";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordPitches]   = "hauteurs";
 
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordAnacrusis] = "anacrouse";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordAnacrusis] = "anacrouse";
 
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordBook]      = "livre";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordScore]     = "partition";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordPartGroup] = "groupDeParties";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordPart]      = "partie";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordStaff]     = "portée";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordVoice]     = "voix";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordFragment]  = "fragment";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordBook]      = "livre";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordScore]     = "partition";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordPartGroup] = "groupeDeParties";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordPart]      = "partie";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordMusic]     = "musique";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordFragment]  = "fragment";
 
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordClef]      = "clé";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordTreble]    = "sol";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordSoprano]   = "soprano";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordAlto]      = "alto";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordTenor]     = "ténor";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordBaryton]   = "baryton";
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordBass]      = "fa";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordClef]      = "clé";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordTreble]    = "sol";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordSoprano]   = "soprano";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordAlto]      = "alto";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordTenor]     = "ténor";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordBaryton]   = "baryton";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordBass]      = "fa";
 
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordKey]       = "armure";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordKey]       = "armure";
 
-  gGlobalFrenchKeywordsNamesMap [kMsdlKeywordTime]      = "métrique";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordTime]      = "métrique";
 }
 
 void initializeItalianKeywordsNamesMap ()
 {
   // italian
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordTitle]     = "title";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordComposer]  = "composer";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordOpus]      = "opus";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordTitle]     = "title";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordComposer]  = "composer";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordOpus]      = "opus";
 
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordPitches]   = "pitches";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordPitches]   = "pitches";
 
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordAnacrusis] = "anacrusis";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordAnacrusis] = "anacrusis";
 
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordBook]      = "libro";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordScore]     = "partitura";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordPartGroup] = "partgroup";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordPart]      = "part";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordStaff]     = "staff";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordVoice]     = "voice";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordFragment]  = "fragment";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordBook]      = "libro";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordScore]     = "partitura";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordPartGroup] = "partgroup";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordPart]      = "part";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordMusic]     = "music";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordFragment]  = "fragment";
 
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordClef]      = "clef";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordTreble]    = "treble";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordSoprano]   = "soprano";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordAlto]      = "alto";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordTenor]     = "tenor";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordBaryton]   = "baryton";
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordBass]      = "bass";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordClef]      = "clef";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordTreble]    = "treble";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordSoprano]   = "soprano";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordAlto]      = "alto";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordTenor]     = "tenor";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordBaryton]   = "baryton";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordBass]      = "bass";
 
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordKey]       = "key";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordKey]       = "key";
 
-  gGlobalItalianKeywordsNamesMap [kMsdlKeywordTime]      = "time";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordTime]      = "time";
 }
 
 void initializeGermanKeywordsNamesMap ()
 {
   // german
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordTitle]     = "title";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordComposer]  = "composer";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordOpus]      = "opus";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordTitle]     = "title";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordComposer]  = "composer";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordOpus]      = "opus";
 
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordPitches]   = "pitches";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordPitches]   = "pitches";
 
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordAnacrusis] = "anacrusis";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordAnacrusis] = "anacrusis";
 
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordBook]      = "Buch";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordScore]     = "score";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordPartGroup] = "partgroup";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordPart]      = "part";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordStaff]     = "staff";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordVoice]     = "Stimme";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordFragment]  = "fragment";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordBook]      = "Buch";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordScore]     = "score";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordPartGroup] = "partgroup";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordPart]      = "part";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordMusic]     = "music";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordFragment]  = "fragment";
 
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordClef]      = "clef";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordTreble]    = "treble";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordSoprano]   = "soprano";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordAlto]      = "alto";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordTenor]     = "tenor";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordBaryton]   = "baryton";
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordBass]      = "bass";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordClef]      = "clef";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordTreble]    = "treble";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordSoprano]   = "soprano";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordAlto]      = "alto";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordTenor]     = "tenor";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordBaryton]   = "baryton";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordBass]      = "bass";
 
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordKey]       = "key";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordKey]       = "key";
 
-  gGlobalGermanKeywordsNamesMap [kMsdlKeywordTime]      = "time";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordTime]      = "time";
 }
 
 void initializeSpanishKeywordsNamesMap ()
 {
   // spanish
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordTitle]     = "title";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordComposer]  = "composer";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordOpus]      = "opus";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordTitle]     = "title";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordComposer]  = "composer";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordOpus]      = "opus";
 
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordPitches]   = "pitches";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordPitches]   = "pitches";
 
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordAnacrusis] = "anacrusis";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordAnacrusis] = "anacrusis";
 
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordBook]      = "book";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordScore]     = "score";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordPartGroup] = "partgroup";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordPart]      = "part";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordStaff]     = "staff";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordVoice]     = "voice";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordFragment]  = "fragment";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordBook]      = "book";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordScore]     = "score";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordPartGroup] = "partgroup";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordPart]      = "part";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordMusic]     = "music";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordFragment]  = "fragment";
 
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordClef]      = "clef";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordTreble]    = "treble";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordSoprano]   = "soprano";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordAlto]      = "alto";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordTenor]     = "tenor";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordBaryton]   = "baryton";
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordBass]      = "bass";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordClef]      = "clef";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordTreble]    = "treble";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordSoprano]   = "soprano";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordAlto]      = "alto";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordTenor]     = "tenor";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordBaryton]   = "baryton";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordBass]      = "bass";
 
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordKey]       = "key";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordKey]       = "key";
 
-  gGlobalSpanishKeywordsNamesMap [kMsdlKeywordTime]      = "time";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordTime]      = "time";
 }
 
 void initializeDutchKeywordsNamesMap ()
 {
   // dutch
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordTitle]     = "title";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordComposer]  = "composer";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordOpus]      = "opus";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordTitle]     = "title";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordComposer]  = "composer";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordOpus]      = "opus";
 
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordPitches]   = "pitches";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordPitches]   = "pitches";
 
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordAnacrusis] = "anacrusis";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordAnacrusis] = "anacrusis";
 
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordBook]      = "book";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordScore]     = "score";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordPartGroup] = "partgroup";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordPart]      = "part";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordStaff]     = "staff";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordVoice]     = "voice";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordFragment]  = "fragment";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordBook]      = "book";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordScore]     = "score";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordPartGroup] = "partgroup";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordPart]      = "part";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordMusic]     = "music";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordFragment]  = "fragment";
 
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordClef]      = "clef";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordTreble]    = "treble";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordSoprano]   = "soprano";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordAlto]      = "alto";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordTenor]     = "tenor";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordBaryton]   = "baryton";
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordBass]      = "bass";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordClef]      = "clef";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordTreble]    = "treble";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordSoprano]   = "soprano";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordAlto]      = "alto";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordTenor]     = "tenor";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordBaryton]   = "baryton";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordBass]      = "bass";
 
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordKey]       = "key";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordKey]       = "key";
 
-  gGlobalDutchKeywordsNamesMap [kMsdlKeywordTime]      = "time";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordTime]      = "time";
 }
 
 
@@ -391,77 +393,74 @@ string msdlKeywordKindAsString (
   string result;
 
   switch (keywordKind) {
-    case k_NoMsdlKeywordKind:
+    case msdlKeywordKind::k_NoKeywordKind:
       result = "*noMsdlKeywordKind*";
       break;
 
-    case kMsdlKeywordTitle:
+    case msdlKeywordKind::kKeywordTitle:
       result = "msdlKeywordTitle";
       break;
-    case kMsdlKeywordComposer:
+    case msdlKeywordKind::kKeywordComposer:
       result = "msdlKeywordComposer";
       break;
-    case kMsdlKeywordOpus:
+    case msdlKeywordKind::kKeywordOpus:
       result = "msdlKeywordOpus";
       break;
 
-    case kMsdlKeywordPitches:
+    case msdlKeywordKind::kKeywordPitches:
       result = "msdlKeywordPitches";
       break;
 
-    case kMsdlKeywordBook:
+    case msdlKeywordKind::kKeywordBook:
       result = "msdlKeywordBook";
       break;
-    case kMsdlKeywordScore:
+    case msdlKeywordKind::kKeywordScore:
       result = "msdlKeywordScore";
       break;
-    case kMsdlKeywordPartGroup:
+    case msdlKeywordKind::kKeywordPartGroup:
       result = "msdlKeywordPartGroup";
       break;
-    case kMsdlKeywordPart:
+    case msdlKeywordKind::kKeywordPart:
       result = "msdlKeywordPart";
       break;
-    case kMsdlKeywordStaff:
-      result = "msdlKeywordStaff";
+    case msdlKeywordKind::kKeywordMusic:
+      result = "msdlKeywordMusic";
       break;
-    case kMsdlKeywordVoice:
-      result = "msdlKeywordVoice";
-      break;
-    case kMsdlKeywordFragment:
+    case msdlKeywordKind::kKeywordFragment:
       result = "msdlKeywordFragment";
       break;
 
-    case kMsdlKeywordAnacrusis:
+    case msdlKeywordKind::kKeywordAnacrusis:
       result = "msdlKeywordAnacrusis";
       break;
 
-    case kMsdlKeywordClef:
+    case msdlKeywordKind::kKeywordClef:
       result = "msdlKeywordClef";
       break;
-    case kMsdlKeywordTreble:
+    case msdlKeywordKind::kKeywordTreble:
       result = "msdlKeywordTreble";
       break;
-    case kMsdlKeywordSoprano:
+    case msdlKeywordKind::kKeywordSoprano:
       result = "msdlKeywordSoprano";
       break;
-    case kMsdlKeywordAlto:
+    case msdlKeywordKind::kKeywordAlto:
       result = "msdlKeywordAlto";
       break;
-    case kMsdlKeywordTenor:
+    case msdlKeywordKind::kKeywordTenor:
       result = "msdlKeywordTenor";
       break;
-    case kMsdlKeywordBaryton:
+    case msdlKeywordKind::kKeywordBaryton:
       result = "msdlKeywordBaryton";
       break;
-    case kMsdlKeywordBass:
+    case msdlKeywordKind::kKeywordBass:
       result = "msdlKeywordBass";
       break;
 
-    case kMsdlKeywordKey:
+    case msdlKeywordKind::kKeywordKey:
       result = "msdlKeywordKey";
       break;
 
-    case kMsdlKeywordTime:
+    case msdlKeywordKind::kKeywordTime:
       result = "msdlKeywordTime";
       break;
   } // switch
@@ -490,26 +489,26 @@ string msdlKeywordKindAsMsdlString (
 
   // select the relevant keywords names map
   switch (languageKind) {
-    case k_NoKeywordsLanguage:
+    case msdlKeywordsLanguageKind::k_NoKeywordsLanguage:
       // should not occur
       break;
 
-    case kKeywordsLanguageEnglish:
+    case msdlKeywordsLanguageKind::kKeywordsEnglish:
       keywordsNamesMapPTR = &gGlobalEnglishKeywordsNamesMap;
       break;
-    case kKeywordsLanguageFrench:
+    case msdlKeywordsLanguageKind::kKeywordsFrench:
       keywordsNamesMapPTR = &gGlobalFrenchKeywordsNamesMap;
       break;
-    case kKeywordsLanguageItalian:
+    case msdlKeywordsLanguageKind::kKeywordsItalian:
       keywordsNamesMapPTR = &gGlobalItalianKeywordsNamesMap;
       break;
-    case kKeywordsLanguageGerman:
+    case msdlKeywordsLanguageKind::kKeywordsGerman:
       keywordsNamesMapPTR = &gGlobalGermanKeywordsNamesMap;
       break;
-    case kKeywordsLanguageSpanish:
+    case msdlKeywordsLanguageKind::kKeywordsSpanish:
       keywordsNamesMapPTR = &gGlobalSpanishKeywordsNamesMap;
       break;
-    case kKeywordsLanguageNederlands:
+    case msdlKeywordsLanguageKind::kKeywordsNederlands:
       keywordsNamesMapPTR = &gGlobalDutchKeywordsNamesMap;
       break;
   } // switch
@@ -535,52 +534,135 @@ string msdlKeywordKindAsMsdlString (
   return result;
 }
 
+msdlKeywordKind msdlKeywordKindFromTokenKind (
+  msdlTokenKind tokenKind)
+{
+  msdlKeywordKind result = msdlKeywordKind::k_NoKeywordKind;
+
+  switch (tokenKind) {
+    // language-dependent keywords
+    // ------------------------------------
+
+    case msdlTokenKind::kTokenTitle:
+      result = msdlKeywordKind::kKeywordTitle;
+      break;
+    case msdlTokenKind::kTokenComposer:
+      result = msdlKeywordKind::kKeywordComposer;
+      break;
+    case msdlTokenKind::kTokenOpus:
+      result = msdlKeywordKind::kKeywordOpus;
+      break;
+
+    case msdlTokenKind::kTokenPitches:
+      result = msdlKeywordKind::kKeywordPitches;
+      break;
+
+    case msdlTokenKind::kTokenAnacrusis:
+      result = msdlKeywordKind::kKeywordAnacrusis;
+      break;
+
+    case msdlTokenKind::kTokenBook:
+      result = msdlKeywordKind::kKeywordBook;
+      break;
+    case msdlTokenKind::kTokenScore:
+      result = msdlKeywordKind::kKeywordScore;
+      break;
+    case msdlTokenKind::kTokenPartGroup:
+      result = msdlKeywordKind::kKeywordPartGroup;
+      break;
+    case msdlTokenKind::kTokenPart:
+      result = msdlKeywordKind::kKeywordPart;
+      break;
+    case msdlTokenKind::kTokenMusic:
+      result = msdlKeywordKind::kKeywordMusic;
+      break;
+    case msdlTokenKind::kTokenFragment:
+      result = msdlKeywordKind::kKeywordFragment;
+      break;
+
+    case msdlTokenKind::kTokenClef:
+      result = msdlKeywordKind::kKeywordClef;
+      break;
+
+    case msdlTokenKind::kTokenKey:
+      result = msdlKeywordKind::kKeywordKey;
+      break;
+    case msdlTokenKind::kTokenTreble:
+      result = msdlKeywordKind::kKeywordTreble;
+      break;
+    case msdlTokenKind::kTokenSoprano:
+      result = msdlKeywordKind::kKeywordSoprano;
+      break;
+    case msdlTokenKind::kTokenAlto:
+      result = msdlKeywordKind::kKeywordAlto;
+      break;
+    case msdlTokenKind::kTokenTenor:
+      result = msdlKeywordKind::kKeywordTenor;
+      break;
+    case msdlTokenKind::kTokenBaryton:
+      result = msdlKeywordKind::kKeywordBaryton;
+      break;
+    case msdlTokenKind::kTokenBass:
+      result = msdlKeywordKind::kKeywordBass;
+      break;
+
+    case msdlTokenKind::kTokenTime:
+      result = msdlKeywordKind::kKeywordTime;
+      break;
+
+    default:
+      ;
+  } // switch
+
+  return result;
+}
+
 msdlKeywordKind msdlKeywordKindFromString (
   msdlKeywordsLanguageKind languageKind,
-  string                   keywordName)
+  string                   theString)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
     gLogStream <<
       "--> msdlKeywordKindFromString()" <<
       ", languageKind: " << msdlKeywordsLanguageKindAsString (languageKind) <<
-      ", keywordName: \"" << keywordName << "\"" <<
+      ", theString: \"" << theString << "\"" <<
       endl;
   }
 #endif
 
-  msdlKeywordKind result = k_NoMsdlKeywordKind;
+  msdlKeywordKind result = msdlKeywordKind::k_NoKeywordKind;
 
   map<msdlKeywordKind, string> *keywordsNamesMapPTR = nullptr;
 
   // select the relevant keywords names map
   switch (languageKind) {
-    case k_NoKeywordsLanguage:
+    case msdlKeywordsLanguageKind::k_NoKeywordsLanguage:
       // should not occur
       break;
 
-    case kKeywordsLanguageEnglish:
+    case msdlKeywordsLanguageKind::kKeywordsEnglish:
       keywordsNamesMapPTR = &gGlobalEnglishKeywordsNamesMap;
       break;
-    case kKeywordsLanguageFrench:
+    case msdlKeywordsLanguageKind::kKeywordsFrench:
       keywordsNamesMapPTR = &gGlobalFrenchKeywordsNamesMap;
       break;
-    case kKeywordsLanguageItalian:
+    case msdlKeywordsLanguageKind::kKeywordsItalian:
       keywordsNamesMapPTR = &gGlobalItalianKeywordsNamesMap;
       break;
-    case kKeywordsLanguageGerman:
+    case msdlKeywordsLanguageKind::kKeywordsGerman:
       keywordsNamesMapPTR = &gGlobalGermanKeywordsNamesMap;
       break;
-    case kKeywordsLanguageSpanish:
+    case msdlKeywordsLanguageKind::kKeywordsSpanish:
       keywordsNamesMapPTR = &gGlobalSpanishKeywordsNamesMap;
       break;
-    case kKeywordsLanguageNederlands:
+    case msdlKeywordsLanguageKind::kKeywordsNederlands:
       keywordsNamesMapPTR = &gGlobalDutchKeywordsNamesMap;
       break;
   } // switch
 
   if (keywordsNamesMapPTR) {
-    // is keywordName present in the map?
+    // is theString present in the map?
     if (keywordsNamesMapPTR->size ()) {
       map<msdlKeywordKind, string>::const_iterator
         iBegin = (*keywordsNamesMapPTR).begin (),
@@ -588,7 +670,7 @@ msdlKeywordKind msdlKeywordKindFromString (
         i      = iBegin;
 
       for ( ; ; ) {
-        if ((*i).second == keywordName) {
+        if ((*i).second == theString) {
           result = (*i).first;
           break;
         }
@@ -597,7 +679,93 @@ msdlKeywordKind msdlKeywordKindFromString (
     }
   }
 
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+    gLogStream <<
+      "<-- msdlKeywordKindFromString()" <<
+      ", languageKind: " << msdlKeywordsLanguageKindAsString (languageKind) <<
+      ", result: \"" << msdlKeywordKindAsString (result) << "\"" <<
+      endl;
+  }
+#endif
+
   return result;
+}
+
+string existingKeywordsInLanguage (
+  msdlKeywordsLanguageKind keywordsLanguageKind,
+  unsigned int             namesListMaxLength)
+{
+  stringstream s;
+
+  map<msdlKeywordKind, string> *keywordsNamesMapPTR = nullptr;
+
+  // select the relevant keywords names map
+  switch (keywordsLanguageKind) {
+    case msdlKeywordsLanguageKind::k_NoKeywordsLanguage:
+      // should not occur
+      break;
+
+    case msdlKeywordsLanguageKind::kKeywordsEnglish:
+      keywordsNamesMapPTR = &gGlobalEnglishKeywordsNamesMap;
+      break;
+    case msdlKeywordsLanguageKind::kKeywordsFrench:
+      keywordsNamesMapPTR = &gGlobalFrenchKeywordsNamesMap;
+      break;
+    case msdlKeywordsLanguageKind::kKeywordsItalian:
+      keywordsNamesMapPTR = &gGlobalItalianKeywordsNamesMap;
+      break;
+    case msdlKeywordsLanguageKind::kKeywordsGerman:
+      keywordsNamesMapPTR = &gGlobalGermanKeywordsNamesMap;
+      break;
+    case msdlKeywordsLanguageKind::kKeywordsSpanish:
+      keywordsNamesMapPTR = &gGlobalSpanishKeywordsNamesMap;
+      break;
+    case msdlKeywordsLanguageKind::kKeywordsNederlands:
+      keywordsNamesMapPTR = &gGlobalDutchKeywordsNamesMap;
+      break;
+  } // switch
+
+  if (keywordsNamesMapPTR) {
+    unsigned int
+      keywordsNameMapSize =
+        (*keywordsNamesMapPTR).size ();
+
+    unsigned int
+      nextToLast =
+        keywordsNameMapSize - 1;
+
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
+
+    for (
+      map<msdlKeywordKind, string>::const_iterator i =
+        (*keywordsNamesMapPTR).begin ();
+      i != (*keywordsNamesMapPTR).end ();
+      ++i
+    ) {
+      string theString = (*i).second;
+
+      ++count;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= namesListMaxLength) {
+        s << "\n";
+        cumulatedLength = 0;
+      }
+
+      s << theString;
+
+      if (count == nextToLast) {
+        s << " ";
+      }
+      else if (count != keywordsNameMapSize) {
+        s << " ";
+      }
+    } // for
+  }
+
+  return s.str ();
 }
 
 //______________________________________________________________________________
@@ -620,15 +788,6 @@ void initializeMSDLKeywords ()
 
     initializeMsdlKeywordsLanguageKindsMap ();
 
-    // keywords handling
-    // ------------------------------------------------------
-
-    initializeEnglishKeywordsNamesMap ();
-    initializeFrenchKeywordsNamesMap ();
-    initializeItalianKeywordsNamesMap ();
-    initializeGermanKeywordsNamesMap ();
-    initializeSpanishKeywordsNamesMap ();
-    initializeDutchKeywordsNamesMap ();
 
     pThisMethodHasBeenRun = true;
   }

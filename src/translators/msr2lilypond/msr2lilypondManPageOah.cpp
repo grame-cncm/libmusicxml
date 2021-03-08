@@ -58,7 +58,7 @@ msr2lilypondManPageGenerateAtom::msr2lilypondManPageGenerateAtom (
       shortName,
       longName,
       description,
-      kElementWithoutValue)
+      kElementValueWithout)
 {
   fOahVisitor = theOahVisitor;
 }
@@ -169,7 +169,7 @@ void msr2lilypondManPageGenerateAtom::generateManPageData (ostream& os) const
       "msr2lilypondManPageGenerateAtom::generateManPageData");
 }
 
-void msr2lilypondManPageGenerateAtom::printAtomWithValueOptionsValues (
+void msr2lilypondManPageGenerateAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

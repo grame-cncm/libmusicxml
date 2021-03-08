@@ -25,8 +25,8 @@ score SATB = "SATB in MSPL"
     {
       voice soprano = "Soprano" "S."
         {
-          |1 clef treble      % '|' is the beginning of the measure
-                              % and 1 is the number of this measure
+          |1 clef treble        % '|' is the beginning of the measure
+                                % and 1 is the number of this measure
           c''1
           |||                   % final bar
         } % soprano

@@ -26,19 +26,70 @@
 namespace MusicXML2
 {
 
+// user languages
+//______________________________________________________________________________
+enum msdlUserLanguageKind {
+  kUserLanguageEnglish, // MSDL default
+
+  kUserLanguageFrench,
+  kUserLanguageItalian,
+  kUserLanguageGerman,
+  kUserLanguageSpanish,
+  kUserLanguageDutch
+};
+
+string msdlUserLanguageKindAsString (
+  msdlUserLanguageKind languageKind);
+
+msdlUserLanguageKind msdlUserLanguageKindFromString (
+  string theString);
+
+extern map<string, msdlUserLanguageKind>
+  gGlobalMsdlUserLanguageKindsMap;
+
+string existingMsdlUserLanguageKinds (unsigned int namesListMaxLength);
+
+void initializeMsdlUserLanguageKindsMap ();
+
+// comments types
+//______________________________________________________________________________
+enum msdlCommentsTypeKind {
+  kCommentsTypePercent, // MSDL default
+  kCommentsTypeStar
+};
+
+string msdlCommentsTypeKindAsString (
+  msdlCommentsTypeKind languageKind);
+
+msdlCommentsTypeKind msdlCommentsTypeKindFromString (
+  string theString);
+
+extern map<string, msdlCommentsTypeKind>
+  gGlobalMsdlCommentsTypeKindsMap;
+
+void initializeMsdlCommentsTypeKinds ();
+
+string existingMsdlCommentsTypeKinds (unsigned int namesListMaxLength);
+
+void initializeMsdlCommentsTypeKindsMap ();
+
 // pitches languages
 //______________________________________________________________________________
 enum msdlPitchesLanguageKind {
-  kPitchesEnglish, // MSDL default
+  kPitchesLanguageEnglish, // MSDL default
 
-  kPitchesFrench,
-  kPitchesItalian,
-  kPitchesGerman,
-  kPitchesEspanol
+  kPitchesLanguageFrench,
+  kPitchesLanguageItalian,
+  kPitchesLanguageGerman,
+  kPitchesLanguageSpanish,
+  kPitchesLanguageDutch
 };
 
 string msdlPitchesLanguageKindAsString (
   msdlPitchesLanguageKind languageKind);
+
+msdlPitchesLanguageKind msdlPitchesLanguageKindFromString (
+  string theString);
 
 extern map<string, msdlPitchesLanguageKind>
   gGlobalMsdlPitchesLanguageKindsMap;

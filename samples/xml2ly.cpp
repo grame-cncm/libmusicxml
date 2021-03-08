@@ -368,6 +368,7 @@ int main (int argc, char *argv[])
         musicxmlFd2lilypondWithHandler (
           stdin, cout, cerr, handler);
     }
+
     else {
       // MusicXML data comes from a file
 #ifdef TRACING_IS_ENABLED

@@ -1666,7 +1666,7 @@ S_msrVoice msrPart::createPartHarmonyVoice (
       inputLineNumber,
       kVoiceHarmony,
       partHarmonyVoiceNumber,
-      msrVoice::kCreateInitialLastSegmentYes,
+      msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
       fPartHarmoniesStaff);
 
   // register it in the staff
@@ -1852,7 +1852,7 @@ S_msrVoice msrPart::createPartFiguredBassVoice (
       inputLineNumber,
       kVoiceFiguredBass,
       partFiguredBassVoiceNumber,
-      msrVoice::kCreateInitialLastSegmentYes,
+      msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
       fPartFiguredBassStaff);
 
   // register it in the staff

@@ -55,7 +55,7 @@ string existingGeneratorOutputKinds (unsigned int namesListMaxLength);
 void initializeGeneratorOutputKindsMap ();
 
 //______________________________________________________________________________
-class EXP generatorOutputKindAtom : public oahAtomWithValue
+class EXP generatorOutputKindAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -119,7 +119,7 @@ class EXP generatorOutputKindAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 

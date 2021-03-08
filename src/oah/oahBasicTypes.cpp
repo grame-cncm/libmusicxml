@@ -300,10 +300,10 @@ ostream& operator<< (ostream& os, const S_oahPrefix& elt)
 //______________________________________________________________________________
 /* this class is purely virtual
 S_oahAtom oahAtom::create (
-  string         shortName,
-  string         longName,
-  string         description,
-  oahElementKind atomValueExpectedKind)
+  string              shortName,
+  string              longName,
+  string              description,
+  oahElementValueKind atomValueExpectedKind)
 {
   oahAtom* o = new
     oahAtom (
@@ -317,10 +317,10 @@ S_oahAtom oahAtom::create (
 */
 
 oahAtom::oahAtom (
-  string         shortName,
-  string         longName,
-  string         description,
-  oahElementKind atomValueExpectedKind)
+  string              shortName,
+  string              longName,
+  string              description,
+  oahElementValueKind atomValueExpectedKind)
   : oahElement (
       shortName,
       longName,
@@ -390,15 +390,16 @@ void oahAtom::appendAtomToElementsList (
 
   ++gIndenter;
 
-// JMI
   // an atom with an optional value
   // should not have the same name as a prefix,
   // since this would create an ambiguity
-  switch (fElementKind) {
-    case kElementWithoutValue:
-    case kElementWithMandatoryValue:
+  switch (fElementValueKind) {
+    case kElementValueWithout:
+    case kElementValueImplicit:
+    case kElementValueMandatory:
       break;
-    case kElementWithOptionalValue:
+
+    case kElementValueOptional:
       if (handler->fetchNameInPrefixesMap (fShortName)) {
         stringstream s;
 
@@ -553,7 +554,7 @@ void oahAtom::findStringInAtom (
     os);
 }
 
-void oahAtom::printAtomWithValueOptionsValues (
+void oahAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -570,59 +571,54 @@ ostream& operator<< (ostream& os, const S_oahAtom& elt)
 
 //______________________________________________________________________________
 /* this class is purely virtual
-S_oahAtomWithVariableName oahAtomWithVariableName::create (
+S_oahAtomExpectingAValue oahAtomExpectingAValue::create (
   string shortName,
   string longName,
-  string description,
-  string variableName)
+  string description)
 {
-  oahAtomWithVariableName* o = new
-    oahAtomWithVariableName (
+  oahAtomExpectingAValue* o = new
+    oahAtomExpectingAValue (
       shortName,
       longName,
-      description,
-      variableName);
+      description);
   assert (o != nullptr);
   return o;
 }
 */
 
-oahAtomWithVariableName::oahAtomWithVariableName (
+oahAtomExpectingAValue::oahAtomExpectingAValue (
   string shortName,
   string longName,
-  string description,
-  string variableName)
+  string description)
   : oahAtom (
       shortName,
       longName,
       description,
-      kElementWithoutValue),
-    fVariableName (
-      variableName)
+      kElementValueMandatory)
 {}
 
-oahAtomWithVariableName::~oahAtomWithVariableName ()
+oahAtomExpectingAValue::~oahAtomExpectingAValue ()
 {}
 
-void oahAtomWithVariableName::acceptIn (basevisitor* v)
+void oahAtomExpectingAValue::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> oahAtomWithVariableName::acceptIn ()" <<
+      ".\\\" ==> oahAtomExpectingAValue::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_oahAtomWithVariableName>*
+  if (visitor<S_oahAtomExpectingAValue>*
     p =
-      dynamic_cast<visitor<S_oahAtomWithVariableName>*> (v)) {
-        S_oahAtomWithVariableName elem = this;
+      dynamic_cast<visitor<S_oahAtomExpectingAValue>*> (v)) {
+        S_oahAtomExpectingAValue elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching oahAtomWithVariableName::visitStart ()" <<
+            ".\\\" ==> Launching oahAtomExpectingAValue::visitStart ()" <<
             endl;
         }
 #endif
@@ -630,25 +626,25 @@ void oahAtomWithVariableName::acceptIn (basevisitor* v)
   }
 }
 
-void oahAtomWithVariableName::acceptOut (basevisitor* v)
+void oahAtomExpectingAValue::acceptOut (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> oahAtomWithVariableName::acceptOut ()" <<
+      ".\\\" ==> oahAtomExpectingAValue::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_oahAtomWithVariableName>*
+  if (visitor<S_oahAtomExpectingAValue>*
     p =
-      dynamic_cast<visitor<S_oahAtomWithVariableName>*> (v)) {
-        S_oahAtomWithVariableName elem = this;
+      dynamic_cast<visitor<S_oahAtomExpectingAValue>*> (v)) {
+        S_oahAtomExpectingAValue elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching oahAtomWithVariableName::visitEnd ()" <<
+            ".\\\" ==> Launching oahAtomExpectingAValue::visitEnd ()" <<
             endl;
         }
 #endif
@@ -656,51 +652,47 @@ void oahAtomWithVariableName::acceptOut (basevisitor* v)
   }
 }
 
-void oahAtomWithVariableName::browseData (basevisitor* v)
+void oahAtomExpectingAValue::browseData (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> oahAtomWithVariableName::browseData ()" <<
+      ".\\\" ==> oahAtomExpectingAValue::browseData ()" <<
       endl;
   }
 #endif
 }
 
-void oahAtomWithVariableName::printAtomWithVariableNameEssentials (
-  ostream& os,
-  unsigned int fieldWidth) const
+void oahAtomExpectingAValue::applyElement (ostream& os)
 {
-  printOahElementEssentials (
-    os, fieldWidth);
+  stringstream s;
 
-  os << left <<
-    setw (fieldWidth) <<
-    "variableName" << " : " <<
-    "\"" << fVariableName << "\"" <<
-    endl;
+  s <<
+    "Applying atom expecting a value '" <<
+    fetchNames () <<
+    "' without a value";
+
+  oahInternalError (s.str ());
 }
 
-void oahAtomWithVariableName::printAtomWithVariableNameEssentialsShort (
-  ostream& os,
-  unsigned int fieldWidth) const
+void oahAtomExpectingAValue::applyAtomWithDefaultValue (ostream& os)
 {
-  printOahElementEssentialsShort (
-    os, fieldWidth);
+  stringstream s;
 
-  os << left <<
-    setw (fieldWidth) <<
-    "variableName" << " : " <<
-    "\"" << fVariableName << "\"" <<
-    endl;
+  s <<
+    "Applying atom expecting a value '" <<
+    fetchNames () <<
+    "' with a default value is possible only in oahAtomExpectingAValue subclasses";
+
+  oahInternalError (s.str ());
 }
 
-void oahAtomWithVariableName::print (ostream& os) const
+void oahAtomExpectingAValue::print (ostream& os) const
 {
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "AtomWithVariableName:" <<
+    "oahAtomExpectingAValue:" <<
     endl;
 
   ++gIndenter;
@@ -708,21 +700,15 @@ void oahAtomWithVariableName::print (ostream& os) const
   printOahElementEssentials (
     os, fieldWidth);
 
-  os << left <<
-    setw (fieldWidth) <<
-    "variableName" << " : " <<
-    "\"" << fVariableName << "\"" <<
-    endl << endl;
-
   --gIndenter;
 }
 
-void oahAtomWithVariableName::printShort (ostream& os) const
+void oahAtomExpectingAValue::printShort (ostream& os) const
 {
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "AtomWithVariableName: ";
+    "oahAtomExpectingAValue: ";
 
   printOahElementEssentialsShort (
     os, fieldWidth);
@@ -730,27 +716,9 @@ void oahAtomWithVariableName::printShort (ostream& os) const
   os <<
     fDescription <<
     endl;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "variableName" << " : " <<
-    "\"" << fVariableName << "\"" <<
-    endl << endl;
 }
 
-void oahAtomWithVariableName::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : " <<
-    "JMI" << // ???
-    endl;
-}
-
-ostream& operator<< (ostream& os, const S_oahAtomWithVariableName& elt)
+ostream& operator<< (ostream& os, const S_oahAtomExpectingAValue& elt)
 {
   elt->print (os);
   return os;
@@ -758,15 +726,15 @@ ostream& operator<< (ostream& os, const S_oahAtomWithVariableName& elt)
 
 //______________________________________________________________________________
 /* this class is purely virtual
-S_oahAtomWithValue oahAtomWithValue::create (
+S_oahAtomStoringAValueInAVariable oahAtomStoringAValueInAVariable::create (
   string shortName,
   string longName,
   string description,
   string valueSpecification,
   string variableName)
 {
-  oahAtomWithValue* o = new
-    oahAtomWithValue (
+  oahAtomStoringAValueInAVariable* o = new
+    oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -777,71 +745,47 @@ S_oahAtomWithValue oahAtomWithValue::create (
 }
 */
 
-oahAtomWithValue::oahAtomWithValue (
+oahAtomStoringAValueInAVariable::oahAtomStoringAValueInAVariable (
   string shortName,
   string longName,
   string description,
   string valueSpecification,
   string variableName)
-  : oahAtomWithVariableName (
+  : oahAtomExpectingAValue (
       shortName,
       longName,
-      description,
-      variableName)
+      description)
 {
   fValueSpecification = valueSpecification;
 
+  fVariableName       = variableName;
   fVariableHasBeenSet = false;
 
-  this->setElementKind (kElementWithMandatoryValue);
+  this->setElementValueKind (kElementValueMandatory);
 }
 
-oahAtomWithValue::~oahAtomWithValue ()
+oahAtomStoringAValueInAVariable::~oahAtomStoringAValueInAVariable ()
 {}
 
-void oahAtomWithValue::applyElement (ostream& os)
-{
-  stringstream s;
-
-  s <<
-    "Applying atom with mandatory value '" <<
-    fetchNames () <<
-    "' without a value in not possible";
-
-  oahInternalError (s.str ());
-}
-
-void oahAtomWithValue::applyAtomWithValueDefaultValue (ostream& os)
-{
-  stringstream s;
-
-  s <<
-    "Applying atom with mandatory value '" <<
-    fetchNames () <<
-    "' with a default value is possible only in oahAtomWithValue subclasses";
-
-  oahInternalError (s.str ());
-}
-
-void oahAtomWithValue::acceptIn (basevisitor* v)
+void oahAtomStoringAValueInAVariable::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> oahAtomWithValue::acceptIn ()" <<
+      ".\\\" ==> oahAtomStoringAValueInAVariable::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_oahAtomWithValue>*
+  if (visitor<S_oahAtomStoringAValueInAVariable>*
     p =
-      dynamic_cast<visitor<S_oahAtomWithValue>*> (v)) {
-        S_oahAtomWithValue elem = this;
+      dynamic_cast<visitor<S_oahAtomStoringAValueInAVariable>*> (v)) {
+        S_oahAtomStoringAValueInAVariable elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching oahAtomWithValue::visitStart ()" <<
+            ".\\\" ==> Launching oahAtomStoringAValueInAVariable::visitStart ()" <<
             endl;
         }
 #endif
@@ -849,25 +793,25 @@ void oahAtomWithValue::acceptIn (basevisitor* v)
   }
 }
 
-void oahAtomWithValue::acceptOut (basevisitor* v)
+void oahAtomStoringAValueInAVariable::acceptOut (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> oahAtomWithValue::acceptOut ()" <<
+      ".\\\" ==> oahAtomStoringAValueInAVariable::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_oahAtomWithValue>*
+  if (visitor<S_oahAtomStoringAValueInAVariable>*
     p =
-      dynamic_cast<visitor<S_oahAtomWithValue>*> (v)) {
-        S_oahAtomWithValue elem = this;
+      dynamic_cast<visitor<S_oahAtomStoringAValueInAVariable>*> (v)) {
+        S_oahAtomStoringAValueInAVariable elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching oahAtomWithValue::visitEnd ()" <<
+            ".\\\" ==> Launching oahAtomStoringAValueInAVariable::visitEnd ()" <<
             endl;
         }
 #endif
@@ -875,22 +819,22 @@ void oahAtomWithValue::acceptOut (basevisitor* v)
   }
 }
 
-void oahAtomWithValue::browseData (basevisitor* v)
+void oahAtomStoringAValueInAVariable::browseData (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> oahAtomWithValue::browseData ()" <<
+      ".\\\" ==> oahAtomStoringAValueInAVariable::browseData ()" <<
       endl;
   }
 #endif
 }
 
-void oahAtomWithValue::printAtomWithValueEssentials (
+void oahAtomStoringAValueInAVariable::printAtomWithVariableEssentials (
   ostream& os,
   unsigned int fieldWidth) const
 {
-  printAtomWithVariableNameEssentials (
+  printOahElementEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -898,23 +842,10 @@ void oahAtomWithValue::printAtomWithValueEssentials (
     "valueSpecification" << " : " <<
     fValueSpecification <<
     endl <<
-    setw (fieldWidth) <<
-    "variableHasBeenSet" << " : " <<
-    booleanAsString (fVariableHasBeenSet) <<
-    endl;
-}
 
-void oahAtomWithValue::printAtomWithValueEssentialsShort (
-  ostream& os,
-  unsigned int fieldWidth) const
-{
-  printAtomWithVariableNameEssentialsShort (
-    os, fieldWidth);
-
-  os << left <<
     setw (fieldWidth) <<
-    "valueSpecification" << " : " <<
-    fValueSpecification <<
+    "variableName" << " : " <<
+    fVariableName <<
     endl <<
     setw (fieldWidth) <<
     "variableHasBeenSet" << " : " <<
@@ -922,12 +853,35 @@ void oahAtomWithValue::printAtomWithValueEssentialsShort (
     endl;
 }
 
-void oahAtomWithValue::print (ostream& os) const
+void oahAtomStoringAValueInAVariable::printAtomWithVariableEssentialsShort (
+  ostream& os,
+  unsigned int fieldWidth) const
+{
+  printOahElementEssentialsShort (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "valueSpecification" << " : " <<
+    fValueSpecification <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "variableName" << " : " <<
+    fVariableName <<
+    endl <<
+    setw (fieldWidth) <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl;
+}
+
+void oahAtomStoringAValueInAVariable::print (ostream& os) const
 {
   const unsigned int fieldWidth = 19;
 
   os <<
-    "AtomWithValue:";
+    "AtomWithVariable:";
   if (fVariableHasBeenSet) {
     os <<
       ", variableHasBeenSet: " <<
@@ -937,29 +891,29 @@ void oahAtomWithValue::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   --gIndenter;
 }
 
-void oahAtomWithValue::printShort (ostream& os) const
+void oahAtomStoringAValueInAVariable::printShort (ostream& os) const
 {
   const unsigned int fieldWidth = 19;
 
   os <<
-    "AtomWithValue: ";
+    "AtomWithVariable: ";
   if (fVariableHasBeenSet) {
     os <<
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
 
-  printAtomWithValueEssentialsShort (
+  printAtomWithVariableEssentialsShort (
     os, fieldWidth);
 }
 
-void oahAtomWithValue::printHelp (ostream& os) const
+void oahAtomStoringAValueInAVariable::printHelp (ostream& os) const
 {
   os <<
     fetchNames ();
@@ -970,13 +924,14 @@ void oahAtomWithValue::printHelp (ostream& os) const
       getHandlerUpLink ()->
         getHandlerOptionalValuesStyleKind ();
 
-  switch (fElementKind) {
-    case kElementWithoutValue:
-    case kElementWithMandatoryValue:
+  switch (fElementValueKind) {
+    case kElementValueWithout:
+    case kElementValueImplicit:
+    case kElementValueMandatory:
       os <<
         " " << fValueSpecification;
       break;
-    case kElementWithOptionalValue:
+    case kElementValueOptional:
       switch (optionalValuesStyleKind) {
         case kOptionalValuesStyleGNU: // default value
           os <<
@@ -1009,18 +964,261 @@ void oahAtomWithValue::printHelp (ostream& os) const
   }
 }
 
-void oahAtomWithValue::printAtomWithValueOptionsValues (
+void oahAtomStoringAValueInAVariable::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
   os <<
-    "AtomWithValue values:" <<
+    "AtomWithVariable values:" <<
     "???, variableHasBeenSet: " <<
     booleanAsString (fVariableHasBeenSet) <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_oahAtomWithValue& elt)
+ostream& operator<< (ostream& os, const S_oahAtomStoringAValueInAVariable& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+/* this class is purely virtual
+S_oahHelpAtomWithoutValue oahHelpAtomWithoutValue::create (
+  string shortName,
+  string longName,
+  string description,
+  string executableName)
+{
+  oahHelpAtomWithoutValue* o = new
+    oahHelpAtomWithoutValue (
+      shortName,
+      longName,
+      description,
+      executableName);
+  assert (o != nullptr);
+  return o;
+}
+*/
+
+oahHelpAtomWithoutValue::oahHelpAtomWithoutValue (
+  string shortName,
+  string longName,
+  string description,
+  string executableName)
+  : oahAtom (
+      shortName,
+      longName,
+      description,
+      kElementValueWithout)
+{
+  fHelpAtomWithoutValueExecutableName = executableName;
+
+  fElementHelpOnlyKind = kElementHelpOnlyYes;
+}
+
+oahHelpAtomWithoutValue::~oahHelpAtomWithoutValue ()
+{}
+
+void oahHelpAtomWithoutValue::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahHelpAtomWithoutValue::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahHelpAtomWithoutValue>*
+    p =
+      dynamic_cast<visitor<S_oahHelpAtomWithoutValue>*> (v)) {
+        S_oahHelpAtomWithoutValue elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahHelpAtomWithoutValue::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahHelpAtomWithoutValue::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahHelpAtomWithoutValue::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahHelpAtomWithoutValue>*
+    p =
+      dynamic_cast<visitor<S_oahHelpAtomWithoutValue>*> (v)) {
+        S_oahHelpAtomWithoutValue elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahHelpAtomWithoutValue::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahHelpAtomWithoutValue::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahHelpAtomWithoutValue::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+void oahHelpAtomWithoutValue::print (ostream& os) const
+{
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "HelpOnlyAtom:" <<
+    endl;
+
+  ++gIndenter;
+
+  oahElement::printOahElementEssentials (
+    os, fieldWidth);
+
+  --gIndenter;
+}
+
+ostream& operator<< (ostream& os, const S_oahHelpAtomWithoutValue& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+/* this class is purely virtual
+S_oahHelpAtomExpectingAValue oahHelpAtomExpectingAValue::create (
+  string shortName,
+  string longName,
+  string description,
+  string executableName)
+{
+  oahHelpAtomExpectingAValue* o = new
+    oahHelpAtomExpectingAValue (
+      shortName,
+      longName,
+      description,
+      executableName);
+  assert (o != nullptr);
+  return o;
+}
+*/
+
+oahHelpAtomExpectingAValue::oahHelpAtomExpectingAValue (
+  string shortName,
+  string longName,
+  string description,
+  string executableName)
+  : oahAtomExpectingAValue (
+      shortName,
+      longName,
+      description)
+{
+  fHelpAtomExpectingAValueExecutableName = executableName;
+}
+
+oahHelpAtomExpectingAValue::~oahHelpAtomExpectingAValue ()
+{}
+
+void oahHelpAtomExpectingAValue::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahHelpAtomExpectingAValue::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahHelpAtomExpectingAValue>*
+    p =
+      dynamic_cast<visitor<S_oahHelpAtomExpectingAValue>*> (v)) {
+        S_oahHelpAtomExpectingAValue elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahHelpAtomExpectingAValue::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahHelpAtomExpectingAValue::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahHelpAtomExpectingAValue::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahHelpAtomExpectingAValue>*
+    p =
+      dynamic_cast<visitor<S_oahHelpAtomExpectingAValue>*> (v)) {
+        S_oahHelpAtomExpectingAValue elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahHelpAtomExpectingAValue::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahHelpAtomExpectingAValue::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahHelpAtomExpectingAValue::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+void oahHelpAtomExpectingAValue::print (ostream& os) const
+{
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "HelpOnlyAtom:" <<
+    endl;
+
+  ++gIndenter;
+
+  oahElement::printOahElementEssentials (
+    os, fieldWidth);
+
+  --gIndenter;
+}
+
+ostream& operator<< (ostream& os, const S_oahHelpAtomExpectingAValue& elt)
 {
   elt->print (os);
   return os;
@@ -1058,7 +1256,7 @@ oahSubGroup::oahSubGroup (
       shortName,
       longName,
       description,
-      kElementWithoutValue,
+      kElementValueWithout,
       optionVisibilityKind)
 {
   fGroupUpLink = groupUpLink;
@@ -1845,7 +2043,7 @@ void oahSubGroup::printSubGroupOptionsValues (
     for ( ; ; ) {
       // print the atom values
       (*i)->
-        printAtomWithValueOptionsValues (
+        printAtomWithVariableOptionsValues (
           os, valueFieldWidth);
       if (++i == iEnd) break;
   //    os << endl;
@@ -1910,7 +2108,7 @@ oahGroup::oahGroup (
       shortName,
       longName,
       description,
-      kElementWithoutValue,
+      kElementValueWithout,
       optionVisibilityKind)
 {
   fGroupHeader = header;
@@ -1933,7 +2131,7 @@ oahGroup::oahGroup (
       shortName,
       longName,
       description,
-      kElementWithoutValue,
+      kElementValueWithout,
       optionVisibilityKind)
 {
   fHandlerUpLink = groupHandlerUpLink;
@@ -3284,6 +3482,88 @@ void oahHandler::checkNoInputSourceInArgumentsVector () const
 
         throw msgOahException (message);
       }
+  } //  switch
+}
+
+//______________________________________________________________________________
+void oahHandler::checkNoOrOneInputSourceInArgumentsVector () const
+{
+#ifdef TRACING_IS_ENABLED
+  if (getTraceOah ()) {
+    gLogStream <<
+      "checking no or input source in argument vector in \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  unsigned int argumentsNumber =
+    fHandlerArgumentsVector.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+    if (argumentsNumber > 0) {
+      gLogStream <<
+        singularOrPluralWithoutNumber (
+          argumentsNumber, "There is", "There are") <<
+        " " <<
+        argumentsNumber <<
+        " " <<
+        singularOrPluralWithoutNumber (
+          argumentsNumber, "argument", "arguments") <<
+        " in handler arguments vector for " <<
+        fHandlerExecutableName <<
+        ":" <<
+        endl;
+
+      ++gIndenter;
+
+      for (unsigned int i = 0; i < argumentsNumber; ++i) {
+        gLogStream <<
+          i << " : " << fHandlerArgumentsVector [i] <<
+            endl;
+      } // for
+
+      gLogStream << endl;
+
+      --gIndenter;
+    }
+    else {
+      gLogStream <<
+        "There are no arguments to " <<
+        fHandlerExecutableName <<
+        endl;
+    }
+  }
+#endif
+
+  // input source name
+  // ------------------------------------------------------
+
+  switch (argumentsNumber) {
+    case 0:
+      // fine, use standard input
+      break;
+
+    case 1:
+      // register intput file name
+      gGlobalOahOahGroup->setInputSourceName (
+        fHandlerArgumentsVector [0]);
+      break;
+
+    default:
+      gLogStream <<
+        endl <<
+        "Several input file name supplied, only the first one, \"" <<
+        fHandlerArgumentsVector [0] <<
+        "\", will be translated" <<
+        endl << endl;
+
+      // register intput file name
+      gGlobalOahOahGroup->setInputSourceName (
+        fHandlerArgumentsVector [0]);
+      break;
   } //  switch
 }
 
@@ -4905,7 +5185,7 @@ S_oahElement oahHandler::fetchElementByNameInHandler (
   return result;
 }
 
-void oahHandler::checkMissingPendingArgvAtomWithValueValue (
+void oahHandler::checkMissingPendingArgvAtomExpectingAValueValue (
   string lastOptionNameFound,
   string context)
 {
@@ -4914,16 +5194,16 @@ void oahHandler::checkMissingPendingArgvAtomWithValueValue (
     ++gIndenter;
 
     gLogStream <<
-      "Checking missing pending argv atom with mandatory value \"" <<
+      "Checking missing pending argv atom expecting a value \"" <<
       lastOptionNameFound <<
-      "\", the pending atom with mandatory value is:";
+      "\", the pending atom expecting a value is:";
 
-    if (fPendingArgvAtomWithValue) {
+    if (fPendingArgvAtomExpectingAValue) {
       gLogStream << endl;
       ++gIndenter;
 
       gLogStream <<
-        fPendingArgvAtomWithValue;
+        fPendingArgvAtomExpectingAValue;
 
       --gIndenter;
     }
@@ -4943,22 +5223,22 @@ void oahHandler::checkMissingPendingArgvAtomWithValueValue (
       ", fHandlerOptionalValuesStyleKind: " <<
       oahOptionalValuesStyleKindAsString (
         fHandlerOptionalValuesStyleKind) <<
-      ", fElementKind: " <<
-      elementKindAsString (
-        fElementKind) <<
+      ", fElementValueKind: " <<
+      elementValueKindAsString (
+        fElementValueKind) <<
       endl;
   }
 */
 #endif
 
-  if (fPendingArgvAtomWithValue) {
+  if (fPendingArgvAtomExpectingAValue) {
 #ifdef TRACING_IS_ENABLED
     if (getTraceOah ()) {
       gLogStream <<
-        "Checking missing value for pending atom with mandatory value \"" <<
+        "Checking missing value for pending atom expecting a value \"" <<
         lastOptionNameFound <<
-        "\", the name pending atom with mandatory value is: " <<
-        "\"" << fNameUsedForPendingArgvAtomWithValue << "\"" <<
+        "\", the name pending atom expecting a value is: " <<
+        "\"" << fNameUsedForPendingArgvAtomExpectingAValue << "\"" <<
         endl;
     }
 #endif
@@ -5019,27 +5299,27 @@ void oahHandler::checkMissingPendingArgvAtomWithValueValue (
     } // switch
 */
 
-    // forget about this pending atom with mandatory value
+    // forget about this pending atom expecting a value
 #ifdef TRACING_IS_ENABLED
     if (getTraceOah ()) {
       gLogStream <<
-        "Forgetting about the pending argv atom with mandatory value when handling atom name \"" <<
+        "Forgetting about the pending argv atom expecting a value when handling atom name \"" <<
         lastOptionNameFound <<
         "\"" <<
         endl;
     }
 #endif
 
-    fPendingArgvAtomWithValue = nullptr;
-    fNameUsedForPendingArgvAtomWithValue = "";
+    fPendingArgvAtomExpectingAValue = nullptr;
+    fNameUsedForPendingArgvAtomExpectingAValue = "";
   }
 
   else {
-    // no atom with mandatory value is pending
+    // no atom expecting a value is pending
 #ifdef TRACING_IS_ENABLED
     if (getTraceOah ()) {
       gLogStream <<
-        "No argv atom with mandatory value is pending when handling atom name \"" <<
+        "No argv atom expecting a value is pending when handling atom name \"" <<
         lastOptionNameFound <<
         "\"" <<
         endl;
@@ -5737,14 +6017,14 @@ void oahHandler::handleArgvOptionValueOrArgument (
     ++gIndenter;
 
     gLogStream <<
-      "The pending atom with mandatory value is:";
+      "The pending atom expecting a value is:";
 
-    if (fPendingArgvAtomWithValue) {
+    if (fPendingArgvAtomExpectingAValue) {
       gLogStream << endl;
       ++gIndenter;
 
       gLogStream <<
-        fPendingArgvAtomWithValue;
+        fPendingArgvAtomExpectingAValue;
 
       --gIndenter;
     }
@@ -5763,37 +6043,37 @@ void oahHandler::handleArgvOptionValueOrArgument (
   // in which case the handling of the option and its value
   // are postponed until the latter is available
 
-  if (fPendingArgvAtomWithValue) {
-    // theString is the value for the pending atom with mandatory value
+  if (fPendingArgvAtomExpectingAValue) {
+    // theString is the value for the pending atom expecting a value
 
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
     gLogStream <<
       "The value associated to atom \"" <<
-      fNameUsedForPendingArgvAtomWithValue <<
+      fNameUsedForPendingArgvAtomExpectingAValue <<
       "\" under the name \"" <<
-      fNameUsedForPendingArgvAtomWithValue <<
+      fNameUsedForPendingArgvAtomExpectingAValue <<
       "\" in argv is \"" << theString << "\"" <<
       endl;
   }
 #endif
 
     registerElementUse (
-      fPendingArgvAtomWithValue,
-      fNameUsedForPendingArgvAtomWithValue,
+      fPendingArgvAtomExpectingAValue,
+      fNameUsedForPendingArgvAtomExpectingAValue,
       theString);
 
-    // forget about this pending atom with mandatory value
+    // forget about this pending atom expecting a value
 #ifdef TRACING_IS_ENABLED
     if (getTraceOah ()) {
       gLogStream <<
-        "handleArgvOptionValueOrArgument() Forgetting about the pending atom with mandatory value" <<
+        "handleArgvOptionValueOrArgument() Forgetting about the pending atom expecting a value" <<
         endl;
     }
 #endif
 
-    fPendingArgvAtomWithValue = nullptr;
-    fNameUsedForPendingArgvAtomWithValue = "";
+    fPendingArgvAtomExpectingAValue = nullptr;
+    fNameUsedForPendingArgvAtomExpectingAValue = "";
   }
 
   else {
@@ -6191,8 +6471,8 @@ void oahHandler::createElementUsesListFromArgcAndArgv (
     ++n;
   } // while
 
-  // is a pending atom with mandatory value value missing?
-  checkMissingPendingArgvAtomWithValueValue (
+  // is a pending atom expecting a value value missing?
+  checkMissingPendingArgvAtomExpectingAValueValue (
     lastOptionNameFound,
     "last option in command line");
 
@@ -6238,6 +6518,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
       S_oahElementUse elementUse = (*i);
 
       S_oahElement elementUsed  = elementUse->getElementUsed ();
+
       string       nameUsed     = elementUse->getNameUsed ();
       string       valueUsed    = elementUse->getValueUsed ();
 
@@ -6264,13 +6545,13 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
       if (elementUsed) {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
-        oahElementKind
+        oahElementValueKind
           atomValueExpectedKind =
-            elementUsed->getElementKind ();
+            elementUsed->getElementValueKind ();
 
         gLogStream <<
           "Its atomValueExpectedKind is '" <<
-          elementKindAsString (atomValueExpectedKind) <<
+          elementValueKindAsString (atomValueExpectedKind) <<
           "'" <<
           endl;
   }
@@ -6301,28 +6582,34 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
         }
 
         else if (
-          // atom with value?
-          S_oahAtomWithValue
-            atomWithValue =
-              dynamic_cast<oahAtomWithValue*>(&(*elementUsed))
+          // atom expecting a value?
+          S_oahAtomExpectingAValue
+            atomExpectingAValue =
+              dynamic_cast<oahAtomExpectingAValue*>(&(*elementUsed))
         ) {
-          switch (atomWithValue->getElementKind ()) {
-            case kElementWithoutValue:
+          switch (atomExpectingAValue->getElementValueKind ()) {
+            case kElementValueWithout:
               {
                 stringstream s;
 
                 s <<
                   "Atom with value " <<
-                  atomWithValue->fetchNamesBetweenQuotes () <<
+                  atomExpectingAValue->fetchNamesBetweenQuotes () <<
                   " has been registered as without value";
 
                 oahInternalError (s.str ());
               }
               break;
 
-            case kElementWithMandatoryValue:
+            case kElementValueImplicit:
+              atomExpectingAValue->
+                applyAtomWithDefaultValue (
+                  gOutputStream);
+              break;
+
+            case kElementValueMandatory:
               if (valueUsed.size ()) {
-                atomWithValue->
+                atomExpectingAValue->
                   applyAtomWithValue (
                     valueUsed,
                     gOutputStream);
@@ -6331,24 +6618,24 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
                 stringstream s;
 
                 s <<
-                  "Atom with mandatory value " <<
-                  atomWithValue->fetchNamesBetweenQuotes () <<
+                  "Atom expecting a value " <<
+                  atomExpectingAValue->fetchNamesBetweenQuotes () <<
                   " needs a non-empty value";
 
                 oahInternalError (s.str ());
               }
               break;
 
-            case kElementWithOptionalValue:
+            case kElementValueOptional:
               if (valueUsed.size ()) {
-                atomWithValue->
+                atomExpectingAValue->
                   applyAtomWithValue (
                     valueUsed,
                     gOutputStream);
               }
               else {
-                atomWithValue->
-                  applyAtomWithValueDefaultValue (
+                atomExpectingAValue->
+                  applyAtomWithDefaultValue (
                     gOutputStream);
               }
               break;
@@ -6776,18 +7063,19 @@ void oahHandler::handleKnownOptionsVectorAtomUnderName (
   }
 #endif
 
-  switch (atom->getElementKind ()) {
-    case kElementWithoutValue:
+  switch (atom->getElementValueKind ()) {
+    case kElementValueWithout:
+    case kElementValueImplicit:
       registerElementUse (
         atom, optionNameUsed, ""); // "===options vector atom without value==="); // JMI to debug
       break;
 
-    case kElementWithMandatoryValue:
+    case kElementValueMandatory:
       if (
-        // argv atom with mandatory value?
-        S_oahAtomWithValue
-          atomWithValue =
-            dynamic_cast<oahAtomWithValue*>(&(*atom))
+        // argv atom expecting a value?
+        S_oahAtomExpectingAValue
+          atomExpectingAValue =
+            dynamic_cast<oahAtomExpectingAValue*>(&(*atom))
       ) {
         registerElementUse (
           atom, optionNameUsed, valueUsed);
@@ -6799,13 +7087,13 @@ void oahHandler::handleKnownOptionsVectorAtomUnderName (
         s <<
           "argv atom " <<
           atom->fetchNamesBetweenQuotes () <<
-          " is not a atom with mandatory value though its kind is kElementWithMandatoryValue";
+          " is not expecting a value even though its kind is kElementValueMandatory";
 
         oahInternalError (s.str ());
       }
       break;
 
-    case kElementWithOptionalValue:
+    case kElementValueOptional:
       registerElementUse (
         atom, optionNameUsed, ""); // "===atom with optional value===" JMI to debug
       break;
@@ -6828,40 +7116,41 @@ void oahHandler::handleKnownArgvAtomUnderName (
   }
 #endif
 
-  if (fPendingArgvAtomWithValue) {
+  if (fPendingArgvAtomExpectingAValue) {
     stringstream s;
 
     s <<
-      "Pending argv atom with mandatory value " <<
-      fPendingArgvAtomWithValue->fetchNamesBetweenQuotes () <<
+      "Pending argv atom expecting a value " <<
+      fPendingArgvAtomExpectingAValue->fetchNamesBetweenQuotes () <<
       " used under name \"" <<
-      fNameUsedForPendingArgvAtomWithValue <<
+      fNameUsedForPendingArgvAtomExpectingAValue <<
       "\" expects a value" <<
       endl;
 
     oahError (s.str ());
   }
 
-  switch (atom->getElementKind ()) {
-    case kElementWithoutValue:
+  switch (atom->getElementValueKind ()) {
+    case kElementValueWithout:
+    case kElementValueImplicit:
       registerElementUse (
         atom, optionNameUsed, ""); // "===argv atom without value==="); // JMI to debug
 
-      fPendingArgvAtomWithValue = nullptr;
-      fNameUsedForPendingArgvAtomWithValue = "";
+      fPendingArgvAtomExpectingAValue = nullptr;
+      fNameUsedForPendingArgvAtomExpectingAValue = "";
       break;
 
-    case kElementWithMandatoryValue:
+    case kElementValueMandatory:
       if (
-        // argv atom with mandatory value?
-        S_oahAtomWithValue
-          atomWithValue =
-            dynamic_cast<oahAtomWithValue*>(&(*atom))
+        // argv atom expecting a value?
+        S_oahAtomExpectingAValue
+          atomExpectingAValue =
+            dynamic_cast<oahAtomExpectingAValue*>(&(*atom))
       ) {
         // delay this argv atom's handling until the value is handled
-        fPendingArgvAtomWithValue =
-          atomWithValue;
-        fNameUsedForPendingArgvAtomWithValue =
+        fPendingArgvAtomExpectingAValue =
+          atomExpectingAValue;
+        fNameUsedForPendingArgvAtomExpectingAValue =
           optionNameUsed;
       }
 
@@ -6871,18 +7160,18 @@ void oahHandler::handleKnownArgvAtomUnderName (
         s <<
           "argv atom " <<
           atom->fetchNamesBetweenQuotes () <<
-          " is not a atom with mandatory value though its kind is kElementWithMandatoryValue";
+          " is not expecting a value even though its kind is kElementValueMandatory";
 
         oahInternalError (s.str ());
       }
       break;
 
-    case kElementWithOptionalValue:
+    case kElementValueOptional:
       registerElementUse (
         atom, optionNameUsed, ""); // "===use default value===" // JMI to debug
 
-      fPendingArgvAtomWithValue = nullptr;
-      fNameUsedForPendingArgvAtomWithValue = "";
+      fPendingArgvAtomExpectingAValue = nullptr;
+      fNameUsedForPendingArgvAtomExpectingAValue = "";
       break;
   } // switch
 }
@@ -7091,4 +7380,145 @@ string existingOahOptionalValuesStyleKinds (unsigned int namesListMaxLength)
 
   return s.str ();
 }
+
+*/
+
+/*
+*/
+
+/*
+//______________________________________________________________________________
+/ * this class is purely virtual
+S_oahAtomWithoutValue oahAtomWithoutValue::create (
+  string shortName,
+  string longName,
+  string description)
+{
+  oahAtomWithoutValue* o = new
+    oahAtomWithoutValue (
+      shortName,
+      longName,
+      description,
+      variableName);
+  assert (o != nullptr);
+  return o;
+}
+* /
+
+oahAtomWithoutValue::oahAtomWithoutValue (
+  string shortName,
+  string longName,
+  string description)
+  : oahAtom (
+      shortName,
+      longName,
+      description,
+      kElementValueWithout)
+{
+  this->setElementValueKind (kElementValueWithout);
+}
+
+oahAtomWithoutValue::~oahAtomWithoutValue ()
+{}
+
+void oahAtomWithoutValue::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahAtomWithoutValue::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahAtomWithoutValue>*
+    p =
+      dynamic_cast<visitor<S_oahAtomWithoutValue>*> (v)) {
+        S_oahAtomWithoutValue elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahAtomWithoutValue::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahAtomWithoutValue::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahAtomWithoutValue::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahAtomWithoutValue>*
+    p =
+      dynamic_cast<visitor<S_oahAtomWithoutValue>*> (v)) {
+        S_oahAtomWithoutValue elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahAtomWithoutValue::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahAtomWithoutValue::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahAtomWithoutValue::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+void oahAtomWithoutValue::print (ostream& os) const
+{
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "oahAtomWithoutValue:" <<
+    endl;
+
+  ++gIndenter;
+
+  printOahElementEssentials (
+    os, fieldWidth);
+
+  --gIndenter;
+}
+
+void oahAtomWithoutValue::printShort (ostream& os) const
+{
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "oahAtomWithoutValue: ";
+
+  printOahElementEssentialsShort (
+    os, fieldWidth);
+
+  os <<
+    fDescription <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_oahAtomWithoutValue& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 */

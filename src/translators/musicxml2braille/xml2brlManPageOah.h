@@ -75,7 +75,7 @@ class EXP xml2brlManPageGenerateAtom : public oahAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 

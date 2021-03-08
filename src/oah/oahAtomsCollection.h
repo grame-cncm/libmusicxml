@@ -39,10 +39,10 @@ class EXP oahAtomSynonym : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<oahAtomSynonym> create (
-      string    shortName,
-      string    longName,
-      string    description,
-      S_oahAtom originalOahAtom);
+                            string    shortName,
+                            string    longName,
+                            string    description,
+                            S_oahAtom originalOahAtom);
 
   protected:
 
@@ -90,10 +90,6 @@ class EXP oahAtomSynonym : public oahAtom
     void                  print (ostream& os) const override;
     void                  printShort (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
-                            ostream&     os,
-                            unsigned int valueFieldWidth) const override;
-
   private:
 
     // private fields
@@ -113,9 +109,9 @@ class EXP oahMacroAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<oahMacroAtom> create (
-      string    shortName,
-      string    longName,
-      string    description);
+                            string    shortName,
+                            string    longName,
+                            string    description);
 
   protected:
 
@@ -167,10 +163,6 @@ class EXP oahMacroAtom : public oahAtom
     void                  print (ostream& os) const override;
     void                  printShort (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
-                            ostream&     os,
-                            unsigned int valueFieldWidth) const override;
-
   private:
 
     // private fields
@@ -183,77 +175,7 @@ typedef SMARTP<oahMacroAtom> S_oahMacroAtom;
 EXP ostream& operator<< (ostream& os, const S_oahMacroAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahHelpOnlyAtom : public oahAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-/* this class is purely virtual
-    static SMARTP<oahHelpOnlyAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
-*/
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-                          oahHelpOnlyAtom (
-                            string shortName,
-                            string longName,
-                            string description,
-                            string executableName);
-
-    virtual               ~oahHelpOnlyAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-  public:
-
-    // public services
-    // ------------------------------------------------------
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    void                  acceptIn  (basevisitor* v) override;
-    void                  acceptOut (basevisitor* v) override;
-
-    void                  browseData (basevisitor* v) override;
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const override;
-
-    void                  printAtomWithValueOptionsValues (
-                            ostream&     os,
-                            unsigned int valueFieldWidth) const override;
-
-  protected:
-
-    // protected fields
-    // ------------------------------------------------------
-
-    string                fHelpOnlyAtomExecutableName;
-};
-typedef SMARTP<oahHelpOnlyAtom> S_oahHelpOnlyAtom;
-EXP ostream& operator<< (ostream& os, const S_oahHelpOnlyAtom& elt);
-
-//______________________________________________________________________________
-class EXP oahOptionsUsageAtom : public oahHelpOnlyAtom
+class EXP oahOptionsUsageAtom : public oahHelpAtomWithoutValue
 {
   public:
 
@@ -261,10 +183,10 @@ class EXP oahOptionsUsageAtom : public oahHelpOnlyAtom
     // ------------------------------------------------------
 
     static SMARTP<oahOptionsUsageAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
   protected:
 
@@ -310,10 +232,6 @@ class EXP oahOptionsUsageAtom : public oahHelpOnlyAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
-                            ostream&     os,
-                            unsigned int valueFieldWidth) const override;
-
   private:
 
     // private fields
@@ -323,7 +241,7 @@ typedef SMARTP<oahOptionsUsageAtom> S_oahOptionsUsageAtom;
 EXP ostream& operator<< (ostream& os, const S_oahOptionsUsageAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahHelpAtom : public oahHelpOnlyAtom
+class EXP oahHelpAtom : public oahHelpAtomWithoutValue
 {
   public:
 
@@ -331,10 +249,10 @@ class EXP oahHelpAtom : public oahHelpOnlyAtom
     // ------------------------------------------------------
 
     static SMARTP<oahHelpAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
   protected:
 
@@ -380,10 +298,6 @@ class EXP oahHelpAtom : public oahHelpOnlyAtom
 
     void                  printOptionsSummary (ostream& os) const;
 
-    void                  printAtomWithValueOptionsValues (
-                            ostream&     os,
-                            unsigned int valueFieldWidth) const override;
-
   private:
 
     // private fields
@@ -393,7 +307,7 @@ typedef SMARTP<oahHelpAtom> S_oahHelpAtom;
 EXP ostream& operator<< (ostream& os, const S_oahHelpAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahHelpSummaryAtom : public oahHelpOnlyAtom
+class EXP oahHelpSummaryAtom : public oahHelpAtomWithoutValue
 {
   public:
 
@@ -401,10 +315,10 @@ class EXP oahHelpSummaryAtom : public oahHelpOnlyAtom
     // ------------------------------------------------------
 
     static SMARTP<oahHelpSummaryAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
   protected:
 
@@ -450,10 +364,6 @@ class EXP oahHelpSummaryAtom : public oahHelpOnlyAtom
 
     void                  printOptionsSummary (ostream& os) const;
 
-    void                  printAtomWithValueOptionsValues (
-                            ostream&     os,
-                            unsigned int valueFieldWidth) const override;
-
   private:
 
     // private fields
@@ -463,7 +373,7 @@ typedef SMARTP<oahHelpSummaryAtom> S_oahHelpSummaryAtom;
 EXP ostream& operator<< (ostream& os, const S_oahHelpSummaryAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahAboutAtom : public oahHelpOnlyAtom
+class EXP oahAboutAtom : public oahHelpAtomWithoutValue
 {
   public:
 
@@ -471,10 +381,10 @@ class EXP oahAboutAtom : public oahHelpOnlyAtom
     // ------------------------------------------------------
 
     static SMARTP<oahAboutAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
   protected:
 
@@ -518,10 +428,6 @@ class EXP oahAboutAtom : public oahHelpOnlyAtom
 
     void                  printAbout (ostream& os) const;
 
-    void                  printAtomWithValueOptionsValues (
-                            ostream&     os,
-                            unsigned int valueFieldWidth) const override;
-
   private:
 
     // private fields
@@ -531,7 +437,7 @@ typedef SMARTP<oahAboutAtom> S_oahAboutAtom;
 EXP ostream& operator<< (ostream& os, const S_oahAboutAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahVersionAtom : public oahHelpOnlyAtom
+class EXP oahVersionAtom : public oahHelpAtomWithoutValue
 {
   public:
 
@@ -539,10 +445,10 @@ class EXP oahVersionAtom : public oahHelpOnlyAtom
     // ------------------------------------------------------
 
     static SMARTP<oahVersionAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
   protected:
 
@@ -586,10 +492,6 @@ class EXP oahVersionAtom : public oahHelpOnlyAtom
 
     void                  printVersion (ostream& os) const;
 
-    void                  printAtomWithValueOptionsValues (
-                            ostream&     os,
-                            unsigned int valueFieldWidth) const override;
-
   private:
 
     // private fields
@@ -599,7 +501,7 @@ typedef SMARTP<oahVersionAtom> S_oahVersionAtom;
 EXP ostream& operator<< (ostream& os, const S_oahVersionAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahContactAtom : public oahHelpOnlyAtom
+class EXP oahContactAtom : public oahHelpAtomWithoutValue
 {
   public:
 
@@ -607,10 +509,10 @@ class EXP oahContactAtom : public oahHelpOnlyAtom
     // ------------------------------------------------------
 
     static SMARTP<oahContactAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
   protected:
 
@@ -655,10 +557,6 @@ class EXP oahContactAtom : public oahHelpOnlyAtom
 
     void                  printContact (ostream& os) const;
 
-    void                  printAtomWithValueOptionsValues (
-                            ostream&     os,
-                            unsigned int valueFieldWidth) const override;
-
   private:
 
     // private fields
@@ -668,7 +566,7 @@ typedef SMARTP<oahContactAtom> S_oahContactAtom;
 EXP ostream& operator<< (ostream& os, const S_oahContactAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahBooleanAtom : public oahAtom
+class EXP oahBooleanAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -676,11 +574,11 @@ class EXP oahBooleanAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<oahBooleanAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string variableName,
-      bool&  booleanVariable);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string variableName,
+                            bool&  booleanVariable);
 
   protected:
 
@@ -716,6 +614,13 @@ class EXP oahBooleanAtom : public oahAtom
 
     void                  applyElement (ostream& os) override;
 
+    void                  applyAtomWithValue (
+                            const string& theString,
+                            ostream&      os) override;
+                            // returns an error
+
+    void                  applyAtomWithDefaultValue (ostream& os) override;
+
   public:
 
     // visitors
@@ -733,7 +638,7 @@ class EXP oahBooleanAtom : public oahAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -743,8 +648,6 @@ class EXP oahBooleanAtom : public oahAtom
     // ------------------------------------------------------
 
     bool&                 fBooleanVariable;
-    string                fVariableName;
-
     bool                  fVariableHasBeenSet;
 };
 typedef SMARTP<oahBooleanAtom> S_oahBooleanAtom;
@@ -759,12 +662,12 @@ class EXP oahTwoBooleansAtom : public oahBooleanAtom
     // ------------------------------------------------------
 
     static SMARTP<oahTwoBooleansAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string variableName,
-      bool&  booleanVariable,
-      bool&  booleanSecondaryVariable);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string variableName,
+                            bool&  booleanVariable,
+                            bool&  booleanSecondaryVariable);
 
   protected:
 
@@ -812,7 +715,7 @@ class EXP oahTwoBooleansAtom : public oahBooleanAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -835,13 +738,13 @@ class EXP oahThreeBooleansAtom : public oahBooleanAtom
     // ------------------------------------------------------
 
     static SMARTP<oahThreeBooleansAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string variableName,
-      bool&  booleanVariable,
-      bool&  booleanSecondaryVariable,
-      bool&  booleanTertiaryVariable);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string variableName,
+                            bool&  booleanVariable,
+                            bool&  booleanSecondaryVariable,
+                            bool&  booleanTertiaryVariable);
 
   protected:
 
@@ -890,7 +793,7 @@ class EXP oahThreeBooleansAtom : public oahBooleanAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -906,7 +809,7 @@ typedef SMARTP<oahThreeBooleansAtom> S_oahThreeBooleansAtom;
 EXP ostream& operator<< (ostream& os, const S_oahThreeBooleansAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahCombinedBooleansAtom : public oahAtomWithVariableName
+class EXP oahCombinedBooleansAtom : public oahAtom
 {
   public:
 
@@ -914,11 +817,9 @@ class EXP oahCombinedBooleansAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     static SMARTP<oahCombinedBooleansAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string variableName,
-      bool&  booleanVariable);
+                            string shortName,
+                            string longName,
+                            string description);
 
   protected:
 
@@ -928,9 +829,7 @@ class EXP oahCombinedBooleansAtom : public oahAtomWithVariableName
                           oahCombinedBooleansAtom (
                             string shortName,
                             string longName,
-                            string description,
-                            string variableName,
-                            bool&  booleanVariable);
+                            string description);
 
     virtual               ~oahCombinedBooleansAtom ();
 
@@ -984,7 +883,7 @@ class EXP oahCombinedBooleansAtom : public oahAtomWithVariableName
 
     void                  printHelp (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -992,8 +891,6 @@ class EXP oahCombinedBooleansAtom : public oahAtomWithVariableName
 
     // private fields
     // ------------------------------------------------------
-
-    bool&                 fBooleanVariable;
 
     list<S_oahBooleanAtom>
                           fBooleanAtomsList;
@@ -1010,13 +907,13 @@ class EXP oahMultiplexBooleansAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<oahMultiplexBooleansAtom> create (
-      string      shortName,
-      string      longName,
-      string      description,
-      string      shortSuffixDescriptor,
-      string      longSuffixDescriptor,
-      S_oahPrefix shortNamesPrefix,
-      S_oahPrefix longNamesPrefix);
+                            string      shortName,
+                            string      longName,
+                            string      description,
+                            string      shortSuffixDescriptor,
+                            string      longSuffixDescriptor,
+                            S_oahPrefix shortNamesPrefix,
+                            S_oahPrefix longNamesPrefix);
 
   protected:
 
@@ -1075,7 +972,7 @@ class EXP oahMultiplexBooleansAtom : public oahAtom
 
     void                  printHelp (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -1103,7 +1000,7 @@ typedef SMARTP<oahMultiplexBooleansAtom> S_oahMultiplexBooleansAtom;
 EXP ostream& operator<< (ostream& os, const S_oahMultiplexBooleansAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahIntegerAtom : public oahAtomWithValue
+class EXP oahIntegerAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -1111,12 +1008,12 @@ class EXP oahIntegerAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahIntegerAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName,
-      int&   integerVariable);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string valueSpecification,
+                            string variableName,
+                            int&   integerVariable);
 
   protected:
 
@@ -1175,7 +1072,7 @@ class EXP oahIntegerAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
   protected:
@@ -1197,13 +1094,13 @@ class EXP oahTwoIntegersAtom : public oahIntegerAtom
     // ------------------------------------------------------
 
     static SMARTP<oahTwoIntegersAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName,
-      int&   integerVariable,
-      int&   integerSecondaryVariable);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string valueSpecification,
+                            string variableName,
+                            int&   integerVariable,
+                            int&   integerSecondaryVariable);
 
   protected:
 
@@ -1260,7 +1157,7 @@ class EXP oahTwoIntegersAtom : public oahIntegerAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
   private:
@@ -1274,7 +1171,7 @@ typedef SMARTP<oahTwoIntegersAtom> S_oahTwoIntegersAtom;
 EXP ostream& operator<< (ostream& os, const S_oahTwoIntegersAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahFloatAtom : public oahAtomWithValue
+class EXP oahFloatAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -1282,12 +1179,12 @@ class EXP oahFloatAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahFloatAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName,
-      float& floatVariable);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string valueSpecification,
+                            string variableName,
+                            float& floatVariable);
 
   protected:
 
@@ -1343,7 +1240,7 @@ class EXP oahFloatAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -1358,7 +1255,7 @@ typedef SMARTP<oahFloatAtom> S_oahFloatAtom;
 EXP ostream& operator<< (ostream& os, const S_oahFloatAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahStringAtom : public oahAtomWithValue
+class EXP oahStringAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -1366,12 +1263,12 @@ class EXP oahStringAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahStringAtom> create (
-      string  shortName,
-      string  longName,
-      string  description,
-      string  valueSpecification,
-      string  variableName,
-      string& stringVariable);
+                            string  shortName,
+                            string  longName,
+                            string  description,
+                            string  valueSpecification,
+                            string  variableName,
+                            string& stringVariable);
 
   protected:
 
@@ -1427,7 +1324,7 @@ class EXP oahStringAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -1450,11 +1347,11 @@ class EXP oahMonoplexStringAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<oahMonoplexStringAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string atomNameDescriptor,
-      string stringValueDescriptor);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string atomNameDescriptor,
+                            string stringValueDescriptor);
 
   protected:
 
@@ -1511,7 +1408,7 @@ class EXP oahMonoplexStringAtom : public oahAtom
 
     void                  printHelp (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -1540,13 +1437,13 @@ class EXP oahStringWithDefaultValueAtom : public oahStringAtom
     // ------------------------------------------------------
 
     static SMARTP<oahStringWithDefaultValueAtom> create (
-      string  shortName,
-      string  longName,
-      string  description,
-      string  valueSpecification,
-      string  variableName,
-      string& stringVariable,
-      string  defaultStringValue);
+                            string  shortName,
+                            string  longName,
+                            string  description,
+                            string  valueSpecification,
+                            string  variableName,
+                            string& stringVariable,
+                            string  defaultStringValue);
 
   protected:
 
@@ -1603,7 +1500,7 @@ class EXP oahStringWithDefaultValueAtom : public oahStringAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -1618,7 +1515,7 @@ typedef SMARTP<oahStringWithDefaultValueAtom> S_oahStringWithDefaultValueAtom;
 EXP ostream& operator<< (ostream& os, const S_oahStringWithDefaultValueAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahRationalAtom : public oahAtomWithValue
+class EXP oahRationalAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -1626,12 +1523,12 @@ class EXP oahRationalAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahRationalAtom> create (
-      string    shortName,
-      string    longName,
-      string    description,
-      string    valueSpecification,
-      string    variableName,
-      rational& rationalVariable);
+                            string    shortName,
+                            string    longName,
+                            string    description,
+                            string    valueSpecification,
+                            string    variableName,
+                            rational& rationalVariable);
 
   protected:
 
@@ -1692,7 +1589,7 @@ class EXP oahRationalAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -1707,7 +1604,7 @@ typedef SMARTP<oahRationalAtom> S_oahRationalAtom;
 EXP ostream& operator<< (ostream& os, const S_oahRationalAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahNaturalNumbersSetAtom : public oahAtomWithValue
+class EXP oahNaturalNumbersSetAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -1715,12 +1612,12 @@ class EXP oahNaturalNumbersSetAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahNaturalNumbersSetAtom> create (
-      string    shortName,
-      string    longName,
-      string    description,
-      string    valueSpecification,
-      string    variableName,
-      set<int>& naturalNumbersSetVariable);
+                            string    shortName,
+                            string    longName,
+                            string    description,
+                            string    valueSpecification,
+                            string    variableName,
+                            set<int>& naturalNumbersSetVariable);
 
   protected:
 
@@ -1781,7 +1678,7 @@ class EXP oahNaturalNumbersSetAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -1796,7 +1693,7 @@ typedef SMARTP<oahNaturalNumbersSetAtom> S_oahNaturalNumbersSetAtom;
 EXP ostream& operator<< (ostream& os, const S_oahNaturalNumbersSetAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahRGBColorAtom : public oahAtomWithValue
+class EXP oahRGBColorAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -1804,12 +1701,12 @@ class EXP oahRGBColorAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahRGBColorAtom> create (
-      string       shortName,
-      string       longName,
-      string       description,
-      string       valueSpecification,
-      string       variableName,
-      msrRGBColor& RGBColorVariable);
+                            string       shortName,
+                            string       longName,
+                            string       description,
+                            string       valueSpecification,
+                            string       variableName,
+                            msrRGBColor& RGBColorVariable);
 
   protected:
 
@@ -1870,7 +1767,7 @@ class EXP oahRGBColorAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -1885,7 +1782,7 @@ typedef SMARTP<oahRGBColorAtom> S_oahRGBColorAtom;
 EXP ostream& operator<< (ostream& os, const S_oahRGBColorAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahIntSetAtom : public oahAtomWithValue
+class EXP oahIntSetAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -1893,12 +1790,12 @@ class EXP oahIntSetAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahIntSetAtom> create (
-      string    shortName,
-      string    longName,
-      string    description,
-      string    valueSpecification,
-      string    variableName,
-      set<int>& intSetVariable);
+                            string    shortName,
+                            string    longName,
+                            string    description,
+                            string    valueSpecification,
+                            string    variableName,
+                            set<int>& intSetVariable);
 
   protected:
 
@@ -1953,7 +1850,7 @@ class EXP oahIntSetAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -1968,7 +1865,7 @@ typedef SMARTP<oahIntSetAtom> S_oahIntSetAtom;
 EXP ostream& operator<< (ostream& os, const S_oahIntSetAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahStringSetAtom : public oahAtomWithValue
+class EXP oahStringSetAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -1976,12 +1873,12 @@ class EXP oahStringSetAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahStringSetAtom> create (
-      string       shortName,
-      string       longName,
-      string       description,
-      string       valueSpecification,
-      string       variableName,
-      set<string>& stringSetVariable);
+                            string       shortName,
+                            string       longName,
+                            string       description,
+                            string       valueSpecification,
+                            string       variableName,
+                            set<string>& stringSetVariable);
 
   protected:
 
@@ -2042,7 +1939,7 @@ class EXP oahStringSetAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -2057,7 +1954,7 @@ typedef SMARTP<oahStringSetAtom> S_oahStringSetAtom;
 EXP ostream& operator<< (ostream& os, const S_oahStringSetAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahStringToIntMapAtom : public oahAtomWithValue
+class EXP oahStringToIntMapAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -2065,12 +1962,12 @@ class EXP oahStringToIntMapAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahStringToIntMapAtom> create (
-      string            shortName,
-      string            longName,
-      string            description,
-      string            valueSpecification,
-      string            variableName,
-      map<string, int>& stringToIntMapVariable);
+                            string            shortName,
+                            string            longName,
+                            string            description,
+                            string            valueSpecification,
+                            string            variableName,
+                            map<string, int>& stringToIntMapVariable);
 
   protected:
 
@@ -2126,7 +2023,7 @@ class EXP oahStringToIntMapAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -2141,7 +2038,7 @@ typedef SMARTP<oahStringToIntMapAtom> S_oahStringToIntMapAtom;
 EXP ostream& operator<< (ostream& os, const S_oahStringToIntMapAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahStringAndIntegerAtom : public oahAtomWithValue
+class EXP oahStringAndIntegerAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -2149,14 +2046,14 @@ class EXP oahStringAndIntegerAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahStringAndIntegerAtom> create (
-      string  shortName,
-      string  longName,
-      string  description,
-      string  valueSpecification,
-      string  stringVariableName,
-      string& stringVariable,
-      string  integerVariableName,
-      int&    integerVariable);
+                            string  shortName,
+                            string  longName,
+                            string  description,
+                            string  valueSpecification,
+                            string  stringVariableName,
+                            string& stringVariable,
+                            string  integerVariableName,
+                            int&    integerVariable);
 
   protected:
 
@@ -2219,7 +2116,7 @@ class EXP oahStringAndIntegerAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -2238,7 +2135,7 @@ typedef SMARTP<oahStringAndIntegerAtom> S_oahStringAndIntegerAtom;
 EXP ostream& operator<< (ostream& os, const S_oahStringAndIntegerAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahStringAndTwoIntegersAtom : public oahAtomWithValue
+class EXP oahStringAndTwoIntegersAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -2246,14 +2143,14 @@ class EXP oahStringAndTwoIntegersAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahStringAndTwoIntegersAtom> create (
-      string  shortName,
-      string  longName,
-      string  description,
-      string  valueSpecification,
-      string  variableName,
-      string& stringVariable,
-      int&    primaryIntegerVariable,
-      int&    secondaryIntegerVariable);
+                            string  shortName,
+                            string  longName,
+                            string  description,
+                            string  valueSpecification,
+                            string  variableName,
+                            string& stringVariable,
+                            int&    primaryIntegerVariable,
+                            int&    secondaryIntegerVariable);
 
   protected:
 
@@ -2321,7 +2218,7 @@ class EXP oahStringAndTwoIntegersAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -2339,7 +2236,7 @@ typedef SMARTP<oahStringAndTwoIntegersAtom> S_oahStringAndTwoIntegersAtom;
 EXP ostream& operator<< (ostream& os, const S_oahStringAndTwoIntegersAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahLengthUnitKindAtom : public oahAtomWithValue
+class EXP oahLengthUnitKindAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -2347,12 +2244,12 @@ class EXP oahLengthUnitKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahLengthUnitKindAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      msrLengthUnitKind& lengthUnitKindVariable);
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            msrLengthUnitKind& lengthUnitKindVariable);
 
   protected:
 
@@ -2413,7 +2310,7 @@ class EXP oahLengthUnitKindAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -2428,7 +2325,7 @@ typedef SMARTP<oahLengthUnitKindAtom> S_oahLengthUnitKindAtom;
 EXP ostream& operator<< (ostream& os, const S_oahLengthUnitKindAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahLengthAtom : public oahAtomWithValue
+class EXP oahLengthAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -2436,12 +2333,12 @@ class EXP oahLengthAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahLengthAtom> create (
-      string     shortName,
-      string     longName,
-      string     description,
-      string     valueSpecification,
-      string     variableName,
-      msrLength& lengthVariable);
+                            string     shortName,
+                            string     longName,
+                            string     description,
+                            string     valueSpecification,
+                            string     variableName,
+                            msrLength& lengthVariable);
 
   protected:
 
@@ -2502,7 +2399,7 @@ class EXP oahLengthAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -2517,7 +2414,7 @@ typedef SMARTP<oahLengthAtom> S_oahLengthAtom;
 EXP ostream& operator<< (ostream& os, const S_oahLengthAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahMidiTempoAtom : public oahAtomWithValue
+class EXP oahMidiTempoAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -2525,12 +2422,12 @@ class EXP oahMidiTempoAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<oahMidiTempoAtom> create (
-      string        shortName,
-      string        longName,
-      string        description,
-      string        valueSpecification,
-      string        variableName,
-      msrMidiTempo& midiTempoVariable);
+                            string        shortName,
+                            string        longName,
+                            string        description,
+                            string        valueSpecification,
+                            string        variableName,
+                            msrMidiTempo& midiTempoVariable);
 
   protected:
 
@@ -2591,7 +2488,7 @@ class EXP oahMidiTempoAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -2621,13 +2518,13 @@ class EXP oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
     // ------------------------------------------------------
 
     static SMARTP<oahOptionNameHelpAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName,
-      string& stringVariable,
-      string defaultOptionName);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string valueSpecification,
+                            string variableName,
+                            string& stringVariable,
+                            string defaultOptionName);
 
   protected:
 
@@ -2661,7 +2558,7 @@ class EXP oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
                             const string& theString,
                             ostream&      os) override;
 
-    void                  applyAtomWithValueDefaultValue (ostream& os) override;
+    void                  applyAtomWithDefaultValue (ostream& os) override;
 
   public:
 
@@ -2683,7 +2580,7 @@ class EXP oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
 
     void                  print (ostream& os) const override;
 
-    virtual void          printAtomWithValueOptionsValues (
+    virtual void          printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
   private:
@@ -2691,13 +2588,13 @@ class EXP oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
     // private fields
     // ------------------------------------------------------
 
-    string                fValueSpecification;
+//    string                fValueSpecification;
 };
 typedef SMARTP<oahOptionNameHelpAtom> S_oahOptionNameHelpAtom;
 EXP ostream& operator<< (ostream& os, const S_oahOptionNameHelpAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahAProposOptionNameAtom : public oahStringAtom
+class EXP oahAProposOptionNameAtom : public oahHelpAtomExpectingAValue
 {
   public:
 
@@ -2705,12 +2602,10 @@ class EXP oahAProposOptionNameAtom : public oahStringAtom
     // ------------------------------------------------------
 
     static SMARTP<oahAProposOptionNameAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName,
-      string& stringVariable);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
   protected:
 
@@ -2721,9 +2616,7 @@ class EXP oahAProposOptionNameAtom : public oahStringAtom
                             string shortName,
                             string longName,
                             string description,
-                            string valueSpecification,
-                            string variableName,
-                            string& stringVariable);
+                            string executableName);
 
     virtual               ~oahAProposOptionNameAtom ();
 
@@ -2761,21 +2654,19 @@ class EXP oahAProposOptionNameAtom : public oahStringAtom
 
     void                  print (ostream& os) const override;
 
-    virtual void          printAtomWithValueOptionsValues (
+    virtual void          printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
   private:
 
     // private fields
     // ------------------------------------------------------
-
-    string                fValueSpecification;
 };
 typedef SMARTP<oahAProposOptionNameAtom> S_oahAProposOptionNameAtom;
 EXP ostream& operator<< (ostream& os, const S_oahAProposOptionNameAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahFindStringAtom : public oahStringAtom
+class EXP oahFindStringAtom : public oahHelpAtomExpectingAValue
 {
   public:
 
@@ -2783,12 +2674,10 @@ class EXP oahFindStringAtom : public oahStringAtom
     // ------------------------------------------------------
 
     static SMARTP<oahFindStringAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName,
-      string& stringVariable);
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
   protected:
 
@@ -2799,9 +2688,7 @@ class EXP oahFindStringAtom : public oahStringAtom
                             string shortName,
                             string longName,
                             string description,
-                            string valueSpecification,
-                            string variableName,
-                            string& stringVariable);
+                            string executableName);
 
     virtual               ~oahFindStringAtom ();
 
@@ -2839,15 +2726,13 @@ class EXP oahFindStringAtom : public oahStringAtom
 
     void                  print (ostream& os) const override;
 
-    virtual void          printAtomWithValueOptionsValues (
+    virtual void          printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
   private:
 
     // private fields
     // ------------------------------------------------------
-
-    string                fValueSpecification;
 };
 typedef SMARTP<oahFindStringAtom> S_oahFindStringAtom;
 EXP ostream& operator<< (ostream& os, const S_oahFindStringAtom& elt);

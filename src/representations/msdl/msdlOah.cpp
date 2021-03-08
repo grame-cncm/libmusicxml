@@ -27,6 +27,9 @@
 #include "generalOah.h"
 
 #include "msdlOah.h"
+#include "msdl2msdrOah.h"
+
+#include "msdlTokens.h"
 
 #include "waeMessagesHandling.h"
 
@@ -35,123 +38,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-
-// the MSDL comments types
-//______________________________________________________________________________
-
-map<string, msdlCommentsTypeKind>
-  gGlobalMsdlCommentsTypeKindsMap;
-
-msdlCommentsTypeKind msdlCommentsTypeKindFromString (std::string theString)
-{
-  msdlCommentsTypeKind result = kCommentsTypePercent; // MSDL default
-
-  map<string, msdlCommentsTypeKind>::const_iterator
-    it =
-      gGlobalMsdlCommentsTypeKindsMap.find (
-        theString);
-
-  if (it == gGlobalMsdlCommentsTypeKindsMap.end ()) {
-    // no, keywords language kind is unknown in the map
-    stringstream s;
-
-    s <<
-      "MSDL language kind '" << theString <<
-      "' is unknown" <<
-      endl <<
-      "The " <<
-      gGlobalMsdlCommentsTypeKindsMap.size () - 1 <<
-      " known MSDL language kinds are:" <<
-      endl;
-
-    ++gIndenter;
-
-    s <<
-      existingMsdlCommentsTypeKinds (K_NAMES_LIST_MAX_LENGTH);
-
-    --gIndenter;
-
-// JMI    oahError (s.str ());
-  }
-
-  result = (*it).second;
-
-  return result;
-}
-
-void initializeMsdlCommentsTypeKindsMap ()
-{
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
-
-  if (! pThisMethodHasBeenRun) {
-    gGlobalMsdlCommentsTypeKindsMap ["percent"] = kCommentsTypePercent;
-    gGlobalMsdlCommentsTypeKindsMap ["star"]    = kCommentsTypeStar;
-
-    pThisMethodHasBeenRun = true;
-  }
-}
-
-string msdlCommentsTypeKindAsString (
-  msdlCommentsTypeKind languageKind)
-{
-  string result;
-
-  switch (languageKind) {
-    case kCommentsTypePercent: // MSDL default
-      result = "keywordsEnglish";
-      break;
-    case kCommentsTypeStar:
-      result = "keywordsFrench";
-      break;
-  } // switch
-
-  return result;
-}
-
-string existingMsdlCommentsTypeKinds (unsigned int namesListMaxLength)
-{
-  stringstream s;
-
-  unsigned int
-    msdlCommentsTypeKindsMapSize =
-      gGlobalMsdlCommentsTypeKindsMap.size ();
-
-  if (msdlCommentsTypeKindsMapSize) {
-    unsigned int nextToLast =
-      msdlCommentsTypeKindsMapSize - 1;
-
-    unsigned int count = 0;
-    unsigned int cumulatedLength = 0;
-
-    for (
-      map<string, msdlCommentsTypeKind>::const_iterator i =
-        gGlobalMsdlCommentsTypeKindsMap.begin ();
-      i != gGlobalMsdlCommentsTypeKindsMap.end ();
-      ++i
-    ) {
-      string theString = (*i).first;
-
-      cumulatedLength += theString.size ();
-      if (cumulatedLength >= namesListMaxLength) {
-        s << "\n";
-        cumulatedLength = 0;
-        break;
-      }
-
-      s << theString;
-
-      if (count == nextToLast) {
-        s << " and ";
-      }
-      else if (count != msdlCommentsTypeKindsMapSize) {
-        s << ", ";
-      }
-    } // for
-  }
-
-  return s.str ();
-}
 
 //______________________________________________________________________________
 S_msdlKeywordsLanguageAtom msdlKeywordsLanguageAtom::create (
@@ -183,7 +69,7 @@ msdlKeywordsLanguageAtom::msdlKeywordsLanguageAtom (
   string             variableName,
   msdlKeywordsLanguageKind&
                      msdlKeywordsLanguageKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -345,12 +231,12 @@ void msdlKeywordsLanguageAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fMsdlKeywordsLanguageKindVariable" << " : \"" <<
@@ -362,7 +248,7 @@ void msdlKeywordsLanguageAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void msdlKeywordsLanguageAtom::printAtomWithValueOptionsValues (
+void msdlKeywordsLanguageAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -382,6 +268,408 @@ void msdlKeywordsLanguageAtom::printAtomWithValueOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_msdlKeywordsLanguageAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_oahDisplayMsdlKeywordsInLanguageAtom oahDisplayMsdlKeywordsInLanguageAtom::create (
+  string shortName,
+  string longName,
+  string description,
+  string executableName)
+{
+  oahDisplayMsdlKeywordsInLanguageAtom* o = new
+    oahDisplayMsdlKeywordsInLanguageAtom (
+      shortName,
+      longName,
+      description,
+      executableName);
+  assert (o != nullptr);
+  return o;
+}
+
+oahDisplayMsdlKeywordsInLanguageAtom::oahDisplayMsdlKeywordsInLanguageAtom (
+  string shortName,
+  string longName,
+  string description,
+  string executableName)
+  : oahHelpAtomExpectingAValue (
+      shortName,
+      longName,
+      description,
+      executableName)
+{
+  this->setElementValueKind (kElementValueMandatory);
+
+  fElementHelpOnlyKind = kElementHelpOnlyYes;
+
+  this->setMultipleOccurrencesAllowed ();
+}
+
+oahDisplayMsdlKeywordsInLanguageAtom::~oahDisplayMsdlKeywordsInLanguageAtom ()
+{}
+
+void oahDisplayMsdlKeywordsInLanguageAtom::applyAtomWithValue (
+  const string& theString,
+  ostream&      os)
+{
+  // theString contains the language name:
+  // is it in the keywords languages map?
+
+  map<string, msdlKeywordsLanguageKind>::const_iterator
+    it =
+      gGlobalMsdlKeywordsLanguageKindsMap.find (theString);
+
+  if (it == gGlobalMsdlKeywordsLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+    stringstream s;
+
+    s <<
+      "MSDR keywords display language \"" << theString <<
+      "\" is unknown" <<
+      endl <<
+      "The " <<
+      gGlobalMsdlKeywordsLanguageKindsMap.size () - 1 <<
+      " known MSDR keywords languages are:" <<
+      endl;
+
+    ++gIndenter;
+
+    s <<
+      existingMsdlKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    --gIndenter;
+
+    oahError (s.str ());
+  }
+
+  // get the keywords language kind
+  msdlKeywordsLanguageKind
+    keywordsLanguageKind =
+      (*it).second;
+
+  // write the existing keywords names
+  gLogStream <<
+    "The keywords in language '" <<
+    msdlKeywordsLanguageKindAsString (keywordsLanguageKind) <<
+    "' are: " <<
+    endl;
+
+  ++gIndenter;
+
+  gLogStream <<
+    gIndenter.indentMultiLineString (
+      existingKeywordsInLanguage (
+        keywordsLanguageKind,
+        K_NAMES_LIST_MAX_LENGTH)) <<
+    endl;
+
+  --gIndenter;
+}
+
+void oahDisplayMsdlKeywordsInLanguageAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahDisplayMsdlKeywordsInLanguageAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahDisplayMsdlKeywordsInLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_oahDisplayMsdlKeywordsInLanguageAtom>*> (v)) {
+        S_oahDisplayMsdlKeywordsInLanguageAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahDisplayMsdlKeywordsInLanguageAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahDisplayMsdlKeywordsInLanguageAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahDisplayMsdlKeywordsInLanguageAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahDisplayMsdlKeywordsInLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_oahDisplayMsdlKeywordsInLanguageAtom>*> (v)) {
+        S_oahDisplayMsdlKeywordsInLanguageAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahDisplayMsdlKeywordsInLanguageAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahDisplayMsdlKeywordsInLanguageAtom::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahDisplayMsdlKeywordsInLanguageAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahDisplayMsdlKeywordsInLanguageAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName;
+
+  return s.str ();
+}
+
+string oahDisplayMsdlKeywordsInLanguageAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName;
+
+  return s.str ();
+}
+
+void oahDisplayMsdlKeywordsInLanguageAtom::print (ostream& os) const
+{
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "oahDisplayMsdlKeywordsInLanguageAtom:" <<
+    endl;
+
+  ++gIndenter;
+
+  printAtomWithVariableOptionsValues (
+    os, fieldWidth);
+
+  --gIndenter;
+}
+
+ostream& operator<< (ostream& os, const S_oahDisplayMsdlKeywordsInLanguageAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_oahDisplayMsdlTokensInLanguageAtom oahDisplayMsdlTokensInLanguageAtom::create (
+  string shortName,
+  string longName,
+  string description,
+  string executableName)
+{
+  oahDisplayMsdlTokensInLanguageAtom* o = new
+    oahDisplayMsdlTokensInLanguageAtom (
+      shortName,
+      longName,
+      description,
+      executableName);
+  assert (o != nullptr);
+  return o;
+}
+
+oahDisplayMsdlTokensInLanguageAtom::oahDisplayMsdlTokensInLanguageAtom (
+  string shortName,
+  string longName,
+  string description,
+  string executableName)
+  : oahHelpAtomExpectingAValue (
+      shortName,
+      longName,
+      description,
+      executableName)
+{
+  this->setElementValueKind (kElementValueMandatory);
+
+  fElementHelpOnlyKind = kElementHelpOnlyYes;
+
+  this->setMultipleOccurrencesAllowed ();
+}
+
+oahDisplayMsdlTokensInLanguageAtom::~oahDisplayMsdlTokensInLanguageAtom ()
+{}
+
+void oahDisplayMsdlTokensInLanguageAtom::applyAtomWithValue (
+  const string& theString,
+  ostream&      os)
+{
+  // theString contains the language name:
+  // is it in the keywords languages map?
+
+  map<string, msdlKeywordsLanguageKind>::const_iterator
+    it =
+      gGlobalMsdlKeywordsLanguageKindsMap.find (theString);
+
+  if (it == gGlobalMsdlKeywordsLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+    stringstream s;
+
+    s <<
+      "MSDR keywords display language \"" << theString <<
+      "\" is unknown" <<
+      endl <<
+      "The " <<
+      gGlobalMsdlKeywordsLanguageKindsMap.size () - 1 <<
+      " known MSDR keywords languages are:" <<
+      endl;
+
+    ++gIndenter;
+
+    s <<
+      existingMsdlKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    --gIndenter;
+
+    oahError (s.str ());
+  }
+
+  // get the keywords language kind
+  msdlKeywordsLanguageKind
+    keywordsLanguageKind =
+      (*it).second;
+
+  // write the existing tokens
+  gLogStream <<
+    "The tokens in language \"" <<
+    msdlKeywordsLanguageKindAsString (keywordsLanguageKind) <<
+    "\" are (<...> denotes a class of tokens): " <<
+    endl;
+
+  ++gIndenter;
+
+  gLogStream <<
+    gIndenter.indentMultiLineString (
+      existingTokensInLanguage (
+        keywordsLanguageKind,
+        K_NAMES_LIST_MAX_LENGTH)) <<
+    endl;
+
+  --gIndenter;
+}
+
+void oahDisplayMsdlTokensInLanguageAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahDisplayMsdlTokensInLanguageAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahDisplayMsdlTokensInLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_oahDisplayMsdlTokensInLanguageAtom>*> (v)) {
+        S_oahDisplayMsdlTokensInLanguageAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahDisplayMsdlTokensInLanguageAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahDisplayMsdlTokensInLanguageAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahDisplayMsdlTokensInLanguageAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahDisplayMsdlTokensInLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_oahDisplayMsdlTokensInLanguageAtom>*> (v)) {
+        S_oahDisplayMsdlTokensInLanguageAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahDisplayMsdlTokensInLanguageAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahDisplayMsdlTokensInLanguageAtom::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahDisplayMsdlTokensInLanguageAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahDisplayMsdlTokensInLanguageAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName;
+
+  return s.str ();
+}
+
+string oahDisplayMsdlTokensInLanguageAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName;
+
+  return s.str ();
+}
+
+void oahDisplayMsdlTokensInLanguageAtom::print (ostream& os) const
+{
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "oahDisplayMsdlTokensInLanguageAtom:" <<
+    endl;
+
+  ++gIndenter;
+
+  printAtomWithVariableOptionsValues (
+    os, fieldWidth);
+
+  --gIndenter;
+}
+
+ostream& operator<< (ostream& os, const S_oahDisplayMsdlTokensInLanguageAtom& elt)
 {
   elt->print (os);
   return os;
@@ -417,7 +705,7 @@ msdlCommentsTypeAtom::msdlCommentsTypeAtom (
   string             variableName,
   msdlCommentsTypeKind&
                      msdlCommentsTypeKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -579,12 +867,12 @@ void msdlCommentsTypeAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fMsdlCommentsTypeKindVariable" << " : \"" <<
@@ -596,7 +884,7 @@ void msdlCommentsTypeAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void msdlCommentsTypeAtom::printAtomWithValueOptionsValues (
+void msdlCommentsTypeAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -616,6 +904,246 @@ void msdlCommentsTypeAtom::printAtomWithValueOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_msdlCommentsTypeAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msdlUserLanguageAtom msdlUserLanguageAtom::create (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  msdlUserLanguageKind&
+                     msdlUserLanguageKindVariable)
+{
+  msdlUserLanguageAtom* o = new
+    msdlUserLanguageAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      msdlUserLanguageKindVariable);
+  assert (o != nullptr);
+  return o;
+}
+
+msdlUserLanguageAtom::msdlUserLanguageAtom (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  msdlUserLanguageKind&
+                     msdlUserLanguageKindVariable)
+  : oahAtomStoringAValueInAVariable (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fMsdlUserLanguageVariable (
+      msdlUserLanguageKindVariable)
+{}
+
+msdlUserLanguageAtom::~msdlUserLanguageAtom ()
+{}
+
+void msdlUserLanguageAtom::applyAtomWithValue (
+  const string& theString,
+  ostream&      os)
+{
+
+#ifdef TRACING_IS_ENABLED
+  if (getTraceOah ()) {
+    gLogStream <<
+      "==> oahAtom is of type 'msdlUserLanguageAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the language name:
+  // is it in the User languages map?
+
+#ifdef TRACING_IS_ENABLED
+  if (getTraceOah ()) {
+    gLogStream <<
+      "==> oahAtom is of type 'msdlUserLanguageAtom'" <<
+      endl;
+  }
+#endif
+
+  map<string, msdlUserLanguageKind>::const_iterator
+    it =
+      gGlobalMsdlUserLanguageKindsMap.find (
+        theString);
+
+  if (it == gGlobalMsdlUserLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+
+    stringstream s;
+
+    s <<
+      "MSDR User language '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gGlobalMsdlUserLanguageKindsMap.size () <<
+      " known MSDR user languages are:" <<
+      endl;
+
+    ++gIndenter;
+
+    s <<
+      existingMsdlUserLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    --gIndenter;
+
+    oahError (s.str ());
+  }
+
+  setMsdlUserLanguageKindVariable (
+    (*it).second);
+}
+
+void msdlUserLanguageAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> msdlUserLanguageAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msdlUserLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_msdlUserLanguageAtom>*> (v)) {
+        S_msdlUserLanguageAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching msdlUserLanguageAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msdlUserLanguageAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> msdlUserLanguageAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msdlUserLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_msdlUserLanguageAtom>*> (v)) {
+        S_msdlUserLanguageAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching msdlUserLanguageAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msdlUserLanguageAtom::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> msdlUserLanguageAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string msdlUserLanguageAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    msdlUserLanguageKindAsString (
+      fMsdlUserLanguageVariable);
+
+  return s.str ();
+}
+
+string msdlUserLanguageAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    msdlUserLanguageKindAsString (
+      fMsdlUserLanguageVariable);
+
+  return s.str ();
+}
+
+void msdlUserLanguageAtom::print (ostream& os) const
+{
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "msdlUserLanguageAtom:" <<
+    endl;
+
+  ++gIndenter;
+
+  printAtomWithVariableEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "variableName" << " : " <<
+    fVariableName <<
+    endl <<
+    setw (fieldWidth) <<
+    "msdlUserLanguageVariable" << " : \"" <<
+    msdlUserLanguageKindAsString (
+      fMsdlUserLanguageVariable) <<
+    "\"" <<
+    endl;
+
+  --gIndenter;
+}
+
+void msdlUserLanguageAtom::printAtomWithVariableOptionsValues (
+  ostream&     os,
+  unsigned int valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : \"" <<
+    msdlUserLanguageKindAsString (
+      fMsdlUserLanguageVariable) <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
+}
+
+ostream& operator<< (ostream& os, const S_msdlUserLanguageAtom& elt)
 {
   elt->print (os);
   return os;
@@ -651,7 +1179,7 @@ msdlPitchesLanguageAtom::msdlPitchesLanguageAtom (
   string             variableName,
   msrQuarterTonesPitchesLanguageKind&
                      msdlPitchesLanguageKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -818,16 +1346,16 @@ void msdlPitchesLanguageAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsMsdlPitchesLanguageVariable" << " : \"" <<
+    "msrQuarterTonesPitchesLanguageKindVariable" << " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable) <<
     "\"" <<
@@ -836,7 +1364,7 @@ void msdlPitchesLanguageAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void msdlPitchesLanguageAtom::printAtomWithValueOptionsValues (
+void msdlPitchesLanguageAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -864,21 +1392,25 @@ ostream& operator<< (ostream& os, const S_msdlPitchesLanguageAtom& elt)
 //_______________________________________________________________________________
 S_msdlOahGroup gGlobalMsdlOahGroup;
 
-S_msdlOahGroup msdlOahGroup::create ()
+S_msdlOahGroup msdlOahGroup::create (
+  string executableName)
 {
-  msdlOahGroup* o = new msdlOahGroup ();
+  msdlOahGroup* o = new msdlOahGroup (
+    executableName);
   assert (o != nullptr);
   return o;
 }
 
-msdlOahGroup::msdlOahGroup ()
+msdlOahGroup::msdlOahGroup (
+  string executableName)
   : oahGroup (
     "MSDR",
     "hmsdl", "help-msdl",
 R"(These options control the way MSDR data is handled.)",
     kElementVisibilityWhole)
 {
-  initializeMsdlOahGroup ();
+  initializeMsdlOahGroup (
+    executableName);
 }
 
 msdlOahGroup::~msdlOahGroup ()
@@ -950,8 +1482,8 @@ R"(Write the contents of the MSDR data, short version, to standard error.)",
         fDisplayMsdlShort));
 }
 
-
-void msdlOahGroup::initializeMsdlLanguagesOptions ()
+void msdlOahGroup::initializeMsdlLanguagesOptions (
+  string executableName)
 {
   S_oahSubGroup
     subGroup =
@@ -1020,25 +1552,24 @@ The default is 'DEFAULT_VALUE'.)",
         "msdlPitchesLanguage",
         fMsdlQuarterTonesPitchesLanguageKind));
 
-/*  JMI
-  // MSDR keywords input language
+  // MSDR keywords display
 
   const msdlKeywordsLanguageKind
     msdlKeywordsLanguageKindDefaultValue =
-      kKeywordsLanguageEnglish; // MSDL default
+      msdlKeywordsLanguageKind::kKeywordsEnglish; // MSDL default
 
   fMsdlKeywordsLanguageKind =
     msdlKeywordsLanguageKindDefaultValue;
 
   subGroup->
     appendAtomToSubGroup (
-      msdlKeywordsLanguageAtom::create (
-        "msdlkl_JMI", "msdl-keywords-input-language_JMI",
+      oahDisplayMsdlKeywordsInLanguageAtom::create (
+        "dkil", "display-keywords-in-language",
         regex_replace (
           regex_replace (
             regex_replace (
-R"(Use LANGUAGE to input keyword names.
-The NUMBER MSDR keywords pitches languages available are:
+R"(Display the keywords in language LANGUAGE.
+The NUMBER MSDR keywords languages available are:
 KEYWORDS_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
@@ -1049,10 +1580,37 @@ The default is 'DEFAULT_VALUE'.)",
           regex ("DEFAULT_VALUE"),
           msdlKeywordsLanguageKindAsString (
             msdlKeywordsLanguageKindDefaultValue)),
-        "LANGUAGE",
-        "msdl-keywords-language",
-        fMsdlKeywordsLanguageKind));
-        */
+        executableName));
+
+  // MSDR tokens display
+
+  const msdlKeywordsLanguageKind
+    msdlTokensLanguageKindDefaultValue =
+      msdlKeywordsLanguageKind::kKeywordsEnglish; // MSDL default
+
+  fMsdlKeywordsLanguageKind =
+    msdlTokensLanguageKindDefaultValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahDisplayMsdlTokensInLanguageAtom::create (
+        "dtil", "display-tokens-in-language",
+        regex_replace (
+          regex_replace (
+            regex_replace (
+R"(Display the tokens in language LANGUAGE.
+The NUMBER MSDR tokens languages available are:
+KEYWORDS_LANGUAGES.
+The default is 'DEFAULT_VALUE'.)",
+              regex ("NUMBER"),
+              to_string (gGlobalMsdlKeywordsLanguageKindsMap.size ())),
+            regex ("KEYWORDS_LANGUAGES"),
+            gIndenter.indentMultiLineString (
+              existingMsdlKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
+          regex ("DEFAULT_VALUE"),
+          msdlKeywordsLanguageKindAsString (
+            msdlTokensLanguageKindDefaultValue)),
+        executableName));
 }
 
 void msdlOahGroup::initializeMsdlQuitAfterSomePassesOptions ()
@@ -1086,7 +1644,8 @@ of the MSR to MSDR.)",
       quit3OahBooleanAtom);
 }
 
-void msdlOahGroup::initializeMsdlOahGroup ()
+void msdlOahGroup::initializeMsdlOahGroup (
+  string executableName)
 {
 #ifdef TRACING_IS_ENABLED
   // trace and display
@@ -1100,7 +1659,8 @@ void msdlOahGroup::initializeMsdlOahGroup ()
 
   // languages
   // --------------------------------------
-  initializeMsdlLanguagesOptions ();
+  initializeMsdlLanguagesOptions (
+    executableName);
 
   // quit after some passes
   // --------------------------------------
@@ -1300,7 +1860,8 @@ ostream& operator<< (ostream& os, const S_msdlOahGroup& elt)
 }
 
 //______________________________________________________________________________
-S_msdlOahGroup createGlobalMsdlOahGroup ()
+S_msdlOahGroup createGlobalMsdlOahGroup (
+  string executableName)
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
@@ -1314,7 +1875,8 @@ S_msdlOahGroup createGlobalMsdlOahGroup ()
   if (! gGlobalMsdlOahGroup) {
     // create the global options group
     gGlobalMsdlOahGroup =
-      msdlOahGroup::create ();
+      msdlOahGroup::create (
+        executableName);
     assert (gGlobalMsdlOahGroup != 0);
   }
 

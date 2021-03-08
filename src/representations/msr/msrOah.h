@@ -26,7 +26,7 @@ namespace MusicXML2
 #define K_GENERATION_API_KIND_LONG_NAME  "generation-api-kind"
 
 //______________________________________________________________________________
-class EXP msrPitchesLanguageAtom : public oahAtomWithValue
+class EXP msrPitchesLanguageAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -98,7 +98,7 @@ class EXP msrPitchesLanguageAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -114,7 +114,7 @@ typedef SMARTP<msrPitchesLanguageAtom> S_msrPitchesLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_msrPitchesLanguageAtom& elt);
 
 //______________________________________________________________________________
-class EXP msrRenamePartAtom : public oahAtomWithValue
+class EXP msrRenamePartAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -182,7 +182,7 @@ class EXP msrRenamePartAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 

@@ -57,7 +57,7 @@ extraShowAllHarmoniesStructuresAtom::extraShowAllHarmoniesStructuresAtom (
   const string& shortName,
   const string& longName,
   const string& description)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -182,7 +182,7 @@ void extraShowAllHarmoniesStructuresAtom::printAllHarmoniesStructures (ostream& 
   msrHarmonyStructure::printAllHarmoniesStructures (os);
 }
 
-void extraShowAllHarmoniesStructuresAtom::printAtomWithValueOptionsValues (
+void extraShowAllHarmoniesStructuresAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -223,7 +223,7 @@ extraShowAllHarmoniesContentsAtom::extraShowAllHarmoniesContentsAtom (
   string  valueSpecification,
   string  variableName,
   string& extraShowAllHarmoniesContentsVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -423,7 +423,7 @@ void extraShowAllHarmoniesContentsAtom::printAllHarmoniesContents (
     semiTonesPitchKind);
 }
 
-void extraShowAllHarmoniesContentsAtom::printAtomWithValueOptionsValues (
+void extraShowAllHarmoniesContentsAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -464,7 +464,7 @@ extraShowHarmonyDetailsAtom::extraShowHarmonyDetailsAtom (
   string  valueSpecification,
   string  variableName,
   string& extraShowHarmonyDetailsVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -725,7 +725,7 @@ void extraShowHarmonyDetailsAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void extraShowHarmonyDetailsAtom::printAtomWithValueOptionsValues (
+void extraShowHarmonyDetailsAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -760,7 +760,7 @@ extraShowHarmonyAnalysisAtom::extraShowHarmonyAnalysisAtom (
   string  valueSpecification,
   string  variableName,
   string& extraShowHarmonyAnalysisVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -1056,7 +1056,7 @@ void extraShowHarmonyAnalysisAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void extraShowHarmonyAnalysisAtom::printAtomWithValueOptionsValues (
+void extraShowHarmonyAnalysisAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

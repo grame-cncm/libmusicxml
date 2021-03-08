@@ -36,6 +36,63 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+string voiceRepeatPhaseKindAsString (
+  msrVoiceRepeatPhaseKind
+    afterRepeatComponentPhaseKind)
+{
+  string result;
+
+  switch (afterRepeatComponentPhaseKind) {
+    case msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseNone:
+      result = "voiceRepeatPhaseNone";
+      break;
+    case msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseAfterCommonPart:
+      result = "voiceRepeatPhaseAfterCommonPart";
+      break;
+    case msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseAfterHookedEnding:
+      result = "voiceRepeatPhaseAfterHookedEnding";
+      break;
+    case msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseAfterHooklessEnding:
+      result = "voiceRepeatPhaseAfterHooklessEnding";
+      break;
+  } // switch
+
+  return result;
+}
+
+string voiceFinalizationStatusKindAsString (
+  msrVoiceFinalizationStatusKind voiceFinalizationStatusKind)
+{
+  string result;
+
+  switch (voiceFinalizationStatusKind) {
+    case msrVoiceFinalizationStatusKind::kKeepVoice:
+      result = "keepVoice";
+      break;
+    case msrVoiceFinalizationStatusKind::kEraseVoice:
+      result = "eraseVoice";
+      break;
+  } // switch
+
+  return result;
+}
+
+string voiceFinalizationStatusKindAsString (
+  msrVoiceCreateInitialLastSegmentKind voiceCreateInitialLastSegmentKind)
+{
+  string result;
+
+  switch (voiceCreateInitialLastSegmentKind) {
+    case msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes:
+      break;
+    case msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentNo:
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
 S_msrRepeatDescr msrRepeatDescr::create (
   int         repeatDescrStartInputLineNumber,
   S_msrRepeat repeatDescrRepeat)
@@ -128,7 +185,7 @@ S_msrVoice msrVoice::createRegularVoice (
       inputLineNumber,
       kVoiceRegular,
       voiceNumber,
-      msrVoice::kCreateInitialLastSegmentYes,
+      msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
         // the initial last segment is ready to receive music
       voiceStaffUpLink);
 }
@@ -143,7 +200,7 @@ S_msrVoice msrVoice::createHarmonyVoice (
       inputLineNumber,
       kVoiceHarmony,
       voiceNumber,
-      msrVoice::kCreateInitialLastSegmentYes,
+      msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
         // the initial last segment is ready to receive music
       voiceStaffUpLink);
 }
@@ -158,7 +215,7 @@ S_msrVoice msrVoice::createFiguredBassVoice (
       inputLineNumber,
       kVoiceFiguredBass,
       voiceNumber,
-      msrVoice::kCreateInitialLastSegmentYes,
+      msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
         // the initial last segment is ready to receive music
       voiceStaffUpLink);
 }
@@ -200,23 +257,36 @@ msrVoice::msrVoice (
 #endif
 }
 
+msrVoice::msrVoice (
+  int          inputLineNumber,
+  msrVoiceKind voiceKind,
+  int          voiceNumber)
+    : msrElement (inputLineNumber)
+{
+  // set voice staff upLink
+  fVoiceStaffUpLink = nullptr;
+
+  // set voice kind
+  fVoiceKind = voiceKind;
+
+  // set voice number
+  fVoiceNumber = voiceNumber;
+
+  // do other initializations
+  initializeVoice (
+    msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes); // JMI
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "Creating voice \"" << asString () << "\"" <<
+      endl;
+  }
+#endif
+}
+
 msrVoice::~msrVoice ()
 {}
-
-string msrVoice::voiceFinalizationStatusKindAsString (
-  msrVoiceCreateInitialLastSegmentKind voiceCreateInitialLastSegmentKind)
-{
-  string result;
-
-  switch (voiceCreateInitialLastSegmentKind) {
-    case msrVoice::kCreateInitialLastSegmentYes:
-      break;
-    case msrVoice::kCreateInitialLastSegmentNo:
-      break;
-  } // switch
-
-  return result;
-}
 
 S_msrPart msrVoice::fetchVoicePartUpLink () const
 {
@@ -568,7 +638,7 @@ void msrVoice::initializeVoice (
   // set voice current after repeat component phase kind
   setCurrentVoiceRepeatPhaseKind (
     fInputLineNumber,
-    kVoiceRepeatPhaseNone);
+    msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseNone);
 
   // rest measures
   fVoiceContainsRestMeasures  = false;
@@ -586,7 +656,7 @@ void msrVoice::initializeVoice (
 
   // create the initial last segment if requested
   switch (voiceCreateInitialLastSegmentKind) {
-    case msrVoice::kCreateInitialLastSegmentYes:
+    case msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes:
       // sanity check // JMI LAST
       msgAssert (
         __FILE__, __LINE__,
@@ -603,7 +673,7 @@ void msrVoice::initializeVoice (
         fVoiceFirstSegment = fVoiceLastSegment;
       }
       break;
-    case msrVoice::kCreateInitialLastSegmentNo:
+    case msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentNo:
       break;
   } // switch
 
@@ -680,7 +750,7 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
         fInputLineNumber,
         fVoiceKind,
         fVoiceNumber,
-        msrVoice::kCreateInitialLastSegmentNo,
+        msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentNo,
           // initial segment will be created upon a later segment visit
         staffClone);
 
@@ -742,7 +812,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
         fInputLineNumber,
         voiceKind,
         voiceNumber,
-        msrVoice::kCreateInitialLastSegmentNo,
+        msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentNo,
           // the voice initial last segment
           // will be created by deep cloning below
         containingStaff);
@@ -1381,7 +1451,7 @@ S_msrVoice msrVoice::createRegularVoiceHarmonyVoice (
       inputLineNumber,
       kVoiceHarmony,
       regularVoiceHarmonyVoiceNumber,
-      msrVoice::kCreateInitialLastSegmentYes,
+      msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
       fVoiceStaffUpLink);
 
   // register it in the staff
@@ -1437,7 +1507,7 @@ S_msrVoice msrVoice::createRegularVoiceFiguredBassVoice (
       inputLineNumber,
       kVoiceFiguredBass,
       regularVoiceFiguredBassVoiceNumber,
-      msrVoice::kCreateInitialLastSegmentYes,
+      msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
       fVoiceStaffUpLink);
 
   // register it in the staff
@@ -3845,7 +3915,7 @@ void msrVoice::moveVoiceLastSegmentToRepeatCommonPart (
     // set voice current after repeat component phase kind
     setCurrentVoiceRepeatPhaseKind (
       inputLineNumber,
-      kVoiceRepeatPhaseAfterCommonPart);
+      msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseAfterCommonPart);
 
     // append fVoiceLastSegment to the repeat common part
     repeatCommonPart->
@@ -4539,7 +4609,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
   // before finalizeLastAppendedMeasureInVoice()
   setCurrentVoiceRepeatPhaseKind (
     inputLineNumber,
-    kVoiceRepeatPhaseAfterCommonPart);
+    msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseAfterCommonPart);
 /* JMI
   // finalize current measure in voice
   voiceLastSegmentLastMeasure->
@@ -4797,7 +4867,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithStartInVoice (
   // set voice current after repeat component phase kind
   setCurrentVoiceRepeatPhaseKind (
     inputLineNumber,
-    kVoiceRepeatPhaseAfterCommonPart);
+    msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseAfterCommonPart);
 
   // grab current repeat
   S_msrRepeat
@@ -8404,7 +8474,7 @@ void msrVoice::handleRepeatCommonPartEndInVoiceClone (
   // set voice current after repeat component phase kind
   setCurrentVoiceRepeatPhaseKind (
     inputLineNumber,
-    kVoiceRepeatPhaseAfterCommonPart);
+    msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseAfterCommonPart);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRepeats ()) {
@@ -8488,7 +8558,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
   // set voice current after repeat component phase kind
   setCurrentVoiceRepeatPhaseKind (
     inputLineNumber,
-    kVoiceRepeatPhaseAfterHookedEnding);
+    msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseAfterHookedEnding);
 
   // move the voice last segment to repeatEnding
   moveVoiceLastSegmentToRepeatEnding (
@@ -8578,7 +8648,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
   // set voice current after repeat component phase kind
   setCurrentVoiceRepeatPhaseKind (
     inputLineNumber,
-    kVoiceRepeatPhaseAfterHooklessEnding);
+    msrVoiceRepeatPhaseKind::kVoiceRepeatPhaseAfterHooklessEnding);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRepeats ()) {
@@ -10101,47 +10171,6 @@ string msrVoice::regularVoiceStaffSequentialNumberAsString () const
   return result;
 }
 
-string msrVoice::voiceRepeatPhaseKindAsString (
-  msrVoiceRepeatPhaseKind
-    afterRepeatComponentPhaseKind)
-{
-  string result;
-
-  switch (afterRepeatComponentPhaseKind) {
-    case msrVoice::kVoiceRepeatPhaseNone:
-      result = "voiceRepeatPhaseNone";
-      break;
-    case msrVoice::kVoiceRepeatPhaseAfterCommonPart:
-      result = "voiceRepeatPhaseAfterCommonPart";
-      break;
-    case msrVoice::kVoiceRepeatPhaseAfterHookedEnding:
-      result = "voiceRepeatPhaseAfterHookedEnding";
-      break;
-    case msrVoice::kVoiceRepeatPhaseAfterHooklessEnding:
-      result = "voiceRepeatPhaseAfterHooklessEnding";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrVoice::voiceFinalizationStatusKindAsString (
-  msrVoiceFinalizationStatusKind voiceFinalizationStatusKind)
-{
-  string result;
-
-  switch (voiceFinalizationStatusKind) {
-    case msrVoice::kKeepVoice:
-      result = "keepVoice";
-      break;
-    case msrVoice::kEraseVoice:
-      result = "eraseVoice";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrVoice::asShortString () const
 {
   stringstream s;
@@ -10174,7 +10203,7 @@ string msrVoice::asString () const
 
 void msrVoice::displayVoice (
   int    inputLineNumber,
-  string context)
+  string context) const
 {
   gLogStream <<
     endl <<

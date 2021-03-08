@@ -32,7 +32,7 @@
 #include "waeExceptions.h"
 #include "waeMessagesHandling.h"
 
-#include "msdlScanner.h"
+#include "msdlParser.h"
 
 #include "msdl2brlInsiderHandler.h"
 #include "msdl2brlRegularHandler.h"
@@ -51,6 +51,7 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 xmlErr msdlStream2brailleWithHandler (
+  string        inputSourceName,
   istream&      inputStream,
   S_oahHandler  handler,
   std::ostream& out,
@@ -74,18 +75,12 @@ xmlErr msdlStream2brailleWithHandler (
   // ------------------------------------------------------
 
   try {
-    msdlScanner scanner (inputStream);
+    msdlParser
+      parser (
+        inputSourceName,
+        inputStream);
 
-    scanner.scanWholeInputAtOnce (); // TEMP JMI
-
-    /*
-    theMsrScore =
-      convertMxmlTreeToMsrScoreSkeleton (
-        mxmlTree,
-        gGlobalMsrOahGroup,
-        "Pass 1a",
-        "Perform lexical analysis");
-        */
+    parser.parse ();
   }
   catch (msgMsdlToMsrInternalException& e) {
     displayException (e, gOutputStream);
@@ -380,6 +375,7 @@ xmlErr msdlStream2brailleWithHandler (
 
 //_______________________________________________________________________________
 xmlErr msdlStream2brailleWithOptionsVector (
+  string               inputSourceName,
   istream&             inputStream,
   const optionsVector& options,
   std::ostream&        out,
@@ -523,6 +519,7 @@ xmlErr msdlStream2brailleWithOptionsVector (
   // ------------------------------------------------------
 
   msdlStream2brailleWithHandler (
+    inputSourceName,
     inputStream,
     handler,
     out,
@@ -571,7 +568,7 @@ EXP xmlErr msdlFile2brailleWithOptionsVector (
 
   return
     msdlStream2brailleWithOptionsVector (
-      inputStream, options, out, err);
+      fileName, inputStream, options, out, err);
 }
 
 xmlErr msdlFile2brailleWithHandler (
@@ -613,7 +610,7 @@ xmlErr msdlFile2brailleWithHandler (
 
   return
     msdlStream2brailleWithHandler (
-      inputStream, handler, out, err);
+      fileName, inputStream, handler, out, err);
 }
 
 //_______________________________________________________________________________
@@ -632,7 +629,7 @@ EXP xmlErr msdlString2brailleWithOptionsVector (
 	// to handle the help options if any
   return
     msdlStream2brailleWithOptionsVector (
-      inputStream, options, out, err);
+      "buffer", inputStream, options, out, err);
 }
 
 xmlErr msdlString2brailleWithHandler (
@@ -650,7 +647,7 @@ xmlErr msdlString2brailleWithHandler (
 	// to handle the help options if any
   return
     msdlStream2brailleWithHandler (
-      inputStream, handler, out, err);
+      "buffer", inputStream, handler, out, err);
 }
 
 

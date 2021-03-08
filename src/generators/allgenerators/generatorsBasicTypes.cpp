@@ -174,7 +174,7 @@ generatorOutputKindAtom::generatorOutputKindAtom (
   string               valueSpecification,
   string               variableName,
   generatorOutputKind& generatorOutputKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -331,12 +331,12 @@ void generatorOutputKindAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
@@ -349,7 +349,7 @@ void generatorOutputKindAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void generatorOutputKindAtom::printAtomWithValueOptionsValues (
+void generatorOutputKindAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

@@ -9,14 +9,17 @@
 pitches english            % default is english
 
 
-% the score
+anacrusis                 % measure numbers start at 0
+
+
+% the structure
 % -----------------------------------------------
 
-score helloWorld = "Hello World in MSPL" {
+%score helloWorld = "Hello World in MSPL" {
 
-  voice {
+  music {
     |1 c1
     |||                   % final bar
   }
 
-} % helloWorld
+%} % helloWorld

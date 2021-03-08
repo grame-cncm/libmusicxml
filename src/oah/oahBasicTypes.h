@@ -91,9 +91,9 @@ to be developped into :
     // ------------------------------------------------------
 
     static SMARTP<oahPrefix> create (
-      string prefixName,
-      string prefixErsatz,
-      string prefixDescription);
+                            string prefixName,
+                            string prefixErsatz,
+                            string prefixDescription);
 
   protected:
 
@@ -173,6 +173,10 @@ to be developped into :
 EXP ostream& operator<< (ostream& os, const S_oahPrefix& elt);
 
 //______________________________________________________________________________
+/*
+  a common ancestor for all atom classes,
+  this class contains  only an uplink to the containing subgroup
+*/
 class EXP oahAtom : public oahElement
 {
   public:
@@ -182,10 +186,10 @@ class EXP oahAtom : public oahElement
 
 /* this class is purely virtual
     static SMARTP<oahAtom> create (
-      string         shortName,
-      string         longName,
-      string         description,
-      oahElementKind atomValueExpectedKind);
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            oahElementValueKind atomValueExpectedKind);
 */
 
   protected:
@@ -194,10 +198,10 @@ class EXP oahAtom : public oahElement
     // ------------------------------------------------------
 
                           oahAtom (
-                            string         shortName,
-                            string         longName,
-                            string         description,
-                            oahElementKind atomValueExpectedKind);
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            oahElementValueKind atomValueExpectedKind);
 
     virtual               ~oahAtom ();
 
@@ -253,7 +257,7 @@ class EXP oahAtom : public oahElement
                             list<string>& foundStringsList,
                             ostream&      os) const;
 
-    virtual void          printAtomWithValueOptionsValues (
+    virtual void          printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const;
 
@@ -274,47 +278,54 @@ typedef SMARTP<oahAtom> S_oahAtom;
 EXP ostream& operator<< (ostream& os, const S_oahAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahAtomWithVariableName : public oahAtom
+class EXP oahAtomExpectingAValue : public oahAtom
+/*
+  a common ancestor for all atom classes
+  that take a value from argv or an optionsVector
+*/
 {
   public:
 
     // creation
     // ------------------------------------------------------
 /* this class is purely virtual
-    static SMARTP<oahAtomWithVariableName> create (
-      string shortName,
-      string longName,
-      string description,
-      string variableName);
+    static SMARTP<oahAtomExpectingAValue> create (
+                            string shortName,
+                            string longName,
+                            string description);
 */
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-                          oahAtomWithVariableName (
+                          oahAtomExpectingAValue (
                             string shortName,
                             string longName,
-                            string description,
-                            string variableName);
+                            string description);
 
-    virtual               ~oahAtomWithVariableName ();
+    virtual               ~oahAtomExpectingAValue ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    string                getVariableName () const
-                              { return fVariableName; }
-
   public:
 
     // public services
     // ------------------------------------------------------
 
-    unsigned int          fetchVariableNameLength () const override // JMI ???
-                              { return fVariableName.size (); }
+    void                  applyElement (ostream& os) override;
+                            // reports an error
+
+    virtual void          applyAtomWithValue (
+                            const string& theString,
+                            ostream& os) = 0;
+
+    virtual void          applyAtomWithDefaultValue (ostream& os);
+                            // used only if fElementValueKind
+                            // is kElementValueImplicit or kElementValueOptional
 
   public:
 
@@ -331,44 +342,36 @@ class EXP oahAtomWithVariableName : public oahAtom
     // print
     // ------------------------------------------------------
 
-    virtual void          printAtomWithVariableNameEssentials (
-                            ostream& os,
-                            unsigned int fieldWidth) const;
-    virtual void          printAtomWithVariableNameEssentialsShort (
-                            ostream& os,
-                            unsigned int fieldWidth) const;
-
     void                  print (ostream& os) const override;
     void                  printShort (ostream& os) const override;
-
-    void                  printAtomWithValueOptionsValues (
-                            ostream&     os,
-                            unsigned int valueFieldWidth) const override;
 
   protected:
 
     // protected fields
     // ------------------------------------------------------
-
-    string                fVariableName;
 };
-typedef SMARTP<oahAtomWithVariableName> S_oahAtomWithVariableName;
-EXP ostream& operator<< (ostream& os, const S_oahAtomWithVariableName& elt);
+typedef SMARTP<oahAtomExpectingAValue> S_oahAtomExpectingAValue;
+EXP ostream& operator<< (ostream& os, const S_oahAtomExpectingAValue& elt);
 
 //______________________________________________________________________________
-class EXP oahAtomWithValue : public oahAtomWithVariableName
+/*
+  a common ancestor for all atom classes
+  that take a value from argv or an optionsVector
+  and store it internally in a variable
+*/
+class EXP oahAtomStoringAValueInAVariable : public oahAtomExpectingAValue
 {
   public:
 
     // creation
     // ------------------------------------------------------
 /* this class is purely virtual
-    static SMARTP<oahAtomWithValue> create (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName);
+    static SMARTP<oahAtomStoringAValueInAVariable> create (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string valueSpecification,
+                            string variableName);
 */
 
   protected:
@@ -376,14 +379,14 @@ class EXP oahAtomWithValue : public oahAtomWithVariableName
     // constructors/destructor
     // ------------------------------------------------------
 
-                          oahAtomWithValue (
+                          oahAtomStoringAValueInAVariable (
                             string shortName,
                             string longName,
                             string description,
                             string valueSpecification,
                             string variableName);
 
-    virtual               ~oahAtomWithValue ();
+    virtual               ~oahAtomStoringAValueInAVariable ();
 
   public:
 
@@ -401,16 +404,88 @@ class EXP oahAtomWithValue : public oahAtomWithVariableName
     // public services
     // ------------------------------------------------------
 
-    void                  applyElement (ostream& os) override;
-                            // repors an error
+  public:
 
-    virtual void          applyAtomWithValue (
-                            const string& theString,
-                            ostream& os) = 0;
+    // visitors
+    // ------------------------------------------------------
 
-    virtual void          applyAtomWithValueDefaultValue (ostream& os);
-                            // used only if fElementKind
-                            // is equal to kElementWithOptionalValue
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
+
+    void                  browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          printAtomWithVariableEssentials (
+                            ostream& os,
+                            unsigned int fieldWidth) const;
+    virtual void          printAtomWithVariableEssentialsShort (
+                            ostream& os,
+                            unsigned int fieldWidth) const;
+
+    void                  print (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
+
+    void                  printHelp (ostream& os) const override;
+
+    virtual void          printAtomWithVariableOptionsValues (
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
+
+  protected:
+
+    // protected fields
+    // ------------------------------------------------------
+
+    string                fValueSpecification;
+
+    string                fVariableName;
+    bool                  fVariableHasBeenSet;
+};
+typedef SMARTP<oahAtomStoringAValueInAVariable> S_oahAtomStoringAValueInAVariable;
+EXP ostream& operator<< (ostream& os, const S_oahAtomStoringAValueInAVariable& elt);
+
+//______________________________________________________________________________
+class EXP oahHelpAtomWithoutValue : public oahAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+/* this class is purely virtual
+    static SMARTP<oahHelpAtomWithoutValue> create (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
+*/
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          oahHelpAtomWithoutValue (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
+
+    virtual               ~oahHelpAtomWithoutValue ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
 
   public:
 
@@ -427,33 +502,83 @@ class EXP oahAtomWithValue : public oahAtomWithVariableName
     // print
     // ------------------------------------------------------
 
-    virtual void          printAtomWithValueEssentials (
-                            ostream& os,
-                            unsigned int fieldWidth) const;
-    virtual void          printAtomWithValueEssentialsShort (
-                            ostream& os,
-                            unsigned int fieldWidth) const;
-
     void                  print (ostream& os) const override;
-    void                  printShort (ostream& os) const override;
-
-    void                  printHelp (ostream& os) const override;
-
-    virtual void          printAtomWithValueOptionsValues (
-                            ostream&     os,
-                            unsigned int valueFieldWidth) const override;
 
   protected:
 
     // protected fields
     // ------------------------------------------------------
 
-    string                fValueSpecification;
-
-    bool                  fVariableHasBeenSet;
+    string                fHelpAtomWithoutValueExecutableName;
 };
-typedef SMARTP<oahAtomWithValue> S_oahAtomWithValue;
-EXP ostream& operator<< (ostream& os, const S_oahAtomWithValue& elt);
+typedef SMARTP<oahHelpAtomWithoutValue> S_oahHelpAtomWithoutValue;
+EXP ostream& operator<< (ostream& os, const S_oahHelpAtomWithoutValue& elt);
+
+//______________________________________________________________________________
+class EXP oahHelpAtomExpectingAValue : public oahAtomExpectingAValue
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+/* this class is purely virtual
+    static SMARTP<oahHelpAtomExpectingAValue> create (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
+*/
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          oahHelpAtomExpectingAValue (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
+
+    virtual               ~oahHelpAtomExpectingAValue ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
+
+    void                  browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const override;
+
+  protected:
+
+    // protected fields
+    // ------------------------------------------------------
+
+    string                fHelpAtomExpectingAValueExecutableName; // JMI ???
+};
+typedef SMARTP<oahHelpAtomExpectingAValue> S_oahHelpAtomExpectingAValue;
+EXP ostream& operator<< (ostream& os, const S_oahHelpAtomExpectingAValue& elt);
 
 //_______________________________________________________________________________
 class EXP oahSubGroup : public oahElement
@@ -464,12 +589,12 @@ class EXP oahSubGroup : public oahElement
     // ------------------------------------------------------
 
     static SMARTP<oahSubGroup> create (
-      string                   subGroupHeader,
-      string                   shortName,
-      string                   longName,
-      string                   description,
-      oahElementVisibilityKind optionVisibilityKind,
-      S_oahGroup               groupUpLink);
+                            string                   subGroupHeader,
+                            string                   shortName,
+                            string                   longName,
+                            string                   description,
+                            oahElementVisibilityKind optionVisibilityKind,
+                            S_oahGroup               groupUpLink);
 
   protected:
 
@@ -622,19 +747,19 @@ class EXP oahGroup : public oahElement
     // ------------------------------------------------------
 
     static SMARTP<oahGroup> create (
-      string                   header,
-      string                   shortName,
-      string                   longName,
-      string                   description,
-      oahElementVisibilityKind optionVisibilityKind);
+                            string                   header,
+                            string                   shortName,
+                            string                   longName,
+                            string                   description,
+                            oahElementVisibilityKind optionVisibilityKind);
 
     static SMARTP<oahGroup> create (
-      string                   header,
-      string                   shortName,
-      string                   longName,
-      string                   description,
-      oahElementVisibilityKind optionVisibilityKind,
-      S_oahHandler             groupHandlerUpLink);
+                            string                   header,
+                            string                   shortName,
+                            string                   longName,
+                            string                   description,
+                            oahElementVisibilityKind optionVisibilityKind,
+                            S_oahHandler             groupHandlerUpLink);
 
   protected:
 
@@ -835,10 +960,10 @@ class EXP oahHandler : public smartable
 
  /* this class is purely virtual
     static SMARTP<oahHandler> create (
-      string   executableName,
-      string   handlerHeader,
-      string   handlerDescription,
-      string   handlerUsage);
+                            string   executableName,
+                            string   handlerHeader,
+                            string   handlerDescription,
+                            string   handlerUsage);
 */
 
   protected:
@@ -1059,6 +1184,8 @@ class EXP oahHandler : public smartable
 
     void                  checkNoInputSourceInArgumentsVector () const;
 
+    void                  checkNoOrOneInputSourceInArgumentsVector () const;
+
     void                  checkSingleInputSourceInArgumentsVector () const;
 
   private:
@@ -1139,7 +1266,7 @@ class EXP oahHandler : public smartable
                             S_oahElement element,
                             string       optionNameUsed);
 
-    void                  checkMissingPendingArgvAtomWithValueValue (
+    void                  checkMissingPendingArgvAtomExpectingAValueValue (
                             string atomName,
                             string context);
 
@@ -1247,8 +1374,9 @@ class EXP oahHandler : public smartable
     list<S_oahElementUse> fElementUsesList;
 
     // atoms waiting for a value
-    S_oahAtomWithValue    fPendingArgvAtomWithValue;
-    string                fNameUsedForPendingArgvAtomWithValue;
+    S_oahAtomExpectingAValue
+                          fPendingArgvAtomExpectingAValue;
+    string                fNameUsedForPendingArgvAtomExpectingAValue;
 };
 typedef SMARTP<oahHandler> S_oahHandler;
 EXP ostream& operator<< (ostream& os, const S_oahHandler& elt);
@@ -1260,6 +1388,7 @@ EXP ostream& operator<< (ostream& os, const S_oahHandler& elt);
 #endif
 
 /* JMI
+
 // optional values style
 //______________________________________________________________________________
 enum oahOptionalValuesStyleKind {
@@ -1278,3 +1407,72 @@ string existingOahOptionalValuesStyleKinds (unsigned int namesListMaxLength);
 void initializeOahOptionalValuesStyleKindsMap ();
 */
 
+/*
+
+*/
+
+/*
+//______________________________________________________________________________
+class EXP oahAtomWithoutValue : public oahAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+/ * this class is purely virtual
+    static SMARTP<oahAtomWithoutValue> create (
+                            string shortName,
+                            string longName,
+                            string description);
+* /
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          oahAtomWithoutValue (
+                            string shortName,
+                            string longName,
+                            string description);
+
+    virtual               ~oahAtomWithoutValue ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    virtual void          applyElement (ostream& os) override;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
+
+    void                  browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
+
+  protected:
+
+    // protected fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<oahAtomWithoutValue> S_oahAtomWithoutValue;
+EXP ostream& operator<< (ostream& os, const S_oahAtomWithoutValue& elt);
+
+*/

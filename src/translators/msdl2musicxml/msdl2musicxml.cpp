@@ -32,7 +32,7 @@
 #include "waeExceptions.h"
 #include "waeMessagesHandling.h"
 
-#include "msdlScanner.h"
+#include "msdlParser.h"
 
 #include "msdl2xmlInsiderHandler.h"
 #include "msdl2xmlRegularHandler.h"
@@ -58,6 +58,7 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 EXP xmlErr msdlStream2musicxmlWithHandler (
+  string        inputSourceName,
   istream&      inputStream,
   S_oahHandler  handler,
   std::ostream& out,
@@ -81,18 +82,12 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
   // ------------------------------------------------------
 
   try {
-    msdlScanner scanner (inputStream);
+    msdlParser
+      parser (
+        inputSourceName,
+        inputStream);
 
-    scanner.scanWholeInputAtOnce (); // TEMP JMI
-
-    /*
-    theMsrScore =
-      convertMxmlTreeToMsrScoreSkeleton (
-        mxmlTree,
-        gGlobalMsrOahGroup,
-        "Pass 1a",
-        "Perform lexical analysis");
-        */
+    parser.parse ();
   }
   catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
@@ -228,6 +223,7 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
 
 //_______________________________________________________________________________
 EXP xmlErr msdlStream2musicxmlWithOptionsVector (
+  string               inputSourceName,
   istream&             inputStream,
   const optionsVector& options,
   std::ostream&        out,
@@ -369,6 +365,7 @@ EXP xmlErr msdlStream2musicxmlWithOptionsVector (
   // ------------------------------------------------------
 
   msdlStream2musicxmlWithHandler (
+    inputSourceName,
     inputStream,
     handler,
     out,
@@ -417,7 +414,7 @@ EXP xmlErr msdlFile2musicxmlWithOptionsVector (
 
   return
     msdlStream2musicxmlWithOptionsVector (
-      inputStream, options, out, err);
+      fileName, inputStream, options, out, err);
 }
 
 EXP xmlErr msdlFile2musicxmlWithHandler (
@@ -459,7 +456,7 @@ EXP xmlErr msdlFile2musicxmlWithHandler (
 
   return
     msdlStream2musicxmlWithHandler (
-      inputStream, handler, out, err);
+      fileName, inputStream, handler, out, err);
 }
 
 //_______________________________________________________________________________
@@ -478,7 +475,7 @@ EXP xmlErr musicxmlstring2musicxmlWithOptionsVector (
 	// to handle the help options if any
   return
     msdlStream2musicxmlWithOptionsVector (
-      inputStream, options, out, err);
+      "buffer", inputStream, options, out, err);
 
 	return kInvalidFile;
 }
@@ -498,7 +495,7 @@ EXP xmlErr msdlString2musicxmlWithHandler (
 	// to handle the help options if any
   return
     msdlStream2musicxmlWithHandler (
-      inputStream, handler, out, err);
+      "buffer", inputStream, handler, out, err);
 
 	return kInvalidFile;
 }

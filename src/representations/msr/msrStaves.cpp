@@ -628,7 +628,7 @@ S_msrVoice msrStaff::createRegularVoiceInStaffByItsNumber (
         inputLineNumber,
         kVoiceRegular,
         voiceNumber,
-        msrVoice::kCreateInitialLastSegmentYes,
+        msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
         this);
 
   // register the voice in staff by its number
@@ -684,7 +684,7 @@ S_msrVoice msrStaff::createRegularVoiceInStaffByItsNumber (
         inputLineNumber,
         voiceKind,
         voiceNumber,
-        msrVoice::kCreateInitialLastSegmentYes,
+        msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
         this);
 
   // take this new voice into account if relevant

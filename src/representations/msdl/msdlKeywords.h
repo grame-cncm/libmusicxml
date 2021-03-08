@@ -16,25 +16,25 @@
 #include <string>
 #include <map>
 
-#include "smartpointer.h"
-
 
 using namespace std;
 
 namespace MusicXML2
 {
+//______________________________________________________________________________
+enum class msdlTokenKind;
 
 // the MSDL keywords languages
 //______________________________________________________________________________
-enum msdlKeywordsLanguageKind {
+enum class msdlKeywordsLanguageKind {
   k_NoKeywordsLanguage,
 
-  kKeywordsLanguageEnglish, // MSDL default
-  kKeywordsLanguageFrench,
-  kKeywordsLanguageItalian,
-  kKeywordsLanguageGerman,
-  kKeywordsLanguageSpanish,
-  kKeywordsLanguageNederlands
+  kKeywordsEnglish, // MSDL default
+  kKeywordsFrench,
+  kKeywordsItalian,
+  kKeywordsGerman,
+  kKeywordsSpanish,
+  kKeywordsNederlands
 };
 
 string msdlKeywordsLanguageKindAsString (
@@ -46,44 +46,41 @@ msdlKeywordsLanguageKind msdlKeywordsLanguageKindFromString (
 extern map<string, msdlKeywordsLanguageKind>
   gGlobalMsdlKeywordsLanguageKindsMap;
 
-void initializeMsdlKeywordsLanguageKinds ();
-
 string existingMsdlKeywordsLanguageKinds (unsigned int namesListMaxLength);
 
 void initializeMsdlKeywordsLanguageKindsMap ();
 
 // the MSDL keywords
 //______________________________________________________________________________
-enum msdlKeywordKind {
-  k_NoMsdlKeywordKind,
+enum class msdlKeywordKind {
+  k_NoKeywordKind,
 
-  kMsdlKeywordTitle,
-  kMsdlKeywordComposer,
-  kMsdlKeywordOpus,
+  kKeywordTitle,
+  kKeywordComposer,
+  kKeywordOpus,
 
-	kMsdlKeywordPitches,
+	kKeywordPitches,
 
-  kMsdlKeywordAnacrusis,
+  kKeywordAnacrusis,
 
-	kMsdlKeywordBook,
-	kMsdlKeywordScore,
-	kMsdlKeywordPartGroup,
-	kMsdlKeywordPart,
-	kMsdlKeywordStaff,
-  kMsdlKeywordVoice,
-  kMsdlKeywordFragment,
+	kKeywordBook,
+	kKeywordScore,
+	kKeywordPartGroup,
+	kKeywordPart,
+	kKeywordMusic,
+  kKeywordFragment,
 
-  kMsdlKeywordClef,
-  kMsdlKeywordTreble,
-  kMsdlKeywordSoprano,
-  kMsdlKeywordAlto,
-  kMsdlKeywordTenor,
-  kMsdlKeywordBaryton,
-  kMsdlKeywordBass,
+  kKeywordClef,
+  kKeywordTreble,
+  kKeywordSoprano,
+  kKeywordAlto,
+  kKeywordTenor,
+  kKeywordBaryton,
+  kKeywordBass,
 
-  kMsdlKeywordKey,
+  kKeywordKey,
 
-  kMsdlKeywordTime
+  kKeywordTime
 };
 
 string msdlKeywordKindAsString (
@@ -93,9 +90,16 @@ string msdlKeywordKindAsMsdlString (
   msdlKeywordsLanguageKind languageKind,
   msdlKeywordKind          keywordKind);
 
+msdlKeywordKind msdlKeywordKindFromTokenKind (
+  msdlTokenKind tokenKind);
+
 msdlKeywordKind msdlKeywordKindFromString (
   msdlKeywordsLanguageKind languageKind,
-  string                   keywordName);
+  string                   theString);
+
+string existingKeywordsInLanguage (
+  msdlKeywordsLanguageKind keywordsLanguageKind,
+  unsigned int             namesListMaxLength);
 
 extern map<msdlKeywordKind, string> gGlobalEnglishKeywordsNamesMap;
 extern map<msdlKeywordKind, string> gGlobalFrenchKeywordsNamesMap;

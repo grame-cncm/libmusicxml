@@ -58,7 +58,7 @@ msdl2gmnManPageGenerateAtom::msdl2gmnManPageGenerateAtom (
       shortName,
       longName,
       description,
-      kElementWithoutValue)
+      kElementValueWithout)
 {
   fOahVisitor = theOahVisitor;
 }
@@ -169,7 +169,7 @@ void msdl2gmnManPageGenerateAtom::generateManPageData (ostream& os) const
       "msdl2gmnManPageGenerateAtom::generateManPageData");
 }
 
-void msdl2gmnManPageGenerateAtom::printAtomWithValueOptionsValues (
+void msdl2gmnManPageGenerateAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

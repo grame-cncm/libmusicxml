@@ -13,8 +13,6 @@
 #ifndef __msdlScanner__
 #define __msdlScanner__
 
-#include <string>
-
 #include "smartpointer.h"
 
 #include "msdlKeywords.h"
@@ -46,6 +44,7 @@ class msdlScanner : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msdlScanner> create (
+                            string   inputSourceName,
                             istream& inputStream);
 
   public:
@@ -54,6 +53,7 @@ class msdlScanner : public smartable
     // ------------------------------------------------------
 
                           msdlScanner (
+                            string   inputSourceName,
                             istream& inputStream);
 
     virtual               ~msdlScanner ();
@@ -61,8 +61,14 @@ class msdlScanner : public smartable
     // set and get
     // ------------------------------------------------------
 
+    int                   getCurrentLineNumber () const
+                              { return fCurrentLineNumber; }
+
     bool                  getInputIsEmpty () const
                               { return fInputIsEmpty; }
+
+    const msdlToken&      getCurrentToken () const
+                              { return fCurrentToken; }
 
     bool                  getSourceIsLexicallyCorrect () const
                               { return fSourceIsLexicallyCorrect; }
@@ -73,11 +79,19 @@ class msdlScanner : public smartable
     // ------------------------------------------------------
 
 
-    msdrTokenKind         fetchNextToken (
+    msdlTokenKind         fetchNextToken (
                             msdlIgnoreSeparatorTokensKind
-                              ignoreSeparatorTokens = kIgnoreSeparatorTokensNo);
+                              ignoreSeparatorTokens);
 
     void                  scanWholeInputAtOnce (); // for tests
+
+    void                  scanAllTheInputAtOnce (
+                            msdlIgnoreSeparatorTokensKind
+                              ignoreSeparatorTokens);
+
+    void                  translateAllTheInputToKeywordsLanguage (
+                            msdlKeywordsLanguageKind keywordsTranslationLanguage,
+                            msdlCommentsTypeKind     commentsTypeKind);
 
   public:
 
@@ -112,57 +126,67 @@ class msdlScanner : public smartable
 
     void                  acceptAnInteger ();
 
-    void                  scanAllTheInputAtOnce (
-                            msdlIgnoreSeparatorTokensKind
-                              ignoreSeparatorTokens);
-
-    void                  translateAllTheInputToKeywordsLanguage (
-                            msdlKeywordsLanguageKind keywordsTranslationLanguage,
-                            msdlCommentsTypeKind     commentsTypeKind);
-
   private:
 
     // private fields
     // ------------------------------------------------------
 
-    istream&              fInputStream;
-    bool                  fInputIsEmpty;
-
-    string                fInputString;     // modern machines can cope with large data
-    unsigned int          fInputStringSize; // denormalization for speed
-
-    S_msdlScannerWaeHandler
-                          fScannerWaeHandler;
-
+    // trace
 #ifdef TRACING_IS_ENABLED
     bool                  fTraceTokens;
     bool                  fTraceTokensDetails;
 #endif
 
+    // input source name
+    string                fInputSourceName;
+
+    // user language
+    msdlUserLanguageKind  fUserLanguageKind;
+
+    // input stream
+    istream&              fInputStream;
+    bool                  fInputIsEmpty;
+
+    // input string
+    string                fInputString;     // modern machines can cope with large data
+    int                   fInputStringSize; // denormalization for speed
+
+    // lines
+    int                   fCurrentLineNumber;
+    int                   fCurrentLinePositionInInput;
+    int                   fCurrentLineSize;
+    int                   fCurrentPositionInLine;
+                            // -1 before the first character in the line,
+                            // then from 0 to the length of the line minus 1
+
+    // characters
     int                   fCurrentPositionInInput;
     char                  fCurrentCharacter;
     bool                  fNextCharacterIsAvailable;
 
-    int                   fCurrentLineNumber;
-    int                   fCurrentLineSize;
-    int                   fCurrentPositionInLine;
-                            // 0 before the first character in the line,
-                            // then from 1 to the length of the line
-
+    // tokens
     int                   fCurrentTokenPositionInInput;
     int                   fCurrentTokenPositionInLine;
 
-    msdrToken             fCurrentToken;
-    msdrTokenKind&        fCurrentTokenKind;
-    msdrTokenDescription& fCurrentTokenDescription;
+    msdlToken             fCurrentToken;
+    msdlTokenKind&        fCurrentTokenKind;
+    msdlTokenDescription& fCurrentTokenDescription;
+
     int                   fTokensCounter;
 
+    // keywords
     msdlKeywordsLanguageKind
                           fKeywordsInputLanguageKind;
 
+    // tokens list
     bool                  fAppendTokensToList;
-    msdrTokensList        fTokensList;
+    msdlTokensList        fTokensList;
 
+    // warnings and errors
+    S_msdlScannerWaeHandler
+                          fScannerWaeHandler;
+
+    // lexical correctness
     bool                  fSourceIsLexicallyCorrect;
 };
 typedef SMARTP<msdlScanner> S_msdlScanner;

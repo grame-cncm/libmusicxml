@@ -58,7 +58,7 @@ msr2brailleManPageGenerateAtom::msr2brailleManPageGenerateAtom (
       shortName,
       longName,
       description,
-      kElementWithoutValue)
+      kElementValueWithout)
 {
   fOahVisitor = theOahVisitor;
 }
@@ -169,7 +169,7 @@ void msr2brailleManPageGenerateAtom::generateManPageData (ostream& os) const
       "msr2brailleManPageGenerateAtom::generateManPageData");
 }
 
-void msr2brailleManPageGenerateAtom::printAtomWithValueOptionsValues (
+void msr2brailleManPageGenerateAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

@@ -52,7 +52,7 @@ insiderOahAtom::insiderOahAtom (
       shortName,
       longName,
       description,
-      kElementWithoutValue)
+      kElementValueWithout)
 {}
 
 insiderOahAtom::~insiderOahAtom ()
@@ -180,7 +180,7 @@ regularOahAtom::regularOahAtom (
       shortName,
       longName,
       description,
-      kElementWithoutValue)
+      kElementValueWithout)
 {}
 
 regularOahAtom::~regularOahAtom ()
@@ -433,9 +433,7 @@ OPTION_NAME is optional, and the default value is 'DEFAULT_VALUE'.)",
     oahAProposOptionNameAtom::create (
       "apropos", "apropos-option-name",
 R"(Print help about OPTION_NAME.)",
-      "OPTION_NAME",
-      "nameToProvideAProposAbout",
-      fOptionNameToProvideAProposAbout);
+      executableName);
 
   subGroup->
     appendAtomToSubGroup (
@@ -448,9 +446,7 @@ R"(Print help about OPTION_NAME.)",
       "find", "find-string",
 R"(Find string STRING in the help.
 The search is case insensitive, and a '-' is added in front of options name for clarity.)",
-      "STRING",
-      "stringToBeFound",
-      fStringToBeFound);
+      executableName);
 
   subGroup->
     appendAtomToSubGroup (
@@ -657,7 +653,7 @@ void oahOahGroup::browseData (basevisitor* v)
 #endif
 }
 
-void oahOahGroup::printAtomWithValueOptionsValues (
+void oahOahGroup::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -804,7 +800,7 @@ oahOptionalValuesStyleKindAtom::oahOptionalValuesStyleKindAtom (
   string             variableName,
   oahOptionalValuesStyleKind&
                      oahOptionalValuesStyleKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -967,12 +963,12 @@ void oahOptionalValuesStyleKindAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<

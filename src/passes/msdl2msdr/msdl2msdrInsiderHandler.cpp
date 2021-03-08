@@ -349,16 +349,14 @@ void msdl2msdrInsiderHandler::createTheMsdlCompilerOptionGroups (
   // initialize options handling, phase 2
   // ------------------------------------------------------
 
-  // create the msdl2msr OAH group
-  createGlobalMsdl2msrOahGroup ();
-
   // create the MSR OAH group
   appendGroupToHandler (
     createGlobalMsrOahGroup ());
 
   // create the MSDR OAH group
   appendGroupToHandler (
-    createGlobalMsdlOahGroup ());
+    createGlobalMsdlOahGroup (
+      executableName));
 
   // create the groups needed according to the generated output kind
   /*
@@ -461,10 +459,7 @@ void msdl2msdrInsiderHandler::createTheMsdlCompilerOptionGroups (
 
   // create the msdl2msdr OAH group
   appendGroupToHandler (
-    createGlobalMsdl2msdrOahGroup ());
-
-  appendGroupToHandler (
-    createGlobalMsdlCompilerInsiderOahGroup ());
+    createGlobalMsdl2msdrInsiderOahGroup ());
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group
@@ -476,179 +471,13 @@ void msdl2msdrInsiderHandler::createTheMsdlCompilerOptionGroups (
 //______________________________________________________________________________
 void msdl2msdrInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-    gLogStream <<
-      "checking options and arguments from argc/argv in \"" <<
-      fHandlerHeader <<
-      "\"" <<
-      endl;
-  }
-#endif
+  // JMI
 }
 
 //______________________________________________________________________________
 string msdl2msdrInsiderHandler::fetchOutputFileNameFromTheOptions () const
 {
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-    gLogStream <<
-      "Fetching the output file name from the options in OAH handler \"" <<
-      fHandlerHeader <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  S_oahStringAtom
-    outputFileNameStringAtom =
-      gGlobalOutputFileOahGroup->
-        getOutputFileNameStringAtom ();
-
-  S_oahBooleanAtom
-    autoOutputFileNameAtom =
-      gGlobalOutputFileOahGroup->
-        getAutoOutputFileNameAtom ();
-
-  bool
-    outputFileNameHasBeenSet =
-      outputFileNameStringAtom->
-        getVariableHasBeenSet ();
-
-  bool
-    autoOutputFileNameHasBeenSet =
-      autoOutputFileNameAtom->
-        getVariableHasBeenSet ();
-
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-    gLogStream <<
-      "msdl2msdrInsiderHandler::fetchOutputFileNameFromTheOptions()" <<
-      " outputFileNameHasBeenSet: " <<
-      booleanAsString (outputFileNameHasBeenSet) <<
-      " autoOutputFileNameHasBeenSet: " <<
-      booleanAsString (autoOutputFileNameHasBeenSet) <<
-      endl;
-  }
-#endif
-
-  string outputFileName;
-
-  if (outputFileNameHasBeenSet) {
-    // '-o, -output-file-name' has been chosen
-    outputFileName =
-      outputFileNameStringAtom->
-        getStringVariable ();
-  }
-
-  else if (autoOutputFileNameHasBeenSet) {
-     // '-aofn, -auto-output-file-name' has been chosen
-
-    // start with the executable name
-    outputFileName = fHandlerExecutableName;
-
-    // add the output file name suffix
-    switch (fGeneratorOutputKind) {
-      case k_NoOutput:
-        // should not occur
-        outputFileName = "___k_NoOutput___";
-        break;
-
-      case kGuidoOutput:
-        outputFileName += ".gmn";
-        break;
-
-      case kLilyPondOutput:
-        outputFileName += ".ly";
-        break;
-
-      case kBrailleOutput:
-        {
-          S_oahStringAtom
-            outputFileNameStringAtom =
-              gGlobalOutputFileOahGroup->
-                getOutputFileNameStringAtom ();
-
-          // should encoding be used by the output file name?
-          bsrBrailleOutputKind
-            brailleOutputKind =
-              gGlobalBsr2brailleOahGroup->
-                getBrailleOutputKind ();
-
-          if (gGlobalBsr2brailleOahGroup->getUseEncodingInFileName ()) {
-            switch (brailleOutputKind) {
-              case kBrailleOutputAscii:
-                outputFileName += "_ASCII";
-                break;
-
-              case kBrailleOutputUTF8:
-                outputFileName += "_UTF8";
-                  /* JMI
-                switch (gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) {
-                  case kByteOrderingNone:
-                    break;
-                  case kByteOrderingBigEndian:
-                    outputFileName += "_BE";
-                    break;
-                  case kByteOrderingSmallEndian:
-                    // should not occur JMI
-                    break;
-                } // switch
-                */
-                break;
-
-              case kBrailleOutputUTF8Debug:
-                outputFileName += "_UTF8Debug";
-                break;
-
-              case kBrailleOutputUTF16:
-                outputFileName += "_UTF16";
-                switch (gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) {
-                  case kByteOrderingNone:
-                    break;
-
-                  case kByteOrderingBigEndian:
-                    outputFileName += "_BE";
-                    break;
-
-                  case kByteOrderingSmallEndian:
-                    outputFileName += "_SE";
-                    break;
-                } // switch
-                break;
-            } // switch
-          }
-
-          outputFileName += ".brf";
-        }
-        break;
-
-      case kMusicXMLOutput:
-        outputFileName += ".xml";
-        break;
-
-      case kMidiOutput:
-        outputFileName += ".midi";
-        break;
-    } // switch
-  }
-
-  else {
-    // neither outputFileNameHasBeenSet nor autoOutputFileNameHasBeenSet
-    // has been set:
-    // return empty outputFileName to indicate that output goes to stdout
-  }
-
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-    gLogStream <<
-      "outputFileName: " <<
-      outputFileName <<
-      endl;
-  }
-#endif
-
-  return outputFileName;
+  return "";
 }
 
 //______________________________________________________________________________
@@ -867,8 +696,8 @@ msdl2msdrInsiderOahGroup::msdl2msdrInsiderOahGroup ()
 R"(Options that are used by MSDL ompiler are grouped here.)",
     kElementVisibilityWhole)
 {
-  fKeywordsInputLanguageKind       = kKeywordsLanguageEnglish; // MSDL default
-  fKeywordsTranslationLanguageKind = k_NoKeywordsLanguage;
+  fKeywordsInputLanguageKind       = msdlKeywordsLanguageKind::kKeywordsEnglish; // MSDL default
+  fKeywordsTranslationLanguageKind = msdlKeywordsLanguageKind::k_NoKeywordsLanguage;
 
   fGeneratorOutputKind = k_NoOutput;
 
@@ -936,7 +765,7 @@ R"()",
   // keywords input language
 
   msdlKeywordsLanguageKind
-    msrKeywordsInputLanguageKindDefaultValue = kKeywordsLanguageEnglish;
+    msrKeywordsInputLanguageKindDefaultValue = msdlKeywordsLanguageKind::kKeywordsEnglish;
 
   subGroup->
     appendAtomToSubGroup (
@@ -964,7 +793,7 @@ The default is 'DEFAULT_VALUE'.)",
   // keywords translation language
 
   msdlKeywordsLanguageKind
-    msrKeywordsTranslationLanguageKindDefaultValue = kKeywordsLanguageEnglish;
+    msrKeywordsTranslationLanguageKindDefaultValue = msdlKeywordsLanguageKind::kKeywordsEnglish;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1160,7 +989,7 @@ void msdl2msdrInsiderOahGroup::printMsdlCompilerInsiderOahGroupValues (unsigned 
 }
 
 //______________________________________________________________________________
-S_msdl2msdrInsiderOahGroup createGlobalMsdlCompilerInsiderOahGroup ()
+S_msdl2msdrInsiderOahGroup createGlobalMsdl2msdrInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {

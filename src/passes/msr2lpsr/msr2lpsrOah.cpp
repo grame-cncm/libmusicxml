@@ -64,7 +64,7 @@ msr2lpsrScoreOutputKindAtom::msr2lpsrScoreOutputKindAtom (
   string               valueSpecification,
   string               variableName,
   lpsrScoreOutputKind& lpsrScoreOutputKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -228,12 +228,12 @@ void msr2lpsrScoreOutputKindAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
@@ -246,7 +246,7 @@ void msr2lpsrScoreOutputKindAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void msr2lpsrScoreOutputKindAtom::printAtomWithValueOptionsValues (
+void msr2lpsrScoreOutputKindAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

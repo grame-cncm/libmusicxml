@@ -48,7 +48,7 @@ Features:
   - oahThreeBooleansAtom, for example, allows for three boolean settings
     to be controlled at once with a single option.
 
-  - oahAtomWithValue describes options for which a value is supplied
+  - oahAtomStoringAValueInAVariable describes options for which a value is supplied
     in the command line or in option vectors (API).
 
   - a class such as lpsrPitchesLanguageAtom is used
@@ -95,7 +95,7 @@ Handling:
       - the second one traverses this list to apply the options that are used.
 
   - the options are applied the the applyElement(), applyAtomWithValue() And
-    applyAtomWithValueDefaultValue() methods.
+    applyAtomWithDefaultValue() methods.
 
   - handleOptionValueOrArgument() associatiates the value
     to the (preceding) fPendingAtomWithValue if not null,

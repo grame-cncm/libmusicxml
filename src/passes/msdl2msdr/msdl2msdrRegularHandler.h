@@ -118,6 +118,7 @@ class EXP msdl2msdrRegularHandler : public oahRegularHandler
     void                  createInformationsRegularGroup ();
 
     void                  createLanguagesRegularGroup ();
+
     void                  createScanningWholeInputAtOnceRegularGroup ();
 
     void                  createGenerateCodeRegularGroup ();

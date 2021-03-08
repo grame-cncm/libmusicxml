@@ -14881,12 +14881,14 @@ string existingQuarterTonesPitchesLanguageKinds (unsigned int namesListMaxLength
 {
   stringstream s;
 
-  unsigned int quarterTonesPitchesLanguageKindsMapSize =
-    gGlobalQuarterTonesPitchesLanguageKindsMap.size ();
+  unsigned int
+    quarterTonesPitchesLanguageKindsMapSize =
+      gGlobalQuarterTonesPitchesLanguageKindsMap.size ();
 
   if (quarterTonesPitchesLanguageKindsMapSize) {
-    unsigned int nextToLast =
-      quarterTonesPitchesLanguageKindsMapSize - 1;
+    unsigned int
+      nextToLast =
+        quarterTonesPitchesLanguageKindsMapSize - 1;
 
     unsigned int count = 0;
     unsigned int cumulatedLength = 0;

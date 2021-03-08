@@ -29,10 +29,10 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "msdl2msdrOah.h"
+#include "msdlCompilerInsiderHandler.h"
+#include "msdlCompilerRegularHandler.h"
 
-#include "msdl2msdrInsiderHandler.h"
-#include "msdl2msdrRegularHandler.h"
+#include "msdl2msdrInterface.h"
 
 #include "msdl2guido.h"
 #include "msdl2lilypond.h"
@@ -267,6 +267,7 @@ xmlErr generateCodeFromStandardInput (
     case kGuidoOutput:
       result =
         msdlStream2guidoWithHandler (
+          "stdin",
           cin,
           /*
           "Pass 2",
@@ -284,6 +285,7 @@ xmlErr generateCodeFromStandardInput (
     case kLilyPondOutput:
       result =
         msdlStream2lilypondWithHandler (
+          "stdin",
           cin,
           /*
           "Pass 2",
@@ -299,6 +301,7 @@ xmlErr generateCodeFromStandardInput (
     case kBrailleOutput:
       result =
         msdlStream2brailleWithHandler (
+          "stdin",
           cin,
           /*
           "Pass 2a",
@@ -316,6 +319,7 @@ xmlErr generateCodeFromStandardInput (
     case kMusicXMLOutput:
       result =
         msdlStream2musicxmlWithHandler (
+          "stdin",
           cin,
           /*
           "Pass 2",
@@ -589,12 +593,12 @@ int main (int argc, char * argv[])
   S_oahHandler handler;
 
   try {
-    // create an msdl2msdr insider OAH handler
+    // create an msdlCompiler insider OAH handler
     // ------------------------------------------------------
 
-    S_msdl2msdrInsiderHandler
+    S_msdlCompilerInsiderHandler
       insiderOahHandler =
-        msdl2msdrInsiderHandler::create (
+        msdlCompilerInsiderHandler::create (
           executableName,
           executableName + " insider OAH handler with argc/argv",
           theGeneratorOutputKind);
@@ -603,13 +607,13 @@ int main (int argc, char * argv[])
     // ------------------------------------------------------
 
     if (insiderOptions) {
-      // use the insider msdl2msdr OAH handler
+      // use the insider msdlCompiler OAH handler
       handler = insiderOahHandler;
     }
     else {
-      // create a regular msdl2msdr OAH handler
+      // create a regular msdlCompiler OAH handler
       handler =
-        msdl2msdrRegularHandler::create (
+        msdlCompilerRegularHandler::create (
           executableName,
           executableName + " regular OAH handler with argc/argv",
           insiderOahHandler,
@@ -750,30 +754,10 @@ int main (int argc, char * argv[])
   }
 #endif
 
-/* JMI
-  // what if no input source name has been supplied?
-  if (! inputSourceName.size ()) {
-    if (handler->getOahHandlerFoundAHelpOption ()) {
-      return 0; // pure help run
-    }
-    else {
-      stringstream s;
-
-      s <<
-        "this is not a pure help run, \"" <<
-        executableName <<
-        " needs an input file name: " <<
-        handler->getHandlerUsage ();
-
-      oahError (s.str ());
-    }
-  }
-*/
-
   // set the desired options
   // ------------------------------------------------------
 
-  enforceSomeOptions (theGeneratorOutputKind);
+//  enforceSomeOptions (theGeneratorOutputKind);
 
   // should we generate Guido, LilyPond, braille music or MusicXML?
   // ------------------------------------------------------
@@ -803,7 +787,7 @@ int main (int argc, char * argv[])
       endl;
 
     gLogStream <<
-      "Launching the conversion of ";
+      "Launching the compilation of ";
 
     if (inputSourceName == MSDR_STANDARD_INPUT_NAME) {
       gLogStream <<
@@ -815,7 +799,8 @@ int main (int argc, char * argv[])
     }
 
     gLogStream <<
-      " to LilyPond" <<
+      " into " <<
+      generatorOutputKindAsString (theGeneratorOutputKind) <<
       endl;
 
     gLogStream <<
@@ -824,7 +809,7 @@ int main (int argc, char * argv[])
       endl;
 
     gLogStream <<
-      "LilyPond code will be written to ";
+      "LilyPond code will be written to "; // JMI
     if (outputFileNameSize) {
       gLogStream <<
         outputFileName;
@@ -870,13 +855,12 @@ int main (int argc, char * argv[])
   }
 #endif
 
-  // do the translation
+  // do the job
   // ------------------------------------------------------
 
 /*
   // start the clock
   clock_t startClock = clock ();
-*/
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTracePasses ()) {
@@ -894,7 +878,6 @@ int main (int argc, char * argv[])
   }
 #endif
 
-/*
   // create the MSDR score
   // ------------------------------------------------------
 
@@ -916,6 +899,59 @@ int main (int argc, char * argv[])
 
   xmlErr err = kNoErr;
 
+  try {
+    if (inputSourceName == MSDR_STANDARD_INPUT_NAME) {
+      // MSDL data comes from standard input
+#ifdef TRACING_IS_ENABLED
+      if (getTraceOah ()) {
+        cerr << "Reading standard input" << endl;
+      }
+#endif
+
+      err =
+        istream2msdrWithHandler (
+          "stdin", cin, cout, cerr, handler);
+    }
+
+    else {
+      // MSDL data comes from a file
+#ifdef TRACING_IS_ENABLED
+      if (getTraceOah ()) {
+        cerr << "Reading file \"" << inputSourceName << "\"" << endl;
+      }
+#endif
+
+      err =
+        msdlFile2msdrWithHandler (
+          inputSourceName, cout, cerr, handler);
+    }
+
+/* JMI
+#ifdef TRACING_IS_ENABLED
+    if (getTraceOah ()) {
+      if (err != 0) {
+        cerr <<
+          executableName << ", " <<
+          generatorOutputKindAsString (theGeneratorOutputKind) <<
+          ", err = " <<
+          err <<
+          endl;
+      }
+    }
+#endif
+*/
+  }
+  catch (msgException& e) {
+    displayException (e, gOutputStream);
+    return kInvalidFile;
+  }
+  catch (std::exception& e) {
+    displayException (e, gOutputStream);
+    return kInvalidFile;
+  }
+
+/*
+  // generate code
   try {
     if (inputSourceName == MSDR_STANDARD_INPUT_NAME) {
       // MSDL data comes from standard input
@@ -967,6 +1003,7 @@ int main (int argc, char * argv[])
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
+*/
 
   // display the input line numbers for which messages have been issued
   // ------------------------------------------------------

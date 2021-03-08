@@ -58,7 +58,7 @@ msr2musicxmlManPageGenerateAtom::msr2musicxmlManPageGenerateAtom (
       shortName,
       longName,
       description,
-      kElementWithoutValue)
+      kElementValueWithout)
 {
   fOahVisitor = theOahVisitor;
 }
@@ -169,7 +169,7 @@ void msr2musicxmlManPageGenerateAtom::generateManPageData (ostream& os) const
       "msr2musicxmlManPageGenerateAtom::generateManPageData");
 }
 
-void msr2musicxmlManPageGenerateAtom::printAtomWithValueOptionsValues (
+void msr2musicxmlManPageGenerateAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

@@ -28,7 +28,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP extraShowAllHarmoniesStructuresAtom : public oahAtomWithValue
+class EXP extraShowAllHarmoniesStructuresAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -85,7 +85,7 @@ class EXP extraShowAllHarmoniesStructuresAtom : public oahAtomWithValue
 
     void                  printAllHarmoniesStructures (ostream& os) const;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -100,7 +100,7 @@ typedef SMARTP<extraShowAllHarmoniesStructuresAtom> S_extraShowAllHarmoniesStruc
 EXP ostream& operator<< (ostream& os, const S_extraShowAllHarmoniesStructuresAtom& elt);
 
 //______________________________________________________________________________
-class EXP extraShowAllHarmoniesContentsAtom : public oahAtomWithValue
+class EXP extraShowAllHarmoniesContentsAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -168,7 +168,7 @@ class EXP extraShowAllHarmoniesContentsAtom : public oahAtomWithValue
                             ostream&              os,
                             msrSemiTonesPitchKind semiTonesPitchKind) const;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -183,7 +183,7 @@ typedef SMARTP<extraShowAllHarmoniesContentsAtom> S_extraShowAllHarmoniesContent
 EXP ostream& operator<< (ostream& os, const S_extraShowAllHarmoniesContentsAtom& elt);
 
 //______________________________________________________________________________
-class EXP extraShowHarmonyDetailsAtom : public oahAtomWithValue
+class EXP extraShowHarmonyDetailsAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -248,7 +248,7 @@ class EXP extraShowHarmonyDetailsAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -263,7 +263,7 @@ typedef SMARTP<extraShowHarmonyDetailsAtom> S_extraShowHarmonyDetailsAtom;
 EXP ostream& operator<< (ostream& os, const S_extraShowHarmonyDetailsAtom& elt);
 
 //______________________________________________________________________________
-class EXP extraShowHarmonyAnalysisAtom : public oahAtomWithValue
+class EXP extraShowHarmonyAnalysisAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -328,7 +328,7 @@ class EXP extraShowHarmonyAnalysisAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 

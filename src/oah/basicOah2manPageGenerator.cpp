@@ -266,27 +266,28 @@ void basicOah2manPageGenerator::visitEnd (S_oahAtom& elt)
 }
 
 //________________________________________________________________________
-void basicOah2manPageGenerator::visitStart (S_oahAtomWithVariableName& elt)
+void basicOah2manPageGenerator::visitStart (S_oahAtomStoringAValueInAVariable& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
       endl <<
-      ".\\\" --> Start visiting oahAtomWithVariableName" <<
+      ".\\\" --> Start visiting oahAtomStoringAValueInAVariable '" <<
+      elt->asString () <<
+      "'" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }
 #endif
-
 }
 
-void basicOah2manPageGenerator::visitEnd (S_oahAtomWithVariableName& elt)
+void basicOah2manPageGenerator::visitEnd (S_oahAtomStoringAValueInAVariable& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
       endl <<
-      ".\\\" --> End visiting oahAtomWithVariableName" <<
+      ".\\\" --> End visiting oahAtomStoringAValueInAVariable" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }
@@ -597,35 +598,6 @@ void basicOah2manPageGenerator::visitEnd (S_oahMultiplexBooleansAtom& elt)
     gLogStream <<
       endl <<
       ".\\\" --> End visiting oahMultiplexBooleansAtom" <<
-      " \"" << elt->fetchNames () << "\"" <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
-void basicOah2manPageGenerator::visitStart (S_oahAtomWithValue& elt)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      endl <<
-      ".\\\" --> Start visiting oahAtomWithValue '" <<
-      elt->asString () <<
-      "'" <<
-      " \"" << elt->fetchNames () << "\"" <<
-      endl;
-  }
-#endif
-}
-
-void basicOah2manPageGenerator::visitEnd (S_oahAtomWithValue& elt)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      endl <<
-      ".\\\" --> End visiting oahAtomWithValue" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }

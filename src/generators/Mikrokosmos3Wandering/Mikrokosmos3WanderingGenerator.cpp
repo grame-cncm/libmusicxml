@@ -139,6 +139,7 @@ S_msrScore Mikrokosmos3WanderingGenerator::createTheScore (
       msrIdentification::create (
         __LINE__);
 
+  // register it in the score
   theMsrScore->
     setIdentification (
       identification);

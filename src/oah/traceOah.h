@@ -658,7 +658,7 @@ class EXP traceOahGroup : public oahGroup
 
     void                  printTraceOahValues (unsigned int fieldWidth);
 
-    virtual void          printAtomWithValueOptionsValues (
+    virtual void          printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const;
 

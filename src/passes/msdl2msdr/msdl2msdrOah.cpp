@@ -38,7 +38,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-
 //_______________________________________________________________________________
 
 S_msdl2msdrOahGroup gGlobalMsdl2msdrOahGroup;
@@ -101,6 +100,31 @@ R"(Write a trace of the MSDL tokens handling activity with more details to stand
         "traceTokensDetails",
         fTraceTokensDetails,
         fTraceTokens));
+
+  // MSDL syntax
+
+  fTraceSyntax = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "tsynt", "trace-syntax",
+R"(Write a trace of the MSDL syntax analysis activity to standard error.)",
+        "traceSyntax",
+        fTraceSyntax));
+
+  // MSDL syntax details
+
+  fTraceSyntaxDetails = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahTwoBooleansAtom::create (
+        "tsyntd", "trace-syntax-details",
+R"(Write a trace of the MSDL syntax analysis activity with more details to standard error.)",
+        "traceSyntaxDetails",
+        fTraceSyntaxDetails,
+        fTraceSyntax));
 }
 #endif
 
@@ -139,6 +163,38 @@ R"()",
     oahError (s.str ());
   }
 
+  // MSDL user language
+
+  const msdlUserLanguageKind
+    msdlUserLanguageKindDefaultValue =
+      kUserLanguageEnglish; // MSDL default
+
+  fMsdlUserLanguageKind =
+    msdlUserLanguageKindDefaultValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      msdlUserLanguageAtom::create (
+        "mul", "msdl-user-language",
+        regex_replace (
+          regex_replace (
+            regex_replace (
+R"(Use LANGUAGE to interact with the user.
+The NUMBER MSDL user languages available are:
+USER_LANGUAGES.
+The default is 'DEFAULT_VALUE'.)",
+              regex ("NUMBER"),
+              to_string (gGlobalMsdlUserLanguageKindsMap.size ())),
+            regex ("USER_LANGUAGES"),
+            gIndenter.indentMultiLineString (
+              existingMsdlUserLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
+          regex ("DEFAULT_VALUE"),
+          msdlUserLanguageKindAsString (
+            msdlUserLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "msdlUserLanguageKind",
+        fMsdlUserLanguageKind));
+
   // MSDL pitches language
 
   const msrQuarterTonesPitchesLanguageKind
@@ -174,11 +230,11 @@ The default is 'DEFAULT_VALUE'.)",
   // MSDL keywords input language
 
   const msdlKeywordsLanguageKind
-    msdlKeywordsLanguageKindDefaultValue =
-      kKeywordsLanguageEnglish; // MSDL default
+    msdlKeywordsInputLanguageKindDefaultValue =
+      msdlKeywordsLanguageKind::kKeywordsEnglish; // MSDL default
 
   fMsdlKeywordsInputLanguageKind =
-    msdlKeywordsLanguageKindDefaultValue;
+    msdlKeywordsInputLanguageKindDefaultValue;
 
   subGroup->
     appendAtomToSubGroup (
@@ -198,9 +254,9 @@ The default is 'DEFAULT_VALUE'.)",
               existingMsdlKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
           regex ("DEFAULT_VALUE"),
           msdlKeywordsLanguageKindAsString (
-            msdlKeywordsLanguageKindDefaultValue)),
+            msdlKeywordsInputLanguageKindDefaultValue)),
         "LANGUAGE",
-        "msdl-keywords-language",
+        "msdlKeywordsInputLanguageKind",
         fMsdlKeywordsInputLanguageKind));
 }
 
@@ -217,6 +273,19 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
+  // perform lexical analysis only
+
+  fLexicalAnalysisOnly = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "lex", "lex-only",
+R"(Perform lexical analysis only of the whole input at once,
+without syntactic nor semantic analysis. No code is generated.)",
+        "lexicalAnalysisOnly",
+        fLexicalAnalysisOnly));
+
   // ignore separator tokens
 
   fIgnoreSeparatorTokens = false;
@@ -226,13 +295,13 @@ R"()",
       oahBooleanAtom::create (
         "istoks", "ignore-separator-tokens",
 R"(Ignore separator tokens such as space, tab and end of line
-when scanning the whole input at once.)",
+when performing lexical analysis of the whole input at once.)",
         "ignoreSeparatorTokens",
         fIgnoreSeparatorTokens));
 
   // MSDL keywords translation language
 
-  fMsdlKeywordsTranslationLanguageKind = k_NoKeywordsLanguage;
+  fMsdlKeywordsTranslationLanguageKind = msdlKeywordsLanguageKind::k_NoKeywordsLanguage;
 
   subGroup->
     appendAtomToSubGroup (
@@ -252,7 +321,7 @@ The default is not to translate the keywords.)",
           gIndenter.indentMultiLineString (
             existingMsdlKeywordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
         "LANGUAGE",
-        "msdl-keywords-language",
+        "msdlKeywordsTranslationLanguageKind",
         fMsdlKeywordsTranslationLanguageKind));
 
   // MSDL comments type
@@ -261,7 +330,7 @@ The default is not to translate the keywords.)",
     msdlCommentsTypeKindDefaultValue =
       kCommentsTypePercent; // MSDL default
 
-  fMsdlCommentsTypeKind =
+  fMsdlCommentsTypeTranslationKind =
     msdlCommentsTypeKindDefaultValue;
 
   subGroup->
@@ -284,8 +353,8 @@ The default is 'DEFAULT_VALUE'.)",
           msdlCommentsTypeKindAsString (
             msdlCommentsTypeKindDefaultValue)),
         "TYPE",
-        "msdlCommentsTypeKind",
-        fMsdlCommentsTypeKind));
+        "msdlCommentsTypeTranslationKind",
+        fMsdlCommentsTypeTranslationKind));
 }
 
 void msdl2msdrOahGroup::initializeGenerateCodeOptions ()
@@ -541,6 +610,16 @@ void msdl2msdrOahGroup::printMsdl2msdrValues (unsigned int fieldWidth)
   gLogStream << left <<
     setw (fieldWidth) << "traceTokens" << " : " <<
       booleanAsString (fTraceTokens) <<
+      endl <<
+    setw (fieldWidth) << "traceTokens" << " : " <<
+      booleanAsString (fTraceTokens) <<
+      endl <<
+
+    setw (fieldWidth) << "traceSyntax" << " : " <<
+      booleanAsString (fTraceSyntax) <<
+      endl <<
+    setw (fieldWidth) << "traceSyntaxDetails" << " : " <<
+      booleanAsString (fTraceSyntaxDetails) <<
       endl;
 
   --gIndenter;

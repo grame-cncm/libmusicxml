@@ -28,10 +28,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-#define MSDR_STANDARD_INPUT_NAME ""
-//#define MSDR_STANDARD_INPUT_NAME "-"
-
-//______________________________________________________________________________
 class EXP msdl2msdrOahGroup : public oahGroup
 {
   public:
@@ -67,15 +63,29 @@ class EXP msdl2msdrOahGroup : public oahGroup
                               { return fTraceTokens; }
     bool                  getTraceTokensDetails () const
                               { return fTraceTokensDetails; }
+
+    bool                  getTraceSyntax () const
+                              { return fTraceSyntax; }
+    bool                  getTraceSyntaxDetails () const
+                              { return fTraceSyntaxDetails; }
 #endif
 
+    msdlUserLanguageKind  getMsdlUserLanguageKind () const
+                              { return fMsdlUserLanguageKind; }
+
     msdlKeywordsLanguageKind
-                          getMsdlKeywordsLanguageKind () const
+                          getMsdlKeywordsInputLanguageKind () const
                               { return fMsdlKeywordsInputLanguageKind; }
 
     msrQuarterTonesPitchesLanguageKind
                           getMsdlQuarterTonesPitchesLanguageKind () const
                               { return fMsdlQuarterTonesPitchesLanguageKind; }
+
+    bool                  getLexicalAnalysisOnly () const
+                              { return fLexicalAnalysisOnly; }
+
+    void                  setIgnoreSeparatorTokens (bool value)
+                              { fIgnoreSeparatorTokens = value; }
 
     bool                  getIgnoreSeparatorTokens () const
                               { return fIgnoreSeparatorTokens; }
@@ -84,8 +94,8 @@ class EXP msdl2msdrOahGroup : public oahGroup
                           getMsdlKeywordsTranslationLanguageKind () const
                               { return fMsdlKeywordsTranslationLanguageKind; }
 
-    msdlCommentsTypeKind   getMsdlCommentsTypeKind () const
-                              { return fMsdlCommentsTypeKind; }
+    msdlCommentsTypeKind  getMsdlCommentsTypeTranslationKind () const
+                              { return fMsdlCommentsTypeTranslationKind; }
 
     generatorOutputKind   getGeneratorOutputKind () const
                               { return fGeneratorOutputKind; }
@@ -152,10 +162,15 @@ class EXP msdl2msdrOahGroup : public oahGroup
 #ifdef TRACING_IS_ENABLED
     bool                  fTraceTokens;
     bool                  fTraceTokensDetails;
+
+    bool                  fTraceSyntax;
+    bool                  fTraceSyntaxDetails;
 #endif
 
     // languages
     // --------------------------------------
+
+    msdlUserLanguageKind  fMsdlUserLanguageKind;
 
     msdlKeywordsLanguageKind
                           fMsdlKeywordsInputLanguageKind;
@@ -166,12 +181,14 @@ class EXP msdl2msdrOahGroup : public oahGroup
     // whole input scan
     // --------------------------------------
 
+    bool                  fLexicalAnalysisOnly;
+
     bool                  fIgnoreSeparatorTokens;
 
     msdlKeywordsLanguageKind
                           fMsdlKeywordsTranslationLanguageKind;
 
-    msdlCommentsTypeKind  fMsdlCommentsTypeKind;
+    msdlCommentsTypeKind  fMsdlCommentsTypeTranslationKind;
 
     // output kind
     // --------------------------------------

@@ -58,7 +58,7 @@ Mikrokosmos3WanderingManPageGenerateAtom::Mikrokosmos3WanderingManPageGenerateAt
       shortName,
       longName,
       description,
-      kElementWithoutValue)
+      kElementValueWithout)
 {
   fOahVisitor = theOahVisitor;
 }
@@ -169,7 +169,7 @@ void Mikrokosmos3WanderingManPageGenerateAtom::generateManPageData (ostream& os)
       "Mikrokosmos3WanderingManPageGenerateAtom::generateManPageData");
 }
 
-void Mikrokosmos3WanderingManPageGenerateAtom::printAtomWithValueOptionsValues (
+void Mikrokosmos3WanderingManPageGenerateAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

@@ -65,7 +65,7 @@ msrDalSegnoAtom::msrDalSegnoAtom (
   string              variableName,
   map<string, msrDalSegno::msrDalSegnoKind>&
                       stringToDalSegnoKindMapVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -254,12 +254,12 @@ void msrDalSegnoAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fStringToDalSegnoKindMapVariable" << " : " <<
@@ -287,7 +287,7 @@ void msrDalSegnoAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void msrDalSegnoAtom::printAtomWithValueOptionsValues (
+void msrDalSegnoAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -358,7 +358,7 @@ msrReplaceClefAtom::msrReplaceClefAtom (
   string              variableName,
   map<msrClefKind, msrClefKind>&
                       clefKindToClefKindMapVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -612,12 +612,12 @@ void msrReplaceClefAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "clefKindToClefKindMapVariable" << " : " <<
@@ -645,7 +645,7 @@ void msrReplaceClefAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void msrReplaceClefAtom::printAtomWithValueOptionsValues (
+void msrReplaceClefAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -1558,31 +1558,30 @@ R"()",
   fCubase = false;
 
   // create the 'cubase' combined atom
-  fCubaseCombinedBooleansAtom =
-    oahCombinedBooleansAtom::create (
-      "cubase", "",
-R"(Useful settings for MusicXML data exported from Cubase.)",
-      "cubase",
-      fCubase);
+  S_oahCombinedBooleansAtom
+    cubaseCombinedBooleansAtom =
+      oahCombinedBooleansAtom::create (
+        "cubase", "",
+  R"(Useful settings for MusicXML data exported from Cubase.)");
 
   subGroup->
     appendAtomToSubGroup (
-      fCubaseCombinedBooleansAtom);
+      cubaseCombinedBooleansAtom);
 
   // set the '-cubase' option by default
-  fCubaseCombinedBooleansAtom->
+  cubaseCombinedBooleansAtom->
     setCombinedBooleanVariables (fCubase);
 
   // populate the 'cubase' combined atom
-  fCubaseCombinedBooleansAtom->
+  cubaseCombinedBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantClefsAtom);
 
-  fCubaseCombinedBooleansAtom->
+  cubaseCombinedBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantKeysAtom);
 
-  fCubaseCombinedBooleansAtom->
+  cubaseCombinedBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantTimesAtom);
 }

@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP msrOmitPartAtom : public oahAtomWithValue
+class EXP msrOmitPartAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -95,7 +95,7 @@ class EXP msrOmitPartAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -110,7 +110,7 @@ typedef SMARTP<msrOmitPartAtom> S_msrOmitPartAtom;
 EXP ostream& operator<< (ostream& os, const S_msrOmitPartAtom& elt);
 
 //______________________________________________________________________________
-class EXP msrKeepPartAtom : public oahAtomWithValue
+class EXP msrKeepPartAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -181,7 +181,7 @@ class EXP msrKeepPartAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 

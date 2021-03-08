@@ -39,7 +39,7 @@ namespace MusicXML2
                                           "byte-ordering-mark"
 
 //______________________________________________________________________________
-class EXP brailleOutputKindAtom : public oahAtomWithValue
+class EXP brailleOutputKindAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -103,7 +103,7 @@ class EXP brailleOutputKindAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -118,7 +118,7 @@ typedef SMARTP<brailleOutputKindAtom> S_brailleOutputKindAtom;
 EXP ostream& operator<< (ostream& os, const S_brailleOutputKindAtom& elt);
 
 //______________________________________________________________________________
-class EXP brailleUTFKindAtom : public oahAtomWithValue
+class EXP brailleUTFKindAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -182,7 +182,7 @@ class EXP brailleUTFKindAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -197,7 +197,7 @@ typedef SMARTP<brailleUTFKindAtom> S_brailleUTFKindAtom;
 EXP ostream& operator<< (ostream& os, const S_brailleUTFKindAtom& elt);
 
 //______________________________________________________________________________
-class EXP brailleByteOrderingKindAtom : public oahAtomWithValue
+class EXP brailleByteOrderingKindAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -259,7 +259,7 @@ class EXP brailleByteOrderingKindAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 

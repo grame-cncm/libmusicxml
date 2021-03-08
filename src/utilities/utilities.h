@@ -550,6 +550,50 @@ string  baseName (const string& filename);
 //______________________________________________________________________________
 string  makeSingleWordFromString (const string& theString);
 
+//______________________________________________________________________________
+/*
+  https://stackoverflow.com/questions/8498300/allow-for-range-based-for-with-enum-classes
+*/
+template< typename T >
+class EnumAll
+{
+  public:
+
+    class Iterator
+    {
+      public:
+
+        Iterator (int value)
+          : fIterationIndex (value)
+            {}
+
+        T operator* (void) const
+            { return (T) fIterationIndex; }
+
+        void operator++ (void)
+            {  ++fIterationIndex; }
+
+        bool operator != (Iterator rhs)
+            {  return fIterationIndex != rhs.fIterationIndex; }
+
+      private:
+
+        int fIterationIndex;
+     };
+};
+
+template< typename T >
+typename EnumAll<T>::Iterator begin (EnumAll<T>)
+{
+  return typename EnumAll<T>::Iterator ((int)T::AllFirst);
+}
+
+template< typename T >
+typename EnumAll<T>::Iterator end (EnumAll<T>)
+{
+  return typename EnumAll<T>::Iterator (((int)T::AllLast) + 1);
+}
+
 
 } // namespace MusicXML2
 

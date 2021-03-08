@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP msr2lpsrScoreOutputKindAtom : public oahAtomWithValue
+class EXP msr2lpsrScoreOutputKindAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -92,7 +92,7 @@ class EXP msr2lpsrScoreOutputKindAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 

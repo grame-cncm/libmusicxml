@@ -67,7 +67,7 @@ lilypondScoreOutputKindAtom::lilypondScoreOutputKindAtom (
   string               valueSpecification,
   string               variableName,
   lpsrScoreOutputKind& lilypondScoreOutputKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -190,12 +190,12 @@ void lilypondScoreOutputKindAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
@@ -208,7 +208,7 @@ void lilypondScoreOutputKindAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lilypondScoreOutputKindAtom::printAtomWithValueOptionsValues (
+void lilypondScoreOutputKindAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -264,7 +264,7 @@ lilypondTransposePartNameAtom::lilypondTransposePartNameAtom (
   string             variableName,
   map<string, S_msrSemiTonesPitchAndOctave>&
                      stringToMsrSemiTonesPitchAndOctaveMapVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -507,12 +507,12 @@ void lilypondTransposePartNameAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fStringToMsrSemiTonesPitchAndOctaveMapVariable" << " : " <<
@@ -537,7 +537,7 @@ void lilypondTransposePartNameAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lilypondTransposePartNameAtom::printAtomWithValueOptionsValues (
+void lilypondTransposePartNameAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -616,7 +616,7 @@ lilypondTransposePartIDAtom::lilypondTransposePartIDAtom (
   string             variableName,
   map<string, S_msrSemiTonesPitchAndOctave>&
                      stringToMsrSemiTonesPitchAndOctaveMapVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -856,12 +856,12 @@ void lilypondTransposePartIDAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fStringToMsrSemiTonesPitchAndOctaveMapVariable" << " : " <<
@@ -886,7 +886,7 @@ void lilypondTransposePartIDAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lilypondTransposePartIDAtom::printAtomWithValueOptionsValues (
+void lilypondTransposePartIDAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -960,10 +960,11 @@ lilypondAbsoluteOctaveEntryAtom::lilypondAbsoluteOctaveEntryAtom (
   string               description,
   string               variableName,
   lpsrOctaveEntryKind& lpsrOctaveEntryKindVariable)
-  : oahAtomWithVariableName (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
+      "", // to value specification is used for absolute octave entry
       variableName),
     fLpsrOctaveEntryKindVariable (
       lpsrOctaveEntryKindVariable)
@@ -977,7 +978,8 @@ void lilypondAbsoluteOctaveEntryAtom::applyElement (ostream& os)
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
     gLogStream <<
-      "==> option '" << fetchNames () << "' is a lilypondAbsoluteOctaveEntryAtom" <<
+      "==> option '" << fetchNames () <<
+      "' is a lilypondAbsoluteOctaveEntryAtom" <<
       endl;
   }
 #endif
@@ -1049,6 +1051,19 @@ void lilypondAbsoluteOctaveEntryAtom::browseData (basevisitor* v)
 #endif
 }
 
+void lilypondAbsoluteOctaveEntryAtom::applyAtomWithValue (
+  const string& theString,
+  ostream&      os)
+{
+  stringstream s;
+
+  s <<
+    "applying absolute octave entry option \"" << fetchNames () <<
+    "\" with a value";
+
+  oahInternalError (s.str ());
+}
+
 void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
 {
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
@@ -1074,7 +1089,7 @@ void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lilypondAbsoluteOctaveEntryAtom::printAtomWithValueOptionsValues (
+void lilypondAbsoluteOctaveEntryAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -1117,7 +1132,7 @@ lilypondRelativeOctaveEntryAtom::lilypondRelativeOctaveEntryAtom (
   string                        variableName,
   lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
   S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -1310,7 +1325,7 @@ void lilypondRelativeOctaveEntryAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lilypondRelativeOctaveEntryAtom::printAtomWithValueOptionsValues (
+void lilypondRelativeOctaveEntryAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -1375,7 +1390,7 @@ lilypondFixedOctaveEntryAtom::lilypondFixedOctaveEntryAtom (
   string                        variableName,
   lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
   S_msrSemiTonesPitchAndOctave& lilypondFixedOctaveEntryVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -1523,7 +1538,7 @@ void lilypondFixedOctaveEntryAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lilypondFixedOctaveEntryAtom::printAtomWithValueOptionsValues (
+void lilypondFixedOctaveEntryAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -1587,7 +1602,7 @@ lilypondAccidentalStyleKindAtom::lilypondAccidentalStyleKindAtom (
   string             variableName,
   lpsrAccidentalStyleKind&
                      lilypondAccidentalStyleKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -1750,12 +1765,12 @@ void lilypondAccidentalStyleKindAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
@@ -1768,7 +1783,7 @@ void lilypondAccidentalStyleKindAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lilypondAccidentalStyleKindAtom::printAtomWithValueOptionsValues (
+void lilypondAccidentalStyleKindAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -1824,7 +1839,7 @@ lilypondChordsDisplayAtom::lilypondChordsDisplayAtom (
   const string&         variableName,
   list<pair<string, string> >&
                         lilypondChordsDisplayVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -2077,12 +2092,12 @@ void lilypondChordsDisplayAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fStringsPairListVariable" << " : '" <<
@@ -2109,7 +2124,7 @@ void lilypondChordsDisplayAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lilypondChordsDisplayAtom::printAtomWithValueOptionsValues (
+void lilypondChordsDisplayAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -2184,7 +2199,7 @@ lilypondLyricsDurationsKindAtom::lilypondLyricsDurationsKindAtom (
   string             variableName,
   lpsrLyricsDurationsKind&
                      lilypondLyricsDurationsKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -2347,12 +2362,12 @@ void lilypondLyricsDurationsKindAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
@@ -2365,7 +2380,7 @@ void lilypondLyricsDurationsKindAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lilypondLyricsDurationsKindAtom::printAtomWithValueOptionsValues (
+void lilypondLyricsDurationsKindAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -4271,63 +4286,56 @@ R"()",
   // minimal
   // --------------------------------------
 
-  fMinimal = false;
-
-  // create the 'minimal' combined atom
-  fMinimalCombinedBooleansAtom =
-    oahCombinedBooleansAtom::create (
+  // create the 'minimal' combined boolean atom
+  S_oahCombinedBooleansAtom
+    minimalCombinedBooleansAtom =
+      oahCombinedBooleansAtom::create (
       "minimal", "",
 R"(Avoids the generation of some LilyPond code, with is otherwise
-meant to facilitate manual editing and completion of the result.)",
-      "minimal",
-      fMinimal);
+meant to facilitate manual editing and completion of the result.)");
 
   subGroup->
     appendAtomToSubGroup (
-      fMinimalCombinedBooleansAtom);
+      minimalCombinedBooleansAtom);
 
-  // set the '-minimal' option by default
-  fMinimalCombinedBooleansAtom->
-    setCombinedBooleanVariables (fMinimal);
-
-  // populate the 'minimal' combined atom
-  fMinimalCombinedBooleansAtom->
+  // populate the 'minimal' combined boolean atom
+  minimalCombinedBooleansAtom->
     addBooleanAtom (
       fNoSetGlobalStaffSizeAtom);
 
-  fMinimalCombinedBooleansAtom->
+  minimalCombinedBooleansAtom->
     addBooleanAtom (
       fUseLilypondDefaultLanguagesAtom);
 
-  fMinimalCombinedBooleansAtom->
+  minimalCombinedBooleansAtom->
     addBooleanAtom (
       fNoBookBlockAtom);
 
-  fMinimalCombinedBooleansAtom->
+  minimalCombinedBooleansAtom->
     addBooleanAtom (
       fNoHeaderBlockAtom);
 
-  fMinimalCombinedBooleansAtom->
+  minimalCombinedBooleansAtom->
     addBooleanAtom (
       fNoLayoutScoreContextAtom);
 
-  fMinimalCombinedBooleansAtom->
+  minimalCombinedBooleansAtom->
     addBooleanAtom (
       fNoLayoutVoiceContextAtom);
 
-  fMinimalCombinedBooleansAtom->
+  minimalCombinedBooleansAtom->
     addBooleanAtom (
       fNoPaperBlockAtom);
 
-  fMinimalCombinedBooleansAtom->
+  minimalCombinedBooleansAtom->
     addBooleanAtom (
       fNoBarNumberChecksAtom);
 
-  fMinimalCombinedBooleansAtom->
+  minimalCombinedBooleansAtom->
     addBooleanAtom (
       fSuppressMusicXMLLineBreaksAtom);
 
-  fMinimalCombinedBooleansAtom->
+  minimalCombinedBooleansAtom->
     addBooleanAtom (
       fSuppressMusicXMLPageBreaksAtom);
 }
@@ -4737,7 +4745,7 @@ string lpsr2lilypondOahGroup::scoreNotationKindAsString (
   return result;
 }
 
-void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
+void lpsr2lilypondOahGroup::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -6067,7 +6075,7 @@ lilypondBreakPageAfterMeasureNumberAtom::lilypondBreakPageAfterMeasureNumberAtom
   string       valueSpecification,
   string       variableName,
   set<string>& fStringSetVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -6186,12 +6194,12 @@ void lilypondBreakPageAfterMeasureNumberAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fStringSetVariable" << " : '" <<
@@ -6217,7 +6225,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void lilypondBreakPageAfterMeasureNumberAtom::printAtomWithValueOptionsValues (
+void lilypondBreakPageAfterMeasureNumberAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

@@ -37,7 +37,7 @@ string bsrFacSimileKindAsString (
   bsrFacSimileKind facSimileKind);
 
 //______________________________________________________________________________
-class EXP bsrFacSimileKindAtom : public oahAtomWithValue
+class EXP bsrFacSimileKindAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -105,7 +105,7 @@ class EXP bsrFacSimileKindAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -120,7 +120,7 @@ typedef SMARTP<bsrFacSimileKindAtom> S_bsrFacSimileKindAtom;
 EXP ostream& operator<< (ostream& os, const S_bsrFacSimileKindAtom& elt);
 
 //______________________________________________________________________________
-class EXP bsrTextsLanguageAtom : public oahAtomWithValue
+class EXP bsrTextsLanguageAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -192,7 +192,7 @@ class EXP bsrTextsLanguageAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 

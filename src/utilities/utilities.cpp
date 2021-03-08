@@ -394,7 +394,9 @@ string outputIndenter::indentMultiLineString (const string& theString)
   stringstream  s;
 
   while (getline (inputStream, line)) {
-    this->print (s);
+    if (s.str ().size ()) {
+      this->print (s);
+    }
     s << line;
 
     if (inputStream.eof ()) break;

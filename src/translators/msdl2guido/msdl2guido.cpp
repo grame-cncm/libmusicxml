@@ -32,7 +32,7 @@
 #include "waeExceptions.h"
 #include "waeMessagesHandling.h"
 
-#include "msdlScanner.h"
+#include "msdlParser.h"
 
 #include "msdl2gmnInsiderHandler.h"
 #include "msdl2gmnRegularHandler.h"
@@ -57,6 +57,7 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 xmlErr msdlStream2guidoWithHandler (
+  string        inputSourceName,
   istream&      inputStream,
   S_oahHandler  handler,
   std::ostream& out,
@@ -80,18 +81,12 @@ xmlErr msdlStream2guidoWithHandler (
   // ------------------------------------------------------
 
   try {
-    msdlScanner scanner (inputStream);
+    msdlParser
+      parser (
+        inputSourceName,
+        inputStream);
 
-    scanner.scanWholeInputAtOnce (); // TEMP JMI
-
-    /*
-    theMsrScore =
-      convertMxmlTreeToMsrScoreSkeleton (
-        mxmlTree,
-        gGlobalMsrOahGroup,
-        "Pass 1a",
-        "Perform lexical analysis");
-        */
+    parser.parse ();
   }
   catch (msgMsdlToMsrInternalException& e) {
     displayException (e, gOutputStream);
@@ -227,6 +222,7 @@ xmlErr msdlStream2guidoWithHandler (
 
 //_______________________________________________________________________________
 xmlErr msdlStream2guidoWithOptionsVector (
+  string               inputSourceName,
   istream&             inputStream,
   const optionsVector& options,
   std::ostream&        out,
@@ -368,6 +364,7 @@ xmlErr msdlStream2guidoWithOptionsVector (
   // ------------------------------------------------------
 
   msdlStream2guidoWithHandler (
+    inputSourceName,
     inputStream,
     handler,
     out,
@@ -416,11 +413,11 @@ EXP xmlErr msdlfile2guidoWithOptionsVector (
 
   return
     msdlStream2guidoWithOptionsVector (
-      inputStream, options, out, err);
+      fileName, inputStream, options, out, err);
 }
 
 xmlErr msdlFile2guidoWithHandler (
-  string       fileName,
+  string        fileName,
   S_oahHandler  handler,
   std::ostream& out,
   std::ostream& err)
@@ -458,7 +455,7 @@ xmlErr msdlFile2guidoWithHandler (
 
   return
     msdlStream2guidoWithHandler (
-      inputStream, handler, out, err);
+      fileName, inputStream, handler, out, err);
 }
 
 //_______________________________________________________________________________
@@ -477,7 +474,7 @@ EXP xmlErr msdlstring2guidoWithOptionsVector (
 	// to handle the help options if any
   return
     msdlStream2guidoWithOptionsVector (
-      inputStream, options, out, err);
+      "buffer", inputStream, options, out, err);
 
 	return kInvalidFile;
 }
@@ -497,7 +494,7 @@ xmlErr msdlString2guidoWithHandler (
 	// to handle the help options if any
   return
     msdlStream2guidoWithHandler (
-      inputStream, handler, out, err);
+      "buffer", inputStream, handler, out, err);
 
 	return kInvalidFile;
 }

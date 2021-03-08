@@ -15,6 +15,8 @@
 
 #include "msrBasicTypes.h"
 
+#include "generatorsBasicTypes.h"
+
 #include "msdlKeywords.h"
 
 #include "oahBasicTypes.h"
@@ -22,8 +24,6 @@
 #include "oahAtomsCollection.h"
 
 #include "oahInsiderHandlers.h"
-
-#include "msdl2msrOah.h"
 
 
 namespace MusicXML2
@@ -356,7 +356,7 @@ EXP ostream& operator<< (ostream& os, const S_msdl2msdrInsiderOahGroup& elt);
 EXP extern S_msdl2msdrInsiderOahGroup gGlobalMsdlCompilerInsiderOahGroup;
 
 //______________________________________________________________________________
-S_msdl2msdrInsiderOahGroup createGlobalMsdlCompilerInsiderOahGroup ();
+S_msdl2msdrInsiderOahGroup createGlobalMsdl2msdrInsiderOahGroup ();
 
 
 }

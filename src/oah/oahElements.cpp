@@ -28,20 +28,23 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-string elementKindAsString (
-  oahElementKind elementKind)
+string elementValueKindAsString (
+  oahElementValueKind elementValueKind)
 {
   string result;
 
-  switch (elementKind) {
-    case kElementWithoutValue:
-      result = "elementWithoutValue";
+  switch (elementValueKind) {
+    case kElementValueWithout:
+      result = "elementValueWithout";
       break;
-    case kElementWithMandatoryValue:
-      result = "elementWithMandatoryValue";
+    case kElementValueImplicit:
+      result = "elementValueImplicit";
       break;
-    case kElementWithOptionalValue:
-      result = "elementWithOptionalValue";
+    case kElementValueMandatory:
+      result = "elementValueMandatory";
+      break;
+    case kElementValueOptional:
+      result = "elementValueOptional";
       break;
   } // switch
 
@@ -97,7 +100,7 @@ S_oahElement oahElement::create (
   string                   shortName,
   string                   longName,
   string                   description,
-  oahElementKind           elementKind,
+  oahElementValueKind           elementValueKind,
   oahElementVisibilityKind elementVisibilityKind)
 {
   oahElement* o = new
@@ -105,7 +108,7 @@ S_oahElement oahElement::create (
       shortName,
       longName,
       description,
-      elementKind,
+      elementValueKind,
       elementVisibilityKind);
   assert (o != nullptr);
   return o;
@@ -116,14 +119,14 @@ oahElement::oahElement (
   string                   shortName,
   string                   longName,
   string                   description,
-  oahElementKind           elementKind,
+  oahElementValueKind      elementValueKind,
   oahElementVisibilityKind elementVisibilityKind)
 {
   fShortName   = shortName;
   fLongName    = longName;
   fDescription = description;
 
-  fElementKind = elementKind;
+  fElementValueKind = elementValueKind;
 
   fElementHelpOnlyKind = kElementHelpOnlyNo; // default value
 
@@ -432,8 +435,8 @@ void oahElement::printOahElementEssentials (
 */
 
     setw (fieldWidth) <<
-    "elementKind" << " : " <<
-    elementKindAsString (fElementKind) <<
+    "elementValueKind" << " : " <<
+    elementValueKindAsString (fElementValueKind) <<
     endl <<
 
     setw (fieldWidth) <<
@@ -577,8 +580,8 @@ string oahElementUse::asString () const
     ": " << fElementUsed->fetchNamesBetweenQuotes () <<
     ", nameUsed: \"" << fNameUsed << "\"" <<
     ", valueUsed: \"" << fValueUsed << "\"" <<
-    ", elementKind: " <<
-    elementKindAsString (fElementUsed->getElementKind ()) <<
+    ", elementValueKind: " <<
+    elementValueKindAsString (fElementUsed->getElementValueKind ()) <<
     ", oahElementHelpOnlyKind: " <<
     elementHelpOnlyKindAsString (fElementUsed->getElementHelpOnlyKind ()) <<
     ", elementVisibilityKind: " <<

@@ -58,7 +58,7 @@ xml2lyManPageGenerateAtom::xml2lyManPageGenerateAtom (
       shortName,
       longName,
       description,
-      kElementWithoutValue)
+      kElementValueWithout)
 {
   fOahVisitor = theOahVisitor;
 }
@@ -169,7 +169,7 @@ void xml2lyManPageGenerateAtom::generateManPageData (ostream& os) const
       "xml2lyManPageGenerateAtom::generateManPageData");
 }
 
-void xml2lyManPageGenerateAtom::printAtomWithValueOptionsValues (
+void xml2lyManPageGenerateAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

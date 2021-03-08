@@ -88,7 +88,7 @@ class EXP msrMeasure : public msrElement
 
   protected:
 
-    // constructors/destructor
+    // constructors
     // ------------------------------------------------------
 
                           msrMeasure (
@@ -96,7 +96,12 @@ class EXP msrMeasure : public msrElement
                             string       measureNumber,
                             S_msrSegment measureSegmentUpLink);
 
-    virtual               ~msrMeasure ();
+  public:
+
+    // destructor
+    // ------------------------------------------------------
+
+    virtual               ~msrMeasure (); // public for une in msdrVoice
 
   private:
 

@@ -32,7 +32,7 @@
 #include "waeExceptions.h"
 #include "waeMessagesHandling.h"
 
-#include "msdlScanner.h"
+#include "msdlParser.h"
 
 #include "msdl2lyInsiderHandler.h"
 #include "msdl2lyRegularHandler.h"
@@ -51,6 +51,7 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 xmlErr msdlStream2lilypondWithHandler (
+  string        inputSourceName,
   istream&      inputStream,
   S_oahHandler  handler,
   std::ostream& out,
@@ -74,18 +75,12 @@ xmlErr msdlStream2lilypondWithHandler (
   // ------------------------------------------------------
 
   try {
-    msdlScanner scanner (inputStream);
+    msdlParser
+      parser (
+        inputSourceName,
+        inputStream);
 
-    scanner.scanWholeInputAtOnce (); // TEMP JMI
-
-      /*
-    theMsrScore =
-      convertMxmlTreeToMsrScoreSkeleton (
-        mxmlTree,
-        gGlobalMsrOahGroup,
-        "Pass 1a",
-        "Perform lexical analysis");
-        */
+    parser.parse ();
   }
   catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
@@ -344,6 +339,7 @@ return kNoErr; // JMI TEMP
 
 //_______________________________________________________________________________
  xmlErr msdlStream2lilypondWithOptionsVector (
+  string               inputSourceName,
   istream&             inputStream,
   const optionsVector& options,
   std::ostream&        out,
@@ -488,6 +484,7 @@ return kNoErr; // JMI TEMP
   // ------------------------------------------------------
 
   msdlStream2lilypondWithHandler (
+    inputSourceName,
     inputStream,
     handler,
     out,
@@ -536,7 +533,7 @@ EXP xmlErr msdlfile2lilypondWithOptionsVector (
 
   return
     msdlStream2lilypondWithOptionsVector (
-      inputStream, options, out, err);
+      fileName, inputStream, options, out, err);
 }
 
 xmlErr msdlFile2lilypondWithHandler (
@@ -578,7 +575,7 @@ xmlErr msdlFile2lilypondWithHandler (
 
   return
     msdlStream2lilypondWithHandler (
-      inputStream, handler, out, err);
+      fileName, inputStream, handler, out, err);
 }
 
 //_______________________________________________________________________________
@@ -597,7 +594,7 @@ EXP xmlErr msdlstring2lilypondWithOptionsVector (
 	// to handle the help options if any
   return
     msdlStream2lilypondWithOptionsVector (
-      inputStream, options, out, err);
+      "buffer", inputStream, options, out, err);
 
 	return kInvalidFile;
 }
@@ -617,7 +614,7 @@ xmlErr msdlString2lilypondWithHandler (
 	// to handle the help options if any
   return
     msdlStream2lilypondWithHandler (
-      inputStream, handler, out, err);
+      "buffer", inputStream, handler, out, err);
 
 	return kInvalidFile;
 }

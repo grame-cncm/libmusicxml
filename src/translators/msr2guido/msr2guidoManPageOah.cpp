@@ -58,7 +58,7 @@ msr2guidoManPageGenerateAtom::msr2guidoManPageGenerateAtom (
       shortName,
       longName,
       description,
-      kElementWithoutValue)
+      kElementValueWithout)
 {
   fOahVisitor = theOahVisitor;
 }
@@ -169,7 +169,7 @@ void msr2guidoManPageGenerateAtom::generateManPageData (ostream& os) const
       "msr2guidoManPageGenerateAtom::generateManPageData");
 }
 
-void msr2guidoManPageGenerateAtom::printAtomWithValueOptionsValues (
+void msr2guidoManPageGenerateAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

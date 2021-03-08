@@ -13246,7 +13246,7 @@ void lpsr2lilypondTranslator::generateNoteBeams (S_msrNote note)
       }
 #endif
 
-     // LilyPond will take care of multiple beams automatically,
+      // LilyPond will take care of multiple beams automatically,
       // so we need only generate code for the first number (level)
       switch (beam->getBeamKind ()) {
 

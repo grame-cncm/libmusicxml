@@ -64,7 +64,7 @@ msrOmitPartAtom::msrOmitPartAtom (
   string       valueSpecification,
   string       variableName,
   set<string>& stringSetVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -247,12 +247,12 @@ void msrOmitPartAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fStringSetVariable" << " : " <<
@@ -278,7 +278,7 @@ void msrOmitPartAtom::print (ostream& os) const
   os << endl;
 }
 
-void msrOmitPartAtom::printAtomWithValueOptionsValues (
+void msrOmitPartAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -350,7 +350,7 @@ msrKeepPartAtom::msrKeepPartAtom (
   string       valueSpecification,
   string       variableName,
   set<string>& stringSetVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -533,12 +533,12 @@ void msrKeepPartAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fStringSetVariable" << " : " <<
@@ -564,7 +564,7 @@ void msrKeepPartAtom::print (ostream& os) const
   os << endl;
 }
 
-void msrKeepPartAtom::printAtomWithValueOptionsValues (
+void msrKeepPartAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

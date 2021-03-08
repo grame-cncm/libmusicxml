@@ -30,14 +30,15 @@ const int K_OAH_FIELD_WIDTH = 40;
 // data types
 // ------------------------------------------------------
 
-enum oahElementKind {
-  kElementWithoutValue,       // i.e. -cpu
-  kElementWithMandatoryValue, // i.e. -global-staff-size 30
-  kElementWithOptionalValue   // i.e. -name-help, -name-help=cpu
+enum oahElementValueKind {
+  kElementValueWithout,   // i.e. -cpu, -minimal, -cubase, groups and subgroups elements
+  kElementValueImplicit,  // for oahBoolean
+  kElementValueMandatory, // i.e. -global-staff-size 30
+  kElementValueOptional   // i.e. -name-help, -name-help=cpu
 };
 
-string elementKindAsString (
-  oahElementKind elementKind);
+string elementValueKindAsString (
+  oahElementValueKind elementValueKind);
 
 enum oahElementVisibilityKind {
   kElementVisibilityNone, // default value
@@ -62,6 +63,11 @@ string elementHelpOnlyKindAsString (
 class oahElement;
 typedef SMARTP<oahElement> S_oahElement;
 
+/*
+  a common ancestor for all OAH classes,
+  i.e. atoms, subgroups and groups
+*/
+
 class EXP oahElement : public smartable
 {
   public:
@@ -71,11 +77,11 @@ class EXP oahElement : public smartable
     // ------------------------------------------------------
 
     static SMARTP<oahElement> create (
-      string                   shortName,
-      string                   longName,
-      string                   description,
-      oahElementKind           elementKind,
-      oahElementVisibilityKind elementVisibilityKind);
+                            string                   shortName,
+                            string                   longName,
+                            string                   description,
+                            oahElementValueKind           elementValueKind,
+                            oahElementVisibilityKind elementVisibilityKind);
 */
 
   protected:
@@ -83,12 +89,12 @@ class EXP oahElement : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahElement (
-      string                   shortName,
-      string                   longName,
-      string                   description,
-      oahElementKind           elementKind,
-      oahElementVisibilityKind elementVisibilityKind);
+                          oahElement (
+                            string                   shortName,
+                            string                   longName,
+                            string                   description,
+                            oahElementValueKind      elementValueKind,
+                            oahElementVisibilityKind elementVisibilityKind);
 
     virtual               ~oahElement ();
 
@@ -106,12 +112,12 @@ class EXP oahElement : public smartable
     string                getDescription () const
                               { return fDescription; }
 
-    void                  setElementKind (
-                            oahElementKind elementKind)
-                              { fElementKind = elementKind; }
+    void                  setElementValueKind (
+                            oahElementValueKind elementValueKind)
+                              { fElementValueKind = elementValueKind; }
 
-    oahElementKind        getElementKind () const
-                              { return fElementKind; }
+    oahElementValueKind   getElementValueKind () const
+                              { return fElementValueKind; }
 
     oahElementHelpOnlyKind
                           getElementHelpOnlyKind () const
@@ -219,7 +225,7 @@ class EXP oahElement : public smartable
     string                fLongName;
     string                fDescription;
 
-    oahElementKind        fElementKind;
+    oahElementValueKind   fElementValueKind;
 
     oahElementHelpOnlyKind
                           fElementHelpOnlyKind;
@@ -253,7 +259,7 @@ class EXP oahElementUse : public smartable
     // creation from MusicXML
     // ------------------------------------------------------
 
-                          static SMARTP<oahElementUse> create (
+    static SMARTP<oahElementUse> create (
                             S_oahElement elementUsed,
                             string       nameUsed,
                             string       valueUsed);

@@ -10,10 +10,11 @@
   research@grame.fr
 */
 
-#ifndef ___msdrTokens___
-#define ___msdrTokens___
+#ifndef ___msdlTokens___
+#define ___msdlTokens___
 
 #include <list>
+#include <set>
 
 #include "smartpointer.h"
 
@@ -28,8 +29,8 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-enum msdrTokenKind {
-  k_TokenEOF,  // 0, which is expected by yyparse() at the end of the input
+enum class msdlTokenKind {
+  k_TokenEOF,  // 0, which is expected by yyparse() at the end of the input JMI
 
   k_NoToken,
 
@@ -66,6 +67,11 @@ enum msdrTokenKind {
 
   kTokenQuestionMark,
 
+  kTokenTilda,
+
+  kTokenLeftAngle,
+  kTokenRightAngle,
+
   kTokenLeftParenthesis,
   kTokenRightParenthesis,
 
@@ -82,8 +88,11 @@ enum msdrTokenKind {
   kTokenRepeatStart,
   kTokenRepeatEnd,
 
+  // translatable tokens
+  // ------------------------------------
+
   kTokenInteger,
-  kTokenDouble,
+//  kTokenDouble,
 
   kTokenString,
 
@@ -104,8 +113,7 @@ enum msdrTokenKind {
   kTokenScore,
   kTokenPartGroup,
   kTokenPart,
-  kTokenStaff,
-  kTokenVoice,
+  kTokenMusic, // single- or multi-voice staff
   kTokenFragment,
 
   kTokenClef,
@@ -118,48 +126,344 @@ enum msdrTokenKind {
 
   kTokenKey,
 
-  kTokenTime
+  kTokenTime,
+
+  // aliases
+  // ------------------------------------
+
+  AllFirst = k_TokenEOF,
+  AllLast  = kTokenTime,
+
+  NonSeparatorsFirst = kTokenEqualSign,
+  NonSeparatorsLast  = kTokenTime,
+
+  TranslatableFirst = kTokenInteger,
+  TranslatableLast  = kTokenIdentifier,
+
+  LanguageIndependentFirst = kTokenEqualSign,
+  LanguageIndependentLast  = kTokenIdentifier,
+
+  LanguageDependentFirst = kTokenTitle,
+  LanguageDependentLast  = kTokenTime
 };
 
-string msdrTokenKindAsString (
-  msdrTokenKind tokenKind);
+string msdlTokenKindAsString (
+  msdlTokenKind tokenKind);
 
-enum msdrTokenDescriptionKind {
-  kTokenDescriptionKeyword,
-  kTokenDescriptionInteger,
-  kTokenDescriptionDouble,
-  kTokenDescriptionCharacter,
-  kTokenDescriptionString
-};
+string msdlTokenKindAsMsdlString (
+  msdlTokenKind            tokenKind,
+  msdlKeywordsLanguageKind languageKind);
 
-string msdrTokenDescriptionKindAsString (
-  msdrTokenDescriptionKind tokenDescriptionKind);
+msdlTokenKind msdlTokenKindFromKeywordKind (
+  msdlKeywordKind keywordKind);
+
+string existingTokensInLanguage (
+  msdlKeywordsLanguageKind keywordsLanguageKind,
+  unsigned int             namesListMaxLength);
 
 //________________________________________________________________________
-class EXP msdrTokenDescription : public smartable
+template< typename T >
+class EnumNonSeparators
+{
+  public:
+
+    class Iterator
+    {
+      public:
+
+        Iterator (int value)
+          : fIterationIndex (value)
+            {}
+
+        T operator* (void) const
+            { return (T) fIterationIndex; }
+
+        void operator++ (void)
+            {  ++fIterationIndex; }
+
+        bool operator != (Iterator rhs)
+            {  return fIterationIndex != rhs.fIterationIndex; }
+
+      private:
+
+        int fIterationIndex;
+     };
+};
+
+template< typename T >
+typename EnumNonSeparators<T>::Iterator begin (EnumNonSeparators<T>)
+{
+  return typename EnumNonSeparators<T>::Iterator ((int)T::NonSeparatorsFirst);
+}
+
+template< typename T >
+typename EnumNonSeparators<T>::Iterator end (EnumNonSeparators<T>)
+{
+  return typename EnumNonSeparators<T>::Iterator (((int)T::NonSeparatorsLast) + 1);
+}
+
+//________________________________________________________________________
+template< typename T >
+class EnumLanguageIndependent
+{
+  public:
+
+    class Iterator
+    {
+      public:
+
+        Iterator (int value)
+          : fIterationIndex (value)
+            {}
+
+        T operator* (void) const
+            { return (T) fIterationIndex; }
+
+        void operator++ (void)
+            {  ++fIterationIndex; }
+
+        bool operator != (Iterator rhs)
+            {  return fIterationIndex != rhs.fIterationIndex; }
+
+      private:
+
+        int fIterationIndex;
+     };
+};
+
+template< typename T >
+typename EnumLanguageIndependent<T>::Iterator begin (EnumLanguageIndependent<T>)
+{
+  return typename EnumLanguageIndependent<T>::Iterator ((int)T::LanguageIndependentFirst);
+}
+
+template< typename T >
+typename EnumLanguageIndependent<T>::Iterator end (EnumLanguageIndependent<T>)
+{
+  return typename EnumLanguageIndependent<T>::Iterator (((int)T::LanguageIndependentLast) + 1);
+}
+
+//________________________________________________________________________
+template< typename T >
+class EnumLanguageDependent
+{
+  public:
+
+    class Iterator
+    {
+      public:
+
+        Iterator (int value)
+          : fIterationIndex (value)
+            {}
+
+        T operator* (void) const
+            { return (T) fIterationIndex; }
+
+        void operator++ (void)
+            {  ++fIterationIndex; }
+
+        bool operator != (Iterator rhs)
+            {  return fIterationIndex != rhs.fIterationIndex; }
+
+      private:
+
+        int fIterationIndex;
+     };
+};
+
+template< typename T >
+typename EnumLanguageDependent<T>::Iterator begin (EnumLanguageDependent<T>)
+{
+  return typename EnumLanguageDependent<T>::Iterator ((int)T::LanguageDependentFirst);
+}
+
+template< typename T >
+typename EnumLanguageDependent<T>::Iterator end (EnumLanguageDependent<T>)
+{
+  return typename EnumLanguageDependent<T>::Iterator (((int)T::LanguageDependentLast) + 1);
+}
+
+//________________________________________________________________________
+class msdlTokenKindsSet;
+typedef SMARTP<msdlTokenKindsSet> S_msdlTokenKindsSet;
+
+class msdlTokenKindsSet : public smartable
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msdrTokenDescription> create ();
+    static SMARTP<msdlTokenKindsSet> create ();
+
+    static SMARTP<msdlTokenKindsSet> create (
+                            initializer_list<msdlTokenKind> elements);
+
+    static SMARTP<msdlTokenKindsSet> create (
+                            msdlTokenKindsSet& tokenKindsSet);
+
+    SMARTP<msdlTokenKindsSet> createClone ();
 
   public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-                          msdrTokenDescription ();
+                          msdlTokenKindsSet ();
 
-    virtual               ~msdrTokenDescription ();
+                          msdlTokenKindsSet (
+                            initializer_list<msdlTokenKind> elements);
+
+                          msdlTokenKindsSet (
+                            msdlTokenKindsSet& tokenKindsSet);
+
+    virtual               ~msdlTokenKindsSet ();
+
+    // set and get
+    // ------------------------------------------------------
+
+    const set<msdlTokenKind>&
+                          getTokenKindsSet () const
+                              { return fTokenKindsSet; }
+
+    int                   getTokenKindsSetSize () const
+                              { return fTokenKindsSet.size (); }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  addTokenKind (msdlTokenKind value)
+                              { fTokenKindsSet.insert (value); }
+
+    void                  removeTokenKind (msdlTokenKind value)
+                              { fTokenKindsSet.erase (value); }
+
+    bool                  containsTokenKind (msdlTokenKind value) const
+                              { return fTokenKindsSet.count (value) != 0; }
+
+    void                  addElementsFrom (S_msdlTokenKindsSet tokenKindsSet);
+
+    void                  removeElementsFrom (S_msdlTokenKindsSet tokenKindsSet);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    void                  print (ostream& os) const;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    set<msdlTokenKind>    fTokenKindsSet;
+};
+EXP ostream& operator<< (ostream& os, const msdlTokenKindsSet& elt);
+
+EXP S_msdlTokenKindsSet operator+= (
+  S_msdlTokenKindsSet aTokenKindsSet,
+  S_msdlTokenKindsSet anotherTokenKindsSet);
+
+EXP S_msdlTokenKindsSet operator-= (
+  S_msdlTokenKindsSet aTokenKindsSet,
+  S_msdlTokenKindsSet anotherTokenKindsSet);
+
+EXP S_msdlTokenKindsSet operator+ (
+  S_msdlTokenKindsSet aTokenKindsSet,
+  S_msdlTokenKindsSet anotherTokenKindsSet);
+
+EXP S_msdlTokenKindsSet operator- (
+  S_msdlTokenKindsSet aTokenKindsSet,
+  S_msdlTokenKindsSet anotherTokenKindsSet);
+
+/*
+  see https://stackoverflow.com/questions/1448396/how-to-use-enums-as-flags-in-c
+
+
+// initializer_list::begin/end
+#include <iostream>          // std::cout
+#include <string>            // std::string
+#include <sstream>           // std::stringstream
+#include <initializer_list>  // std::initializer_list
+
+struct myclass {
+  std::string str;
+  myclass(std::initializer_list<int> args) {
+    std::stringstream ss;
+    std::initializer_list<int>::iterator it;  // same as: const int* it
+    for ( it=args.begin(); it!=args.end(); ++it) ss << ' ' << *it;
+    str = ss.str();
+  }
+};
+
+int main ()
+{
+  myclass myobject {10, 20, 30};
+  std::cout << "myobject contains:" << myobject.str << '\n';
+  return 0;
+}
+
+EXP tokenKindsSet& operator|= (tokenKindsSet& ts, msdlTokenKind value) const
+{
+  ts.addTokenKind (value);
+  return ts;
+}
+
+
+// prefix operators
+msrOctaveKind& operator++ (msrOctaveKind& octaveKind);
+msrOctaveKind& operator-- (msrOctaveKind& octaveKind);
+
+// postfix operators
+msrOctaveKind operator++ (msrOctaveKind& octaveKind, int);
+msrOctaveKind operator-- (msrOctaveKind& octaveKind, int);
+*/
+
+
+//________________________________________________________________________
+enum class msdlTokenDescriptionKind {
+  kTokenKeyword,
+  kTokenInteger,
+  kTokenDouble,
+  kTokenCharacter,
+  kTokenString
+};
+
+string msdlTokenDescriptionKindAsString (
+  msdlTokenDescriptionKind tokenDescriptionKind);
+
+//________________________________________________________________________
+class EXP msdlTokenDescription : public smartable
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msdlTokenDescription> create ();
+
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          msdlTokenDescription ();
+
+    virtual               ~msdlTokenDescription ();
 
     // set and get
     // ------------------------------------------------------
 
     void                  setKeywordKind (msdlKeywordKind value)
                               {
-                                fTokenDescriptionKind = kTokenDescriptionKeyword;
+                                fTokenDescriptionKind =
+                                  msdlTokenDescriptionKind::kTokenKeyword;
                                 fKeywordKind          = value;
                               }
 
@@ -167,7 +471,8 @@ class EXP msdrTokenDescription : public smartable
 
     void                  setInteger (int value)
                               {
-                                fTokenDescriptionKind = kTokenDescriptionInteger;
+                                fTokenDescriptionKind =
+                                  msdlTokenDescriptionKind::kTokenInteger;
                                 fInteger              = value;
                               }
 
@@ -175,7 +480,8 @@ class EXP msdrTokenDescription : public smartable
 
     void                  setDouble (double value)
                               {
-                                fTokenDescriptionKind = kTokenDescriptionDouble;
+                                fTokenDescriptionKind =
+                                  msdlTokenDescriptionKind::kTokenDouble;
                                 fDouble               = value;
                               }
 
@@ -183,7 +489,8 @@ class EXP msdrTokenDescription : public smartable
 
     void                  setCharacter (char value)
                               {
-                                fTokenDescriptionKind = kTokenDescriptionCharacter;
+                                fTokenDescriptionKind =
+                                  msdlTokenDescriptionKind::kTokenCharacter;
                                 fCharacter            = value;
                               }
 
@@ -191,7 +498,8 @@ class EXP msdrTokenDescription : public smartable
 
     void                  setString (string value)
                               {
-                                fTokenDescriptionKind = kTokenDescriptionString;
+                                fTokenDescriptionKind =
+                                  msdlTokenDescriptionKind::kTokenString;
                                 fString               = value;
                               }
 
@@ -216,8 +524,8 @@ class EXP msdrTokenDescription : public smartable
     // private fields
     // ------------------------------------------------------
 
-    // MSDL token descritption with variants handling (variants are not in C++-11)
-    msdrTokenDescriptionKind
+    // MSDL token description with variants handling (variants are not in C++-11)
+    msdlTokenDescriptionKind
                           fTokenDescriptionKind;
 
     msdlKeywordKind       fKeywordKind;
@@ -228,67 +536,67 @@ class EXP msdrTokenDescription : public smartable
     char                  fCharacter;
     string                fString;
 };
-typedef SMARTP<msdrTokenDescription> S_msdrTokenDescription;
-EXP ostream& operator<< (ostream& os, const msdrTokenDescription& elt);
+typedef SMARTP<msdlTokenDescription> S_msdlTokenDescription;
+EXP ostream& operator<< (ostream& os, const msdlTokenDescription& elt);
 
 //________________________________________________________________________
-class EXP msdrToken : public smartable
+class EXP msdlToken : public smartable
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msdrToken> create ();
+    static SMARTP<msdlToken> create ();
 
   public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-                          msdrToken ();
+                          msdlToken ();
 
-                          msdrToken (
-                            msdrTokenKind tokenKind);
+                          msdlToken (
+                            msdlTokenKind tokenKind);
 
-                          msdrToken (
-                            msdrTokenKind   tokenKind,
+                          msdlToken (
+                            msdlTokenKind   tokenKind,
                             msdlKeywordKind value);
 
-                          msdrToken (
-                            msdrTokenKind tokenKind,
+                          msdlToken (
+                            msdlTokenKind tokenKind,
                             int           value);
 
-                          msdrToken (
-                            msdrTokenKind tokenKind,
+                          msdlToken (
+                            msdlTokenKind tokenKind,
                             string        value);
 
-                          msdrToken (
-                            msdrTokenKind tokenKind,
+                          msdlToken (
+                            msdlTokenKind tokenKind,
                             double        value);
 
-    virtual               ~msdrToken ();
+    virtual               ~msdlToken ();
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setTokenKind (msdrTokenKind tokenKind)
+    void                  setTokenKind (msdlTokenKind tokenKind)
                               { fTokenKind = tokenKind; }
 
-    msdrTokenKind         getTokenKind () const
+    msdlTokenKind         getTokenKind () const
                               { return fTokenKind; }
 
-    msdrTokenKind&        getTokenKindToModify ()
+    msdlTokenKind&        getTokenKindToModify ()
                               { return fTokenKind; }
 
-    void                  setTokenDescription (msdrTokenDescription& tokenDescription)
+    void                  setTokenDescription (msdlTokenDescription& tokenDescription)
                               { fTokenDescription = tokenDescription; }
 
-    const msdrTokenDescription&
+    const msdlTokenDescription&
                           getTokenDescription () const
                               { return fTokenDescription; }
 
-    msdrTokenDescription& getTokenDescriptionToModify ()
+    msdlTokenDescription& getTokenDescriptionToModify ()
                               { return fTokenDescription; }
 
     void                  setTokenLineNumber (int tokenLineNumber)
@@ -334,42 +642,42 @@ class EXP msdrToken : public smartable
     // ------------------------------------------------------
 
     // the MSDL token
-    msdrTokenKind         fTokenKind;
+    msdlTokenKind         fTokenKind;
 
-    // its descritption with variants handling
-    msdrTokenDescription  fTokenDescription;
+    // its description with variants handling
+    msdlTokenDescription  fTokenDescription;
 
     int                   fTokenLineNumber;
     int                   fTokenPositionInLine;
 };
-typedef SMARTP<msdrToken> S_msdrToken;
-EXP ostream& operator<< (ostream& os, const msdrToken& elt);
+typedef SMARTP<msdlToken> S_msdlToken;
+EXP ostream& operator<< (ostream& os, const msdlToken& elt);
 
 //________________________________________________________________________
-class EXP msdrTokensList : public smartable
+class EXP msdlTokensList : public smartable
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msdrTokensList> create ();
+    static SMARTP<msdlTokensList> create ();
 
   public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-                          msdrTokensList ();
+                          msdlTokensList ();
 
-    virtual               ~msdrTokensList ();
+    virtual               ~msdlTokensList ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    const list<msdrToken>&
+    const list<msdlToken>&
                           getTokensList () const
                               { return fTokensList; }
 
@@ -379,7 +687,7 @@ class EXP msdrTokensList : public smartable
     // ------------------------------------------------------
 
     void                  appendTokenToTokensList (
-                            const msdrToken& token);
+                            const msdlToken& token);
 
   public:
 
@@ -399,10 +707,10 @@ class EXP msdrTokensList : public smartable
     // private fields
     // ------------------------------------------------------
 
-    list<msdrToken>       fTokensList;
+    list<msdlToken>       fTokensList;
 };
-typedef SMARTP<msdrTokensList> S_msdrTokensList;
-EXP ostream& operator<< (ostream& os, const S_msdrTokensList& elt);
+typedef SMARTP<msdlTokensList> S_msdlTokensList;
+EXP ostream& operator<< (ostream& os, const S_msdlTokensList& elt);
 
 
 }

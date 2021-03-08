@@ -57,7 +57,7 @@ oahAtomSynonym::oahAtomSynonym (
       shortName,
       longName,
       description,
-      originalOahAtom->getElementKind ())
+      originalOahAtom->getElementValueKind ())
 {
   fOriginalOahAtom = originalOahAtom;
 }
@@ -178,13 +178,6 @@ void oahAtomSynonym::printShort (ostream& os) const
     endl;
 }
 
-void oahAtomSynonym::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  // nothing to print here
-}
-
 ostream& operator<< (ostream& os, const S_oahAtomSynonym& elt)
 {
   elt->print (os);
@@ -214,7 +207,7 @@ oahMacroAtom::oahMacroAtom (
       shortName,
       longName,
       description,
-      kElementWithoutValue)
+      kElementValueWithout)
 {}
 
 oahMacroAtom::~oahMacroAtom ()
@@ -257,12 +250,12 @@ void oahMacroAtom::applyElement (ostream& os)
 
 
     if (
-      // oahAtomWithValue?
-      S_oahAtomWithValue
-        atomWithValue =
-          dynamic_cast<oahAtomWithValue*>(&(*atom))
+      // oahAtomStoringAValueInAVariable?
+      S_oahAtomStoringAValueInAVariable
+        atomWithVariable =
+          dynamic_cast<oahAtomStoringAValueInAVariable*>(&(*atom))
     ) {
-      atomWithValue->
+      atomWithVariable->
         applyAtomWithValue (theString, os);
     }
     else {
@@ -391,144 +384,7 @@ void oahMacroAtom::printShort (ostream& os) const
     os, fieldWidth);
 }
 
-void oahMacroAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  // nothing to print here
-}
-
 ostream& operator<< (ostream& os, const S_oahMacroAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-/* this class is purely virtual
-S_oahHelpOnlyAtom oahHelpOnlyAtom::create (
-  string shortName,
-  string longName,
-  string description,
-  string executableName)
-{
-  oahHelpOnlyAtom* o = new
-    oahHelpOnlyAtom (
-      shortName,
-      longName,
-      description,
-      executableName);
-  assert (o != nullptr);
-  return o;
-}
-*/
-
-oahHelpOnlyAtom::oahHelpOnlyAtom (
-  string shortName,
-  string longName,
-  string description,
-  string executableName)
-  : oahAtom (
-      shortName,
-      longName,
-      description,
-      kElementWithoutValue)
-{
-  fHelpOnlyAtomExecutableName = executableName;
-
-  fElementHelpOnlyKind = kElementHelpOnlyYes;
-}
-
-oahHelpOnlyAtom::~oahHelpOnlyAtom ()
-{}
-
-void oahHelpOnlyAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> oahHelpOnlyAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahHelpOnlyAtom>*
-    p =
-      dynamic_cast<visitor<S_oahHelpOnlyAtom>*> (v)) {
-        S_oahHelpOnlyAtom elem = this;
-
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-          gLogStream <<
-            ".\\\" ==> Launching oahHelpOnlyAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void oahHelpOnlyAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> oahHelpOnlyAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahHelpOnlyAtom>*
-    p =
-      dynamic_cast<visitor<S_oahHelpOnlyAtom>*> (v)) {
-        S_oahHelpOnlyAtom elem = this;
-
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-          gLogStream <<
-            ".\\\" ==> Launching oahHelpOnlyAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void oahHelpOnlyAtom::browseData (basevisitor* v)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
-    gLogStream <<
-      ".\\\" ==> oahHelpOnlyAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-void oahHelpOnlyAtom::print (ostream& os) const
-{
-  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "HelpOnlyAtom:" <<
-    endl;
-
-  ++gIndenter;
-
-  oahElement::printOahElementEssentials (
-    os, fieldWidth);
-
-  --gIndenter;
-}
-
-void oahHelpOnlyAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  // nothing to print here
-}
-
-ostream& operator<< (ostream& os, const S_oahHelpOnlyAtom& elt)
 {
   elt->print (os);
   return os;
@@ -556,7 +412,7 @@ oahOptionsUsageAtom::oahOptionsUsageAtom (
   string longName,
   string description,
   string executableName)
-  : oahHelpOnlyAtom (
+  : oahHelpAtomWithoutValue (
       shortName,
       longName,
       description,
@@ -588,7 +444,7 @@ void oahOptionsUsageAtom::printOptionsUsage (ostream& os) const
   gIndenter.resetToZero ();
 
   os <<
-    fHelpOnlyAtomExecutableName <<
+    fHelpAtomWithoutValueExecutableName <<
     " options usage:" <<
     endl;
 
@@ -628,7 +484,7 @@ as is the case of https://libmusicxml.grame.fr .)",
               fetchNamesBetweenQuotes ()
           ),
         regex ("EXECUTABLE_NAME"),
-        fHelpOnlyAtomExecutableName
+        fHelpAtomWithoutValueExecutableName
         )
       ) <<
     endl;
@@ -717,13 +573,6 @@ void oahOptionsUsageAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahOptionsUsageAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  // nothing to print here
-}
-
 ostream& operator<< (ostream& os, const S_oahOptionsUsageAtom& elt)
 {
   elt->print (os);
@@ -752,7 +601,7 @@ oahHelpAtom::oahHelpAtom (
   string longName,
   string description,
   string executableName)
-  : oahHelpOnlyAtom (
+  : oahHelpAtomWithoutValue (
       shortName,
       longName,
       description,
@@ -870,13 +719,6 @@ void oahHelpAtom::printOptionsSummary (ostream& os) const
     endl;
 }
 
-void oahHelpAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  // nothing to print here
-}
-
 ostream& operator<< (ostream& os, const S_oahHelpAtom& elt)
 {
   elt->print (os);
@@ -905,7 +747,7 @@ oahHelpSummaryAtom::oahHelpSummaryAtom (
   string longName,
   string description,
   string executableName)
-  : oahHelpOnlyAtom (
+  : oahHelpAtomWithoutValue (
       shortName,
       longName,
       description,
@@ -1023,13 +865,6 @@ void oahHelpSummaryAtom::printOptionsSummary (ostream& os) const
     endl;
 }
 
-void oahHelpSummaryAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  // nothing to print here
-}
-
 ostream& operator<< (ostream& os, const S_oahHelpSummaryAtom& elt)
 {
   elt->print (os);
@@ -1058,7 +893,7 @@ oahAboutAtom::oahAboutAtom (
   string longName,
   string description,
   string executableName)
-  : oahHelpOnlyAtom (
+  : oahHelpAtomWithoutValue (
       shortName,
       longName,
       description,
@@ -1174,13 +1009,6 @@ void oahAboutAtom::printAbout (ostream& os) const
     endl;
 }
 
-void oahAboutAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  // nothing to print here
-}
-
 ostream& operator<< (ostream& os, const S_oahAboutAtom& elt)
 {
   elt->print (os);
@@ -1209,7 +1037,7 @@ oahVersionAtom::oahVersionAtom (
   string longName,
   string description,
   string executableName)
-  : oahHelpOnlyAtom (
+  : oahHelpAtomWithoutValue (
       shortName,
       longName,
       description,
@@ -1321,22 +1149,15 @@ void oahVersionAtom::printVersion (ostream& os) const
 {
   os <<
     "This is " <<
-    fHelpOnlyAtomExecutableName <<
+    fHelpAtomWithoutValueExecutableName <<
     " version " <<
     currentVersionNumber () <<
     endl << endl;
 
   // print versions history
   printVersionsHistory (
-    fHelpOnlyAtomExecutableName,
+    fHelpAtomWithoutValueExecutableName,
     os);
-}
-
-void oahVersionAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  // nothing to print here
 }
 
 ostream& operator<< (ostream& os, const S_oahVersionAtom& elt)
@@ -1367,7 +1188,7 @@ oahContactAtom::oahContactAtom (
   string longName,
   string description,
   string executableName)
-  : oahHelpOnlyAtom (
+  : oahHelpAtomWithoutValue (
       shortName,
       longName,
       description,
@@ -1485,15 +1306,8 @@ void oahContactAtom::printContact (ostream& os) const
     Send a mail to mailto:lilypond-user@gnu.org describing the problem
     and error messages you obtain if relevant.)",
         regex ("EXECUTABLE_NAME"),
-        fHelpOnlyAtomExecutableName)) <<
+        fHelpAtomWithoutValueExecutableName)) <<
     endl;
-}
-
-void oahContactAtom::printAtomWithValueOptionsValues (
-  ostream&     os,
-  unsigned int valueFieldWidth) const
-{
-  // nothing to print here
 }
 
 ostream& operator<< (ostream& os, const S_oahContactAtom& elt)
@@ -1527,16 +1341,16 @@ oahBooleanAtom::oahBooleanAtom (
   string description,
   string variableName,
   bool&  booleanVariable)
-  : oahAtom (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
-      kElementWithoutValue),
+      "", // no value specification is used for booleans
+      variableName),
     fBooleanVariable (
       booleanVariable)
 {
-  fVariableName = variableName;
-  fVariableHasBeenSet = false;
+  this->setElementValueKind (kElementValueImplicit);
 }
 
 oahBooleanAtom::~oahBooleanAtom ()
@@ -1645,6 +1459,24 @@ void oahBooleanAtom::browseData (basevisitor* v)
 #endif
 }
 
+void oahBooleanAtom::applyAtomWithValue (
+  const string& theString,
+  ostream&      os)
+{
+  stringstream s;
+
+  s <<
+    "applying boolean option \"" << fetchNames () <<
+    "\" with a value";
+
+  oahInternalError (s.str ());
+}
+
+void oahBooleanAtom::applyAtomWithDefaultValue (ostream& os)
+{
+  setBooleanVariable (true);
+}
+
 void oahBooleanAtom::print (ostream& os) const
 {
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
@@ -1662,12 +1494,21 @@ void oahBooleanAtom::print (ostream& os) const
     setw (fieldWidth) <<
     "booleanVariable" << " : " <<
     booleanAsString (fBooleanVariable) <<
+    endl <<
+    setw (fieldWidth) <<
+    "variableName" << " : " <<
+    fVariableName <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
     endl;
 
   --gIndenter;
 }
 
-void oahBooleanAtom::printAtomWithValueOptionsValues (
+void oahBooleanAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -1676,11 +1517,13 @@ void oahBooleanAtom::printAtomWithValueOptionsValues (
     fVariableName <<
     " : " <<
     booleanAsString (fBooleanVariable);
+
   if (fVariableHasBeenSet) {
     os <<
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
+
   os << endl;
 }
 
@@ -1863,7 +1706,7 @@ void oahTwoBooleansAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahTwoBooleansAtom::printAtomWithValueOptionsValues (
+void oahTwoBooleansAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -2070,7 +1913,7 @@ void oahThreeBooleansAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahThreeBooleansAtom::printAtomWithValueOptionsValues (
+void oahThreeBooleansAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -2098,17 +1941,13 @@ ostream& operator<< (ostream& os, const S_oahThreeBooleansAtom& elt)
 S_oahCombinedBooleansAtom oahCombinedBooleansAtom::create (
   string shortName,
   string longName,
-  string description,
-  string variableName,
-  bool&  booleanVariable)
+  string description)
 {
   oahCombinedBooleansAtom* o = new
     oahCombinedBooleansAtom (
       shortName,
       longName,
-      description,
-      variableName,
-      booleanVariable);
+      description);
   assert (o != nullptr);
   return o;
 }
@@ -2116,16 +1955,12 @@ S_oahCombinedBooleansAtom oahCombinedBooleansAtom::create (
 oahCombinedBooleansAtom::oahCombinedBooleansAtom (
   string shortName,
   string longName,
-  string description,
-  string variableName,
-  bool&  booleanVariable)
-  : oahAtomWithVariableName (
+  string description)
+  : oahAtom (
       shortName,
       longName,
       description,
-      variableName),
-    fBooleanVariable (
-      booleanVariable)
+      kElementValueWithout)
 {}
 
 oahCombinedBooleansAtom::~oahCombinedBooleansAtom ()
@@ -2215,9 +2050,6 @@ void oahCombinedBooleansAtom::setCombinedBooleanVariables (bool value)
       endl;
   }
 #endif
-
-  // set the combined atoms atom variable
-  fBooleanVariable = value;
 
   // set the value of the atoms in the list
   if (fBooleanAtomsList.size ()) {
@@ -2340,10 +2172,10 @@ void oahCombinedBooleansAtom::printCombinedBooleansEssentials (
   ostream& os,
   unsigned int fieldWidth) const
 {
+/* JMI
   printAtomWithVariableNameEssentials (
     os, fieldWidth);
 
-/* JMI
   os << left <<
     setw (fieldWidth) <<
     "valueSpecification" << " : " <<
@@ -2356,11 +2188,10 @@ void oahCombinedBooleansAtom::printCombinedBooleansEssentialsShort (
   ostream& os,
   unsigned int fieldWidth) const
 {
-
+/* JMI
   printAtomWithVariableNameEssentialsShort (
     os, fieldWidth);
 
-/* JMI
   os << left <<
     setw (fieldWidth) <<
     "valueSpecification" << " : " <<
@@ -2484,18 +2315,10 @@ void oahCombinedBooleansAtom::printHelp (ostream& os) const
   }
 }
 
-void oahCombinedBooleansAtom::printAtomWithValueOptionsValues (
+void oahCombinedBooleansAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : " <<
-    booleanAsString (
-      fBooleanVariable) <<
-    endl;
-
   unsigned int fieldWidth =
     valueFieldWidth - gIndenter.getIndent () + 1;
 
@@ -2525,7 +2348,7 @@ void oahCombinedBooleansAtom::printAtomWithValueOptionsValues (
         ) {
         // print the boolean value
         booleanAtom->
-          printAtomWithValueOptionsValues (
+          printAtomWithVariableOptionsValues (
             os, fieldWidth);
       }
 
@@ -2580,7 +2403,7 @@ oahMultiplexBooleansAtom::oahMultiplexBooleansAtom (
       shortName,
       longName,
       description,
-      kElementWithoutValue)
+      kElementValueWithout)
 {
   // sanity checks
   msgAssert (
@@ -3145,7 +2968,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os) const
   }
 }
 
-void oahMultiplexBooleansAtom::printAtomWithValueOptionsValues (
+void oahMultiplexBooleansAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -3187,7 +3010,7 @@ oahIntegerAtom::oahIntegerAtom (
   string valueSpecification,
   string variableName,
   int&   integerVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -3370,7 +3193,7 @@ void oahIntegerAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -3382,7 +3205,7 @@ void oahIntegerAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahIntegerAtom::printAtomWithValueOptionsValues (
+void oahIntegerAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -3639,7 +3462,7 @@ void oahTwoIntegersAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -3655,7 +3478,7 @@ void oahTwoIntegersAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahTwoIntegersAtom::printAtomWithValueOptionsValues (
+void oahTwoIntegersAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -3710,7 +3533,7 @@ oahFloatAtom::oahFloatAtom (
   string valueSpecification,
   string variableName,
   float& floatVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -3896,7 +3719,7 @@ void oahFloatAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -3908,7 +3731,7 @@ void oahFloatAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahFloatAtom::printAtomWithValueOptionsValues (
+void oahFloatAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -3959,7 +3782,7 @@ oahStringAtom::oahStringAtom (
   string  valueSpecification,
   string  variableName,
   string& stringVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -4090,7 +3913,7 @@ void oahStringAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -4102,7 +3925,7 @@ void oahStringAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahStringAtom::printAtomWithValueOptionsValues (
+void oahStringAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -4155,7 +3978,7 @@ oahMonoplexStringAtom::oahMonoplexStringAtom (
       shortName,
       longName,
       description,
-      kElementWithoutValue),
+      kElementValueWithout),
     fAtomNameDescriptor (
       atomNameDescriptor),
     fStringValueDescriptor (
@@ -4509,7 +4332,7 @@ void oahMonoplexStringAtom::printHelp (ostream& os) const
   }
 }
 
-void oahMonoplexStringAtom::printAtomWithValueOptionsValues (
+void oahMonoplexStringAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -4564,7 +4387,7 @@ oahStringWithDefaultValueAtom::oahStringWithDefaultValueAtom (
     fDefaultStringValue (
       defaultStringValue)
 {
-  this->setElementKind (kElementWithOptionalValue);
+  this->setElementValueKind (kElementValueOptional);
 }
 
 oahStringWithDefaultValueAtom::~oahStringWithDefaultValueAtom ()
@@ -4700,7 +4523,7 @@ void oahStringWithDefaultValueAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -4716,7 +4539,7 @@ void oahStringWithDefaultValueAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahStringWithDefaultValueAtom::printAtomWithValueOptionsValues (
+void oahStringWithDefaultValueAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -4771,7 +4594,7 @@ oahRationalAtom::oahRationalAtom (
   string    valueSpecification,
   string    variableName,
   rational& rationalVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -4958,7 +4781,7 @@ void oahRationalAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -4970,7 +4793,7 @@ void oahRationalAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahRationalAtom::printAtomWithValueOptionsValues (
+void oahRationalAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -5021,7 +4844,7 @@ oahNaturalNumbersSetAtom::oahNaturalNumbersSetAtom (
   string    valueSpecification,
   string    variableName,
   set<int>& naturalNumbersSetVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -5167,7 +4990,7 @@ void oahNaturalNumbersSetAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -5204,7 +5027,7 @@ void oahNaturalNumbersSetAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahNaturalNumbersSetAtom::printAtomWithValueOptionsValues (
+void oahNaturalNumbersSetAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -5278,7 +5101,7 @@ oahRGBColorAtom::oahRGBColorAtom (
   string       valueSpecification,
   string       variableName,
   msrRGBColor& RGBColorVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -5401,7 +5224,7 @@ void oahRGBColorAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -5413,7 +5236,7 @@ void oahRGBColorAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahRGBColorAtom::printAtomWithValueOptionsValues (
+void oahRGBColorAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -5464,7 +5287,7 @@ oahIntSetAtom::oahIntSetAtom (
   string    valueSpecification,
   string    variableName,
   set<int>& intSetVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -5682,7 +5505,7 @@ void oahIntSetAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -5710,7 +5533,7 @@ void oahIntSetAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahIntSetAtom::printAtomWithValueOptionsValues (
+void oahIntSetAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -5780,7 +5603,7 @@ oahStringSetAtom::oahStringSetAtom (
   string       valueSpecification,
   string       variableName,
   set<string>& stringSetVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -5963,7 +5786,7 @@ void oahStringSetAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -5990,7 +5813,7 @@ void oahStringSetAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahStringSetAtom::printAtomWithValueOptionsValues (
+void oahStringSetAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -6063,7 +5886,7 @@ oahStringToIntMapAtom::oahStringToIntMapAtom (
   string            valueSpecification,
   string            variableName,
   map<string, int>& stringToIntMapVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -6298,7 +6121,7 @@ void oahStringToIntMapAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -6326,7 +6149,7 @@ void oahStringToIntMapAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahStringToIntMapAtom::printAtomWithValueOptionsValues (
+void oahStringToIntMapAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -6408,7 +6231,7 @@ oahStringAndIntegerAtom::oahStringAndIntegerAtom (
   string& stringVariable,
   string  integerVariableName,
   int&    integerVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -6629,7 +6452,7 @@ void oahStringAndIntegerAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -6654,7 +6477,7 @@ void oahStringAndIntegerAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahStringAndIntegerAtom::printAtomWithValueOptionsValues (
+void oahStringAndIntegerAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -6717,7 +6540,7 @@ oahStringAndTwoIntegersAtom::oahStringAndTwoIntegersAtom (
   string& stringVariable,
   int&    primaryIntegerVariable,
   int&    secondaryIntegerVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -6967,7 +6790,7 @@ void oahStringAndTwoIntegersAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -6984,7 +6807,7 @@ void oahStringAndTwoIntegersAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahStringAndTwoIntegersAtom::printAtomWithValueOptionsValues (
+void oahStringAndTwoIntegersAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -7049,7 +6872,7 @@ oahLengthUnitKindAtom::oahLengthUnitKindAtom (
   string             valueSpecification,
   string             variableName,
   msrLengthUnitKind& lengthUnitKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -7213,7 +7036,7 @@ void oahLengthUnitKindAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -7227,7 +7050,7 @@ void oahLengthUnitKindAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahLengthUnitKindAtom::printAtomWithValueOptionsValues (
+void oahLengthUnitKindAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -7280,7 +7103,7 @@ oahLengthAtom::oahLengthAtom (
   string     valueSpecification,
   string     variableName,
   msrLength& lengthVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -7503,7 +7326,7 @@ void oahLengthAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -7515,7 +7338,7 @@ void oahLengthAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahLengthAtom::printAtomWithValueOptionsValues (
+void oahLengthAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -7566,7 +7389,7 @@ oahMidiTempoAtom::oahMidiTempoAtom (
   string        valueSpecification,
   string        variableName,
   msrMidiTempo& midiTempoVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -7777,7 +7600,7 @@ void oahMidiTempoAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -7790,7 +7613,7 @@ void oahMidiTempoAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahMidiTempoAtom::printAtomWithValueOptionsValues (
+void oahMidiTempoAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -7854,7 +7677,7 @@ oahOptionNameHelpAtom::oahOptionNameHelpAtom (
       stringVariable,
       defaultOptionName)
 {
-  this->setElementKind (kElementWithOptionalValue);
+  this->setElementValueKind (kElementValueOptional);
 
   fElementHelpOnlyKind = kElementHelpOnlyYes;
 
@@ -7863,15 +7686,6 @@ oahOptionNameHelpAtom::oahOptionNameHelpAtom (
 
 oahOptionNameHelpAtom::~oahOptionNameHelpAtom ()
 {}
-
-void oahOptionNameHelpAtom::applyAtomWithValueDefaultValue (ostream& os)
-{
-  // delegate this to the handler
-  fetchAtomHandlerUpLink ()->
-    printNameIntrospectiveHelp (
-      os,
-      fDefaultStringValue);
-}
 
 void oahOptionNameHelpAtom::applyAtomWithValue (
   const string& theString,
@@ -7892,6 +7706,15 @@ void oahOptionNameHelpAtom::applyAtomWithValue (
     printNameIntrospectiveHelp (
       os,
       theString);
+}
+
+void oahOptionNameHelpAtom::applyAtomWithDefaultValue (ostream& os)
+{
+  // delegate this to the handler
+  fetchAtomHandlerUpLink ()->
+    printNameIntrospectiveHelp (
+      os,
+      fDefaultStringValue);
 }
 
 void oahOptionNameHelpAtom::acceptIn (basevisitor* v)
@@ -7993,7 +7816,7 @@ void oahOptionNameHelpAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahOptionNameHelpAtom::printAtomWithValueOptionsValues (
+void oahOptionNameHelpAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -8011,18 +7834,14 @@ S_oahAProposOptionNameAtom oahAProposOptionNameAtom::create (
   string shortName,
   string longName,
   string description,
-  string valueSpecification,
-  string variableName,
-  string& stringVariable)
+  string executableName)
 {
   oahAProposOptionNameAtom* o = new
     oahAProposOptionNameAtom (
       shortName,
       longName,
       description,
-      valueSpecification,
-      variableName,
-      stringVariable);
+      executableName);
   assert (o != nullptr);
   return o;
 }
@@ -8031,18 +7850,14 @@ oahAProposOptionNameAtom::oahAProposOptionNameAtom (
   string shortName,
   string longName,
   string description,
-  string valueSpecification,
-  string variableName,
-  string& stringVariable)
-  : oahStringAtom (
+  string executableName)
+  : oahHelpAtomExpectingAValue (
       shortName,
       longName,
       description,
-      valueSpecification,
-      variableName,
-      stringVariable)
+      executableName)
 {
-  this->setElementKind (kElementWithMandatoryValue);
+  this->setElementValueKind (kElementValueMandatory);
 
   fElementHelpOnlyKind = kElementHelpOnlyYes;
 
@@ -8141,7 +7956,7 @@ string oahAProposOptionNameAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-" << fShortName << " " << fVariableName;
+    "-" << fShortName;
 
   return s.str ();
 }
@@ -8151,7 +7966,7 @@ string oahAProposOptionNameAtom::asActualLongNamedOptionString () const
   stringstream s;
 
   s <<
-    "-" << fLongName << " " << fVariableName;
+    "-" << fLongName;
 
   return s.str ();
 }
@@ -8172,7 +7987,7 @@ void oahAProposOptionNameAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahAProposOptionNameAtom::printAtomWithValueOptionsValues (
+void oahAProposOptionNameAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -8190,18 +8005,14 @@ S_oahFindStringAtom oahFindStringAtom::create (
   string shortName,
   string longName,
   string description,
-  string valueSpecification,
-  string variableName,
-  string& stringVariable)
+  string executableName)
 {
   oahFindStringAtom* o = new
     oahFindStringAtom (
       shortName,
       longName,
       description,
-      valueSpecification,
-      variableName,
-      stringVariable);
+      executableName);
   assert (o != nullptr);
   return o;
 }
@@ -8210,18 +8021,14 @@ oahFindStringAtom::oahFindStringAtom (
   string shortName,
   string longName,
   string description,
-  string valueSpecification,
-  string variableName,
-  string& stringVariable)
-  : oahStringAtom (
+  string executableName)
+  : oahHelpAtomExpectingAValue (
       shortName,
       longName,
       description,
-      valueSpecification,
-      variableName,
-      stringVariable)
+      executableName)
 {
-  this->setElementKind (kElementWithMandatoryValue);
+  this->setElementValueKind (kElementValueMandatory);
 
   fElementHelpOnlyKind = kElementHelpOnlyYes;
 
@@ -8388,7 +8195,7 @@ string oahFindStringAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-" << fShortName << " " << fVariableName;
+    "-" << fShortName;
 
   return s.str ();
 }
@@ -8398,7 +8205,7 @@ string oahFindStringAtom::asActualLongNamedOptionString () const
   stringstream s;
 
   s <<
-    "-" << fLongName << " " << fVariableName;
+    "-" << fLongName;
 
   return s.str ();
 }
@@ -8419,7 +8226,7 @@ void oahFindStringAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void oahFindStringAtom::printAtomWithValueOptionsValues (
+void oahFindStringAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

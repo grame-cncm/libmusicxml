@@ -65,7 +65,7 @@ msrPitchesLanguageAtom::msrPitchesLanguageAtom (
   string             variableName,
   msrQuarterTonesPitchesLanguageKind&
                      quarterTonesPitchesLanguageKind)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -231,12 +231,12 @@ void msrPitchesLanguageAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
@@ -249,7 +249,7 @@ void msrPitchesLanguageAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void msrPitchesLanguageAtom::printAtomWithValueOptionsValues (
+void msrPitchesLanguageAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -302,7 +302,7 @@ msrRenamePartAtom::msrRenamePartAtom (
   string               valueSpecification,
   string               variableName,
   map<string, string>& stringToStringMapVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -542,12 +542,12 @@ void msrRenamePartAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fStringToStringMapVariable" << " : " <<
@@ -572,7 +572,7 @@ void msrRenamePartAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void msrRenamePartAtom::printAtomWithValueOptionsValues (
+void msrRenamePartAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

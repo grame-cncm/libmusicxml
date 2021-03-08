@@ -81,7 +81,7 @@ bsrFacSimileKindAtom::bsrFacSimileKindAtom (
   string           valueSpecification,
   string           variableName,
   bsrFacSimileKind bsrFacSimileKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -204,12 +204,12 @@ void bsrFacSimileKindAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
@@ -222,7 +222,7 @@ void bsrFacSimileKindAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void bsrFacSimileKindAtom::printAtomWithValueOptionsValues (
+void bsrFacSimileKindAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -277,7 +277,7 @@ bsrTextsLanguageAtom::bsrTextsLanguageAtom (
   string             variableName,
   bsrTextsLanguageKind&
                      bsrTextsLanguageKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -400,12 +400,12 @@ void bsrTextsLanguageAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
     "fBsrTextsLanguageKindVariable" << " : \"" <<
@@ -417,7 +417,7 @@ void bsrTextsLanguageAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void bsrTextsLanguageAtom::printAtomWithValueOptionsValues (
+void bsrTextsLanguageAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

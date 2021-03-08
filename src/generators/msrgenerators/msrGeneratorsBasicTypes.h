@@ -51,7 +51,7 @@ string existingGenerationAPIKinds (unsigned int namesListMaxLength);
 void initializeGenerationAPIKindsMap ();
 
 //______________________________________________________________________________
-class EXP msrGenerationAPIKindAtom : public oahAtomWithValue
+class EXP msrGenerationAPIKindAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -115,7 +115,7 @@ class EXP msrGenerationAPIKindAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 

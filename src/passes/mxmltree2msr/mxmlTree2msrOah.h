@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP msrDalSegnoAtom : public oahAtomWithValue
+class EXP msrDalSegnoAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -94,7 +94,7 @@ class EXP msrDalSegnoAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -110,7 +110,7 @@ typedef SMARTP<msrDalSegnoAtom> S_msrDalSegnoAtom;
 EXP ostream& operator<< (ostream& os, const S_msrDalSegnoAtom& elt);
 
 //______________________________________________________________________________
-class EXP msrReplaceClefAtom : public oahAtomWithValue
+class EXP msrReplaceClefAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -180,7 +180,7 @@ class EXP msrReplaceClefAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -616,12 +616,10 @@ class EXP mxmlTree2msrOahGroup : public oahGroup
     map<string, msrDalSegno::msrDalSegnoKind>
                           fConvertWordsToDalSegno;
 
-    // combined options, cubase
+    // combined options, cubase, needed in case it occurs in MusicXML <software/>
     // --------------------------------------
 
     bool                  fCubase;
-    S_oahCombinedBooleansAtom
-                          fCubaseCombinedBooleansAtom;
 
 
 #ifdef TRACING_IS_ENABLED

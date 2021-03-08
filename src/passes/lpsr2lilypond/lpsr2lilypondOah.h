@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP lilypondScoreOutputKindAtom : public oahAtomWithValue
+class EXP lilypondScoreOutputKindAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -88,7 +88,7 @@ class EXP lilypondScoreOutputKindAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -103,7 +103,7 @@ typedef SMARTP<lilypondScoreOutputKindAtom> S_lilypondScoreOutputKindAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondScoreOutputKindAtom& elt);
 
 //______________________________________________________________________________
-class EXP lilypondTransposePartNameAtom : public oahAtomWithValue
+class EXP lilypondTransposePartNameAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -187,7 +187,7 @@ class EXP lilypondTransposePartNameAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -203,7 +203,7 @@ typedef SMARTP<lilypondTransposePartNameAtom> S_lilypondTransposePartNameAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondTransposePartNameAtom& elt);
 
 //______________________________________________________________________________
-class EXP lilypondTransposePartIDAtom : public oahAtomWithValue
+class EXP lilypondTransposePartIDAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -287,7 +287,7 @@ class EXP lilypondTransposePartIDAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -303,7 +303,7 @@ typedef SMARTP<lilypondTransposePartIDAtom> S_lilypondTransposePartIDAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondTransposePartIDAtom& elt);
 
 //______________________________________________________________________________
-class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
+class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -343,6 +343,11 @@ class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
 
     void                  applyElement (ostream& os) override;
 
+    void                  applyAtomWithValue (
+                            const string& theString,
+                            ostream&      os) override;
+                            // returns an error
+
   public:
 
     // visitors
@@ -360,7 +365,7 @@ class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -375,7 +380,7 @@ typedef SMARTP<lilypondAbsoluteOctaveEntryAtom> S_lilypondAbsoluteOctaveEntryAto
 EXP ostream& operator<< (ostream& os, const S_lilypondAbsoluteOctaveEntryAtom& elt);
 
 //______________________________________________________________________________
-class EXP lilypondRelativeOctaveEntryAtom : public oahAtomWithValue
+class EXP lilypondRelativeOctaveEntryAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -447,7 +452,7 @@ class EXP lilypondRelativeOctaveEntryAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -465,7 +470,7 @@ typedef SMARTP<lilypondRelativeOctaveEntryAtom> S_lilypondRelativeOctaveEntryAto
 EXP ostream& operator<< (ostream& os, const S_lilypondRelativeOctaveEntryAtom& elt);
 
 //______________________________________________________________________________
-class EXP lilypondFixedOctaveEntryAtom : public oahAtomWithValue
+class EXP lilypondFixedOctaveEntryAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -538,7 +543,7 @@ class EXP lilypondFixedOctaveEntryAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -556,7 +561,7 @@ typedef SMARTP<lilypondFixedOctaveEntryAtom> S_lilypondFixedOctaveEntryAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondFixedOctaveEntryAtom& elt);
 
 //______________________________________________________________________________
-class EXP lilypondAccidentalStyleKindAtom : public oahAtomWithValue
+class EXP lilypondAccidentalStyleKindAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -628,7 +633,7 @@ class EXP lilypondAccidentalStyleKindAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -644,7 +649,7 @@ typedef SMARTP<lilypondAccidentalStyleKindAtom> S_lilypondAccidentalStyleKindAto
 EXP ostream& operator<< (ostream& os, const S_lilypondAccidentalStyleKindAtom& elt);
 
 //______________________________________________________________________________
-class EXP lilypondChordsDisplayAtom : public oahAtomWithValue
+class EXP lilypondChordsDisplayAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -720,7 +725,7 @@ class EXP lilypondChordsDisplayAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -736,7 +741,7 @@ typedef SMARTP<lilypondChordsDisplayAtom> S_lilypondChordsDisplayAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondChordsDisplayAtom& elt);
 
 //______________________________________________________________________________
-class EXP lilypondLyricsDurationsKindAtom : public oahAtomWithValue
+class EXP lilypondLyricsDurationsKindAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -808,7 +813,7 @@ class EXP lilypondLyricsDurationsKindAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -1389,14 +1394,6 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
                               { return fetCreateScoreBlockMidiBlock; }
 */
 
-    // combined options, minimal
-    // --------------------------------------
-
-    void                  setMinimal ()
-                              { fMinimal = true; }
-    bool                  getMinimal () const
-                              { return fMinimal; }
-
   public:
 
     // public services
@@ -1492,7 +1489,7 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
 
     void                  printLpsr2lilypondOahValues (unsigned int fieldWidth);
 
-    virtual void          printAtomWithValueOptionsValues (
+    virtual void          printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const;
 
@@ -1812,14 +1809,6 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
     msrMidiTempo          fMidiTempo;
 
     bool                  fNoMidi;
-
-    // combined options
-    // --------------------------------------
-
-    // minimal
-    bool                  fMinimal;
-    S_oahCombinedBooleansAtom
-                          fMinimalCombinedBooleansAtom;
 };
 typedef SMARTP<lpsr2lilypondOahGroup> S_lpsr2lilypondOahGroup;
 EXP ostream& operator<< (ostream& os, const S_lpsr2lilypondOahGroup& elt);
@@ -1879,7 +1868,7 @@ EXP S_lpsr2lilypondOahGroup createGlobalLpsr2lilypondOahGroup ();
 
 /* JMI
 //______________________________________________________________________________
-class EXP lilypondBreakPageAfterMeasureNumberAtom : public oahAtomWithValue
+class EXP lilypondBreakPageAfterMeasureNumberAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -1931,7 +1920,7 @@ class EXP lilypondBreakPageAfterMeasureNumberAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 

@@ -27,7 +27,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP lpsrPitchesLanguageAtom : public oahAtomWithValue
+class EXP lpsrPitchesLanguageAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -99,7 +99,7 @@ class EXP lpsrPitchesLanguageAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -115,7 +115,7 @@ typedef SMARTP<lpsrPitchesLanguageAtom> S_lpsrPitchesLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrPitchesLanguageAtom& elt);
 
 //______________________________________________________________________________
-class EXP lpsrChordsLanguageAtom : public oahAtomWithValue
+class EXP lpsrChordsLanguageAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -187,7 +187,7 @@ class EXP lpsrChordsLanguageAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -203,7 +203,7 @@ typedef SMARTP<lpsrChordsLanguageAtom> S_lpsrChordsLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrChordsLanguageAtom& elt);
 
 //______________________________________________________________________________
-class EXP lpsrTransposeAtom : public oahAtomWithValue
+class EXP lpsrTransposeAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -275,7 +275,7 @@ class EXP lpsrTransposeAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -735,7 +735,7 @@ EXP S_lpsrOahGroup createGlobalLpsrOahGroup ();
 
 /* JMI
 //______________________________________________________________________________
-class EXP lpsrDalSegnoAtom : public oahAtomWithValue
+class EXP lpsrDalSegnoAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -805,7 +805,7 @@ class EXP lpsrDalSegnoAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -821,7 +821,7 @@ typedef SMARTP<lpsrDalSegnoAtom> S_lpsrDalSegnoAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrDalSegnoAtom& elt);
 
 //______________________________________________________________________________
-class EXP lpsrDalSegnoAlFineAtom : public oahAtomWithValue
+class EXP lpsrDalSegnoAlFineAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -891,7 +891,7 @@ class EXP lpsrDalSegnoAlFineAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 
@@ -907,7 +907,7 @@ typedef SMARTP<lpsrDalSegnoAlFineAtom> S_lpsrDalSegnoAlFineAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrDalSegnoAlFineAtom& elt);
 
 //______________________________________________________________________________
-class EXP lpsrDalSegnoAlCodaAtom : public oahAtomWithValue
+class EXP lpsrDalSegnoAlCodaAtom : public oahAtomStoringAValueInAVariable
 {
   public:
 
@@ -977,7 +977,7 @@ class EXP lpsrDalSegnoAlCodaAtom : public oahAtomWithValue
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomWithValueOptionsValues (
+    void                  printAtomWithVariableOptionsValues (
                             ostream&     os,
                             unsigned int valueFieldWidth) const override;
 

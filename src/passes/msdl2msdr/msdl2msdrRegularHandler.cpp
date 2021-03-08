@@ -37,6 +37,8 @@
 // JMI #include "msdl2msdrOah.h"
 #include "msdl2msdrRegularHandler.h"
 
+#include "bsr2brailleOah.h"
+
 
 using namespace std;
 
@@ -124,6 +126,7 @@ void msdl2msdrRegularHandler::createRegularHandlerGroups ()
   createFilesRegularGroup ();
 
   createLanguagesRegularGroup ();
+
   createScanningWholeInputAtOnceRegularGroup ();
 
   createGenerateCodeRegularGroup ();
@@ -564,6 +567,9 @@ void msdl2msdrRegularHandler::createLanguagesRegularGroup ()
   // atoms
 
   registerAtomInRegularSubgroup ("msdl-keywords-input-language", subGroup);
+// JMI  registerAtomInRegularSubgroup ("msdl-display-keywords-in-language", subGroup);
+  registerAtomInRegularSubgroup ("display-keywords-in-language", subGroup);
+
   registerAtomInRegularSubgroup ("msdl-pitches-language", subGroup);
 }
 
@@ -594,6 +600,8 @@ void msdl2msdrRegularHandler::createScanningWholeInputAtOnceRegularGroup ()
     appendSubGroupToGroup (subGroup);
 
   // atoms
+
+  registerAtomInRegularSubgroup ("lex-only", subGroup);
 
   registerAtomInRegularSubgroup ("ignore-separator-tokens", subGroup);
   registerAtomInRegularSubgroup ("msdl-keywords-translation-language", subGroup);

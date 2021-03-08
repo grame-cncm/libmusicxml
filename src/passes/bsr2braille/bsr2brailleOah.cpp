@@ -63,7 +63,7 @@ brailleOutputKindAtom::brailleOutputKindAtom (
   const string&         valueSpecification,
   const string&         variableName,
   bsrBrailleOutputKind& brailleOutputKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -220,12 +220,12 @@ void brailleOutputKindAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
@@ -238,7 +238,7 @@ void brailleOutputKindAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void brailleOutputKindAtom::printAtomWithValueOptionsValues (
+void brailleOutputKindAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -291,7 +291,7 @@ brailleUTFKindAtom::brailleUTFKindAtom (
   string      valueSpecification,
   string      variableName,
   bsrUTFKind& brailleUTFKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -438,12 +438,12 @@ void brailleUTFKindAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
@@ -456,7 +456,7 @@ void brailleUTFKindAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void brailleUTFKindAtom::printAtomWithValueOptionsValues (
+void brailleUTFKindAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -509,7 +509,7 @@ brailleByteOrderingKindAtom::brailleByteOrderingKindAtom (
   string               valueSpecification,
   string               variableName,
   bsrByteOrderingKind& brailleByteOrderingKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -656,12 +656,12 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
@@ -674,7 +674,7 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void brailleByteOrderingKindAtom::printAtomWithValueOptionsValues (
+void brailleByteOrderingKindAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

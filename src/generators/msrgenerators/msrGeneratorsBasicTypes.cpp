@@ -149,7 +149,7 @@ msrGenerationAPIKindAtom::msrGenerationAPIKindAtom (
   const string&         valueSpecification,
   const string&         variableName,
   msrGenerationAPIKind& generationAPIKindVariable)
-  : oahAtomWithValue (
+  : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
@@ -306,12 +306,12 @@ void msrGenerationAPIKindAtom::print (ostream& os) const
 
   ++gIndenter;
 
-  printAtomWithValueEssentials (
+  printAtomWithVariableEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
@@ -324,7 +324,7 @@ void msrGenerationAPIKindAtom::print (ostream& os) const
   --gIndenter;
 }
 
-void msrGenerationAPIKindAtom::printAtomWithValueOptionsValues (
+void msrGenerationAPIKindAtom::printAtomWithVariableOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {

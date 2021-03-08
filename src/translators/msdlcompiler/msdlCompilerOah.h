@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___msdl2msrOah___
-#define ___msdl2msrOah___
+#ifndef ___msdlCompilerOah___
+#define ___msdlCompilerOah___
 
 #include "msr.h"
 
@@ -27,30 +27,34 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP msdl2msrOahGroup : public oahGroup
+#define MSDR_STANDARD_INPUT_NAME ""
+//#define MSDR_STANDARD_INPUT_NAME "-"
+
+//______________________________________________________________________________
+class EXP msdlCompilerOahGroup : public oahGroup
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msdl2msrOahGroup> create ();
+    static SMARTP<msdlCompilerOahGroup> create ();
 
   private:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeMsdl2msrOahGroup ();
+    void                  initializemsdlCompilerOahGroup ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-                          msdl2msrOahGroup ();
+                          msdlCompilerOahGroup ();
 
-    virtual               ~msdl2msrOahGroup ();
+    virtual               ~msdlCompilerOahGroup ();
 
   public:
 
@@ -79,7 +83,7 @@ class EXP msdl2msrOahGroup : public oahGroup
     void                  setGeneratorOutputKind (generatorOutputKind value)
                               { fGeneratorOutputKind = value; }
 
-    generatorOutputKind  getGeneratorOutputKind () const
+    generatorOutputKind   getGeneratorOutputKind () const
                               { return fGeneratorOutputKind;  }
 
 /* JMI
@@ -145,7 +149,7 @@ class EXP msdl2msrOahGroup : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACING_IS_ENABLED
-// JMI    void                  initializeMsdl2msrTraceOah ();
+// JMI    void                  initializemsdlCompilerTraceOah ();
 #endif
 
     void                  initializeGenerateCodeOptions ();
@@ -165,9 +169,9 @@ class EXP msdl2msrOahGroup : public oahGroup
     // print
     // ------------------------------------------------------
 
-    void                  printMsdl2msrOahHelp ();
+    void                  printmsdlCompilerOahHelp ();
 
-    void                  printMsdl2msrOahValues (
+    void                  printmsdlCompilerOahValues (
                             unsigned int fieldWidth);
 
   private:
@@ -216,13 +220,13 @@ class EXP msdl2msrOahGroup : public oahGroup
     bool                  fNoBrailleCode;
     */
 };
-typedef SMARTP<msdl2msrOahGroup> S_msdl2msrOahGroup;
-EXP ostream& operator<< (ostream& os, const S_msdl2msrOahGroup& elt);
+typedef SMARTP<msdlCompilerOahGroup> S_msdlCompilerOahGroup;
+EXP ostream& operator<< (ostream& os, const S_msdlCompilerOahGroup& elt);
 
-EXP extern S_msdl2msrOahGroup gGlobalMsdl2msrOahGroup;
+EXP extern S_msdlCompilerOahGroup gGlobalmsdlCompilerOahGroup;
 
 //______________________________________________________________________________
-EXP S_msdl2msrOahGroup createGlobalMsdl2msrOahGroup ();
+EXP S_msdlCompilerOahGroup createGlobalmsdlCompilerOahGroup ();
 
 
 }
