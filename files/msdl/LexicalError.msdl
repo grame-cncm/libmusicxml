@@ -3,25 +3,26 @@
 %}
 
 
-% the language used for the pitches
+% the identification
+% -----------------------------------------------
+
+title     "MSDL in english"
+composer  "U. N. Known"
+
+
+% the language for pitches
 % -----------------------------------------------
 
 pitches english            % default is english
 
 
-% is there an anacrusis?
+% the score
 % -----------------------------------------------
 
-anacrusis                 % measure numbers start at 0
-
-
-% the structure
-% -----------------------------------------------
-
-% score helloWorld = "Hello World in MSPL" {
+% score helloWorld = @ "Hello World in MSPL" {
 
   music {
-    |1 c,2.. d'8
+    |1 c1
     |||                   % final bar
   }
 

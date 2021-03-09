@@ -4939,7 +4939,7 @@ void lpsr2lilypondTranslator::generateLilypondVersion ()
 
   if (gGlobalLpsr2lilypondOahGroup->getLilypondCompileDate ()) {
     fLilypondCodeStream <<
-      "% compiled by LilyPond on \"" <<
+      "% compiled by LilyPond version \"" <<
       lilypondVersion <<
       "\"" <<
       endl << endl;

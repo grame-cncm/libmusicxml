@@ -1,0 +1,94 @@
+%{
+  A book example with repeats
+%}
+
+
+% the identification
+% -----------------------------------------------
+
+title    "Book example"
+composer "Jacques Menu"
+opus     "MSDL examples"
+
+
+% the language for pitches
+% -----------------------------------------------
+
+pitches francais          % default is english
+
+
+% the book
+% -----------------------------------------------
+
+book myBook = "Book example with repeats"
+{
+  // Bb
+  score BbVoice1 = "Instruments in Bb, voice 1"
+    {
+    }
+
+  score BbVoice2 = "Instruments in Bb, voice 2"
+    {
+    }
+
+  score BbVoice2 = "Instruments in Bb, voice 3"
+    {
+    }
+
+  score BbVoice2 = "Instruments in Bb, voice 4"
+    {
+    }
+
+  // C
+  score CVoice1 = "Instruments in C, voice 1"
+    {
+    }
+
+  score CVoice2 = "Instruments in C, voice 2"
+    {
+    }
+
+  score CVoice2 = "Instruments in C, voice 3"
+    {
+    }
+
+  score CVoice2 = "Instruments in C, voice 4"
+    {
+    }
+
+  // Eb
+  score EbVoice1 = "Instruments in Eb, voice 1"
+    {
+    }
+
+  score EbVoice2 = "Instruments in Eb, voice 2"
+    {
+    }
+
+  score EbVoice1 = "Instruments in Eb, voice 3"
+    {
+    }
+
+  score EbVoice2 = "Instruments in Eb, voice 4"
+    {
+    }
+
+  // FClef
+  score FClefVoice1 = "Instruments in FClef, voice 1"
+    {
+    }
+
+  score FClefVoice2 = "Instruments in FClef, voice 2"
+    {
+    }
+
+  score FClefVoice1 = "Instruments in FClef, voice 3"
+    {
+    }
+
+  score FClefVoice2 = "Instruments in FClef, voice 4"
+    {
+    }
+
+
+}

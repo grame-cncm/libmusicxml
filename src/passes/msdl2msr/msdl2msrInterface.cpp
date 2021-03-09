@@ -25,9 +25,9 @@
 
 #include "msdlParser.h"
 
-#include "msdl2msdrOah.h"
+#include "msdl2msrOah.h"
 
-#include "msdl2msdrInterface.h"
+#include "msdl2msrInterface.h"
 
 
 using namespace std;
@@ -52,7 +52,7 @@ xmlErr scanTheMdslInput (
   // should we translate the keywords?
   msdlKeywordsLanguageKind
     keywordsTranslationLanguageKind =
-      gGlobalMsdl2msdrOahGroup->
+      gGlobalMsdl2msrOahGroup->
         getMsdlKeywordsTranslationLanguageKind ();
 
   switch (keywordsTranslationLanguageKind) {
@@ -78,7 +78,7 @@ xmlErr scanTheMdslInput (
         // should we ignore separator tokens?
         bool
           ignoreSeparatorTokens =
-            gGlobalMsdl2msdrOahGroup->
+            gGlobalMsdl2msrOahGroup->
               getIgnoreSeparatorTokens ();
 
         msdlIgnoreSeparatorTokensKind
@@ -114,7 +114,7 @@ xmlErr scanTheMdslInput (
       // what comments type should we use in the translation output?
       msdlCommentsTypeKind
         commentsTypeKind =
-          gGlobalMsdl2msdrOahGroup->
+          gGlobalMsdl2msrOahGroup->
             getMsdlCommentsTypeTranslationKind ();
 
       scanner.translateAllTheInputToKeywordsLanguage (
@@ -176,7 +176,7 @@ xmlErr parseTheMdslInput (
 }
 
 //_______________________________________________________________________________
-EXP xmlErr istream2msdrWithHandler (
+EXP xmlErr msdlIstream2msrWithHandler (
   string       inputSourceName,
   istream&     inputStream,
   ostream&     out,
@@ -203,7 +203,7 @@ EXP xmlErr istream2msdrWithHandler (
 
   bool
     lexicalAnalysisOnly =
-      gGlobalMsdl2msdrOahGroup->
+      gGlobalMsdl2msrOahGroup->
         getLexicalAnalysisOnly ();
 
   if (lexicalAnalysisOnly) {
@@ -221,7 +221,7 @@ EXP xmlErr istream2msdrWithHandler (
   else {
     // NO, parse the input
     passDescription =
-      "translating the MSDL input into an MSDR score";
+      "translating the MSDL input into an MSR score";
 
     parseTheMdslInput (
       inputSourceName,
@@ -310,7 +310,7 @@ EXP xmlErr msdlFile2msdrWithHandler (
   }
 
   return
-    istream2msdrWithHandler (
+    msdlIstream2msrWithHandler (
       fileName,
       inputStream,
       out,
@@ -331,7 +331,7 @@ EXP xmlErr msdlString2msdrWithHandler (
       ios_base::in);
 
   return
-    istream2msdrWithHandler (
+    msdlIstream2msrWithHandler (
       "buffer",
       inputStream,
       out,

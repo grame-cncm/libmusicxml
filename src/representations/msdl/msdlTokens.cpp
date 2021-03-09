@@ -21,7 +21,7 @@
 #include "generalOah.h"
 
 // #include "msdlOah.h"
-#include "msdl2msdrOah.h"
+#include "msdl2msrOah.h"
 
 #include "msrOah.h"
 #include "msr2lpsrOah.h"
@@ -290,7 +290,7 @@ string msdlTokenKindAsMsdlString (
   msdlKeywordsLanguageKind languageKind)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+  if (gGlobalMsdl2msrOahGroup->getTraceTokens ()) {
     gLogStream <<
       "==> msdlTokenKindAsMsdlString()" <<
       ", tokenKind" << " : " << msdlTokenKindAsString (tokenKind) <<
@@ -688,7 +688,7 @@ S_msdlTokenKindsSet msdlTokenKindsSet::createClone ()
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (false && gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+  if (false && gGlobalMsdl2msrOahGroup->getTraceTokens ()) {
     gLogStream <<
       "<== createClone()" <<
       ", result:" << result->asString () <<
@@ -875,7 +875,7 @@ EXP S_msdlTokenKindsSet operator+ (
       aTokenKind);
 
 #ifdef TRACING_IS_ENABLED
-  if (false && gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+  if (false && gGlobalMsdl2msrOahGroup->getTraceTokens ()) {
     gLogStream <<
       "<== S_msdlTokenKindsSet operator+()" <<
       ", result:" << result->asString () <<
@@ -897,7 +897,7 @@ EXP S_msdlTokenKindsSet operator+ (
   result += anotherTokenKindsSet;
 
 #ifdef TRACING_IS_ENABLED
-  if (false && gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+  if (false && gGlobalMsdl2msrOahGroup->getTraceTokens ()) {
     gLogStream <<
       "<== S_msdlTokenKindsSet operator+()" <<
       ", result:" << result->asString () <<
@@ -1580,7 +1580,7 @@ string msdlToken::asMsdlString (
   msdlCommentsTypeKind     commentsTypeKind) const
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+  if (gGlobalMsdl2msrOahGroup->getTraceTokens ()) {
     gLogStream <<
       "==> asMsdlString()" <<
       ", tokenKind" << " : " << msdlTokenKindAsString (fTokenKind) <<

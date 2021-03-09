@@ -71,7 +71,7 @@ xmlErr msdlStream2lilypondWithHandler (
 
   S_msrScore theMsrScore;
 
-  // perform lexical analysis (pass 1a)
+  // translating the MSDL input into an MSR score (pass 1)
   // ------------------------------------------------------
 
   try {
@@ -81,45 +81,6 @@ xmlErr msdlStream2lilypondWithHandler (
         inputStream);
 
     parser.parse ();
-  }
-  catch (msgMxmlTreeToMsrException& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-  catch (std::exception& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-
-return kNoErr; // JMI TEMP
-
-  // should we return now?
-  // ------------------------------------------------------
-
-  if (gGlobalMsdl2lyInsiderOahGroup->getQuitAfterPass2a ()) {
-    err <<
-      endl <<
-      "Quitting after pass 2a as requested" <<
-      endl;
-
-    return kNoErr;
-  }
-
-
-  return kNoErr; // JMI TEMP
-
-
-  // perform syntactical and semantic analysis (pass 1b)
-  // ------------------------------------------------------
-
-  try {
-  /*
-    populateMsrSkeletonFromMxmlTree (
-      mxmlTree,
-      theMsrScore,
-        "Pass 1b",
-        "Perform syntactical and semantic analysis");
-        */
   }
   catch (msgMsdlToMsrScoreException& e) {
     displayException (e, gOutputStream);
@@ -143,10 +104,11 @@ return kNoErr; // JMI TEMP
   }
 
   // the LPSR score
+  // ------------------------------------------------------
   S_lpsrScore theLpsrScore;
 
   {
-    // create the LPSR from the MSR (pass 3)
+    // create the LPSR from the MSR (pass 2)
     // ------------------------------------------------------
 
     try {
@@ -155,7 +117,7 @@ return kNoErr; // JMI TEMP
           theMsrScore,
           gGlobalMsrOahGroup,
           gGlobalLpsrOahGroup,
-          "Pass 3",
+          "Pass 2",
           "Convert the MSR into an LPSR");
     }
     catch (msgScoreToLpsrScoreException& e) {
@@ -198,7 +160,7 @@ return kNoErr; // JMI TEMP
   }
 
   {
-    // generate LilyPond code from the LPSR (pass 4)
+    // generate LilyPond code from the LPSR (pass 3)
     // ------------------------------------------------------
 
     string
@@ -238,7 +200,7 @@ return kNoErr; // JMI TEMP
           theLpsrScore,
           gGlobalMsrOahGroup,
           gGlobalLpsrOahGroup,
-          "Pass 4",
+          "Pass 3",
           "Convert the LPSR score to LilyPond code",
           lilypondStandardOutputStream);
       }

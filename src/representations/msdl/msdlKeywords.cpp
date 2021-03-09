@@ -23,7 +23,7 @@
 
 #include "generalOah.h"
 
-#include "msdl2msdrOah.h"
+#include "msdl2msrOah.h"
 
 
 using namespace std;
@@ -473,7 +473,7 @@ string msdlKeywordKindAsMsdlString (
   msdlKeywordKind          keywordKind)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMsdl2msdrOahGroup->getTraceTokensDetails ()) {
+  if (gGlobalMsdl2msrOahGroup->getTraceTokensDetails ()) {
     gLogStream <<
       "--> msdlKeywordKindAsMsdlString()" <<
       ", languageKind: " << msdlKeywordsLanguageKindAsString (languageKind) <<
@@ -531,7 +531,7 @@ string msdlKeywordKindAsMsdlString (
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMsdl2msdrOahGroup->getTraceTokensDetails ()) {
+  if (gGlobalMsdl2msrOahGroup->getTraceTokensDetails ()) {
     gLogStream <<
       "<-- msdlKeywordKindAsMsdlString()" <<
       ", result: \"" << result << "\"" <<
@@ -630,7 +630,7 @@ msdlKeywordKind msdlKeywordKindFromString (
   string                   theString)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMsdl2msdrOahGroup->getTraceTokensDetails ()) {
+  if (gGlobalMsdl2msrOahGroup->getTraceTokensDetails ()) {
     gLogStream <<
       "--> msdlKeywordKindFromString()" <<
       ", languageKind: " << msdlKeywordsLanguageKindAsString (languageKind) <<
@@ -688,7 +688,7 @@ msdlKeywordKind msdlKeywordKindFromString (
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMsdl2msdrOahGroup->getTraceTokensDetails ()) {
+  if (gGlobalMsdl2msrOahGroup->getTraceTokensDetails ()) {
     gLogStream <<
       "<-- msdlKeywordKindFromString()" <<
       ", languageKind: " << msdlKeywordsLanguageKindAsString (languageKind) <<

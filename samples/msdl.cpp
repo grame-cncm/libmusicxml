@@ -32,7 +32,7 @@
 #include "msdlCompilerInsiderHandler.h"
 #include "msdlCompilerRegularHandler.h"
 
-#include "msdl2msdrInterface.h"
+#include "msdl2msrInterface.h"
 
 #include "msdl2guido.h"
 #include "msdl2lilypond.h"
@@ -269,14 +269,6 @@ xmlErr generateCodeFromStandardInput (
         msdlStream2guidoWithHandler (
           "stdin",
           cin,
-          /*
-          "Pass 2",
-          "Convert the MSR score into a second MSR",
-          "Pass 3",
-          "Convert the second MSR into an mxmlTree",
-          "Pass 4",
-          "Convert the mxmlTree into Guido text",
-*/
           handler,
           cout,
           cerr);
@@ -287,12 +279,6 @@ xmlErr generateCodeFromStandardInput (
         msdlStream2lilypondWithHandler (
           "stdin",
           cin,
-          /*
-          "Pass 2",
-          "Convert the MSR into an LPSR",
-          "Pass 3",
-          "Convert the LPSR into LilyPond code",
-*/
           handler,
           cout,
           cerr);
@@ -303,14 +289,6 @@ xmlErr generateCodeFromStandardInput (
         msdlStream2brailleWithHandler (
           "stdin",
           cin,
-          /*
-          "Pass 2a",
-          "Create the first BSR from the MSR",
-          "Pass 2b",
-          "Create the finalized BSR from the first BSR",
-          "Pass 3",
-          "Convert the BSR into Braille music text",
-*/
           handler,
           cout,
           cerr);
@@ -321,14 +299,6 @@ xmlErr generateCodeFromStandardInput (
         msdlStream2musicxmlWithHandler (
           "stdin",
           cin,
-          /*
-          "Pass 2",
-          "Convert the MSR score into a second MSR",
-          "Pass 3",
-          "Convert the second MSR into an mxmlTree",
-          "Pass 4",
-          "Convert the mxmlTree into MusicXML text",
-*/
           handler,
           cout,
           cerr);
@@ -881,10 +851,10 @@ int main (int argc, char * argv[])
   // create the MSDR score
   // ------------------------------------------------------
 
-  // the msdl2msdrGenerator
-  S_msdl2msdrGenerator
+  // the msdl2msrGenerator
+  S_msdl2msrGenerator
     generator =
-      msdl2msdrGenerator::create ();
+      msdl2msrGenerator::create ();
 
   // register time spent
   clock_t endClock = clock ();
@@ -909,7 +879,7 @@ int main (int argc, char * argv[])
 #endif
 
       err =
-        istream2msdrWithHandler (
+        msdlIstream2msrWithHandler (
           "stdin", cin, cout, cerr, handler);
     }
 

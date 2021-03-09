@@ -27,7 +27,7 @@
 
 #include "waeExceptions.h"
 
-#include "msdl2msdrOah.h"
+#include "msdl2msrOah.h"
 
 
 using namespace std;
@@ -95,8 +95,8 @@ msdlScanner::msdlScanner (
 {
   // trace
 #ifdef TRACING_IS_ENABLED
-  fTraceTokens        = gGlobalMsdl2msdrOahGroup->getTraceTokens ();
-  fTraceTokensDetails = gGlobalMsdl2msdrOahGroup->getTraceTokensDetails ();
+  fTraceTokens        = gGlobalMsdl2msrOahGroup->getTraceTokens ();
+  fTraceTokensDetails = gGlobalMsdl2msrOahGroup->getTraceTokensDetails ();
 #endif
 
   // input source name
@@ -104,7 +104,7 @@ msdlScanner::msdlScanner (
 
   // user language
   fUserLanguageKind =
-    gGlobalMsdl2msdrOahGroup->getMsdlUserLanguageKind ();
+    gGlobalMsdl2msrOahGroup->getMsdlUserLanguageKind ();
 
   // input stream
   fInputIsEmpty = true;
@@ -136,7 +136,7 @@ msdlScanner::msdlScanner (
 
   // keywords
   fKeywordsInputLanguageKind =
-    gGlobalMsdl2msdrOahGroup->getMsdlKeywordsInputLanguageKind ();
+    gGlobalMsdl2msrOahGroup->getMsdlKeywordsInputLanguageKind ();
 
   // tokens list
   fAppendTokensToList = false;
@@ -1849,7 +1849,7 @@ void msdlScanner::scanWholeInputAtOnce ()
   // should we ignore separator tokens?
   bool
     ignoreSeparatorTokens =
-      gGlobalMsdl2msdrOahGroup->
+      gGlobalMsdl2msrOahGroup->
         getIgnoreSeparatorTokens ();
 
   msdlIgnoreSeparatorTokensKind
@@ -1861,13 +1861,13 @@ void msdlScanner::scanWholeInputAtOnce ()
   // should we translate the keywords?
   msdlKeywordsLanguageKind
     keywordsTranslationLanguageKind =
-      gGlobalMsdl2msdrOahGroup->
+      gGlobalMsdl2msrOahGroup->
         getMsdlKeywordsTranslationLanguageKind ();
 
   // what comments type should we use in the translation output?
   msdlCommentsTypeKind
     commentsTypeKind =
-      gGlobalMsdl2msdrOahGroup->
+      gGlobalMsdl2msrOahGroup->
         getMsdlCommentsTypeTranslationKind ();
 
   // do the job

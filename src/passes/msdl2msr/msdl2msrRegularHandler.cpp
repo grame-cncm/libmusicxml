@@ -34,8 +34,8 @@
 #include "version.h"
 */
 
-// JMI #include "msdl2msdrOah.h"
-#include "msdl2msdrRegularHandler.h"
+// JMI #include "msdl2msrOah.h"
+#include "msdl2msrRegularHandler.h"
 
 #include "bsr2brailleOah.h"
 
@@ -46,16 +46,16 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_msdl2msdrRegularHandler msdl2msdrRegularHandler::create (
+S_msdl2msrRegularHandler msdl2msrRegularHandler::create (
   string              executableName,
   string              handlerHeader,
-  S_msdl2msdrInsiderHandler
+  S_msdl2msrInsiderHandler
                       insiderOahHandler,
   generatorOutputKind theGeneratorOutputKind)
 {
   // create the regular handler
-  msdl2msdrRegularHandler* o = new
-    msdl2msdrRegularHandler (
+  msdl2msrRegularHandler* o = new
+    msdl2msrRegularHandler (
       executableName,
       handlerHeader,
       insiderOahHandler,
@@ -65,10 +65,10 @@ S_msdl2msdrRegularHandler msdl2msdrRegularHandler::create (
   return o;
 }
 
-msdl2msdrRegularHandler::msdl2msdrRegularHandler (
+msdl2msrRegularHandler::msdl2msrRegularHandler (
   string              executableName,
   string              handlerHeader,
-  S_msdl2msdrInsiderHandler
+  S_msdl2msrInsiderHandler
                       insiderOahHandler,
   generatorOutputKind theGeneratorOutputKind)
   : oahRegularHandler (
@@ -89,7 +89,7 @@ msdl2msdrRegularHandler::msdl2msdrRegularHandler (
   if (getTraceOah ()) {
     // print the options handler initial state
     gLogStream <<
-      "msdl2msdrRegularHandler \"" <<
+      "msdl2msrRegularHandler \"" <<
       fHandlerHeader <<
       "\" has been initialized as:" <<
       endl;
@@ -106,10 +106,10 @@ msdl2msdrRegularHandler::msdl2msdrRegularHandler (
 #endif
 }
 
-msdl2msdrRegularHandler::~msdl2msdrRegularHandler ()
+msdl2msrRegularHandler::~msdl2msrRegularHandler ()
 {}
 
-void msdl2msdrRegularHandler::createRegularHandlerGroups ()
+void msdl2msrRegularHandler::createRegularHandlerGroups ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
@@ -223,7 +223,7 @@ void msdl2msdrRegularHandler::createRegularHandlerGroups ()
 #endif
 }
 
-void msdl2msdrRegularHandler::createInformationsRegularGroup ()
+void msdl2msrRegularHandler::createInformationsRegularGroup ()
 {
   // group
 
@@ -262,7 +262,7 @@ void msdl2msdrRegularHandler::createInformationsRegularGroup ()
   registerAtomInRegularSubgroup ("display-options-handler-essentials", subGroup);
 }
 
-void msdl2msdrRegularHandler::createOutputRegularGroup ()
+void msdl2msrRegularHandler::createOutputRegularGroup ()
 {
   // group
 
@@ -313,7 +313,7 @@ void msdl2msdrRegularHandler::createOutputRegularGroup ()
   } // switch
 }
 
-void msdl2msdrRegularHandler::createGuidoRegularGroup ()
+void msdl2msrRegularHandler::createGuidoRegularGroup ()
 {
   // group
 
@@ -346,7 +346,7 @@ void msdl2msdrRegularHandler::createGuidoRegularGroup ()
   registerAtomInRegularSubgroup ("generate-bars", subGroup);
 }
 
-void msdl2msdrRegularHandler::createBrailleRegularGroup ()
+void msdl2msrRegularHandler::createBrailleRegularGroup ()
 {
   // group
 
@@ -380,7 +380,7 @@ void msdl2msdrRegularHandler::createBrailleRegularGroup ()
 }
 
 //_______________________________________________________________________________
-void msdl2msdrRegularHandler::createFilesRegularGroup ()
+void msdl2msrRegularHandler::createFilesRegularGroup ()
 {
   // group
 
@@ -412,7 +412,7 @@ void msdl2msdrRegularHandler::createFilesRegularGroup ()
   registerAtomInRegularSubgroup ("auto-output-file-name", subGroup);
 }
 
-void msdl2msdrRegularHandler::createOahRegularGroup ()
+void msdl2msrRegularHandler::createOahRegularGroup ()
 {
   // group
 
@@ -503,7 +503,7 @@ void msdl2msdrRegularHandler::createOahRegularGroup ()
   } // switch
 }
 
-void msdl2msdrRegularHandler::createWarningAndErrorsRegularGroup ()
+void msdl2msrRegularHandler::createWarningAndErrorsRegularGroup ()
 {
   // group
 
@@ -538,7 +538,7 @@ void msdl2msdrRegularHandler::createWarningAndErrorsRegularGroup ()
   registerAtomInRegularSubgroup ("dont-quit-on-errors", subGroup);
 }
 
-void msdl2msdrRegularHandler::createLanguagesRegularGroup ()
+void msdl2msrRegularHandler::createLanguagesRegularGroup ()
 {
   // group
 
@@ -573,7 +573,7 @@ void msdl2msdrRegularHandler::createLanguagesRegularGroup ()
   registerAtomInRegularSubgroup ("msdl-pitches-language", subGroup);
 }
 
-void msdl2msdrRegularHandler::createScanningWholeInputAtOnceRegularGroup ()
+void msdl2msrRegularHandler::createScanningWholeInputAtOnceRegularGroup ()
 {
   // group
 
@@ -608,7 +608,7 @@ void msdl2msdrRegularHandler::createScanningWholeInputAtOnceRegularGroup ()
   registerAtomInRegularSubgroup ("msdl-comments-types", subGroup);
 }
 
-void msdl2msdrRegularHandler::createGenerateCodeRegularGroup ()
+void msdl2msrRegularHandler::createGenerateCodeRegularGroup ()
 {
   // group
 
@@ -645,7 +645,7 @@ void msdl2msdrRegularHandler::createGenerateCodeRegularGroup ()
 // JMI  registerAtomInRegularSubgroup (K_GENERATED_OUTPUT_KIND_MIDI_NAME, subGroup);
 }
 
-void msdl2msdrRegularHandler::createPresentationRegularGroup ()
+void msdl2msrRegularHandler::createPresentationRegularGroup ()
 {
   // group
 
@@ -677,7 +677,7 @@ void msdl2msdrRegularHandler::createPresentationRegularGroup ()
   registerAtomInRegularSubgroup ("use-lyricists-as-poets", subGroup);
 }
 
-void msdl2msdrRegularHandler::createPartsRegularGroup ()
+void msdl2msrRegularHandler::createPartsRegularGroup ()
 {
   // group
 
@@ -712,7 +712,7 @@ void msdl2msdrRegularHandler::createPartsRegularGroup ()
   registerAtomInRegularSubgroup ("msr-rename-part", subGroup);
 }
 
-void msdl2msdrRegularHandler::createStavesRegularGroup ()
+void msdl2msrRegularHandler::createStavesRegularGroup ()
 {
   // group
 
@@ -743,7 +743,7 @@ void msdl2msdrRegularHandler::createStavesRegularGroup ()
   registerAtomInRegularSubgroup ("create-voices-staff-relative-numbers", subGroup);
 }
 
-void msdl2msdrRegularHandler::createVoicesRegularGroup ()
+void msdl2msrRegularHandler::createVoicesRegularGroup ()
 {
   // group
 
@@ -774,7 +774,7 @@ void msdl2msdrRegularHandler::createVoicesRegularGroup ()
   registerAtomInRegularSubgroup ("create-single-line-staves-as-rythmic", subGroup);
 }
 
-void msdl2msdrRegularHandler::createClefsRegularGroup ()
+void msdl2msrRegularHandler::createClefsRegularGroup ()
 {
   // group
 
@@ -806,7 +806,7 @@ void msdl2msdrRegularHandler::createClefsRegularGroup ()
   registerAtomInRegularSubgroup ("ignore-redundant-clefs", subGroup);
 }
 
-void msdl2msdrRegularHandler::createKeysRegularGroup ()
+void msdl2msrRegularHandler::createKeysRegularGroup ()
 {
   // group
 
@@ -838,7 +838,7 @@ void msdl2msdrRegularHandler::createKeysRegularGroup ()
   registerAtomInRegularSubgroup ("ignore-redundant-keys", subGroup);
 }
 
-void msdl2msdrRegularHandler::createTimesRegularGroup ()
+void msdl2msrRegularHandler::createTimesRegularGroup ()
 {
   // group
 
@@ -869,7 +869,7 @@ void msdl2msdrRegularHandler::createTimesRegularGroup ()
   registerAtomInRegularSubgroup ("ignore-redundant-times", subGroup);
 }
 
-void msdl2msdrRegularHandler::createMeasuresRegularGroup ()
+void msdl2msrRegularHandler::createMeasuresRegularGroup ()
 {
   // group
 
@@ -901,7 +901,7 @@ void msdl2msdrRegularHandler::createMeasuresRegularGroup ()
   registerAtomInRegularSubgroup ("add-empty-measures", subGroup);
 }
 
-void msdl2msdrRegularHandler::createRestsRegularGroup ()
+void msdl2msrRegularHandler::createRestsRegularGroup ()
 {
   // group
 
@@ -933,7 +933,7 @@ void msdl2msdrRegularHandler::createRestsRegularGroup ()
   registerAtomInRegularSubgroup ("delay-rests-slashes", subGroup);
 }
 
-void msdl2msdrRegularHandler::createNotesRegularGroup ()
+void msdl2msrRegularHandler::createNotesRegularGroup ()
 {
   // group
 
@@ -965,7 +965,7 @@ void msdl2msdrRegularHandler::createNotesRegularGroup ()
   registerAtomInRegularSubgroup ("msr-pitches-language", subGroup);
 }
 
-void msdl2msdrRegularHandler::creatBeamsRegularGroup ()
+void msdl2msrRegularHandler::creatBeamsRegularGroup ()
 {
   // group
 
@@ -996,7 +996,7 @@ void msdl2msdrRegularHandler::creatBeamsRegularGroup ()
   registerAtomInRegularSubgroup ("delay-rests-beams", subGroup);
 }
 
-void msdl2msdrRegularHandler::createArticulationsRegularGroup ()
+void msdl2msrRegularHandler::createArticulationsRegularGroup ()
 {
   // group
 
@@ -1026,7 +1026,7 @@ void msdl2msdrRegularHandler::createArticulationsRegularGroup ()
   registerAtomInRegularSubgroup ("omit-articulations", subGroup);
 }
 
-void msdl2msdrRegularHandler::createOrnamentsRegularGroup ()
+void msdl2msrRegularHandler::createOrnamentsRegularGroup ()
 {
   // group
 
@@ -1058,7 +1058,7 @@ void msdl2msdrRegularHandler::createOrnamentsRegularGroup ()
   registerAtomInRegularSubgroup ("omit-ornaments", subGroup);
 }
 
-void msdl2msdrRegularHandler::createGraceNotesRegularGroup ()
+void msdl2msrRegularHandler::createGraceNotesRegularGroup ()
 {
   // group
 
@@ -1091,7 +1091,7 @@ void msdl2msdrRegularHandler::createGraceNotesRegularGroup ()
   registerAtomInRegularSubgroup ("beam-all-grace-notes", subGroup);
 }
 
-void msdl2msdrRegularHandler::createChordsRegularGroup ()
+void msdl2msrRegularHandler::createChordsRegularGroup ()
 {
   // group
 
@@ -1124,7 +1124,7 @@ void msdl2msdrRegularHandler::createChordsRegularGroup ()
 #endif
 }
 
-void msdl2msdrRegularHandler::createTiesRegularGroup ()
+void msdl2msrRegularHandler::createTiesRegularGroup ()
 {
   // group
 
@@ -1155,7 +1155,7 @@ void msdl2msdrRegularHandler::createTiesRegularGroup ()
   registerAtomInRegularSubgroup ("omit-ties", subGroup);
 }
 
-void msdl2msdrRegularHandler::createSlursRegularGroup ()
+void msdl2msrRegularHandler::createSlursRegularGroup ()
 {
   // group
 
@@ -1188,7 +1188,7 @@ void msdl2msdrRegularHandler::createSlursRegularGroup ()
   registerAtomInRegularSubgroup ("delay-rests-slurs", subGroup);
 }
 
-void msdl2msdrRegularHandler::createLigaturesRegularGroup ()
+void msdl2msrRegularHandler::createLigaturesRegularGroup ()
 {
   // group
 
@@ -1219,7 +1219,7 @@ void msdl2msdrRegularHandler::createLigaturesRegularGroup ()
   registerAtomInRegularSubgroup ("delay-rests-ligatures", subGroup);
 }
 
-void msdl2msdrRegularHandler::createDynamicsRegularGroup ()
+void msdl2msrRegularHandler::createDynamicsRegularGroup ()
 {
   // group
 
@@ -1254,7 +1254,7 @@ void msdl2msdrRegularHandler::createDynamicsRegularGroup ()
   registerAtomInRegularSubgroup ("delay-rests-dynamics", subGroup);
 }
 
-void msdl2msdrRegularHandler::createWedgesRegularGroup ()
+void msdl2msrRegularHandler::createWedgesRegularGroup ()
 {
   // group
 
@@ -1289,7 +1289,7 @@ void msdl2msdrRegularHandler::createWedgesRegularGroup ()
   registerAtomInRegularSubgroup ("delay-rests-wedges", subGroup);
 }
 
-void msdl2msdrRegularHandler::createTupletsRegularGroup ()
+void msdl2msrRegularHandler::createTupletsRegularGroup ()
 {
   // group
 
@@ -1322,7 +1322,7 @@ void msdl2msdrRegularHandler::createTupletsRegularGroup ()
 #endif
 }
 
-void msdl2msdrRegularHandler::createLyricsRegularGroup ()
+void msdl2msrRegularHandler::createLyricsRegularGroup ()
 {
   // group
 
@@ -1353,7 +1353,7 @@ void msdl2msdrRegularHandler::createLyricsRegularGroup ()
   registerAtomInRegularSubgroup ("omit-lyrics", subGroup);
 }
 
-void msdl2msdrRegularHandler::createHarmoniesRegularGroup ()
+void msdl2msrRegularHandler::createHarmoniesRegularGroup ()
 {
   // group
 
@@ -1386,7 +1386,7 @@ void msdl2msdrRegularHandler::createHarmoniesRegularGroup ()
   registerAtomInRegularSubgroup ("show-harmony-voices", subGroup);
 }
 
-void msdl2msdrRegularHandler::createFiguredBassesRegularGroup ()
+void msdl2msrRegularHandler::createFiguredBassesRegularGroup ()
 {
   // group
 
@@ -1420,7 +1420,7 @@ void msdl2msdrRegularHandler::createFiguredBassesRegularGroup ()
 }
 
 //______________________________________________________________________________
-void msdl2msdrRegularHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
+void msdl2msrRegularHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
@@ -1434,12 +1434,12 @@ void msdl2msdrRegularHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 }
 
 //______________________________________________________________________________
-void msdl2msdrRegularHandler::print (ostream& os) const
+void msdl2msrRegularHandler::print (ostream& os) const
 {
   const unsigned int fieldWidth = 27;
 
   os <<
-    "msdl2msdrRegularHandler '" << fHandlerHeader << "':" <<
+    "msdl2msrRegularHandler '" << fHandlerHeader << "':" <<
     endl;
 
   ++gIndenter;
@@ -1479,7 +1479,7 @@ void msdl2msdrRegularHandler::print (ostream& os) const
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_msdl2msdrRegularHandler& elt)
+ostream& operator<< (ostream& os, const S_msdl2msrRegularHandler& elt)
 {
   elt->print (os);
   return os;

@@ -71,7 +71,7 @@ xmlErr msdlStream2brailleWithHandler (
 
   S_msrScore theMsrScore;
 
-  // perform lexical analysis (pass 1a)
+  // translating the MSDL input into an MSR score (pass 1)
   // ------------------------------------------------------
 
   try {
@@ -82,7 +82,7 @@ xmlErr msdlStream2brailleWithHandler (
 
     parser.parse ();
   }
-  catch (msgMsdlToMsrInternalException& e) {
+  catch (msgMsdlToMsrScoreException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -103,48 +103,13 @@ xmlErr msdlStream2brailleWithHandler (
     return kNoErr;
   }
 
-
-  return kNoErr; // JMI TEMP
-
-
-  // perform syntactical and semantic analysis (pass 1b)
-  // ------------------------------------------------------
-
-  try {
-  /*
-    populateMsrSkeletonFromMxmlTree (
-      mxmlTree,
-      theMsrScore,
-        "Pass 1b",
-        "Perform syntactical and semantic analysis");
-        */
-  }
-  catch (msgMsdlToMsrScoreException& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-  catch (std::exception& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-
-  // should we return now?
-  // ------------------------------------------------------
-
-  if (gGlobalMsdl2brlInsiderOahGroup->getQuitAfterPass2b ()) {
-    err <<
-      endl <<
-      "Quitting after pass 1b as requested" <<
-      endl;
-
-    return kNoErr;
-  }
-
   // the first BSR score
+  // ------------------------------------------------------
+
   S_bsrScore firstBsrScore;
 
   {
-    // create the first BSR from the MSR (pass 2a)
+    // create the first BSR from the MSR (pass 2)
     // ------------------------------------------------------
 
     try {
@@ -153,7 +118,7 @@ xmlErr msdlStream2brailleWithHandler (
           theMsrScore,
           gGlobalMsrOahGroup,
           gGlobalBsrOahGroup,
-          "Pass 2a",
+          "Pass 2",
           "Create a first BSR from the MSR");
     }
     catch (msgMsrScoreToBsrScoreException& e) {
@@ -196,10 +161,12 @@ xmlErr msdlStream2brailleWithHandler (
   }
 
   // the finalized BSR score
+  // ------------------------------------------------------
+
   S_bsrScore finalizedBsrScore;
 
   {
-    // create the finalized BSR from the first BSR (pass 2b)
+    // create the finalized BSR from the first BSR (pass 3)
     // ------------------------------------------------------
 
     try {
@@ -207,7 +174,7 @@ xmlErr msdlStream2brailleWithHandler (
         convertBsrFirstScoreToFinalizedBsrScore (
           firstBsrScore,
           gGlobalBsrOahGroup,
-          "Pass 2b",
+          "Pass 3",
           "Create the finalized BSR from the first BSR");
     }
     catch (msgBsrScoreToFinalizedBsrScoreException& e) {
@@ -250,7 +217,7 @@ xmlErr msdlStream2brailleWithHandler (
   }
 
   {
-    // generate Braille music text from the BSR (pass 3)
+    // generate Braille music text from the BSR (pass 4)
     // ------------------------------------------------------
 
     string
@@ -282,7 +249,7 @@ xmlErr msdlStream2brailleWithHandler (
         convertBsrScoreToBraille (
           finalizedBsrScore,
           gGlobalBsrOahGroup,
-          "Pass 3",
+          "Pass 4",
           "Convert the finalized BSR into braille",
           out);
       }

@@ -1,0 +1,7 @@
+title    "Book example"
+composer "Jacques Menu"
+opus     "MSDL examples"
+
+pitches english           % default language is english
+
+anacrusis                 % measure numbers start at 0

@@ -33,7 +33,7 @@
 
 #include "msdlOah.h"
 
-#include "msdl2msdrOah.h"
+#include "msdl2msrOah.h"
 
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
@@ -63,7 +63,7 @@
 
 #include "version.h"
 
-#include "msdl2msdrInsiderHandler.h"
+#include "msdl2msrInsiderHandler.h"
 
 
 using namespace std;
@@ -72,14 +72,14 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_msdl2msdrInsiderHandler msdl2msdrInsiderHandler::create (
+S_msdl2msrInsiderHandler msdl2msrInsiderHandler::create (
   const string&       executableName,
   const string&       handlerHeader,
   generatorOutputKind generatorOutputKind)
 {
   // create the insider handler
-  msdl2msdrInsiderHandler* o = new
-    msdl2msdrInsiderHandler (
+  msdl2msrInsiderHandler* o = new
+    msdl2msrInsiderHandler (
       executableName,
       handlerHeader,
       generatorOutputKind);
@@ -88,7 +88,7 @@ S_msdl2msdrInsiderHandler msdl2msdrInsiderHandler::create (
   return o;
 }
 
-msdl2msdrInsiderHandler::msdl2msdrInsiderHandler (
+msdl2msrInsiderHandler::msdl2msrInsiderHandler (
   const string&       executableName,
   const string&       handlerHeader,
   generatorOutputKind generatorOutputKind)
@@ -116,19 +116,19 @@ R"(                  Welcome to the MSDL compiler,
   }
 #endif
 
-  // create the msdl2msdr prefixes
+  // create the msdl2msr prefixes
   createTheMsdlCompilerPrefixes ();
 
-  // create the msdl2msdr option groups
+  // create the msdl2msr option groups
   createTheMsdlCompilerOptionGroups (
     executableName,
     generatorOutputKind);
 }
 
-msdl2msdrInsiderHandler::~msdl2msdrInsiderHandler ()
+msdl2msrInsiderHandler::~msdl2msrInsiderHandler ()
 {}
 
-string msdl2msdrInsiderHandler::usageInformation (
+string msdl2msrInsiderHandler::usageInformation (
   generatorOutputKind generatorOutputKind)
 {
   stringstream s;
@@ -144,7 +144,7 @@ R"(Usage: msdl ([options] | [MSDMLFile|-])+
   return s.str ();
 }
 
-void msdl2msdrInsiderHandler::handlerOahError (
+void msdl2msrInsiderHandler::handlerOahError (
   const string& errorMessage)
 {
   stringstream s;
@@ -158,14 +158,14 @@ void msdl2msdrInsiderHandler::handlerOahError (
   oahError (s.str ());
 }
 
-string msdl2msdrInsiderHandler::handlerExecutableAboutInformation () const
+string msdl2msrInsiderHandler::handlerExecutableAboutInformation () const
 {
   return
-    msdl2msdrAboutInformation (
+    msdl2msrAboutInformation (
       fGeneratorOutputKind);
 }
 
-string msdl2msdrInsiderHandler::msdl2msdrAboutInformation (
+string msdl2msrInsiderHandler::msdl2msrAboutInformation (
   generatorOutputKind theGeneratorOutputKind) const
 {
   string result;
@@ -282,12 +282,12 @@ R"(
 }
 
 //______________________________________________________________________________
-void msdl2msdrInsiderHandler::createTheMsdlCompilerPrefixes ()
+void msdl2msrInsiderHandler::createTheMsdlCompilerPrefixes ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
     gLogStream <<
-      "Creating the msdl2msdr prefixes in \"" <<
+      "Creating the msdl2msr prefixes in \"" <<
       fHandlerHeader <<
       "\"" <<
       endl;
@@ -298,7 +298,7 @@ void msdl2msdrInsiderHandler::createTheMsdlCompilerPrefixes ()
 }
 
 //______________________________________________________________________________
-void msdl2msdrInsiderHandler::createTheMsdlCompilerOptionGroups (
+void msdl2msrInsiderHandler::createTheMsdlCompilerOptionGroups (
   const string&       executableName,
   generatorOutputKind generatorOutputKind)
 {
@@ -457,9 +457,9 @@ void msdl2msdrInsiderHandler::createTheMsdlCompilerOptionGroups (
       break;
   } // switch
 
-  // create the msdl2msdr OAH group
+  // create the msdl2msr OAH group
   appendGroupToHandler (
-    createGlobalMsdl2msdrInsiderOahGroup ());
+    createGlobalMsdl2msrInsiderOahGroup ());
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group
@@ -469,23 +469,23 @@ void msdl2msdrInsiderHandler::createTheMsdlCompilerOptionGroups (
 }
 
 //______________________________________________________________________________
-void msdl2msdrInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
+void msdl2msrInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
   // JMI
 }
 
 //______________________________________________________________________________
-string msdl2msdrInsiderHandler::fetchOutputFileNameFromTheOptions () const
+string msdl2msrInsiderHandler::fetchOutputFileNameFromTheOptions () const
 {
   return "";
 }
 
 //______________________________________________________________________________
-void msdl2msdrInsiderHandler::checkHandlerOptionsConsistency ()
+void msdl2msrInsiderHandler::checkHandlerOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
-void msdl2msdrInsiderHandler::enforceHandlerQuietness ()
+void msdl2msrInsiderHandler::enforceHandlerQuietness ()
 {
 #ifdef TRACING_IS_ENABLED
   gGlobalTraceOahGroup->
@@ -520,11 +520,11 @@ void msdl2msdrInsiderHandler::enforceHandlerQuietness ()
 }
 
 //______________________________________________________________________________
-void msdl2msdrInsiderOahGroup::enforceGroupQuietness ()
+void msdl2msrInsiderOahGroup::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void msdl2msdrInsiderOahGroup::checkGroupOptionsConsistency ()
+void msdl2msrInsiderOahGroup::checkGroupOptionsConsistency ()
 {
 /* JMI
 
@@ -544,7 +544,7 @@ void msdl2msdrInsiderOahGroup::checkGroupOptionsConsistency ()
     stringstream s;
 
     s <<
-      "msdl2msdrInsiderOahGroup: a MusicXML output file name must be chosen with '-o, -output-file-name";
+      "msdl2msrInsiderOahGroup: a MusicXML output file name must be chosen with '-o, -output-file-name";
 
     oahError (s.str ());
   }
@@ -561,25 +561,25 @@ void msdl2msdrInsiderOahGroup::checkGroupOptionsConsistency ()
 }
 
 //______________________________________________________________________________
-void msdl2msdrInsiderOahGroup::acceptIn (basevisitor* v)
+void msdl2msrInsiderOahGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> msdl2msdrInsiderOahGroup::acceptIn ()" <<
+      ".\\\" ==> msdl2msrInsiderOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_msdl2msdrInsiderOahGroup>*
+  if (visitor<S_msdl2msrInsiderOahGroup>*
     p =
-      dynamic_cast<visitor<S_msdl2msdrInsiderOahGroup>*> (v)) {
-        S_msdl2msdrInsiderOahGroup elem = this;
+      dynamic_cast<visitor<S_msdl2msrInsiderOahGroup>*> (v)) {
+        S_msdl2msrInsiderOahGroup elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching msdl2msdrInsiderOahGroup::visitStart ()" <<
+            ".\\\" ==> Launching msdl2msrInsiderOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -587,25 +587,25 @@ void msdl2msdrInsiderOahGroup::acceptIn (basevisitor* v)
   }
 }
 
-void msdl2msdrInsiderOahGroup::acceptOut (basevisitor* v)
+void msdl2msrInsiderOahGroup::acceptOut (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> msdl2msdrInsiderOahGroup::acceptOut ()" <<
+      ".\\\" ==> msdl2msrInsiderOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_msdl2msdrInsiderOahGroup>*
+  if (visitor<S_msdl2msrInsiderOahGroup>*
     p =
-      dynamic_cast<visitor<S_msdl2msdrInsiderOahGroup>*> (v)) {
-        S_msdl2msdrInsiderOahGroup elem = this;
+      dynamic_cast<visitor<S_msdl2msrInsiderOahGroup>*> (v)) {
+        S_msdl2msrInsiderOahGroup elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching msdl2msdrInsiderOahGroup::visitEnd ()" <<
+            ".\\\" ==> Launching msdl2msrInsiderOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -613,12 +613,12 @@ void msdl2msdrInsiderOahGroup::acceptOut (basevisitor* v)
   }
 }
 
-void msdl2msdrInsiderOahGroup::browseData (basevisitor* v)
+void msdl2msrInsiderOahGroup::browseData (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> msdl2msdrInsiderOahGroup::browseData ()" <<
+      ".\\\" ==> msdl2msrInsiderOahGroup::browseData ()" <<
       endl;
   }
 #endif
@@ -627,12 +627,12 @@ void msdl2msdrInsiderOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void msdl2msdrInsiderHandler::print (ostream& os) const
+void msdl2msrInsiderHandler::print (ostream& os) const
 {
   const unsigned int fieldWidth = 27;
 
   os <<
-    "msdl2msdrInsiderHandler:" <<
+    "msdl2msrInsiderHandler:" <<
     endl;
 
   ++gIndenter;
@@ -672,26 +672,26 @@ void msdl2msdrInsiderHandler::print (ostream& os) const
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_msdl2msdrInsiderHandler& elt)
+ostream& operator<< (ostream& os, const S_msdl2msrInsiderHandler& elt)
 {
   elt->print (os);
   return os;
 }
 
 //_______________________________________________________________________________
-S_msdl2msdrInsiderOahGroup gGlobalMsdlCompilerInsiderOahGroup;
+S_msdl2msrInsiderOahGroup gGlobalMsdlCompilerInsiderOahGroup;
 
-S_msdl2msdrInsiderOahGroup msdl2msdrInsiderOahGroup::create ()
+S_msdl2msrInsiderOahGroup msdl2msrInsiderOahGroup::create ()
 {
-  msdl2msdrInsiderOahGroup* o = new msdl2msdrInsiderOahGroup ();
+  msdl2msrInsiderOahGroup* o = new msdl2msrInsiderOahGroup ();
   assert (o != nullptr);
 
   return o;
 }
 
-msdl2msdrInsiderOahGroup::msdl2msdrInsiderOahGroup ()
+msdl2msrInsiderOahGroup::msdl2msrInsiderOahGroup ()
   : oahGroup (
-    "msdl2msdr",
+    "msdl2msr",
     "hmsdlc", "help-msdl-compiler",
 R"(Options that are used by MSDL ompiler are grouped here.)",
     kElementVisibilityWhole)
@@ -711,11 +711,11 @@ R"(Options that are used by MSDL ompiler are grouped here.)",
   initializeMsdlCompilerInsiderOahGroup ();
 }
 
-msdl2msdrInsiderOahGroup::~msdl2msdrInsiderOahGroup ()
+msdl2msrInsiderOahGroup::~msdl2msrInsiderOahGroup ()
 {}
 
 //_______________________________________________________________________________
-void msdl2msdrInsiderOahGroup::initializeMsdlCompilerInsiderOahGroup ()
+void msdl2msrInsiderOahGroup::initializeMsdlCompilerInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
@@ -738,7 +738,7 @@ void msdl2msdrInsiderOahGroup::initializeMsdlCompilerInsiderOahGroup ()
   createInsiderQuitSubGroup ();
 }
 
-void msdl2msdrInsiderOahGroup::createInsiderGuidoSubGroup ()
+void msdl2msrInsiderOahGroup::createInsiderGuidoSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
@@ -851,7 +851,7 @@ R"(Generate barlines in the Guido output.)",
 }
 
 //_______________________________________________________________________________
-void msdl2msdrInsiderOahGroup::createInsiderQuitSubGroup ()
+void msdl2msrInsiderOahGroup::createInsiderQuitSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
@@ -910,7 +910,7 @@ of the MusicXML tree to MSR.)",
 }
 
 //______________________________________________________________________________
-void msdl2msdrInsiderOahGroup::printMsdlCompilerInsiderOahGroupValues (unsigned int fieldWidth)
+void msdl2msrInsiderOahGroup::printMsdlCompilerInsiderOahGroupValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The MSDL compiler options are:" <<
@@ -989,12 +989,12 @@ void msdl2msdrInsiderOahGroup::printMsdlCompilerInsiderOahGroupValues (unsigned 
 }
 
 //______________________________________________________________________________
-S_msdl2msdrInsiderOahGroup createGlobalMsdl2msdrInsiderOahGroup ()
+S_msdl2msrInsiderOahGroup createGlobalMsdl2msrInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
     gLogStream <<
-      "Creating global msdl2msdr insider OAH group" <<
+      "Creating global msdl2msr insider OAH group" <<
       endl;
   }
 #endif
@@ -1006,7 +1006,7 @@ S_msdl2msdrInsiderOahGroup createGlobalMsdl2msdrInsiderOahGroup ()
     // ------------------------------------------------------
 
     gGlobalMsdlCompilerInsiderOahGroup =
-      msdl2msdrInsiderOahGroup::create ();
+      msdl2msrInsiderOahGroup::create ();
     assert (gGlobalMsdlCompilerInsiderOahGroup != 0);
 
     // append versions information to list

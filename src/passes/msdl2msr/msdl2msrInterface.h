@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msr2msdrInterface__
-#define __msr2msdrInterface__
+#ifndef __msdl2msrInterface__
+#define __msdl2msrInterface__
 
 #include "exports.h"
 
@@ -28,7 +28,7 @@
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-EXP xmlErr istream2msdrWithHandler (
+EXP xmlErr msdlIstream2msrWithHandler (
   string       inputSourceName,
   istream&     inputStream,
   ostream&     out,

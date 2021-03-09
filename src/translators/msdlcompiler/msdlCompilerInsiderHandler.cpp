@@ -28,7 +28,7 @@
 // MSDL
 #include "msdl.h"
 
-#include "msdl2msdrOah.h"
+#include "msdl2msrOah.h"
 #include "msdlOah.h"
 
 // MSR
@@ -352,9 +352,9 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
     createGlobalMsdlOahGroup (
       executableName));
 
-  // create the msdl2msdr OAH group
+  // create the msdl2msr OAH group
   appendGroupToHandler (
-    createGlobalMsdl2msdrOahGroup ());
+    createGlobalMsdl2msrOahGroup ());
 
   // create the MSR OAH group
   appendGroupToHandler (

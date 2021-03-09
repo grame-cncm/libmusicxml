@@ -194,6 +194,7 @@ class msdlParser : public smartable
     void                  createBookIfNeeded (int inputLineNumber);
 
     void                  createScoreIfNeeded (int inputLineNumber);
+    void                  createIdentificationIfNeeded (int inputLineNumber);
 
     void                  createPartGroupIfNeeded (int inputLineNumber);
 
@@ -219,7 +220,7 @@ class msdlParser : public smartable
     S_msrIdentification   fMsrIdentification;
 
     // Pitches
-    msdlPitchesLanguageKind
+    msrQuarterTonesPitchKind // JMI ??? msdlPitchesLanguageKind
                           fPitchesLanguageKind;
 
     // Anacrusis

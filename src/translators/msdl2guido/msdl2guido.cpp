@@ -77,7 +77,7 @@ xmlErr msdlStream2guidoWithHandler (
 
   S_msrScore firstMsrScore;
 
-  // perform lexical analysis (pass 1a)
+  // translating the MSDL input into an MSR score (pass 1)
   // ------------------------------------------------------
 
   try {
@@ -88,7 +88,7 @@ xmlErr msdlStream2guidoWithHandler (
 
     parser.parse ();
   }
-  catch (msgMsdlToMsrInternalException& e) {
+  catch (msgMsdlToMsrScoreException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -109,44 +109,7 @@ xmlErr msdlStream2guidoWithHandler (
     return kNoErr;
   }
 
-
-  return kNoErr; // JMI TEMP
-
-
-  // perform syntactical and semantic analysis (pass 1b)
-  // ------------------------------------------------------
-
-  try {
-  /*
-    populateMsrSkeletonFromMxmlTree (
-      mxmlTree,
-      theMsrScore,
-        "Pass 1b",
-        "Perform syntactical and semantic analysis");
-        */
-  }
-  catch (msgMsdlToMsrScoreException& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-  catch (std::exception& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-
-  // should we return now?
-  // ------------------------------------------------------
-
-  if (gGlobalMsdl2gmnInsiderOahGroup->getQuitAfterPass2b ()) {
-    err <<
-      endl <<
-      "Quitting after pass 2b as requested" <<
-      endl;
-
-    return kNoErr;
-  }
-
-  // convert the first MSR score into a second MSR (pass 3)
+  // convert the first MSR score into a second MSR (pass 2)
   // ------------------------------------------------------
 
   S_msrScore secondMsrScore;
@@ -157,7 +120,7 @@ xmlErr msdlStream2guidoWithHandler (
         firstMsrScore,
         gGlobalMsrOahGroup,
         gGlobalMsr2msrOahGroup,
-        "Pass 3",
+        "Pass 2",
         "Convert the first MSR into a second MSR");
   }
   catch (msgMxmlTreeToMsrException& e) {
@@ -169,7 +132,7 @@ xmlErr msdlStream2guidoWithHandler (
     return kInvalidFile;
   }
 
-  // convert the second MSR into a second mxmlTree (pass 4)
+  // convert the second MSR into a second mxmlTree (pass 3)
   // ------------------------------------------------------
 
   Sxmlelement secondMxmlTree;
@@ -179,8 +142,8 @@ xmlErr msdlStream2guidoWithHandler (
       convertMsrScoreToMxmltree (
         secondMsrScore,
         gGlobalMsrOahGroup,
-        "Pass 4",
-        "Convert the second MSR into a second mxmlTree",
+        "Pass 3",
+        "Convert the second MSR into an mxmlTree",
         timingItem::kMandatory);
   }
   catch (msgMxmlTreeToMsrException& e) {
@@ -192,7 +155,7 @@ xmlErr msdlStream2guidoWithHandler (
     return kInvalidFile;
   }
 
-  // generate Guido from the second mxmlTree (pass 5)
+  // generate Guido from the second mxmlTree (pass 4)
   // ------------------------------------------------------
 
   string
@@ -205,8 +168,8 @@ xmlErr msdlStream2guidoWithHandler (
       secondMxmlTree,
       outputFileName,
       err,
-      "Pass 5",
-      "Convert  the second mxmlTree into Guido text");
+      "Pass 4",
+      "Convert  the mxmlTree into Guido text");
   }
   catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);

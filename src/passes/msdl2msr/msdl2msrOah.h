@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___msdl2msdrOah___
-#define ___msdl2msdrOah___
+#ifndef ___msdl2msrOah___
+#define ___msdl2msrOah___
 
 #include "msrSegnosAndCodas.h"
 
@@ -28,30 +28,30 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP msdl2msdrOahGroup : public oahGroup
+class EXP msdl2msrOahGroup : public oahGroup
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msdl2msdrOahGroup> create ();
+    static SMARTP<msdl2msrOahGroup> create ();
 
   private:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeMsdl2msdrGroup ();
+    void                  initializeMsdl2msrGroup ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-                          msdl2msdrOahGroup ();
+                          msdl2msrOahGroup ();
 
-    virtual               ~msdl2msdrOahGroup ();
+    virtual               ~msdl2msrOahGroup ();
 
   public:
 
@@ -131,7 +131,7 @@ class EXP msdl2msdrOahGroup : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACING_IS_ENABLED
-    void                  initializeMsdl2msdrTraceOah ();
+    void                  initializeMsdl2msrTraceOah ();
 #endif
 
     void                  initializeMsdlLanguagesOptions ();
@@ -155,9 +155,9 @@ class EXP msdl2msdrOahGroup : public oahGroup
     // print
     // ------------------------------------------------------
 
-    void                  printMsdl2msdrHelp ();
+    void                  printMsdl2msrHelp ();
 
-    void                  printMsdl2msdrValues (unsigned int fieldWidth);
+    void                  printMsdl2msrValues (unsigned int fieldWidth);
 
   public:
 
@@ -211,13 +211,13 @@ class EXP msdl2msdrOahGroup : public oahGroup
 
     bool                  fQuitOnLexicalErrors;
 };
-typedef SMARTP<msdl2msdrOahGroup> S_msdl2msdrOahGroup;
-EXP ostream& operator<< (ostream& os, const S_msdl2msdrOahGroup& elt);
+typedef SMARTP<msdl2msrOahGroup> S_msdl2msrOahGroup;
+EXP ostream& operator<< (ostream& os, const S_msdl2msrOahGroup& elt);
 
-EXP extern S_msdl2msdrOahGroup gGlobalMsdl2msdrOahGroup;
+EXP extern S_msdl2msrOahGroup gGlobalMsdl2msrOahGroup;
 
 //______________________________________________________________________________
-EXP S_msdl2msdrOahGroup createGlobalMsdl2msdrOahGroup ();
+EXP S_msdl2msrOahGroup createGlobalMsdl2msrOahGroup ();
 
 
 }

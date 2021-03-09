@@ -78,7 +78,7 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
 
   S_msrScore firstMsrScore;
 
-  // perform lexical analysis (pass 1a)
+  // translating the MSDL input into an MSR score (pass 1)
   // ------------------------------------------------------
 
   try {
@@ -89,7 +89,7 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
 
     parser.parse ();
   }
-  catch (msgMxmlTreeToMsrException& e) {
+  catch (msgMsdlToMsrScoreException& e) {
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
@@ -110,44 +110,7 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
     return kNoErr;
   }
 
-
-  return kNoErr; // JMI TEMP
-
-
-  // perform syntactical and semantic analysis (pass 1b)
-  // ------------------------------------------------------
-
-  try {
-  /*
-    populateMsrSkeletonFromMxmlTree (
-      mxmlTree,
-      theMsrScore,
-        "Pass 1b",
-        "Perform syntactical and semantic analysis");
-        */
-  }
-  catch (msgMsdlToMsrScoreException& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-  catch (std::exception& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-
-  // should we return now?
-  // ------------------------------------------------------
-
-  if (gGlobalMsdl2xmlInsiderOahGroup->getQuitAfterPass2b ()) {
-    err <<
-      endl <<
-      "Quitting after pass 2b as requested" <<
-      endl;
-
-    return kNoErr;
-  }
-
-  // convert the first MSR score into a second MSR (pass 3)
+  // convert the MSR score into a second MSR (pass 2)
   // ------------------------------------------------------
 
   S_msrScore secondMsrScore;
@@ -158,7 +121,7 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
         firstMsrScore,
         gGlobalMsrOahGroup,
         gGlobalMsr2msrOahGroup,
-        "Pass 3",
+        "Pass 2",
         "Convert the first MSR into a second MSR");
   }
   catch (msgMxmlTreeToMsrException& e) {
@@ -170,7 +133,7 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
     return kInvalidFile;
   }
 
-  // convert the second MSR into a second mxmlTree (pass 4)
+  // convert the second MSR into an mxmlTree (pass 3)
   // ------------------------------------------------------
 
   Sxmlelement secondMxmlTree;
@@ -180,8 +143,8 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
       convertMsrScoreToMxmltree (
         secondMsrScore,
         gGlobalMsrOahGroup,
-        "Pass 4",
-        "Convert the second MSR into a second mxmlTree",
+        "Pass 3",
+        "Convert the second MSR into an mxmlTree",
         timingItem::kMandatory);
   }
   catch (msgMxmlTreeToMsrException& e) {
@@ -193,7 +156,7 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
     return kInvalidFile;
   }
 
-  // generate MusicXML from the second mxmlTree (pass 5)
+  // generate MusicXML from the second mxmlTree (pass 4)
   // ------------------------------------------------------
 
   string
@@ -206,8 +169,8 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
       secondMxmlTree,
       outputFileName,
       err,
-      "Pass 5",
-      "Convert the second mxmlTree into MusicXML text");
+      "Pass 4",
+      "Convert the mxmlTree into MusicXML text");
   }
   catch (msgMxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);

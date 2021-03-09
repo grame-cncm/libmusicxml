@@ -19,6 +19,10 @@
   #include "traceOah.h"
 #endif
 
+#include "version.h"
+
+#include "generalOah.h"
+
 #include "msdlParserWaeHandlers.h"
 
 #include "utilities.h"
@@ -27,7 +31,7 @@
 
 #include "waeExceptions.h"
 
-#include "msdl2msdrOah.h"
+#include "msdl2msrOah.h"
 
 
 using namespace std;
@@ -60,32 +64,39 @@ msdlParser::msdlParser (
   // trace
 #ifdef TRACING_IS_ENABLED
   fTraceSyntax        =
-    gGlobalMsdl2msdrOahGroup->getTraceSyntax ();
+    gGlobalMsdl2msrOahGroup->getTraceSyntax ();
   fTraceSyntaxDetails =
-    gGlobalMsdl2msdrOahGroup->getTraceSyntaxDetails ();
+    gGlobalMsdl2msrOahGroup->getTraceSyntaxDetails ();
 
   fTraceSyntaxErrorRecovery =
-    gGlobalMsdl2msdrOahGroup->getTraceSyntaxErrorRecovery ();
+    gGlobalMsdl2msrOahGroup->getTraceSyntaxErrorRecovery ();
 
   fTraceSyntaxErrorRecoveryDetails =
-    gGlobalMsdl2msdrOahGroup->getTraceSyntaxErrorRecoveryDetails ();
+    gGlobalMsdl2msrOahGroup->getTraceSyntaxErrorRecoveryDetails ();
 #endif
 
   // user language
   fUserLanguageKind =
-    gGlobalMsdl2msdrOahGroup->
+    gGlobalMsdl2msrOahGroup->
       getMsdlUserLanguageKind ();
 
   // keywords language
   fKeywordsInputLanguageKind =
-    gGlobalMsdl2msdrOahGroup->
+    gGlobalMsdl2msrOahGroup->
       getMsdlKeywordsInputLanguageKind ();
+
+  // pitches language
+  /* JMI
+  fPitchesLanguageKind =
+    gGlobalMsdl2msrOahGroup->
+      getMsdlQuarterTonesPitchesLanguageKind ();
+*/
 
   // input source name
   fInputSourceName = inputSourceName;
 
   // warnings and errors
-  switch (gGlobalMsdl2msdrOahGroup->getMsdlUserLanguageKind ()) {
+  switch (gGlobalMsdl2msrOahGroup->getMsdlUserLanguageKind ()) {
     case kUserLanguageEnglish:
       fParserWaeHandler = msdlParserEnglishWaeHandler::create ();
       break;
@@ -899,6 +910,55 @@ void msdlParser::createScoreIfNeeded (int inputLineNumber)
   }
 }
 
+void msdlParser::createIdentificationIfNeeded (int inputLineNumber)
+{
+  // did we handle the Identification already?
+  if (! fMsrIdentification) {
+/* JMI
+    fParserWaeHandler->
+      multipleIdentifications ();
+*/
+
+    int inputLineNumber =
+      fScanner.getCurrentLineNumber ();
+
+    // create the MSR identification
+    fMsrIdentification =
+      msrIdentification::create (inputLineNumber);
+
+    // append the MSDL compiler as software to it
+    string
+      software =
+        "MSDL compiler"
+          +
+        currentVersionNumber ();
+
+    fMsrIdentification->
+      msrIdentification::appendSoftware (
+        inputLineNumber,
+        software);
+
+    // set the encoding date in it
+    string
+      translationDate =
+        gGlobalGeneralOahGroup->getTranslationDateFull ();
+
+#ifdef TRACING_IS_ENABLED
+    if (fTraceSyntax) {
+      gLogStream <<
+        "--- createIdentificationIfNeeded()" <<
+        ", translationDate: " << translationDate <<
+        endl;
+    }
+#endif
+
+    fMsrIdentification->
+      setEncodingDate (
+        inputLineNumber,
+        translationDate);
+  }
+}
+
 void msdlParser::createBookIfNeeded (int inputLineNumber)
 {
   if (! fCurrentBook) {
@@ -916,7 +976,7 @@ void msdlParser::parse ()
   // ignore separator tokens
   fIgnoreSeparatorTokensKind = kIgnoreSeparatorTokensYes;
 
-  gGlobalMsdl2msdrOahGroup->
+  gGlobalMsdl2msrOahGroup->
     setIgnoreSeparatorTokens (true); // JMI ???
 
   // fetch the first token
@@ -964,34 +1024,41 @@ void msdlParser::parse ()
 #endif
     }
 
-    if (fSourceIsSyntacticallyCorrect) {
-      fParserWaeHandler->
-        inputIsSyntacticallyCorrect ();
+#ifdef TRACING_IS_ENABLED
+    if (fTraceSyntax) {
+      if (fSourceIsSyntacticallyCorrect) {
+        fParserWaeHandler->
+          inputIsSyntacticallyCorrect ();
+      }
+      else {
+        fParserWaeHandler->
+          inputIsSyntacticallyIncorrect ();
+      }
     }
-    else {
-      fParserWaeHandler->
-        inputIsSyntacticallyIncorrect ();
-    }
+#endif
 
-    gLogStream <<
-      endl <<
-      "*** Built MSR score: ***" <<
-      endl <<
-      "========================" <<
-      endl << endl;
-
-    ++gIndenter;
-
-    if (fCurrentScore) {
+    // should we display the MSR score?
+    if (gGlobalMsrOahGroup->getDisplayMsr ()) {
       gLogStream <<
-        fCurrentScore <<
-        endl;
-    }
-    else {
-      gLogStream << "NONE" << endl;
-    }
+        endl <<
+        "*** Built MSR score: ***" <<
+        endl <<
+        "========================" <<
+        endl << endl;
 
-    --gIndenter;
+      ++gIndenter;
+
+      if (fCurrentScore) {
+        gLogStream <<
+          fCurrentScore <<
+          endl;
+      }
+      else {
+        gLogStream << "NONE" << endl;
+      }
+
+      --gIndenter;
+    }
 
     --gIndenter;
   }
@@ -1103,26 +1170,8 @@ void msdlParser::Identification (S_msdlTokenKindsSet stopperTokensSet)
 
   ++gIndenter;
 
-  // did we handle the Identification already?
-  if (fMsrIdentification) {
-    fParserWaeHandler->
-      multipleIdentifications ();
-  }
-
-  else {
-    int inputLineNumber =
-      fScanner.getCurrentLineNumber ();
-
-    // create the MSR identification
-    fMsrIdentification =
-      msrIdentification::create (inputLineNumber);
-
-    // append the MSDL compiler as software to it
-    fMsrIdentification->
-      msrIdentification::appendSoftware (
-        inputLineNumber,
-        "MSDL compiler");
-  }
+  createIdentificationIfNeeded (
+    fCurrentToken.getTokenLineNumber ());
 
   // there can be a title, a composer and an opus
   while (
@@ -1454,10 +1503,23 @@ void msdlParser::Pitches (S_msdlTokenKindsSet stopperTokensSet)
       }
 #endif
 
+/* JMI
       // set the pitches in the MSR identification ??? JMI
       fPitchesLanguageKind =
         msdlPitchesLanguageKindFromString (
           pitches);
+*/
+
+#ifdef TRACING_IS_ENABLED
+      if (fTraceSyntax) {
+        gLogStream <<
+          "=== parse()" <<
+          ", fPitchesLanguageKind: \"" <<
+          (fPitchesLanguageKind) <<
+          "\"" <<
+          endl;
+      }
+#endif
 
       fetchNextToken ();
     }
@@ -1577,27 +1639,6 @@ void msdlParser::Structure (S_msdlTokenKindsSet stopperTokensSet)
 
   ++gIndenter;
 
-  // did we handle the Identification already?
-  if (fMsrIdentification) {
-    fParserWaeHandler->
-      multipleIdentifications ();
-  }
-
-  else {
-    int inputLineNumber =
-      fScanner.getCurrentLineNumber ();
-
-    // create the MSR identification
-    fMsrIdentification =
-      msrIdentification::create (inputLineNumber);
-
-    // append the MSDL compiler as software to it
-    fMsrIdentification->
-      msrIdentification::appendSoftware (
-        inputLineNumber,
-        "MSDL compiler");
-  }
-
   // do the job
   while (
     checkOptionalTokenKindsSet (
@@ -1673,27 +1714,6 @@ void msdlParser::Book (S_msdlTokenKindsSet stopperTokensSet)
 #endif
 
   ++gIndenter;
-
-  // did we handle the Identification already?
-  if (fMsrIdentification) {
-    fParserWaeHandler->
-      multipleIdentifications ();
-  }
-
-  else {
-    int inputLineNumber =
-      fScanner.getCurrentLineNumber ();
-
-    // create the MSR identification
-    fMsrIdentification =
-      msrIdentification::create (inputLineNumber);
-
-    // append the MSDL compiler as software to it
-    fMsrIdentification->
-      msrIdentification::appendSoftware (
-        inputLineNumber,
-        "MSDL compiler");
-  }
 
   // create the book if needed
   createBookIfNeeded (
@@ -1772,27 +1792,6 @@ void msdlParser::Score (S_msdlTokenKindsSet stopperTokensSet)
 
   ++gIndenter;
 
-  // did we handle the Identification already?
-  if (fMsrIdentification) {
-    fParserWaeHandler->
-      multipleIdentifications ();
-  }
-
-  else {
-    int inputLineNumber =
-      fScanner.getCurrentLineNumber ();
-
-    // create the MSR identification
-    fMsrIdentification =
-      msrIdentification::create (inputLineNumber);
-
-    // append the MSDL compiler as software to it
-    fMsrIdentification->
-      msrIdentification::appendSoftware (
-        inputLineNumber,
-        "MSDL compiler");
-  }
-
   // create the score if needed
   createScoreIfNeeded (
     fCurrentToken.getTokenLineNumber ());
@@ -1867,27 +1866,6 @@ void msdlParser::PartGroup (S_msdlTokenKindsSet stopperTokensSet)
 
   ++gIndenter;
 
-  // did we handle the Identification already?
-  if (fMsrIdentification) {
-    fParserWaeHandler->
-      multipleIdentifications ();
-  }
-
-  else {
-    int inputLineNumber =
-      fScanner.getCurrentLineNumber ();
-
-    // create the MSR identification
-    fMsrIdentification =
-      msrIdentification::create (inputLineNumber);
-
-    // append the MSDL compiler as software to it
-    fMsrIdentification->
-      msrIdentification::appendSoftware (
-        inputLineNumber,
-        "MSDL compiler");
-  }
-
   // create the part group if needed
   createPartGroupIfNeeded (
     fCurrentToken.getTokenLineNumber ());
@@ -1958,27 +1936,6 @@ void msdlParser::Part (S_msdlTokenKindsSet stopperTokensSet)
 #endif
 
   ++gIndenter;
-
-  // did we handle the Identification already?
-  if (fMsrIdentification) {
-    fParserWaeHandler->
-      multipleIdentifications ();
-  }
-
-  else {
-    int inputLineNumber =
-      fScanner.getCurrentLineNumber ();
-
-    // create the MSR identification
-    fMsrIdentification =
-      msrIdentification::create (inputLineNumber);
-
-    // append the MSDL compiler as software to it
-    fMsrIdentification->
-      msrIdentification::appendSoftware (
-        inputLineNumber,
-        "MSDL compiler");
-  }
 
   // create the part if needed
   createPartIfNeeded (
@@ -2630,11 +2587,12 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
     }
 #endif
 
+/* JMI
     noteQuarterTonesPitchKind =
       quarterTonesPitchKindFromString (
-        gGlobalMsdl2msdrOahGroup->
-          getMsdlQuarterTonesPitchesLanguageKind (),
-          pitchName);
+        fPitchesLanguageKind,
+        pitchName);
+*/
 
 #ifdef TRACING_IS_ENABLED
     if (fTraceSyntax) {
@@ -2923,16 +2881,6 @@ void msdlParser::NoteDuration (
   int                 dotsNumber,
   S_msdlTokenKindsSet stopperTokensSet)
 {
-/*
-enum msrDurationKind {
-  msrDurationKind::k_NoDuration,
-
-  // from longest to shortest for the algorithms
-  msrDurationKind::kMaxima, msrDurationKind::kLong, msrDurationKind::kBreve, msrDurationKind::kWhole, msrDurationKind::kHalf,
-  msrDurationKind::kQuarter,
-  msrDurationKind::kEighth, msrDurationKind::k16th, msrDurationKind::k32nd, msrDurationKind::k64th, msrDurationKind::k128th, msrDurationKind::k256th, msrDurationKind::k512th, msrDurationKind::k1024th
-*/
-
   if (stopperTokensSet->getTokenKindsSetSize ()) {
     fMsdlTokensSetsStack.push_front (stopperTokensSet);
   }

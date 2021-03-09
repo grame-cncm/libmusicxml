@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___msdl2msdrInsiderHandler___
-#define ___msdl2msdrInsiderHandler___
+#ifndef ___msdl2msrInsiderHandler___
+#define ___msdl2msrInsiderHandler___
 
 #include "msrBasicTypes.h"
 
@@ -30,14 +30,14 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-class EXP msdl2msdrInsiderHandler : public oahInsiderHandler
+class EXP msdl2msrInsiderHandler : public oahInsiderHandler
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msdl2msdrInsiderHandler> create (
+    static SMARTP<msdl2msrInsiderHandler> create (
                             const string&       executableName,
                             const string&       handlerHeader,
                             generatorOutputKind generatorOutputKind);
@@ -47,12 +47,12 @@ class EXP msdl2msdrInsiderHandler : public oahInsiderHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-                          msdl2msdrInsiderHandler (
+                          msdl2msrInsiderHandler (
                             const string&       executableName,
                             const string&       handlerHeader,
                             generatorOutputKind generatorOutputKind);
 
-    virtual               ~msdl2msdrInsiderHandler ();
+    virtual               ~msdl2msrInsiderHandler ();
 
   public:
 
@@ -120,7 +120,7 @@ class EXP msdl2msdrInsiderHandler : public oahInsiderHandler
     string                usageInformation (
                             generatorOutputKind generatorOutputKind);
 
-    string                msdl2msdrAboutInformation (
+    string                msdl2msrAboutInformation (
                             generatorOutputKind theGeneratorOutputKind) const;
 
   private:
@@ -131,15 +131,15 @@ class EXP msdl2msdrInsiderHandler : public oahInsiderHandler
     // generated output kind
     generatorOutputKind   fGeneratorOutputKind;
 };
-typedef SMARTP<msdl2msdrInsiderHandler> S_msdl2msdrInsiderHandler;
-EXP ostream& operator<< (ostream& os, const S_msdl2msdrInsiderHandler& elt);
+typedef SMARTP<msdl2msrInsiderHandler> S_msdl2msrInsiderHandler;
+EXP ostream& operator<< (ostream& os, const S_msdl2msrInsiderHandler& elt);
 
 //______________________________________________________________________________
-class EXP msdl2msdrInsiderOahGroup : public oahGroup
+class EXP msdl2msrInsiderOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<msdl2msdrInsiderOahGroup> create ();
+    static SMARTP<msdl2msrInsiderOahGroup> create ();
 
   public:
 
@@ -153,9 +153,9 @@ class EXP msdl2msdrInsiderOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-                          msdl2msdrInsiderOahGroup ();
+                          msdl2msrInsiderOahGroup ();
 
-    virtual               ~msdl2msdrInsiderOahGroup ();
+    virtual               ~msdl2msrInsiderOahGroup ();
 
   public:
 
@@ -350,13 +350,13 @@ class EXP msdl2msdrInsiderOahGroup : public oahGroup
 
     */
 };
-typedef SMARTP<msdl2msdrInsiderOahGroup> S_msdl2msdrInsiderOahGroup;
-EXP ostream& operator<< (ostream& os, const S_msdl2msdrInsiderOahGroup& elt);
+typedef SMARTP<msdl2msrInsiderOahGroup> S_msdl2msrInsiderOahGroup;
+EXP ostream& operator<< (ostream& os, const S_msdl2msrInsiderOahGroup& elt);
 
-EXP extern S_msdl2msdrInsiderOahGroup gGlobalMsdlCompilerInsiderOahGroup;
+EXP extern S_msdl2msrInsiderOahGroup gGlobalMsdlCompilerInsiderOahGroup;
 
 //______________________________________________________________________________
-S_msdl2msdrInsiderOahGroup createGlobalMsdl2msdrInsiderOahGroup ();
+S_msdl2msrInsiderOahGroup createGlobalMsdl2msrInsiderOahGroup ();
 
 
 }

@@ -10,19 +10,19 @@
   research@grame.fr
 */
 
-#ifndef ___msdl2msdrRegularHandler___
-#define ___msdl2msdrRegularHandler___
+#ifndef ___msdl2msrRegularHandler___
+#define ___msdl2msrRegularHandler___
 
 #include "oahRegularHandlers.h"
 
-#include "msdl2msdrInsiderHandler.h"
+#include "msdl2msrInsiderHandler.h"
 
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-class EXP msdl2msdrRegularHandler : public oahRegularHandler
+class EXP msdl2msrRegularHandler : public oahRegularHandler
 /*
-  An msdl2msdr regular OAH handler can rely on the existence of an insider handler,
+  An msdl2msr regular OAH handler can rely on the existence of an insider handler,
   whose creation initialized gGlobalXml2gmnInsiderOahGroup.
   The latter contains all the options values gathered from the user.
 */
@@ -32,10 +32,10 @@ class EXP msdl2msdrRegularHandler : public oahRegularHandler
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msdl2msdrRegularHandler> create (
+    static SMARTP<msdl2msrRegularHandler> create (
                             string              executableName,
                             string              handlerHeader,
-                            S_msdl2msdrInsiderHandler
+                            S_msdl2msrInsiderHandler
                                                 insiderOahHandler,
                             generatorOutputKind theGeneratorOutputKind);
 
@@ -44,14 +44,14 @@ class EXP msdl2msdrRegularHandler : public oahRegularHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-                          msdl2msdrRegularHandler (
+                          msdl2msrRegularHandler (
                             string              executableName,
                             string              handlerHeader,
-                            S_msdl2msdrInsiderHandler
+                            S_msdl2msrInsiderHandler
                                                 insiderOahHandler,
                             generatorOutputKind theGeneratorOutputKind);
 
-    virtual               ~msdl2msdrRegularHandler ();
+    virtual               ~msdl2msrRegularHandler ();
 
   public:
 
@@ -182,8 +182,8 @@ class EXP msdl2msdrRegularHandler : public oahRegularHandler
     // generated output kind
     generatorOutputKind     fGeneratorOutputKind;
 };
-typedef SMARTP<msdl2msdrRegularHandler> S_msdl2msdrRegularHandler;
-EXP ostream& operator<< (ostream& os, const S_msdl2msdrRegularHandler& elt);
+typedef SMARTP<msdl2msrRegularHandler> S_msdl2msrRegularHandler;
+EXP ostream& operator<< (ostream& os, const S_msdl2msrRegularHandler& elt);
 
 
 }
