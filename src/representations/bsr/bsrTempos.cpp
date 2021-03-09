@@ -151,46 +151,46 @@ S_bsrCellsList bsrTempo::buildCellsList () const
             noteValueKind = bsrNote::kNoteValueNone;
 
           switch (durationKind) {
-            case k_NoDuration:
+            case msrDurationKind::k_NoDuration:
               break;
 
-            case k1024th: // JMI
+            case msrDurationKind::k1024th: // JMI
               break;
-            case k512th: // JMI
+            case msrDurationKind::k512th: // JMI
               break;
-            case k256th:
+            case msrDurationKind::k256th:
               noteValueKind = bsrNote::kNoteValueC256th;
               break;
-            case k128th:
+            case msrDurationKind::k128th:
               noteValueKind = bsrNote::kNoteValueC128th;
               break;
-            case k64th:
+            case msrDurationKind::k64th:
               noteValueKind = bsrNote::kNoteValueC64th;
               break;
-            case k32nd:
+            case msrDurationKind::k32nd:
               noteValueKind = bsrNote::kNoteValueC32nd;
               break;
-            case k16th:
+            case msrDurationKind::k16th:
               noteValueKind = bsrNote::kNoteValueC16th;
               break;
-            case kEighth:
+            case msrDurationKind::kEighth:
               noteValueKind = bsrNote::kNoteValueC8th;
               break;
-            case kQuarter:
+            case msrDurationKind::kQuarter:
               noteValueKind = bsrNote::kNoteValueCQuarter;
               break;
-            case kHalf:
+            case msrDurationKind::kHalf:
               noteValueKind = bsrNote::kNoteValueCHalf;
               break;
-            case kWhole:
+            case msrDurationKind::kWhole:
               noteValueKind = bsrNote::kNoteValueCWhole;
               break;
-            case kBreve:
+            case msrDurationKind::kBreve:
               noteValueKind = bsrNote::kNoteValueCBreve;
               break;
-            case kLong:
+            case msrDurationKind::kLong:
               break;
-            case kMaxima:
+            case msrDurationKind::kMaxima:
               break;
           } // switch
 
@@ -201,7 +201,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
                 fInputLineNumber,
                 noteValueKind,
                 dotsNumber,
-                bsrNote::kNoteOctaveNone,
+                bsrNoteOctaveKind::kNoteOctaveNone,
                 bsrNote::kNoteOctaveIsNeededNo,
                 bsrNote::kAccidentalNone);
 

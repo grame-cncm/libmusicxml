@@ -42,12 +42,12 @@ string msdlTokenKindAsString (
   stringstream s;
 
   switch (tokenKind) {
-    case msdlTokenKind::k_TokenEOF:
-      s << "tokenEOF";
-      break;
-
     case msdlTokenKind::k_NoToken:
       s << "*noToken*";
+      break;
+
+    case msdlTokenKind::k_TokenEOF:
+      s << "tokenEOF";
       break;
 
     case msdlTokenKind::k_TokenMalformed:
@@ -179,8 +179,11 @@ string msdlTokenKindAsString (
       s << "tokenString";
       break;
 
+    case msdlTokenKind::kTokenName:
+      s << "tokenName";
+      break;
     case msdlTokenKind::kTokenIdentifier:
-      s << "tokenIdentifier";
+      s << "tokeIdentifier";
       break;
 
     // language-dependent keywords
@@ -299,12 +302,12 @@ string msdlTokenKindAsMsdlString (
   string result;
 
   switch (tokenKind) {
-    case msdlTokenKind::k_TokenEOF:
-      result = "EOF";
-      break;
-
     case msdlTokenKind::k_NoToken:
       result = "*NoToken*";
+      break;
+
+    case msdlTokenKind::k_TokenEOF:
+      result = "EOF";
       break;
 
     case msdlTokenKind::k_TokenMalformed:
@@ -441,6 +444,9 @@ string msdlTokenKindAsMsdlString (
       result = "<string>";
       break;
 
+    case msdlTokenKind::kTokenName:
+      result = "<name>";
+      break;
     case msdlTokenKind::kTokenIdentifier:
       result = "<identifier>";
       break;
@@ -681,6 +687,15 @@ S_msdlTokenKindsSet msdlTokenKindsSet::createClone ()
     } // for
   }
 
+#ifdef TRACING_IS_ENABLED
+  if (false && gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+    gLogStream <<
+      "<== createClone()" <<
+      ", result:" << result->asString () <<
+      endl;
+  }
+#endif
+
   return result;
 }
 
@@ -805,10 +820,33 @@ ostream& operator<< (ostream& os, const S_msdlTokenKindsSet& elt)
 
 EXP S_msdlTokenKindsSet operator+= (
   S_msdlTokenKindsSet aTokenKindsSet,
+  msdlTokenKind       aTokenKind)
+{
+  aTokenKindsSet->
+    addTokenKind (
+      aTokenKind);
+
+  return aTokenKindsSet;
+}
+
+EXP S_msdlTokenKindsSet operator+= (
+  S_msdlTokenKindsSet aTokenKindsSet,
   S_msdlTokenKindsSet anotherTokenKindsSet)
 {
-  aTokenKindsSet->addElementsFrom (
-    anotherTokenKindsSet);
+  aTokenKindsSet->
+    addElementsFrom (
+      anotherTokenKindsSet);
+
+  return aTokenKindsSet;
+}
+
+EXP S_msdlTokenKindsSet operator-= (
+  S_msdlTokenKindsSet aTokenKindsSet,
+  msdlTokenKind       aTokenKind)
+{
+  aTokenKindsSet->
+    removeTokenKind (
+      aTokenKind);
 
   return aTokenKindsSet;
 }
@@ -817,10 +855,35 @@ EXP S_msdlTokenKindsSet operator-= (
   S_msdlTokenKindsSet aTokenKindsSet,
   S_msdlTokenKindsSet anotherTokenKindsSet)
 {
-  aTokenKindsSet->removeElementsFrom (
-    anotherTokenKindsSet);
+  aTokenKindsSet->
+    removeElementsFrom (
+      anotherTokenKindsSet);
 
   return aTokenKindsSet;
+}
+
+EXP S_msdlTokenKindsSet operator+ (
+  S_msdlTokenKindsSet aTokenKindsSet,
+  msdlTokenKind       aTokenKind)
+{
+  S_msdlTokenKindsSet
+    result =
+      aTokenKindsSet->createClone ();
+
+  result->
+    addTokenKind (
+      aTokenKind);
+
+#ifdef TRACING_IS_ENABLED
+  if (false && gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+    gLogStream <<
+      "<== S_msdlTokenKindsSet operator+()" <<
+      ", result:" << result->asString () <<
+      endl;
+  }
+#endif
+
+  return result;
 }
 
 EXP S_msdlTokenKindsSet operator+ (
@@ -832,6 +895,30 @@ EXP S_msdlTokenKindsSet operator+ (
       aTokenKindsSet->createClone ();
 
   result += anotherTokenKindsSet;
+
+#ifdef TRACING_IS_ENABLED
+  if (false && gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+    gLogStream <<
+      "<== S_msdlTokenKindsSet operator+()" <<
+      ", result:" << result->asString () <<
+      endl;
+  }
+#endif
+
+  return result;
+}
+
+EXP S_msdlTokenKindsSet operator- (
+  S_msdlTokenKindsSet aTokenKindsSet,
+  msdlTokenKind       aTokenKind)
+{
+  S_msdlTokenKindsSet
+    result =
+      aTokenKindsSet->createClone ();
+
+  result->
+    removeTokenKind (
+      aTokenKind);
 
   return result;
 }
@@ -1323,18 +1410,19 @@ string msdlToken::asString () const
 
   s << left <<
     "[ " <<
-    msdlTokenKindAsString (fTokenKind) <<
-    " @" << fTokenLineNumber <<
+    "@" << fTokenLineNumber <<
     ":" << fTokenPositionInLine <<
+    " " <<
+    msdlTokenKindAsString (fTokenKind) <<
     " ";
 
   switch (fTokenKind) {
-    case msdlTokenKind::k_TokenEOF:
-      s << "END_OF_FILE";
-      break;
-
     case msdlTokenKind::k_NoToken:
       // should not occur
+      break;
+
+    case msdlTokenKind::k_TokenEOF:
+      s << "END_OF_FILE";
       break;
 
     case msdlTokenKind::k_TokenMalformed:
@@ -1467,6 +1555,9 @@ string msdlToken::asString () const
       s << "\"" << fTokenDescription.getString () << "\"";
       break;
 
+    case msdlTokenKind::kTokenName:
+      s << "\"" << fTokenDescription.getString () << "\"";
+      break;
     case msdlTokenKind::kTokenIdentifier:
       s << "\"" << fTokenDescription.getString () << "\"";
       break;
@@ -1501,12 +1592,12 @@ string msdlToken::asMsdlString (
   stringstream s;
 
   switch (fTokenKind) {
-    case msdlTokenKind::k_TokenEOF:
-      s << "TokenEOF";
-      break;
-
     case msdlTokenKind::k_NoToken:
       // should not occur
+      break;
+
+    case msdlTokenKind::k_TokenEOF:
+      s << "TokenEOF";
       break;
 
     case msdlTokenKind::k_TokenMalformed:
@@ -1653,6 +1744,9 @@ string msdlToken::asMsdlString (
       s << "\"" << fTokenDescription.getString () << "\"";
       break;
 
+    case msdlTokenKind::kTokenName:
+      s << fTokenDescription.getString ();
+      break;
     case msdlTokenKind::kTokenIdentifier:
       s << fTokenDescription.getString ();
       break;
@@ -1679,12 +1773,12 @@ void msdlToken::print (ostream& os) const
     endl;
 
   switch (fTokenKind) {
-    case msdlTokenKind::k_TokenEOF:
-      os << "END_OF_FILE";
-      break;
-
     case msdlTokenKind::k_NoToken:
       // should not occur
+      break;
+
+    case msdlTokenKind::k_TokenEOF:
+      os << "END_OF_FILE";
       break;
 
     case msdlTokenKind::k_TokenMalformed:
@@ -1817,6 +1911,9 @@ void msdlToken::print (ostream& os) const
       os << "\"" << fTokenDescription.getString () << "\"";
       break;
 
+    case msdlTokenKind::kTokenName:
+      os << "\"" << fTokenDescription.getString () << "\"";
+      break;
     case msdlTokenKind::kTokenIdentifier:
       os << "\"" << fTokenDescription.getString () << "\"";
       break;

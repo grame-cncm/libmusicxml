@@ -51,7 +51,7 @@ msr2bsrTranslator::msr2bsrTranslator (
   fCurrentPrintLineNumber = 1;
 
   // notes
-  fCurrentNoteOctaveKind    = bsrNote::kNoteOctaveNone;
+  fCurrentNoteOctaveKind    = bsrNoteOctaveKind::kNoteOctaveNone;
   fCurrentNoteValueSizeKind = bsrNote::kNoteValueSizeLarger;
 
 /*
@@ -202,7 +202,7 @@ void msr2bsrTranslator::visitStart (S_msrLineBreak& elt)
 
   // a note octave will be needed for the next note to come,
   // i.e., the first one in the new line
-  fCurrentNoteOctaveKind = bsrNote::kNoteOctaveNone;
+  fCurrentNoteOctaveKind = bsrNoteOctaveKind::kNoteOctaveNone;
 }
 
 void msr2bsrTranslator::visitEnd (S_msrLineBreak& elt)
@@ -1572,7 +1572,7 @@ void msr2bsrTranslator::visitStart (S_msrTime& elt)
 
   // a note octave will be needed for the next note to come,
   // i.e., the first one after a numeric indicator
-  fCurrentNoteOctaveKind = bsrNote::kNoteOctaveNone;
+  fCurrentNoteOctaveKind = bsrNoteOctaveKind::kNoteOctaveNone;
 }
 
 void msr2bsrTranslator::visitEnd (S_msrTime& elt)
@@ -1680,12 +1680,12 @@ bsrNote::bsrNoteOctaveIsNeeded msr2bsrTranslator::brailleOctaveMarkInNeeded (
 
   int
     noteAboluteDiatonicOrdinal =
-      noteAbsoluteOctaveKind * 7
+      (int) noteAbsoluteOctaveKind * 7
         +
       noteDiatonicPitchKind - kDiatonicPitchC,
 
     referenceAboluteDiatonicOrdinal =
-      referenceAbsoluteOctaveKind * 7
+      (int) referenceAbsoluteOctaveKind * 7
         +
       referenceDiatonicPitchKind - kDiatonicPitchC;
 
@@ -1719,12 +1719,12 @@ bsrNote::bsrNoteOctaveIsNeeded msr2bsrTranslator::brailleOctaveMarkInNeeded (
       setw (fieldWidth) <<
       "% referenceAbsoluteOctaveKind" <<
        " = " <<
-      referenceAbsoluteOctaveKind <<
+      msrOctaveKindAsString (referenceAbsoluteOctaveKind) <<
       endl <<
       setw (fieldWidth) <<
       "% noteAbsoluteOctaveKind" <<
        " = " <<
-      noteAbsoluteOctaveKind <<
+      msrOctaveKindAsString (noteAbsoluteOctaveKind) <<
       endl << endl <<
       setw (fieldWidth) <<
       "% referenceAboluteDiatonicOrdinal" <<
@@ -1914,25 +1914,25 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
 
           // a note octave will be needed for the next note to come,
           // i.e., the first one after the word sign
-          fCurrentNoteOctaveKind = bsrNote::kNoteOctaveNone;
+          fCurrentNoteOctaveKind = bsrNoteOctaveKind::kNoteOctaveNone;
         }
       } // for
     }
   }
 
-  bsrNote::bsrNoteOctaveKind
+  bsrNoteOctaveKind
     noteOctaveKind =
-      bsrNote::kNoteOctaveNone;
+      bsrNoteOctaveKind::kNoteOctaveNone;
 
   // middle C starts octave 4, as in MusicXML
   switch (noteOctave) {
-    case 1: noteOctaveKind = bsrNote::kNoteOctave1; break;
-    case 2: noteOctaveKind = bsrNote::kNoteOctave2; break;
-    case 3: noteOctaveKind = bsrNote::kNoteOctave3; break;
-    case 4: noteOctaveKind = bsrNote::kNoteOctave4; break;
-    case 5: noteOctaveKind = bsrNote::kNoteOctave5; break;
-    case 6: noteOctaveKind = bsrNote::kNoteOctave6; break;
-    case 7: noteOctaveKind = bsrNote::kNoteOctave7; break;
+    case msrOctaveKind::kOctave1: noteOctaveKind = bsrNoteOctaveKind::kNoteOctave1; break;
+    case msrOctaveKind::kOctave2: noteOctaveKind = bsrNoteOctaveKind::kNoteOctave2; break;
+    case msrOctaveKind::kOctave3: noteOctaveKind = bsrNoteOctaveKind::kNoteOctave3; break;
+    case msrOctaveKind::kOctave4: noteOctaveKind = bsrNoteOctaveKind::kNoteOctave4; break;
+    case msrOctaveKind::kOctave5: noteOctaveKind = bsrNoteOctaveKind::kNoteOctave5; break;
+    case msrOctaveKind::kOctave6: noteOctaveKind = bsrNoteOctaveKind::kNoteOctave6; break;
+    case msrOctaveKind::kOctave7: noteOctaveKind = bsrNoteOctaveKind::kNoteOctave7; break;
     default:
       // kNoteOctaveBelow1Kind and kNoteOctaveAbove7Kind
       // cannot occur in MusicXML
@@ -1943,46 +1943,46 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
 
   if (note->getNoteIsARest ()) {
     switch (noteGraphicDurationKind) {
-      case k_NoDuration:
+      case msrDurationKind::k_NoDuration:
         break;
 
-      case k1024th:
+      case msrDurationKind::k1024th:
         break;
-      case k512th:
+      case msrDurationKind::k512th:
         break;
-      case k256th:
+      case msrDurationKind::k256th:
         noteValueKind = bsrNote::kNoteValueRest256th;
         break;
-      case k128th:
+      case msrDurationKind::k128th:
         noteValueKind = bsrNote::kNoteValueRest128th;
         break;
-      case k64th:
+      case msrDurationKind::k64th:
         noteValueKind = bsrNote::kNoteValueRest64th;
         break;
-      case k32nd:
+      case msrDurationKind::k32nd:
         noteValueKind = bsrNote::kNoteValueRest32nd;
         break;
-      case k16th:
+      case msrDurationKind::k16th:
         noteValueKind = bsrNote::kNoteValueRest16th;
         break;
-      case kEighth:
+      case msrDurationKind::kEighth:
         noteValueKind = bsrNote::kNoteValueRest8th;
         break;
-      case kQuarter:
+      case msrDurationKind::kQuarter:
         noteValueKind = bsrNote::kNoteValueRestQuarter;
         break;
-      case kHalf:
+      case msrDurationKind::kHalf:
         noteValueKind = bsrNote::kNoteValueRestHalf;
         break;
-      case kWhole:
+      case msrDurationKind::kWhole:
         noteValueKind = bsrNote::kNoteValueRestWhole;
         break;
-      case kBreve:
+      case msrDurationKind::kBreve:
         noteValueKind = bsrNote::kNoteValueRestBreve;
         break;
-      case kLong:
+      case msrDurationKind::kLong:
         break;
-      case kMaxima:
+      case msrDurationKind::kMaxima:
         break;
     } // switch
   }
@@ -1994,322 +1994,322 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
 
       case kDiatonicPitchA:
         switch (noteGraphicDurationKind) {
-          case k_NoDuration:
+          case msrDurationKind::k_NoDuration:
             break;
 
-          case k1024th:
+          case msrDurationKind::k1024th:
             break;
-          case k512th:
+          case msrDurationKind::k512th:
             break;
-          case k256th:
+          case msrDurationKind::k256th:
             noteValueKind = bsrNote::kNoteValueA256th;
             break;
-          case k128th:
+          case msrDurationKind::k128th:
             noteValueKind = bsrNote::kNoteValueA128th;
             break;
-          case k64th:
+          case msrDurationKind::k64th:
             noteValueKind = bsrNote::kNoteValueA64th;
             break;
-          case k32nd:
+          case msrDurationKind::k32nd:
             noteValueKind = bsrNote::kNoteValueA32nd;
             break;
-          case k16th:
+          case msrDurationKind::k16th:
             noteValueKind = bsrNote::kNoteValueA16th;
             break;
-          case kEighth:
+          case msrDurationKind::kEighth:
             noteValueKind = bsrNote::kNoteValueA8th;
             break;
-          case kQuarter:
+          case msrDurationKind::kQuarter:
             noteValueKind = bsrNote::kNoteValueAQuarter;
             break;
-          case kHalf:
+          case msrDurationKind::kHalf:
             noteValueKind = bsrNote::kNoteValueAHalf;
             break;
-          case kWhole:
+          case msrDurationKind::kWhole:
             noteValueKind = bsrNote::kNoteValueAWhole;
             break;
-          case kBreve:
+          case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueABreve;
             break;
-          case kLong:
+          case msrDurationKind::kLong:
             break;
-          case kMaxima:
+          case msrDurationKind::kMaxima:
             break;
         } // switch
         break;
 
       case kDiatonicPitchB:
         switch (noteGraphicDurationKind) {
-          case k_NoDuration:
+          case msrDurationKind::k_NoDuration:
             break;
 
-          case k1024th:
+          case msrDurationKind::k1024th:
             break;
-          case k512th:
+          case msrDurationKind::k512th:
             break;
-          case k256th:
+          case msrDurationKind::k256th:
             noteValueKind = bsrNote::kNoteValueB256th;
             break;
-          case k128th:
+          case msrDurationKind::k128th:
             noteValueKind = bsrNote::kNoteValueB128th;
             break;
-          case k64th:
+          case msrDurationKind::k64th:
             noteValueKind = bsrNote::kNoteValueB64th;
             break;
-          case k32nd:
+          case msrDurationKind::k32nd:
             noteValueKind = bsrNote::kNoteValueB32nd;
             break;
-          case k16th:
+          case msrDurationKind::k16th:
             noteValueKind = bsrNote::kNoteValueB16th;
             break;
-          case kEighth:
+          case msrDurationKind::kEighth:
             noteValueKind = bsrNote::kNoteValueB8th;
             break;
-          case kQuarter:
+          case msrDurationKind::kQuarter:
             noteValueKind = bsrNote::kNoteValueBQuarter;
             break;
-          case kHalf:
+          case msrDurationKind::kHalf:
             noteValueKind = bsrNote::kNoteValueBHalf;
             break;
-          case kWhole:
+          case msrDurationKind::kWhole:
             noteValueKind = bsrNote::kNoteValueBWhole;
             break;
-          case kBreve:
+          case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueBBreve;
             break;
-          case kLong:
+          case msrDurationKind::kLong:
             break;
-          case kMaxima:
+          case msrDurationKind::kMaxima:
             break;
         } // switch
         break;
 
       case kDiatonicPitchC:
         switch (noteGraphicDurationKind) {
-          case k_NoDuration:
+          case msrDurationKind::k_NoDuration:
             break;
 
-          case k1024th:
+          case msrDurationKind::k1024th:
             break;
-          case k512th:
+          case msrDurationKind::k512th:
             break;
-          case k256th:
+          case msrDurationKind::k256th:
             noteValueKind = bsrNote::kNoteValueC256th;
             break;
-          case k128th:
+          case msrDurationKind::k128th:
             noteValueKind = bsrNote::kNoteValueC128th;
             break;
-          case k64th:
+          case msrDurationKind::k64th:
             noteValueKind = bsrNote::kNoteValueC64th;
             break;
-          case k32nd:
+          case msrDurationKind::k32nd:
             noteValueKind = bsrNote::kNoteValueC32nd;
             break;
-          case k16th:
+          case msrDurationKind::k16th:
             noteValueKind = bsrNote::kNoteValueC16th;
             break;
-          case kEighth:
+          case msrDurationKind::kEighth:
             noteValueKind = bsrNote::kNoteValueC8th;
             break;
-          case kQuarter:
+          case msrDurationKind::kQuarter:
             noteValueKind = bsrNote::kNoteValueCQuarter;
             break;
-          case kHalf:
+          case msrDurationKind::kHalf:
             noteValueKind = bsrNote::kNoteValueCHalf;
             break;
-          case kWhole:
+          case msrDurationKind::kWhole:
             noteValueKind = bsrNote::kNoteValueCWhole;
             break;
-          case kBreve:
+          case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueCBreve;
             break;
-          case kLong:
+          case msrDurationKind::kLong:
             break;
-          case kMaxima:
+          case msrDurationKind::kMaxima:
             break;
         } // switch
         break;
 
       case kDiatonicPitchD:
         switch (noteGraphicDurationKind) {
-          case k_NoDuration:
+          case msrDurationKind::k_NoDuration:
             break;
 
-          case k1024th:
+          case msrDurationKind::k1024th:
             break;
-          case k512th:
+          case msrDurationKind::k512th:
             break;
-          case k256th:
+          case msrDurationKind::k256th:
             noteValueKind = bsrNote::kNoteValueD256th;
             break;
-          case k128th:
+          case msrDurationKind::k128th:
             noteValueKind = bsrNote::kNoteValueD128th;
             break;
-          case k64th:
+          case msrDurationKind::k64th:
             noteValueKind = bsrNote::kNoteValueD64th;
             break;
-          case k32nd:
+          case msrDurationKind::k32nd:
             noteValueKind = bsrNote::kNoteValueD32nd;
             break;
-          case k16th:
+          case msrDurationKind::k16th:
             noteValueKind = bsrNote::kNoteValueD16th;
             break;
-          case kEighth:
+          case msrDurationKind::kEighth:
             noteValueKind = bsrNote::kNoteValueD8th;
             break;
-          case kQuarter:
+          case msrDurationKind::kQuarter:
             noteValueKind = bsrNote::kNoteValueDQuarter;
             break;
-          case kHalf:
+          case msrDurationKind::kHalf:
             noteValueKind = bsrNote::kNoteValueDHalf;
             break;
-          case kWhole:
+          case msrDurationKind::kWhole:
             noteValueKind = bsrNote::kNoteValueDWhole;
             break;
-          case kBreve:
+          case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueDBreve;
             break;
-          case kLong:
+          case msrDurationKind::kLong:
             break;
-          case kMaxima:
+          case msrDurationKind::kMaxima:
             break;
         } // switch
         break;
 
       case kDiatonicPitchE:
         switch (noteGraphicDurationKind) {
-          case k_NoDuration:
+          case msrDurationKind::k_NoDuration:
             break;
 
-          case k1024th:
+          case msrDurationKind::k1024th:
             break;
-          case k512th:
+          case msrDurationKind::k512th:
             break;
-          case k256th:
+          case msrDurationKind::k256th:
             noteValueKind = bsrNote::kNoteValueE256th;
             break;
-          case k128th:
+          case msrDurationKind::k128th:
             noteValueKind = bsrNote::kNoteValueE128th;
             break;
-          case k64th:
+          case msrDurationKind::k64th:
             noteValueKind = bsrNote::kNoteValueE64th;
             break;
-          case k32nd:
+          case msrDurationKind::k32nd:
             noteValueKind = bsrNote::kNoteValueE32nd;
             break;
-          case k16th:
+          case msrDurationKind::k16th:
             noteValueKind = bsrNote::kNoteValueE16th;
             break;
-          case kEighth:
+          case msrDurationKind::kEighth:
             noteValueKind = bsrNote::kNoteValueE8th;
             break;
-          case kQuarter:
+          case msrDurationKind::kQuarter:
             noteValueKind = bsrNote::kNoteValueEQuarter;
             break;
-          case kHalf:
+          case msrDurationKind::kHalf:
             noteValueKind = bsrNote::kNoteValueEHalf;
             break;
-          case kWhole:
+          case msrDurationKind::kWhole:
             noteValueKind = bsrNote::kNoteValueEWhole;
             break;
-          case kBreve:
+          case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueEBreve;
             break;
-          case kLong:
+          case msrDurationKind::kLong:
             break;
-          case kMaxima:
+          case msrDurationKind::kMaxima:
             break;
         } // switch
         break;
 
       case kDiatonicPitchF:
         switch (noteGraphicDurationKind) {
-          case k_NoDuration:
+          case msrDurationKind::k_NoDuration:
             break;
 
-          case k1024th:
+          case msrDurationKind::k1024th:
             break;
-          case k512th:
+          case msrDurationKind::k512th:
             break;
-          case k256th:
+          case msrDurationKind::k256th:
             noteValueKind = bsrNote::kNoteValueF256th;
             break;
-          case k128th:
+          case msrDurationKind::k128th:
             noteValueKind = bsrNote::kNoteValueF128th;
             break;
-          case k64th:
+          case msrDurationKind::k64th:
             noteValueKind = bsrNote::kNoteValueF64th;
             break;
-          case k32nd:
+          case msrDurationKind::k32nd:
             noteValueKind = bsrNote::kNoteValueF32nd;
             break;
-          case k16th:
+          case msrDurationKind::k16th:
             noteValueKind = bsrNote::kNoteValueF16th;
             break;
-          case kEighth:
+          case msrDurationKind::kEighth:
             noteValueKind = bsrNote::kNoteValueF8th;
             break;
-          case kQuarter:
+          case msrDurationKind::kQuarter:
             noteValueKind = bsrNote::kNoteValueFQuarter;
             break;
-          case kHalf:
+          case msrDurationKind::kHalf:
             noteValueKind = bsrNote::kNoteValueFHalf;
             break;
-          case kWhole:
+          case msrDurationKind::kWhole:
             noteValueKind = bsrNote::kNoteValueFWhole;
             break;
-          case kBreve:
+          case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueFBreve;
             break;
-          case kLong:
+          case msrDurationKind::kLong:
             break;
-          case kMaxima:
+          case msrDurationKind::kMaxima:
             break;
         } // switch
         break;
 
       case kDiatonicPitchG:
         switch (noteGraphicDurationKind) {
-          case k_NoDuration:
+          case msrDurationKind::k_NoDuration:
             break;
 
-          case k1024th:
+          case msrDurationKind::k1024th:
             break;
-          case k512th:
+          case msrDurationKind::k512th:
             break;
-          case k256th:
+          case msrDurationKind::k256th:
             noteValueKind = bsrNote::kNoteValueG256th;
             break;
-          case k128th:
+          case msrDurationKind::k128th:
             noteValueKind = bsrNote::kNoteValueG128th;
             break;
-          case k64th:
+          case msrDurationKind::k64th:
             noteValueKind = bsrNote::kNoteValueG64th;
             break;
-          case k32nd:
+          case msrDurationKind::k32nd:
             noteValueKind = bsrNote::kNoteValueG32nd;
             break;
-          case k16th:
+          case msrDurationKind::k16th:
             noteValueKind = bsrNote::kNoteValueG16th;
             break;
-          case kEighth:
+          case msrDurationKind::kEighth:
             noteValueKind = bsrNote::kNoteValueG8th;
             break;
-          case kQuarter:
+          case msrDurationKind::kQuarter:
             noteValueKind = bsrNote::kNoteValueGQuarter;
             break;
-          case kHalf:
+          case msrDurationKind::kHalf:
             noteValueKind = bsrNote::kNoteValueGHalf;
             break;
-          case kWhole:
+          case msrDurationKind::kWhole:
             noteValueKind = bsrNote::kNoteValueGWhole;
             break;
-          case kBreve:
+          case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueGBreve;
             break;
-          case kLong:
+          case msrDurationKind::kLong:
             break;
-          case kMaxima:
+          case msrDurationKind::kMaxima:
             break;
         } // switch
         break;
@@ -2321,7 +2321,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
     noteOctaveIsNeeded =
       bsrNote::kNoteOctaveIsNeededNo;
 
-  if (fCurrentNoteOctaveKind == bsrNote::kNoteOctaveNone) {
+  if (fCurrentNoteOctaveKind == bsrNoteOctaveKind::kNoteOctaveNone) {
     // this note is the first one in the voice,
     // or a preceding braille element forces the octave sign for it
     // unless it is a rest

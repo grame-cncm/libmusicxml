@@ -125,6 +125,31 @@ R"(Write a trace of the MSDL syntax analysis activity with more details to stand
         "traceSyntaxDetails",
         fTraceSyntaxDetails,
         fTraceSyntax));
+
+  // MSDL syntax error recovery
+
+  fTraceSyntaxErrorRecovery = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "tsynter", "trace-syntax-error-recovery",
+R"(Write a trace of the MSDL syntax error recovery activity to standard error.)",
+        "traceSyntaxErrorRecovery",
+        fTraceSyntaxErrorRecovery));
+
+  // MSDL syntax error recovery details
+
+  fTraceSyntaxErrorRecoveryDetails = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahTwoBooleansAtom::create (
+        "tsynterd", "trace-syntax-error-recovery-details",
+R"(Write a trace of the MSDL syntax error recovery activity with more details to standard error.)",
+        "traceSyntaxErrorRecoveryDetails",
+        fTraceSyntaxErrorRecoveryDetails,
+        fTraceSyntaxErrorRecovery));
 }
 #endif
 

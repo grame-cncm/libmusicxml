@@ -3,11 +3,14 @@
 %}
 
 
-% the language for pitches
+% the language used for the pitches
 % -----------------------------------------------
 
 pitches english            % default is english
 
+
+% is there an anacrusis?
+% -----------------------------------------------
 
 anacrusis                 % measure numbers start at 0
 
@@ -18,7 +21,7 @@ anacrusis                 % measure numbers start at 0
 %score helloWorld = "Hello World in MSPL" {
 
   music {
-    |1 c1
+    |1 c,2.. d'8
     |||                   % final bar
   }
 

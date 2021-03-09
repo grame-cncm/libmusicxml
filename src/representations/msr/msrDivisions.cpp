@@ -100,7 +100,7 @@ void msrDivisions::initializeDivisions ()
   // positive powers of 2 of a quarter note
   int bigDivisions = fDivisionsPerQuarterNote;
 
-  for (int i = kQuarter; i >= kMaxima; --i) {
+  for (int i = (int) msrDurationKind::kQuarter; i >= (int) msrDurationKind::kMaxima; --i) {
     /*
     gLogStream <<
       msrDurationAsString (msrDuration (i)) <<
@@ -123,7 +123,7 @@ void msrDivisions::initializeDivisions ()
         fDivisionsPerQuarterNote / 2;
     msrDurationKind
       currentDurationKind =
-        kEighth;
+        msrDurationKind::kEighth;
 
     while (smallDivisions >= 1) {
       /*
@@ -139,7 +139,7 @@ void msrDivisions::initializeDivisions ()
 
       currentDurationKind =
         msrDurationKind (
-          currentDurationKind + 1);
+          (int) currentDurationKind + 1);
       smallDivisions /= 2;
     } // while
   }
@@ -172,7 +172,7 @@ int msrDivisions::durationKindAsDivisions (
   stringstream s;
 
   s <<
-    "duration " << durationKind <<
+    "duration " << msrDurationKindAsString (durationKind) <<
     " cannot be converted to divisions with " <<
     fDivisionsPerQuarterNote << " divisions per quarter note" <<
     endl;
@@ -272,7 +272,7 @@ string msrDivisions::divisionsAsMsrString (
   }
 #endif
 
-  msrDurationKind baseDurationKind          = k1024th;
+  msrDurationKind baseDurationKind          = msrDurationKind::k1024th;
   int             baseDurationDivisions = -1;
 
   // search fDurationsToDivisions in longer to shortest order

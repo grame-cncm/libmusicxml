@@ -115,17 +115,22 @@ msdlScanner::msdlScanner (
   // lines
   fCurrentLineNumber = 1;
   fCurrentLineSize = -1;
-  fCurrentLinePositionInInput = -1;
-  fCurrentPositionInLine = -1;
+
+  fCurrentLinePositionInInput = 0;
+
+  fCurrentPositionInLine = 0;
 
   // characters
   fCurrentPositionInInput = -1;
+
   fCurrentCharacter = '@'; // any illegal character, just to get it initialized
   fNextCharacterIsAvailable = false;
 
   // tokens
   fCurrentTokenPositionInInput = -1;
-  fCurrentTokenPositionInLine  = -1;
+
+  fCurrentTokenLineNumber = 1;
+  fCurrentTokenPositionInLine  = 0;
 
   fTokensCounter = 0;
 
@@ -238,6 +243,8 @@ char msdlScanner::fetchNextCharacter ()
   if (fTraceTokensDetails) {
     gLogStream <<
       "--> fetchNextCharacter()" <<
+      ", fCurrentLineNumber: " <<
+      fCurrentLineNumber <<
       ", fNextCharacterIsAvailable: " <<
       booleanAsString (fNextCharacterIsAvailable) <<
       ", fCurrentPositionInInput: " <<
@@ -259,7 +266,7 @@ char msdlScanner::fetchNextCharacter ()
   else {
     // update positions
     ++fCurrentPositionInInput;
-    fCurrentLinePositionInInput = fCurrentPositionInInput;
+    fCurrentLinePositionInInput = fCurrentPositionInInput + 1;
     ++fCurrentPositionInLine;
 
     // fetch new current character
@@ -284,11 +291,36 @@ char msdlScanner::fetchNextCharacter ()
 //  msdlScanner::handleEndOfLine
 // --------------------------------------------------------------------------
 
-void msdlScanner::handleEndOfLine ()
+void msdlScanner::handleEndOfLine (string context)
 {
+#ifdef TRACING_IS_ENABLED
+  if (fTraceTokensDetails) {
+    gLogStream <<
+      "--> handleEndOfLine(): " <<
+      ", context: " << context <<
+      ", fCurrentLineNumber: " << fCurrentLineNumber <<
+      ", fCurrentLinePositionInInput: " << fCurrentLinePositionInInput <<
+      ", fCurrentPositionInLine: " << fCurrentPositionInLine <<
+      endl;
+  }
+#endif
+
   ++fCurrentLineNumber;
-  fCurrentLinePositionInInput = fCurrentPositionInInput;
-  fCurrentPositionInLine = -1;
+  fCurrentLinePositionInInput = fCurrentPositionInInput + 1;
+
+  fCurrentPositionInLine = 0;
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceTokensDetails) {
+    gLogStream <<
+      "<-- handleEndOfLine(): " <<
+      ", context: " << context <<
+      ", fCurrentLineNumber: " << fCurrentLineNumber <<
+      ", fCurrentLinePositionInInput: " << fCurrentLinePositionInInput <<
+      ", fCurrentPositionInLine: " << fCurrentPositionInLine <<
+      endl << endl;
+  }
+#endif
 }
 
 // --------------------------------------------------------------------------
@@ -302,22 +334,21 @@ msdlTokenKind msdlScanner::fetchNextToken (
   ++fTokensCounter;
 
 #ifdef TRACING_IS_ENABLED
-  if (fTraceTokensDetails) {
+  if (fTraceTokens) {
     gLogStream <<
+      endl <<
       fTokensCounter << " ==> fetchNextToken()" <<
       ", ignoreSeparatorTokens: " <<
       msdlIgnoreSeparatorTokensKindAsString (ignoreSeparatorTokens) <<
       endl;
-  }
 
-  if (fTraceTokensDetails) {
     ++gIndenter;
 
-    unsigned int fieldWidth = 23;
+    unsigned int fieldWidth = 28;
 
     gLogStream << left <<
       setw (fieldWidth) <<
-      ", fNextCharacterIsAvailable: " << " : " <<
+      "fNextCharacterIsAvailable: " << " : " <<
       booleanAsString (fNextCharacterIsAvailable) <<
       endl <<
       setw (fieldWidth) <<
@@ -328,6 +359,9 @@ msdlTokenKind msdlScanner::fetchNextToken (
       endl <<
       setw (fieldWidth) <<
       "fCurrentCharacter" << " : '" << currentCharacterAsString () <<
+      endl <<
+      setw (fieldWidth) <<
+      "fNextCharacterIsAvailable" << " : " << booleanAsString (fNextCharacterIsAvailable) <<
       endl;
 
     --gIndenter;
@@ -344,9 +378,11 @@ msdlTokenKind msdlScanner::fetchNextToken (
   // do the actual work at least once, ignoring separator tokens if needed
   for ( ; ; ) {
 
-    // set the current token positions
+    // put the token position aside
     fCurrentTokenPositionInInput = fCurrentPositionInInput;
-    fCurrentTokenPositionInLine  = fCurrentPositionInLine;
+
+    fCurrentTokenLineNumber     = fCurrentLineNumber;
+    fCurrentTokenPositionInLine = fCurrentPositionInLine;
 
     switch (fCurrentCharacter) {
       case EOF:
@@ -374,10 +410,10 @@ msdlTokenKind msdlScanner::fetchNextToken (
         break;
 
       case '\n' :
-        handleEndOfLine ();
-
         fCurrentTokenKind = msdlTokenKind::kTokenEndOfLine;
         fNextCharacterIsAvailable = false;
+
+        handleEndOfLine ("regular \\n");
         break;
 
       case '/':
@@ -411,12 +447,12 @@ msdlTokenKind msdlScanner::fetchNextToken (
           else {
             fScannerWaeHandler->illegalCharacters (":|");
             fSourceIsLexicallyCorrect = false;
-            fNextCharacterIsAvailable = false;
+            fNextCharacterIsAvailable = true;
           }
         }
         else {
           fCurrentTokenKind = msdlTokenKind::kTokenColon;
-          fNextCharacterIsAvailable = false;
+          fNextCharacterIsAvailable = true;
         }
         break;
 
@@ -558,7 +594,7 @@ msdlTokenKind msdlScanner::fetchNextToken (
     } // switch (fCurrentCharacter)
 
 #ifdef TRACING_IS_ENABLED
-    if (fTraceTokens) {
+    if (fTraceTokensDetails) {
       gLogStream <<
         fCurrentToken.asString () <<
         endl;
@@ -605,10 +641,6 @@ msdlTokenKind msdlScanner::fetchNextToken (
 #endif
 
     if (onceMore) {
-      // set the token positions
-      fCurrentTokenPositionInInput = fCurrentPositionInInput;
-      fCurrentTokenPositionInLine  = fCurrentPositionInLine;
-
       if (! fNextCharacterIsAvailable) {
         // fetch the next character
         fetchNextCharacter ();
@@ -625,10 +657,15 @@ msdlTokenKind msdlScanner::fetchNextToken (
 
   --gIndenter;
 
+  // register current token position
+  fCurrentToken.setTokenLineNumber (fCurrentTokenLineNumber);
+  fCurrentToken.setTokenPositionInLine (fCurrentTokenPositionInLine);
+
 #ifdef TRACING_IS_ENABLED
-  if (fTraceTokensDetails) {
+  if (fTraceTokens) {
     gLogStream <<
-      fTokensCounter << " <== fetchNextToken()" <<
+      endl <<
+      "#" << fTokensCounter << " <== fetchNextToken()" <<
       endl;
 
     ++gIndenter;
@@ -641,111 +678,36 @@ msdlTokenKind msdlScanner::fetchNextToken (
     gLogStream << fCurrentToken;
     --gIndenter;
 
-    gLogStream << endl; // trace separator
+    unsigned int fieldWidth = 28;
+
+    gLogStream << left <<
+      setw (fieldWidth) <<
+      "fNextCharacterIsAvailable: " << " : " <<
+      booleanAsString (fNextCharacterIsAvailable) <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentPositionInInput" << " : " << fCurrentPositionInInput <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentPositionInLine" << " : " << fCurrentPositionInLine <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentCharacter" << " : '" << currentCharacterAsString () <<
+      endl <<
+      setw (fieldWidth) <<
+      "fNextCharacterIsAvailable" << " : " << booleanAsString (fNextCharacterIsAvailable) <<
+      endl;
 
     --gIndenter;
   }
 #endif
 
-  fCurrentToken.setTokenLineNumber (fCurrentLineNumber);
-  fCurrentToken.setTokenPositionInLine (fCurrentTokenPositionInLine);
-
+  // should the current token be appended to the tokens list?
   if (fAppendTokensToList) {
     fTokensList.appendTokenToTokensList (fCurrentToken);
   }
 
   return fCurrentTokenKind;
-}
-
-// --------------------------------------------------------------------------
-//  msdlScanner::handleSlash
-// --------------------------------------------------------------------------
-
-void msdlScanner::handleSlash ()
-{
-  // consume the '/'
-  fetchNextCharacter ();
-
-  switch (fCurrentCharacter) {
-    case '*': // '/*' up to this point, parenthesized comment
-      {
-       fetchNextCharacter ();
-
-        unsigned commentStartPositionInInput = fCurrentTokenPositionInInput;
-
-        do {
-          while (fCurrentCharacter != '*') {
-            if (fCurrentCharacter == '\n') {
-              handleEndOfLine ();
-
-              fNextCharacterIsAvailable = false;
-            } // while
-
-            // consume this comment character
-            fetchNextCharacter ();
-          } // while
-
-          // consume the '*'
-          fetchNextCharacter ();
-        } // do
-        while (fCurrentCharacter != '/');
-
-        fNextCharacterIsAvailable = false;
-
-#ifdef TRACING_IS_ENABLED
-        if (fTraceTokensDetails) {
-          gLogStream <<
-            "commentStartPositionInInput: " <<
-            commentStartPositionInInput << endl <<
-            "fCurrentPositionInInput: " <<
-            fCurrentPositionInInput <<
-            endl;
-        }
-#endif
-
-        string commentString =
-          fInputString.substr (
-            commentStartPositionInInput + 2,
-            fCurrentPositionInInput - commentStartPositionInInput - 3);
-
-        fCurrentTokenKind = msdlTokenKind::kTokenParenthesizedComment;
-        fCurrentTokenDescription.setString (commentString);
-
-        fNextCharacterIsAvailable = false;
-      }
-      break;
-
-    case '/': // '//' up to this point, comment to end of line
-      {
-        // consume the second '/'
-        fetchNextCharacter ();
-
-        unsigned commentStartPositionInInput = fCurrentTokenPositionInInput;
-
-        while (fCurrentCharacter != '\n') {
-          handleEndOfLine ();
-
-          // consume the '\n'
-          fetchNextCharacter ();
-        } // while
-
-        // the end of the comment to end of line has been overtaken
-        fNextCharacterIsAvailable = true;
-
-        string commentString =
-          fInputString.substr (
-            commentStartPositionInInput + 2,
-            fCurrentPositionInInput - commentStartPositionInInput - 2);
-
-        fCurrentTokenKind = msdlTokenKind::kTokenCommentToEndOfLine;
-        fCurrentTokenDescription.setString (commentString);
-      }
-      break;
-
-    default:
-      fCurrentTokenKind = msdlTokenKind::kTokenSlash;
-      fNextCharacterIsAvailable = false;
-  } // switch
 }
 
 // --------------------------------------------------------------------------
@@ -762,12 +724,12 @@ void msdlScanner::handlePercent ()
       {
         fetchNextCharacter ();
 
-        int commentStartPositionInInput = fCurrentTokenPositionInInput;
+        int percentParenthesizedCommentStartPositionInInput = fCurrentTokenPositionInInput;
 
         do {
           while (fCurrentCharacter != '%') {
             if (fCurrentCharacter == '\n') {
-              handleEndOfLine ();
+              handleEndOfLine ("percent parenthesized comment");
 
               fNextCharacterIsAvailable = false;
             } // while
@@ -787,8 +749,8 @@ void msdlScanner::handlePercent ()
 #ifdef TRACING_IS_ENABLED
         if (fTraceTokensDetails) {
           gLogStream <<
-            "commentStartPositionInInput: " <<
-            commentStartPositionInInput <<
+            "percentParenthesizedCommentStartPositionInInput: " <<
+            percentParenthesizedCommentStartPositionInInput <<
             endl <<
             "fCurrentPositionInInput: " <<
             fCurrentPositionInInput <<
@@ -798,8 +760,8 @@ void msdlScanner::handlePercent ()
 
         string commentString =
           fInputString.substr (
-            commentStartPositionInInput + 2,
-            fCurrentPositionInInput - commentStartPositionInInput - 3);
+            percentParenthesizedCommentStartPositionInInput + 2,
+            fCurrentPositionInInput - percentParenthesizedCommentStartPositionInInput - 3);
 
         fCurrentTokenKind = msdlTokenKind::kTokenParenthesizedComment;
         fCurrentTokenDescription.setString (commentString);
@@ -808,7 +770,7 @@ void msdlScanner::handlePercent ()
 
     default: // '%' up to this point, comment to end of line
       {
-        int commentStartPositionInInput = fCurrentTokenPositionInInput;
+        int parcentCommentToEndOfLineStartPositionInInput = fCurrentTokenPositionInInput;
 
         while (fCurrentCharacter != '\n') {
           // consume this comment character
@@ -818,17 +780,109 @@ void msdlScanner::handlePercent ()
         // the end of the comment to end of line has been overtaken
         fNextCharacterIsAvailable = true;
 
-        handleEndOfLine ();
-
         string commentString =
           fInputString.substr (
-            commentStartPositionInInput + 1,
-            fCurrentPositionInInput - commentStartPositionInInput - 1);
+            parcentCommentToEndOfLineStartPositionInInput + 1,
+            fCurrentPositionInInput - parcentCommentToEndOfLineStartPositionInInput - 1);
 
         fCurrentTokenKind = msdlTokenKind::kTokenCommentToEndOfLine;
         fCurrentTokenDescription.setString (commentString);
+
+// JMI        handleEndOfLine ("percent comment to end of line");
       }
       break;
+  } // switch
+}
+
+// --------------------------------------------------------------------------
+//  msdlScanner::handleSlash
+// --------------------------------------------------------------------------
+
+void msdlScanner::handleSlash ()
+{
+  // consume the '/'
+  fetchNextCharacter ();
+
+  switch (fCurrentCharacter) {
+    case '*': // '/*' up to this point, parenthesized comment
+      {
+       fetchNextCharacter ();
+
+        unsigned slashParenthesizedCommentStartPositionInInput = fCurrentTokenPositionInInput;
+
+        do {
+          while (fCurrentCharacter != '*') {
+            if (fCurrentCharacter == '\n') {
+              handleEndOfLine ("star parenthesized comment");
+
+//              fNextCharacterIsAvailable = false;
+              fetchNextCharacter ();
+            } // while
+
+            // consume this comment character
+            fetchNextCharacter ();
+          } // while
+
+          // consume the '*'
+          fetchNextCharacter ();
+        } // do
+        while (fCurrentCharacter != '/');
+
+        fNextCharacterIsAvailable = false;
+
+#ifdef TRACING_IS_ENABLED
+        if (fTraceTokensDetails) {
+          gLogStream <<
+            "slashParenthesizedCommentStartPositionInInput: " <<
+            slashParenthesizedCommentStartPositionInInput << endl <<
+            "fCurrentPositionInInput: " <<
+            fCurrentPositionInInput <<
+            endl;
+        }
+#endif
+
+        string commentString =
+          fInputString.substr (
+            slashParenthesizedCommentStartPositionInInput + 2,
+            fCurrentPositionInInput - slashParenthesizedCommentStartPositionInInput - 3);
+
+        fCurrentTokenKind = msdlTokenKind::kTokenParenthesizedComment;
+        fCurrentTokenDescription.setString (commentString);
+
+        fNextCharacterIsAvailable = false;
+      }
+      break;
+
+    case '/': // '//' up to this point, comment to end of line
+      {
+        // consume the second '/'
+        fetchNextCharacter ();
+
+        unsigned slashCommentToEndOfLineStartPositionInInput = fCurrentTokenPositionInInput;
+
+        while (fCurrentCharacter != '\n') {
+          // consume the '\n'
+          fetchNextCharacter ();
+        } // while
+
+        // the end of the comment to end of line has been overtaken
+        fNextCharacterIsAvailable = true;
+
+        string commentString =
+          fInputString.substr (
+            slashCommentToEndOfLineStartPositionInInput + 2,
+            fCurrentPositionInInput - slashCommentToEndOfLineStartPositionInInput - 3);
+
+        fCurrentTokenKind = msdlTokenKind::kTokenCommentToEndOfLine;
+        fCurrentTokenDescription.setString (commentString);
+
+// JMI        handleEndOfLine ("slash comment to end of line");
+      }
+      break;
+
+    default:
+      fCurrentTokenKind = msdlTokenKind::kTokenSlash;
+      fNextCharacterIsAvailable = false;
   } // switch
 }
 
@@ -838,7 +892,7 @@ void msdlScanner::handlePercent ()
 
 void msdlScanner::acceptAName ()
 {
-  // accept all alphanumeric characters and '_', the first letter is available
+  // accept all alphanumeric characters, the first character is available
 
   unsigned int
     nameStartPositionInInput =
@@ -856,7 +910,7 @@ void msdlScanner::acceptAName ()
 
   ++gIndenter;
 
-  // a name can be an identifier or a keyword
+  // a name can be a keyword
 
   bool nonNameCharacterFound = false;
 
@@ -920,9 +974,181 @@ void msdlScanner::acceptAName ()
 #endif
 
   switch (keyWordKind) {
+    case msdlKeywordKind::k_NoKeywordKind: // no, it is a name
+      fCurrentTokenKind = msdlTokenKind::kTokenName;
+      fCurrentTokenDescription.setString (nameString);
+      break;
+
+      // language-dependent keywords
+      // ------------------------------------
+
+    case msdlKeywordKind::kKeywordTitle:
+      fCurrentTokenKind = msdlTokenKind::kTokenTitle;
+      break;
+    case msdlKeywordKind::kKeywordComposer:
+      fCurrentTokenKind = msdlTokenKind::kTokenComposer;
+      break;
+    case msdlKeywordKind::kKeywordOpus:
+      fCurrentTokenKind = msdlTokenKind::kTokenOpus;
+      break;
+
+    case msdlKeywordKind::kKeywordPitches:
+      fCurrentTokenKind = msdlTokenKind::kTokenPitches;
+      break;
+
+    case msdlKeywordKind::kKeywordAnacrusis:
+      fCurrentTokenKind = msdlTokenKind::kTokenAnacrusis;
+      break;
+
+    case msdlKeywordKind::kKeywordBook:
+      fCurrentTokenKind = msdlTokenKind::kTokenBook;
+      break;
+    case msdlKeywordKind::kKeywordScore:
+      fCurrentTokenKind = msdlTokenKind::kTokenScore;
+      break;
+    case msdlKeywordKind::kKeywordPartGroup:
+      fCurrentTokenKind = msdlTokenKind::kTokenPartGroup;
+      break;
+    case msdlKeywordKind::kKeywordPart:
+      fCurrentTokenKind = msdlTokenKind::kTokenPart;
+      break;
+    case msdlKeywordKind::kKeywordMusic:
+      fCurrentTokenKind = msdlTokenKind::kTokenMusic;
+      break;
+    case msdlKeywordKind::kKeywordFragment:
+      fCurrentTokenKind = msdlTokenKind::kTokenFragment;
+      break;
+
+    case msdlKeywordKind::kKeywordClef:
+      fCurrentTokenKind = msdlTokenKind::kTokenClef;
+      break;
+    case msdlKeywordKind::kKeywordTreble:
+      fCurrentTokenKind = msdlTokenKind::kTokenTreble;
+      break;
+    case msdlKeywordKind::kKeywordSoprano:
+      fCurrentTokenKind = msdlTokenKind::kTokenSoprano;
+      break;
+    case msdlKeywordKind::kKeywordAlto:
+      fCurrentTokenKind = msdlTokenKind::kTokenAlto;
+      break;
+    case msdlKeywordKind::kKeywordTenor:
+      fCurrentTokenKind = msdlTokenKind::kTokenTenor;
+      break;
+    case msdlKeywordKind::kKeywordBaryton:
+      fCurrentTokenKind = msdlTokenKind::kTokenBaryton;
+      break;
+    case msdlKeywordKind::kKeywordBass:
+      fCurrentTokenKind = msdlTokenKind::kTokenBass;
+      break;
+
+    case msdlKeywordKind::kKeywordKey:
+      fCurrentTokenKind = msdlTokenKind::kTokenKey;
+      break;
+
+    case msdlKeywordKind::kKeywordTime:
+      fCurrentTokenKind = msdlTokenKind::kTokenTime;
+      break;
+  } // switch
+
+  // set the token description keyword kind if relevant
+  if (fCurrentTokenKind != msdlTokenKind::kTokenName) {
+    fCurrentTokenDescription.setKeywordKind (keyWordKind);
+  }
+
+  --gIndenter;
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceTokensDetails) {
+    gLogStream <<
+      "Accepting a name, found: \"" << nameString << "\"" <<
+      endl;
+  }
+#endif
+}
+
+// --------------------------------------------------------------------------
+//  msdlScanner::acceptAnIdentifier
+// --------------------------------------------------------------------------
+
+void msdlScanner::acceptAnIdentifier ()
+{
+  // accept all alphanumeric characters, digits and '_', the first character is available
+
+  unsigned int
+    identifierStartPositionInInput =
+      fCurrentTokenPositionInInput;
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceTokensDetails) {
+    gLogStream << left <<
+      "Accepting an identifier" <<
+      ", identifierStartPositionInInput: " <<
+      identifierStartPositionInInput <<
+      endl;
+  }
+#endif
+
+  ++gIndenter;
+
+  // an identifier can be a keyword JMI ???
+
+  bool nonIdentifierCharacterFound = false;
+
+  while (! nonIdentifierCharacterFound) {
+    char character = fetchNextCharacter ();
+
+    switch (character) {
+      case EOF:
+        nonIdentifierCharacterFound = true;
+        break;
+
+/*
+      case '_': // JMI ???
+        break;
+*/
+
+      default:
+        nonIdentifierCharacterFound = ! isalpha (fCurrentCharacter);
+    } // switch
+  } // while
+
+  // the end of the identifier has been overtaken
+  fNextCharacterIsAvailable = true;
+
+  string identifierString =
+    fInputString.substr (
+      identifierStartPositionInInput,
+      fCurrentPositionInInput - identifierStartPositionInInput);
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceTokensDetails) {
+    gLogStream <<
+      "--- acceptAnIdentifier()" <<
+      ", identifierString: \"" << identifierString << "\"" <<
+      endl;
+  }
+#endif
+  // is identifierString the name of a keyword? JMI ???
+  msdlKeywordKind
+    keyWordKind =
+      msdlKeywordKindFromString (
+        fKeywordsInputLanguageKind,
+        identifierString);
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceTokensDetails) {
+    gLogStream <<
+      "--- acceptAnIdentifier()" <<
+      ", identifierString: \"" << identifierString << "\"" <<
+      ", keyWordKind: \"" << msdlKeywordKindAsString (keyWordKind) << "\"" <<
+      endl;
+  }
+#endif
+
+  switch (keyWordKind) {
     case msdlKeywordKind::k_NoKeywordKind: // no, it is an identifier
       fCurrentTokenKind = msdlTokenKind::kTokenIdentifier;
-      fCurrentTokenDescription.setString (nameString);
+      fCurrentTokenDescription.setString (identifierString);
       break;
 
       // language-dependent keywords
@@ -1006,7 +1232,7 @@ void msdlScanner::acceptAName ()
 #ifdef TRACING_IS_ENABLED
   if (fTraceTokensDetails) {
     gLogStream <<
-      "Accepting a name, found: \"" << nameString << "\"" <<
+      "Accepting an identifier, found: \"" << identifierString << "\"" <<
       endl;
   }
 #endif
@@ -1211,7 +1437,7 @@ void msdlScanner::acceptAString ()
               theString += '\\';
               break;
             case 'n':
-              handleEndOfLine ();
+              handleEndOfLine ("string 1");
 
               theString += '\n';
               break;
@@ -1243,13 +1469,12 @@ void msdlScanner::acceptAString ()
 
 // JMI multi-line strings ???
       case '\n':
-        handleEndOfLine ();
+        handleEndOfLine ("string 2");
 
         theString += "\n";
         fNextCharacterIsAvailable = false;
 
-        ++fCurrentLineNumber;
-        fCurrentPositionInLine = -1;
+        fCurrentPositionInLine = 0;
         break;
 
       default:
@@ -1366,7 +1591,7 @@ void msdlScanner::scanAllTheInputAtOnce (
     ignoreSeparatorTokens)
 {
 #ifdef TRACING_IS_ENABLED
-  if (fTraceTokens) {
+  if (fTraceTokensDetails) {
     gLogStream <<
       "==> scanAllTheInputAtOnce()";
   }
@@ -1409,7 +1634,7 @@ void msdlScanner::scanAllTheInputAtOnce (
 
 #ifdef TRACING_IS_ENABLED
         if (fTraceTokensDetails) {
-          unsigned int fieldWidth = 23;
+          unsigned int fieldWidth = 28;
 
           gLogStream <<
             endl <<
@@ -1424,6 +1649,9 @@ void msdlScanner::scanAllTheInputAtOnce (
             endl <<
             setw (fieldWidth) <<
             "fCurrentCharacter" << " : " << currentCharacterAsString () <<
+            endl <<
+            setw (fieldWidth) <<
+            "fNextCharacterIsAvailable" << " : " << booleanAsString (fNextCharacterIsAvailable) <<
             endl <<
 
             setw (fieldWidth) <<
@@ -1549,6 +1777,9 @@ void msdlScanner::translateAllTheInputToKeywordsLanguage (
           endl <<
           setw (fieldWidth) <<
           "fCurrentCharacter" << " : '" << currentCharacterAsString () <<
+          endl <<
+          setw (fieldWidth) <<
+          "fNextCharacterIsAvailable" << " : " << booleanAsString (fNextCharacterIsAvailable) <<
           endl <<
 
           setw (fieldWidth) <<

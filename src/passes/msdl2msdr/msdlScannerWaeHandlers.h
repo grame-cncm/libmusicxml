@@ -52,20 +52,20 @@ class EXP msdlScannerWaeHandler : public waeHandler
     // public services
     // ------------------------------------------------------
 
-    virtual void          illegalCharacter (char theChar) = 0;
-    virtual void          illegalCharacters (string theString) = 0;
+    virtual void          illegalCharacter (char theChar) const = 0;
+    virtual void          illegalCharacters (string theString) const = 0;
 
-    virtual void          digitExpectedAfterDecimalDot (char theChar) = 0;
-    virtual void          digitExpectedInExponent (char theChar) = 0;
+    virtual void          digitExpectedAfterDecimalDot (char theChar) const = 0;
+    virtual void          digitExpectedInExponent (char theChar) const = 0;
 
-    virtual void          illegalEscapedCharacterInString (char theChar) = 0;
+    virtual void          illegalEscapedCharacterInString (char theChar) const = 0;
 
-    virtual void          inputIsLexicallyCorrect (int numberOfTokens) = 0;
-    virtual void          inputIsLexicallyIncorrect (int numberOfTokens) = 0;
+    virtual void          inputIsLexicallyCorrect (int numberOfTokens) const = 0;
+    virtual void          inputIsLexicallyIncorrect (int numberOfTokens) const = 0;
 
     virtual void          inputIsAlreadyInMsdlKeywordsLanguage (
                             msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) = 0;
+                              keywordsTranslationLanguage) const = 0;
 
   public:
 
@@ -113,20 +113,20 @@ class EXP msdlScannerEnglishWaeHandler : public msdlScannerWaeHandler
     // public services
     // ------------------------------------------------------
 
-    void                  illegalCharacter (char theChar) override;
-    void                  illegalCharacters (string theString) override;
+    void                  illegalCharacter (char theChar) const override;
+    void                  illegalCharacters (string theString) const override;
 
-    void                  digitExpectedAfterDecimalDot (char theChar) override;
-    void                  digitExpectedInExponent (char theChar) override;
+    void                  digitExpectedAfterDecimalDot (char theChar) const override;
+    void                  digitExpectedInExponent (char theChar) const override;
 
-    void                  illegalEscapedCharacterInString (char theChar) override;
+    void                  illegalEscapedCharacterInString (char theChar) const override;
 
-    void                  inputIsLexicallyCorrect (int numberOfTokens) override;
-    void                  inputIsLexicallyIncorrect (int numberOfTokens) override;
+    void                  inputIsLexicallyCorrect (int numberOfTokens) const override;
+    void                  inputIsLexicallyIncorrect (int numberOfTokens) const override;
 
     void                  inputIsAlreadyInMsdlKeywordsLanguage (
                             msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) override;
+                              keywordsTranslationLanguage) const override;
 
   public:
 
@@ -174,20 +174,20 @@ class EXP msdlScannerFrenchWaeHandler : public msdlScannerWaeHandler
     // public services
     // ------------------------------------------------------
 
-    void                  illegalCharacter (char theChar) override;
-    void                  illegalCharacters (string theString) override;
+    void                  illegalCharacter (char theChar) const override;
+    void                  illegalCharacters (string theString) const override;
 
-    void                  digitExpectedAfterDecimalDot (char theChar) override;
-    void                  digitExpectedInExponent (char theChar) override;
+    void                  digitExpectedAfterDecimalDot (char theChar) const override;
+    void                  digitExpectedInExponent (char theChar) const override;
 
-    void                  illegalEscapedCharacterInString (char theChar) override;
+    void                  illegalEscapedCharacterInString (char theChar) const override;
 
-    void                  inputIsLexicallyCorrect (int numberOfTokens) override;
-    void                  inputIsLexicallyIncorrect (int numberOfTokens) override;
+    void                  inputIsLexicallyCorrect (int numberOfTokens) const override;
+    void                  inputIsLexicallyIncorrect (int numberOfTokens) const override;
 
     void                  inputIsAlreadyInMsdlKeywordsLanguage (
                             msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) override;
+                              keywordsTranslationLanguage) const override;
 
   public:
 
@@ -235,20 +235,20 @@ class EXP msdlScannerItalianWaeHandler : public msdlScannerWaeHandler
     // public services
     // ------------------------------------------------------
 
-    void                  illegalCharacter (char theChar) override;
-    void                  illegalCharacters (string theString) override;
+    void                  illegalCharacter (char theChar) const override;
+    void                  illegalCharacters (string theString) const override;
 
-    void                  digitExpectedAfterDecimalDot (char theChar) override;
-    void                  digitExpectedInExponent (char theChar) override;
+    void                  digitExpectedAfterDecimalDot (char theChar) const override;
+    void                  digitExpectedInExponent (char theChar) const override;
 
-    void                  illegalEscapedCharacterInString (char theChar) override;
+    void                  illegalEscapedCharacterInString (char theChar) const override;
 
-    void                  inputIsLexicallyCorrect (int numberOfTokens) override;
-    void                  inputIsLexicallyIncorrect (int numberOfTokens) override;
+    void                  inputIsLexicallyCorrect (int numberOfTokens) const override;
+    void                  inputIsLexicallyIncorrect (int numberOfTokens) const override;
 
     void                  inputIsAlreadyInMsdlKeywordsLanguage (
                             msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) override;
+                              keywordsTranslationLanguage) const override;
 
   public:
 
@@ -296,20 +296,20 @@ class EXP msdlScannerGermanWaeHandler : public msdlScannerWaeHandler
     // public services
     // ------------------------------------------------------
 
-    void                  illegalCharacter (char theChar) override;
-    void                  illegalCharacters (string theString) override;
+    void                  illegalCharacter (char theChar) const override;
+    void                  illegalCharacters (string theString) const override;
 
-    void                  digitExpectedAfterDecimalDot (char theChar) override;
-    void                  digitExpectedInExponent (char theChar) override;
+    void                  digitExpectedAfterDecimalDot (char theChar) const override;
+    void                  digitExpectedInExponent (char theChar) const override;
 
-    void                  illegalEscapedCharacterInString (char theChar) override;
+    void                  illegalEscapedCharacterInString (char theChar) const override;
 
-    void                  inputIsLexicallyCorrect (int numberOfTokens) override;
-    void                  inputIsLexicallyIncorrect (int numberOfTokens) override;
+    void                  inputIsLexicallyCorrect (int numberOfTokens) const override;
+    void                  inputIsLexicallyIncorrect (int numberOfTokens) const override;
 
     void                  inputIsAlreadyInMsdlKeywordsLanguage (
                             msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) override;
+                              keywordsTranslationLanguage) const override;
 
   public:
 
@@ -357,20 +357,20 @@ class EXP msdlScannerSpanishWaeHandler : public msdlScannerWaeHandler
     // public services
     // ------------------------------------------------------
 
-    void                  illegalCharacter (char theChar) override;
-    void                  illegalCharacters (string theString) override;
+    void                  illegalCharacter (char theChar) const override;
+    void                  illegalCharacters (string theString) const override;
 
-    void                  digitExpectedAfterDecimalDot (char theChar) override;
-    void                  digitExpectedInExponent (char theChar) override;
+    void                  digitExpectedAfterDecimalDot (char theChar) const override;
+    void                  digitExpectedInExponent (char theChar) const override;
 
-    void                  illegalEscapedCharacterInString (char theChar) override;
+    void                  illegalEscapedCharacterInString (char theChar) const override;
 
-    void                  inputIsLexicallyCorrect (int numberOfTokens) override;
-    void                  inputIsLexicallyIncorrect (int numberOfTokens) override;
+    void                  inputIsLexicallyCorrect (int numberOfTokens) const override;
+    void                  inputIsLexicallyIncorrect (int numberOfTokens) const override;
 
     void                  inputIsAlreadyInMsdlKeywordsLanguage (
                             msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) override;
+                              keywordsTranslationLanguage) const override;
 
   public:
 
@@ -418,20 +418,20 @@ class EXP msdlScannerDutchWaeHandler : public msdlScannerWaeHandler
     // public services
     // ------------------------------------------------------
 
-    void                  illegalCharacter (char theChar) override;
-    void                  illegalCharacters (string theString) override;
+    void                  illegalCharacter (char theChar) const override;
+    void                  illegalCharacters (string theString) const override;
 
-    void                  digitExpectedAfterDecimalDot (char theChar) override;
-    void                  digitExpectedInExponent (char theChar) override;
+    void                  digitExpectedAfterDecimalDot (char theChar) const override;
+    void                  digitExpectedInExponent (char theChar) const override;
 
-    void                  illegalEscapedCharacterInString (char theChar) override;
+    void                  illegalEscapedCharacterInString (char theChar) const override;
 
-    void                  inputIsLexicallyCorrect (int numberOfTokens) override;
-    void                  inputIsLexicallyIncorrect (int numberOfTokens) override;
+    void                  inputIsLexicallyCorrect (int numberOfTokens) const override;
+    void                  inputIsLexicallyIncorrect (int numberOfTokens) const override;
 
     void                  inputIsAlreadyInMsdlKeywordsLanguage (
                             msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) override;
+                              keywordsTranslationLanguage) const override;
 
   public:
 

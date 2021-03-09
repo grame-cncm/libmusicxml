@@ -89,28 +89,28 @@ msdlParserEnglishWaeHandler::msdlParserEnglishWaeHandler ()
 msdlParserEnglishWaeHandler::~msdlParserEnglishWaeHandler ()
 {}
 
-void msdlParserEnglishWaeHandler::multipleIdentifications ()
+void msdlParserEnglishWaeHandler::multipleIdentifications () const
 {
   gLogStream <<
     "### only one identification section is possible, ahead of the specfication ###" <<
     endl;
 }
 
-void msdlParserEnglishWaeHandler::stringExpectedAsTitle ()
+void msdlParserEnglishWaeHandler::stringExpectedAsTitle () const
 {
   gLogStream <<
     "### a string is expected as title ###" <<
     endl;
 }
 
-void msdlParserEnglishWaeHandler::stringExpectedAsComposer ()
+void msdlParserEnglishWaeHandler::stringExpectedAsComposer () const
 {
   gLogStream <<
     "### a string is expected as composer ###" <<
     endl;
 }
 
-void msdlParserEnglishWaeHandler::stringExpectedAsOpus ()
+void msdlParserEnglishWaeHandler::stringExpectedAsOpus () const
 {
   gLogStream <<
     "### a string is expected as opus ###" <<
@@ -119,7 +119,7 @@ void msdlParserEnglishWaeHandler::stringExpectedAsOpus ()
 
 void msdlParserEnglishWaeHandler::unexpectedToken (
   const msdlToken& theToken,
-  string           context)
+  string           context) const
 {
   gLogStream <<
     "### " << context << ": " <<
@@ -131,7 +131,7 @@ void msdlParserEnglishWaeHandler::unexpectedToken (
 
 void msdlParserEnglishWaeHandler::ignoringToken (
   const msdlToken& theToken,
-  string           context)
+  string           context) const
 {
   gLogStream <<
     "### " << context << ": " <<
@@ -141,28 +141,31 @@ void msdlParserEnglishWaeHandler::ignoringToken (
     endl;
 }
 
-void msdlParserEnglishWaeHandler::inputIsSyntacticallyCorrect ()
+void msdlParserEnglishWaeHandler::inputIsSyntacticallyCorrect () const
 {
   gLogStream <<
     "The MSDL input is syntactically correct" <<
     endl;
 }
 
-void msdlParserEnglishWaeHandler::inputIsSyntacticallyIncorrect ()
+void msdlParserEnglishWaeHandler::inputIsSyntacticallyIncorrect () const
 {
   gLogStream <<
     "### The MSDL input is syntactically incorrect ###" <<
     endl;
 }
 
-void msdlParserEnglishWaeHandler::inputIsAlreadyInMsdlKeywordsLanguage (
-  msdlKeywordsLanguageKind
-    keywordsTranslationLanguage)
+void msdlParserEnglishWaeHandler::mixedCommasAndQuotesInOctaveIndication () const
 {
   gLogStream <<
-    "### The MSDL input is already in keywords language \"" <<
-    msdlKeywordsLanguageKindAsString (keywordsTranslationLanguage) <<
-    "\", there is no need to translate it ###" <<
+    "### Commas and quotes cannot be mixed in octave inditations ###" <<
+    endl;
+}
+
+void msdlParserEnglishWaeHandler::malformedNoteDuration () const
+{
+  gLogStream <<
+    "### Malformed note duration ###" <<
     endl;
 }
 
@@ -204,28 +207,28 @@ msdlParserFrenchWaeHandler::msdlParserFrenchWaeHandler ()
 msdlParserFrenchWaeHandler::~msdlParserFrenchWaeHandler ()
 {}
 
-void msdlParserFrenchWaeHandler::multipleIdentifications ()
+void msdlParserFrenchWaeHandler::multipleIdentifications () const
 {
   gLogStream <<
     "### une seule section d'identification est possible, au début de la spécification ###" <<
     endl;
 }
 
-void msdlParserFrenchWaeHandler::stringExpectedAsTitle ()
+void msdlParserFrenchWaeHandler::stringExpectedAsTitle () const
 {
   gLogStream <<
     "### une chaîne est attendue comme titre ###" <<
     endl;
 }
 
-void msdlParserFrenchWaeHandler::stringExpectedAsComposer ()
+void msdlParserFrenchWaeHandler::stringExpectedAsComposer () const
 {
   gLogStream <<
     "### une chaîne est attendue comme compositeur-trice ###" <<
     endl;
 }
 
-void msdlParserFrenchWaeHandler::stringExpectedAsOpus ()
+void msdlParserFrenchWaeHandler::stringExpectedAsOpus () const
 {
   gLogStream <<
     "### une chaîne est attendue comme opus ###" <<
@@ -234,7 +237,7 @@ void msdlParserFrenchWaeHandler::stringExpectedAsOpus ()
 
 void msdlParserFrenchWaeHandler::unexpectedToken (
   const msdlToken& theToken,
-  string           context)
+  string           context) const
 {
 
   gLogStream <<
@@ -247,7 +250,7 @@ void msdlParserFrenchWaeHandler::unexpectedToken (
 
 void msdlParserFrenchWaeHandler::ignoringToken (
   const msdlToken& theToken,
-  string           context)
+  string           context) const
 {
   gLogStream <<
     "### " << context << ": " <<
@@ -257,28 +260,31 @@ void msdlParserFrenchWaeHandler::ignoringToken (
     endl;
 }
 
-void msdlParserFrenchWaeHandler::inputIsSyntacticallyCorrect ()
+void msdlParserFrenchWaeHandler::inputIsSyntacticallyCorrect () const
 {
   gLogStream <<
     "Le texte MSDL est syntaxiquement correct" <<
     endl;
 }
 
-void msdlParserFrenchWaeHandler::inputIsSyntacticallyIncorrect ()
+void msdlParserFrenchWaeHandler::inputIsSyntacticallyIncorrect () const
 {
   gLogStream <<
     "### Le texte MSDL est syntaxiquement incorrect ###" <<
     endl;
 }
 
-void msdlParserFrenchWaeHandler::inputIsAlreadyInMsdlKeywordsLanguage (
-  msdlKeywordsLanguageKind
-    keywordsTranslationLanguage)
+void msdlParserFrenchWaeHandler::mixedCommasAndQuotesInOctaveIndication () const
 {
   gLogStream <<
-    "### Le texte MSDL est déjà dans la langue \"" <<
-    msdlKeywordsLanguageKindAsString (keywordsTranslationLanguage) <<
-    "\" pour les mots clés, il n'a a pas besoin de le traduire ###" <<
+    "### On ne peut pas mélanger les virgules et apostrophes dans les indications d'octave ###" <<
+    endl;
+}
+
+void msdlParserFrenchWaeHandler::malformedNoteDuration () const
+{
+  gLogStream <<
+    "### Durée de note mal formée ###" <<
     endl;
 }
 
@@ -320,28 +326,28 @@ msdlParserItalianWaeHandler::msdlParserItalianWaeHandler ()
 msdlParserItalianWaeHandler::~msdlParserItalianWaeHandler ()
 {}
 
-void msdlParserItalianWaeHandler::multipleIdentifications ()
+void msdlParserItalianWaeHandler::multipleIdentifications () const
 {
   gLogStream <<
     "### only one identification section is possible, ahead of the specfication ###" <<
     endl;
 }
 
-void msdlParserItalianWaeHandler::stringExpectedAsTitle ()
+void msdlParserItalianWaeHandler::stringExpectedAsTitle () const
 {
   gLogStream <<
     "### a string is expected as title ###" <<
     endl;
 }
 
-void msdlParserItalianWaeHandler::stringExpectedAsComposer ()
+void msdlParserItalianWaeHandler::stringExpectedAsComposer () const
 {
   gLogStream <<
     "### a string is expected as composer ###" <<
     endl;
 }
 
-void msdlParserItalianWaeHandler::stringExpectedAsOpus ()
+void msdlParserItalianWaeHandler::stringExpectedAsOpus () const
 {
   gLogStream <<
     "### a string is expected as opus ###" <<
@@ -350,7 +356,7 @@ void msdlParserItalianWaeHandler::stringExpectedAsOpus ()
 
 void msdlParserItalianWaeHandler::unexpectedToken (
   const msdlToken& theToken,
-  string           context)
+  string           context) const
 {
   gLogStream <<
     "### " << context << ": " <<
@@ -362,7 +368,7 @@ void msdlParserItalianWaeHandler::unexpectedToken (
 
 void msdlParserItalianWaeHandler::ignoringToken (
   const msdlToken& theToken,
-  string           context)
+  string           context) const
 {
   gLogStream <<
     "### " << context << ": " <<
@@ -372,28 +378,31 @@ void msdlParserItalianWaeHandler::ignoringToken (
     endl;
 }
 
-void msdlParserItalianWaeHandler::inputIsSyntacticallyCorrect ()
+void msdlParserItalianWaeHandler::inputIsSyntacticallyCorrect () const
 {
   gLogStream <<
     "The MSDL input is syntactically correct" <<
     endl;
 }
 
-void msdlParserItalianWaeHandler::inputIsSyntacticallyIncorrect ()
+void msdlParserItalianWaeHandler::inputIsSyntacticallyIncorrect () const
 {
   gLogStream <<
     "### The MSDL input is syntactically incorrect ###" <<
     endl;
 }
 
-void msdlParserItalianWaeHandler::inputIsAlreadyInMsdlKeywordsLanguage (
-  msdlKeywordsLanguageKind
-    keywordsTranslationLanguage)
+void msdlParserItalianWaeHandler::mixedCommasAndQuotesInOctaveIndication () const
 {
   gLogStream <<
-    "### The MSDL input is already in keywords language \"" <<
-    msdlKeywordsLanguageKindAsString (keywordsTranslationLanguage) <<
-    "\", there is no need to translate it ###" <<
+    "### Commas and quotes cannot be mixed in octave inditations ###" <<
+    endl;
+}
+
+void msdlParserItalianWaeHandler::malformedNoteDuration () const
+{
+  gLogStream <<
+    "### Malformed note duration ###" <<
     endl;
 }
 
@@ -435,28 +444,28 @@ msdlParserGermanWaeHandler::msdlParserGermanWaeHandler ()
 msdlParserGermanWaeHandler::~msdlParserGermanWaeHandler ()
 {}
 
-void msdlParserGermanWaeHandler::multipleIdentifications ()
+void msdlParserGermanWaeHandler::multipleIdentifications () const
 {
   gLogStream <<
     "### only one identification section is possible, ahead of the specfication ###" <<
     endl;
 }
 
-void msdlParserGermanWaeHandler::stringExpectedAsTitle ()
+void msdlParserGermanWaeHandler::stringExpectedAsTitle () const
 {
   gLogStream <<
     "### a string is expected as title ###" <<
     endl;
 }
 
-void msdlParserGermanWaeHandler::stringExpectedAsComposer ()
+void msdlParserGermanWaeHandler::stringExpectedAsComposer () const
 {
   gLogStream <<
     "### a string is expected as composer ###" <<
     endl;
 }
 
-void msdlParserGermanWaeHandler::stringExpectedAsOpus ()
+void msdlParserGermanWaeHandler::stringExpectedAsOpus () const
 {
   gLogStream <<
     "### a string is expected as opus ###" <<
@@ -465,7 +474,7 @@ void msdlParserGermanWaeHandler::stringExpectedAsOpus ()
 
 void msdlParserGermanWaeHandler::unexpectedToken (
   const msdlToken& theToken,
-  string           context)
+  string           context) const
 {
   gLogStream <<
     "### " << context << ": " <<
@@ -477,7 +486,7 @@ void msdlParserGermanWaeHandler::unexpectedToken (
 
 void msdlParserGermanWaeHandler::ignoringToken (
   const msdlToken& theToken,
-  string           context)
+  string           context) const
 {
   gLogStream <<
     "### " << context << ": " <<
@@ -487,7 +496,7 @@ void msdlParserGermanWaeHandler::ignoringToken (
     endl;
 }
 
-void msdlParserGermanWaeHandler::inputIsSyntacticallyCorrect ()
+void msdlParserGermanWaeHandler::inputIsSyntacticallyCorrect () const
 {
   gLogStream <<
     "The MSDL input is syntactically correct" <<
@@ -495,21 +504,24 @@ void msdlParserGermanWaeHandler::inputIsSyntacticallyCorrect ()
     endl;
 }
 
-void msdlParserGermanWaeHandler::inputIsSyntacticallyIncorrect ()
+void msdlParserGermanWaeHandler::inputIsSyntacticallyIncorrect () const
 {
   gLogStream <<
     "### The MSDL input is syntactically incorrect ###" <<
     endl;
 }
 
-void msdlParserGermanWaeHandler::inputIsAlreadyInMsdlKeywordsLanguage (
-  msdlKeywordsLanguageKind
-    keywordsTranslationLanguage)
+void msdlParserGermanWaeHandler::mixedCommasAndQuotesInOctaveIndication () const
 {
   gLogStream <<
-    "### The MSDL input is already in keywords language \"" <<
-    msdlKeywordsLanguageKindAsString (keywordsTranslationLanguage) <<
-    "\", there is no need to translate it ###" <<
+    "### Commas and quotes cannot be mixed in octave inditations ###" <<
+    endl;
+}
+
+void msdlParserGermanWaeHandler::malformedNoteDuration () const
+{
+  gLogStream <<
+    "### Malformed note duration ###" <<
     endl;
 }
 
@@ -551,28 +563,28 @@ msdlParserSpanishWaeHandler::msdlParserSpanishWaeHandler ()
 msdlParserSpanishWaeHandler::~msdlParserSpanishWaeHandler ()
 {}
 
-void msdlParserSpanishWaeHandler::multipleIdentifications ()
+void msdlParserSpanishWaeHandler::multipleIdentifications () const
 {
   gLogStream <<
     "### only one identification section is possible, ahead of the specfication ###" <<
     endl;
 }
 
-void msdlParserSpanishWaeHandler::stringExpectedAsTitle ()
+void msdlParserSpanishWaeHandler::stringExpectedAsTitle () const
 {
   gLogStream <<
     "### a string is expected as title ###" <<
     endl;
 }
 
-void msdlParserSpanishWaeHandler::stringExpectedAsComposer ()
+void msdlParserSpanishWaeHandler::stringExpectedAsComposer () const
 {
   gLogStream <<
     "### a string is expected as composer ###" <<
     endl;
 }
 
-void msdlParserSpanishWaeHandler::stringExpectedAsOpus ()
+void msdlParserSpanishWaeHandler::stringExpectedAsOpus () const
 {
   gLogStream <<
     "### a string is expected as opus ###" <<
@@ -581,7 +593,7 @@ void msdlParserSpanishWaeHandler::stringExpectedAsOpus ()
 
 void msdlParserSpanishWaeHandler::unexpectedToken (
   const msdlToken& theToken,
-  string           context)
+  string           context) const
 {
   gLogStream <<
     "### " << context << ": " <<
@@ -593,7 +605,7 @@ void msdlParserSpanishWaeHandler::unexpectedToken (
 
 void msdlParserSpanishWaeHandler::ignoringToken (
   const msdlToken& theToken,
-  string           context)
+  string           context) const
 {
   gLogStream <<
     "### " << context << ": " <<
@@ -603,7 +615,7 @@ void msdlParserSpanishWaeHandler::ignoringToken (
     endl;
 }
 
-void msdlParserSpanishWaeHandler::inputIsSyntacticallyCorrect ()
+void msdlParserSpanishWaeHandler::inputIsSyntacticallyCorrect () const
 {
   gLogStream <<
     "The MSDL input is syntactically correct" <<
@@ -611,21 +623,24 @@ void msdlParserSpanishWaeHandler::inputIsSyntacticallyCorrect ()
     endl;
 }
 
-void msdlParserSpanishWaeHandler::inputIsSyntacticallyIncorrect ()
+void msdlParserSpanishWaeHandler::inputIsSyntacticallyIncorrect () const
 {
   gLogStream <<
     "### The MSDL input is syntactically incorrect ###" <<
     endl;
 }
 
-void msdlParserSpanishWaeHandler::inputIsAlreadyInMsdlKeywordsLanguage (
-  msdlKeywordsLanguageKind
-    keywordsTranslationLanguage)
+void msdlParserSpanishWaeHandler::mixedCommasAndQuotesInOctaveIndication () const
 {
   gLogStream <<
-    "### The MSDL input is already in keywords language \"" <<
-    msdlKeywordsLanguageKindAsString (keywordsTranslationLanguage) <<
-    "\", there is no need to translate it ###" <<
+    "### Commas and quotes cannot be mixed in octave inditations ###" <<
+    endl;
+}
+
+void msdlParserSpanishWaeHandler::malformedNoteDuration () const
+{
+  gLogStream <<
+    "### Malformed note duration ###" <<
     endl;
 }
 
@@ -667,28 +682,28 @@ msdlParserDutchWaeHandler::msdlParserDutchWaeHandler ()
 msdlParserDutchWaeHandler::~msdlParserDutchWaeHandler ()
 {}
 
-void msdlParserDutchWaeHandler::multipleIdentifications ()
+void msdlParserDutchWaeHandler::multipleIdentifications () const
 {
   gLogStream <<
     "### only one identification section is possible, ahead of the specfication ###" <<
     endl;
 }
 
-void msdlParserDutchWaeHandler::stringExpectedAsTitle ()
+void msdlParserDutchWaeHandler::stringExpectedAsTitle () const
 {
   gLogStream <<
     "### a string is expected as title ###" <<
     endl;
 }
 
-void msdlParserDutchWaeHandler::stringExpectedAsComposer ()
+void msdlParserDutchWaeHandler::stringExpectedAsComposer () const
 {
   gLogStream <<
     "### a string is expected as composer ###" <<
     endl;
 }
 
-void msdlParserDutchWaeHandler::stringExpectedAsOpus ()
+void msdlParserDutchWaeHandler::stringExpectedAsOpus () const
 {
   gLogStream <<
     "### a string is expected as opus ###" <<
@@ -697,7 +712,7 @@ void msdlParserDutchWaeHandler::stringExpectedAsOpus ()
 
 void msdlParserDutchWaeHandler::unexpectedToken (
   const msdlToken& theToken,
-  string           context)
+  string           context) const
 {
   gLogStream <<
     "### " << context << ": " <<
@@ -709,7 +724,7 @@ void msdlParserDutchWaeHandler::unexpectedToken (
 
 void msdlParserDutchWaeHandler::ignoringToken (
   const msdlToken& theToken,
-  string           context)
+  string           context) const
 {
   gLogStream <<
     "### " << context << ": " <<
@@ -719,7 +734,7 @@ void msdlParserDutchWaeHandler::ignoringToken (
     endl;
 }
 
-void msdlParserDutchWaeHandler::inputIsSyntacticallyCorrect ()
+void msdlParserDutchWaeHandler::inputIsSyntacticallyCorrect () const
 {
   gLogStream <<
     "The MSDL input is syntactically correct" <<
@@ -727,21 +742,24 @@ void msdlParserDutchWaeHandler::inputIsSyntacticallyCorrect ()
     endl;
 }
 
-void msdlParserDutchWaeHandler::inputIsSyntacticallyIncorrect ()
+void msdlParserDutchWaeHandler::inputIsSyntacticallyIncorrect () const
 {
   gLogStream <<
     "### The MSDL input is syntactically incorrect ###" <<
     endl;
 }
 
-void msdlParserDutchWaeHandler::inputIsAlreadyInMsdlKeywordsLanguage (
-  msdlKeywordsLanguageKind
-    keywordsTranslationLanguage)
+void msdlParserDutchWaeHandler::mixedCommasAndQuotesInOctaveIndication () const
 {
   gLogStream <<
-    "### The MSDL input is already in keywords language \"" <<
-    msdlKeywordsLanguageKindAsString (keywordsTranslationLanguage) <<
-    "\", there is no need to translate it ###" <<
+    "### Commas and quotes cannot be mixed in octave inditations ###" <<
+    endl;
+}
+
+void msdlParserDutchWaeHandler::malformedNoteDuration () const
+{
+  gLogStream <<
+    "### Malformed note duration ###" <<
     endl;
 }
 

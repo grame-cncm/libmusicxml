@@ -62,7 +62,7 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
 
   fKeyDiatonicPitchKind = k_NoDiatonicPitch;
   fKeyAlterationKind    = k_NoAlteration;
-  fKeyOctaveKind        = k_NoOctave;
+  fKeyOctaveKind        = msrOctaveKind::k_NoOctave;
 }
 
 msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem ()
@@ -184,11 +184,12 @@ string msrHumdrumScotKeyItem::asString () const
 
   s <<
     "HumdrumScotKeyItem" <<
-    ", KeyDiatonicPitch" << ": " <<
+    ", keyDiatonicPitch" << ": " <<
     msrDiatonicPitchKindAsString (fKeyDiatonicPitchKind) <<
-    ", KeyAlteration" << ": " <<
+    ", keyAlteration" << ": " <<
     msrAlterationKindAsString (fKeyAlterationKind) <<
-    ", KeyOctaveKind" << ": " << fKeyOctaveKind <<
+    ", keyOctaveKind" << ": " <<
+    msrOctaveKindAsString (fKeyOctaveKind) <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -398,7 +399,7 @@ void msrKey::appendHumdrumScotKeyItem (
 #endif
 
   // have key items octaves been specified?
-  if (item->getKeyItemOctaveKind () >= 0) {
+  if (item->getKeyItemOctaveKind () != msrOctaveKind::k_NoOctave) {
     fKeyItemsOctavesAreSpecified = true;
   }
 

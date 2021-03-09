@@ -93,18 +93,26 @@ class msdlParser : public smartable
     bool                  isCurrentTokenKindInSetsStack (string context);
 
     bool                  checkMandatoryTokenKind (
+                            string        fileName,
+                            int           lineNumber,
                             msdlTokenKind tokenKind,
                             string        context);
 
     bool                  checkMandatoryTokenKindsSet (
+                            string              fileName,
+                            int                 lineNumber,
                             S_msdlTokenKindsSet tokenKindsSet,
                             string              context);
 
     bool                  checkOptionalTokenKind (
+                            string        fileName,
+                            int           lineNumber,
                             msdlTokenKind tokenKind,
                             string        context);
 
     bool                  checkOptionalTokenKindsSet (
+                            string              fileName,
+                            int                 lineNumber,
                             S_msdlTokenKindsSet tokenKindsSet,
                             string              context);
 
@@ -117,6 +125,9 @@ class msdlParser : public smartable
 #ifdef TRACING_IS_ENABLED
     bool                  fTraceSyntax;
     bool                  fTraceSyntaxDetails;
+
+    bool                  fTraceSyntaxErrorRecovery;
+    bool                  fTraceSyntaxErrorRecoveryDetails;
 #endif
 
     // user language
@@ -140,7 +151,9 @@ class msdlParser : public smartable
     const msdlToken&      fCurrentToken;
 
     // error recovery
-    S_msdlTokenKindsSet   fEmptyTokenKindsSet; // for efficiency
+    S_msdlTokenKindsSet   fEmptyTokenKindsSet;
+    S_msdlTokenKindsSet   fTokenEOFTokenKindsSet;
+
     list<S_msdlTokenKindsSet>
                           fMsdlTokensSetsStack;
 
@@ -196,11 +209,12 @@ class msdlParser : public smartable
 
   private:
 
-    // the MSR being built
+    // syntax error recovery
     // ------------------------------------------------------
 
     // Identification
     S_msdlTokenKindsSet   fIdentificationFIRST;
+    S_msdlTokenKindsSet   fIdentificationFOLLOW;
 
     S_msrIdentification   fMsrIdentification;
 
@@ -213,21 +227,51 @@ class msdlParser : public smartable
 
     // Structure
     S_msdlTokenKindsSet   fStructureFIRST;
+    S_msdlTokenKindsSet   fStructureFOLLOW;
 
     // Book
     S_msdlTokenKindsSet   fBookFIRST;
+    S_msdlTokenKindsSet   fBookFOLLOW;
 
     // Score
     S_msdlTokenKindsSet   fScoreFIRST;
+    S_msdlTokenKindsSet   fScoreFOLLOW;
 
     // PartGroup
     S_msdlTokenKindsSet   fPartGroupFIRST;
+    S_msdlTokenKindsSet   fPartGroupFOLLOW;
 
     // Part
     S_msdlTokenKindsSet   fPartFIRST;
+    S_msdlTokenKindsSet   fPartFOLLOW;
 
     // Music
     S_msdlTokenKindsSet   fMusicFIRST;
+    S_msdlTokenKindsSet   fMusicFOLLOW;
+
+    // MeasuresSequence
+    S_msdlTokenKindsSet   fMeasuresSequenceFIRST;
+    S_msdlTokenKindsSet   fMeasuresSequenceFOLLOW;
+
+    // Measure
+    S_msdlTokenKindsSet   fMeasureFIRST;
+    S_msdlTokenKindsSet   fMeasureFOLLOW;
+
+    // Note
+    S_msdlTokenKindsSet   fNoteFIRST;
+    S_msdlTokenKindsSet   fNoteFOLLOW;
+
+    // Pitch
+    S_msdlTokenKindsSet   fPitchFIRST;
+    S_msdlTokenKindsSet   fPitchFOLLOW;
+
+    // OctaveIndication
+    S_msdlTokenKindsSet   fOctaveIndicationFIRST;
+    S_msdlTokenKindsSet   fOctaveIndicationFOLLOW;
+
+    // NoteDuration
+    S_msdlTokenKindsSet   fNoteDurationFIRST;
+    S_msdlTokenKindsSet   fNoteDurationFOLLOW;
 
   private:
 
@@ -292,8 +336,19 @@ class msdlParser : public smartable
     // time
     void                  Time (S_msdlTokenKindsSet stopperTokensSet);
 
-    // pitch
-    void                  Pitch (S_msdlTokenKindsSet stopperTokensSet);
+    // note
+    void                  Note (S_msdlTokenKindsSet stopperTokensSet);
+
+      void                  Pitch (S_msdlTokenKindsSet stopperTokensSet);
+
+    // octave indication
+    msrOctaveKind           OctaveIndication (S_msdlTokenKindsSet stopperTokensSet);
+
+    // note duration
+    void                    NoteDuration (
+                              msrDottedDuration&  dottedDuration,
+                              int                 dotsNumber,
+                              S_msdlTokenKindsSet stopperTokensSet);
 };
 typedef SMARTP<msdlParser> S_msdlParser;
 EXP ostream& operator<< (ostream& os, const msdlParser& elt);

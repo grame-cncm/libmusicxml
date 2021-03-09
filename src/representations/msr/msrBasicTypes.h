@@ -795,7 +795,7 @@ EXP msrSemiTonesPitchKind enharmonicSemiTonesPitch (
 
 // octaves
 //______________________________________________________________________________
-enum msrOctaveKind {
+enum class msrOctaveKind {
   k_NoOctave,
 
   kOctave0, kOctave1, kOctave2, kOctave3,
@@ -835,7 +835,7 @@ string msrOctaveKindAsString (msrOctaveKind octaveKind);
 
 // durations
 //______________________________________________________________________________
-enum msrDurationKind {
+enum class msrDurationKind {
   k_NoDuration,
 
   // from longest to shortest for the algorithms
@@ -848,7 +848,11 @@ EXP msrDurationKind msrDurationKindFromMusicXMLString (
   int    inputLineNumber,
   string durationString);
 
-EXP msrDurationKind msrDurationKindFromMslpString (
+EXP msrDurationKind msrDurationKindFromInteger (
+  int inputLineNumber,
+  int durationInteger);
+
+EXP msrDurationKind msrDurationKindFromString (
   int    inputLineNumber,
   string durationString);
 

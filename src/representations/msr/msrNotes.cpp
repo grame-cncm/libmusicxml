@@ -157,7 +157,7 @@ void msrNote::initializeNote ()
   // rests handling
   // ------------------------------------------------------
 
-  if (getNoteIsARest () && fNoteDisplayOctaveKind != k_NoOctave) {
+  if (getNoteIsARest () && fNoteDisplayOctaveKind != msrOctaveKind::k_NoOctave) {
     // this note is a pitched rest:
     // copy the display octave to the the note octave, // JMI
     // to be used in octave relative code generation
@@ -246,7 +246,7 @@ void msrNote::initializeNote ()
       left <<
         setw (fieldWidth) <<
         "noteGraphicDuration" << " = ";
-      if (fNoteGraphicDurationKind != k_NoDuration) {
+      if (fNoteGraphicDurationKind != msrDurationKind::k_NoDuration) {
         gLogStream <<
           msrDurationKindAsString (
             fNoteGraphicDurationKind);
@@ -1453,17 +1453,17 @@ S_msrNote msrNote::createRestNote (
       kNoteRestInMeasure, // noteKind
 
       k_NoQuarterTonesPitch_QTP,
-      k_NoOctave, // noteOctave,
+      msrOctaveKind::k_NoOctave, // noteOctave,
 
       soundingWholeNotes,
       displayWholeNotes,
 
       dotsNumber,
 
-      k_NoDuration, // noteGraphicDuration
+      msrDurationKind::k_NoDuration, // noteGraphicDuration
 
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
-      k_NoOctave, // noteDisplayOctave,
+      msrOctaveKind::k_NoOctave, // noteDisplayOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
@@ -1502,17 +1502,17 @@ S_msrNote msrNote::createSkipNote (
       kNoteSkipInMeasure, // noteKind
 
       k_NoQuarterTonesPitch_QTP,
-      k_NoOctave, // noteOctave,
+      msrOctaveKind::k_NoOctave, // noteOctave,
 
       soundingWholeNotes,
       displayWholeNotes,
 
       dotsNumber,
 
-      k_NoDuration, // noteGraphicDuration
+      msrDurationKind::k_NoDuration, // noteGraphicDuration
 
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
-      k_NoOctave, // noteDisplayOctave,
+      msrOctaveKind::k_NoOctave, // noteDisplayOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
@@ -1551,17 +1551,17 @@ S_msrNote msrNote::createGraceSkipNote (
       kNoteSkipInGraceNotesGroup, // noteKind
 
       k_NoQuarterTonesPitch_QTP,
-      k_NoOctave, // noteOctave,
+      msrOctaveKind::k_NoOctave, // noteOctave,
 
       soundingWholeNotes,
       displayWholeNotes,
 
       dotsNumber,
 
-      k_NoDuration, // noteGraphicDuration
+      msrDurationKind::k_NoDuration, // noteGraphicDuration
 
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
-      k_NoOctave, // noteDisplayOctave,
+      msrOctaveKind::k_NoOctave, // noteDisplayOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
@@ -1609,10 +1609,10 @@ S_msrNote msrNote::createRestNoteWithOctave (
 
       dotsNumber,
 
-      k_NoDuration, // noteGraphicDuration
+      msrDurationKind::k_NoDuration, // noteGraphicDuration
 
       k_Rest_QTP,  // noteQuarterTonesDisplayPitchKind
-      k_NoOctave,  // noteDisplayOctaveKind
+      msrOctaveKind::k_NoOctave,  // noteDisplayOctaveKind
 
       msrNote::kNoteIsACueNoteNo,
 
@@ -1660,7 +1660,7 @@ S_msrNote msrNote::createSkipNoteWithOctave (
 
       dotsNumber,
 
-      k_NoDuration, // noteGraphicDuration JMI ???
+      msrDurationKind::k_NoDuration, // noteGraphicDuration JMI ???
 
       k_Skip_QTP,  // noteQuarterTonesDisplayPitchKind
       noteOctave,
@@ -1847,7 +1847,7 @@ S_msrNote msrNote::createRestFromString (
   // compute the restDurationKind from restDuration
   msrDurationKind
     restDurationKind =
-      msrDurationKindFromMslpString (
+      msrDurationKindFromString (
         inputLineNumber,
         restDuration);
 
@@ -1985,7 +1985,7 @@ S_msrNote msrNote::createSkipFromString (
   // compute the skipDurationKind from skipDuration
   msrDurationKind
     skipDurationKind =
-      msrDurationKindFromMslpString (
+      msrDurationKindFromString (
         inputLineNumber,
         skipDuration);
 
@@ -2156,7 +2156,7 @@ S_msrNote msrNote::createNoteFromString (
   // compute the noteDurationKind from noteDuration
   msrDurationKind
     noteDurationKind =
-      msrDurationKindFromMslpString (
+      msrDurationKindFromString (
         inputLineNumber,
         noteDuration);
 
@@ -2186,7 +2186,7 @@ S_msrNote msrNote::createNoteFromString (
       inputLineNumber,
       noteMeasureNumber,
       quarterTonesPitchKind, // kD_Natural_QTP
-      octaveKind, // kOctave3
+      octaveKind, // msrOctaveKind::kOctave3
       durationKindFromMslpString, // soundingWholeNotes
       durationKindFromMslpString, // displayWholeNotes
       dotsNumber);
@@ -2223,10 +2223,10 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
 
       0, // dotsNumber,
 
-      k_NoDuration, // noteGraphicDuration
+      msrDurationKind::k_NoDuration, // noteGraphicDuration
 
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
-      k_NoOctave, // noteDisplayOctave,
+      msrOctaveKind::k_NoOctave, // noteDisplayOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
@@ -2564,7 +2564,7 @@ msrDiatonicPitchKind msrNote::noteDiatonicPitchKind (
 bool msrNote::noteIsAPitchedRest () const
 {
   return
-    getNoteIsARest () && fNoteDisplayOctaveKind != k_NoOctave;
+    getNoteIsARest () && fNoteDisplayOctaveKind != msrOctaveKind::k_NoOctave;
 }
 
 void msrNote::setNoteStem (S_msrStem stem)

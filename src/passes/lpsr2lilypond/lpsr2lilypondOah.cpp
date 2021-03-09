@@ -3037,7 +3037,7 @@ R"()",
     msrSemiTonesPitchAndOctave::create (
       // F under middle C, LilyPond default for relative octave entry
       kF_Natural_STP,
-      kOctave3);
+      msrOctaveKind::kOctave3);
 
   subGroup->
     appendAtomToSubGroup (

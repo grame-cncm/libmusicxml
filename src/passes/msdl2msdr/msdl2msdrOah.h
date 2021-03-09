@@ -68,6 +68,12 @@ class EXP msdl2msdrOahGroup : public oahGroup
                               { return fTraceSyntax; }
     bool                  getTraceSyntaxDetails () const
                               { return fTraceSyntaxDetails; }
+
+    bool                  getTraceSyntaxErrorRecovery () const
+                              { return fTraceSyntaxErrorRecovery; }
+
+    bool                  getTraceSyntaxErrorRecoveryDetails () const
+                              { return fTraceSyntaxErrorRecoveryDetails; }
 #endif
 
     msdlUserLanguageKind  getMsdlUserLanguageKind () const
@@ -165,6 +171,9 @@ class EXP msdl2msdrOahGroup : public oahGroup
 
     bool                  fTraceSyntax;
     bool                  fTraceSyntaxDetails;
+
+    bool                  fTraceSyntaxErrorRecovery;
+    bool                  fTraceSyntaxErrorRecoveryDetails;
 #endif
 
     // languages

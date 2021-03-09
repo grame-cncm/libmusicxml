@@ -240,8 +240,7 @@ class EXP msr2bsrTranslator :
     // notes
     // ------------------------------------------------------
 
-    bsrNote::bsrNoteOctaveKind
-                              fCurrentNoteOctaveKind;
+    bsrNoteOctaveKind         fCurrentNoteOctaveKind;
 
     bsrNote::bsrNoteValueSizeKind
                               fCurrentNoteValueSizeKind;

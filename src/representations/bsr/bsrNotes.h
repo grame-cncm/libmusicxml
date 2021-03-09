@@ -10,6 +10,30 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+enum class bsrNoteOctaveKind {
+  kNoteOctaveNone,
+  kNoteOctaveBelow1,
+  kNoteOctave1,
+  kNoteOctave2,
+  kNoteOctave3,
+  kNoteOctave4,
+  kNoteOctave5,
+  kNoteOctave6,
+  kNoteOctave7,
+  kNoteOctaveAbove7
+};
+
+extern string noteOctaveKindAsString (
+  bsrNoteOctaveKind noteOctaveKind);
+
+extern string noteOctaveKindAsDebugString (
+  bsrNoteOctaveKind noteOctaveKind);
+
+extern S_bsrCellsList noteOctaveKindAsCellsList (
+  int               inputLineNumber,
+  bsrNoteOctaveKind noteOctaveKind);
+
+//______________________________________________________________________________
 class EXP bsrNote : public bsrLineContentsElement
 {
   public:
@@ -135,29 +159,6 @@ class EXP bsrNote : public bsrLineContentsElement
       int                  inputLineNumber,
       bsrNoteValueSizeKind noteValueSizeKind);
 
-    enum bsrNoteOctaveKind {
-      kNoteOctaveNone,
-      kNoteOctaveBelow1,
-      kNoteOctave1,
-      kNoteOctave2,
-      kNoteOctave3,
-      kNoteOctave4,
-      kNoteOctave5,
-      kNoteOctave6,
-      kNoteOctave7,
-      kNoteOctaveAbove7
-    };
-
-    static string noteOctaveKindAsString (
-      bsrNoteOctaveKind noteOctaveKind);
-
-    static string noteOctaveKindAsDebugString (
-      bsrNoteOctaveKind noteOctaveKind);
-
-    static S_bsrCellsList noteOctaveKindAsCellsList (
-      int               inputLineNumber,
-      bsrNoteOctaveKind noteOctaveKind);
-
     enum bsrNoteOctaveIsNeeded {
       kNoteOctaveIsNeededYes, kNoteOctaveIsNeededNo
     };
@@ -254,8 +255,6 @@ class EXP bsrNote : public bsrLineContentsElement
     S_bsrCellsList        noteValueKindAsCellsList () const;
 
     S_bsrCellsList        noteValueSizeKindAsCellsList () const;
-
-    S_bsrCellsList        noteOctaveKindAsCellsList () const;
 
     S_bsrCellsList        accidentalKindAsCellsList () const;
 

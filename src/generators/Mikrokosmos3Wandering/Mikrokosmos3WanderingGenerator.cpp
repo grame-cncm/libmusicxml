@@ -404,7 +404,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure1number,
             kA_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber
@@ -447,7 +447,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure1number,
             kG_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber
@@ -472,7 +472,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure1number,
             kF_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber
@@ -504,7 +504,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure1number,
             kE_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
@@ -554,7 +554,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure2number,
             kD_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 4), // soundingWholeNotes
             rational (1, 4), // displayWholeNotes
             0);             // dotsNumber
@@ -580,7 +580,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure2number,
             kG_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber
@@ -623,7 +623,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure2number,
             kF_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber
@@ -655,7 +655,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure2number,
             kE_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber
@@ -680,7 +680,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure2number,
             kD_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
@@ -730,7 +730,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure3number,
             kC_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
@@ -802,7 +802,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure3number,
             kD_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 16), // soundingWholeNotes
             rational (1, 16), // displayWholeNotes
             0);               // dotsNumber
@@ -835,7 +835,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure3number,
             kE_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 16), // soundingWholeNotes
             rational (1, 16), // displayWholeNotes
             0);              // dotsNumber
@@ -868,7 +868,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure3number,
             kF_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
@@ -893,7 +893,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure3number,
             kE_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
@@ -947,7 +947,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure4number,
             kD_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 2), // soundingWholeNotes
             rational (1, 2), // displayWholeNotes
             0);              // dotsNumber
@@ -1001,7 +1001,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             measure5number,
             kD_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 2), // soundingWholeNotes
             rational (1, 2), // displayWholeNotes
             0);              // dotsNumber
@@ -1395,7 +1395,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure1number,
             kB_Natural_QTP,
-            kOctave3,
+            msrOctaveKind::kOctave3,
             rational (1, 4), // soundingWholeNotes
             rational (1, 4), // displayWholeNotes
             0));             // dotsNumber
@@ -1408,7 +1408,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure1number,
             kD_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
@@ -1451,7 +1451,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure1number,
             kC_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber
@@ -1502,7 +1502,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure2number,
             kB_Natural_QTP,
-            kOctave3,
+            msrOctaveKind::kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber
@@ -1527,7 +1527,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure2number,
             kA_Natural_QTP,
-            kOctave3,
+            msrOctaveKind::kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
@@ -1552,7 +1552,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure2number,
             kA_Flat_QTP,
-            kOctave3,
+            msrOctaveKind::kOctave3,
             rational (1, 4), // soundingWholeNotes
             rational (1, 4), // displayWholeNotes
             0);             // dotsNumber
@@ -1578,7 +1578,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure2number,
             kC_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber
@@ -1611,7 +1611,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure2number,
             kB_Flat_QTP,
-            kOctave3,
+            msrOctaveKind::kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber
@@ -1662,7 +1662,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure3number,
             kA_Natural_QTP,
-            kOctave3,
+            msrOctaveKind::kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber
@@ -1687,7 +1687,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure3number,
             kG_Natural_QTP,
-            kOctave3,
+            msrOctaveKind::kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber
@@ -1712,7 +1712,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure3number,
             kF_Sharp_QTP,
-            kOctave3,
+            msrOctaveKind::kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);             // dotsNumber
@@ -1736,7 +1736,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure3number,
             kG_Natural_QTP,
-            kOctave3,
+            msrOctaveKind::kOctave3,
             rational (1, 16), // soundingWholeNotes
             rational (1, 16), // displayWholeNotes
             0);               // dotsNumber
@@ -1769,7 +1769,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
             __LINE__,
             measure3number,
             kA_Natural_QTP,
-            kOctave3,
+            msrOctaveKind::kOctave3,
             rational (1, 16), // soundingWholeNotes
             rational (1, 16), // displayWholeNotes
             0);               // dotsNumber
@@ -2269,7 +2269,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
             __LINE__,
             measure4number,
             kB_Natural_QTP,
-            kOctave3,
+            msrOctaveKind::kOctave3,
             rational (1, 2), // soundingWholeNotes
             rational (1, 2), // displayWholeNotes
             0);             // dotsNumber
@@ -2312,7 +2312,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
             __LINE__,
             measure5number,
             kB_Natural_QTP,
-            kOctave3,
+            msrOctaveKind::kOctave3,
             rational (1, 2), // soundingWholeNotes
             rational (1, 2), // displayWholeNotes
             0);             // dotsNumber

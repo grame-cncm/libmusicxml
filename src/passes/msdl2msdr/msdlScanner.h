@@ -113,16 +113,17 @@ class msdlScanner : public smartable
 
     char                  fetchNextCharacter ();
 
-     void                 handleEndOfLine ();
+     void                 handleEndOfLine (string context);
 
     string                currentCharacterAsString () const;
 
-    void                  handleSlash ();
     void                  handlePercent ();
+    void                  handleSlash ();
 
     void                  acceptAString ();
 
     void                  acceptAName ();
+    void                  acceptAnIdentifier ();
 
     void                  acceptAnInteger ();
 
@@ -151,6 +152,12 @@ class msdlScanner : public smartable
     string                fInputString;     // modern machines can cope with large data
     int                   fInputStringSize; // denormalization for speed
 
+    /*
+      line numbers                  start at 1
+      positions in the input string start at 0 (array indexing)
+      positions in the current line start at 1
+    */
+
     // lines
     int                   fCurrentLineNumber;
     int                   fCurrentLinePositionInInput;
@@ -162,10 +169,17 @@ class msdlScanner : public smartable
     // characters
     int                   fCurrentPositionInInput;
     char                  fCurrentCharacter;
+
     bool                  fNextCharacterIsAvailable;
+                            // initially false;
+                            // becomes true when a character has be read ahead
+                            // to determine that the current token is complete;
+                            // remains then true only till the next call to fetchNextToken
 
     // tokens
     int                   fCurrentTokenPositionInInput;
+
+    int                   fCurrentTokenLineNumber;
     int                   fCurrentTokenPositionInLine;
 
     msdlToken             fCurrentToken;

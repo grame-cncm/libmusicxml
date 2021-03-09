@@ -226,7 +226,7 @@ S_msrMeasure msdlParser::createMeasureInVoice (
             __LINE__,
             measure1number,
             kA_Natural_QTP,
-            kOctave4,
+            msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
             0);              // dotsNumber

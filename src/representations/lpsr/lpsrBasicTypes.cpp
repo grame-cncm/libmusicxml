@@ -1203,37 +1203,37 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
   s << (*pitchNamesMapPTR) [quarterTonesPitchKind];
 
   switch (semiTonesPitchAndOctave->getOctaveKind ()) {
-    case k_NoOctave:
+    case msrOctaveKind::k_NoOctave:
       s << "*** noOctave ***";
       break;
-    case kOctave0:
+    case msrOctaveKind::kOctave0:
       s << ",,,";
       break;
-    case kOctave1:
+    case msrOctaveKind::kOctave1:
       s << ",,";
       break;
-    case kOctave2:
+    case msrOctaveKind::kOctave2:
       s << ",";
       break;
-    case kOctave3:
+    case msrOctaveKind::kOctave3:
       s << "";
       break;
-    case kOctave4:
+    case msrOctaveKind::kOctave4:
       s << "'";
       break;
-    case kOctave5:
+    case msrOctaveKind::kOctave5:
       s << "''";
       break;
-    case kOctave6:
+    case msrOctaveKind::kOctave6:
       s << "'''";
       break;
-    case kOctave7:
+    case msrOctaveKind::kOctave7:
       s << "''''";
       break;
-    case kOctave8:
+    case msrOctaveKind::kOctave8:
       s << "'''''";
       break;
-    case kOctave9:
+    case msrOctaveKind::kOctave9:
       s << "''''''";
       break;
   } // switch

@@ -12,7 +12,7 @@ pitches english           % default is english
 % the score
 % -----------------------------------------------
 
-score helloWorld = "Hello World in MSPL" {
+score helloWorld = "Hello World in MSDL" {
 
   voice {
     |1 c1

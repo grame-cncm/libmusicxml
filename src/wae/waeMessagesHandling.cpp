@@ -453,7 +453,7 @@ EXP void msdlWarning (
   std::string message)
 {
   msgWarning (
-    "MSPL",
+    "MSDL",
     inputSourceName,
     inputLineNumber,
     message);
@@ -468,7 +468,7 @@ EXP void msdlError (
   std::string message)
 {
   msgError (
-    "MSPL",
+    "MSDL",
     inputSourceName,
     inputLineNumber,
     sourceCodeFileName,
@@ -494,7 +494,7 @@ EXP void msdlInternalError (
   gIndenter.resetToZero ();
 
   msgErrorWithoutException (
-    "MSPL INTERNAL",
+    "MSDL INTERNAL",
     inputSourceName,
     inputLineNumber,
     sourceCodeFileName,

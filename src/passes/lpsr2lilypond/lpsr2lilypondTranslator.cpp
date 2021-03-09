@@ -368,7 +368,7 @@ string lpsr2lilypondTranslator::absoluteOctaveAsLilypondString (
 
   // generate LilyPond absolute octave
   switch (absoluteOctaveKind) {
-    case k_NoOctave:
+    case msrOctaveKind::k_NoOctave:
       {
         stringstream s;
 
@@ -383,34 +383,34 @@ string lpsr2lilypondTranslator::absoluteOctaveAsLilypondString (
           __FILE__, __LINE__,
           s.str ());
       }
-    case kOctave0:
+    case msrOctaveKind::kOctave0:
       result = ",,,";
       break;
-    case kOctave1:
+    case msrOctaveKind::kOctave1:
       result = ",,";
       break;
-    case kOctave2:
+    case msrOctaveKind::kOctave2:
       result = ",";
       break;
-    case kOctave3:
+    case msrOctaveKind::kOctave3:
       result = "";
       break;
-    case kOctave4:
+    case msrOctaveKind::kOctave4:
       result = "'";
       break;
-    case kOctave5:
+    case msrOctaveKind::kOctave5:
       result = "''";
       break;
-    case kOctave6:
+    case msrOctaveKind::kOctave6:
       result = "'''";
       break;
-    case kOctave7:
+    case msrOctaveKind::kOctave7:
       result = "''''";
       break;
-    case kOctave8:
+    case msrOctaveKind::kOctave8:
       result = "'''''";
       break;
-    case kOctave9:
+    case msrOctaveKind::kOctave9:
       result = "''''''";
       break;
   } // switch
@@ -511,12 +511,12 @@ string lpsr2lilypondTranslator::lilypondOctaveInRelativeEntryMode (
 
   int
     noteAboluteDiatonicOrdinal =
-      noteAbsoluteOctave * 7
+      (int) noteAbsoluteOctave * 7 // JMI FOO
         +
       noteDiatonicPitchKind - kDiatonicPitchC,
 
     referenceAboluteDiatonicOrdinal =
-      referenceAbsoluteOctave * 7
+      (int) referenceAbsoluteOctave * 7 // JMI FOO
         +
       referenceDiatonicPitchKind - kDiatonicPitchC;
 
@@ -542,7 +542,7 @@ string lpsr2lilypondTranslator::lilypondOctaveInRelativeEntryMode (
       setw (fieldWidth) <<
       "% referenceAbsoluteOctave" <<
        " = " <<
-      referenceAbsoluteOctave <<
+      msrOctaveKindAsString (referenceAbsoluteOctave) <<
       endl <<
       setw (fieldWidth) <<
       "% referenceAboluteDiatonicOrdinal" <<
@@ -607,15 +607,15 @@ string lpsr2lilypondTranslator::lilypondOctaveInFixedEntryMode (
         getNoteOctaveKind ();
 
   int absoluteOctavesDifference =
-    noteAbsoluteOctave - referenceAbsoluteOctave;
+    (int) noteAbsoluteOctave - (int) referenceAbsoluteOctave;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotesOctaveEntry ()) {
     gLogStream << left <<
       "% noteAbsoluteOctave = " <<
-      noteAbsoluteOctave <<
+      msrOctaveKindAsString (noteAbsoluteOctave) <<
       ", referenceAbsoluteOctave = " <<
-      referenceAbsoluteOctave <<
+      msrOctaveKindAsString (referenceAbsoluteOctave) <<
       ", referenceAbsoluteOctave = " <<
       absoluteOctavesDifference <<
       endl;
@@ -756,7 +756,7 @@ string lpsr2lilypondTranslator::stringTuningAsLilypondString (
         stringTuningAlterationKind) <<
       endl <<
       "%stringTuningOctave = " <<
-      stringTuningOctave <<
+      msrOctaveKindAsString (stringTuningOctave) <<
       endl <<
       "%quarterTonesPitchKind = " <<
       quarterTonesPitchKind <<
@@ -869,12 +869,12 @@ stringstream s;
       setw (fieldWidth) <<
       "% noteAbsoluteOctave" <<
       " = " <<
-      noteAbsoluteOctave <<
+      msrOctaveKindAsString (noteAbsoluteOctave) <<
       endl <<
       setw (fieldWidth) <<
       "% noteAbsoluteDisplayOctave" <<
       " = " <<
-      noteAbsoluteDisplayOctave <<
+      msrOctaveKindAsString (noteAbsoluteDisplayOctave) <<
       endl <<
 
       setw (fieldWidth) <<
@@ -1081,12 +1081,12 @@ string lpsr2lilypondTranslator::pitchedRestAsLilypondString (
       setw (fieldWidth) <<
       "% noteAbsoluteOctave" <<
       " = " <<
-      noteAbsoluteOctave <<
+      msrOctaveKindAsString (noteAbsoluteOctave) <<
       endl <<
       setw (fieldWidth) <<
       "% noteAbsoluteDisplayOctave" <<
       " = " <<
-      noteAbsoluteDisplayOctave <<
+      msrOctaveKindAsString (noteAbsoluteDisplayOctave) <<
       endl <<
 
       setw (fieldWidth) <<
@@ -3727,9 +3727,9 @@ string lpsr2lilypondTranslator::singleTremoloDurationAsLilypondString (
   int durationToUse =
     singleTremoloMarksNumber; // JMI / singleTremoloNoteSoundingWholeNotes;
 
-  if (singleTremoloNoteDurationKind >= kEighth) {
+  if (singleTremoloNoteDurationKind >= msrDurationKind::kEighth) {
     durationToUse +=
-      1 + (singleTremoloNoteDurationKind - kEighth);
+      1 + ((int) singleTremoloNoteDurationKind - (int) msrDurationKind::kEighth);
   }
 
 #ifdef TRACING_IS_ENABLED
@@ -3741,7 +3741,7 @@ string lpsr2lilypondTranslator::singleTremoloDurationAsLilypondString (
       singularOrPlural (
         singleTremoloMarksNumber, "mark", "marks") <<
       ", singleTremoloNoteDurationKind : " <<
-      singleTremoloNoteDurationKind <<
+      msrDurationKindAsString (singleTremoloNoteDurationKind) <<
       ", durationToUse : " <<
       durationToUse <<
       endl;
@@ -10980,7 +10980,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrKey& elt)
                       fLilypondCodeStream <<
                         "(" <<
                           "(" <<
-                          item->getKeyItemOctaveKind () - 3 <<
+                          (int) item->getKeyItemOctaveKind () - 3 <<
                             // in MusicXML, octave number is 4 for the octave
                             // starting with middle C,
                             // and the latter is c' in LilyPond
@@ -11693,10 +11693,10 @@ If the double element is present, it indicates that the music is doubled one oct
   msrOctaveKind transpositionOctaveKind;
 
   if (transposeChromatic < 0) {
-    transpositionOctaveKind = kOctave3;
+    transpositionOctaveKind = msrOctaveKind::kOctave3;
   }
   else {
-    transpositionOctaveKind = kOctave4;
+    transpositionOctaveKind = msrOctaveKind::kOctave4;
   }
 
   // take the transpose octave change into account

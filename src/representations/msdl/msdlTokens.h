@@ -30,9 +30,9 @@ namespace MusicXML2
 
 //________________________________________________________________________
 enum class msdlTokenKind {
-  k_TokenEOF,  // 0, which is expected by yyparse() at the end of the input JMI
-
   k_NoToken,
+
+  k_TokenEOF,
 
   k_TokenMalformed, // for error recovery
 
@@ -96,7 +96,8 @@ enum class msdlTokenKind {
 
   kTokenString,
 
-  kTokenIdentifier,
+  kTokenName,       // a sequence of alphanumeric characters
+  kTokenIdentifier,  // a sequence of alphanumeric characters, digits or '_'
 
   // language-dependent keywords
   // ------------------------------------
@@ -138,7 +139,7 @@ enum class msdlTokenKind {
   NonSeparatorsLast  = kTokenTime,
 
   TranslatableFirst = kTokenInteger,
-  TranslatableLast  = kTokenIdentifier,
+  TranslatableLast  = kTokenName,
 
   LanguageIndependentFirst = kTokenEqualSign,
   LanguageIndependentLast  = kTokenIdentifier,
@@ -368,7 +369,15 @@ EXP ostream& operator<< (ostream& os, const msdlTokenKindsSet& elt);
 
 EXP S_msdlTokenKindsSet operator+= (
   S_msdlTokenKindsSet aTokenKindsSet,
+  msdlTokenKind       aTokenKind);
+
+EXP S_msdlTokenKindsSet operator+= (
+  S_msdlTokenKindsSet aTokenKindsSet,
   S_msdlTokenKindsSet anotherTokenKindsSet);
+
+EXP S_msdlTokenKindsSet operator-= (
+  S_msdlTokenKindsSet aTokenKindsSet,
+  msdlTokenKind       aTokenKind);
 
 EXP S_msdlTokenKindsSet operator-= (
   S_msdlTokenKindsSet aTokenKindsSet,
@@ -376,7 +385,15 @@ EXP S_msdlTokenKindsSet operator-= (
 
 EXP S_msdlTokenKindsSet operator+ (
   S_msdlTokenKindsSet aTokenKindsSet,
+  msdlTokenKind       aTokenKind);
+
+EXP S_msdlTokenKindsSet operator+ (
+  S_msdlTokenKindsSet aTokenKindsSet,
   S_msdlTokenKindsSet anotherTokenKindsSet);
+
+EXP S_msdlTokenKindsSet operator- (
+  S_msdlTokenKindsSet aTokenKindsSet,
+  msdlTokenKind       aTokenKind);
 
 EXP S_msdlTokenKindsSet operator- (
   S_msdlTokenKindsSet aTokenKindsSet,

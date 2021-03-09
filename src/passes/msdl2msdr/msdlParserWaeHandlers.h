@@ -55,25 +55,25 @@ class EXP msdlParserWaeHandler : public waeHandler
     // ------------------------------------------------------
 
     // identification
-    virtual void          multipleIdentifications () = 0;
-    virtual void          stringExpectedAsTitle () = 0;
-    virtual void          stringExpectedAsComposer () = 0;
-    virtual void          stringExpectedAsOpus () = 0;
+    virtual void          multipleIdentifications () const = 0;
+    virtual void          stringExpectedAsTitle () const = 0;
+    virtual void          stringExpectedAsComposer () const = 0;
+    virtual void          stringExpectedAsOpus () const = 0;
 
     virtual void          unexpectedToken (
                             const msdlToken& theToken,
-                            string           context) = 0;
+                            string           context) const = 0;
 
     virtual void          ignoringToken (
                             const msdlToken& theToken,
-                            string           context) = 0;
+                            string           context) const = 0;
 
-    virtual void          inputIsSyntacticallyCorrect () = 0;
-    virtual void          inputIsSyntacticallyIncorrect () = 0;
+    virtual void          inputIsSyntacticallyCorrect () const = 0;
+    virtual void          inputIsSyntacticallyIncorrect () const = 0;
 
-    virtual void          inputIsAlreadyInMsdlKeywordsLanguage (
-                            msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) = 0;
+    virtual void          mixedCommasAndQuotesInOctaveIndication () const = 0;
+
+    virtual void          malformedNoteDuration () const = 0;
 
   public:
 
@@ -122,25 +122,25 @@ class EXP msdlParserEnglishWaeHandler : public msdlParserWaeHandler
     // ------------------------------------------------------
 
     // identification
-    void                  multipleIdentifications () override;
-    void                  stringExpectedAsTitle () override;
-    void                  stringExpectedAsComposer () override;
-    void                  stringExpectedAsOpus () override;
+    void                  multipleIdentifications () const override;
+    void                  stringExpectedAsTitle () const override;
+    void                  stringExpectedAsComposer () const override;
+    void                  stringExpectedAsOpus () const override;
 
     void                  unexpectedToken (
                             const msdlToken& theToken,
-                            string           context) override;
+                            string           context) const override;
 
     void                  ignoringToken (
                             const msdlToken& theToken,
-                            string           context) override;
+                            string           context) const override;
 
-    void                  inputIsSyntacticallyCorrect () override;
-    void                  inputIsSyntacticallyIncorrect () override;
+    void                  inputIsSyntacticallyCorrect () const override;
+    void                  inputIsSyntacticallyIncorrect () const override;
 
-    void                  inputIsAlreadyInMsdlKeywordsLanguage (
-                            msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) override;
+    void                  mixedCommasAndQuotesInOctaveIndication () const override;
+
+    void                  malformedNoteDuration () const override;
 
   public:
 
@@ -189,25 +189,25 @@ class EXP msdlParserFrenchWaeHandler : public msdlParserWaeHandler
     // ------------------------------------------------------
 
     // identification
-    void                  multipleIdentifications () override;
-    void                  stringExpectedAsTitle () override;
-    void                  stringExpectedAsComposer () override;
-    void                  stringExpectedAsOpus () override;
+    void                  multipleIdentifications () const override;
+    void                  stringExpectedAsTitle () const override;
+    void                  stringExpectedAsComposer () const override;
+    void                  stringExpectedAsOpus () const override;
 
     void                  unexpectedToken (
                             const msdlToken& theToken,
-                            string           context) override;
+                            string           context) const override;
 
     void                  ignoringToken (
                             const msdlToken& theToken,
-                            string           context) override;
+                            string           context) const override;
 
-    void                  inputIsSyntacticallyCorrect () override;
-    void                  inputIsSyntacticallyIncorrect () override;
+    void                  inputIsSyntacticallyCorrect () const override;
+    void                  inputIsSyntacticallyIncorrect () const override;
 
-    void                  inputIsAlreadyInMsdlKeywordsLanguage (
-                            msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) override;
+    void                  mixedCommasAndQuotesInOctaveIndication () const override;
+
+    void                  malformedNoteDuration () const override;
 
   public:
 
@@ -256,25 +256,25 @@ class EXP msdlParserItalianWaeHandler : public msdlParserWaeHandler
     // ------------------------------------------------------
 
     // identification
-    void                  multipleIdentifications () override;
-    void                  stringExpectedAsTitle () override;
-    void                  stringExpectedAsComposer () override;
-    void                  stringExpectedAsOpus () override;
+    void                  multipleIdentifications () const override;
+    void                  stringExpectedAsTitle () const override;
+    void                  stringExpectedAsComposer () const override;
+    void                  stringExpectedAsOpus () const override;
 
     void                  unexpectedToken (
                             const msdlToken& theToken,
-                            string           context) override;
+                            string           context) const override;
 
     void                  ignoringToken (
                             const msdlToken& theToken,
-                            string           context) override;
+                            string           context) const override;
 
-    void                  inputIsSyntacticallyCorrect () override;
-    void                  inputIsSyntacticallyIncorrect () override;
+    void                  inputIsSyntacticallyCorrect () const override;
+    void                  inputIsSyntacticallyIncorrect () const override;
 
-    void                  inputIsAlreadyInMsdlKeywordsLanguage (
-                            msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) override;
+    void                  mixedCommasAndQuotesInOctaveIndication () const override;
+
+    void                  malformedNoteDuration () const override;
 
   public:
 
@@ -323,25 +323,25 @@ class EXP msdlParserGermanWaeHandler : public msdlParserWaeHandler
     // ------------------------------------------------------
 
     // identification
-    void                  multipleIdentifications () override;
-    void                  stringExpectedAsTitle () override;
-    void                  stringExpectedAsComposer () override;
-    void                  stringExpectedAsOpus () override;
+    void                  multipleIdentifications () const override;
+    void                  stringExpectedAsTitle () const override;
+    void                  stringExpectedAsComposer () const override;
+    void                  stringExpectedAsOpus () const override;
 
     void                  unexpectedToken (
                             const msdlToken& theToken,
-                            string           context) override;
+                            string           context) const override;
 
     void                  ignoringToken (
                             const msdlToken& theToken,
-                            string           context) override;
+                            string           context) const override;
 
-    void                  inputIsSyntacticallyCorrect () override;
-    void                  inputIsSyntacticallyIncorrect () override;
+    void                  inputIsSyntacticallyCorrect () const override;
+    void                  inputIsSyntacticallyIncorrect () const override;
 
-    void                  inputIsAlreadyInMsdlKeywordsLanguage (
-                            msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) override;
+    void                  mixedCommasAndQuotesInOctaveIndication () const override;
+
+    void                  malformedNoteDuration () const override;
 
   public:
 
@@ -390,25 +390,25 @@ class EXP msdlParserSpanishWaeHandler : public msdlParserWaeHandler
     // ------------------------------------------------------
 
     // identification
-    void                  multipleIdentifications () override;
-    void                  stringExpectedAsTitle () override;
-    void                  stringExpectedAsComposer () override;
-    void                  stringExpectedAsOpus () override;
+    void                  multipleIdentifications () const override;
+    void                  stringExpectedAsTitle () const override;
+    void                  stringExpectedAsComposer () const override;
+    void                  stringExpectedAsOpus () const override;
 
     void                  unexpectedToken (
                             const msdlToken& theToken,
-                            string           context) override;
+                            string           context) const override;
 
     void                  ignoringToken (
                             const msdlToken& theToken,
-                            string           context) override;
+                            string           context) const override;
 
-    void                  inputIsSyntacticallyCorrect () override;
-    void                  inputIsSyntacticallyIncorrect () override;
+    void                  inputIsSyntacticallyCorrect () const override;
+    void                  inputIsSyntacticallyIncorrect () const override;
 
-    void                  inputIsAlreadyInMsdlKeywordsLanguage (
-                            msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) override;
+    void                  mixedCommasAndQuotesInOctaveIndication () const override;
+
+    void                  malformedNoteDuration () const override;
 
   public:
 
@@ -457,25 +457,25 @@ class EXP msdlParserDutchWaeHandler : public msdlParserWaeHandler
     // ------------------------------------------------------
 
     // identification
-    void                  multipleIdentifications () override;
-    void                  stringExpectedAsTitle () override;
-    void                  stringExpectedAsComposer () override;
-    void                  stringExpectedAsOpus () override;
+    void                  multipleIdentifications () const override;
+    void                  stringExpectedAsTitle () const override;
+    void                  stringExpectedAsComposer () const override;
+    void                  stringExpectedAsOpus () const override;
 
     void                  unexpectedToken (
                             const msdlToken& theToken,
-                            string           context) override;
+                            string           context) const override;
 
     void                  ignoringToken (
                             const msdlToken& theToken,
-                            string           context) override;
+                            string           context) const override;
 
-    void                  inputIsSyntacticallyCorrect () override;
-    void                  inputIsSyntacticallyIncorrect () override;
+    void                  inputIsSyntacticallyCorrect () const override;
+    void                  inputIsSyntacticallyIncorrect () const override;
 
-    void                  inputIsAlreadyInMsdlKeywordsLanguage (
-                            msdlKeywordsLanguageKind
-                              keywordsTranslationLanguage) override;
+    void                  mixedCommasAndQuotesInOctaveIndication () const override;
+
+    void                  malformedNoteDuration () const override;
 
   public:
 

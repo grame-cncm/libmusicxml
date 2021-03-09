@@ -29,6 +29,94 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+string noteOctaveKindAsString (
+  bsrNoteOctaveKind noteOctaveKind)
+{
+  string result;
+
+  switch (noteOctaveKind) {
+    case bsrNoteOctaveKind::kNoteOctaveNone:   result = "octaveNone"; break;
+    case bsrNoteOctaveKind::kNoteOctaveBelow1: result = "octaveBelow1"; break;
+    case bsrNoteOctaveKind::kNoteOctave1:      result = "octave1"; break;
+    case bsrNoteOctaveKind::kNoteOctave2:      result = "octave2"; break;
+    case bsrNoteOctaveKind::kNoteOctave3:      result = "octave3"; break;
+    case bsrNoteOctaveKind::kNoteOctave4:      result = "octave4"; break;
+    case bsrNoteOctaveKind::kNoteOctave5:      result = "octave5"; break;
+    case bsrNoteOctaveKind::kNoteOctave6:      result = "octave6"; break;
+    case bsrNoteOctaveKind::kNoteOctave7:      result = "octave7"; break;
+    case bsrNoteOctaveKind::kNoteOctaveAbove7: result = "octaveAbove7"; break;
+  } // switch
+
+  return result;
+}
+
+string noteOctaveKindAsDebugString (
+  bsrNoteOctaveKind noteOctaveKind)
+{
+  string result;
+
+  switch (noteOctaveKind) {
+    case bsrNoteOctaveKind::kNoteOctaveNone: break; // should be "_", fix noteOctaveIsNeeded in mxml2bsrTranslator.cpp for rests JMI
+    case bsrNoteOctaveKind::kNoteOctaveBelow1: result = "oB1"; break;
+    case bsrNoteOctaveKind::kNoteOctave1:      result = "o1"; break;
+    case bsrNoteOctaveKind::kNoteOctave2:      result = "o2"; break;
+    case bsrNoteOctaveKind::kNoteOctave3:      result = "o3"; break;
+    case bsrNoteOctaveKind::kNoteOctave4:      result = "o4"; break;
+    case bsrNoteOctaveKind::kNoteOctave5:      result = "o5"; break;
+    case bsrNoteOctaveKind::kNoteOctave6:      result = "o6"; break;
+    case bsrNoteOctaveKind::kNoteOctave7:      result = "o7"; break;
+    case bsrNoteOctaveKind::kNoteOctaveAbove7: result = "oA7"; break;
+  } // switch
+
+  return result;
+}
+
+S_bsrCellsList noteOctaveKindAsCellsList (
+  int               inputLineNumber,
+  bsrNoteOctaveKind noteOctaveKind)
+{
+  S_bsrCellsList
+    result =
+      bsrCellsList::create (inputLineNumber);
+
+  switch (noteOctaveKind) {
+    case bsrNoteOctaveKind::kNoteOctaveNone:
+      break;
+    case bsrNoteOctaveKind::kNoteOctaveBelow1:
+      result->appendCellKindToCellsList (kDots4);
+      result->appendCellKindToCellsList (kDots4);
+      break;
+    case bsrNoteOctaveKind::kNoteOctave1:
+      result->appendCellKindToCellsList (kDots4);
+      break;
+    case bsrNoteOctaveKind::kNoteOctave2:
+      result->appendCellKindToCellsList (kDots45);
+      break;
+    case bsrNoteOctaveKind::kNoteOctave3:
+      result->appendCellKindToCellsList (kDots456);
+      break;
+    case bsrNoteOctaveKind::kNoteOctave4:
+      result->appendCellKindToCellsList (kDots5);
+      break;
+    case bsrNoteOctaveKind::kNoteOctave5:
+      result->appendCellKindToCellsList (kDots46);
+      break;
+    case bsrNoteOctaveKind::kNoteOctave6:
+      result->appendCellKindToCellsList (kDots56);
+      break;
+    case bsrNoteOctaveKind::kNoteOctave7:
+      result->appendCellKindToCellsList (kDots6);
+      break;
+    case bsrNoteOctaveKind::kNoteOctaveAbove7:
+      result->appendCellKindToCellsList (kDots6);
+      result->appendCellKindToCellsList (kDots6);
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
 S_bsrNote bsrNote::create (
   int                   inputLineNumber,
   bsrNoteValueKind      noteValueKind,
@@ -385,51 +473,6 @@ S_bsrCellsList bsrNote::noteValueSizeKindAsCellsList () const
         fNoteValueKind));
 }
 
-S_bsrCellsList bsrNote::noteOctaveKindAsCellsList (
-  int               inputLineNumber,
-  bsrNoteOctaveKind noteOctaveKind)
-{
-  S_bsrCellsList
-    result =
-      bsrCellsList::create (inputLineNumber);
-
-  switch (noteOctaveKind) {
-    case kNoteOctaveNone:
-      break;
-    case kNoteOctaveBelow1:
-      result->appendCellKindToCellsList (kDots4);
-      result->appendCellKindToCellsList (kDots4);
-      break;
-    case kNoteOctave1:
-      result->appendCellKindToCellsList (kDots4);
-      break;
-    case kNoteOctave2:
-      result->appendCellKindToCellsList (kDots45);
-      break;
-    case kNoteOctave3:
-      result->appendCellKindToCellsList (kDots456);
-      break;
-    case kNoteOctave4:
-      result->appendCellKindToCellsList (kDots5);
-      break;
-    case kNoteOctave5:
-      result->appendCellKindToCellsList (kDots46);
-      break;
-    case kNoteOctave6:
-      result->appendCellKindToCellsList (kDots56);
-      break;
-    case kNoteOctave7:
-      result->appendCellKindToCellsList (kDots6);
-      break;
-    case kNoteOctaveAbove7:
-      result->appendCellKindToCellsList (kDots6);
-      result->appendCellKindToCellsList (kDots6);
-      break;
-  } // switch
-
-  return result;
-}
-
 bsrNote::bsrNoteValueSizeKind bsrNote::noteValueSizeKindFromNoteValueKind (
   bsrNoteValueKind noteValueKind)
 {
@@ -718,14 +761,6 @@ S_bsrCellsList bsrNote::noteValueSizeKindAsCellsList (
   return result;
 }
 
-S_bsrCellsList bsrNote::noteOctaveKindAsCellsList () const
-{
-  return
-    noteOctaveKindAsCellsList (
-      fInputLineNumber,
-      fNoteOctaveKind);
-}
-
 S_bsrCellsList bsrNote::accidentalKindAsCellsList (
   int                   inputLineNumber,
   bsrAccidentalKind accidentalKind)
@@ -808,7 +843,9 @@ S_bsrCellsList bsrNote::buildCellsList () const
   switch (fNoteOctaveIsNeeded) {
     case bsrNote::kNoteOctaveIsNeededYes:
       result->appendCellsListToCellsList (
-        noteOctaveKindAsCellsList ());
+        noteOctaveKindAsCellsList (
+          fInputLineNumber,
+          fNoteOctaveKind));
       break;
     case bsrNote::kNoteOctaveIsNeededNo:
       break;
@@ -1102,48 +1139,6 @@ string bsrNote::noteValueSizeKindAsString (
     case bsrNote::kNoteValueSizeSmaller:
       result = "noteValueSizeSmaller";
       break;
-  } // switch
-
-  return result;
-}
-
-string bsrNote::noteOctaveKindAsString (
-  bsrNoteOctaveKind noteOctaveKind)
-{
-  string result;
-
-  switch (noteOctaveKind) {
-    case kNoteOctaveNone:   result = "octaveNone"; break;
-    case kNoteOctaveBelow1: result = "octaveBelow1"; break;
-    case kNoteOctave1:      result = "octave1"; break;
-    case kNoteOctave2:      result = "octave2"; break;
-    case kNoteOctave3:      result = "octave3"; break;
-    case kNoteOctave4:      result = "octave4"; break;
-    case kNoteOctave5:      result = "octave5"; break;
-    case kNoteOctave6:      result = "octave6"; break;
-    case kNoteOctave7:      result = "octave7"; break;
-    case kNoteOctaveAbove7: result = "octaveAbove7"; break;
-  } // switch
-
-  return result;
-}
-
-string bsrNote::noteOctaveKindAsDebugString (
-  bsrNoteOctaveKind noteOctaveKind)
-{
-  string result;
-
-  switch (noteOctaveKind) {
-    case kNoteOctaveNone: break; // should be "_", fix noteOctaveIsNeeded in mxml2bsrTranslator.cpp for rests JMI
-    case kNoteOctaveBelow1: result = "oB1"; break;
-    case kNoteOctave1:      result = "o1"; break;
-    case kNoteOctave2:      result = "o2"; break;
-    case kNoteOctave3:      result = "o3"; break;
-    case kNoteOctave4:      result = "o4"; break;
-    case kNoteOctave5:      result = "o5"; break;
-    case kNoteOctave6:      result = "o6"; break;
-    case kNoteOctave7:      result = "o7"; break;
-    case kNoteOctaveAbove7: result = "oA7"; break;
   } // switch
 
   return result;

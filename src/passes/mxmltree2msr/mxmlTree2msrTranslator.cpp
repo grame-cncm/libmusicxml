@@ -99,7 +99,7 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
   fCurrentRestMeasuresHasBeenCreated = false;
 
   fCurrentSlashDotsNumber = -1;
-  fCurrentSlashGraphicDurationKind = k_NoDuration;
+  fCurrentSlashGraphicDurationKind = msrDurationKind::k_NoDuration;
 
   // staff details handling
   fStaffDetailsStaffNumber = K_NO_STAFF_NUMBER;
@@ -118,7 +118,7 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
 
   // staff tuning handling
   fCurrentStaffTuningAlterationKind = k_NoAlteration;
-  fCurrentStaffTuningOctaveKind     = k_NoOctave;
+  fCurrentStaffTuningOctaveKind     = msrOctaveKind::k_NoOctave;
 
   fCurrentStaffDetailsCapo = 0;
   fCurrentStaffDetailsStaffSize = 0;
@@ -130,7 +130,7 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
   fCurrentStringTuningNumber = -1;
   fCurrentStringTuningDiatonicPitchKind = k_NoDiatonicPitch;
   fCurrentStringTuningAlterationKind = k_NoAlteration;
-  fCurrentStringTuningOctaveKind = k_NoOctave;
+  fCurrentStringTuningOctaveKind = msrOctaveKind::k_NoOctave;
 
   fOnGoingAccord = false;
 
@@ -204,7 +204,7 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
 
   fCurrentMetrenomeDotsNumber = 0;
   fCurrentMetrenomeRelationKind = msrTempo::kTempoRelationNone;
-  fCurrentMetronomeDurationKind = k_NoDuration;
+  fCurrentMetronomeDurationKind = msrDurationKind::k_NoDuration;
   fCurrentMetronomeBeamValue = "";
 
   fOnGoingMetronomeTuplet = false;
@@ -409,13 +409,13 @@ void mxmlTree2msrTranslator::initializeNoteData ()
 
   fCurrentNoteDotsNumber = 0;
 
-  fCurrentNoteGraphicDurationKind = k_NoDuration;
+  fCurrentNoteGraphicDurationKind = msrDurationKind::k_NoDuration;
 
-  fCurrentNoteOctave = k_NoOctave;
+  fCurrentNoteOctave = msrOctaveKind::k_NoOctave;
 
   fCurrentNoteQuarterTonesDisplayPitchKind = k_NoQuarterTonesPitch_QTP;
   fCurrentDisplayDiatonicPitchKind = k_NoDiatonicPitch;
-  fCurrentDisplayOctave = k_NoOctave;
+  fCurrentDisplayOctave = msrOctaveKind::k_NoOctave;
 
   // rests
 
@@ -4262,7 +4262,7 @@ From direction.mod:
         msrTempo::create (
           inputLineNumber,
           msrDottedDuration (
-            kQuarter,
+            msrDurationKind::kQuarter,
             0),       // JMI could be different?
           tempoString,
           msrTempo::kTempoParenthesizedNo,
@@ -4854,7 +4854,7 @@ void mxmlTree2msrTranslator::visitStart ( S_metronome& elt )
 
   fCurrentMetrenomeDotsNumber = 0;
   fCurrentMetrenomeRelationKind = msrTempo::kTempoRelationNone;
-  fCurrentMetronomeDurationKind = k_NoDuration;
+  fCurrentMetronomeDurationKind = msrDurationKind::k_NoDuration;
   fCurrentMetronomeBeamValue = "";
 
   fOnGoingMetronomeTuplet = false;
@@ -5846,7 +5846,7 @@ void mxmlTree2msrTranslator::visitStart (S_staff_details& elt )
     msrStaffDetails::kRegularStaffType;
 
   fCurrentStaffTuningAlterationKind = k_NoAlteration;
-  fCurrentStaffTuningOctaveKind     = k_NoOctave;
+  fCurrentStaffTuningOctaveKind     = msrOctaveKind::k_NoOctave;
 
   fCurrentStaffDetailsStaffSize = 0;
 
@@ -5954,7 +5954,7 @@ void mxmlTree2msrTranslator::visitStart (S_staff_tuning& elt )
     elt->getAttributeIntValue ("line", 0);
 
   fCurrentStaffTuningAlterationKind = kNatural; // may be absent
-  fCurrentStaffTuningOctaveKind     = k_NoOctave;
+  fCurrentStaffTuningOctaveKind     = msrOctaveKind::k_NoOctave;
 
   fOnGoingStaffTuning = true;
 }
@@ -9497,13 +9497,13 @@ void mxmlTree2msrTranslator::visitStart ( S_note& elt )
   fCurrentNoteDiatonicPitchKind = k_NoDiatonicPitch;
   fCurrentNoteAlterationKind    = kNatural;
 
-  fCurrentNoteOctave = k_NoOctave;
+  fCurrentNoteOctave = msrOctaveKind::k_NoOctave;
 
   fCurrentNoteSoundingWholeNotes             = rational (0, 1);
   fCurrentNoteSoundingWholeNotesFromDuration = rational (0, 1);
 
   fCurrentDisplayDiatonicPitchKind      = k_NoDiatonicPitch;
-  fCurrentDisplayOctave                 = k_NoOctave;
+  fCurrentDisplayOctave                 = msrOctaveKind::k_NoOctave;
   fCurrentNoteDisplayWholeNotes         = rational (0, 1);
   fCurrentNoteDisplayWholeNotesFromType = rational (0, 1);
 
@@ -19586,7 +19586,7 @@ S_msrNote mxmlTree2msrTranslator::createNote (
   // has the current note graphic duration been specified
   // in a '<type>' markup?
   switch (fCurrentNoteGraphicDurationKind) {
-    case k_NoDuration:
+    case msrDurationKind::k_NoDuration:
       // use the same duration as the one from the duration
       // internally ??? JMI
       fCurrentNoteDisplayWholeNotesFromType =
@@ -19775,7 +19775,7 @@ S_msrNote mxmlTree2msrTranslator::createNote (
     fCurrentTremoloTypeKind == kTremoloTypeStop
   ) {
     // double tremolo note
-    if (fCurrentNoteGraphicDurationKind == k_NoDuration) {
+    if (fCurrentNoteGraphicDurationKind == msrDurationKind::k_NoDuration) {
       stringstream s;
 
       s <<
@@ -24847,7 +24847,7 @@ void mxmlTree2msrTranslator::visitStart (S_accord& elt )
 
   fCurrentStringTuningDiatonicPitchKind = k_NoDiatonicPitch;
   fCurrentStringTuningAlterationKind = kNatural; // default value
-  fCurrentStringTuningOctaveKind = k_NoOctave;
+  fCurrentStringTuningOctaveKind = msrOctaveKind::k_NoOctave;
 
   fOnGoingAccord = true;
 }

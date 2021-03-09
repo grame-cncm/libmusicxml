@@ -114,7 +114,7 @@ string msrXMLLangKindAsString (
 //______________________________________________________________________________
 msrDottedDuration::msrDottedDuration ()
 {
-  fDurationKind = k_NoDuration;
+  fDurationKind = msrDurationKind::k_NoDuration;
   fDotsNumber   = -1;
 }
 
@@ -195,37 +195,37 @@ EXP int octaveNumberFromOctaveKind (msrOctaveKind octaveKind)
   int result = -2;
 
   switch (octaveKind) {
-    case k_NoOctave:
+    case msrOctaveKind::k_NoOctave:
       result = -1;
       break;
-    case kOctave0:
+    case msrOctaveKind::kOctave0:
       result = 0;
       break;
-    case kOctave1:
+    case msrOctaveKind::kOctave1:
       result = 1;
       break;
-    case kOctave2:
+    case msrOctaveKind::kOctave2:
       result = 2;
       break;
-    case kOctave3:
+    case msrOctaveKind::kOctave3:
       result = 3;
       break;
-    case kOctave4:
+    case msrOctaveKind::kOctave4:
       result = 4;
       break;
-    case kOctave5:
+    case msrOctaveKind::kOctave5:
       result = 5;
       break;
-    case kOctave6:
+    case msrOctaveKind::kOctave6:
       result = 6;
       break;
-    case kOctave7:
+    case msrOctaveKind::kOctave7:
       result = 7;
       break;
-    case kOctave8:
+    case msrOctaveKind::kOctave8:
       result = 8;
       break;
-    case kOctave9:
+    case msrOctaveKind::kOctave9:
       result = 9;
       break;
   } // switch
@@ -235,41 +235,41 @@ EXP int octaveNumberFromOctaveKind (msrOctaveKind octaveKind)
 
 msrOctaveKind octaveSucc (msrOctaveKind octaveKind)
 {
-  msrOctaveKind result = k_NoOctave;
+  msrOctaveKind result = msrOctaveKind::k_NoOctave;
 
   switch (octaveKind) {
-    case k_NoOctave:
-      result = k_NoOctave;
+    case msrOctaveKind::k_NoOctave:
+      result = msrOctaveKind::k_NoOctave;
       break;
-    case kOctave0:
-      result = kOctave1;
+    case msrOctaveKind::kOctave0:
+      result = msrOctaveKind::kOctave1;
       break;
-    case kOctave1:
-      result = kOctave2;
+    case msrOctaveKind::kOctave1:
+      result = msrOctaveKind::kOctave2;
       break;
-    case kOctave2:
-      result = kOctave3;
+    case msrOctaveKind::kOctave2:
+      result = msrOctaveKind::kOctave3;
       break;
-    case kOctave3:
-      result = kOctave4;
+    case msrOctaveKind::kOctave3:
+      result = msrOctaveKind::kOctave4;
       break;
-    case kOctave4:
-      result = kOctave5;
+    case msrOctaveKind::kOctave4:
+      result = msrOctaveKind::kOctave5;
       break;
-    case kOctave5:
-      result = kOctave6;
+    case msrOctaveKind::kOctave5:
+      result = msrOctaveKind::kOctave6;
       break;
-    case kOctave6:
-      result = kOctave7;
+    case msrOctaveKind::kOctave6:
+      result = msrOctaveKind::kOctave7;
       break;
-    case kOctave7:
-      result = kOctave8;
+    case msrOctaveKind::kOctave7:
+      result = msrOctaveKind::kOctave8;
       break;
-    case kOctave8:
-      result = kOctave9;
+    case msrOctaveKind::kOctave8:
+      result = msrOctaveKind::kOctave9;
       break;
-    case kOctave9:
-      result = k_NoOctave;
+    case msrOctaveKind::kOctave9:
+      result = msrOctaveKind::k_NoOctave;
       break;
   } // switch
 
@@ -278,41 +278,41 @@ msrOctaveKind octaveSucc (msrOctaveKind octaveKind)
 
 msrOctaveKind octavePred (msrOctaveKind octaveKind)
 {
-  msrOctaveKind result = k_NoOctave;
+  msrOctaveKind result = msrOctaveKind::k_NoOctave;
 
   switch (octaveKind) {
-    case k_NoOctave:
-      result = k_NoOctave;
+    case msrOctaveKind::k_NoOctave:
+      result = msrOctaveKind::k_NoOctave;
       break;
-    case kOctave0:
-      result = k_NoOctave;
+    case msrOctaveKind::kOctave0:
+      result = msrOctaveKind::k_NoOctave;
       break;
-    case kOctave1:
-      result = kOctave0;
+    case msrOctaveKind::kOctave1:
+      result = msrOctaveKind::kOctave0;
       break;
-    case kOctave2:
-      result = kOctave1;
+    case msrOctaveKind::kOctave2:
+      result = msrOctaveKind::kOctave1;
       break;
-    case kOctave3:
-      result = kOctave2;
+    case msrOctaveKind::kOctave3:
+      result = msrOctaveKind::kOctave2;
       break;
-    case kOctave4:
-      result = kOctave3;
+    case msrOctaveKind::kOctave4:
+      result = msrOctaveKind::kOctave3;
       break;
-    case kOctave5:
-      result = kOctave4;
+    case msrOctaveKind::kOctave5:
+      result = msrOctaveKind::kOctave4;
       break;
-    case kOctave6:
-      result = kOctave5;
+    case msrOctaveKind::kOctave6:
+      result = msrOctaveKind::kOctave5;
       break;
-    case kOctave7:
-      result = kOctave6;
+    case msrOctaveKind::kOctave7:
+      result = msrOctaveKind::kOctave6;
       break;
-    case kOctave8:
-      result = kOctave7;
+    case msrOctaveKind::kOctave8:
+      result = msrOctaveKind::kOctave7;
       break;
-    case kOctave9:
-      result = kOctave8;
+    case msrOctaveKind::kOctave9:
+      result = msrOctaveKind::kOctave8;
       break;
   } // switch
 
@@ -357,19 +357,19 @@ msrOctaveKind msrOctaveKindFromNumber (
   int inputLineNumber,
   int octaveNumber)
 {
-  msrOctaveKind result = k_NoOctave;
+  msrOctaveKind result = msrOctaveKind::k_NoOctave;
 
   switch (octaveNumber) {
-    case 0: result = kOctave0; break;
-    case 1: result = kOctave1; break;
-    case 2: result = kOctave2; break;
-    case 3: result = kOctave3; break;
-    case 4: result = kOctave4; break;
-    case 5: result = kOctave5; break;
-    case 6: result = kOctave6; break;
-    case 7: result = kOctave7; break;
-    case 8: result = kOctave8; break;
-    case 9: result = kOctave9; break;
+    case 0: result = msrOctaveKind::kOctave0; break;
+    case 1: result = msrOctaveKind::kOctave1; break;
+    case 2: result = msrOctaveKind::kOctave2; break;
+    case 3: result = msrOctaveKind::kOctave3; break;
+    case 4: result = msrOctaveKind::kOctave4; break;
+    case 5: result = msrOctaveKind::kOctave5; break;
+    case 6: result = msrOctaveKind::kOctave6; break;
+    case 7: result = msrOctaveKind::kOctave7; break;
+    case 8: result = msrOctaveKind::kOctave8; break;
+    case 9: result = msrOctaveKind::kOctave9; break;
     default:
       {
         stringstream s;
@@ -404,7 +404,7 @@ msrOctaveKind msrOctaveKindFromCommasOrQuotes (
 
   const msrOctaveKind
     octaveKindBelowMiddleC =
-      kOctave3;
+      msrOctaveKind::kOctave3;
 
   msrOctaveKind
     result =
@@ -474,37 +474,37 @@ string msrOctaveKindAsString (msrOctaveKind octaveKind)
   string result;
 
   switch (octaveKind) {
-    case k_NoOctave:
+    case msrOctaveKind::k_NoOctave:
       result = "[*** noOctave ***]";
       break;
-    case kOctave0:
+    case msrOctaveKind::kOctave0:
       result = "[octave 0]";
       break;
-    case kOctave1:
+    case msrOctaveKind::kOctave1:
       result = "[octave 1]";
       break;
-    case kOctave2:
+    case msrOctaveKind::kOctave2:
       result = "[octave 2]";
       break;
-    case kOctave3:
+    case msrOctaveKind::kOctave3:
       result = "[octave 3]";
       break;
-    case kOctave4:
+    case msrOctaveKind::kOctave4:
       result = "[octave 4]";
       break;
-    case kOctave5:
+    case msrOctaveKind::kOctave5:
       result = "[octave 5]";
       break;
-    case kOctave6:
+    case msrOctaveKind::kOctave6:
       result = "[octave 6]";
       break;
-    case kOctave7:
+    case msrOctaveKind::kOctave7:
       result = "[octave 7]";
       break;
-    case kOctave8:
+    case msrOctaveKind::kOctave8:
       result = "[octave 8]";
       break;
-    case kOctave9:
+    case msrOctaveKind::kOctave9:
       result = "[octave 9]";
       break;
   } // switch
@@ -666,38 +666,38 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
 void msrSemiTonesPitchAndOctave::incrementOctaveKind ()
 {
   switch (fOctaveKind) {
-    case k_NoOctave:
-      fOctaveKind = k_NoOctave;
+    case msrOctaveKind::k_NoOctave:
+      fOctaveKind = msrOctaveKind::k_NoOctave;
       break;
-    case kOctave0:
-      fOctaveKind = kOctave1;
+    case msrOctaveKind::kOctave0:
+      fOctaveKind = msrOctaveKind::kOctave1;
       break;
-    case kOctave1:
-      fOctaveKind = kOctave2;
+    case msrOctaveKind::kOctave1:
+      fOctaveKind = msrOctaveKind::kOctave2;
       break;
-    case kOctave2:
-      fOctaveKind = kOctave3;
+    case msrOctaveKind::kOctave2:
+      fOctaveKind = msrOctaveKind::kOctave3;
       break;
-    case kOctave3:
-      fOctaveKind = kOctave4;
+    case msrOctaveKind::kOctave3:
+      fOctaveKind = msrOctaveKind::kOctave4;
       break;
-    case kOctave4:
-      fOctaveKind = kOctave5;
+    case msrOctaveKind::kOctave4:
+      fOctaveKind = msrOctaveKind::kOctave5;
       break;
-    case kOctave5:
-      fOctaveKind = kOctave6;
+    case msrOctaveKind::kOctave5:
+      fOctaveKind = msrOctaveKind::kOctave6;
       break;
-    case kOctave6:
-      fOctaveKind = kOctave7;
+    case msrOctaveKind::kOctave6:
+      fOctaveKind = msrOctaveKind::kOctave7;
       break;
-    case kOctave7:
-      fOctaveKind = kOctave8;
+    case msrOctaveKind::kOctave7:
+      fOctaveKind = msrOctaveKind::kOctave8;
       break;
-    case kOctave8:
-      fOctaveKind = kOctave9;
+    case msrOctaveKind::kOctave8:
+      fOctaveKind = msrOctaveKind::kOctave9;
       break;
-    case kOctave9:
-      fOctaveKind = k_NoOctave;
+    case msrOctaveKind::kOctave9:
+      fOctaveKind = msrOctaveKind::k_NoOctave;
       break;
   } // switch
 }
@@ -705,38 +705,38 @@ void msrSemiTonesPitchAndOctave::incrementOctaveKind ()
 void msrSemiTonesPitchAndOctave::decrementOctaveKind ()
 {
   switch (fOctaveKind) {
-    case k_NoOctave:
-      fOctaveKind = k_NoOctave;
+    case msrOctaveKind::k_NoOctave:
+      fOctaveKind = msrOctaveKind::k_NoOctave;
       break;
-    case kOctave0:
-      fOctaveKind = k_NoOctave;
+    case msrOctaveKind::kOctave0:
+      fOctaveKind = msrOctaveKind::k_NoOctave;
       break;
-    case kOctave1:
-      fOctaveKind = kOctave0;
+    case msrOctaveKind::kOctave1:
+      fOctaveKind = msrOctaveKind::kOctave0;
       break;
-    case kOctave2:
-      fOctaveKind = kOctave1;
+    case msrOctaveKind::kOctave2:
+      fOctaveKind = msrOctaveKind::kOctave1;
       break;
-    case kOctave3:
-      fOctaveKind = kOctave2;
+    case msrOctaveKind::kOctave3:
+      fOctaveKind = msrOctaveKind::kOctave2;
       break;
-    case kOctave4:
-      fOctaveKind = kOctave3;
+    case msrOctaveKind::kOctave4:
+      fOctaveKind = msrOctaveKind::kOctave3;
       break;
-    case kOctave5:
-      fOctaveKind = kOctave4;
+    case msrOctaveKind::kOctave5:
+      fOctaveKind = msrOctaveKind::kOctave4;
       break;
-    case kOctave6:
-      fOctaveKind = kOctave5;
+    case msrOctaveKind::kOctave6:
+      fOctaveKind = msrOctaveKind::kOctave5;
       break;
-    case kOctave7:
-      fOctaveKind = kOctave6;
+    case msrOctaveKind::kOctave7:
+      fOctaveKind = msrOctaveKind::kOctave6;
       break;
-    case kOctave8:
-      fOctaveKind = kOctave7;
+    case msrOctaveKind::kOctave8:
+      fOctaveKind = msrOctaveKind::kOctave7;
       break;
-    case kOctave9:
-      fOctaveKind = kOctave8;
+    case msrOctaveKind::kOctave9:
+      fOctaveKind = msrOctaveKind::kOctave8;
       break;
   } // switch
 }
@@ -907,7 +907,7 @@ S_msrQuarterTonesPitchAndOctave msrQuarterTonesPitchAndOctave::createFromString 
           msrQuarterTonesPitchKindAsString (
             quarterTonesPitchKind) <<
         "\", " <<
-        "--> octaveKind = " << octaveKind <<
+        "--> octaveKind = " << msrOctaveKindAsString (octaveKind) <<
         endl;
     }
 #endif
@@ -940,38 +940,38 @@ S_msrQuarterTonesPitchAndOctave msrQuarterTonesPitchAndOctave::createFromString 
 void msrQuarterTonesPitchAndOctave::incrementOctaveKind ()
 {
   switch (fOctaveKind) {
-    case k_NoOctave:
-      fOctaveKind = k_NoOctave;
+    case msrOctaveKind::k_NoOctave:
+      fOctaveKind = msrOctaveKind::k_NoOctave;
       break;
-    case kOctave0:
-      fOctaveKind = kOctave1;
+    case msrOctaveKind::kOctave0:
+      fOctaveKind = msrOctaveKind::kOctave1;
       break;
-    case kOctave1:
-      fOctaveKind = kOctave2;
+    case msrOctaveKind::kOctave1:
+      fOctaveKind = msrOctaveKind::kOctave2;
       break;
-    case kOctave2:
-      fOctaveKind = kOctave3;
+    case msrOctaveKind::kOctave2:
+      fOctaveKind = msrOctaveKind::kOctave3;
       break;
-    case kOctave3:
-      fOctaveKind = kOctave4;
+    case msrOctaveKind::kOctave3:
+      fOctaveKind = msrOctaveKind::kOctave4;
       break;
-    case kOctave4:
-      fOctaveKind = kOctave5;
+    case msrOctaveKind::kOctave4:
+      fOctaveKind = msrOctaveKind::kOctave5;
       break;
-    case kOctave5:
-      fOctaveKind = kOctave6;
+    case msrOctaveKind::kOctave5:
+      fOctaveKind = msrOctaveKind::kOctave6;
       break;
-    case kOctave6:
-      fOctaveKind = kOctave7;
+    case msrOctaveKind::kOctave6:
+      fOctaveKind = msrOctaveKind::kOctave7;
       break;
-    case kOctave7:
-      fOctaveKind = kOctave8;
+    case msrOctaveKind::kOctave7:
+      fOctaveKind = msrOctaveKind::kOctave8;
       break;
-    case kOctave8:
-      fOctaveKind = kOctave9;
+    case msrOctaveKind::kOctave8:
+      fOctaveKind = msrOctaveKind::kOctave9;
       break;
-    case kOctave9:
-      fOctaveKind = k_NoOctave;
+    case msrOctaveKind::kOctave9:
+      fOctaveKind = msrOctaveKind::k_NoOctave;
       break;
   } // switch
 }
@@ -979,38 +979,38 @@ void msrQuarterTonesPitchAndOctave::incrementOctaveKind ()
 void msrQuarterTonesPitchAndOctave::decrementOctaveKind ()
 {
   switch (fOctaveKind) {
-    case k_NoOctave:
-      fOctaveKind = k_NoOctave;
+    case msrOctaveKind::k_NoOctave:
+      fOctaveKind = msrOctaveKind::k_NoOctave;
       break;
-    case kOctave0:
-      fOctaveKind = k_NoOctave;
+    case msrOctaveKind::kOctave0:
+      fOctaveKind = msrOctaveKind::k_NoOctave;
       break;
-    case kOctave1:
-      fOctaveKind = kOctave0;
+    case msrOctaveKind::kOctave1:
+      fOctaveKind = msrOctaveKind::kOctave0;
       break;
-    case kOctave2:
-      fOctaveKind = kOctave1;
+    case msrOctaveKind::kOctave2:
+      fOctaveKind = msrOctaveKind::kOctave1;
       break;
-    case kOctave3:
-      fOctaveKind = kOctave2;
+    case msrOctaveKind::kOctave3:
+      fOctaveKind = msrOctaveKind::kOctave2;
       break;
-    case kOctave4:
-      fOctaveKind = kOctave3;
+    case msrOctaveKind::kOctave4:
+      fOctaveKind = msrOctaveKind::kOctave3;
       break;
-    case kOctave5:
-      fOctaveKind = kOctave4;
+    case msrOctaveKind::kOctave5:
+      fOctaveKind = msrOctaveKind::kOctave4;
       break;
-    case kOctave6:
-      fOctaveKind = kOctave5;
+    case msrOctaveKind::kOctave6:
+      fOctaveKind = msrOctaveKind::kOctave5;
       break;
-    case kOctave7:
-      fOctaveKind = kOctave6;
+    case msrOctaveKind::kOctave7:
+      fOctaveKind = msrOctaveKind::kOctave6;
       break;
-    case kOctave8:
-      fOctaveKind = kOctave7;
+    case msrOctaveKind::kOctave8:
+      fOctaveKind = msrOctaveKind::kOctave7;
       break;
-    case kOctave9:
-      fOctaveKind = kOctave8;
+    case msrOctaveKind::kOctave9:
+      fOctaveKind = msrOctaveKind::kOctave8;
       break;
   } // switch
 }
@@ -1065,49 +1065,49 @@ msrDurationKind msrDurationKindFromMusicXMLString (
   int    inputLineNumber,
   string durationString)
 {
-  msrDurationKind result = k_NoDuration;
+  msrDurationKind result = msrDurationKind::k_NoDuration;
 
   if      (durationString == "maxima") {
-    result = kMaxima;
+    result = msrDurationKind::kMaxima;
   }
   else if (durationString == "long") {
-    result = kLong;
+    result = msrDurationKind::kLong;
   }
   else if (durationString == "breve") {
-    result = kBreve;
+    result = msrDurationKind::kBreve;
   }
   else if (durationString == "whole") {
-    result = kWhole;
+    result = msrDurationKind::kWhole;
   }
   else if (durationString == "half") {
-    result = kHalf;
+    result = msrDurationKind::kHalf;
   }
   else if (durationString == "quarter") {
-    result = kQuarter;
+    result = msrDurationKind::kQuarter;
   }
   else if (durationString == "eighth") {
-    result = kEighth;
+    result = msrDurationKind::kEighth;
   }
   else if (durationString == "16th") {
-    result = k16th;
+    result = msrDurationKind::k16th;
   }
   else if (durationString == "32nd") {
-    result = k32nd;
+    result = msrDurationKind::k32nd;
   }
   else if (durationString == "64th") {
-    result = k64th;
+    result = msrDurationKind::k64th;
   }
   else if (durationString == "128th") {
-    result = k128th;
+    result = msrDurationKind::k128th;
   }
   else if (durationString == "256th") {
-    result = k256th;
+    result = msrDurationKind::k256th;
   }
   else if (durationString == "512th") {
-    result = k512th;
+    result = msrDurationKind::k512th;
   }
   else if (durationString == "1024th") {
-    result = k1024th;
+    result = msrDurationKind::k1024th;
   }
   else {
     stringstream s;
@@ -1126,59 +1126,106 @@ msrDurationKind msrDurationKindFromMusicXMLString (
   return result;
 }
 
-msrDurationKind msrDurationKindFromMslpString (
+EXP msrDurationKind msrDurationKindFromInteger (
+  int inputLineNumber,
+  int durationInteger)
+{
+  msrDurationKind result = msrDurationKind::k_NoDuration;
+
+  switch (durationInteger) {
+    case 1:
+      result = msrDurationKind::kWhole;
+      break;
+    case 2:
+      result = msrDurationKind::kHalf;
+      break;
+    case 4:
+      result = msrDurationKind::kQuarter;
+      break;
+    case 8:
+      result = msrDurationKind::kEighth;
+      break;
+    case 16:
+      result = msrDurationKind::k16th;
+      break;
+    case 32:
+      result = msrDurationKind::k32nd;
+      break;
+    case 64:
+      result = msrDurationKind::k64th;
+      break;
+    case 128:
+      result = msrDurationKind::k128th;
+      break;
+    case 256:
+      result = msrDurationKind::k256th;
+      break;
+    case 512:
+      result = msrDurationKind::k512th;
+      break;
+    case 1024:
+      result = msrDurationKind::k1024th;
+      break;
+    default:
+      ;
+  } // switch
+
+  return result;
+}
+
+msrDurationKind msrDurationKindFromString (
   int    inputLineNumber,
   string durationString)
 {
-  msrDurationKind result = k_NoDuration;
+  msrDurationKind result = msrDurationKind::k_NoDuration;
 
   if      (durationString == "maxima") {
-    result = kMaxima;
+    result = msrDurationKind::kMaxima;
   }
   else if (durationString == "long") {
-    result = kLong;
+    result = msrDurationKind::kLong;
   }
   else if (durationString == "breve") {
-    result = kBreve;
+    result = msrDurationKind::kBreve;
   }
   else if (durationString == "1") {
-    result = kWhole;
+    result = msrDurationKind::kWhole;
   }
   else if (durationString == "2") {
-    result = kHalf;
+    result = msrDurationKind::kHalf;
   }
   else if (durationString == "4") {
-    result = kQuarter;
+    result = msrDurationKind::kQuarter;
   }
   else if (durationString == "8") {
-    result = kEighth;
+    result = msrDurationKind::kEighth;
   }
   else if (durationString == "16") {
-    result = k16th;
+    result = msrDurationKind::k16th;
   }
   else if (durationString == "32") {
-    result = k32nd;
+    result = msrDurationKind::k32nd;
   }
   else if (durationString == "64") {
-    result = k64th;
+    result = msrDurationKind::k64th;
   }
   else if (durationString == "128") {
-    result = k128th;
+    result = msrDurationKind::k128th;
   }
   else if (durationString == "256") {
-    result = k256th;
+    result = msrDurationKind::k256th;
   }
   else if (durationString == "512") {
-    result = k512th;
+    result = msrDurationKind::k512th;
   }
   else if (durationString == "1024") {
-    result = k1024th;
+    result = msrDurationKind::k1024th;
   }
   else {
     stringstream s;
 
     s <<
-      "MSPL durationString \"" << durationString <<
+      "MSR durationString \"" << durationString <<
       "\" is unknown";
 
     msrMusicXMLError (
@@ -1196,50 +1243,50 @@ rational msrDurationKindAsWholeNotes (msrDurationKind durationKind)
   rational result;
 
   switch (durationKind) {
-    case k_NoDuration:
+    case msrDurationKind::k_NoDuration:
       result = rational (0, 1);
       break;
 
-    case k1024th:
+    case msrDurationKind::k1024th:
       result = rational (1, 1024);
       break;
-    case k512th:
+    case msrDurationKind::k512th:
       result = rational (1, 512);
       break;
-    case k256th:
+    case msrDurationKind::k256th:
       result = rational (1, 256);
       break;
-    case k128th:
+    case msrDurationKind::k128th:
       result = rational (1, 128);
       break;
-    case k64th:
+    case msrDurationKind::k64th:
       result = rational (1, 64);
       break;
-    case k32nd:
+    case msrDurationKind::k32nd:
       result = rational (1, 32);
       break;
-    case k16th:
+    case msrDurationKind::k16th:
       result = rational (1, 16);
       break;
-    case kEighth:
+    case msrDurationKind::kEighth:
       result = rational (1, 8);
       break;
-    case kQuarter:
+    case msrDurationKind::kQuarter:
       result = rational (1, 4);
       break;
-    case kHalf:
+    case msrDurationKind::kHalf:
       result = rational (1, 2);
       break;
-    case kWhole:
+    case msrDurationKind::kWhole:
       result = rational (1, 1);
       break;
-    case kBreve:
+    case msrDurationKind::kBreve:
       result = rational (2, 1);
       break;
-    case kLong:
+    case msrDurationKind::kLong:
       result = rational (4, 1);
       break;
-    case kMaxima:
+    case msrDurationKind::kMaxima:
       result = rational (8, 1);
       break;
   } // switch
@@ -1249,42 +1296,42 @@ rational msrDurationKindAsWholeNotes (msrDurationKind durationKind)
 
 msrDurationKind wholeNotesAsDurationKind (rational wholeNotes)
 {
-  msrDurationKind result = k_NoDuration;
+  msrDurationKind result = msrDurationKind::k_NoDuration;
 
   if (wholeNotes.getNumerator () == 1) {
     switch (wholeNotes.getDenominator ()) {
       case 1:
-        result = kWhole;
+        result = msrDurationKind::kWhole;
         break;
       case 2:
-        result = kHalf;
+        result = msrDurationKind::kHalf;
         break;
       case 4:
-        result = kQuarter;
+        result = msrDurationKind::kQuarter;
         break;
       case 8:
-        result = kEighth;
+        result = msrDurationKind::kEighth;
         break;
       case 16:
-        result = k16th;
+        result = msrDurationKind::k16th;
         break;
       case 32:
-        result = k32nd;
+        result = msrDurationKind::k32nd;
         break;
       case 64:
-        result = k64th;
+        result = msrDurationKind::k64th;
         break;
       case 128:
-        result = k128th;
+        result = msrDurationKind::k128th;
         break;
       case 256:
-        result = k256th;
+        result = msrDurationKind::k256th;
         break;
       case 512:
-        result = k512th;
+        result = msrDurationKind::k512th;
         break;
       case 1024:
-        result = k1024th;
+        result = msrDurationKind::k1024th;
         break;
       default:
         ;
@@ -1294,13 +1341,13 @@ msrDurationKind wholeNotesAsDurationKind (rational wholeNotes)
   else if (wholeNotes.getDenominator () == 1) {
     switch (wholeNotes.getNumerator ()) {
       case 2:
-        result = kBreve;
+        result = msrDurationKind::kBreve;
         break;
       case 4:
-        result = kLong;
+        result = msrDurationKind::kLong;
         break;
       case 8:
-        result = kMaxima;
+        result = msrDurationKind::kMaxima;
         break;
       default:
         ;
@@ -1315,50 +1362,50 @@ string msrDurationKindAsMusicXMLType (msrDurationKind durationKind)
   string result;
 
   switch (durationKind) {
-    case k_NoDuration:
+    case msrDurationKind::k_NoDuration:
       result = "noDuration";
       break;
 
-    case k1024th:
+    case msrDurationKind::k1024th:
       result = "1024th";
       break;
-    case k512th:
+    case msrDurationKind::k512th:
       result = "512th";
       break;
-    case k256th:
+    case msrDurationKind::k256th:
       result = "256th";
       break;
-    case k128th:
+    case msrDurationKind::k128th:
       result = "128th";
       break;
-    case k64th:
+    case msrDurationKind::k64th:
       result = "64th";
       break;
-    case k32nd:
+    case msrDurationKind::k32nd:
       result = "32nd";
       break;
-    case k16th:
+    case msrDurationKind::k16th:
       result = "16th";
       break;
-    case kEighth:
+    case msrDurationKind::kEighth:
       result = "eighth";
       break;
-    case kQuarter:
+    case msrDurationKind::kQuarter:
       result = "quarter";
       break;
-    case kHalf:
+    case msrDurationKind::kHalf:
       result = "half";
       break;
-    case kWhole:
+    case msrDurationKind::kWhole:
       result = "whole";
       break;
-    case kBreve:
+    case msrDurationKind::kBreve:
       result = "breve";
       break;
-    case kLong:
+    case msrDurationKind::kLong:
       result = "long";
       break;
-    case kMaxima:
+    case msrDurationKind::kMaxima:
       result = "maxima";
       break;
   } // switch
@@ -1371,50 +1418,50 @@ string msrDurationKindAsString (msrDurationKind durationKind)
   string result;
 
   switch (durationKind) {
-    case k_NoDuration:
+    case msrDurationKind::k_NoDuration:
       result = "noDuration";
       break;
 
-    case k1024th:
+    case msrDurationKind::k1024th:
       result = "1024";
       break;
-    case k512th:
+    case msrDurationKind::k512th:
       result = "512";
       break;
-    case k256th:
+    case msrDurationKind::k256th:
       result = "256";
       break;
-    case k128th:
+    case msrDurationKind::k128th:
       result = "128";
       break;
-    case k64th:
+    case msrDurationKind::k64th:
       result = "64";
       break;
-    case k32nd:
+    case msrDurationKind::k32nd:
       result = "32";
       break;
-    case k16th:
+    case msrDurationKind::k16th:
       result = "16";
       break;
-    case kEighth:
+    case msrDurationKind::kEighth:
       result = "8";
       break;
-    case kQuarter:
+    case msrDurationKind::kQuarter:
       result = "4";
       break;
-    case kHalf:
+    case msrDurationKind::kHalf:
       result = "2";
       break;
-    case kWhole:
+    case msrDurationKind::kWhole:
       result = "1";
       break;
-    case kBreve:
+    case msrDurationKind::kBreve:
       result = "Breve";
       break;
-    case kLong:
+    case msrDurationKind::kLong:
       result = "Long";
       break;
-    case kMaxima:
+    case msrDurationKind::kMaxima:
       result = "Maxima";
       break;
   } // switch
@@ -21380,7 +21427,7 @@ msrHarmonyContents::msrHarmonyContents (
     rootChordElement =
       msrSemiTonesPitchAndOctave::create (
         fHarmonyContentsRootNote,
-        kOctave0); // relative octave JMI ???
+        msrOctaveKind::kOctave0); // relative octave JMI ???
 
   // add it to the harmony elements
   fHarmonyElementsVector.push_back (rootChordElement);
@@ -21416,7 +21463,7 @@ msrHarmonyContents::msrHarmonyContents (
       harmonyElement =
         msrSemiTonesPitchAndOctave::create (
           semiTonePitch,
-          kOctave0); // relative octave JMI ???
+          msrOctaveKind::kOctave0); // relative octave JMI ???
 
     // add it to the harmony elements
     fHarmonyElementsVector.push_back (harmonyElement);

@@ -472,11 +472,10 @@ string msdlKeywordKindAsMsdlString (
   msdlKeywordsLanguageKind languageKind,
   msdlKeywordKind          keywordKind)
 {
-
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+  if (gGlobalMsdl2msdrOahGroup->getTraceTokensDetails ()) {
     gLogStream <<
-      "--> msdlKeywordKindFromString()" <<
+      "--> msdlKeywordKindAsMsdlString()" <<
       ", languageKind: " << msdlKeywordsLanguageKindAsString (languageKind) <<
       ", keywordKind: \"" << msdlKeywordKindAsString (keywordKind) << "\"" <<
       endl;
@@ -530,6 +529,15 @@ string msdlKeywordKindAsMsdlString (
       } // for
     }
   }
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMsdl2msdrOahGroup->getTraceTokensDetails ()) {
+    gLogStream <<
+      "<-- msdlKeywordKindAsMsdlString()" <<
+      ", result: \"" << result << "\"" <<
+      endl;
+  }
+#endif
 
   return result;
 }
@@ -622,7 +630,7 @@ msdlKeywordKind msdlKeywordKindFromString (
   string                   theString)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+  if (gGlobalMsdl2msdrOahGroup->getTraceTokensDetails ()) {
     gLogStream <<
       "--> msdlKeywordKindFromString()" <<
       ", languageKind: " << msdlKeywordsLanguageKindAsString (languageKind) <<
@@ -680,7 +688,7 @@ msdlKeywordKind msdlKeywordKindFromString (
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMsdl2msdrOahGroup->getTraceTokens ()) {
+  if (gGlobalMsdl2msdrOahGroup->getTraceTokensDetails ()) {
     gLogStream <<
       "<-- msdlKeywordKindFromString()" <<
       ", languageKind: " << msdlKeywordsLanguageKindAsString (languageKind) <<
