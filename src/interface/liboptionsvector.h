@@ -13,7 +13,11 @@
 #ifndef __liboptionsvector__
 #define __liboptionsvector__
 
+#include <string>
+#include <vector>
+
 // this file requires the use of C++
+
 
 namespace MusicXML2
 {
