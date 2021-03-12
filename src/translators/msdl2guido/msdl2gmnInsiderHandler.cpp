@@ -184,7 +184,7 @@ void msdl2gmnInsiderHandler::createTheMsdl2gmnOptionGroups (
 
   // create the msdl2gmn OAH group
   appendGroupToHandler (
-    createGlobalMsdl2gmnOahGroup ());
+    createGlobalMsdl2gmnInsiderOahGroup ());
 
   // create the MusicXML OAH group
   appendGroupToHandler (
@@ -454,7 +454,7 @@ msdl2gmnInsiderOahGroup::msdl2gmnInsiderOahGroup ()
     "msdl2gmn",
     "hx2g", "help-msdl2gmn",
 R"(Options that are used by msdl2gmn are grouped here.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMsdl2gmnInsiderOahGroup ();
 }
@@ -474,130 +474,6 @@ void msdl2gmnInsiderOahGroup::initializeMsdl2gmnInsiderOahGroup ()
     endl;
   }
 #endif
-
-  // Guido
-  // --------------------------------------
-
-  createInsiderGuidoSubGroup ();
-
-  // quit after some passes
-  // --------------------------------------
-
-  createInsiderQuitSubGroup ();
-}
-
-//_______________________________________________________________________________
-void msdl2gmnInsiderOahGroup::createInsiderGuidoSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-  gLogStream << left <<
-    "Creating insider output subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-  }
-#endif
-
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Guido group",
-        "xguido-group", "help-guido-group",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // generate comments
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-comments", "",
-  R"(Generate comments in the Guido output.)",
-        "generateComments",
-        fGenerateComments));
-
-  // generate stem
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-stem", "",
-  R"(Generate stem in the Guido output.)",
-        "generateStem",
-        fGenerateStem));
-
-  // generate bars
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-bars", "",
-  R"(Generate barlines in the Guido output.)",
-        "generateBars",
-        fGenerateBars));
-}
-
-//_______________________________________________________________________________
-void msdl2gmnInsiderOahGroup::createInsiderQuitSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-  gLogStream << left <<
-    "Creating insider quit subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-  }
-#endif
-
-  S_oahSubGroup
-    quitAfterSomePassesSubGroup =
-      oahSubGroup::create (
-        "Quit after some passes",
-        "hm2xquit", "help-msr2gmn-quit",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (quitAfterSomePassesSubGroup);
-
-  // quit after pass 2a
-
-  fQuitAfterPass2a = false;
-
-  S_oahBooleanAtom
-    quit2aOahBooleanAtom =
-      oahBooleanAtom::create (
-        "qap2a", "quitAfterPass-after-pass2a",
-R"(Quit after pass 2a, i.e. after conversion
-of the MusicXML tree to an MSR skeleton.)",
-        "quitAfterPass2a",
-        fQuitAfterPass2a);
-
-  quitAfterSomePassesSubGroup->
-    appendAtomToSubGroup (
-      quit2aOahBooleanAtom);
-
-  // quit after pass 2b
-
-  fQuitAfterPass2b = false;
-
-  S_oahBooleanAtom
-    quit2bOahBooleanAtom =
-      oahBooleanAtom::create (
-        "qap2b", "quitAfterPass-after-pass2b",
-R"(Quit after pass 2b, i.e. after conversion
-of the MusicXML tree to MSR.)",
-        "quitAfterPass2b",
-        fQuitAfterPass2b);
-
-  quitAfterSomePassesSubGroup->
-    appendAtomToSubGroup (
-      quit2bOahBooleanAtom);
 }
 
 //______________________________________________________________________________
@@ -609,28 +485,6 @@ void msdl2gmnInsiderOahGroup::printMsdl2gmnInsiderOahGroupValues (
     endl;
 
   ++gIndenter;
-
-  // Guido
-  // --------------------------------------
-
-  gLogStream << left <<
-    setw (fieldWidth) << "Guido:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) <<
-    "generateComments" << " : " << booleanAsString (fGenerateComments) <<
-    endl <<
-    setw (fieldWidth) <<
-    "generateStem" << " : " << booleanAsString (fGenerateStem) <<
-    endl <<
-    setw (fieldWidth) <<
-    "generateBars" << " : " << booleanAsString (fGenerateBars) <<
-    endl;
-
-  --gIndenter;
 
   // quit after some passes
   // --------------------------------------
@@ -655,12 +509,12 @@ void msdl2gmnInsiderOahGroup::printMsdl2gmnInsiderOahGroupValues (
 }
 
 //______________________________________________________________________________
-S_msdl2gmnInsiderOahGroup createGlobalMsdl2gmnOahGroup ()
+S_msdl2gmnInsiderOahGroup createGlobalMsdl2gmnInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
     gLogStream <<
-      "Creating global msdl2gmn OAH group" <<
+      "Creating global msdl2gmn insider OAH group" <<
       endl;
   }
 #endif

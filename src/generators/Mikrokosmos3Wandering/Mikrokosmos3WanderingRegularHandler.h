@@ -33,11 +33,11 @@ class EXP Mikrokosmos3WanderingRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
     static SMARTP<Mikrokosmos3WanderingRegularHandler> create (
-                            string              executableName,
-                            string              handlerHeader,
+                            string                   executableName,
+                            string                   handlerHeader,
                             S_Mikrokosmos3WanderingInsiderHandler
-                                                insiderOahHandler,
-                            generatorOutputKind theGeneratorOutputKind);
+                                                     insiderOahHandler,
+                            multiGeneratorOutputKind generatorOutputKind);
 
   protected:
 
@@ -45,11 +45,11 @@ class EXP Mikrokosmos3WanderingRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
                           Mikrokosmos3WanderingRegularHandler (
-                            string              executableName,
-                            string              handlerHeader,
+                            string                   executableName,
+                            string                   handlerHeader,
                             S_Mikrokosmos3WanderingInsiderHandler
-                                                insiderOahHandler,
-                            generatorOutputKind theGeneratorOutputKind);
+                                                     insiderOahHandler,
+                            multiGeneratorOutputKind generatorOutputKind);
 
     virtual               ~Mikrokosmos3WanderingRegularHandler ();
 
@@ -59,9 +59,9 @@ class EXP Mikrokosmos3WanderingRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
     // generated output kind
-    void                  setGeneratorOutputKind (generatorOutputKind value)
+    void                  setGeneratorOutputKind (multiGeneratorOutputKind value)
                               { fGeneratorOutputKind = value; }
-    generatorOutputKind   getGeneratorOutputKind () const
+    multiGeneratorOutputKind   getGeneratorOutputKind () const
                               { return fGeneratorOutputKind; }
 
   public:
@@ -178,7 +178,7 @@ class EXP Mikrokosmos3WanderingRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
     // generated output kind
-    generatorOutputKind     fGeneratorOutputKind;
+    multiGeneratorOutputKind     fGeneratorOutputKind;
 };
 typedef SMARTP<Mikrokosmos3WanderingRegularHandler> S_Mikrokosmos3WanderingRegularHandler;
 EXP ostream& operator<< (ostream& os, const S_Mikrokosmos3WanderingRegularHandler& elt);

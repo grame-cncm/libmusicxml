@@ -570,7 +570,7 @@ xml2xmlInsiderOahGroup::xml2xmlInsiderOahGroup ()
     "xml2xml",
     "hm2x", "help-xml2xml",
 R"(Options that are used by xml2xml are grouped here.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeXml2xmlInsiderOahGroup ();
 }
@@ -616,7 +616,7 @@ void xml2xmlInsiderOahGroup::createInsiderQuitSubGroup ()
         "Quit after some passes",
         "hm2xquit", "help-msr2xml-quit",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (quitAfterSomePassesSubGroup);

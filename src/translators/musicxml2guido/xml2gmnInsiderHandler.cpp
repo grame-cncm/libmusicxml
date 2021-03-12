@@ -571,7 +571,7 @@ xml2gmnInsiderOahGroup::xml2gmnInsiderOahGroup ()
     "xml2gmn",
     "hx2g", "help-xml2gmn",
 R"(Options that are used by xml2gmn are grouped here.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeXml2gmnInsiderOahGroup ();
 }
@@ -592,70 +592,10 @@ void xml2gmnInsiderOahGroup::initializeXml2gmnInsiderOahGroup ()
   }
 #endif
 
-  // Guido
-  // --------------------------------------
-
-  createInsiderGuidoSubGroup ();
-
   // quit after some passes
   // --------------------------------------
 
-  createInsiderQuitSubGroup ();
-}
-
-//_______________________________________________________________________________
-void xml2gmnInsiderOahGroup::createInsiderGuidoSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-  gLogStream << left <<
-    "Creating insider output subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-  }
-#endif
-
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Guido group",
-        "xguido-group", "help-guido-group",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // generate comments
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-comments", "",
-  R"(Generate comments in the Guido output.)",
-        "generateComments",
-        fGenerateComments));
-
-  // generate stem
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-stem", "",
-  R"(Generate stem in the Guido output.)",
-        "generateStem",
-        fGenerateStem));
-
-  // generate bars
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-bars", "",
-  R"(Generate barlines in the Guido output.)",
-        "generateBars",
-        fGenerateBars));
+//  createInsiderQuitSubGroup ();
 }
 
 //_______________________________________________________________________________
@@ -677,7 +617,7 @@ void xml2gmnInsiderOahGroup::createInsiderQuitSubGroup ()
         "Quit after some passes",
         "hm2xquit", "help-msr2gmn-quit",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (quitAfterSomePassesSubGroup);
@@ -726,6 +666,7 @@ void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (unsigned int fie
 
   ++gIndenter;
 
+/*
   // Guido
   // --------------------------------------
 
@@ -747,6 +688,7 @@ void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (unsigned int fie
     endl;
 
   --gIndenter;
+*/
 
   // quit after some passes
   // --------------------------------------

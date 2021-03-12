@@ -152,7 +152,7 @@ static bool arguments2optionsVector (
 
 //------------------------------------------------------------------------
 void enforceSomeOptions (
-  generatorOutputKind theGeneratorOutputKind)
+  multiGeneratorOutputKind theGeneratorOutputKind)
 //------------------------------------------------------------------------
 {
   /*
@@ -189,17 +189,17 @@ void enforceSomeOptions (
   // ------------------------------------------------------
 
   switch (theGeneratorOutputKind) {
-    case k_NoOutput:
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
 /*
      gGlobalMusicxmlOahGroup->setTraceDivisions ();
 */
      break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       // LPSR
       // ------------------------------------------------------
 
@@ -218,7 +218,7 @@ void enforceSomeOptions (
 */
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       // BSR
       // ------------------------------------------------------
 
@@ -236,7 +236,7 @@ void enforceSomeOptions (
 */
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       // MusicXML
       // ------------------------------------------------------
 
@@ -247,7 +247,7 @@ void enforceSomeOptions (
 */
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
 /*
 */
       break;
@@ -348,8 +348,8 @@ int main (int argc, char * argv[])
   // since the OAH handler should only use the OAH groups needed for it
   // ------------------------------------------------------
 
-  generatorOutputKind
-    theGeneratorOutputKind = k_NoOutput;
+  multiGeneratorOutputKind
+    theGeneratorOutputKind = multiGeneratorOutputKind::k_NoOutput;
 
   for (unsigned int i = 0; i < theOptionsVector.size (); ++i) {
     string optionName  = theOptionsVector [i].first;
@@ -363,22 +363,22 @@ int main (int argc, char * argv[])
       optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_LONG_NAME
     ) {
       theGeneratorOutputKind =
-        generatorOutputKindFromString (optionValue);
+        multiGeneratorOutputKindFromString (optionValue);
     }
     else if (optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_GUIDO_NAME) {
-      theGeneratorOutputKind = kGuidoOutput;
+      theGeneratorOutputKind = multiGeneratorOutputKind::kGuidoOutput;
     }
     else if (optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_LIlYPOND_NAME) {
-      theGeneratorOutputKind = kLilyPondOutput;
+      theGeneratorOutputKind = multiGeneratorOutputKind::kLilyPondOutput;
     }
     else if (optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_BRAILLE_NAME) {
-      theGeneratorOutputKind = kBrailleOutput;
+      theGeneratorOutputKind = multiGeneratorOutputKind::kBrailleOutput;
     }
     else if (optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_MUSICXML_NAME) {
-      theGeneratorOutputKind = kMusicXMLOutput;
+      theGeneratorOutputKind = multiGeneratorOutputKind::kMusicXMLOutput;
     }
     else if (optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_MIDI_NAME) {
-      theGeneratorOutputKind = kMidiOutput;
+      theGeneratorOutputKind = multiGeneratorOutputKind::kMidiOutput;
     }
   } //for
 
@@ -386,25 +386,25 @@ int main (int argc, char * argv[])
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
     cerr <<
-      "==> generatorOutputKind: " <<
-      generatorOutputKindAsString (theGeneratorOutputKind) <<
+      "==> multiGeneratorOutputKind: " <<
+      multiGeneratorOutputKindAsString (theGeneratorOutputKind) <<
       endl;
   }
 #endif
 
   switch (theGeneratorOutputKind) {
-    case k_NoOutput:
+    case multiGeneratorOutputKind::k_NoOutput:
       // wait until after help options have been handled
       // before issuing an error message
       break;
 
-    case kGuidoOutput:
-    case kLilyPondOutput:
-    case kBrailleOutput:
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       gLogStream <<
         "MIDI output is not implemented yet, sorry" <<
         endl;
@@ -458,10 +458,10 @@ int main (int argc, char * argv[])
 
     // have help options been used?
     switch (helpOnlyKind) {
-      case kElementHelpOnlyYes:
+      case oahElementHelpOnlyKind::kElementHelpOnlyYes:
         return 0; // quit now
         break;
-      case kElementHelpOnlyNo:
+      case oahElementHelpOnlyKind::kElementHelpOnlyNo:
         // go ahead
         break;
     } // switch
@@ -479,13 +479,13 @@ int main (int argc, char * argv[])
   // ------------------------------------------------------
 
   switch (theGeneratorOutputKind) {
-    case k_NoOutput:
+    case multiGeneratorOutputKind::k_NoOutput:
       {
         stringstream s;
 
         s <<
           executableName <<
-          " requires the output kind to be suplied thru one of the options " <<
+          " needs the output kind to be suplied thru one of the options " <<
           "'-" << K_GENERATED_OUTPUT_KIND_SHORT_NAME << "'" <<
           ", -'" << K_GENERATED_OUTPUT_KIND_LONG_NAME << "'" <<
           ", -'" << K_GENERATED_OUTPUT_KIND_GUIDO_NAME << "'" <<
@@ -493,9 +493,9 @@ int main (int argc, char * argv[])
           ", -'" << K_GENERATED_OUTPUT_KIND_BRAILLE_NAME << "'" <<
           ", -'" << K_GENERATED_OUTPUT_KIND_MUSICXML_NAME << "'" <<
           " or '" << K_GENERATED_OUTPUT_KIND_MIDI_NAME << "'" <<
-          ", unless the run is a pure help one";
+          ", otherwise the run is a pure help one";
 
-        oahError (s.str ());
+        oahWarning (s.str ());
       }
       break;
 
@@ -627,11 +627,11 @@ int main (int argc, char * argv[])
   xmlErr err = kNoErr;
 
   switch (theGeneratorOutputKind) {
-    case k_NoOutput:
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
       err =
         msrScore2guidoWithHandler (
           theMsrScore,
@@ -646,7 +646,7 @@ int main (int argc, char * argv[])
           handler);
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       err =
         msrScore2lilypondWithHandler (
           theMsrScore,
@@ -659,7 +659,7 @@ int main (int argc, char * argv[])
           handler);
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       err =
         msrScore2brailleWithHandler (
           theMsrScore,
@@ -674,7 +674,7 @@ int main (int argc, char * argv[])
           handler);
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       err =
         msrScore2musicxmlWithHandler (
           theMsrScore,
@@ -689,7 +689,7 @@ int main (int argc, char * argv[])
           handler);
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       break;
   } // switch
 
@@ -698,7 +698,7 @@ int main (int argc, char * argv[])
     if (err != 0) {
       cerr <<
         executableName << ", " <<
-        generatorOutputKindAsString (theGeneratorOutputKind) <<
+        multiGeneratorOutputKindAsString (theGeneratorOutputKind) <<
         ", err = " <<
         err <<
         endl;
@@ -736,7 +736,7 @@ int main (int argc, char * argv[])
   if (err != kNoErr) {
     gLogStream <<
       "### The generation of " <<
-      generatorOutputKindAsString (theGeneratorOutputKind) <<
+      multiGeneratorOutputKindAsString (theGeneratorOutputKind) <<
       " thru the " <<
       msrGenerationAPIKindAsString (
         theGenerationAPIKind) <<

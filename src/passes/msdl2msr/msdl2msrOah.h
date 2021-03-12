@@ -19,7 +19,7 @@
 
 #include "msdlKeywords.h"
 
-#include "generatorsBasicTypes.h"
+// JMI #include "multiGeneratorsOah.h"
 
 #include "msdlOah.h"
 
@@ -103,9 +103,6 @@ class EXP msdl2msrOahGroup : public oahGroup
     msdlCommentsTypeKind  getMsdlCommentsTypeTranslationKind () const
                               { return fMsdlCommentsTypeTranslationKind; }
 
-    generatorOutputKind   getGeneratorOutputKind () const
-                              { return fGeneratorOutputKind; }
-
     bool                  getQuitOnLexicalErrors () const
                               { return fQuitOnLexicalErrors; }
 
@@ -137,8 +134,6 @@ class EXP msdl2msrOahGroup : public oahGroup
     void                  initializeMsdlLanguagesOptions ();
 
     void                  initializeMsdlWholeInputScansOptions ();
-
-    void                  initializeGenerateCodeOptions ();
 
   public:
 
@@ -198,13 +193,6 @@ class EXP msdl2msrOahGroup : public oahGroup
                           fMsdlKeywordsTranslationLanguageKind;
 
     msdlCommentsTypeKind  fMsdlCommentsTypeTranslationKind;
-
-    // output kind
-    // --------------------------------------
-
-    generatorOutputKind   fGeneratorOutputKind;
-    S_generatorOutputKindAtom
-                          fGeneratorOutputKindAtom;
 
     // quit
     // --------------------------------------

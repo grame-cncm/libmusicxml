@@ -58,7 +58,7 @@ msdl2gmnManPageGenerateAtom::msdl2gmnManPageGenerateAtom (
       shortName,
       longName,
       description,
-      kElementValueWithout)
+      oahElementValueKind::kElementValueWithout)
 {
   fOahVisitor = theOahVisitor;
 }
@@ -200,7 +200,7 @@ msdl2gmnManPageOahGroup::msdl2gmnManPageOahGroup (
     "Man page",
     "hmp", "help-man-page",
 R"(These options control the way the man page is generated.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMsdl2gmnManPageOahGroup (
     theOah2manPageGenerator);
@@ -219,7 +219,7 @@ void msdl2gmnManPageOahGroup::initializeManPageGenerateOptions (
         "Generate",
         "hgmp", "help-generate-man-page",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -261,8 +261,8 @@ void msdl2gmnManPageOahGroup::initializeManPageTraceOah ()
         "msdl2gmnManPage Trace",
         "hmpt", "help-man-page-trace",
 R"(  Note: the options in this group imply '-tmp, -trace-man-page'.)",
-// JMI        kElementVisibilityHeaderOnly,
-      kElementVisibilityWhole,
+// JMI        oahElementVisibilityKind::kElementVisibilityHeaderOnly,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

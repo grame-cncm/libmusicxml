@@ -282,7 +282,7 @@ string existingMsdlCommentsTypeKinds (unsigned int namesListMaxLength)
 
 // pitches languages
 //______________________________________________________________________________
-
+/* JMI
 map<string, msdlPitchesLanguageKind>
   gGlobalMsdlPitchesLanguageKindsMap;
 
@@ -360,6 +360,7 @@ msdlPitchesLanguageKind msdlPitchesLanguageKindFromString (std::string theString
 
   return result;
 }
+
 string existingMsdlPitchesLanguageKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
@@ -403,6 +404,7 @@ string existingMsdlPitchesLanguageKinds (unsigned int namesListMaxLength)
 
   return s.str ();
 }
+*/
 
 //______________________________________________________________________________
 void initializeMSDLBasicTypes ()
@@ -434,10 +436,12 @@ void initializeMSDLBasicTypes ()
 
     initializeMsdlCommentsTypeKindsMap ();
 
+/* JMI
     // MSDL pitches languages handling
     // ------------------------------------------------------
 
     initializeMsdlPitchesLanguageKindsMap ();
+*/
 
     pThisMethodHasBeenRun = true;
   }

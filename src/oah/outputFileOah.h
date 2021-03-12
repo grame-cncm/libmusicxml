@@ -68,33 +68,6 @@ class EXP outputFileOahGroup : public oahGroup
     S_oahStringAtom       getOutputFileNameStringAtom () const
                               { return fOutputFileNameStringAtom; }
 
-
-    // translation date
-    // --------------------------------------
-
-    string                getTranslationDateFull () const
-                              { return fTranslationDateFull;  }
-    string                getTranslationDateYYYYMMDD () const
-                              { return fTranslationDateYYYYMMDD;  }
-
-    // warning and error handling
-    // --------------------------------------
-
-    bool                  getQuiet () const
-                              { return fQuiet;  }
-    bool                  getDontShowErrors () const
-                              { return fDontShowErrors;  }
-    bool                  getDontQuitOnErrors () const
-                              { return fDontQuitOnErrors;  }
-    bool                  getDisplaySourceCodePosition () const
-                              { return fDisplaySourceCodePosition;  }
-
-    // CPU usage
-    // --------------------------------------
-
-    bool                  getDisplayCPUusage () const
-                              { return fDisplayCPUusage;  }
-
   public:
 
     // public services
@@ -144,27 +117,6 @@ class EXP outputFileOahGroup : public oahGroup
 
     string                fOutputFileName;
     S_oahStringAtom       fOutputFileNameStringAtom;
-
-    // translation date
-    // --------------------------------------
-
-    string                fTranslationDateFull;
-    string                fTranslationDateYYYYMMDD;
-
-    // warning and error handling
-    // --------------------------------------
-
-    bool                  fQuiet;
-
-    bool                  fDontShowErrors;
-    bool                  fDontQuitOnErrors;
-
-    bool                  fDisplaySourceCodePosition;
-
-    // CPU usage
-    // --------------------------------------
-
-    bool                  fDisplayCPUusage;
 };
 typedef SMARTP<outputFileOahGroup> S_outputFileOahGroup;
 EXP ostream& operator<< (ostream& os, const S_outputFileOahGroup& elt);

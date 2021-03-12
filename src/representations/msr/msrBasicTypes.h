@@ -751,13 +751,17 @@ void initializeHarmonyKinds ();
 
 // quarter tones pitches languages
 //______________________________________________________________________________
-enum msrQuarterTonesPitchesLanguageKind {
-  kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais,
-  kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams
+enum class msrQuarterTonesPitchesLanguageKind {
+  kQTPNederlands, kQTPCatalan, kQTPDeutsch, kQTPEnglish,
+  kQTPEspanol, kQTPFrancais, kQTPItaliano, kQTPNorsk,
+  kQTPPortugues, kQTPSuomi, kQTPSvenska, kQTPVlaams, kQTPArabic
 };
 
 string msrQuarterTonesPitchesLanguageKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind);
+
+msrQuarterTonesPitchesLanguageKind msrQuarterTonesPitchesLanguageKindFromString (
+  string theString);
 
 string msrDiatonicPitchKindAsString ( // JMI
   msrQuarterTonesPitchesLanguageKind languageKind,
@@ -786,6 +790,9 @@ string msrQuarterTonesPitchKindAsFlatsAndSharps (
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrQuarterTonesPitchKind           quarterTonesPitchKind);
 */
+
+string existingMsrQuarterTonesPitchesLanguageKinds (
+  unsigned int namesListMaxLength);
 
 // enharmonies
 //______________________________________________________________________________
@@ -2307,7 +2314,7 @@ enum msrScoreNotationKind {
 };
 
 string msrScoreNotationKindAsString (
-  msrScoreNotationKind scoreNotationKind);
+  msrScoreNotationKind lilypondScoreNotationKind);
 
 // global variables
 //______________________________________________________________________________
@@ -2333,9 +2340,11 @@ extern map<msrQuarterTonesPitchKind, string> gGlobalPortuguesPitchesNamesMap;
 extern map<msrQuarterTonesPitchKind, string> gGlobalSuomiPitchesNamesMap;
 extern map<msrQuarterTonesPitchKind, string> gGlobalSvenskaPitchesNamesMap;
 extern map<msrQuarterTonesPitchKind, string> gGlobalVlaamsPitchesNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalArabicPitchesNamesMap;
 
 void initializeQuarterTonesPitchesLanguageKinds ();
 
+// the reference for note pitches names is LilyPond's scm/define-note-names.scm
 void initializeNederlandsPitchNamesMap ();
 void initializeCatalanPitchNamesMap ();
 void initializeDeutschPitchNamesMap ();
@@ -2348,6 +2357,7 @@ void initializePortuguesPitchNamesMap ();
 void initializeSuomiPitchNamesMap ();
 void initializeSvenskaPitchNamesMap ();
 void initializeVlaamsPitchNamesMap ();
+void initializeArabicPitchNamesMap ();
 
 string existingQuarterTonesPitchesLanguageKinds (unsigned int namesListMaxLength);
 

@@ -48,7 +48,7 @@ outputFileOahGroup::outputFileOahGroup ()
     "OutputFile",
     "hofg", "help-output-file-group",
 R"()",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeOutputFileOah ();
 }
@@ -58,24 +58,6 @@ outputFileOahGroup::~outputFileOahGroup ()
 
 void outputFileOahGroup::initializeOutputFileOah ()
 {
-  // register translation date
-  // ------------------------------------------------------
-
-  {
-    time_t      translationRawtime;
-    struct tm*  translationTimeinfo;
-    char buffer [80];
-
-    time (&translationRawtime);
-    translationTimeinfo = localtime (&translationRawtime);
-
-    strftime (buffer, 80, "%A %F @ %T %Z", translationTimeinfo);
-    fTranslationDateFull = buffer;
-
-    strftime (buffer, 80, "%Y-%m-%d", translationTimeinfo);
-    fTranslationDateYYYYMMDD = buffer;
-  }
-
   // output file name
   // --------------------------------------
   initializeOutputFileNameOptions ();
@@ -99,7 +81,7 @@ void outputFileOahGroup::initializeOutputFileNameOptions ()
         "Output file",
         "hof", "help-output-file",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -140,9 +122,7 @@ or adding '.xml' if none is present.)",
 
 //______________________________________________________________________________
 void outputFileOahGroup::enforceGroupQuietness ()
-{
-  fDisplayCPUusage = false; // JMI
-}
+{}
 
 //______________________________________________________________________________
 void outputFileOahGroup::checkGroupOptionsConsistency ()
@@ -240,62 +220,6 @@ void outputFileOahGroup::printOutputFileOahValues (unsigned int fieldWidth)
     setw (fieldWidth) << "autoOutputFileName" << " : \"" <<
     booleanAsString (fAutoOutputFileName) <<
     "\"" <<
-    endl;
-
-  --gIndenter;
-
-  // translation date
-  // --------------------------------------
-
-  gLogStream << left <<
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "translationDate" << " : " <<
-    fTranslationDateFull <<
-    endl;
-
-  --gIndenter;
-
-  // warning and error handling
-  // --------------------------------------
-
-  gLogStream << left <<
-    setw (fieldWidth) << "Warning and error handling:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream <<
-    setw (fieldWidth) << "quiet" << " : " <<
-    booleanAsString (fQuiet) <<
-    endl <<
-    setw (fieldWidth) << "dontShowErrors" << " : " <<
-    booleanAsString (fDontShowErrors) <<
-    endl <<
-    setw (fieldWidth) << "dontQuitOnErrors" << " : " <<
-    booleanAsString (fDontQuitOnErrors) <<
-    endl <<
-    setw (fieldWidth) << "displaySourceCodePosition" << " : " <<
-    booleanAsString (fDisplaySourceCodePosition) <<
-    endl;
-
-  --gIndenter;
-
-
-  // CPU usage
-  // --------------------------------------
-
-  gLogStream << left <<
-    setw (fieldWidth) << "CPU usage:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream <<
-    setw (fieldWidth) << "displayCPUusage" << " : " <<
-    booleanAsString (fDisplayCPUusage) <<
     endl;
 
   --gIndenter;

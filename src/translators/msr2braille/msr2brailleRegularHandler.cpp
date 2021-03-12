@@ -181,7 +181,7 @@ void msr2brailleRegularHandler::createOahRegularGroup ()
         "Options and help group",
         "hoah-group", "help-oah-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -192,7 +192,7 @@ void msr2brailleRegularHandler::createOahRegularGroup ()
         "Options and help",
         "hoah", "help-oah",
         "",
-        kElementVisibilityHeaderOnly,
+        oahElementVisibilityKind::kElementVisibilityHeaderOnly,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -240,7 +240,7 @@ void msr2brailleRegularHandler::createInformationsRegularGroup ()
         "Informations group",
         "hinfos-group", "help-informations-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -251,7 +251,7 @@ void msr2brailleRegularHandler::createInformationsRegularGroup ()
         "Informations",
         "hinfos", "help-informations",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -276,7 +276,7 @@ void msr2brailleRegularHandler::createWarningAndErrorsRegularGroup ()
         "warning-and-errors-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -287,7 +287,7 @@ void msr2brailleRegularHandler::createWarningAndErrorsRegularGroup ()
         "Warning and errors",
         "warning-and-errors", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -309,7 +309,7 @@ void msr2brailleRegularHandler::createPresentationRegularGroup ()
         "Presentation group",
         "presentation-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -321,7 +321,7 @@ void msr2brailleRegularHandler::createPresentationRegularGroup ()
         "presentation",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -342,7 +342,7 @@ void msr2brailleRegularHandler::createInputRegularGroup ()
         "Input group",
         "hinput-group", "help-input-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -353,7 +353,7 @@ void msr2brailleRegularHandler::createInputRegularGroup ()
         "Input",
         "hinput", "help-input",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -377,7 +377,7 @@ void msr2brailleRegularHandler::createFilesRegularGroup ()
         "Files group",
         "files-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -388,7 +388,7 @@ void msr2brailleRegularHandler::createFilesRegularGroup ()
         "Files",
         "files", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -414,7 +414,7 @@ void msr2brailleRegularHandler::createPartsRegularGroup ()
         "Parts group",
         "parts-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -425,7 +425,7 @@ void msr2brailleRegularHandler::createPartsRegularGroup ()
         "Parts",
         "parts", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -449,7 +449,7 @@ void msr2brailleRegularHandler::createStavesRegularGroup ()
         "Staves group",
         "staves-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -461,7 +461,7 @@ void msr2brailleRegularHandler::createStavesRegularGroup ()
         "staves",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -481,7 +481,7 @@ void msr2brailleRegularHandler::createVoicesRegularGroup ()
         "Voices group",
         "voices-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -493,7 +493,7 @@ void msr2brailleRegularHandler::createVoicesRegularGroup ()
         "voices",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -513,7 +513,7 @@ void msr2brailleRegularHandler::createTranspositionsRegularGroup ()
         "Transpositions group",
         "transpositions-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -525,7 +525,7 @@ void msr2brailleRegularHandler::createTranspositionsRegularGroup ()
         "transpositions",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -545,7 +545,7 @@ void msr2brailleRegularHandler::createClefsRegularGroup ()
         "Clefs group",
         "clefs-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -557,7 +557,7 @@ void msr2brailleRegularHandler::createClefsRegularGroup ()
         "clefs",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -578,7 +578,7 @@ void msr2brailleRegularHandler::createKeysRegularGroup ()
         "Keys group",
         "keys-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -590,7 +590,7 @@ void msr2brailleRegularHandler::createKeysRegularGroup ()
         "keys",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -610,7 +610,7 @@ void msr2brailleRegularHandler::createTimesRegularGroup ()
         "Times group",
         "times-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -622,7 +622,7 @@ void msr2brailleRegularHandler::createTimesRegularGroup ()
         "times",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -642,7 +642,7 @@ void msr2brailleRegularHandler::createRestsRegularGroup ()
         "Rests group",
         "rests-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -653,7 +653,7 @@ void msr2brailleRegularHandler::createRestsRegularGroup ()
         "Rests",
         "rests", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -673,7 +673,7 @@ void msr2brailleRegularHandler::createNotesRegularGroup ()
         "notes-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -685,7 +685,7 @@ void msr2brailleRegularHandler::createNotesRegularGroup ()
         "notes",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -705,7 +705,7 @@ void msr2brailleRegularHandler::creatBeamsRegularGroup ()
         "Beams group",
         "hbeams-group", "help-beams-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -716,7 +716,7 @@ void msr2brailleRegularHandler::creatBeamsRegularGroup ()
         "Beams",
         "hbeams", "help-beams",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -735,7 +735,7 @@ void msr2brailleRegularHandler::createArticulationsRegularGroup ()
         "Articulations group",
         "articulations-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -747,7 +747,7 @@ void msr2brailleRegularHandler::createArticulationsRegularGroup ()
         "articulations",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -767,7 +767,7 @@ void msr2brailleRegularHandler::createOrnamentsRegularGroup ()
         "Ornaments group",
         "ornaments-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -778,7 +778,7 @@ void msr2brailleRegularHandler::createOrnamentsRegularGroup ()
         "Ornaments",
         "ornaments", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -798,7 +798,7 @@ void msr2brailleRegularHandler::createGraceNotesRegularGroup ()
         "Grace notes group",
         "grace-notes-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -809,7 +809,7 @@ void msr2brailleRegularHandler::createGraceNotesRegularGroup ()
         "Grace notes",
         "grace-notes", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -831,7 +831,7 @@ void msr2brailleRegularHandler::createChordsRegularGroup ()
         "Chords group",
         "chords-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -842,7 +842,7 @@ void msr2brailleRegularHandler::createChordsRegularGroup ()
         "Chords",
         "chords", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -864,7 +864,7 @@ void msr2brailleRegularHandler::createTiesRegularGroup ()
         "Ties group",
         "hties-group", "help-ties-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -875,7 +875,7 @@ void msr2brailleRegularHandler::createTiesRegularGroup ()
         "Ties",
         "hties", "help-ties",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -895,7 +895,7 @@ void msr2brailleRegularHandler::createSlursRegularGroup ()
         "Slurs group",
         "hslurs-group", "help-slurs-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -906,7 +906,7 @@ void msr2brailleRegularHandler::createSlursRegularGroup ()
         "Slurs",
         "hslurs", "help-slurs",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -926,7 +926,7 @@ void msr2brailleRegularHandler::createLigaturesRegularGroup ()
         "Ligatures group",
         "hligs-group", "help-ligatures-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -937,7 +937,7 @@ void msr2brailleRegularHandler::createLigaturesRegularGroup ()
         "Ligatures",
         "hligs", "help-ligatures",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -956,7 +956,7 @@ void msr2brailleRegularHandler::createDynamicsRegularGroup ()
         "Dynamics group",
         "hdyns-group", "help-dynamics-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -967,7 +967,7 @@ void msr2brailleRegularHandler::createDynamicsRegularGroup ()
         "Dynamics",
         "hdyns", "help-dynamics",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -989,7 +989,7 @@ void msr2brailleRegularHandler::createWedgesRegularGroup ()
         "Wedges group",
         "hweds-group", "help-wedges-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1000,7 +1000,7 @@ void msr2brailleRegularHandler::createWedgesRegularGroup ()
         "Wedges",
         "hweds", "help-wedges",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1022,7 +1022,7 @@ void msr2brailleRegularHandler::createTupletsRegularGroup ()
         "Tuplets group",
         "tuplets-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1033,7 +1033,7 @@ void msr2brailleRegularHandler::createTupletsRegularGroup ()
         "Tuplets",
         "tuplets", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1055,7 +1055,7 @@ void msr2brailleRegularHandler::createStringsRegularGroup ()
         "Strings group",
         "hstrings-group", "help-strings-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1066,7 +1066,7 @@ void msr2brailleRegularHandler::createStringsRegularGroup ()
         "Strings",
         "hstrings", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1086,7 +1086,7 @@ void msr2brailleRegularHandler::createTablaturesRegularGroup ()
         "Tablatures group",
         "htabs-group", "help-tablatures-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1097,7 +1097,7 @@ void msr2brailleRegularHandler::createTablaturesRegularGroup ()
         "Tablatures",
         "htabs", "help-tablatures",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1117,7 +1117,7 @@ void msr2brailleRegularHandler::createHarmoniesRegularGroup ()
         "Harmonies group",
         "harmonies-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1128,7 +1128,7 @@ void msr2brailleRegularHandler::createHarmoniesRegularGroup ()
         "Harmonies",
         "harmonies", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1150,7 +1150,7 @@ void msr2brailleRegularHandler::createFiguredBassesRegularGroup ()
         "Figured basses group",
         "figured-basses-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1161,7 +1161,7 @@ void msr2brailleRegularHandler::createFiguredBassesRegularGroup ()
         "Figured basses",
         "figured-basses", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1183,7 +1183,7 @@ void msr2brailleRegularHandler::createLyricsRegularGroup ()
         "Lyrics group",
         "lyrics-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1194,7 +1194,7 @@ void msr2brailleRegularHandler::createLyricsRegularGroup ()
         "Lyrics",
         "lyrics", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1214,7 +1214,7 @@ void msr2brailleRegularHandler::createOutputRegularGroup ()
         "Ouptut group",
         "ouptut-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1225,7 +1225,7 @@ void msr2brailleRegularHandler::createOutputRegularGroup ()
         "Ouptut",
         "ouptut", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);

@@ -663,7 +663,7 @@ xml2brlInsiderOahGroup::xml2brlInsiderOahGroup (
     executableName,
     "hx2b", "help-xml2brl",
 R"(Options that are used by xml2brl are grouped here.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeXml2brlInsiderOahGroup ();
 }
@@ -709,7 +709,7 @@ void xml2brlInsiderOahGroup::createInsiderQuitSubGroup ()
         "Quit after some passes",
         "hm2bquit", "help-msr2brl-quit",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (quitAfterSomePassesSubGroup);

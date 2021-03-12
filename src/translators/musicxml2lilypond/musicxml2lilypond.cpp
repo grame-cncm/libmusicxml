@@ -458,7 +458,7 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
       xml2lyInsiderHandler::create (
         fakeExecutableName,
         fakeExecutableName + " insider OAH handler with options vector",
-        kHandlerUsedThruOptionsVector);
+        oahHandlerUsedThruKind::kHandlerUsedThruOptionsVector);
 
   // the OAH handler to be used, a regular handler is the default
   // ------------------------------------------------------
@@ -492,10 +492,10 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
 
     // have help options been used?
     switch (helpOnlyKind) {
-      case kElementHelpOnlyYes:
+      case oahElementHelpOnlyKind::kElementHelpOnlyYes:
         return kNoErr; // quit now
         break;
-      case kElementHelpOnlyNo:
+      case oahElementHelpOnlyKind::kElementHelpOnlyNo:
         // go ahead
         break;
     } // switch

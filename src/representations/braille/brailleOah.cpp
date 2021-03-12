@@ -49,7 +49,7 @@ brailleOahGroup::brailleOahGroup ()
     "Braille group",
     "hbrl-group", "help-braille-group",
 R"(These options control how the Braille music code is generated.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeBrailleOahGroup ();
 }
@@ -192,7 +192,7 @@ S_brailleOahGroup createGlobalBrailleOahGroup ()
 R"(These braille can be used to enforce values in the generated Braille code,
 thus overriding the ones that may be present in the MSR data.
 )",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
     appendSubGroupToGroup (subGroup);
@@ -370,7 +370,7 @@ R"(Set 'copyright' to STRING in the \header.)",
           "Notes",
           "hlpn", "help-braille-notes",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
     appendSubGroupToGroup (subGroup);
@@ -443,7 +443,7 @@ This is useful when debugging EXECUTABLE.)",
           "Bars",
           "hlpb", "help-braille-bars",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
     appendSubGroupToGroup (subGroup);
@@ -476,7 +476,7 @@ R"(Generate Braille code to show all bar numbers.)",
           "Line breaks",
           "hlplb", "help-braille-line-breaks",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
     appendSubGroupToGroup (subGroup);
@@ -517,7 +517,7 @@ which is handy in popular folk dances and tunes.)",
           "Page breaks",
           "hlppb", "help-braille-page-breaks",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
     appendSubGroupToGroup (subGroup);

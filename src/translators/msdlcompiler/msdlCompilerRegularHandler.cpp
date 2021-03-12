@@ -52,7 +52,7 @@ S_msdlCompilerRegularHandler msdlCompilerRegularHandler::create (
   string              handlerHeader,
   S_msdlCompilerInsiderHandler
                       insiderOahHandler,
-  generatorOutputKind theGeneratorOutputKind)
+  multiGeneratorOutputKind theGeneratorOutputKind)
 {
   // create the regular handler
   msdlCompilerRegularHandler* o = new
@@ -71,7 +71,7 @@ msdlCompilerRegularHandler::msdlCompilerRegularHandler (
   string              handlerHeader,
   S_msdlCompilerInsiderHandler
                       insiderOahHandler,
-  generatorOutputKind theGeneratorOutputKind)
+  multiGeneratorOutputKind theGeneratorOutputKind)
   : oahRegularHandler (
       executableName,
       handlerHeader,
@@ -86,24 +86,28 @@ msdlCompilerRegularHandler::msdlCompilerRegularHandler (
   // create the regular handler groups
   createRegularHandlerGroups ();
 
-    // print the options handler initial state
-    gLogStream <<
-      "msdlCompilerRegularHandler \"" <<
-      fHandlerHeader <<
-      "\" has been initialized as:" <<
-      endl;
+/* JMI
+  // print the options handler initial state
+  gLogStream <<
+    "msdlCompilerRegularHandler \"" <<
+    fHandlerHeader <<
+    "\" has been initialized as:" <<
+    endl;
 
-    ++gIndenter;
+  ++gIndenter;
 
-    gLogStream <<
-      "===> printHelp():" <<
-      endl;
-    this->printHelp (gOutputStream); // JMI
+  gLogStream <<
+    "===> printHelp():" <<
+    endl;
+  this->printHelp (gOutputStream); // JMI
 
-    --gIndenter;
+  --gIndenter;
+*/
 
 #ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {}
+  if (getTraceOah ()) {
+    // JMI ???
+  }
 #endif
 }
 
@@ -137,27 +141,27 @@ void msdlCompilerRegularHandler::createRegularHandlerGroups ()
   */
 
   switch (fGeneratorOutputKind) {
-    case k_NoOutput:
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
       // create the Guido OAH group
       createGuidoRegularGroup ();
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       // create the braille OAH group
       createBrailleRegularGroup ();
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       break;
   } // switch
 
@@ -230,7 +234,7 @@ void msdlCompilerRegularHandler::createInformationsRegularGroup ()
         "Informations group",
         "hinfos-group", "help-informations-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -241,7 +245,7 @@ void msdlCompilerRegularHandler::createInformationsRegularGroup ()
         "Informations",
         "hinfos", "help-informations",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -269,7 +273,7 @@ void msdlCompilerRegularHandler::createOutputRegularGroup ()
         "Output group",
         "output-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -280,7 +284,7 @@ void msdlCompilerRegularHandler::createOutputRegularGroup ()
         "Output",
         "output", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -288,24 +292,24 @@ void msdlCompilerRegularHandler::createOutputRegularGroup ()
   // atoms from the insider handler depending on the generated output kind
 
   switch (fGeneratorOutputKind) {
-    case k_NoOutput:
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       registerAtomInRegularSubgroup ("musicxml-comments", subGroup);
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       break;
   } // switch
 }
@@ -320,7 +324,7 @@ void msdlCompilerRegularHandler::createGuidoRegularGroup ()
         "Guido group",
         "guido-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -331,7 +335,7 @@ void msdlCompilerRegularHandler::createGuidoRegularGroup ()
         "Guido subgroup",
         "guido-subgroup", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -353,7 +357,7 @@ void msdlCompilerRegularHandler::createBrailleRegularGroup ()
         "Braille group",
         "braille-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -364,7 +368,7 @@ void msdlCompilerRegularHandler::createBrailleRegularGroup ()
         "Braille output",
         "braille-output", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -387,7 +391,7 @@ void msdlCompilerRegularHandler::createFilesRegularGroup ()
         "Files group",
         "files-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -398,7 +402,7 @@ void msdlCompilerRegularHandler::createFilesRegularGroup ()
         "Files",
         "files", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -419,7 +423,7 @@ void msdlCompilerRegularHandler::createOahRegularGroup ()
         "Options and help group",
         "hoah-group", "help-oah-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -430,7 +434,7 @@ void msdlCompilerRegularHandler::createOahRegularGroup ()
         "Options and help",
         "hoah", "help-oah",
         "",
-        kElementVisibilityHeaderOnly,
+        oahElementVisibilityKind::kElementVisibilityHeaderOnly,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -466,18 +470,18 @@ void msdlCompilerRegularHandler::createOahRegularGroup ()
 
   // atoms from the insider handler depending on the generated output kind
   switch (fGeneratorOutputKind) {
-    case k_NoOutput:
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
 #ifdef TRACING_IS_ENABLED
       registerAtomInRegularSubgroup ("trace-encoding", subGroup);
       registerAtomInRegularSubgroup ("trace-divisions", subGroup);
 #endif
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       registerAtomInRegularSubgroup ("jianpu", subGroup);
       registerAtomInRegularSubgroup ("lyluatex", subGroup);
 
@@ -487,18 +491,18 @@ void msdlCompilerRegularHandler::createOahRegularGroup ()
       registerAtomInRegularSubgroup ("global-staff-size", subGroup);
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       registerAtomInRegularSubgroup ("display-bsr", subGroup);
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
 #ifdef TRACING_IS_ENABLED
       registerAtomInRegularSubgroup ("trace-encoding", subGroup);
       registerAtomInRegularSubgroup ("trace-divisions", subGroup);
 #endif
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       break;
   } // switch
 }
@@ -514,7 +518,7 @@ void msdlCompilerRegularHandler::createWarningAndErrorsRegularGroup ()
         "warning-and-errors-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -526,7 +530,7 @@ void msdlCompilerRegularHandler::createWarningAndErrorsRegularGroup ()
         "warning-and-errors",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -548,7 +552,7 @@ void msdlCompilerRegularHandler::createGenerateCodeRegularGroup ()
         "Generated output group",
         "hgc-group", "help-generate-output-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -559,7 +563,7 @@ void msdlCompilerRegularHandler::createGenerateCodeRegularGroup ()
         "Generated output",
         "hgo", "help-generate-output",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -585,7 +589,7 @@ void msdlCompilerRegularHandler::createPresentationRegularGroup ()
         "Presentation group",
         "presentation-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -596,7 +600,7 @@ void msdlCompilerRegularHandler::createPresentationRegularGroup ()
         "Presentation",
         "presentation", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -617,7 +621,7 @@ void msdlCompilerRegularHandler::createPartsRegularGroup ()
         "Parts group",
         "parts-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -628,7 +632,7 @@ void msdlCompilerRegularHandler::createPartsRegularGroup ()
         "Parts",
         "parts", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -652,7 +656,7 @@ void msdlCompilerRegularHandler::createStavesRegularGroup ()
         "Staves group",
         "staves-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -663,7 +667,7 @@ void msdlCompilerRegularHandler::createStavesRegularGroup ()
         "Staves",
         "staves", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -683,7 +687,7 @@ void msdlCompilerRegularHandler::createVoicesRegularGroup ()
         "Voices group",
         "voices-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -694,7 +698,7 @@ void msdlCompilerRegularHandler::createVoicesRegularGroup ()
         "Voices",
         "voices", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -714,7 +718,7 @@ void msdlCompilerRegularHandler::createClefsRegularGroup ()
         "Clefs group",
         "clefs-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -725,7 +729,7 @@ void msdlCompilerRegularHandler::createClefsRegularGroup ()
         "Clefs",
         "clefs", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -747,7 +751,7 @@ void msdlCompilerRegularHandler::createKeysRegularGroup ()
         "keys-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -758,7 +762,7 @@ void msdlCompilerRegularHandler::createKeysRegularGroup ()
         "Keys",
         "keys", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -778,7 +782,7 @@ void msdlCompilerRegularHandler::createTimesRegularGroup ()
         "Times group",
         "times-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -789,7 +793,7 @@ void msdlCompilerRegularHandler::createTimesRegularGroup ()
         "Times",
         "times", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -810,7 +814,7 @@ void msdlCompilerRegularHandler::createMeasuresRegularGroup ()
         "measures-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -821,7 +825,7 @@ void msdlCompilerRegularHandler::createMeasuresRegularGroup ()
         "Measures",
         "measures", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -842,7 +846,7 @@ void msdlCompilerRegularHandler::createRestsRegularGroup ()
         "rests-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -853,7 +857,7 @@ void msdlCompilerRegularHandler::createRestsRegularGroup ()
         "Rests",
         "rests", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -874,7 +878,7 @@ void msdlCompilerRegularHandler::createNotesRegularGroup ()
         "notes-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -885,7 +889,7 @@ void msdlCompilerRegularHandler::createNotesRegularGroup ()
         "Notes",
         "notes", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -905,7 +909,7 @@ void msdlCompilerRegularHandler::creatBeamsRegularGroup ()
         "Beams group",
         "hbeams-group", "help-beams-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -916,7 +920,7 @@ void msdlCompilerRegularHandler::creatBeamsRegularGroup ()
         "Beams",
         "hbeams", "help-beams",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -936,7 +940,7 @@ void msdlCompilerRegularHandler::createArticulationsRegularGroup ()
         "Articulations group",
         "articulations-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -946,7 +950,7 @@ void msdlCompilerRegularHandler::createArticulationsRegularGroup ()
       oahSubGroup::create (
         "Articulations",
         "articulations", "", "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -966,7 +970,7 @@ void msdlCompilerRegularHandler::createOrnamentsRegularGroup ()
         "Ornaments group",
         "ornaments-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -978,7 +982,7 @@ void msdlCompilerRegularHandler::createOrnamentsRegularGroup ()
         "ornaments",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -998,7 +1002,7 @@ void msdlCompilerRegularHandler::createGraceNotesRegularGroup ()
         "Grace notes group",
         "grace-notes-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1009,7 +1013,7 @@ void msdlCompilerRegularHandler::createGraceNotesRegularGroup ()
         "Grace notes",
         "grace-notes", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1031,7 +1035,7 @@ void msdlCompilerRegularHandler::createChordsRegularGroup ()
         "Chords group",
         "chords-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1042,7 +1046,7 @@ void msdlCompilerRegularHandler::createChordsRegularGroup ()
         "Chords",
         "chords", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1064,7 +1068,7 @@ void msdlCompilerRegularHandler::createTiesRegularGroup ()
         "Ties group",
         "hties-group", "help-ties-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1075,7 +1079,7 @@ void msdlCompilerRegularHandler::createTiesRegularGroup ()
         "Ties",
         "hties", "help-ties",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1095,7 +1099,7 @@ void msdlCompilerRegularHandler::createSlursRegularGroup ()
         "Slurs group",
         "hslurs-group", "help-slurs-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1106,7 +1110,7 @@ void msdlCompilerRegularHandler::createSlursRegularGroup ()
         "Slurs",
         "hslurs", "help-slurs",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1128,7 +1132,7 @@ void msdlCompilerRegularHandler::createLigaturesRegularGroup ()
         "Ligatures group",
         "hligs-group", "help-ligatures-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1139,7 +1143,7 @@ void msdlCompilerRegularHandler::createLigaturesRegularGroup ()
         "Ligatures",
         "hligs", "help-ligatures",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1159,7 +1163,7 @@ void msdlCompilerRegularHandler::createDynamicsRegularGroup ()
         "Dynamics group",
         "hdyns-group", "help-dynamics-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1170,7 +1174,7 @@ void msdlCompilerRegularHandler::createDynamicsRegularGroup ()
         "Dynamics",
         "hdyns", "help-dynamics",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1194,7 +1198,7 @@ void msdlCompilerRegularHandler::createWedgesRegularGroup ()
         "Wedges group",
         "hweds-group", "help-wedges-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1205,7 +1209,7 @@ void msdlCompilerRegularHandler::createWedgesRegularGroup ()
         "Wedges",
         "hweds", "help-wedges",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1229,7 +1233,7 @@ void msdlCompilerRegularHandler::createTupletsRegularGroup ()
         "Tuplets group",
         "tuplets-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1240,7 +1244,7 @@ void msdlCompilerRegularHandler::createTupletsRegularGroup ()
         "Tuplets",
         "tuplets", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1262,7 +1266,7 @@ void msdlCompilerRegularHandler::createLyricsRegularGroup ()
         "Lyrics group",
         "lyrics-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1273,7 +1277,7 @@ void msdlCompilerRegularHandler::createLyricsRegularGroup ()
         "Lyrics",
         "lyrics", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1293,7 +1297,7 @@ void msdlCompilerRegularHandler::createHarmoniesRegularGroup ()
         "Harmonies group",
         "harmonies-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1304,7 +1308,7 @@ void msdlCompilerRegularHandler::createHarmoniesRegularGroup ()
         "Harmonies",
         "harmonies", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1326,7 +1330,7 @@ void msdlCompilerRegularHandler::createFiguredBassesRegularGroup ()
         "Figured basses group",
         "figured-basses-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1337,7 +1341,7 @@ void msdlCompilerRegularHandler::createFiguredBassesRegularGroup ()
         "Figured basses",
         "figured-basses", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);

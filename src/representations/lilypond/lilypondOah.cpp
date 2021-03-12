@@ -47,7 +47,7 @@ lilypondOahGroup::lilypondOahGroup ()
     "LilyPond",
     "hlily", "help-lilypond",
 R"(These options control the way LilyPond data is handled.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeLilypondOahGroup ();
 }

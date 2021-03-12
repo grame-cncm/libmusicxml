@@ -163,8 +163,6 @@ class EXP msdl2xmlInsiderOahGroup : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  createInsiderQuitSubGroup ();
-
   private:
 
     // private fields

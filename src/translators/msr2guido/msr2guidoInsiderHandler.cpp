@@ -570,7 +570,7 @@ msr2guidoInsiderOahGroup::msr2guidoInsiderOahGroup ()
     "msr2guido",
     "hm2g", "help-msr2guido",
 R"(Options that are used by msr2guido are grouped here.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMsr2guidoInsiderOahGroup ();
 }
@@ -590,130 +590,6 @@ void msr2guidoInsiderOahGroup::initializeMsr2guidoInsiderOahGroup ()
     endl;
   }
 #endif
-
-  // Guido
-  // --------------------------------------
-
-  createInsiderGuidoSubGroup ();
-
-  // quit after some passes
-  // --------------------------------------
-
-  createInsiderQuitSubGroup ();
-}
-
-//_______________________________________________________________________________
-void msr2guidoInsiderOahGroup::createInsiderGuidoSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-  gLogStream << left <<
-    "Creating insider output subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-  }
-#endif
-
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Guido",
-        "xguido", "help-guido",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // generate comments
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-comments", "",
-  R"(Generate comments in the Guido output.)",
-        "generateComments",
-        fGenerateComments));
-
-  // generate stem
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-stem", "",
-  R"(Generate stem in the Guido output.)",
-        "generateStem",
-        fGenerateStem));
-
-  // generate bars
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-bars", "",
-  R"(Generate barlines in the Guido output.)",
-        "generateBars",
-        fGenerateBars));
-}
-
-//_______________________________________________________________________________
-void msr2guidoInsiderOahGroup::createInsiderQuitSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-  gLogStream << left <<
-    "Creating insider quit subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-  }
-#endif
-
-  S_oahSubGroup
-    quitAfterSomePassesSubGroup =
-      oahSubGroup::create (
-        "Quit after some passes",
-        "hm2xquit", "help-msr2guido-quit",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (quitAfterSomePassesSubGroup);
-
-  // quit after pass 2a
-
-  fQuitAfterPass2a = false;
-
-  S_oahBooleanAtom
-    quit2aOahBooleanAtom =
-      oahBooleanAtom::create (
-        "qap2a", "quitAfterPass-after-pass2a",
-R"(Quit after pass 2a, i.e. after conversion
-of the MusicXML tree to an MSR skeleton.)",
-        "quitAfterPass2a",
-        fQuitAfterPass2a);
-
-  quitAfterSomePassesSubGroup->
-    appendAtomToSubGroup (
-      quit2aOahBooleanAtom);
-
-  // quit after pass 2b
-
-  fQuitAfterPass2b = false;
-
-  S_oahBooleanAtom
-    quit2bOahBooleanAtom =
-      oahBooleanAtom::create (
-        "qap2b", "quitAfterPass-after-pass2b",
-R"(Quit after pass 2b, i.e. after conversion
-of the MusicXML tree to MSR.)",
-        "quitAfterPass2b",
-        fQuitAfterPass2b);
-
-  quitAfterSomePassesSubGroup->
-    appendAtomToSubGroup (
-      quit2bOahBooleanAtom);
 }
 
 //______________________________________________________________________________

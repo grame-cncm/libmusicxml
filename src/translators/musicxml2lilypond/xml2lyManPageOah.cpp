@@ -58,7 +58,7 @@ xml2lyManPageGenerateAtom::xml2lyManPageGenerateAtom (
       shortName,
       longName,
       description,
-      kElementValueWithout)
+      oahElementValueKind::kElementValueWithout)
 {
   fOahVisitor = theOahVisitor;
 }
@@ -200,7 +200,7 @@ xml2lyManPageOahGroup::xml2lyManPageOahGroup (
     "Man page",
     "hmp", "help-man-page",
 R"(These options control the way the man page is generated.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeXml2lyManPageOahGroup (
     theOah2manPageGenerator);
@@ -218,7 +218,7 @@ void xml2lyManPageOahGroup::initializeManPageGenerateOptions (
         "Generate",
         "hgmp", "help-generate-man-page",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -260,8 +260,8 @@ void xml2lyManPageOahGroup::initializeManPageTraceOah ()
         "xml2lyManPage Trace",
         "hmpt", "help-man-page-trace",
 R"(  Note: the options in this group imply '-tmp, -trace-man-page'.)",
-// JMI        kElementVisibilityHeaderOnly,
-      kElementVisibilityWhole,
+// JMI        oahElementVisibilityKind::kElementVisibilityHeaderOnly,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

@@ -58,7 +58,7 @@ msr2guidoManPageGenerateAtom::msr2guidoManPageGenerateAtom (
       shortName,
       longName,
       description,
-      kElementValueWithout)
+      oahElementValueKind::kElementValueWithout)
 {
   fOahVisitor = theOahVisitor;
 }
@@ -200,7 +200,7 @@ msr2guidoManPageOahGroup::msr2guidoManPageOahGroup (
     "Man page",
     "hmp", "help-man-page",
 R"(These options control the way the man page is generated.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMsr2guidoManPageOahGroup (
     theOah2manPageGenerator);
@@ -219,7 +219,7 @@ void msr2guidoManPageOahGroup::initializeManPageGenerateOptions (
         "Generate",
         "hgmp", "help-generate-man-page",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -261,8 +261,8 @@ void msr2guidoManPageOahGroup::initializeManPageTraceOah ()
         "msr2guidoManPage Trace",
         "hmpt", "help-man-page-trace",
 R"(  Note: the options in this group imply '-tmp, -trace-man-page'.)",
-// JMI        kElementVisibilityHeaderOnly,
-      kElementVisibilityWhole,
+// JMI        oahElementVisibilityKind::kElementVisibilityHeaderOnly,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

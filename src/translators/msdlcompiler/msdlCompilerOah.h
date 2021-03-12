@@ -15,7 +15,7 @@
 
 #include "msr.h"
 
-#include "generatorsBasicTypes.h"
+// JMI #include "multiGeneratorsOah.h"
 
 #include "msrGeneratorsBasicTypes.h"
 
@@ -45,7 +45,7 @@ class EXP msdlCompilerOahGroup : public oahGroup
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializemsdlCompilerOahGroup ();
+    void                  initializeMsdlCompilerOahGroup ();
 
   protected:
 
@@ -78,15 +78,16 @@ class EXP msdlCompilerOahGroup : public oahGroup
     // fields
     // ------------------------------------------------------
 
+/* JMI
     // generated output kind
 
-    void                  setGeneratorOutputKind (generatorOutputKind value)
+    void                  setGeneratorOutputKind (multiGeneratorOutputKind value)
                               { fGeneratorOutputKind = value; }
 
-    generatorOutputKind   getGeneratorOutputKind () const
+    multiGeneratorOutputKind
+                          getGeneratorOutputKind () const
                               { return fGeneratorOutputKind;  }
 
-/* JMI
     // UTF encoding
 
     void                  setUTFKind (bsrUTFKind value)
@@ -149,10 +150,8 @@ class EXP msdlCompilerOahGroup : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACING_IS_ENABLED
-// JMI    void                  initializemsdlCompilerTraceOah ();
+// JMI    void                  initializeMsdlCompilerTraceOah ();
 #endif
-
-    void                  initializeGenerateCodeOptions ();
 
   public:
 
@@ -169,9 +168,9 @@ class EXP msdlCompilerOahGroup : public oahGroup
     // print
     // ------------------------------------------------------
 
-    void                  printmsdlCompilerOahHelp ();
+    void                  printMsdlCompilerOahHelp ();
 
-    void                  printmsdlCompilerOahValues (
+    void                  printMsdlCompilerOahValues (
                             unsigned int fieldWidth);
 
   private:
@@ -179,10 +178,11 @@ class EXP msdlCompilerOahGroup : public oahGroup
     // private fields
     // ------------------------------------------------------
 
+/* JMI
     // generator output kind
 
-    generatorOutputKind   fGeneratorOutputKind;
-    S_generatorOutputKindAtom
+    multiGeneratorOutputKind   fGeneratorOutputKind;
+    S_multiGeneratorOutputKindAtom
                           fGeneratorOutputKindAtom;
 
     // UTF encoding (8 or 16 bits)
@@ -202,7 +202,6 @@ class EXP msdlCompilerOahGroup : public oahGroup
     S_brailleByteOrderingKindAtom
                           fByteOrderingKindAtom;
 
-/* JMI
     // braille music file name
 
     bool                  fUseEncodingInFileName;
@@ -223,10 +222,10 @@ class EXP msdlCompilerOahGroup : public oahGroup
 typedef SMARTP<msdlCompilerOahGroup> S_msdlCompilerOahGroup;
 EXP ostream& operator<< (ostream& os, const S_msdlCompilerOahGroup& elt);
 
-EXP extern S_msdlCompilerOahGroup gGlobalmsdlCompilerOahGroup;
+EXP extern S_msdlCompilerOahGroup gGlobalMsdlCompilerOahGroup;
 
 //______________________________________________________________________________
-EXP S_msdlCompilerOahGroup createGlobalmsdlCompilerOahGroup ();
+EXP S_msdlCompilerOahGroup createGlobalMsdlCompilerOahGroup ();
 
 
 }

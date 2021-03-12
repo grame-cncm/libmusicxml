@@ -190,7 +190,7 @@ void msr2lilypondRegularHandler::createOahRegularGroup ()
         "Options and help group",
         "hoah-group", "help-oah-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -201,7 +201,7 @@ void msr2lilypondRegularHandler::createOahRegularGroup ()
         "Options and help",
         "hoah", "help-oah",
         "",
-        kElementVisibilityHeaderOnly,
+        oahElementVisibilityKind::kElementVisibilityHeaderOnly,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -250,7 +250,7 @@ void msr2lilypondRegularHandler::createInformationsRegularGroup ()
         "Informations group",
         "hinfos-group", "help-informations-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -261,7 +261,7 @@ void msr2lilypondRegularHandler::createInformationsRegularGroup ()
         "Informations",
         "hinfos", "help-informations",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -285,7 +285,7 @@ void msr2lilypondRegularHandler::createWarningAndErrorsRegularGroup ()
         "Warning and errors group",
         "hwae-group", "help-warning-and-errors-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -296,7 +296,7 @@ void msr2lilypondRegularHandler::createWarningAndErrorsRegularGroup ()
         "Warning and errors",
         "hwae", "help-warning-and-errors",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -318,7 +318,7 @@ void msr2lilypondRegularHandler::createInputRegularGroup ()
         "Input group",
         "hinput-group", "help-input-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -329,7 +329,7 @@ void msr2lilypondRegularHandler::createInputRegularGroup ()
         "Input",
         "hinput", "help-input",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -354,7 +354,7 @@ void msr2lilypondRegularHandler::createFilesRegularGroup ()
         "Files group",
         "hfiles-group", "help-files-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -364,7 +364,7 @@ void msr2lilypondRegularHandler::createFilesRegularGroup ()
       oahSubGroup::create (
         "Files", "hfiles", "help-files",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -385,7 +385,7 @@ void msr2lilypondRegularHandler::createPartsRegularGroup ()
         "Parts group",
         "hparts-group", "help-parts-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -396,7 +396,7 @@ void msr2lilypondRegularHandler::createPartsRegularGroup ()
         "Parts",
         "hparts", "help-parts",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -421,7 +421,7 @@ void msr2lilypondRegularHandler::createStavesRegularGroup ()
         "hstaves-group",
         "help-staves-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -432,7 +432,7 @@ void msr2lilypondRegularHandler::createStavesRegularGroup ()
         "Staves",
         "hstaves", "help-staves",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -454,7 +454,7 @@ void msr2lilypondRegularHandler::createVoicesRegularGroup ()
         "Voices group",
         "hvoices-group", "help-voices-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -465,7 +465,7 @@ void msr2lilypondRegularHandler::createVoicesRegularGroup ()
         "Voices",
         "hvoices", "help-voices",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -486,7 +486,7 @@ void msr2lilypondRegularHandler::createTranspositionsRegularGroup ()
         "Transpositions group",
         "htransp-group", "help-transpositions-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -497,7 +497,7 @@ void msr2lilypondRegularHandler::createTranspositionsRegularGroup ()
         "Transpositions",
         "hetransp", "help-transpositions",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -516,7 +516,7 @@ void msr2lilypondRegularHandler::createClefsRegularGroup ()
         "Clefs group",
         "hlefs-group", "help-clefs-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -527,7 +527,7 @@ void msr2lilypondRegularHandler::createClefsRegularGroup ()
         "Clefs",
         "hclefs", "help-clefs",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -549,7 +549,7 @@ void msr2lilypondRegularHandler::createKeysRegularGroup ()
         "Keys group",
         "hkeys-group", "help-keys-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -560,7 +560,7 @@ void msr2lilypondRegularHandler::createKeysRegularGroup ()
         "Keys",
         "hkeys", "help-keys",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -580,7 +580,7 @@ void msr2lilypondRegularHandler::createTimesRegularGroup ()
         "Times group",
         "htimes-group", "help-times-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -591,7 +591,7 @@ void msr2lilypondRegularHandler::createTimesRegularGroup ()
         "Times",
         "htimes", "help-times",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -613,7 +613,7 @@ void msr2lilypondRegularHandler::createRepeatsRegularGroup ()
         "Repeats group",
         "hreps-group", "help-repeats-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -624,7 +624,7 @@ void msr2lilypondRegularHandler::createRepeatsRegularGroup ()
         "Repeats",
         "hreps", "help-repeats",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -647,7 +647,7 @@ void msr2lilypondRegularHandler::createMeasuresRegularGroup ()
         "Measures group",
         "hmeas-group", "help-measures-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -658,7 +658,7 @@ void msr2lilypondRegularHandler::createMeasuresRegularGroup ()
         "Measures",
         "hmeas", "help-measures",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -679,7 +679,7 @@ void msr2lilypondRegularHandler::createRestsRegularGroup ()
         "Rests group",
         "hrests-group", "help-rests-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -690,7 +690,7 @@ void msr2lilypondRegularHandler::createRestsRegularGroup ()
         "Rests",
         "hrests", "help-rests",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -713,7 +713,7 @@ void msr2lilypondRegularHandler::createNotesRegularGroup ()
         "Notes group",
         "hnotes-group", "help-notes-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -724,7 +724,7 @@ void msr2lilypondRegularHandler::createNotesRegularGroup ()
         "Notes",
         "hnotes", "help-notes",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -755,7 +755,7 @@ void msr2lilypondRegularHandler::creatBeamsRegularGroup ()
         "Beams group",
         "hbeams-group", "help-beams-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -766,7 +766,7 @@ void msr2lilypondRegularHandler::creatBeamsRegularGroup ()
         "Beams",
         "hbeams", "help-beams",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -789,7 +789,7 @@ void msr2lilypondRegularHandler::createArticulationsRegularGroup ()
         "Articulations group",
         "harts-group", "help-articulations-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -800,7 +800,7 @@ void msr2lilypondRegularHandler::createArticulationsRegularGroup ()
         "Articulations",
         "harts", "help-articulations",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -822,7 +822,7 @@ void msr2lilypondRegularHandler::createOrnamentsRegularGroup ()
         "Ornaments group",
         "horns-group", "help-ornaments-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -833,7 +833,7 @@ void msr2lilypondRegularHandler::createOrnamentsRegularGroup ()
         "Ornaments",
         "horns", "help-ornaments",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -855,7 +855,7 @@ void msr2lilypondRegularHandler::createGraceNotesRegularGroup ()
         "Grace notes group",
         "hgraces-group", "help-grace-notes-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -866,7 +866,7 @@ void msr2lilypondRegularHandler::createGraceNotesRegularGroup ()
         "Grace notes",
         "hgraces", "help-grace-notes",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -888,7 +888,7 @@ void msr2lilypondRegularHandler::createChordsRegularGroup ()
         "Chords group",
         "hchords-group", "help-chords-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -899,7 +899,7 @@ void msr2lilypondRegularHandler::createChordsRegularGroup ()
         "Chords",
         "hchords", "help-chords",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -927,7 +927,7 @@ void msr2lilypondRegularHandler::createTiesRegularGroup ()
         "Ties group",
         "hties-group", "help-ties-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -938,7 +938,7 @@ void msr2lilypondRegularHandler::createTiesRegularGroup ()
         "Ties",
         "hties", "help-ties",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -958,7 +958,7 @@ void msr2lilypondRegularHandler::createSlursRegularGroup ()
         "Slurs group",
         "hslurs-group", "help-slurs-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -969,7 +969,7 @@ void msr2lilypondRegularHandler::createSlursRegularGroup ()
         "Slurs",
         "hslurs", "help-slurs",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -991,7 +991,7 @@ void msr2lilypondRegularHandler::createLigaturesRegularGroup ()
         "Ligatures group",
         "hligs-group", "help-ligatures-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1002,7 +1002,7 @@ void msr2lilypondRegularHandler::createLigaturesRegularGroup ()
         "Ligatures",
         "hligs", "help-ligatures",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1022,7 +1022,7 @@ void msr2lilypondRegularHandler::createDynamicsRegularGroup ()
         "Dynamics group",
         "hdyns-group", "help-dynamics-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1033,7 +1033,7 @@ void msr2lilypondRegularHandler::createDynamicsRegularGroup ()
         "Dynamics",
         "hdyns", "help-dynamics",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1057,7 +1057,7 @@ void msr2lilypondRegularHandler::createWedgesRegularGroup ()
         "Wedges group",
         "hweds-group", "help-wedges-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1068,7 +1068,7 @@ void msr2lilypondRegularHandler::createWedgesRegularGroup ()
         "Wedges",
         "hweds", "help-wedges",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1092,7 +1092,7 @@ void msr2lilypondRegularHandler::createTupletsRegularGroup ()
         "Tuplets group",
         "htups-group", "help-tuplets-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1103,7 +1103,7 @@ void msr2lilypondRegularHandler::createTupletsRegularGroup ()
         "Tuplets",
         "htups", "help-tuplets",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1123,7 +1123,7 @@ void msr2lilypondRegularHandler::createStringsRegularGroup ()
         "Strings group",
         "hstrings-group", "help-strings-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1133,7 +1133,7 @@ void msr2lilypondRegularHandler::createStringsRegularGroup ()
       oahSubGroup::create (
         "Strings",
         "hstrings", "", "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1154,7 +1154,7 @@ void msr2lilypondRegularHandler::createTablaturesRegularGroup ()
         "Tablatures group",
         "htabs-group", "help-tablatures-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1165,7 +1165,7 @@ void msr2lilypondRegularHandler::createTablaturesRegularGroup ()
         "Tablatures",
         "htabs", "help-tablatures",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1186,7 +1186,7 @@ void msr2lilypondRegularHandler::createHarmoniesRegularGroup ()
         "Harmonies group",
         "hharms-group", "help-harmonies-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1197,7 +1197,7 @@ void msr2lilypondRegularHandler::createHarmoniesRegularGroup ()
         "Harmonies",
         "hharms", "help-harmonies",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1226,7 +1226,7 @@ void msr2lilypondRegularHandler::createFiguredBassesRegularGroup ()
         "Figured basses group",
         "hfigbass-group", "help-figured-basses-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1237,7 +1237,7 @@ void msr2lilypondRegularHandler::createFiguredBassesRegularGroup ()
         "Figured basses",
         "hfigbass", "help-figured-basses",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1259,7 +1259,7 @@ void msr2lilypondRegularHandler::createLyricsRegularGroup ()
         "Lyrics group",
         "hlyrics-group", "help-lyrics-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1270,7 +1270,7 @@ void msr2lilypondRegularHandler::createLyricsRegularGroup ()
         "Lyrics",
         "hlyrics", "help-lyrics",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1295,7 +1295,7 @@ void msr2lilypondRegularHandler::createBookRegularGroup ()
         "Book group",
         "hbook-group", "help-book-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1306,7 +1306,7 @@ void msr2lilypondRegularHandler::createBookRegularGroup ()
         "Book",
         "hbook", "help-book",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1329,7 +1329,7 @@ void msr2lilypondRegularHandler::createHeaderRegularGroup ()
         "Header group",
         "hheader-group", "help-header-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1340,7 +1340,7 @@ void msr2lilypondRegularHandler::createHeaderRegularGroup ()
         "Header",
         "hheader", "help-header",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1387,7 +1387,7 @@ void msr2lilypondRegularHandler::createPaperRegularGroup ()
         "Paper group",
         "h-group", "help-paper-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1398,7 +1398,7 @@ void msr2lilypondRegularHandler::createPaperRegularGroup ()
         "Paper",
         "hpaper", "help-paper",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1438,7 +1438,7 @@ void msr2lilypondRegularHandler::createLayoutRegularGroup ()
         "Layout group",
         "hlayout-group", "help-layout-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1449,7 +1449,7 @@ void msr2lilypondRegularHandler::createLayoutRegularGroup ()
         "Layout",
         "hlayout", "help-layout",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1470,7 +1470,7 @@ void msr2lilypondRegularHandler::createOutputRegularGroup ()
         "Ouptut group",
         "houptut-group", "help-ouptut-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1481,7 +1481,7 @@ void msr2lilypondRegularHandler::createOutputRegularGroup ()
         "Ouptut",
         "houptut", "help-ouptut",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1551,7 +1551,7 @@ void msr2lilypondRegularHandler::createMidiRegularGroup ()
         "MIDI group",
         "hmidi-group", "help-midi-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1562,7 +1562,7 @@ void msr2lilypondRegularHandler::createMidiRegularGroup ()
         "MIDI",
         "hmidi", "help-midi",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);

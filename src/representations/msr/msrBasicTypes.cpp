@@ -11610,6 +11610,7 @@ map<msrQuarterTonesPitchKind, string> gGlobalPortuguesPitchesNamesMap;
 map<msrQuarterTonesPitchKind, string> gGlobalSuomiPitchesNamesMap;
 map<msrQuarterTonesPitchKind, string> gGlobalSvenskaPitchesNamesMap;
 map<msrQuarterTonesPitchKind, string> gGlobalVlaamsPitchesNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalArabicPitchesNamesMap;
 
 void initializeQuarterTonesPitchesLanguageKinds ()
 {
@@ -11617,18 +11618,32 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   static bool pThisMethodHasBeenRun = false;
 
   if (! pThisMethodHasBeenRun) {
-    gGlobalQuarterTonesPitchesLanguageKindsMap ["nederlands"] = kNederlands;
-    gGlobalQuarterTonesPitchesLanguageKindsMap ["catalan"]    = kCatalan;
-    gGlobalQuarterTonesPitchesLanguageKindsMap ["deutsch"]    = kDeutsch;
-    gGlobalQuarterTonesPitchesLanguageKindsMap ["english"]    = kEnglish;
-    gGlobalQuarterTonesPitchesLanguageKindsMap ["espanol"]    = kEspanol;
-    gGlobalQuarterTonesPitchesLanguageKindsMap ["italiano"]   = kItaliano;
-    gGlobalQuarterTonesPitchesLanguageKindsMap ["francais"]   = kFrancais;
-    gGlobalQuarterTonesPitchesLanguageKindsMap ["norsk"]      = kNorsk;
-    gGlobalQuarterTonesPitchesLanguageKindsMap ["portugues"]  = kPortugues;
-    gGlobalQuarterTonesPitchesLanguageKindsMap ["suomi"]      = kSuomi;
-    gGlobalQuarterTonesPitchesLanguageKindsMap ["svenska"]    = kSvenska;
-    gGlobalQuarterTonesPitchesLanguageKindsMap ["vlaams"]     = kVlaams;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["nederlands"] =
+      msrQuarterTonesPitchesLanguageKind::kQTPNederlands;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["catalan"]    =
+      msrQuarterTonesPitchesLanguageKind::kQTPCatalan;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["deutsch"]    =
+      msrQuarterTonesPitchesLanguageKind::kQTPDeutsch;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["english"]    =
+      msrQuarterTonesPitchesLanguageKind::kQTPEnglish;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["espanol"]    =
+      msrQuarterTonesPitchesLanguageKind::kQTPEspanol;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["italiano"]   =
+      msrQuarterTonesPitchesLanguageKind::kQTPItaliano;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["francais"]   =
+      msrQuarterTonesPitchesLanguageKind::kQTPFrancais;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["norsk"]      =
+      msrQuarterTonesPitchesLanguageKind::kQTPNorsk;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["portugues"]  =
+      msrQuarterTonesPitchesLanguageKind::kQTPPortugues;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["suomi"]      =
+      msrQuarterTonesPitchesLanguageKind::kQTPSuomi;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["svenska"]    =
+      msrQuarterTonesPitchesLanguageKind::kQTPSvenska;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["vlaams"]     =
+      msrQuarterTonesPitchesLanguageKind::kQTPVlaams;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["arabic"]     =
+      msrQuarterTonesPitchesLanguageKind::kQTPArabic;
 
     initializeNederlandsPitchNamesMap ();
     initializeCatalanPitchNamesMap ();
@@ -11642,6 +11657,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
     initializeSuomiPitchNamesMap ();
     initializeSvenskaPitchNamesMap ();
     initializeVlaamsPitchNamesMap ();
+    initializeArabicPitchNamesMap ();
 
     pThisMethodHasBeenRun = true;
   }
@@ -11813,7 +11829,7 @@ void initializeDeutschPitchNamesMap ()
   gGlobalDeutschPitchesNamesMap [kA_DoubleFlat_QTP]  = "asas";
   gGlobalDeutschPitchesNamesMap [kA_SesquiFlat_QTP]  = "asah";
   gGlobalDeutschPitchesNamesMap [kA_Flat_QTP]        = "as";
-  gGlobalDeutschPitchesNamesMap [kA_SemiFlat_QTP]    = "aeh";
+  gGlobalDeutschPitchesNamesMap [kA_SemiFlat_QTP]    = "ah";
   gGlobalDeutschPitchesNamesMap [kA_Natural_QTP]     = "a";
   gGlobalDeutschPitchesNamesMap [kA_SemiSharp_QTP]   = "aih";
   gGlobalDeutschPitchesNamesMap [kA_Sharp_QTP]       = "ais";
@@ -11853,7 +11869,7 @@ void initializeDeutschPitchNamesMap ()
   gGlobalDeutschPitchesNamesMap [kE_DoubleFlat_QTP]  = "eses";
   gGlobalDeutschPitchesNamesMap [kE_SesquiFlat_QTP]  = "esseh";
   gGlobalDeutschPitchesNamesMap [kE_Flat_QTP]        = "es";
-  gGlobalDeutschPitchesNamesMap [kE_SemiFlat_QTP]    = "eeh";
+  gGlobalDeutschPitchesNamesMap [kE_SemiFlat_QTP]    = "eh";
   gGlobalDeutschPitchesNamesMap [kE_Natural_QTP]     = "e";
   gGlobalDeutschPitchesNamesMap [kE_SemiSharp_QTP]   = "eih";
   gGlobalDeutschPitchesNamesMap [kE_Sharp_QTP]       = "eis";
@@ -12195,6 +12211,128 @@ void initializeItalianoPitchNamesMap ()
 
 void initializeNorskPitchNamesMap ()
 {
+/*
+    (norsk . (
+              (cessess . ,(ly:make-pitch -1 0 DOUBLE-FLAT))
+              (ceses . ,(ly:make-pitch -1 0 DOUBLE-FLAT))
+              (cesseh . ,(ly:make-pitch -1 0 THREE-Q-FLAT))
+              (ceseh . ,(ly:make-pitch -1 0 THREE-Q-FLAT))
+              (cess . ,(ly:make-pitch -1 0 FLAT))
+              (ces . ,(ly:make-pitch -1 0 FLAT))
+              (ceh . ,(ly:make-pitch -1 0 SEMI-FLAT))
+              (c . ,(ly:make-pitch -1 0 NATURAL))
+              (cih . ,(ly:make-pitch -1 0 SEMI-SHARP))
+              (ciss . ,(ly:make-pitch -1 0 SHARP))
+              (cis . ,(ly:make-pitch -1 0 SHARP))
+              (cissih . ,(ly:make-pitch -1 0 THREE-Q-SHARP))
+              (cisih . ,(ly:make-pitch -1 0 THREE-Q-SHARP))
+              (cississ . ,(ly:make-pitch -1 0 DOUBLE-SHARP))
+              (cisis . ,(ly:make-pitch -1 0 DOUBLE-SHARP))
+
+              (dessess . ,(ly:make-pitch -1 1 DOUBLE-FLAT))
+              (deses . ,(ly:make-pitch -1 1 DOUBLE-FLAT))
+              (desseh . ,(ly:make-pitch -1 1 THREE-Q-FLAT))
+              (deseh . ,(ly:make-pitch -1 1 THREE-Q-FLAT))
+              (dess . ,(ly:make-pitch -1 1 FLAT))
+              (des . ,(ly:make-pitch -1 1 FLAT))
+              (deh . ,(ly:make-pitch -1 1 SEMI-FLAT))
+              (d . ,(ly:make-pitch -1 1 NATURAL))
+              (dih . ,(ly:make-pitch -1 1 SEMI-SHARP))
+              (diss . ,(ly:make-pitch -1 1 SHARP))
+              (dis . ,(ly:make-pitch -1 1 SHARP))
+              (dissih . ,(ly:make-pitch -1 1 THREE-Q-SHARP))
+              (disih . ,(ly:make-pitch -1 1 THREE-Q-SHARP))
+              (dississ . ,(ly:make-pitch -1 1 DOUBLE-SHARP))
+              (disis . ,(ly:make-pitch -1 1 DOUBLE-SHARP))
+
+              (eessess . ,(ly:make-pitch -1 2 DOUBLE-FLAT))
+              (eeses . ,(ly:make-pitch -1 2 DOUBLE-FLAT))
+              (essess . ,(ly:make-pitch -1 2 DOUBLE-FLAT))
+              (eses . ,(ly:make-pitch -1 2 DOUBLE-FLAT))
+              (eesseh . ,(ly:make-pitch -1 2 THREE-Q-FLAT))
+              (eeseh . ,(ly:make-pitch -1 2 THREE-Q-FLAT))
+              (eess . ,(ly:make-pitch -1 2 FLAT))
+              (ees . ,(ly:make-pitch -1 2 FLAT))
+              (ess . ,(ly:make-pitch -1 2 FLAT))
+              (es . ,(ly:make-pitch -1 2 FLAT))
+              (eeh . ,(ly:make-pitch -1 2 SEMI-FLAT))
+              (e . ,(ly:make-pitch -1 2 NATURAL))
+              (eih . ,(ly:make-pitch -1 2 SEMI-SHARP))
+              (eiss . ,(ly:make-pitch -1 2 SHARP))
+              (eis . ,(ly:make-pitch -1 2 SHARP))
+              (eissih . ,(ly:make-pitch -1 2 THREE-Q-SHARP))
+              (eisih . ,(ly:make-pitch -1 2 THREE-Q-SHARP))
+              (eississ . ,(ly:make-pitch -1 2 DOUBLE-SHARP))
+              (eisis . ,(ly:make-pitch -1 2 DOUBLE-SHARP))
+
+              (fessess . ,(ly:make-pitch -1 3 DOUBLE-FLAT))
+              (feses . ,(ly:make-pitch -1 3 DOUBLE-FLAT))
+              (fesseh . ,(ly:make-pitch -1 3 THREE-Q-FLAT))
+              (feseh . ,(ly:make-pitch -1 3 THREE-Q-FLAT))
+              (fess . ,(ly:make-pitch -1 3 FLAT))
+              (fes . ,(ly:make-pitch -1 3 FLAT))
+              (feh . ,(ly:make-pitch -1 3 SEMI-FLAT))
+              (f . ,(ly:make-pitch -1 3 NATURAL))
+              (fih . ,(ly:make-pitch -1 3 SEMI-SHARP))
+              (fiss . ,(ly:make-pitch -1 3 SHARP))
+              (fis . ,(ly:make-pitch -1 3 SHARP))
+              (fissih . ,(ly:make-pitch -1 3 THREE-Q-SHARP))
+              (fisih . ,(ly:make-pitch -1 3 THREE-Q-SHARP))
+              (fississ . ,(ly:make-pitch -1 3 DOUBLE-SHARP))
+              (fisis . ,(ly:make-pitch -1 3 DOUBLE-SHARP))
+
+              (gessess . ,(ly:make-pitch -1 4 DOUBLE-FLAT))
+              (geses . ,(ly:make-pitch -1 4 DOUBLE-FLAT))
+              (geseh . ,(ly:make-pitch -1 4 THREE-Q-FLAT))
+              (gesseh . ,(ly:make-pitch -1 4 THREE-Q-FLAT))
+              (gess . ,(ly:make-pitch -1 4 FLAT))
+              (ges . ,(ly:make-pitch -1 4 FLAT))
+              (geh . ,(ly:make-pitch -1 4 SEMI-FLAT))
+              (g . ,(ly:make-pitch -1 4 NATURAL))
+              (gih . ,(ly:make-pitch -1 4 SEMI-SHARP))
+              (giss . ,(ly:make-pitch -1 4 SHARP))
+              (gis . ,(ly:make-pitch -1 4 SHARP))
+              (gissih . ,(ly:make-pitch -1 4 THREE-Q-SHARP))
+              (gisih . ,(ly:make-pitch -1 4 THREE-Q-SHARP))
+              (gississ . ,(ly:make-pitch -1 4 DOUBLE-SHARP))
+              (gisis . ,(ly:make-pitch -1 4 DOUBLE-SHARP))
+
+              (assess . ,(ly:make-pitch -1 5 DOUBLE-FLAT))
+              (ases . ,(ly:make-pitch -1 5 DOUBLE-FLAT))
+              (aessess . ,(ly:make-pitch -1 5 DOUBLE-FLAT))
+              (aeses . ,(ly:make-pitch -1 5 DOUBLE-FLAT))
+              (aesseh . ,(ly:make-pitch -1 5 THREE-Q-FLAT))
+              (aeseh . ,(ly:make-pitch -1 5 THREE-Q-FLAT))
+              (ass . ,(ly:make-pitch -1 5 FLAT))
+              (as . ,(ly:make-pitch -1 5 FLAT))
+              (aess . ,(ly:make-pitch -1 5 FLAT))
+              (aes . ,(ly:make-pitch -1 5 FLAT))
+              (aeh . ,(ly:make-pitch -1 5 SEMI-FLAT))
+              (a . ,(ly:make-pitch -1 5 NATURAL))
+              (aih . ,(ly:make-pitch -1 5 SEMI-SHARP))
+              (aiss . ,(ly:make-pitch -1 5 SHARP))
+              (ais . ,(ly:make-pitch -1 5 SHARP))
+              (aissih . ,(ly:make-pitch -1 5 THREE-Q-SHARP))
+              (aisih . ,(ly:make-pitch -1 5 THREE-Q-SHARP))
+              (aississ . ,(ly:make-pitch -1 5 DOUBLE-SHARP))
+              (aisis . ,(ly:make-pitch -1 5 DOUBLE-SHARP))
+
+              (bess . ,(ly:make-pitch -1 6 DOUBLE-FLAT))
+              (bes . ,(ly:make-pitch -1 6 DOUBLE-FLAT))
+              (beh . ,(ly:make-pitch -1 6 THREE-Q-FLAT))
+              (b . ,(ly:make-pitch -1 6 FLAT))
+              (heh . ,(ly:make-pitch -1 6 SEMI-FLAT))
+              (h . ,(ly:make-pitch -1 6 NATURAL))
+              (hih . ,(ly:make-pitch -1 6 SEMI-SHARP))
+              (hiss . ,(ly:make-pitch -1 6 SHARP))
+              (his . ,(ly:make-pitch -1 6 SHARP))
+              (hissih . ,(ly:make-pitch -1 6 THREE-Q-SHARP))
+              (hisih . ,(ly:make-pitch -1 6 THREE-Q-SHARP))
+              (hississ . ,(ly:make-pitch -1 6 DOUBLE-SHARP))
+              (hisis . ,(ly:make-pitch -1 6 DOUBLE-SHARP))
+              ))
+*/
+
   // norsk
   gGlobalNorskPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalNorskPitchesNamesMap [k_Rest_QTP]                 = "r";
@@ -12351,6 +12489,83 @@ void initializePortuguesPitchNamesMap ()
 
 void initializeSuomiPitchNamesMap ()
 {
+/*
+    (suomi . (
+              (ceses . ,(ly:make-pitch -1 0 DOUBLE-FLAT))
+              (ceseh . ,(ly:make-pitch -1 0 THREE-Q-FLAT))
+              (ces . ,(ly:make-pitch -1 0 FLAT))
+              (ceh . ,(ly:make-pitch -1 0 SEMI-FLAT))
+              (c . ,(ly:make-pitch -1 0 NATURAL))
+              (cih . ,(ly:make-pitch -1 0 SEMI-SHARP))
+              (cis . ,(ly:make-pitch -1 0 SHARP))
+              (cisih . ,(ly:make-pitch -1 0 THREE-Q-SHARP))
+              (cisis . ,(ly:make-pitch -1 0 DOUBLE-SHARP))
+
+              (deses . ,(ly:make-pitch -1 1 DOUBLE-FLAT))
+              (deseh . ,(ly:make-pitch -1 1 THREE-Q-FLAT))
+              (des . ,(ly:make-pitch -1 1 FLAT))
+              (deh . ,(ly:make-pitch -1 1 SEMI-FLAT))
+              (d . ,(ly:make-pitch -1 1 NATURAL))
+              (dih . ,(ly:make-pitch -1 1 SEMI-SHARP))
+              (dis . ,(ly:make-pitch -1 1 SHARP))
+              (disih . ,(ly:make-pitch -1 1 THREE-Q-SHARP))
+              (disis . ,(ly:make-pitch -1 1 DOUBLE-SHARP))
+
+              (eses . ,(ly:make-pitch -1 2 DOUBLE-FLAT))
+              (eseh . ,(ly:make-pitch -1 2 THREE-Q-FLAT))
+              (es . ,(ly:make-pitch -1 2 FLAT))
+              (eeh . ,(ly:make-pitch -1 2 SEMI-FLAT))
+              (e . ,(ly:make-pitch -1 2 NATURAL))
+              (eih . ,(ly:make-pitch -1 2 SEMI-SHARP))
+              (eis . ,(ly:make-pitch -1 2 SHARP))
+              (eisih . ,(ly:make-pitch -1 2 THREE-Q-SHARP))
+              (eisis . ,(ly:make-pitch -1 2 DOUBLE-SHARP))
+
+              (feses . ,(ly:make-pitch -1 3 DOUBLE-FLAT))
+              (feseh . ,(ly:make-pitch -1 3 THREE-Q-FLAT))
+              (fes . ,(ly:make-pitch -1 3 FLAT))
+              (feh . ,(ly:make-pitch -1 3 SEMI-FLAT))
+              (f . ,(ly:make-pitch -1 3 NATURAL))
+              (fih . ,(ly:make-pitch -1 3 SEMI-SHARP))
+              (fis . ,(ly:make-pitch -1 3 SHARP))
+              (fisih . ,(ly:make-pitch -1 3 THREE-Q-SHARP))
+              (fisis . ,(ly:make-pitch -1 3 DOUBLE-SHARP))
+
+              (geses . ,(ly:make-pitch -1 4 DOUBLE-FLAT))
+              (geseh . ,(ly:make-pitch -1 4 THREE-Q-FLAT))
+              (ges . ,(ly:make-pitch -1 4 FLAT))
+              (geh . ,(ly:make-pitch -1 4 SEMI-FLAT))
+              (g . ,(ly:make-pitch -1 4 NATURAL))
+              (gih . ,(ly:make-pitch -1 4 SEMI-SHARP))
+              (gis . ,(ly:make-pitch -1 4 SHARP))
+              (gisih . ,(ly:make-pitch -1 4 THREE-Q-SHARP))
+              (gisis . ,(ly:make-pitch -1 4 DOUBLE-SHARP))
+
+              (asas . ,(ly:make-pitch -1 5 DOUBLE-FLAT))
+              (ases . ,(ly:make-pitch -1 5 DOUBLE-FLAT))   ;; non-standard name for asas
+              (asah . ,(ly:make-pitch -1 5 THREE-Q-FLAT))
+              (aseh . ,(ly:make-pitch -1 5 THREE-Q-FLAT))
+              (as . ,(ly:make-pitch -1 5 FLAT))
+              (aeh . ,(ly:make-pitch -1 5 SEMI-FLAT))
+              (a . ,(ly:make-pitch -1 5 NATURAL))
+              (aih . ,(ly:make-pitch -1 5 SEMI-SHARP))
+              (ais . ,(ly:make-pitch -1 5 SHARP))
+              (aisih . ,(ly:make-pitch -1 5 THREE-Q-SHARP))
+              (aisis . ,(ly:make-pitch -1 5 DOUBLE-SHARP))
+
+              (heses . ,(ly:make-pitch -1 6 DOUBLE-FLAT))  ;; non-standard name for bb
+              (bb . ,(ly:make-pitch -1 6 DOUBLE-FLAT)) ;; should be bes; kept for backward compatibility
+              (bes . ,(ly:make-pitch -1 6 DOUBLE-FLAT))
+              (heseh . ,(ly:make-pitch -1 6 THREE-Q-FLAT))
+              (b . ,(ly:make-pitch -1 6 FLAT))
+              (heh . ,(ly:make-pitch -1 6 SEMI-FLAT))
+              (h . ,(ly:make-pitch -1 6 NATURAL))
+              (hih . ,(ly:make-pitch -1 6 SEMI-SHARP))
+              (his . ,(ly:make-pitch -1 6 SHARP))
+              (hisih . ,(ly:make-pitch -1 6 THREE-Q-SHARP))
+              (hisis . ,(ly:make-pitch -1 6 DOUBLE-SHARP))
+              ))
+*/
   // suomi
   gGlobalSuomiPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalSuomiPitchesNamesMap [k_Rest_QTP]                 = "r";
@@ -12429,6 +12644,79 @@ void initializeSuomiPitchNamesMap ()
 
 void initializeSvenskaPitchNamesMap ()
 {
+/*
+    (svenska . (
+                (cessess . ,(ly:make-pitch -1 0 DOUBLE-FLAT))
+                (cesseh . ,(ly:make-pitch -1 0 THREE-Q-FLAT))
+                (cess . ,(ly:make-pitch -1 0 FLAT))
+                (ceh . ,(ly:make-pitch -1 0 SEMI-FLAT))
+                (c . ,(ly:make-pitch -1 0 NATURAL))
+                (cih . ,(ly:make-pitch -1 0 SEMI-SHARP))
+                (ciss . ,(ly:make-pitch -1 0 SHARP))
+                (cissih . ,(ly:make-pitch -1 0 THREE-Q-SHARP))
+                (cississ . ,(ly:make-pitch -1 0 DOUBLE-SHARP))
+
+                (dessess . ,(ly:make-pitch -1 1 DOUBLE-FLAT))
+                (desseh . ,(ly:make-pitch -1 1 THREE-Q-FLAT))
+                (dess . ,(ly:make-pitch -1 1 FLAT))
+                (deh . ,(ly:make-pitch -1 1 SEMI-FLAT))
+                (d . ,(ly:make-pitch -1 1 NATURAL))
+                (dih . ,(ly:make-pitch -1 1 SEMI-SHARP))
+                (diss . ,(ly:make-pitch -1 1 SHARP))
+                (dissih . ,(ly:make-pitch -1 1 THREE-Q-SHARP))
+                (dississ . ,(ly:make-pitch -1 1 DOUBLE-SHARP))
+
+                (essess . ,(ly:make-pitch -1 2 DOUBLE-FLAT))
+                (esseh . ,(ly:make-pitch -1 2 THREE-Q-FLAT))
+                (ess . ,(ly:make-pitch -1 2 FLAT))
+                (eeh . ,(ly:make-pitch -1 2 SEMI-FLAT))
+                (e . ,(ly:make-pitch -1 2 NATURAL))
+                (eih . ,(ly:make-pitch -1 2 SEMI-SHARP))
+                (eiss . ,(ly:make-pitch -1 2 SHARP))
+                (eissih . ,(ly:make-pitch -1 2 THREE-Q-SHARP))
+                (eississ . ,(ly:make-pitch -1 2 DOUBLE-SHARP))
+
+                (fessess . ,(ly:make-pitch -1 3 DOUBLE-FLAT))
+                (fesseh . ,(ly:make-pitch -1 3 THREE-Q-FLAT))
+                (fess . ,(ly:make-pitch -1 3 FLAT))
+                (feh . ,(ly:make-pitch -1 3 SEMI-FLAT))
+                (f . ,(ly:make-pitch -1 3 NATURAL))
+                (fih . ,(ly:make-pitch -1 3 SEMI-SHARP))
+                (fiss . ,(ly:make-pitch -1 3 SHARP))
+                (fissih . ,(ly:make-pitch -1 3 THREE-Q-SHARP))
+                (fississ . ,(ly:make-pitch -1 3 DOUBLE-SHARP))
+
+                (gessess . ,(ly:make-pitch -1 4 DOUBLE-FLAT))
+                (gesseh . ,(ly:make-pitch -1 4 THREE-Q-FLAT))
+                (gess . ,(ly:make-pitch -1 4 FLAT))
+                (geh . ,(ly:make-pitch -1 4 SEMI-FLAT))
+                (g . ,(ly:make-pitch -1 4 NATURAL))
+                (gih . ,(ly:make-pitch -1 4 SEMI-SHARP))
+                (giss . ,(ly:make-pitch -1 4 SHARP))
+                (gissih . ,(ly:make-pitch -1 4 THREE-Q-SHARP))
+                (gississ . ,(ly:make-pitch -1 4 DOUBLE-SHARP))
+
+                (assess . ,(ly:make-pitch -1 5 DOUBLE-FLAT))
+                (asseh . ,(ly:make-pitch -1 5 THREE-Q-FLAT))
+                (ass . ,(ly:make-pitch -1 5 FLAT))
+                (aeh . ,(ly:make-pitch -1 5 SEMI-FLAT))
+                (a . ,(ly:make-pitch -1 5 NATURAL))
+                (aih . ,(ly:make-pitch -1 5 SEMI-SHARP))
+                (aiss . ,(ly:make-pitch -1 5 SHARP))
+                (aissih . ,(ly:make-pitch -1 5 THREE-Q-SHARP))
+                (aississ . ,(ly:make-pitch -1 5 DOUBLE-SHARP))
+
+                (hessess . ,(ly:make-pitch -1 6 DOUBLE-FLAT))
+                (hesseh . ,(ly:make-pitch -1 6 THREE-Q-FLAT))
+                (b . ,(ly:make-pitch -1 6 FLAT))
+                (heh . ,(ly:make-pitch -1 6 SEMI-FLAT))
+                (h . ,(ly:make-pitch -1 6 NATURAL))
+                (hih . ,(ly:make-pitch -1 6 SEMI-SHARP))
+                (hiss . ,(ly:make-pitch -1 6 SHARP))
+                (hissih . ,(ly:make-pitch -1 6 THREE-Q-SHARP))
+                (hississ . ,(ly:make-pitch -1 6 DOUBLE-SHARP))
+                ))
+*/
   // svenska
   gGlobalSvenskaPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalSvenskaPitchesNamesMap [k_Rest_QTP]                 = "r";
@@ -12507,6 +12795,79 @@ void initializeSvenskaPitchNamesMap ()
 
 void initializeVlaamsPitchNamesMap ()
 {
+/*
+    (vlaams . (
+               (dobb . ,(ly:make-pitch -1 0 DOUBLE-FLAT))
+               (dobhb . ,(ly:make-pitch -1 0 THREE-Q-FLAT))
+               (dob . ,(ly:make-pitch -1 0 FLAT))
+               (dohb . ,(ly:make-pitch -1 0 SEMI-FLAT))
+               (do . ,(ly:make-pitch -1 0 NATURAL))
+               (dohk . ,(ly:make-pitch -1 0 SEMI-SHARP))
+               (dok . ,(ly:make-pitch -1 0 SHARP))
+               (dokhk . ,(ly:make-pitch -1 0 THREE-Q-SHARP))
+               (dokk . ,(ly:make-pitch -1 0 DOUBLE-SHARP))
+
+               (rebb . ,(ly:make-pitch -1 1 DOUBLE-FLAT))
+               (rebhb . ,(ly:make-pitch -1 1 THREE-Q-FLAT))
+               (reb . ,(ly:make-pitch -1 1 FLAT))
+               (rehb . ,(ly:make-pitch -1 1 SEMI-FLAT))
+               (re . ,(ly:make-pitch -1 1 NATURAL))
+               (rehk . ,(ly:make-pitch -1 1 SEMI-SHARP))
+               (rek . ,(ly:make-pitch -1 1 SHARP))
+               (rekhk . ,(ly:make-pitch -1 1 THREE-Q-SHARP))
+               (rekk . ,(ly:make-pitch -1 1 DOUBLE-SHARP))
+
+               (mibb . ,(ly:make-pitch -1 2 DOUBLE-FLAT))
+               (mibhb . ,(ly:make-pitch -1 2 THREE-Q-FLAT))
+               (mib . ,(ly:make-pitch -1 2 FLAT))
+               (mihb . ,(ly:make-pitch -1 2 SEMI-FLAT))
+               (mi . ,(ly:make-pitch -1 2 NATURAL))
+               (mihk . ,(ly:make-pitch -1 2 SEMI-SHARP))
+               (mik . ,(ly:make-pitch -1 2 SHARP))
+               (mikhk . ,(ly:make-pitch -1 2 THREE-Q-SHARP))
+               (mikk . ,(ly:make-pitch -1 2 DOUBLE-SHARP))
+
+               (fabb . ,(ly:make-pitch -1 3 DOUBLE-FLAT))
+               (fabhb . ,(ly:make-pitch -1 3 THREE-Q-FLAT))
+               (fab . ,(ly:make-pitch -1 3 FLAT))
+               (fahb . ,(ly:make-pitch -1 3 SEMI-FLAT))
+               (fa . ,(ly:make-pitch -1 3 NATURAL))
+               (fahk . ,(ly:make-pitch -1 3 SEMI-SHARP))
+               (fak . ,(ly:make-pitch -1 3 SHARP))
+               (fakhk . ,(ly:make-pitch -1 3 THREE-Q-SHARP))
+               (fakk . ,(ly:make-pitch -1 3 DOUBLE-SHARP))
+
+               (solbb . ,(ly:make-pitch -1 4 DOUBLE-FLAT))
+               (solbhb . ,(ly:make-pitch -1 4 THREE-Q-FLAT))
+               (solb . ,(ly:make-pitch -1 4 FLAT))
+               (solhb . ,(ly:make-pitch -1 4 SEMI-FLAT))
+               (sol . ,(ly:make-pitch -1 4 NATURAL))
+               (solhk . ,(ly:make-pitch -1 4 SEMI-SHARP))
+               (solk . ,(ly:make-pitch -1 4 SHARP))
+               (solkhk . ,(ly:make-pitch -1 4 THREE-Q-SHARP))
+               (solkk . ,(ly:make-pitch -1 4 DOUBLE-SHARP))
+
+               (labb . ,(ly:make-pitch -1 5 DOUBLE-FLAT))
+               (labhb . ,(ly:make-pitch -1 5 THREE-Q-FLAT))
+               (lab . ,(ly:make-pitch -1 5 FLAT))
+               (lahb . ,(ly:make-pitch -1 5 SEMI-FLAT))
+               (la . ,(ly:make-pitch -1 5 NATURAL))
+               (lahk . ,(ly:make-pitch -1 5 SEMI-SHARP))
+               (lak . ,(ly:make-pitch -1 5 SHARP))
+               (lakhk . ,(ly:make-pitch -1 5 THREE-Q-SHARP))
+               (lakk . ,(ly:make-pitch -1 5 DOUBLE-SHARP))
+
+               (sibb . ,(ly:make-pitch -1 6 DOUBLE-FLAT))
+               (sibhb . ,(ly:make-pitch -1 6 THREE-Q-FLAT))
+               (sib . ,(ly:make-pitch -1 6 FLAT))
+               (sihb . ,(ly:make-pitch -1 6 SEMI-FLAT))
+               (si . ,(ly:make-pitch -1 6 NATURAL))
+               (sihk . ,(ly:make-pitch -1 6 SEMI-SHARP))
+               (sik . ,(ly:make-pitch -1 6 SHARP))
+               (sikhk . ,(ly:make-pitch -1 6 THREE-Q-SHARP))
+               (sikk . ,(ly:make-pitch -1 6 DOUBLE-SHARP))
+               ))
+*/
   // vlaams
   gGlobalVlaamsPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalVlaamsPitchesNamesMap [k_Rest_QTP]                 = "r";
@@ -12581,6 +12942,214 @@ void initializeVlaamsPitchNamesMap ()
   gGlobalVlaamsPitchesNamesMap [kG_Sharp_QTP]       = "solk";
   gGlobalVlaamsPitchesNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
   gGlobalVlaamsPitchesNamesMap [kG_DoubleSharp_QTP] = "solkk";
+}
+
+void initializeArabicPitchNamesMap ()
+{
+/*
+    (arabic . (
+               (c . ,(ly:make-pitch -1 0 NATURAL))
+               (d . ,(ly:make-pitch -1 1 NATURAL))
+               (e . ,(ly:make-pitch -1 2 NATURAL))
+               (f . ,(ly:make-pitch -1 3 NATURAL))
+               (g . ,(ly:make-pitch -1 4 NATURAL))
+               (a . ,(ly:make-pitch -1 5 NATURAL))
+               (b . ,(ly:make-pitch -1 6 NATURAL))
+
+               (cd . ,(ly:make-pitch -1 0 SHARP))
+               (dd . ,(ly:make-pitch -1 1 SHARP))
+               (ed . ,(ly:make-pitch -1 2 SHARP))
+               (fd . ,(ly:make-pitch -1 3 SHARP))
+               (gd . ,(ly:make-pitch -1 4 SHARP))
+               (ad . ,(ly:make-pitch -1 5 SHARP))
+               (bd . ,(ly:make-pitch -1 6 SHARP))
+
+               (cb . ,(ly:make-pitch -1 0 FLAT))
+               (db . ,(ly:make-pitch -1 1 FLAT))
+               (eb . ,(ly:make-pitch -1 2 FLAT))
+               (fb . ,(ly:make-pitch -1 3 FLAT))
+               (gb . ,(ly:make-pitch -1 4 FLAT))
+               (ab . ,(ly:make-pitch -1 5 FLAT))
+               (bb . ,(ly:make-pitch -1 6 FLAT))
+
+               (cdd . ,(ly:make-pitch -1 0 SEMI-SHARP))
+               (ddd . ,(ly:make-pitch -1 1 SEMI-SHARP))
+               (edd . ,(ly:make-pitch -1 2 SEMI-SHARP))
+               (fdd . ,(ly:make-pitch -1 3 SEMI-SHARP))
+               (gdd . ,(ly:make-pitch -1 4 SEMI-SHARP))
+               (add . ,(ly:make-pitch -1 5 SEMI-SHARP))
+               (bdd . ,(ly:make-pitch -1 6 SEMI-SHARP))
+
+               (cdb . ,(ly:make-pitch -1 0 SEMI-FLAT))
+               (ddb . ,(ly:make-pitch -1 1 SEMI-FLAT))
+               (edb . ,(ly:make-pitch -1 2 SEMI-FLAT))
+               (fdb . ,(ly:make-pitch -1 3 SEMI-FLAT))
+               (gdb . ,(ly:make-pitch -1 4 SEMI-FLAT))
+               (adb . ,(ly:make-pitch -1 5 SEMI-FLAT))
+               (bdb . ,(ly:make-pitch -1 6 SEMI-FLAT))
+
+               (ctqb . ,(ly:make-pitch -1 0 THREE-Q-FLAT))
+               (dtqb . ,(ly:make-pitch -1 1 THREE-Q-FLAT))
+               (etqb . ,(ly:make-pitch -1 2 THREE-Q-FLAT))
+               (ftqb . ,(ly:make-pitch -1 3 THREE-Q-FLAT))
+               (gtqb . ,(ly:make-pitch -1 4 THREE-Q-FLAT))
+               (atqb . ,(ly:make-pitch -1 5 THREE-Q-FLAT))
+               (btqb . ,(ly:make-pitch -1 6 THREE-Q-FLAT))
+
+               (ctqd . ,(ly:make-pitch -1 0 THREE-Q-SHARP))
+               (dtqd . ,(ly:make-pitch -1 1 THREE-Q-SHARP))
+               (etqd . ,(ly:make-pitch -1 2 THREE-Q-SHARP))
+               (ftqd . ,(ly:make-pitch -1 3 THREE-Q-SHARP))
+               (gtqd . ,(ly:make-pitch -1 4 THREE-Q-SHARP))
+               (atqd . ,(ly:make-pitch -1 5 THREE-Q-SHARP))
+               (btqd . ,(ly:make-pitch -1 6 THREE-Q-SHARP))
+
+               (cfhb . ,(ly:make-pitch -1 0 FIVE-HALF-FLAT))
+               (dfhb . ,(ly:make-pitch -1 1 FIVE-HALF-FLAT))
+               (efhb . ,(ly:make-pitch -1 2 FIVE-HALF-FLAT))
+               (ffhb . ,(ly:make-pitch -1 3 FIVE-HALF-FLAT))
+               (gfhb . ,(ly:make-pitch -1 4 FIVE-HALF-FLAT))
+               (afhb . ,(ly:make-pitch -1 5 FIVE-HALF-FLAT))
+               (bfhb . ,(ly:make-pitch -1 6 FIVE-HALF-FLAT))
+
+               (cfhd . ,(ly:make-pitch -1 0 FIVE-HALF-SHARP))
+               (dfhd . ,(ly:make-pitch -1 1 FIVE-HALF-SHARP))
+               (efhd . ,(ly:make-pitch -1 2 FIVE-HALF-SHARP))
+               (ffhd . ,(ly:make-pitch -1 3 FIVE-HALF-SHARP))
+               (gfhd . ,(ly:make-pitch -1 4 FIVE-HALF-SHARP))
+               (afhd . ,(ly:make-pitch -1 5 FIVE-HALF-SHARP))
+               (bfhd . ,(ly:make-pitch -1 6 FIVE-HALF-SHARP))
+
+               (cshb . ,(ly:make-pitch -1 0 SEVEN-HALF-FLAT))
+               (dshb . ,(ly:make-pitch -1 1 SEVEN-HALF-FLAT))
+               (eshb . ,(ly:make-pitch -1 2 SEVEN-HALF-FLAT))
+               (fshb . ,(ly:make-pitch -1 3 SEVEN-HALF-FLAT))
+               (gshb . ,(ly:make-pitch -1 4 SEVEN-HALF-FLAT))
+               (ashb . ,(ly:make-pitch -1 5 SEVEN-HALF-FLAT))
+               (bshb . ,(ly:make-pitch -1 6 SEVEN-HALF-FLAT))
+
+               (cshd . ,(ly:make-pitch -1 0 SEVEN-HALF-SHARP))
+               (dshd . ,(ly:make-pitch -1 1 SEVEN-HALF-SHARP))
+               (eshd . ,(ly:make-pitch -1 2 SEVEN-HALF-SHARP))
+               (fshd . ,(ly:make-pitch -1 3 SEVEN-HALF-SHARP))
+               (gshd . ,(ly:make-pitch -1 4 SEVEN-HALF-SHARP))
+               (ashd . ,(ly:make-pitch -1 5 SEVEN-HALF-SHARP))
+               (bshd . ,(ly:make-pitch -1 6 SEVEN-HALF-SHARP))
+               ))
+    ))
+*/
+  // arabic
+  gGlobalArabicPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalArabicPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalArabicPitchesNamesMap [k_Skip_QTP]                 = "s";
+
+  gGlobalArabicPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gGlobalArabicPitchesNamesMap [kA_SesquiFlat_QTP]  = "laSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [kA_Flat_QTP]        = "lab";
+  gGlobalArabicPitchesNamesMap [kA_SemiFlat_QTP]    = "laSemiFlat???";
+  gGlobalArabicPitchesNamesMap [kA_Natural_QTP]     = "la";
+  gGlobalArabicPitchesNamesMap [kA_SemiSharp_QTP]   = "laSemiSharp???";
+  gGlobalArabicPitchesNamesMap [kA_Sharp_QTP]       = "lak";
+  gGlobalArabicPitchesNamesMap [kA_SesquiSharp_QTP] = "laSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [kA_DoubleSharp_QTP] = "lakk";
+
+  gGlobalArabicPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gGlobalArabicPitchesNamesMap [kB_SesquiFlat_QTP]  = "siSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [kB_Flat_QTP]        = "sib";
+  gGlobalArabicPitchesNamesMap [kB_SemiFlat_QTP]    = "siSemiFlat???";
+  gGlobalArabicPitchesNamesMap [kB_Natural_QTP]     = "si";
+  gGlobalArabicPitchesNamesMap [kB_SemiSharp_QTP]   = "siSemiSharp???";
+  gGlobalArabicPitchesNamesMap [kB_Sharp_QTP]       = "sik";
+  gGlobalArabicPitchesNamesMap [kB_SesquiSharp_QTP] = "siSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [kB_DoubleSharp_QTP] = "sikk";
+
+  gGlobalArabicPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gGlobalArabicPitchesNamesMap [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [kC_Flat_QTP]        = "dob";
+  gGlobalArabicPitchesNamesMap [kC_SemiFlat_QTP]    = "doSemiFlat???";
+  gGlobalArabicPitchesNamesMap [kC_Natural_QTP]     = "do";
+  gGlobalArabicPitchesNamesMap [kC_SemiSharp_QTP]   = "doSemiSharp???";
+  gGlobalArabicPitchesNamesMap [kC_Sharp_QTP]       = "dok";
+  gGlobalArabicPitchesNamesMap [kC_SesquiSharp_QTP] = "doSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [kC_DoubleSharp_QTP] = "dokk";
+
+  gGlobalArabicPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gGlobalArabicPitchesNamesMap [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [kD_Flat_QTP]        = "reb";
+  gGlobalArabicPitchesNamesMap [kD_SemiFlat_QTP]    = "reSemiFlat???";
+  gGlobalArabicPitchesNamesMap [kD_Natural_QTP]     = "re";
+  gGlobalArabicPitchesNamesMap [kD_SemiSharp_QTP]   = "reSemiSharp???";
+  gGlobalArabicPitchesNamesMap [kD_Sharp_QTP]       = "rek";
+  gGlobalArabicPitchesNamesMap [kD_SesquiSharp_QTP] = "reSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [kD_DoubleSharp_QTP] = "rekk";
+
+  gGlobalArabicPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gGlobalArabicPitchesNamesMap [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [kE_Flat_QTP]        = "mib";
+  gGlobalArabicPitchesNamesMap [kE_SemiFlat_QTP]    = "miSemiFlat???";
+  gGlobalArabicPitchesNamesMap [kE_Natural_QTP]     = "mi";
+  gGlobalArabicPitchesNamesMap [kE_SemiSharp_QTP]   = "miSemiSharp???";
+  gGlobalArabicPitchesNamesMap [kE_Sharp_QTP]       = "mik";
+  gGlobalArabicPitchesNamesMap [kE_SesquiSharp_QTP] = "miSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [kE_DoubleSharp_QTP] = "mikk";
+
+  gGlobalArabicPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gGlobalArabicPitchesNamesMap [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [kF_Flat_QTP]        = "fab";
+  gGlobalArabicPitchesNamesMap [kF_SemiFlat_QTP]    = "faSemiFlat???";
+  gGlobalArabicPitchesNamesMap [kF_Natural_QTP]     = "fa";
+  gGlobalArabicPitchesNamesMap [kF_SemiSharp_QTP]   = "faSemiSharp???";
+  gGlobalArabicPitchesNamesMap [kF_Sharp_QTP]       = "fak";
+  gGlobalArabicPitchesNamesMap [kF_SesquiSharp_QTP] = "faSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [kF_DoubleSharp_QTP] = "fakk";
+
+  gGlobalArabicPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gGlobalArabicPitchesNamesMap [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [kG_Flat_QTP]        = "solb";
+  gGlobalArabicPitchesNamesMap [kG_SemiFlat_QTP]    = "solSemiFlat???";
+  gGlobalArabicPitchesNamesMap [kG_Natural_QTP]     = "sol";
+  gGlobalArabicPitchesNamesMap [kG_SemiSharp_QTP]   = "solSemiSharp???";
+  gGlobalArabicPitchesNamesMap [kG_Sharp_QTP]       = "solk";
+  gGlobalArabicPitchesNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [kG_DoubleSharp_QTP] = "solkk";
+}
+
+msrQuarterTonesPitchesLanguageKind msrQuarterTonesPitchesLanguageKindFromString (
+  std::string theString)
+{
+  msrQuarterTonesPitchesLanguageKind result = msrQuarterTonesPitchesLanguageKind::kQTPEnglish;  // MSR default JMI ???
+
+  map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
+    it =
+      gGlobalQuarterTonesPitchesLanguageKindsMap.find (
+        theString);
+
+  if (it == gGlobalQuarterTonesPitchesLanguageKindsMap.end ()) {
+    // no, Pitches language kind is unknown in the map
+    stringstream s;
+
+    s <<
+      "MSDL language kind '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gGlobalQuarterTonesPitchesLanguageKindsMap.size () - 1 <<
+      " known MSDL language kinds are:" <<
+      endl;
+
+    ++gIndenter;
+
+    s <<
+      existingMsrQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    --gIndenter;
+
+// JMI    oahError (s.str ());
+  }
+
+  result = (*it).second;
+
+  return result;
 }
 
 string msrDiatonicPitchKindAsString (
@@ -12702,41 +13271,44 @@ string msrQuarterTonesPitchesLanguageKindAsString (
   string result;
 
   switch (languageKind) {
-    case kNederlands:
+    case msrQuarterTonesPitchesLanguageKind::kQTPNederlands:
       result = "nederlands";
       break;
-    case kCatalan:
+    case msrQuarterTonesPitchesLanguageKind::kQTPCatalan:
       result = "catalan";
       break;
-    case kDeutsch:
+    case msrQuarterTonesPitchesLanguageKind::kQTPDeutsch:
       result = "deutsch";
       break;
-    case kEnglish:
+    case msrQuarterTonesPitchesLanguageKind::kQTPEnglish:
       result = "english";
       break;
-    case kEspanol:
+    case msrQuarterTonesPitchesLanguageKind::kQTPEspanol:
       result = "espanol";
       break;
-    case kFrancais:
+    case msrQuarterTonesPitchesLanguageKind::kQTPFrancais:
       result = "francais";
       break;
-    case kItaliano:
+    case msrQuarterTonesPitchesLanguageKind::kQTPItaliano:
       result = "italiano";
       break;
-    case kNorsk:
+    case msrQuarterTonesPitchesLanguageKind::kQTPNorsk:
       result = "norsk";
       break;
-    case kPortugues:
+    case msrQuarterTonesPitchesLanguageKind::kQTPPortugues:
       result = "portugues";
       break;
-    case kSuomi:
+    case msrQuarterTonesPitchesLanguageKind::kQTPSuomi:
       result = "suomi";
       break;
-    case kSvenska:
+    case msrQuarterTonesPitchesLanguageKind::kQTPSvenska:
       result = "svenska";
       break;
-    case kVlaams:
+    case msrQuarterTonesPitchesLanguageKind::kQTPVlaams:
       result = "vlaams";
+      break;
+    case msrQuarterTonesPitchesLanguageKind::kQTPArabic:
+      result = "arabic";
       break;
   } // switch
 
@@ -14795,41 +15367,44 @@ string msrQuarterTonesPitchKindAsStringInLanguage (
   string result;
 
   switch (languageKind) {
-    case kNederlands:
+    case msrQuarterTonesPitchesLanguageKind::kQTPNederlands:
       result = gGlobalNederlandsPitchesNamesMap [quarterTonesPitchKind];
       break;
-    case kCatalan:
+    case msrQuarterTonesPitchesLanguageKind::kQTPCatalan:
       result = gGlobalCatalanPitchesNamesMap [quarterTonesPitchKind];
       break;
-    case kDeutsch:
+    case msrQuarterTonesPitchesLanguageKind::kQTPDeutsch:
       result = gGlobalDeutschPitchesNamesMap [quarterTonesPitchKind];
       break;
-    case kEnglish:
+    case msrQuarterTonesPitchesLanguageKind::kQTPEnglish:
       result = gGlobalEnglishPitchesNamesMap [quarterTonesPitchKind];
       break;
-    case kEspanol:
+    case msrQuarterTonesPitchesLanguageKind::kQTPEspanol:
       result = gGlobalEspanolPitchesNamesMap [quarterTonesPitchKind];
       break;
-    case kFrancais:
+    case msrQuarterTonesPitchesLanguageKind::kQTPFrancais:
       result = gGlobalFrancaisPitchesNamesMap [quarterTonesPitchKind];
       break;
-    case kItaliano:
+    case msrQuarterTonesPitchesLanguageKind::kQTPItaliano:
       result = gGlobalItalianoPitchesNamesMap [quarterTonesPitchKind];
       break;
-    case kNorsk:
+    case msrQuarterTonesPitchesLanguageKind::kQTPNorsk:
       result = gGlobalNorskPitchesNamesMap [quarterTonesPitchKind];
       break;
-    case kPortugues:
+    case msrQuarterTonesPitchesLanguageKind::kQTPPortugues:
       result = gGlobalPortuguesPitchesNamesMap [quarterTonesPitchKind];
       break;
-    case kSuomi:
+    case msrQuarterTonesPitchesLanguageKind::kQTPSuomi:
       result = gGlobalSuomiPitchesNamesMap [quarterTonesPitchKind];
       break;
-    case kSvenska:
+    case msrQuarterTonesPitchesLanguageKind::kQTPSvenska:
       result = gGlobalSvenskaPitchesNamesMap [quarterTonesPitchKind];
       break;
-    case kVlaams:
+    case msrQuarterTonesPitchesLanguageKind::kQTPVlaams:
       result = gGlobalVlaamsPitchesNamesMap [quarterTonesPitchKind];
+      break;
+    case msrQuarterTonesPitchesLanguageKind::kQTPArabic:
+      result = gGlobalArabicPitchesNamesMap [quarterTonesPitchKind];
       break;
   } // switch
 
@@ -14846,41 +15421,44 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromString (
 
   // select the relevant pitch names map
   switch (languageKind) {
-    case kNederlands:
+    case msrQuarterTonesPitchesLanguageKind::kQTPNederlands:
       pitchNamesMapPTR = &gGlobalNederlandsPitchesNamesMap;
       break;
-    case kCatalan:
+    case msrQuarterTonesPitchesLanguageKind::kQTPCatalan:
       pitchNamesMapPTR = &gGlobalCatalanPitchesNamesMap;
       break;
-    case kDeutsch:
+    case msrQuarterTonesPitchesLanguageKind::kQTPDeutsch:
       pitchNamesMapPTR = &gGlobalDeutschPitchesNamesMap;
       break;
-    case kEnglish:
+    case msrQuarterTonesPitchesLanguageKind::kQTPEnglish:
       pitchNamesMapPTR = &gGlobalEnglishPitchesNamesMap;
       break;
-    case kEspanol:
+    case msrQuarterTonesPitchesLanguageKind::kQTPEspanol:
       pitchNamesMapPTR = &gGlobalEspanolPitchesNamesMap;
       break;
-    case kFrancais:
+    case msrQuarterTonesPitchesLanguageKind::kQTPFrancais:
       pitchNamesMapPTR = &gGlobalFrancaisPitchesNamesMap;
       break;
-    case kItaliano:
+    case msrQuarterTonesPitchesLanguageKind::kQTPItaliano:
       pitchNamesMapPTR = &gGlobalItalianoPitchesNamesMap;
       break;
-    case kNorsk:
+    case msrQuarterTonesPitchesLanguageKind::kQTPNorsk:
       pitchNamesMapPTR = &gGlobalNorskPitchesNamesMap;
       break;
-    case kPortugues:
+    case msrQuarterTonesPitchesLanguageKind::kQTPPortugues:
       pitchNamesMapPTR = &gGlobalPortuguesPitchesNamesMap;
       break;
-    case kSuomi:
+    case msrQuarterTonesPitchesLanguageKind::kQTPSuomi:
       pitchNamesMapPTR = &gGlobalSuomiPitchesNamesMap;
       break;
-    case kSvenska:
+    case msrQuarterTonesPitchesLanguageKind::kQTPSvenska:
       pitchNamesMapPTR = &gGlobalSvenskaPitchesNamesMap;
       break;
-    case kVlaams:
+    case msrQuarterTonesPitchesLanguageKind::kQTPVlaams:
       pitchNamesMapPTR = &gGlobalVlaamsPitchesNamesMap;
+      break;
+    case msrQuarterTonesPitchesLanguageKind::kQTPArabic:
+      pitchNamesMapPTR = &gGlobalArabicPitchesNamesMap;
       break;
   } // switch
 
@@ -15508,6 +16086,51 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   */
 
   return result;
+}
+
+string existingMsrQuarterTonesPitchesLanguageKinds (
+  unsigned int namesListMaxLength)
+{
+  stringstream s;
+
+  unsigned int
+    quarterTonesPitchesLanguageKindsMapSize =
+      gGlobalQuarterTonesPitchesLanguageKindsMap.size ();
+
+  if (quarterTonesPitchesLanguageKindsMapSize) {
+    unsigned int nextToLast =
+      quarterTonesPitchesLanguageKindsMapSize - 1;
+
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
+
+    for (
+      map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator i =
+        gGlobalQuarterTonesPitchesLanguageKindsMap.begin ();
+      i != gGlobalQuarterTonesPitchesLanguageKindsMap.end ();
+      ++i
+    ) {
+      string theString = (*i).first;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= namesListMaxLength) {
+        s << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      s << theString;
+
+      if (count == nextToLast) {
+        s << " and ";
+      }
+      else if (count != quarterTonesPitchesLanguageKindsMapSize) {
+        s << ", ";
+      }
+    } // for
+  }
+
+  return s.str ();
 }
 
 // notes
@@ -22484,11 +23107,11 @@ ostream& operator<< (ostream& os, const msrAlphaRGBColor& elt)
 
 //______________________________________________________________________________
 string msrScoreNotationKindAsString (
-  msrScoreNotationKind scoreNotationKind)
+  msrScoreNotationKind lilypondScoreNotationKind)
 {
   string result;
 
-  switch (scoreNotationKind) {
+  switch (lilypondScoreNotationKind) {
     case kScoreNotationWestern:
       result = "scoreNotationWestern";
     case kScoreNotationJianpu:

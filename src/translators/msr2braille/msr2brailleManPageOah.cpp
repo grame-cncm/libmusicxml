@@ -58,7 +58,7 @@ msr2brailleManPageGenerateAtom::msr2brailleManPageGenerateAtom (
       shortName,
       longName,
       description,
-      kElementValueWithout)
+      oahElementValueKind::kElementValueWithout)
 {
   fOahVisitor = theOahVisitor;
 }
@@ -201,7 +201,7 @@ msr2brailleManPageOahGroup::msr2brailleManPageOahGroup (
     "Man page",
     "hmp", "help-man-page",
 R"(These options control the way the man page is generated.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeXml2brailleManPageOahGroup (
     theOah2manPageGenerator);
@@ -219,7 +219,7 @@ void msr2brailleManPageOahGroup::initializeManPageGenerateOptions (
         "Generate",
         "hgmp", "help-generate-man-page",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -247,8 +247,8 @@ void msr2brailleManPageOahGroup::initializeManPageTraceOah ()
         "msr2brailleManPage Trace",
         "hmpt", "help-man-page-trace",
 R"(  Note: the options in this group imply '-tmp, -trace-man-page'.)",
-// JMI        kElementVisibilityHeaderOnly,
-      kElementVisibilityWhole,
+// JMI        oahElementVisibilityKind::kElementVisibilityHeaderOnly,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

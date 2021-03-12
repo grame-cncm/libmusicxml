@@ -173,8 +173,6 @@ class EXP msr2brailleInsiderOahGroup : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  createInsiderQuitSubGroup ();
-
   private:
 
     // private fields

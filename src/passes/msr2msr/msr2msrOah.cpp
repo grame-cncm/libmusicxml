@@ -624,7 +624,7 @@ msr2msrOahGroup::msr2msrOahGroup ()
     "Msr2lpsr",
     "hmsr2msr", "help-msr-to-msr",
 R"(These options control the way MSR data is translated to MSR.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMsr2msrOahGroup ();
 }
@@ -646,7 +646,7 @@ void msr2msrOahGroup::initializeCompressOptions ()
       "Compress",
       "hmsrc", "help-msr-compress",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -688,7 +688,7 @@ void msr2msrOahGroup::initializeRepeatsOptions ()
       "Repeats",
       "hmsrr", "help-msr-repeats",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -716,7 +716,7 @@ void msr2msrOahGroup::initializeNotesOptions ()
       "Notes",
       "hmsr2msrn", "help-msr-to-msr-notes",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -729,7 +729,7 @@ void msr2msrOahGroup::initializeLyricsOptions ()
       "Lyrics",
       "hmsrlyrd", "help-msr-lyrics",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -743,7 +743,7 @@ void msr2msrOahGroup::initializeTemposOptions ()
         "Tempos",
         "hmsrtempos", "help-msr-tempos",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -771,7 +771,7 @@ void msr2msrOahGroup::initializeWordsOptions ()
         "Words",
         "hmsrwords", "help-msr-words",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

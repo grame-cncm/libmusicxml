@@ -15,7 +15,7 @@
 
 #include "msr.h"
 
-#include "generatorsBasicTypes.h"
+#include "multiGeneratorsOah.h"
 
 #include "msrGeneratorsBasicTypes.h"
 
@@ -84,10 +84,11 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
 
     // generated output kind
 
-    void                  setGeneratorOutputKind (generatorOutputKind value)
+    void                  setGeneratorOutputKind (multiGeneratorOutputKind value)
                               { fGeneratorOutputKind = value; }
 
-    generatorOutputKind   getGeneratorOutputKind () const
+    multiGeneratorOutputKind
+                          getGeneratorOutputKind () const
                               { return fGeneratorOutputKind;  }
 
 /* JMI
@@ -158,8 +159,6 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
 
     void                  initializeGenerationAPIOptions ();
 
-    void                  initializeGenerateCodeOptions ();
-
   public:
 
     // visitors
@@ -193,8 +192,9 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
 
     // generator output kind
 
-    generatorOutputKind   fGeneratorOutputKind;
-    S_generatorOutputKindAtom
+    multiGeneratorOutputKind
+                          fGeneratorOutputKind;
+    S_multiGeneratorOutputKindAtom
                           fGeneratorOutputKindAtom;
 
     // UTF encoding (8 or 16 bits)

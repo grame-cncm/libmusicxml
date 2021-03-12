@@ -22,13 +22,6 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-EXP xmlErr msdlStream2lilypondWithOptionsVector (
-  string               inputSourceName,
-  istream&             inputStream,
-  const optionsVector& options,
-  std::ostream&        out,
-  std::ostream&        err);
-
 EXP xmlErr msdlStream2lilypondWithHandler (
   string       inputSourceName,
   istream&     inputStream,
@@ -36,31 +29,38 @@ EXP xmlErr msdlStream2lilypondWithHandler (
   ostream&     out,
   ostream&     err);
 
-//_______________________________________________________________________________
-EXP xmlErr msdlFile2lilypondWithOptionsVector (
-  string               fileName,
+EXP xmlErr msdlStream2lilypondWithOptionsVector (
+  string               inputSourceName,
+  istream&             inputStream,
   const optionsVector& options,
   std::ostream&        out,
   std::ostream&        err);
 
+//_______________________________________________________________________________
 EXP xmlErr msdlFile2lilypondWithHandler (
   string       fileName,
   S_oahHandler handler,
   ostream&     out,
   ostream&     err);
 
-//_______________________________________________________________________________
-EXP xmlErr msdlString2lilypondWithOptionsVector (
-  const char *         buffer,
+EXP xmlErr msdlFile2lilypondWithOptionsVector (
+  string               fileName,
   const optionsVector& options,
   std::ostream&        out,
   std::ostream&        err);
 
+//_______________________________________________________________________________
 EXP xmlErr msdlString2lilypondWithHandler (
   const char * buffer,
   S_oahHandler handler,
   ostream&     out,
   ostream&     err);
+
+EXP xmlErr msdlString2lilypondWithOptionsVector (
+  const char *         buffer,
+  const optionsVector& options,
+  std::ostream&        out,
+  std::ostream&        err);
 
 
 }

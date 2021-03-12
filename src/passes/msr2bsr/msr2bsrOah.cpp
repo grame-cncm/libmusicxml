@@ -49,7 +49,7 @@ msr2bsrOahGroup::msr2bsrOahGroup ()
     "Msr2bsr",
     "hmsr2bsr", "help-msr-to-bsr",
 R"(These options control the way MSR data is translated to BSR.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMsr2bsrOahGroup ();
 }
@@ -65,7 +65,7 @@ void msr2bsrOahGroup::initializeMsr2bsrMiscellaneousOptions ()
         "Miscellaneous",
         "hlpm", "help-miscellaneous",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -190,7 +190,7 @@ void msr2bsrOahGroup::initializeMsr2bsrQuitAfterSomePassesOptions ()
         "Quit after some passes",
         "hbquit", "help-bsr-quit",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

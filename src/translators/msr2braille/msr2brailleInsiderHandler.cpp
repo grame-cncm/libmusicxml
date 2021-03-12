@@ -662,7 +662,7 @@ msr2brailleInsiderOahGroup::msr2brailleInsiderOahGroup (
     executableName,
     "hx2b", "help-msr2braille",
 R"(Options that are used by msr2braille are grouped here.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeXml2brailleInsiderOahGroup ();
 }
@@ -682,70 +682,6 @@ void msr2brailleInsiderOahGroup::initializeXml2brailleInsiderOahGroup ()
       endl;
   }
 #endif
-
-  // quit after some passes
-  // --------------------------------------
-
-  createInsiderQuitSubGroup ();
-}
-
-//_______________________________________________________________________________
-void msr2brailleInsiderOahGroup::createInsiderQuitSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-    gLogStream << left <<
-      "Creating insider quit subgroup in \"" <<
-      fGroupHeader <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  S_oahSubGroup
-    quitAfterSomePassesSubGroup =
-      oahSubGroup::create (
-        "Quit after some passes",
-        "hm2bquit", "help-msr2brl-quit",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (quitAfterSomePassesSubGroup);
-
-  // quit after pass 2a
-
-  fQuitAfterPass2a = false;
-
-  S_oahBooleanAtom
-    quit2aOahBooleanAtom =
-      oahBooleanAtom::create (
-        "qap2a", "quitAfterPass-after-pass2a",
-R"(Quit after pass 2a, i.e. after conversion
-of the MusicXML tree to an MSR skeleton.)",
-        "quitAfterPass2a",
-        fQuitAfterPass2a);
-
-  quitAfterSomePassesSubGroup->
-    appendAtomToSubGroup (
-      quit2aOahBooleanAtom);
-
-  // quit after pass 2b
-
-  fQuitAfterPass2b = false;
-
-  S_oahBooleanAtom
-    quit2bOahBooleanAtom =
-      oahBooleanAtom::create (
-        "qap2b", "quitAfterPass-after-pass2b",
-R"(Quit after pass 2b, i.e. after conversion
-of the MusicXML tree to MSR.)",
-        "quitAfterPass2b",
-        fQuitAfterPass2b);
-
-  quitAfterSomePassesSubGroup->
-    appendAtomToSubGroup (
-      quit2bOahBooleanAtom);
 }
 
 //______________________________________________________________________________

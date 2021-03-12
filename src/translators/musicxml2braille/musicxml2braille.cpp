@@ -531,10 +531,10 @@ static xmlErr xmlFile2brailleWithOptionsVector (
 
     // have help options been used?
     switch (helpOnlyKind) {
-      case kElementHelpOnlyYes:
+      case oahElementHelpOnlyKind::kElementHelpOnlyYes:
         return kNoErr; // quit now
         break;
-      case kElementHelpOnlyNo:
+      case oahElementHelpOnlyKind::kElementHelpOnlyNo:
         // go ahead
         break;
     } // switch

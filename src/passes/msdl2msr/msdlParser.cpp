@@ -86,11 +86,9 @@ msdlParser::msdlParser (
       getMsdlKeywordsInputLanguageKind ();
 
   // pitches language
-  /* JMI
   fPitchesLanguageKind =
-    gGlobalMsdl2msrOahGroup->
-      getMsdlQuarterTonesPitchesLanguageKind ();
-*/
+    gGlobalMsrOahGroup->
+      getMsrQuarterTonesPitchesLanguageKind ();
 
   // input source name
   fInputSourceName = inputSourceName;
@@ -1099,14 +1097,14 @@ void msdlParser::Specification (S_msdlTokenKindsSet stopperTokensSet)
         msdlTokenKind::kTokenAnacrusis}));
   }
 
-  // the optional Pitches section
+  // the optional PitchesLanguage section
   if (
     checkOptionalTokenKind (
       __FILE__, __LINE__,
       msdlTokenKind::kTokenPitches,
       "Specification")
   ) {
-	  Pitches (
+	  PitchesLanguage (
       fStructureFIRST
         +
       msdlTokenKindsSet::create ({
@@ -1449,10 +1447,10 @@ void msdlParser::Opus (S_msdlTokenKindsSet stopperTokensSet)
 }
 
 // --------------------------------------------------------------------------
-//  msdlParser::Pitches
+//  msdlParser::PitchesLanguage
 // --------------------------------------------------------------------------
 
-void msdlParser::Pitches (S_msdlTokenKindsSet stopperTokensSet)
+void msdlParser::PitchesLanguage (S_msdlTokenKindsSet stopperTokensSet)
 {
   if (stopperTokensSet->getTokenKindsSetSize ()) {
     fMsdlTokensSetsStack.push_front (stopperTokensSet);
@@ -1464,7 +1462,7 @@ void msdlParser::Pitches (S_msdlTokenKindsSet stopperTokensSet)
       endl <<
       "=================================================================" <<
       endl <<
-      "--> Pitches()" <<
+      "--> PitchesLanguage()" <<
       ", fCurrentToken: " << currentTokenAsString () <<
       endl;
   }
@@ -1472,7 +1470,7 @@ void msdlParser::Pitches (S_msdlTokenKindsSet stopperTokensSet)
   ++gIndenter;
 
   if (fTraceSyntaxErrorRecovery) {
-    displayTokenKindsSetsStack ("Pitches");
+    displayTokenKindsSetsStack ("PitchesLanguage");
   }
 #endif
 
@@ -1480,7 +1478,7 @@ void msdlParser::Pitches (S_msdlTokenKindsSet stopperTokensSet)
     checkOptionalTokenKind (
       __FILE__, __LINE__,
       msdlTokenKind::kTokenPitches,
-      "Pitches")
+      "PitchesLanguage")
   ) {
 //  if (fCurrentTokenKind == msdlTokenKind::kTokenPitches) {
     // consume the pitches token
@@ -1489,33 +1487,31 @@ void msdlParser::Pitches (S_msdlTokenKindsSet stopperTokensSet)
     if (checkMandatoryTokenKind (
       __FILE__, __LINE__,
       msdlTokenKind::kTokenName,
-      "Pitches")
+      "PitchesLanguage")
     ) {
-      // get the pitches
-      string pitches = fCurrentToken.getTokenDescription ().getString ();
+      // get the pitches language name
+      string pitchesLanguageName = fCurrentToken.getTokenDescription ().getString ();
 
 #ifdef TRACING_IS_ENABLED
       if (fTraceSyntax) {
         gLogStream <<
           "=== parse()" <<
-          ", pitches: \"" << pitches << "\"" <<
+          ", pitchesLanguageName: \"" << pitchesLanguageName << "\"" <<
           endl;
       }
 #endif
 
-/* JMI
-      // set the pitches in the MSR identification ??? JMI
+      // set the pitches language name // also in the MSR identification ??? JMI
       fPitchesLanguageKind =
-        msdlPitchesLanguageKindFromString (
-          pitches);
-*/
+        msrQuarterTonesPitchesLanguageKindFromString (
+          pitchesLanguageName);
 
 #ifdef TRACING_IS_ENABLED
       if (fTraceSyntax) {
         gLogStream <<
           "=== parse()" <<
           ", fPitchesLanguageKind: \"" <<
-          (fPitchesLanguageKind) <<
+          msrQuarterTonesPitchesLanguageKindAsString (fPitchesLanguageKind) <<
           "\"" <<
           endl;
       }
@@ -1535,7 +1531,7 @@ void msdlParser::Pitches (S_msdlTokenKindsSet stopperTokensSet)
   if (fTraceSyntax) {
     gLogStream <<
       endl <<
-      "<-- Pitches()" <<
+      "<-- PitchesLanguage()" <<
       ", fCurrentToken: " << currentTokenAsString () <<
       endl <<
       "=================================================================" <<
@@ -1576,7 +1572,7 @@ void msdlParser::Anacrusis (S_msdlTokenKindsSet stopperTokensSet)
     checkOptionalTokenKind (
       __FILE__, __LINE__,
       msdlTokenKind::kTokenAnacrusis,
-      "Pitches")
+      "Anacrusis")
   ) {
 //  if (fCurrentTokenKind == msdlTokenKind::kTokenAnacrusis) {
 #ifdef TRACING_IS_ENABLED

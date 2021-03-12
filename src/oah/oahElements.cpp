@@ -34,16 +34,16 @@ string elementValueKindAsString (
   string result;
 
   switch (elementValueKind) {
-    case kElementValueWithout:
+    case oahElementValueKind::kElementValueWithout:
       result = "elementValueWithout";
       break;
-    case kElementValueImplicit:
+    case oahElementValueKind::kElementValueImplicit:
       result = "elementValueImplicit";
       break;
-    case kElementValueMandatory:
+    case oahElementValueKind::kElementValueMandatory:
       result = "elementValueMandatory";
       break;
-    case kElementValueOptional:
+    case oahElementValueKind::kElementValueOptional:
       result = "elementValueOptional";
       break;
   } // switch
@@ -57,19 +57,19 @@ string elementVisibilityKindAsString (
   string result;
 
   switch (elementVisibilityKind) {
-    case kElementVisibilityNone:
+    case oahElementVisibilityKind::kElementVisibilityNone:
       result = "elementVisibilityNone";
       break;
 
-    case kElementVisibilityWhole:
+    case oahElementVisibilityKind::kElementVisibilityWhole:
       result = "elementVisibilityWhole";
       break;
 
-    case kElementVisibilityHeaderOnly:
+    case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
       result = "elementVisibilityHeaderOnly";
       break;
 
-    case kElementVisibilityHidden:
+    case oahElementVisibilityKind::kElementVisibilityHidden:
       result = "elementVisibilityHidden";
       break;
   } // switch
@@ -83,10 +83,10 @@ string elementHelpOnlyKindAsString (
   string result;
 
   switch (elementHelpOnlyKind) {
-    case kElementHelpOnlyYes:
+    case oahElementHelpOnlyKind::kElementHelpOnlyYes:
       result = "elementHelpOnlyYes";
       break;
-    case kElementHelpOnlyNo:
+    case oahElementHelpOnlyKind::kElementHelpOnlyNo:
       result = "elementHelpOnlyNo";
       break;
   } // switch
@@ -128,7 +128,7 @@ oahElement::oahElement (
 
   fElementValueKind = elementValueKind;
 
-  fElementHelpOnlyKind = kElementHelpOnlyNo; // default value
+  fElementHelpOnlyKind = oahElementHelpOnlyKind::kElementHelpOnlyNo; // default value
 
   fElementVisibilityKind = elementVisibilityKind;
 

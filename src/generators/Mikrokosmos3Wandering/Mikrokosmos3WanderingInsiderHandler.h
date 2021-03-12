@@ -21,7 +21,7 @@
 
 #include "oahInsiderHandlers.h"
 
-#include "Mikrokosmos3WanderingOah.h"
+#include "multiGeneratorsOah.h"
 
 
 namespace MusicXML2
@@ -38,7 +38,8 @@ class EXP Mikrokosmos3WanderingInsiderHandler : public oahInsiderHandler
     static SMARTP<Mikrokosmos3WanderingInsiderHandler> create (
                             const string&       executableName,
                             const string&       handlerHeader,
-                            generatorOutputKind generatorOutputKind);
+                            multiGeneratorOutputKind
+                                                generatorOutputKind);
 
   protected:
 
@@ -48,7 +49,8 @@ class EXP Mikrokosmos3WanderingInsiderHandler : public oahInsiderHandler
                           Mikrokosmos3WanderingInsiderHandler (
                             const string&       executableName,
                             const string&       handlerHeader,
-                            generatorOutputKind generatorOutputKind);
+                            multiGeneratorOutputKind
+                                                generatorOutputKind);
 
     virtual               ~Mikrokosmos3WanderingInsiderHandler ();
 
@@ -66,7 +68,7 @@ class EXP Mikrokosmos3WanderingInsiderHandler : public oahInsiderHandler
 
     void                  createTheMikrokosmos3WanderingOptionGroups (
                             const string&        executableName,
-                            generatorOutputKind generatorOutputKind);
+                            multiGeneratorOutputKind multiGeneratorOutputKind);
 
   public:
 
@@ -110,10 +112,10 @@ class EXP Mikrokosmos3WanderingInsiderHandler : public oahInsiderHandler
     // ------------------------------------------------------
 
     string                usageInformation (
-                            generatorOutputKind generatorOutputKind);
+                            multiGeneratorOutputKind generatorOutputKind);
 
     string                Mikrokosmos3WanderingAboutInformation (
-                            generatorOutputKind theGeneratorOutputKind) const;
+                            multiGeneratorOutputKind generatorOutputKind) const;
 
   private:
 
@@ -121,7 +123,8 @@ class EXP Mikrokosmos3WanderingInsiderHandler : public oahInsiderHandler
     // ------------------------------------------------------
 
     // generated output kind
-    generatorOutputKind   fGeneratorOutputKind;
+    multiGeneratorOutputKind
+                          fGeneratorOutputKind;
 
 };
 typedef SMARTP<Mikrokosmos3WanderingInsiderHandler> S_Mikrokosmos3WanderingInsiderHandler;
@@ -162,26 +165,10 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
                               { return fGenerationAPIKind; }
 
     // generated output kind
-    void                  setGeneratorOutputKind (generatorOutputKind value)
+    void                  setGeneratorOutputKind (multiGeneratorOutputKind value)
                               { fGeneratorOutputKind = value; }
-    generatorOutputKind   getGeneratorOutputKind () const
+    multiGeneratorOutputKind   getGeneratorOutputKind () const
                               { return fGeneratorOutputKind; }
-
-    // Guido
-    void                  setGenerateComments ()
-                              { fGenerateComments = true; }
-    bool                  getGenerateComments () const
-                              { return fGenerateComments; }
-
-    void                  setGenerateStem ()
-                              { fGenerateStem = true; }
-    bool                  getGenerateStem () const
-                              { return fGenerateStem; }
-
-    void                  setGenerateBars ()
-                              { fGenerateBars = true; }
-    bool                  getGenerateBars () const
-                              { return fGenerateBars; }
 
     // quit after some passes
     void                  setQuitAfterPass2a ()
@@ -230,9 +217,7 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  createInsiderGuidoSubGroup ();
-
-    void                  createInsiderLilypondSubGroup ();
+    void                  initializeGenerateCodeOptions ();
 
     void                  createInsiderQuitSubGroup ();
 
@@ -244,13 +229,11 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
     // generation API kind
     msrGenerationAPIKind  fGenerationAPIKind;
 
-    // generated output kind
-    generatorOutputKind   fGeneratorOutputKind;
-
-    // Guido
-    bool                  fGenerateComments;
-    bool                  fGenerateStem;
-    bool                  fGenerateBars;
+    // generator output kind
+    multiGeneratorOutputKind
+                          fGeneratorOutputKind;
+    S_multiGeneratorOutputKindAtom
+                          fGeneratorOutputKindAtom;
 
     // quit after some passes
     bool                  fQuitAfterPass2a;

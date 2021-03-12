@@ -21,6 +21,8 @@
 
 #include "oahInsiderHandlers.h"
 
+#include "multiGeneratorsOah.h"
+
 #include "msdlCompilerOah.h"
 
 
@@ -36,9 +38,9 @@ class EXP msdlCompilerInsiderHandler : public oahInsiderHandler
     // ------------------------------------------------------
 
     static SMARTP<msdlCompilerInsiderHandler> create (
-                            const string&       executableName,
-                            const string&       handlerHeader,
-                            generatorOutputKind generatorOutputKind);
+                            const string&            executableName,
+                            const string&            handlerHeader,
+                            multiGeneratorOutputKind generatorOutputKind);
 
   protected:
 
@@ -46,9 +48,9 @@ class EXP msdlCompilerInsiderHandler : public oahInsiderHandler
     // ------------------------------------------------------
 
                           msdlCompilerInsiderHandler (
-                            const string&       executableName,
-                            const string&       handlerHeader,
-                            generatorOutputKind generatorOutputKind);
+                            const string&            executableName,
+                            const string&            handlerHeader,
+                            multiGeneratorOutputKind generatorOutputKind);
 
     virtual               ~msdlCompilerInsiderHandler ();
 
@@ -65,8 +67,8 @@ class EXP msdlCompilerInsiderHandler : public oahInsiderHandler
     void                  createTheMsdlCompilerPrefixes ();
 
     void                  createTheMsdlCompilerOptionGroups (
-                            const string&        executableName,
-                            generatorOutputKind generatorOutputKind);
+                            const string&            executableName,
+                            multiGeneratorOutputKind generatorOutputKind);
 
   public:
 
@@ -110,10 +112,10 @@ class EXP msdlCompilerInsiderHandler : public oahInsiderHandler
     // ------------------------------------------------------
 
     string                usageInformation (
-                            generatorOutputKind generatorOutputKind);
+                            multiGeneratorOutputKind generatorOutputKind);
 
     string                msdlCompilerAboutInformation (
-                            generatorOutputKind theGeneratorOutputKind) const;
+                            multiGeneratorOutputKind generatorOutputKind) const;
 
   private:
 
@@ -121,7 +123,7 @@ class EXP msdlCompilerInsiderHandler : public oahInsiderHandler
     // ------------------------------------------------------
 
     // generated output kind
-    generatorOutputKind   fGeneratorOutputKind;
+    multiGeneratorOutputKind   fGeneratorOutputKind;
 
 };
 typedef SMARTP<msdlCompilerInsiderHandler> S_msdlCompilerInsiderHandler;
@@ -156,26 +158,10 @@ class EXP msdlCompilerInsiderOahGroup : public oahGroup
     // ------------------------------------------------------
 
     // generated output kind
-    void                  setGeneratorOutputKind (generatorOutputKind value)
+    void                  setGeneratorOutputKind (multiGeneratorOutputKind value)
                               { fGeneratorOutputKind = value; }
-    generatorOutputKind   getGeneratorOutputKind () const
+    multiGeneratorOutputKind   getGeneratorOutputKind () const
                               { return fGeneratorOutputKind; }
-
-    // Guido
-    void                  setGenerateComments ()
-                              { fGenerateComments = true; }
-    bool                  getGenerateComments () const
-                              { return fGenerateComments; }
-
-    void                  setGenerateStem ()
-                              { fGenerateStem = true; }
-    bool                  getGenerateStem () const
-                              { return fGenerateStem; }
-
-    void                  setGenerateBars ()
-                              { fGenerateBars = true; }
-    bool                  getGenerateBars () const
-                              { return fGenerateBars; }
 
     // quit after some passes
     void                  setQuitAfterPass2a ()
@@ -224,8 +210,6 @@ class EXP msdlCompilerInsiderOahGroup : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  createInsiderGuidoSubGroup ();
-
     void                  createInsiderLilypondSubGroup ();
 
     void                  createInsiderQuitSubGroup ();
@@ -236,12 +220,8 @@ class EXP msdlCompilerInsiderOahGroup : public oahGroup
     // ------------------------------------------------------
 
     // generated output kind
-    generatorOutputKind   fGeneratorOutputKind;
-
-    // Guido
-    bool                  fGenerateComments;
-    bool                  fGenerateStem;
-    bool                  fGenerateBars;
+    multiGeneratorOutputKind
+                          fGeneratorOutputKind;
 
     // quit after some passes
     bool                  fQuitAfterPass2a;

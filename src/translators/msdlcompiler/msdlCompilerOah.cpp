@@ -24,7 +24,7 @@
 
 #include "waeMessagesHandling.h"
 
-#include "generatorsBasicTypes.h"
+#include "multiGeneratorsOah.h"
 
 #include "oahOah.h"
 #include "generalOah.h"
@@ -40,7 +40,7 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 
-S_msdlCompilerOahGroup gGlobalmsdlCompilerOahGroup;
+S_msdlCompilerOahGroup gGlobalMsdlCompilerOahGroup;
 
 S_msdlCompilerOahGroup msdlCompilerOahGroup::create ()
 {
@@ -53,145 +53,33 @@ msdlCompilerOahGroup::msdlCompilerOahGroup ()
   : oahGroup (
     "msdlCompiler",
     "hmkk-group", "help-mikrokosmos-group",
-R"(These options control the way msdlCompiler works.)",
-    kElementVisibilityWhole)
+R"(These options control the way MSDL compiler works.)",
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
-  fGeneratorOutputKind = k_NoOutput;
+/*
+  fGeneratorOutputKind = multiGeneratorOutputKind::k_NoOutput;
 
   fUTFKind = kUTF8; // default value
 
   fBrailleOutputKind = kBrailleOutputAscii; // default value
 
   fByteOrderingKind = kByteOrderingNone;
+*/
 
   // initialize it
-  initializemsdlCompilerOahGroup ();
+  initializeMsdlCompilerOahGroup ();
 }
 
 msdlCompilerOahGroup::~msdlCompilerOahGroup ()
 {}
 
-void msdlCompilerOahGroup::initializeGenerateCodeOptions ()
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Generated output",
-        "hgc", "help-generate-output",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // generator output kind
-
-  const generatorOutputKind
-    generatorOutputKindDefaultValue =
-      kLilyPondOutput; // default value
-
-  fGeneratorOutputKindAtom =
-    generatorOutputKindAtom::create (
-      K_GENERATED_OUTPUT_KIND_SHORT_NAME, K_GENERATED_OUTPUT_KIND_LONG_NAME,
-      regex_replace (
-        regex_replace (
-          regex_replace (
-  R"(Generate GENERATED_OUTPUT_KIND code to the output.
-  The NUMBER generated output kinds available are:
-  GENERATED_OUTPUT_KINDS.
-  The default is 'DEFAULT_VALUE'.)",
-            regex ("NUMBER"),
-            to_string (gGlobalGeneratorOutputKindsMap.size ())),
-          regex ("GENERATED_OUTPUT_KINDS"),
-          existingGeneratorOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
-        regex ("DEFAULT_VALUE"),
-        generatorOutputKindAsString (
-          generatorOutputKindDefaultValue)),
-      "GENERATED_OUTPUT_KIND",
-      "generatorOutputKind",
-      fGeneratorOutputKind);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fGeneratorOutputKindAtom);
-
-  // generator output macros
-
-  S_oahMacroAtom
-    guidoMacroAtom =
-      oahMacroAtom::create (
-        K_GENERATED_OUTPUT_KIND_GUIDO_NAME, "",
-        "Generate Guido output");
-  guidoMacroAtom->
-    appendAtomStringPairToMacro (
-      fGeneratorOutputKindAtom, "guido");
-  subGroup->
-    appendAtomToSubGroup (
-      guidoMacroAtom);
-
-
-  S_oahMacroAtom
-    lilypondMacroAtom =
-      oahMacroAtom::create (
-        K_GENERATED_OUTPUT_KIND_LIlYPOND_NAME, "",
-        "Generate LilyPond output");
-  lilypondMacroAtom->
-    appendAtomStringPairToMacro (
-      fGeneratorOutputKindAtom, "lilypond");
-  subGroup->
-    appendAtomToSubGroup (
-      lilypondMacroAtom);
-
-  S_oahMacroAtom
-    brailleMacroAtom =
-      oahMacroAtom::create (
-        K_GENERATED_OUTPUT_KIND_BRAILLE_NAME, "",
-        "Generate braille music output");
-  brailleMacroAtom->
-    appendAtomStringPairToMacro (
-      fGeneratorOutputKindAtom, K_GENERATED_OUTPUT_KIND_BRAILLE_NAME);
-  subGroup->
-    appendAtomToSubGroup (
-      brailleMacroAtom);
-
-  S_oahMacroAtom
-    musicxmlMacroAtom =
-      oahMacroAtom::create (
-        K_GENERATED_OUTPUT_KIND_MUSICXML_NAME, "",
-        "Generate MusicXML output");
-  musicxmlMacroAtom->
-    appendAtomStringPairToMacro (
-      fGeneratorOutputKindAtom, "musicxml");
-  subGroup->
-    appendAtomToSubGroup (
-      musicxmlMacroAtom);
-
-/* JMI
-  S_oahMacroAtom
-    midiMacroAtom =
-      oahMacroAtom::create (
-        K_GENERATED_OUTPUT_KIND_MIDI_NAME, "",
-        "Generate MIDI output");
-  midiMacroAtom->
-    appendAtomStringPairToMacro (
-      fGeneratorOutputKindAtom, "midi");
-  subGroup->
-    appendAtomToSubGroup (
-      midiMacroAtom);
-      */
-}
-
-void msdlCompilerOahGroup::initializemsdlCompilerOahGroup ()
+void msdlCompilerOahGroup::initializeMsdlCompilerOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   // trace
   // --------------------------------------
-// JMI  initializemsdlCompilerTraceOah ();
+// JMI  initializeMsdlCompilerTraceOah ();
 #endif
-
-  // generate code
-  // --------------------------------------
-  initializeGenerateCodeOptions ();
 }
 
 //______________________________________________________________________________
@@ -201,8 +89,9 @@ void msdlCompilerOahGroup::enforceGroupQuietness ()
 //______________________________________________________________________________
 void msdlCompilerOahGroup::checkGroupOptionsConsistency ()
 {
+/* JMI
   switch (fGeneratorOutputKind) {
-    case k_NoOutput:
+    case multiGeneratorOutputKind::k_NoOutput:
       {
         stringstream s;
 
@@ -224,6 +113,7 @@ void msdlCompilerOahGroup::checkGroupOptionsConsistency ()
     default:
       ;
   } // switch
+  */
 }
 
 //______________________________________________________________________________
@@ -291,7 +181,7 @@ void msdlCompilerOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void msdlCompilerOahGroup::printmsdlCompilerOahValues (
+void msdlCompilerOahGroup::printMsdlCompilerOahValues (
   unsigned int fieldWidth)
 {
   gLogStream <<
@@ -300,6 +190,7 @@ void msdlCompilerOahGroup::printmsdlCompilerOahValues (
 
   ++gIndenter;
 
+/*
   // generator output kind
   // --------------------------------------
 
@@ -310,12 +201,12 @@ void msdlCompilerOahGroup::printmsdlCompilerOahValues (
   ++gIndenter;
 
   gLogStream << left <<
-    setw (fieldWidth) << "generatorOutputKind" << " : " <<
-      generatorOutputKindAsString (fGeneratorOutputKind) <<
+    setw (fieldWidth) << "multiGeneratorOutputKind" << " : " <<
+      multiGeneratorOutputKindAsString (fGeneratorOutputKind) <<
       endl;
 
   --gIndenter;
-
+*/
 
 /* JMI
   // code generation
@@ -371,7 +262,7 @@ ostream& operator<< (ostream& os, const S_msdlCompilerOahGroup& elt)
 }
 
 //______________________________________________________________________________
-S_msdlCompilerOahGroup createGlobalmsdlCompilerOahGroup ()
+S_msdlCompilerOahGroup createGlobalMsdlCompilerOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
@@ -382,7 +273,7 @@ S_msdlCompilerOahGroup createGlobalmsdlCompilerOahGroup ()
 #endif
 
   // protect library against multiple initializations
-  if (! gGlobalmsdlCompilerOahGroup) {
+  if (! gGlobalMsdlCompilerOahGroup) {
 
     // initialize the generated output kinds map
     // ------------------------------------------------------
@@ -392,13 +283,13 @@ S_msdlCompilerOahGroup createGlobalmsdlCompilerOahGroup ()
     // create the msdlCompiler options
     // ------------------------------------------------------
 
-    gGlobalmsdlCompilerOahGroup =
+    gGlobalMsdlCompilerOahGroup =
       msdlCompilerOahGroup::create ();
-    assert (gGlobalmsdlCompilerOahGroup != 0);
+    assert (gGlobalMsdlCompilerOahGroup != 0);
   }
 
   // return the global OAH group
-  return gGlobalmsdlCompilerOahGroup;
+  return gGlobalMsdlCompilerOahGroup;
 }
 
 

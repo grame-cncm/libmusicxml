@@ -37,7 +37,7 @@ class EXP msdlCompilerRegularHandler : public oahRegularHandler
                             string              handlerHeader,
                             S_msdlCompilerInsiderHandler
                                                 insiderOahHandler,
-                            generatorOutputKind theGeneratorOutputKind);
+                            multiGeneratorOutputKind theGeneratorOutputKind);
 
   protected:
 
@@ -49,7 +49,7 @@ class EXP msdlCompilerRegularHandler : public oahRegularHandler
                             string              handlerHeader,
                             S_msdlCompilerInsiderHandler
                                                 insiderOahHandler,
-                            generatorOutputKind theGeneratorOutputKind);
+                            multiGeneratorOutputKind theGeneratorOutputKind);
 
     virtual               ~msdlCompilerRegularHandler ();
 
@@ -59,9 +59,9 @@ class EXP msdlCompilerRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
     // generated output kind
-    void                  setGeneratorOutputKind (generatorOutputKind value)
+    void                  setGeneratorOutputKind (multiGeneratorOutputKind value)
                               { fGeneratorOutputKind = value; }
-    generatorOutputKind   getGeneratorOutputKind () const
+    multiGeneratorOutputKind   getGeneratorOutputKind () const
                               { return fGeneratorOutputKind; }
 
   public:
@@ -176,7 +176,7 @@ class EXP msdlCompilerRegularHandler : public oahRegularHandler
     // ------------------------------------------------------
 
     // generated output kind
-    generatorOutputKind     fGeneratorOutputKind;
+    multiGeneratorOutputKind     fGeneratorOutputKind;
 };
 typedef SMARTP<msdlCompilerRegularHandler> S_msdlCompilerRegularHandler;
 EXP ostream& operator<< (ostream& os, const S_msdlCompilerRegularHandler& elt);

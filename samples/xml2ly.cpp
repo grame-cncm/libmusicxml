@@ -152,7 +152,7 @@ int main (int argc, char *argv[])
         xml2lyInsiderHandler::create (
           executableName,
           executableName + " insider OAH handler with argc/argv",
-          kHandlerUsedThruArgcAndArgv);
+          oahHandlerUsedThruKind::kHandlerUsedThruArgcAndArgv);
 
     // the OAH handler to be used, a regular handler is the default
     // ------------------------------------------------------
@@ -182,10 +182,10 @@ int main (int argc, char *argv[])
 
     // have help options been used?
     switch (helpOnlyKind) {
-      case kElementHelpOnlyYes:
+      case oahElementHelpOnlyKind::kElementHelpOnlyYes:
         return 0; // quit now
         break;
-      case kElementHelpOnlyNo:
+      case oahElementHelpOnlyKind::kElementHelpOnlyNo:
         // go ahead
         break;
     } // switch

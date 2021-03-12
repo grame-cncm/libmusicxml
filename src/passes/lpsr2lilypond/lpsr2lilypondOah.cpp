@@ -1797,7 +1797,7 @@ void lilypondAccidentalStyleKindAtom::printAtomWithVariableOptionsValues (
 
   if (fVariableHasBeenSet) {
     os <<
-      ", variableHasBeenSet: " <<
+      ", variableHasBeenSet: " << // JMI ???
       booleanAsString (fVariableHasBeenSet);
   }
   os << endl;
@@ -2422,7 +2422,7 @@ lpsr2lilypondOahGroup::lpsr2lilypondOahGroup ()
       "Lpsr2lilyPond",
       "hlp2lily", "help-lpsr-to-lilypond",
   R"(These options control which LilyPond code is generated.)",
-      kElementVisibilityWhole)
+      oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeLpsr2lilypondOahGroup ();
 }
@@ -2438,7 +2438,7 @@ void lpsr2lilypondOahGroup::initializeLilypondVersionOptions ()
         "LilyPond version",
         "hlpv", "help-lilypond-version",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2474,7 +2474,7 @@ void lpsr2lilypondOahGroup::initializeScoreNotationOptions ()
         "Score notation",
         "hlpsn", "help-lilypond-score-notation",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2482,7 +2482,7 @@ R"()",
   // score notation
   // --------------------------------------
 
-//  fScoreNotationKind =  lpsr2lilypondOahGroup::kWesternNotation;
+//  fScoreNotationKind =  lpsr2lilypondOahGroup::lilypondScoreNotationKind::kNotationWestern;
     // default value
 
   fJianpu = false;
@@ -2518,7 +2518,7 @@ void lpsr2lilypondOahGroup::initializeGlobalStaffSizeOptions ()
         "Global staff size",
         "hgss", "help-global-staff-size",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2556,7 +2556,7 @@ void lpsr2lilypondOahGroup::initializeIdentificationOptions ()
         "hlpi", "help-lilypond-identification",
 R"(These options can be used to enforce values in the generated LilyPond code,
 thus overriding the ones that may be present in the MSR data.)",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2829,7 +2829,7 @@ void lpsr2lilypondOahGroup::initializePartsOptions ()
         "Parts",
         "hlpp", "help-lilypond-parts",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2903,7 +2903,7 @@ void lpsr2lilypondOahGroup::initializeEngraversOptions ()
         "Engravers",
         "hlpe", "help-lilypond-engravers",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2943,7 +2943,7 @@ void lpsr2lilypondOahGroup::initializeClefsKeysTimesOptions ()
         "Clefs, keys, times",
         "hckt", "help-clefs-keys-times",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3017,7 +3017,7 @@ void lpsr2lilypondOahGroup::initializeNotesOptions ()
         "Notes",
         "hlpn", "help-lilypond-notes",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3310,7 +3310,7 @@ void lpsr2lilypondOahGroup::initializeBarsOptions ()
         "Bar numbers",
         "hlpbn", "help-lilypond-bars-numbers",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3408,7 +3408,7 @@ void lpsr2lilypondOahGroup::initializeLineBreaksOptions ()
         "Line breaks",
         "hlplb", "help-lilypond-line-breaks",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3489,7 +3489,7 @@ void lpsr2lilypondOahGroup::initializePageBreaksOptions ()
         "Page breaks",
         "hlppb", "help-lilypond-page-breaks",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3547,7 +3547,7 @@ void lpsr2lilypondOahGroup::initializeStavesOptions ()
         "Staves",
         "hlps", "helpLilypondStaves",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3618,7 +3618,7 @@ void lpsr2lilypondOahGroup::initializeChordsOptions ()
         "Chords",
         "hlpc", "help-lilypond-chordss",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3645,7 +3645,7 @@ void lpsr2lilypondOahGroup::initializeTupletsOptions ()
         "Tuplets",
         "hlpt", "help-lilypond-tuplets",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3673,7 +3673,7 @@ void lpsr2lilypondOahGroup::initializeRepeatOptions ()
         "Repeats",
         "hlpr", "help-lilypond-repeats",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3720,7 +3720,7 @@ void lpsr2lilypondOahGroup::initializeOrnamentsOptions ()
         "Ornaments",
         "hlporns", "help-lilypond-ornaments",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3758,7 +3758,7 @@ void lpsr2lilypondOahGroup::initializeChordsDisplayOptions ()
         "Chords display",
         "hchd", "help-chords-display",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3829,7 +3829,7 @@ void lpsr2lilypondOahGroup::initializeLyricsOptions ()
         "Lyrics",
         "hlyrics", "help-lyrics",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3888,7 +3888,7 @@ void lpsr2lilypondOahGroup::initializeFontsOptions ()
         "Fonts",
         "hfonts", "help-fonts",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3918,7 +3918,7 @@ void lpsr2lilypondOahGroup::initializeCodeGenerationOptions ()
         "Code generation",
         "hlpcg", "help-lilypond-code-generation",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -4156,7 +4156,7 @@ to get only an overview in the resulting PDF file.)",
         fDraftMode);
   draftOahBooleanAtom->
     setElementVisibilityKind (
-      kElementVisibilityHidden);
+      oahElementVisibilityKind::kElementVisibilityHidden);
 
   subGroup->
     appendAtomToSubGroup (
@@ -4213,7 +4213,7 @@ void lpsr2lilypondOahGroup::initializeMidiOptions ()
         "Midi",
         "hlpm", "help-lilypond-midi",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -4278,7 +4278,7 @@ void lpsr2lilypondOahGroup::initializeCombinedOptionsOptions ()
         "Combined options",
         "hmxmlco", "help-musicxml-lilypond-combined-options",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -4725,20 +4725,20 @@ void lpsr2lilypondOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-string lpsr2lilypondOahGroup::scoreNotationKindAsString (
-  scoreNotationKind notationKind)
+string lpsr2lilypondOahGroup::lilypondScoreNotationKindAsString (
+  lilypondScoreNotationKind notationKind)
 {
   string result;
 
   switch (notationKind) {
-    case lpsr2lilypondOahGroup::kWesternNotation:
+    case lpsr2lilypondOahGroup::lilypondScoreNotationKind::kNotationWestern:
       result = "western";
       break;
-    case lpsr2lilypondOahGroup::kJianpuNotation:
+    case lpsr2lilypondOahGroup::lilypondScoreNotationKind::kNotationJianpu:
       result = "jiǎnpǔ";
       break;
-    case lpsr2lilypondOahGroup::kABCNotation:
-      result = "abc";
+    case lpsr2lilypondOahGroup::lilypondScoreNotationKind::kNotationABC:
+      result = "ABC";
       break;
   } // switch
 
@@ -4767,11 +4767,6 @@ void lpsr2lilypondOahGroup::printAtomWithVariableOptionsValues (
   gLogStream << left <<
     setw (valueFieldWidth) << "lilyPondVersion" << " : " <<
     fLilypondVersion <<
-    /* JMI
-    endl <<
-    setw (fieldWidth) << "lilyPondVersionHasBeenSet" << " : " <<
-    fLilypondVersionHasBeenSet <<
-    */
     endl;
 
   --gIndenter;
@@ -4805,9 +4800,10 @@ void lpsr2lilypondOahGroup::printAtomWithVariableOptionsValues (
 
     setw (valueFieldWidth) << "software" << " : " <<
       fSoftware <<
-      endl <<
+      endl;
 
   // LilyPond informations
+  os << left <<
     setw (valueFieldWidth) << "dedication" << " : " <<
       fDedication <<
       endl <<

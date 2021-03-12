@@ -12,6 +12,8 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include <regex>
+
 #include "enableExtraOahIfDesired.h"
 
 #include "enableTracingIfDesired.h"
@@ -60,6 +62,8 @@
 // generation
 #include "msrGeneratorsOah.h"
 
+//#include "generatorsInsiderHandler.h"
+
 
 #include "version.h"
 
@@ -75,7 +79,8 @@ namespace MusicXML2
 S_Mikrokosmos3WanderingInsiderHandler Mikrokosmos3WanderingInsiderHandler::create (
   const string&       executableName,
   const string&       handlerHeader,
-  generatorOutputKind generatorOutputKind)
+  multiGeneratorOutputKind
+                      generatorOutputKind)
 {
   // create the insider handler
   Mikrokosmos3WanderingInsiderHandler* o = new
@@ -91,7 +96,8 @@ S_Mikrokosmos3WanderingInsiderHandler Mikrokosmos3WanderingInsiderHandler::creat
 Mikrokosmos3WanderingInsiderHandler::Mikrokosmos3WanderingInsiderHandler (
   const string&       executableName,
   const string&       handlerHeader,
-  generatorOutputKind generatorOutputKind)
+  multiGeneratorOutputKind
+                      generatorOutputKind)
   : oahInsiderHandler (
       executableName,
       handlerHeader,
@@ -128,17 +134,27 @@ Mikrokosmos3WanderingInsiderHandler::~Mikrokosmos3WanderingInsiderHandler ()
 {}
 
 string Mikrokosmos3WanderingInsiderHandler::usageInformation (
-  generatorOutputKind generatorOutputKind)
+  multiGeneratorOutputKind generatorOutputKind)
 {
   stringstream s;
 
   s <<
 R"(Usage: Mikrokosmos3Wandering [option]*
 )" <<
-    endl <<
-    "The help below is available when generating " <<
-    generatorOutputKindAsString (generatorOutputKind) <<
-    " output";
+    endl;
+
+  switch (generatorOutputKind) {
+    case multiGeneratorOutputKind::k_NoOutput:
+      s <<
+        "The help below is available whichever output is produced";
+      break;
+
+    default:
+      s <<
+        "The help below is available when generating " <<
+        multiGeneratorOutputKindAsString (generatorOutputKind) <<
+        " output";
+  } // switch
 
   return s.str ();
 }
@@ -151,7 +167,7 @@ void Mikrokosmos3WanderingInsiderHandler::handlerOahError (
   s <<
     errorMessage  <<
     " when generating " <<
-    generatorOutputKindAsString (fGeneratorOutputKind) <<
+    multiGeneratorOutputKindAsString (fGeneratorOutputKind) <<
     " output";
 
   oahError (s.str ());
@@ -165,34 +181,34 @@ string Mikrokosmos3WanderingInsiderHandler::handlerExecutableAboutInformation ()
 }
 
 string Mikrokosmos3WanderingInsiderHandler::Mikrokosmos3WanderingAboutInformation (
-  generatorOutputKind theGeneratorOutputKind) const
+  multiGeneratorOutputKind generatorOutputKind) const
 {
   string result;
 
   unsigned int passesNumber = 0;
 
-  switch (theGeneratorOutputKind) {
-    case k_NoOutput:
+  switch (generatorOutputKind) {
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
       passesNumber = 4;
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       passesNumber = 3;
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       passesNumber = 4;
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       passesNumber = 4;
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       passesNumber = 0;
       break;
   } // switch
@@ -205,20 +221,20 @@ R"(What Mikrokosmos3Wandering does:
     This multi-pass generator basically performs )" <<
     passesNumber <<
     " passes when generating " <<
-    generatorOutputKindAsString (theGeneratorOutputKind) <<
+    multiGeneratorOutputKindAsString (generatorOutputKind) <<
     " output:" <<
     endl <<
 R"(
-        Pass 1:  generate and MSR programmatically)";
+        Pass 1:  create an MSR from the MSDL input)";
 
   string specificPart;
 
-  switch (theGeneratorOutputKind) {
-    case k_NoOutput:
+  switch (generatorOutputKind) {
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
       specificPart =
 R"(
         Pass 2:  converts the MSR into a second MSR;
@@ -227,7 +243,7 @@ R"(
                  and writes it to standard output.)";
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       specificPart =
 R"(
         Pass 2:  converts the MSR into a
@@ -236,7 +252,7 @@ R"(
                  and writes it to standard output.)";
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       specificPart =
 R"(
         Pass 2a: converts the MSR into a
@@ -251,7 +267,7 @@ R"(
     In this preliminary version, pass 2b merely clones the BSR it receives.)";
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       specificPart =
 R"(
         Pass 2:  converts the MSR into a second MSR;
@@ -260,7 +276,7 @@ R"(
                  and writes it to standard output.)";
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       break;
   } // switch
 
@@ -295,7 +311,7 @@ void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingPrefixes
 //______________________________________________________________________________
 void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingOptionGroups (
   const string&       executableName,
-  generatorOutputKind generatorOutputKind)
+  multiGeneratorOutputKind multiGeneratorOutputKind)
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
@@ -354,12 +370,12 @@ void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingOptionGr
       such as gGlobalMsr2msrOahGroup and gGlobalMsr2lpsrOahGroup
   */
 
-  switch (generatorOutputKind) {
-    case k_NoOutput:
+  switch (multiGeneratorOutputKind) {
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
       // create the msr2msr OAH group
       appendGroupToHandler (
         createGlobalMsr2msrOahGroup ());
@@ -381,7 +397,7 @@ void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingOptionGr
         createGlobalXml2gmnOahGroup ());
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       // initialize the library
       initializeLPSR ();
 
@@ -402,7 +418,7 @@ void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingOptionGr
         createGlobalLilypondOahGroup ());
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       // initialize the library
       initializeBSR ();
 
@@ -423,7 +439,7 @@ void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingOptionGr
         createGlobalBrailleOahGroup ());
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       // create the msr2msr OAH group
       appendGroupToHandler (
         createGlobalMsr2msrOahGroup ());
@@ -441,14 +457,15 @@ void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingOptionGr
         createGlobalMusicxmlOahGroup ());
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       break;
   } // switch
 
-  // create the Mikrokosmos3Wandering OAH group
+  // create the multi generator OAH group
   appendGroupToHandler (
-    createGlobalMikrokosmos3WanderingOahGroup ());
+    createGlobalMultiGeneratorOahGroup ());
 
+  // create the Mikrokosmos3Wandering OAH group
   appendGroupToHandler (
     createGlobalMikrokosmos3WanderingInsiderOahGroup ());
 
@@ -537,20 +554,20 @@ string Mikrokosmos3WanderingInsiderHandler::fetchOutputFileNameFromTheOptions ()
 
     // add the output file name suffix
     switch (fGeneratorOutputKind) {
-      case k_NoOutput:
+      case multiGeneratorOutputKind::k_NoOutput:
         // should not occur
         outputFileName = "___k_NoOutput___";
         break;
 
-      case kGuidoOutput:
+      case multiGeneratorOutputKind::kGuidoOutput:
         outputFileName += ".gmn";
         break;
 
-      case kLilyPondOutput:
+      case multiGeneratorOutputKind::kLilyPondOutput:
         outputFileName += ".ly";
         break;
 
-      case kBrailleOutput:
+      case multiGeneratorOutputKind::kBrailleOutput:
         {
           S_oahStringAtom
             outputFileNameStringAtom =
@@ -611,11 +628,11 @@ string Mikrokosmos3WanderingInsiderHandler::fetchOutputFileNameFromTheOptions ()
         }
         break;
 
-      case kMusicXMLOutput:
+      case multiGeneratorOutputKind::kMusicXMLOutput:
         outputFileName += ".xml";
         break;
 
-      case kMidiOutput:
+      case multiGeneratorOutputKind::kMidiOutput:
         outputFileName += ".midi";
         break;
     } // switch
@@ -853,16 +870,12 @@ Mikrokosmos3WanderingInsiderOahGroup::Mikrokosmos3WanderingInsiderOahGroup ()
     "Mikrokosmos3Wandering",
     "hmkk", "help-Mikrokosmos3Wandering",
 R"(Options that are used by Mikrokosmos3Wandering are grouped here.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
-// JMI  fGenerationAPIKind = kMsrFunctionsAPIKind; // default value
-  fGenerationAPIKind = kMsrStringsAPIKind; // default value
+// JMI  fGenerationAPIKind = msrGenerationAPIKind::kMsrFunctionsAPIKind; // default value
+  fGenerationAPIKind = msrGenerationAPIKind::kMsrStringsAPIKind; // default value
 
-  fGeneratorOutputKind = k_NoOutput;
-
-  fGenerateComments = false;
-  fGenerateStem = false;
-  fGenerateBars = false;
+  fGeneratorOutputKind = multiGeneratorOutputKind::k_NoOutput;
 
   fQuitAfterPass2a = false;
   fQuitAfterPass2b = false;
@@ -886,69 +899,10 @@ void Mikrokosmos3WanderingInsiderOahGroup::initializeMikrokosmos3WanderingInside
   }
 #endif
 
-  // Guido
-  // --------------------------------------
-
-  createInsiderGuidoSubGroup ();
-
   // quit after some passes
   // --------------------------------------
 
   createInsiderQuitSubGroup ();
-}
-
-void Mikrokosmos3WanderingInsiderOahGroup::createInsiderGuidoSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-    gLogStream << left <<
-      "Creating insider Guido subgroup in \"" <<
-      fGroupHeader <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Guido",
-        "mkk-guido", "help-mkk-guido",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // generate comments
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-comments", "",
-R"(Generate comments in the Guido output.)",
-        "generateComments",
-        fGenerateComments));
-
-  // generate stem
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-stem", "",
-R"(Generate stem in the Guido output.)",
-        "generateStem",
-        fGenerateStem));
-
-  // generate bars
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-bars", "",
-R"(Generate barlines in the Guido output.)",
-        "generateBars",
-        fGenerateBars));
 }
 
 //_______________________________________________________________________________
@@ -970,7 +924,7 @@ void Mikrokosmos3WanderingInsiderOahGroup::createInsiderQuitSubGroup ()
         "Quit after some passes",
         "hm2xquit", "help-msr2gmn-quit",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (quitAfterSomePassesSubGroup);
@@ -1047,30 +1001,8 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
 
   gLogStream << left <<
     setw (fieldWidth) <<
-    "generatorOutputKind" << " : " <<
-    generatorOutputKindAsString (fGeneratorOutputKind) <<
-    endl;
-
-  --gIndenter;
-
-  // Guido
-  // --------------------------------------
-
-  gLogStream << left <<
-    setw (fieldWidth) << "Guido:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) <<
-    "generateComments" << " : " << booleanAsString (fGenerateComments) <<
-    endl <<
-    setw (fieldWidth) <<
-    "generateStem" << " : " << booleanAsString (fGenerateStem) <<
-    endl <<
-    setw (fieldWidth) <<
-    "generateBars" << " : " << booleanAsString (fGenerateBars) <<
+    "multiGeneratorOutputKind" << " : " <<
+    multiGeneratorOutputKindAsString (fGeneratorOutputKind) <<
     endl;
 
   --gIndenter;

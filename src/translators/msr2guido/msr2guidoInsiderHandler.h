@@ -185,8 +185,6 @@ class EXP msr2guidoInsiderOahGroup : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  createInsiderGuidoSubGroup ();
-
     void                  createInsiderQuitSubGroup ();
 
   private:

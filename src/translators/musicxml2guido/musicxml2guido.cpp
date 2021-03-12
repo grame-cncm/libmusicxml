@@ -371,10 +371,10 @@ static xmlErr xmlFile2guidoWithOptionsVector (
 
     // have help options been used?
     switch (helpOnlyKind) {
-      case kElementHelpOnlyYes:
+      case oahElementHelpOnlyKind::kElementHelpOnlyYes:
         return kNoErr; // quit now
         break;
-      case kElementHelpOnlyNo:
+      case oahElementHelpOnlyKind::kElementHelpOnlyNo:
         // go ahead
         break;
     } // switch

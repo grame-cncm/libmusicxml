@@ -123,6 +123,7 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
     // set and get
     // ------------------------------------------------------
 
+/* JMI
     // Guido
     void                  setGenerateComments ()
                               { fGenerateComments = true; }
@@ -138,6 +139,7 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
                               { fGenerateBars = true; }
     bool                  getGenerateBars () const
                               { return fGenerateBars; }
+*/
 
     // quit after some passes
     void                  setQuitAfterPass2a ()
@@ -185,8 +187,6 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  createInsiderGuidoSubGroup ();
-
     void                  createInsiderQuitSubGroup ();
 
   private:
@@ -194,10 +194,12 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
     // private fields
     // ------------------------------------------------------
 
+/*
     // Guido
     bool                  fGenerateComments;
     bool                  fGenerateStem;
     bool                  fGenerateBars;
+*/
 
     // quit after some passes
     bool                  fQuitAfterPass2a;

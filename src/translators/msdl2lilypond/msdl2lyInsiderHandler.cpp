@@ -140,22 +140,22 @@ string msdl2lyInsiderHandler::usageFromUsedThruKind (
   string result;
 
   switch (handlerUsedThruKind) {
-    case kHandlerUsedThruUnknown:
+    case oahHandlerUsedThruKind::kHandlerUsedThruUnknown:
       {
         stringstream s;
 
         s <<
-          "kHandlerUsedThruUnknown found in usageFromUsedThruKind() in handler \"" <<
+          "oahHandlerUsedThruKind::kHandlerUsedThruUnknown found in usageFromUsedThruKind() in handler \"" <<
           fHandlerHeader <<
           "\"";
 
         oahInternalError (s.str ());
       }
       break;
-    case kHandlerUsedThruArgcAndArgv:
+    case oahHandlerUsedThruKind::kHandlerUsedThruArgcAndArgv:
       result = fHandlerExecutableName + " ([options] | [MSDLFile])+";
       break;
-    case kHandlerUsedThruOptionsVector:
+    case oahHandlerUsedThruKind::kHandlerUsedThruOptionsVector:
       result = "Usage: [options]";
       break;
   } // switch
@@ -506,7 +506,7 @@ msdl2lyInsiderOahGroup::msdl2lyInsiderOahGroup ()
     "msdl2ly",
     "hx2l", "help-msdl2ly",
 R"(Options that are used by msdl2ly are grouped here.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMsdl2lyInsiderOahGroup ();
 }
@@ -526,70 +526,6 @@ void msdl2lyInsiderOahGroup::initializeMsdl2lyInsiderOahGroup ()
       endl;
   }
 #endif
-
-  // quit after some passes
-  // --------------------------------------
-
-  createInsiderQuitSubGroup ();
-}
-
-//_______________________________________________________________________________
-void msdl2lyInsiderOahGroup::createInsiderQuitSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-    gLogStream << left <<
-      "Creating insider quit subgroup in \"" <<
-      fGroupHeader <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  S_oahSubGroup
-    quitAfterSomePassesSubGroup =
-      oahSubGroup::create (
-        "Quit after some passes",
-        "hm2lquit", "help-msr2ly-quit",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (quitAfterSomePassesSubGroup);
-
-  // quit after pass 2a
-
-  fQuitAfterPass2a = false;
-
-  S_oahBooleanAtom
-    quit2aOahBooleanAtom =
-      oahBooleanAtom::create (
-        "q2a", "quitAfterPass-2a",
-R"(Quit after pass 2a, i.e. after conversion
-of the MusicXML tree to an MSR skeleton.)",
-        "quitAfterPass2a",
-        fQuitAfterPass2a);
-
-  quitAfterSomePassesSubGroup->
-    appendAtomToSubGroup (
-      quit2aOahBooleanAtom);
-
-  // quit after pass 2b
-
-  fQuitAfterPass2b = false;
-
-  S_oahBooleanAtom
-    quit2bOahBooleanAtom =
-      oahBooleanAtom::create (
-        "q2b", "quitAfterPass-2b",
-R"(Quit after pass 2b, i.e. after conversion
-of the MusicXML tree to MSR.)",
-        "quitAfterPass2b",
-        fQuitAfterPass2b);
-
-  quitAfterSomePassesSubGroup->
-    appendAtomToSubGroup (
-      quit2bOahBooleanAtom);
 }
 
 //______________________________________________________________________________

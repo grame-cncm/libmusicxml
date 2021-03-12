@@ -287,7 +287,7 @@ msr2lpsrOahGroup::msr2lpsrOahGroup ()
     "Msr2lpsr",
     "hmsr2lpsr", "help-msr-to-lpsr",
 R"(These options control the way MSR data is translated to LPSR.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMsr2lpsrOahGroup ();
 }
@@ -308,7 +308,7 @@ void msr2lpsrOahGroup::initializeScoreOutputOptions ()
         "LilyPond score output",
         "hlpso", "help-lilypond-score-output",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -356,7 +356,7 @@ void msr2lpsrOahGroup::initializeRepeatsOptions ()
       "Repeats",
       "hlpsrr", "help-lpsr-repeats",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -384,7 +384,7 @@ void msr2lpsrOahGroup::initializeNotesOptions ()
       "Notes",
       "hmsr2lpsrn", "help-msr-to-lpsr-notes",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -397,7 +397,7 @@ void msr2lpsrOahGroup::initializeLyricsOptions ()
       "Lyrics",
       "hlpsrlyrd", "help-lpsr-lyrics",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);

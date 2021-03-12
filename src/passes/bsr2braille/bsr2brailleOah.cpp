@@ -715,7 +715,7 @@ bsr2brailleOahGroup::bsr2brailleOahGroup ()
     "Bsr2braille",
     "h-mkk-bsr2brl", "help-mkk-bsr-to-braille",
 R"(These options control the way BSR data is translated to braille music.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   fBrailleOutputKind = kBrailleOutputAscii; // default value
 
@@ -738,7 +738,7 @@ void bsr2brailleOahGroup::initializeBrailleEncodingOptions ()
         "Braille encoding",
         "hbe", "help-braille-encoding",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -784,7 +784,7 @@ void bsr2brailleOahGroup::initializeBrailleByteOrderingOptions ()
         "Byte ordering",
         "hlpbo", "help-byte-ordering",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -817,7 +817,7 @@ void bsr2brailleOahGroup::initializeBrailleMusicFileNameOptions ()
         "Braille music file name",
         "hlpbmfn", "help-braille-music-file-name",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -845,7 +845,7 @@ void bsr2brailleOahGroup::initializeBraillePageParametersOptions ()
         "Page parameters",
         "hlpbpp", "help-braille-pages-parameters",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -897,7 +897,7 @@ void bsr2brailleOahGroup::initializeBrailleCodeGenerationOptions ()
         "Code generation",
         "hlpcg", "help-braille-code-generation",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

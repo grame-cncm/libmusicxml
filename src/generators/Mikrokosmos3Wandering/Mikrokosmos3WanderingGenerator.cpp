@@ -10,10 +10,6 @@
   research@grame.fr
 */
 
-//#include <iomanip>      // setw, setprecision, ...
-//#include <cmath>
-//#include <string>
-
 #include <regex>
 
 #include "Mikrokosmos3WanderingGenerator.h"
@@ -210,12 +206,12 @@ S_msrStaff Mikrokosmos3WanderingGenerator::createAndPopulateUpperStaffInPart (
 
   // populate its voice(s)
   switch (generationAPIKind) {
-    case kMsrFunctionsAPIKind:
+    case msrGenerationAPIKind::kMsrFunctionsAPIKind:
       populateUpperVoice1WithTheFunctionsAPI (
         upperVoice1);
       break;
 
-    case kMsrStringsAPIKind:
+    case msrGenerationAPIKind::kMsrStringsAPIKind:
       populateUpperVoice1WithTheStringsAPI (
         upperVoice1);
       break;
@@ -255,14 +251,14 @@ S_msrStaff Mikrokosmos3WanderingGenerator::createAndPopulateLowerStaffInPart (
   // populate its voice(s)
   // populate its voice(s)
   switch (generationAPIKind) {
-    case kMsrFunctionsAPIKind:
+    case msrGenerationAPIKind::kMsrFunctionsAPIKind:
       populateLowerVoice1WithTheFunctionsAPI (
         lowerVoice1);
       populateLowerVoice2WithTheFunctionsAPI (
         lowerVoice2);
       break;
 
-    case kMsrStringsAPIKind:
+    case msrGenerationAPIKind::kMsrStringsAPIKind:
       populateLowerVoice1WithTheStringsAPI (
         lowerVoice1);
       populateLowerVoice2WithTheStringsAPI (

@@ -634,7 +634,7 @@ msrOahGroup::msrOahGroup ()
     "MSR",
     "hmsr", "help-msr",
 R"(These options control the way MSR data is handled.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMsrOahGroup ();
 }
@@ -650,7 +650,7 @@ void msrOahGroup::initializeMsrTraceOah ()
       "MSR Trace",
       "hmsrt", "help-msr-trace",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -700,7 +700,7 @@ void msrOahGroup::initializeMsrDisplayOptions ()
       "Display",
       "hmsrtd", "help-msr-trace-and-display",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -800,7 +800,7 @@ void msrOahGroup::initializeMsrLanguagesOptions ()
       "Languages",
       "hmsrlang", "help-msr-languages",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -831,7 +831,7 @@ R"()",
 
   const msrQuarterTonesPitchesLanguageKind
     msrQuarterTonesPitchesLanguageKindDefaultValue =
-      kNederlands; //LilyPond default value
+      msrQuarterTonesPitchesLanguageKind::kQTPNederlands; //LilyPond default value
 
   subGroup->
     appendAtomToSubGroup (
@@ -864,7 +864,7 @@ void msrOahGroup::initializeMsrPartsOptions ()
       "Parts",
       "hmsrp", "help-msr-parts",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -903,7 +903,7 @@ void msrOahGroup::initializeMsrStavesOptions ()
       "Staves",
       "hmsrs", "help-msr-staves",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -929,7 +929,7 @@ void msrOahGroup::initializeMsrVoicesOptions ()
       "Voices",
       "hmsrv", "help-msr-voices",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -956,7 +956,7 @@ void msrOahGroup::initializeMsrHarmoniesOptions ()
       "Harmonies",
       "hmsrh", "help-msr-harmonies",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -983,7 +983,7 @@ void msrOahGroup::initializeMsrFiguredBassOptions ()
       "Figured bass",
       "hmsrfb", "help-msr-figured-bass",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);

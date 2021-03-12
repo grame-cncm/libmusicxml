@@ -24,8 +24,6 @@
 
 #include "waeMessagesHandling.h"
 
-#include "generatorsBasicTypes.h"
-
 #include "oahOah.h"
 #include "generalOah.h"
 
@@ -54,9 +52,9 @@ msrGeneratorsOahGroup::msrGeneratorsOahGroup ()
     "MSR generators",
     "hmsrgen", "help-msr generators",
 R"(These options control the way the translators to MSR work.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
-  fGenerationAPIKind = kMsrFunctionsAPIKind;
+  fGenerationAPIKind = msrGenerationAPIKind::kMsrFunctionsAPIKind;
 
   // initialize it
   initializeMsrGeneratorsOahGroup ();
@@ -73,14 +71,14 @@ void msrGeneratorsOahGroup::initializeGenerationAPIOptions ()
         "Generation API",
         "hga", "help-generation-api",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
 
   const msrGenerationAPIKind
     msrGenerationAPIKindDefaultValue =
-      kMsrFunctionsAPIKind; // default value
+      msrGenerationAPIKind::kMsrFunctionsAPIKind; // default value
 
   fGenerationAPIKindAtom =
     msrGenerationAPIKindAtom::create (

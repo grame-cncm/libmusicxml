@@ -75,12 +75,36 @@ xmlErr msdlStream2lilypondWithHandler (
   // ------------------------------------------------------
 
   try {
+    // create the MSDL parser
     msdlParser
       parser (
         inputSourceName,
         inputStream);
 
+    // parse the input
     parser.parse ();
+
+    // get the resulting score
+    // JMI an msrBook should also be handled
+    theMsrScore = parser.getCurrentScore ();
+
+    // sanity check
+    if (! theMsrScore) {
+      stringstream s;
+
+      s <<
+        "Could not perform comversion of \"" <<
+        inputSourceName <<
+        "\" to MSR, quitting";
+
+      string message = s.str ();
+
+      err <<
+        message <<
+        endl;
+
+      throw msgMsdlToMsrScoreException (message);
+    }
   }
   catch (msgMsdlToMsrScoreException& e) {
     displayException (e, gOutputStream);
@@ -378,7 +402,7 @@ xmlErr msdlStream2lilypondWithHandler (
       msdl2lyInsiderHandler::create (
         fakeExecutableName,
         fakeExecutableName + " insider OAH handler with options vector",
-        kHandlerUsedThruOptionsVector);
+        oahHandlerUsedThruKind::kHandlerUsedThruOptionsVector);
 
   // the OAH handler to be used, a regular handler is the default
   // ------------------------------------------------------
@@ -412,10 +436,10 @@ xmlErr msdlStream2lilypondWithHandler (
 
     // have help options been used?
     switch (helpOnlyKind) {
-      case kElementHelpOnlyYes:
+      case oahElementHelpOnlyKind::kElementHelpOnlyYes:
         return kNoErr; // quit now
         break;
-      case kElementHelpOnlyNo:
+      case oahElementHelpOnlyKind::kElementHelpOnlyNo:
         // go ahead
         break;
     } // switch

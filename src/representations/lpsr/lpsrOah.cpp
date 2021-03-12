@@ -735,7 +735,7 @@ lpsrOahGroup::lpsrOahGroup ()
     "LPSR",
     "hlpsr", "help-lpsr",
 R"(These options control the way LPSR data is handled.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeLpsrOahGroup ();
 }
@@ -752,7 +752,7 @@ void lpsrOahGroup::initializeLpsrTraceOah ()
         "LPSR Trace",
         "hlpsrtrace", "help-lpsr-trace",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -827,7 +827,7 @@ void lpsrOahGroup::initializeLpsrDisplayOptions ()
         "Display",
         "hlpsrd", "help-lpsr-display",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -865,7 +865,7 @@ void lpsrOahGroup::initializeLpsrPaperOptions ()
         "Paper",
         "hlpsrpaper", "help-lpsr-paper",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1211,7 +1211,7 @@ void lpsrOahGroup::initializeLpsrMeasuresOptions ()
         "Measures",
         "hlpsrmeasures", "help-lpsr-measures",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1249,7 +1249,7 @@ void lpsrOahGroup::initializeLpsrTemposOptions ()
         "Tempos",
         "hlpsrtempos", "help-lpsr-tempos",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1277,7 +1277,7 @@ void lpsrOahGroup::initializeLpsrWordsOptions ()
         "Words",
         "hlpsrwords", "help-lpsr-words",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1390,7 +1390,7 @@ void lpsrOahGroup::initializeLpsrLanguagesOptions ()
         "Languages",
         "hlpsrl", "help-lpsr-languages",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1493,7 +1493,7 @@ void lpsrOahGroup::initializeLpsrTransposeOptions ()
         "Transpose",
         "hlpsrt", "help-lpsr-transpose",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1524,7 +1524,7 @@ void lpsrOahGroup::initializeLpsrQuitAfterSomePassesOptions ()
         "Quit after some passes",
         "hlquit", "help-lpsr-quit",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

@@ -51,7 +51,7 @@ mxmlTreeOahGroup::mxmlTreeOahGroup ()
     "MxmlTree",
     "hmxmlttr", "help-mxml-element-tree",
 R"(These options control the way mxml-element trees are handled.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMxmlTreeOah ();
 }
@@ -68,7 +68,7 @@ void mxmlTreeOahGroup::initializeMxmlTreeTraceOah ()
         "mxmlTree Trace",
         "hmxmltt", "help-mxml-tree-trace",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);

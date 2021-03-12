@@ -24,13 +24,13 @@
 
 #include "waeMessagesHandling.h"
 
-#include "generatorsBasicTypes.h"
+// #include "multiGeneratorsOah.h"
 
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "generatorsOah.h"
-#include "generatorsInsiderHandler.h"
+#include "Mikrokosmos3WanderingOah.h"
+#include "Mikrokosmos3WanderingInsiderHandler.h"
 
 
 using namespace std;
@@ -40,23 +40,25 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 
-S_generatorsOahGroup gGlobalGeneratorsOahGroup;
+S_Mikrokosmos3WanderingOahGroup gGlobalMikrokosmos3WanderingOahGroup;
 
-S_generatorsOahGroup generatorsOahGroup::create ()
+S_Mikrokosmos3WanderingOahGroup Mikrokosmos3WanderingOahGroup::create ()
 {
-  generatorsOahGroup* o = new generatorsOahGroup ();
+  Mikrokosmos3WanderingOahGroup* o = new Mikrokosmos3WanderingOahGroup ();
   assert (o != nullptr);
   return o;
 }
 
-generatorsOahGroup::generatorsOahGroup ()
+Mikrokosmos3WanderingOahGroup::Mikrokosmos3WanderingOahGroup ()
   : oahGroup (
-    "Generators",
-    "hgenerators", "help-hgenerators",
-R"(These options control the way generators work.)",
-    kElementVisibilityWhole)
+    "Mikrokosmos3Wandering",
+    "hmkk-group", "help-mikrokosmos-group",
+R"(These options control the way Mikrokosmos3Wandering works.)",
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
-  fGeneratorOutputKind = k_NoOutput;
+  fGenerationAPIKind = msrGenerationAPIKind::kMsrFunctionsAPIKind;
+
+  fGeneratorOutputKind = multiGeneratorOutputKind::k_NoOutput;
 
   fUTFKind = kUTF8; // default value
 
@@ -65,144 +67,77 @@ R"(These options control the way generators work.)",
   fByteOrderingKind = kByteOrderingNone;
 
   // initialize it
-  initializeGeneratorsOahGroup ();
+  initializeMikrokosmos3WanderingOahGroup ();
 }
 
-generatorsOahGroup::~generatorsOahGroup ()
+Mikrokosmos3WanderingOahGroup::~Mikrokosmos3WanderingOahGroup ()
 {}
 
-void generatorsOahGroup::initializeGenerateCodeOptions ()
+void Mikrokosmos3WanderingOahGroup::initializeGenerationAPIOptions ()
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Generated output",
-        "hgc", "help-generate-output",
+        "Generation API",
+        "hga", "help-generation-api",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
 
-  // generator output kind
+  const msrGenerationAPIKind
+    msrGenerationAPIKindDefaultValue =
+      msrGenerationAPIKind::kMsrFunctionsAPIKind; // default value
 
-  const generatorOutputKind
-    generatorOutputKindDefaultValue =
-      kLilyPondOutput; // default value
-
-  fGeneratorOutputKindAtom =
-    generatorOutputKindAtom::create (
-      K_GENERATED_OUTPUT_KIND_SHORT_NAME, K_GENERATED_OUTPUT_KIND_LONG_NAME,
+  fGenerationAPIKindAtom =
+    msrGenerationAPIKindAtom::create (
+      K_GENERATION_API_KIND_SHORT_NAME, K_GENERATION_API_KIND_LONG_NAME,
       regex_replace (
         regex_replace (
           regex_replace (
-  R"(Generate GENERATED_OUTPUT_KIND code to the output.
-  The NUMBER generated output kinds available are:
-  GENERATED_OUTPUT_KINDS.
+  R"(Generate GENERATION_API code to the output.
+  The NUMBER generation API kinds available are:
+  GENERATION_API_KINDS.
   The default is 'DEFAULT_VALUE'.)",
             regex ("NUMBER"),
-            to_string (gGlobalGeneratorOutputKindsMap.size ())),
-          regex ("GENERATED_OUTPUT_KINDS"),
-          existingGeneratorOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
+            to_string (gGlobalGenerationAPIKindsMap.size ())),
+          regex ("GENERATION_API_KINDS"),
+          existingGenerationAPIKinds (K_NAMES_LIST_MAX_LENGTH)),
         regex ("DEFAULT_VALUE"),
-        generatorOutputKindAsString (
-          generatorOutputKindDefaultValue)),
-      "GENERATED_OUTPUT_KIND",
-      "generatorOutputKind",
-      fGeneratorOutputKind);
+        msrGenerationAPIKindAsString (
+          msrGenerationAPIKindDefaultValue)),
+      "GENERATION_API",
+      "msrGenerationAPIKind",
+      fGenerationAPIKind);
 
   subGroup->
     appendAtomToSubGroup (
-      fGeneratorOutputKindAtom);
-
-  // generator output macros
-
-  S_oahMacroAtom
-    guidoMacroAtom =
-      oahMacroAtom::create (
-        K_GENERATED_OUTPUT_KIND_GUIDO_NAME, "",
-        "Generate Guido output");
-  guidoMacroAtom->
-    appendAtomStringPairToMacro (
-      fGeneratorOutputKindAtom, "guido");
-  subGroup->
-    appendAtomToSubGroup (
-      guidoMacroAtom);
-
-
-  S_oahMacroAtom
-    lilypondMacroAtom =
-      oahMacroAtom::create (
-        K_GENERATED_OUTPUT_KIND_LIlYPOND_NAME, "",
-        "Generate LilyPond output");
-  lilypondMacroAtom->
-    appendAtomStringPairToMacro (
-      fGeneratorOutputKindAtom, "lilypond");
-  subGroup->
-    appendAtomToSubGroup (
-      lilypondMacroAtom);
-
-  S_oahMacroAtom
-    brailleMacroAtom =
-      oahMacroAtom::create (
-        K_GENERATED_OUTPUT_KIND_BRAILLE_NAME, "",
-        "Generate braille music output");
-  brailleMacroAtom->
-    appendAtomStringPairToMacro (
-      fGeneratorOutputKindAtom, K_GENERATED_OUTPUT_KIND_BRAILLE_NAME);
-  subGroup->
-    appendAtomToSubGroup (
-      brailleMacroAtom);
-
-  S_oahMacroAtom
-    musicxmlMacroAtom =
-      oahMacroAtom::create (
-        K_GENERATED_OUTPUT_KIND_MUSICXML_NAME, "",
-        "Generate MusicXML output");
-  musicxmlMacroAtom->
-    appendAtomStringPairToMacro (
-      fGeneratorOutputKindAtom, "musicxml");
-  subGroup->
-    appendAtomToSubGroup (
-      musicxmlMacroAtom);
-
-/* JMI
-  S_oahMacroAtom
-    midiMacroAtom =
-      oahMacroAtom::create (
-        K_GENERATED_OUTPUT_KIND_MIDI_NAME, "",
-        "Generate MIDI output");
-  midiMacroAtom->
-    appendAtomStringPairToMacro (
-      fGeneratorOutputKindAtom, "midi");
-  subGroup->
-    appendAtomToSubGroup (
-      midiMacroAtom);
-      */
+      fGenerationAPIKindAtom);
 }
 
-void generatorsOahGroup::initializeGeneratorsOahGroup ()
+void Mikrokosmos3WanderingOahGroup::initializeMikrokosmos3WanderingOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   // trace
   // --------------------------------------
-// JMI  initializeGeneratorsTraceOah ();
+// JMI  initializeMikrokosmos3WanderingTraceOah ();
 #endif
 
-  // generate code
+  // generation API
   // --------------------------------------
-  initializeGenerateCodeOptions ();
+// JMI  initializeGenerationAPIOptions ();
 }
 
 //______________________________________________________________________________
-void generatorsOahGroup::enforceGroupQuietness ()
+void Mikrokosmos3WanderingOahGroup::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void generatorsOahGroup::checkGroupOptionsConsistency ()
+void Mikrokosmos3WanderingOahGroup::checkGroupOptionsConsistency ()
 {
   switch (fGeneratorOutputKind) {
-    case k_NoOutput:
+    case multiGeneratorOutputKind::k_NoOutput:
       {
         stringstream s;
 
@@ -227,25 +162,25 @@ void generatorsOahGroup::checkGroupOptionsConsistency ()
 }
 
 //______________________________________________________________________________
-void generatorsOahGroup::acceptIn (basevisitor* v)
+void Mikrokosmos3WanderingOahGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> GeneratorsOahGroup::acceptIn ()" <<
+      ".\\\" ==> Mikrokosmos3WanderingOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_generatorsOahGroup>*
+  if (visitor<S_Mikrokosmos3WanderingOahGroup>*
     p =
-      dynamic_cast<visitor<S_generatorsOahGroup>*> (v)) {
-        S_generatorsOahGroup elem = this;
+      dynamic_cast<visitor<S_Mikrokosmos3WanderingOahGroup>*> (v)) {
+        S_Mikrokosmos3WanderingOahGroup elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching generatorsOahGroup::visitStart ()" <<
+            ".\\\" ==> Launching Mikrokosmos3WanderingOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -253,25 +188,25 @@ void generatorsOahGroup::acceptIn (basevisitor* v)
   }
 }
 
-void generatorsOahGroup::acceptOut (basevisitor* v)
+void Mikrokosmos3WanderingOahGroup::acceptOut (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> generatorsOahGroup::acceptOut ()" <<
+      ".\\\" ==> Mikrokosmos3WanderingOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_generatorsOahGroup>*
+  if (visitor<S_Mikrokosmos3WanderingOahGroup>*
     p =
-      dynamic_cast<visitor<S_generatorsOahGroup>*> (v)) {
-        S_generatorsOahGroup elem = this;
+      dynamic_cast<visitor<S_Mikrokosmos3WanderingOahGroup>*> (v)) {
+        S_Mikrokosmos3WanderingOahGroup elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching generatorsOahGroup::visitEnd ()" <<
+            ".\\\" ==> Launching Mikrokosmos3WanderingOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -279,26 +214,42 @@ void generatorsOahGroup::acceptOut (basevisitor* v)
   }
 }
 
-void generatorsOahGroup::browseData (basevisitor* v)
+void Mikrokosmos3WanderingOahGroup::browseData (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> generatorsOahGroup::browseData ()" <<
+      ".\\\" ==> Mikrokosmos3WanderingOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void generatorsOahGroup::printGeneratorsOahValues (
+void Mikrokosmos3WanderingOahGroup::printMikrokosmos3WanderingOahValues (
   unsigned int fieldWidth)
 {
   gLogStream <<
-    "The generators options are:" <<
+    "The Mikrokosmos3Wandering options are:" <<
     endl;
 
   ++gIndenter;
+
+  // generation API kind
+  // --------------------------------------
+
+  gLogStream <<
+    "Generation API:" <<
+    endl;
+
+  ++gIndenter;
+
+  gLogStream << left <<
+    setw (fieldWidth) << "gnerationAPIKind" << " : " <<
+      msrGenerationAPIKindAsString (fGenerationAPIKind) <<
+      endl;
+
+  --gIndenter;
 
   // generator output kind
   // --------------------------------------
@@ -310,8 +261,8 @@ void generatorsOahGroup::printGeneratorsOahValues (
   ++gIndenter;
 
   gLogStream << left <<
-    setw (fieldWidth) << "generatorOutputKind" << " : " <<
-      generatorOutputKindAsString (fGeneratorOutputKind) <<
+    setw (fieldWidth) << "multiGeneratorOutputKind" << " : " <<
+      multiGeneratorOutputKindAsString (fGeneratorOutputKind) <<
       endl;
 
   --gIndenter;
@@ -364,41 +315,47 @@ void generatorsOahGroup::printGeneratorsOahValues (
   --gIndenter;
 }
 
-ostream& operator<< (ostream& os, const S_generatorsOahGroup& elt)
+ostream& operator<< (ostream& os, const S_Mikrokosmos3WanderingOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_generatorsOahGroup createGlobalGeneratorsOahGroup ()
+S_Mikrokosmos3WanderingOahGroup createGlobalMikrokosmos3WanderingOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
     gLogStream <<
-      "Creating global generators OAH group" <<
+      "Creating global Mikrokosmos3Wandering OAH group" <<
       endl;
   }
 #endif
 
   // protect library against multiple initializations
-  if (! gGlobalGeneratorsOahGroup) {
+  if (! gGlobalMikrokosmos3WanderingOahGroup) {
+
+    // initialize the generation API kinds map
+    // ------------------------------------------------------
+
+    initializeMsrGenerationAPI ();
+
 
     // initialize the generated output kinds map
     // ------------------------------------------------------
 
     initializeGeneratorOutputKindsMap ();
 
-    // create the generators options
+    // create the Mikrokosmos3Wandering options
     // ------------------------------------------------------
 
-    gGlobalGeneratorsOahGroup =
-      generatorsOahGroup::create ();
-    assert (gGlobalGeneratorsOahGroup != 0);
+    gGlobalMikrokosmos3WanderingOahGroup =
+      Mikrokosmos3WanderingOahGroup::create ();
+    assert (gGlobalMikrokosmos3WanderingOahGroup != 0);
   }
 
   // return the global OAH group
-  return gGlobalGeneratorsOahGroup;
+  return gGlobalMikrokosmos3WanderingOahGroup;
 }
 
 

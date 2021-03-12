@@ -301,9 +301,9 @@ oahDisplayMsdlKeywordsInLanguageAtom::oahDisplayMsdlKeywordsInLanguageAtom (
       description,
       executableName)
 {
-  this->setElementValueKind (kElementValueMandatory);
+  this->setElementValueKind (oahElementValueKind::kElementValueMandatory);
 
-  fElementHelpOnlyKind = kElementHelpOnlyYes;
+  fElementHelpOnlyKind = oahElementHelpOnlyKind::kElementHelpOnlyYes;
 
   this->setMultipleOccurrencesAllowed ();
 }
@@ -502,9 +502,9 @@ oahDisplayMsdlTokensInLanguageAtom::oahDisplayMsdlTokensInLanguageAtom (
       description,
       executableName)
 {
-  this->setElementValueKind (kElementValueMandatory);
+  this->setElementValueKind (oahElementValueKind::kElementValueMandatory);
 
-  fElementHelpOnlyKind = kElementHelpOnlyYes;
+  fElementHelpOnlyKind = oahElementHelpOnlyKind::kElementHelpOnlyYes;
 
   this->setMultipleOccurrencesAllowed ();
 }
@@ -1407,7 +1407,7 @@ msdlOahGroup::msdlOahGroup (
     "MSDR",
     "hmsdl", "help-msdl",
 R"(These options control the way MSDR data is handled.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMsdlOahGroup (
     executableName);
@@ -1425,7 +1425,7 @@ void msdlOahGroup::initializeMsdlTraceOah ()
         "MSDR Trace",
         "hmsdltrace", "help-msdl-trace",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1452,7 +1452,7 @@ void msdlOahGroup::initializeMsdlDisplayOptions ()
         "Display",
         "hmsdld", "help-msdl-display",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1491,7 +1491,7 @@ void msdlOahGroup::initializeMsdlLanguagesOptions (
         "Languages",
         "hmsdll_JMI", "help-msdl-languages_JMI",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1621,7 +1621,7 @@ void msdlOahGroup::initializeMsdlQuitAfterSomePassesOptions ()
         "Quit after some passes",
         "hmquit", "help-msdl-quit",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

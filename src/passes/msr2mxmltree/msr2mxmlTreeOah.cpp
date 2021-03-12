@@ -49,7 +49,7 @@ msr2mxmlTreeOahGroup::msr2mxmlTreeOahGroup ()
     "Msr2mxmlTree",
     "hmsr2mxmlt", "help-msr-to-mxmlTree",
 R"(These options control the way MSR is translated to xmlelement tree.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMsr2mxmlTreeOahGroup ();
 }
@@ -65,7 +65,7 @@ void msr2mxmlTreeOahGroup::initializeCodeGenerationOptions ()
         "Code generation",
         "hmxmlcg", "help-musicxml-code-generation",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

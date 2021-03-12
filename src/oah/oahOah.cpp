@@ -52,7 +52,7 @@ insiderOahAtom::insiderOahAtom (
       shortName,
       longName,
       description,
-      kElementValueWithout)
+      oahElementValueKind::kElementValueWithout)
 {}
 
 insiderOahAtom::~insiderOahAtom ()
@@ -180,7 +180,7 @@ regularOahAtom::regularOahAtom (
       shortName,
       longName,
       description,
-      kElementValueWithout)
+      oahElementValueKind::kElementValueWithout)
 {}
 
 regularOahAtom::~regularOahAtom ()
@@ -304,7 +304,7 @@ oahOahGroup::oahOahGroup (
       "Options and help",
       "hoah", "help-options-and-help",
   R"()",
-      kElementVisibilityWhole),
+      oahElementVisibilityKind::kElementVisibilityWhole),
     fHandlerExecutableName (
       executableName)
 {
@@ -323,7 +323,7 @@ void oahOahGroup::initializeOahBasicHelpOptions (
         "Options help",
         "hoh", "help-options-help",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -510,7 +510,7 @@ void oahOahGroup::initializeOahOahAndArgumentsOptions ()
         "Options and arguments",
         "oaa", "options-and-arguments",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -540,7 +540,7 @@ void oahOahGroup::initializeOahTraceOah ()
         "Options visitors trace",
         "htov", "help-trace-options-visitors",
 R"()",
-    kElementVisibilityHeaderOnly,
+    oahElementVisibilityKind::kElementVisibilityHeaderOnly,
     this);
 
   appendSubGroupToGroup (subGroup);

@@ -207,7 +207,7 @@ oahMacroAtom::oahMacroAtom (
       shortName,
       longName,
       description,
-      kElementValueWithout)
+      oahElementValueKind::kElementValueWithout)
 {}
 
 oahMacroAtom::~oahMacroAtom ()
@@ -1350,7 +1350,7 @@ oahBooleanAtom::oahBooleanAtom (
     fBooleanVariable (
       booleanVariable)
 {
-  this->setElementValueKind (kElementValueImplicit);
+  this->setElementValueKind (oahElementValueKind::kElementValueImplicit);
 }
 
 oahBooleanAtom::~oahBooleanAtom ()
@@ -1960,7 +1960,7 @@ oahCombinedBooleansAtom::oahCombinedBooleansAtom (
       shortName,
       longName,
       description,
-      kElementValueWithout)
+      oahElementValueKind::kElementValueWithout)
 {}
 
 oahCombinedBooleansAtom::~oahCombinedBooleansAtom ()
@@ -2403,7 +2403,7 @@ oahMultiplexBooleansAtom::oahMultiplexBooleansAtom (
       shortName,
       longName,
       description,
-      kElementValueWithout)
+      oahElementValueKind::kElementValueWithout)
 {
   // sanity checks
   msgAssert (
@@ -2592,7 +2592,7 @@ void oahMultiplexBooleansAtom::addBooleanAtom (
   // make this atom imvisible
   booleanAtom->
     setElementVisibilityKind (
-      kElementVisibilityNone);
+      oahElementVisibilityKind::kElementVisibilityNone);
 }
 
 void oahMultiplexBooleansAtom::addBooleanAtomByName (
@@ -3978,7 +3978,7 @@ oahMonoplexStringAtom::oahMonoplexStringAtom (
       shortName,
       longName,
       description,
-      kElementValueWithout),
+      oahElementValueKind::kElementValueWithout),
     fAtomNameDescriptor (
       atomNameDescriptor),
     fStringValueDescriptor (
@@ -4054,7 +4054,7 @@ void oahMonoplexStringAtom::addStringAtom (
   // make this atom imvisible
   stringAtom->
     setElementVisibilityKind (
-      kElementVisibilityNone);
+      oahElementVisibilityKind::kElementVisibilityNone);
 }
 
 void oahMonoplexStringAtom::addStringAtomByName (
@@ -4387,7 +4387,7 @@ oahStringWithDefaultValueAtom::oahStringWithDefaultValueAtom (
     fDefaultStringValue (
       defaultStringValue)
 {
-  this->setElementValueKind (kElementValueOptional);
+  this->setElementValueKind (oahElementValueKind::kElementValueOptional);
 }
 
 oahStringWithDefaultValueAtom::~oahStringWithDefaultValueAtom ()
@@ -7677,9 +7677,9 @@ oahOptionNameHelpAtom::oahOptionNameHelpAtom (
       stringVariable,
       defaultOptionName)
 {
-  this->setElementValueKind (kElementValueOptional);
+  this->setElementValueKind (oahElementValueKind::kElementValueOptional);
 
-  fElementHelpOnlyKind = kElementHelpOnlyYes;
+  fElementHelpOnlyKind = oahElementHelpOnlyKind::kElementHelpOnlyYes;
 
   this->setMultipleOccurrencesAllowed ();
 }
@@ -7857,9 +7857,9 @@ oahAProposOptionNameAtom::oahAProposOptionNameAtom (
       description,
       executableName)
 {
-  this->setElementValueKind (kElementValueMandatory);
+  this->setElementValueKind (oahElementValueKind::kElementValueMandatory);
 
-  fElementHelpOnlyKind = kElementHelpOnlyYes;
+  fElementHelpOnlyKind = oahElementHelpOnlyKind::kElementHelpOnlyYes;
 
   this->setMultipleOccurrencesAllowed ();
 }
@@ -8028,9 +8028,9 @@ oahFindStringAtom::oahFindStringAtom (
       description,
       executableName)
 {
-  this->setElementValueKind (kElementValueMandatory);
+  this->setElementValueKind (oahElementValueKind::kElementValueMandatory);
 
-  fElementHelpOnlyKind = kElementHelpOnlyYes;
+  fElementHelpOnlyKind = oahElementHelpOnlyKind::kElementHelpOnlyYes;
 
   this->setMultipleOccurrencesAllowed ();
 }

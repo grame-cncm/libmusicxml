@@ -42,13 +42,13 @@ string oahHandlerUsedThruKindAsString (
   string result;
 
   switch (handlerUsedThruKind) {
-    case kHandlerUsedThruUnknown: // default value
+    case oahHandlerUsedThruKind::kHandlerUsedThruUnknown: // default value
       result = "handlerUsedThruUnknown";
       break;
-    case kHandlerUsedThruArgcAndArgv:
+    case oahHandlerUsedThruKind::kHandlerUsedThruArgcAndArgv:
       result = "handlerUsedThruArgcAndArgv";
       break;
-    case kHandlerUsedThruOptionsVector:
+    case oahHandlerUsedThruKind::kHandlerUsedThruOptionsVector:
       result = "handlerUsedThruOptionsVector";
       break;
   } // switch
@@ -326,7 +326,7 @@ oahAtom::oahAtom (
       longName,
       description,
       atomValueExpectedKind,
-      kElementVisibilityWhole)
+      oahElementVisibilityKind::kElementVisibilityWhole)
 {}
 
 oahAtom::~oahAtom ()
@@ -394,12 +394,12 @@ void oahAtom::appendAtomToElementsList (
   // should not have the same name as a prefix,
   // since this would create an ambiguity
   switch (fElementValueKind) {
-    case kElementValueWithout:
-    case kElementValueImplicit:
-    case kElementValueMandatory:
+    case oahElementValueKind::kElementValueWithout:
+    case oahElementValueKind::kElementValueImplicit:
+    case oahElementValueKind::kElementValueMandatory:
       break;
 
-    case kElementValueOptional:
+    case oahElementValueKind::kElementValueOptional:
       if (handler->fetchNameInPrefixesMap (fShortName)) {
         stringstream s;
 
@@ -594,7 +594,7 @@ oahAtomExpectingAValue::oahAtomExpectingAValue (
       shortName,
       longName,
       description,
-      kElementValueMandatory)
+      oahElementValueKind::kElementValueMandatory)
 {}
 
 oahAtomExpectingAValue::~oahAtomExpectingAValue ()
@@ -761,7 +761,7 @@ oahAtomStoringAValueInAVariable::oahAtomStoringAValueInAVariable (
   fVariableName       = variableName;
   fVariableHasBeenSet = false;
 
-  this->setElementValueKind (kElementValueMandatory);
+  this->setElementValueKind (oahElementValueKind::kElementValueMandatory);
 }
 
 oahAtomStoringAValueInAVariable::~oahAtomStoringAValueInAVariable ()
@@ -925,13 +925,13 @@ void oahAtomStoringAValueInAVariable::printHelp (ostream& os) const
         getHandlerOptionalValuesStyleKind ();
 
   switch (fElementValueKind) {
-    case kElementValueWithout:
-    case kElementValueImplicit:
-    case kElementValueMandatory:
+    case oahElementValueKind::kElementValueWithout:
+    case oahElementValueKind::kElementValueImplicit:
+    case oahElementValueKind::kElementValueMandatory:
       os <<
         " " << fValueSpecification;
       break;
-    case kElementValueOptional:
+    case oahElementValueKind::kElementValueOptional:
       switch (optionalValuesStyleKind) {
         case kOptionalValuesStyleGNU: // default value
           os <<
@@ -1009,11 +1009,11 @@ oahHelpAtomWithoutValue::oahHelpAtomWithoutValue (
       shortName,
       longName,
       description,
-      kElementValueWithout)
+      oahElementValueKind::kElementValueWithout)
 {
   fHelpAtomWithoutValueExecutableName = executableName;
 
-  fElementHelpOnlyKind = kElementHelpOnlyYes;
+  fElementHelpOnlyKind = oahElementHelpOnlyKind::kElementHelpOnlyYes;
 }
 
 oahHelpAtomWithoutValue::~oahHelpAtomWithoutValue ()
@@ -1256,14 +1256,14 @@ oahSubGroup::oahSubGroup (
       shortName,
       longName,
       description,
-      kElementValueWithout,
+      oahElementValueKind::kElementValueWithout,
       optionVisibilityKind)
 {
   fGroupUpLink = groupUpLink;
 
   fSubGroupHeader = subGroupHeader;
 
-  fElementHelpOnlyKind = kElementHelpOnlyYes;
+  fElementHelpOnlyKind = oahElementHelpOnlyKind::kElementHelpOnlyYes;
 
   fNumberOfUserChoseAtomsInThisSubGroup = 0;
 }
@@ -1660,20 +1660,20 @@ void oahSubGroup::printSubGroupHeader (ostream& os) const
     fetchNamesBetweenParentheses ();
 
   switch (fElementVisibilityKind) {
-    case kElementVisibilityNone:
+    case oahElementVisibilityKind::kElementVisibilityNone:
       break;
 
-    case kElementVisibilityWhole:
+    case oahElementVisibilityKind::kElementVisibilityWhole:
       os <<
         ":";
       break;
 
-    case kElementVisibilityHeaderOnly:
+    case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
       os <<
         " (use this option to show this subgroup)";
       break;
 
-    case kElementVisibilityHidden:
+    case oahElementVisibilityKind::kElementVisibilityHidden:
       break;
   } // switch
 
@@ -1692,20 +1692,20 @@ void oahSubGroup::printSubGroupHeaderWithHeaderWidth (
     fetchNamesBetweenParentheses ();
 
   switch (fElementVisibilityKind) {
-    case kElementVisibilityNone:
+    case oahElementVisibilityKind::kElementVisibilityNone:
       break;
 
-    case kElementVisibilityWhole:
+    case oahElementVisibilityKind::kElementVisibilityWhole:
       os <<
         ":";
       break;
 
-    case kElementVisibilityHeaderOnly:
+    case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
       os <<
         " (use this option to show this subgroup)";
       break;
 
-    case kElementVisibilityHidden:
+    case oahElementVisibilityKind::kElementVisibilityHidden:
       break;
   } // switch
 
@@ -1731,10 +1731,10 @@ void oahSubGroup::printHelp (ostream& os) const
 
   // print the options atoms if relevant
   switch (fElementVisibilityKind) {
-    case kElementVisibilityNone:
+    case oahElementVisibilityKind::kElementVisibilityNone:
       break;
 
-    case kElementVisibilityWhole:
+    case oahElementVisibilityKind::kElementVisibilityWhole:
       if (fSubGroupAtomsList.size ()) {
         ++gIndenter;
 
@@ -1747,13 +1747,13 @@ void oahSubGroup::printHelp (ostream& os) const
 
           // print the atom help unless it is not visible
           switch (atom->getElementVisibilityKind ()) {
-            case kElementVisibilityWhole:
-            case kElementVisibilityHeaderOnly:
+            case oahElementVisibilityKind::kElementVisibilityWhole:
+            case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
               atom->printHelp (os);
               break;
 
-            case kElementVisibilityNone:
-            case kElementVisibilityHidden:
+            case oahElementVisibilityKind::kElementVisibilityNone:
+            case oahElementVisibilityKind::kElementVisibilityHidden:
               break;
           } // switch
 
@@ -1764,10 +1764,10 @@ void oahSubGroup::printHelp (ostream& os) const
       }
       break;
 
-    case kElementVisibilityHeaderOnly:
+    case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
       break;
 
-    case kElementVisibilityHidden:
+    case oahElementVisibilityKind::kElementVisibilityHidden:
       break;
   } // switch
 }
@@ -1799,7 +1799,7 @@ void oahSubGroup::printHelpWithHeaderWidth (
 
   // print the options atoms if relevant
   switch (fElementVisibilityKind) {
-    case kElementVisibilityWhole:
+    case oahElementVisibilityKind::kElementVisibilityWhole:
       if (fSubGroupAtomsList.size ()) {
         ++gIndenter;
 
@@ -1812,13 +1812,13 @@ void oahSubGroup::printHelpWithHeaderWidth (
 
           // print the atom help unless it is not visible
           switch (atom->getElementVisibilityKind ()) {
-            case kElementVisibilityWhole:
-            case kElementVisibilityHeaderOnly:
+            case oahElementVisibilityKind::kElementVisibilityWhole:
+            case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
               atom->printHelp (os);
               break;
 
-            case kElementVisibilityNone:
-            case kElementVisibilityHidden:
+            case oahElementVisibilityKind::kElementVisibilityNone:
+            case oahElementVisibilityKind::kElementVisibilityHidden:
               break;
           } // switch
 
@@ -1829,11 +1829,11 @@ void oahSubGroup::printHelpWithHeaderWidth (
       }
       break;
 
-    case kElementVisibilityHeaderOnly:
+    case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
       break;
 
-    case kElementVisibilityNone:
-    case kElementVisibilityHidden:
+    case oahElementVisibilityKind::kElementVisibilityNone:
+    case oahElementVisibilityKind::kElementVisibilityHidden:
       break;
   } // switch
 }
@@ -1900,18 +1900,18 @@ void oahSubGroup::printOptionsSummary (
     fetchNamesBetweenParentheses ();
 
   switch (fElementVisibilityKind) {
-    case kElementVisibilityNone:
+    case oahElementVisibilityKind::kElementVisibilityNone:
       break;
 
-    case kElementVisibilityWhole:
+    case oahElementVisibilityKind::kElementVisibilityWhole:
       break;
 
-    case kElementVisibilityHeaderOnly:
+    case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
       os <<
         " (use this option to show this subgroup)";
       break;
 
-    case kElementVisibilityHidden:
+    case oahElementVisibilityKind::kElementVisibilityHidden:
       break;
   } // switch
 
@@ -2108,14 +2108,14 @@ oahGroup::oahGroup (
       shortName,
       longName,
       description,
-      kElementValueWithout,
+      oahElementValueKind::kElementValueWithout,
       optionVisibilityKind)
 {
   fGroupHeader = header;
 
   fGroupHeaderIsToBeWritten = true; // default value
 
-  fElementHelpOnlyKind = kElementHelpOnlyYes;
+  fElementHelpOnlyKind = oahElementHelpOnlyKind::kElementHelpOnlyYes;
 
   fNumberOfUserChoseAtomsInThisGroup = 0;
 }
@@ -2131,7 +2131,7 @@ oahGroup::oahGroup (
       shortName,
       longName,
       description,
-      kElementValueWithout,
+      oahElementValueKind::kElementValueWithout,
       optionVisibilityKind)
 {
   fHandlerUpLink = groupHandlerUpLink;
@@ -2574,20 +2574,20 @@ void oahGroup::printGroupHeader (ostream& os) const
     fetchNamesBetweenParentheses ();
 
   switch (fElementVisibilityKind) {
-    case kElementVisibilityNone:
+    case oahElementVisibilityKind::kElementVisibilityNone:
       break;
 
-    case kElementVisibilityWhole:
+    case oahElementVisibilityKind::kElementVisibilityWhole:
       os <<
         ":";
       break;
 
-    case kElementVisibilityHeaderOnly:
+    case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
       os <<
         " (use this option to show this group)";
       break;
 
-    case kElementVisibilityHidden:
+    case oahElementVisibilityKind::kElementVisibilityHidden:
       break;
   } // switch
 
@@ -2791,12 +2791,12 @@ void oahGroup::printGroupAndSubGroupSpecificHelp (
 #endif
 
   switch (fElementVisibilityKind) {
-    case kElementVisibilityNone:
-    case kElementVisibilityWhole:
-    case kElementVisibilityHeaderOnly:
+    case oahElementVisibilityKind::kElementVisibilityNone:
+    case oahElementVisibilityKind::kElementVisibilityWhole:
+    case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
       break;
 
-    case kElementVisibilityHidden:
+    case oahElementVisibilityKind::kElementVisibilityHidden:
       // don't print specific help for this group
       return;
       break;
@@ -2898,12 +2898,12 @@ void oahGroup::findStringInGroup (
   ostream&      os) const
 {
   switch (fElementVisibilityKind) { // JMI remove???
-    case kElementVisibilityNone:
-    case kElementVisibilityWhole:
-    case kElementVisibilityHeaderOnly:
+    case oahElementVisibilityKind::kElementVisibilityNone:
+    case oahElementVisibilityKind::kElementVisibilityWhole:
+    case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
       break;
 
-    case kElementVisibilityHidden:
+    case oahElementVisibilityKind::kElementVisibilityHidden:
       // don't use this groups's data to find the string
       return;
       break;
@@ -2996,10 +2996,10 @@ void oahHandler::initializeHandler ()
   fNowEverythingIsAnArgument = false;
 
   // default values style // JMI NOT USED as of 21/11/2020
-  fOahOptionsDefaultValuesStyle = kOAHStyle;
+  fOahOptionsDefaultValuesStyle = oahOptionsDefaultValuesStyle::kOAHStyle;
 
   // handler used thru...?
-  fHandlerUsedThruKind = kHandlerUsedThruUnknown;
+  fHandlerUsedThruKind = oahHandlerUsedThruKind::kHandlerUsedThruUnknown;
 
   // sizes and widths
   fMaximumSubGroupsHeadersSize = 1;
@@ -4230,19 +4230,19 @@ void oahHandler::printHelp (ostream& os) const
       if (group->getGroupSubGroupsList ().size ()) {
         // print the options subgroups if relevant
         switch (group->getElementVisibilityKind ()) {
-          case kElementVisibilityNone:
+          case oahElementVisibilityKind::kElementVisibilityNone:
             break;
 
-          case kElementVisibilityWhole:
+          case oahElementVisibilityKind::kElementVisibilityWhole:
             group->printHelp (os);
             break;
 
-          case kElementVisibilityHeaderOnly:
+          case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
             group->printGroupHeader (os);
             group->underlineGroupHeader(os);
             break;
 
-          case kElementVisibilityHidden:
+          case oahElementVisibilityKind::kElementVisibilityHidden:
             break;
         } // switch
       }
@@ -4662,17 +4662,17 @@ void oahHandler::printHandlerOptionsValues (
 
       // print the options group values if relevant
       switch (group->getElementVisibilityKind ()) {
-        case kElementVisibilityNone:
+        case oahElementVisibilityKind::kElementVisibilityNone:
           break;
 
-        case kElementVisibilityWhole:
-        case kElementVisibilityHeaderOnly:
+        case oahElementVisibilityKind::kElementVisibilityWhole:
+        case oahElementVisibilityKind::kElementVisibilityHeaderOnly:
           group->
             printGroupOptionsValues (
               os, fMaximumVariableNameWidth);
           break;
 
-        case kElementVisibilityHidden:
+        case oahElementVisibilityKind::kElementVisibilityHidden:
           break;
       } // switch
 
@@ -4944,10 +4944,10 @@ string optionsDefaultValuesStyleAsString (
   string result;
 
   switch (optionsDefaultValuesStyle) {
-    case kGNUStyle:
+    case oahOptionsDefaultValuesStyle::kGNUStyle:
       result = "GNUStyle";
       break;
-    case kOAHStyle:
+    case oahOptionsDefaultValuesStyle::kOAHStyle:
       result = "OAHStyle";
       break;
   } // switch
@@ -6264,11 +6264,11 @@ void oahHandler::createElementUsesListFromOptionsVector (
 
   // sanity check
   switch (fHandlerUsedThruKind) {
-    case kHandlerUsedThruUnknown: // default value
+    case oahHandlerUsedThruKind::kHandlerUsedThruUnknown: // default value
         fHandlerUsedThruKind =
-          kHandlerUsedThruOptionsVector;
+          oahHandlerUsedThruKind::kHandlerUsedThruOptionsVector;
       break;
-    case kHandlerUsedThruArgcAndArgv:
+    case oahHandlerUsedThruKind::kHandlerUsedThruArgcAndArgv:
       {
         stringstream s;
 
@@ -6280,7 +6280,7 @@ void oahHandler::createElementUsesListFromOptionsVector (
         oahError (s.str ());
       }
       break;
-    case kHandlerUsedThruOptionsVector:
+    case oahHandlerUsedThruKind::kHandlerUsedThruOptionsVector:
       {
         stringstream s;
 
@@ -6364,10 +6364,10 @@ void oahHandler::createElementUsesListFromArgcAndArgv (
 
   // sanity check
   switch (fHandlerUsedThruKind) {
-    case kHandlerUsedThruUnknown: // default value
-        fHandlerUsedThruKind = kHandlerUsedThruArgcAndArgv;
+    case oahHandlerUsedThruKind::kHandlerUsedThruUnknown: // default value
+        fHandlerUsedThruKind = oahHandlerUsedThruKind::kHandlerUsedThruArgcAndArgv;
       break;
-    case kHandlerUsedThruArgcAndArgv:
+    case oahHandlerUsedThruKind::kHandlerUsedThruArgcAndArgv:
       {
         stringstream s;
 
@@ -6379,7 +6379,7 @@ void oahHandler::createElementUsesListFromArgcAndArgv (
         oahError (s.str ());
       }
       break;
-    case kHandlerUsedThruOptionsVector:
+    case oahHandlerUsedThruKind::kHandlerUsedThruOptionsVector:
       {
         stringstream s;
 
@@ -6588,7 +6588,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
               dynamic_cast<oahAtomExpectingAValue*>(&(*elementUsed))
         ) {
           switch (atomExpectingAValue->getElementValueKind ()) {
-            case kElementValueWithout:
+            case oahElementValueKind::kElementValueWithout:
               {
                 stringstream s;
 
@@ -6601,13 +6601,13 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
               }
               break;
 
-            case kElementValueImplicit:
+            case oahElementValueKind::kElementValueImplicit:
               atomExpectingAValue->
                 applyAtomWithDefaultValue (
                   gOutputStream);
               break;
 
-            case kElementValueMandatory:
+            case oahElementValueKind::kElementValueMandatory:
               if (valueUsed.size ()) {
                 atomExpectingAValue->
                   applyAtomWithValue (
@@ -6626,7 +6626,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
               }
               break;
 
-            case kElementValueOptional:
+            case oahElementValueKind::kElementValueOptional:
               if (valueUsed.size ()) {
                 atomExpectingAValue->
                   applyAtomWithValue (
@@ -6666,14 +6666,14 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
 
         // has a help-only been applied?
         switch (elementUsed->getElementHelpOnlyKind ()) {
-          case kElementHelpOnlyYes:
+          case oahElementHelpOnlyKind::kElementHelpOnlyYes:
             // a help option has been applied
             this->
               setOahHandlerFoundAHelpOption (
                 elementUsed->
                   fetchNamesBetweenQuotes ());
             break;
-          case kElementHelpOnlyNo:
+          case oahElementHelpOnlyKind::kElementHelpOnlyNo:
             break;
         } // switch
       }
@@ -6720,7 +6720,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
         "This is a help-only run " <<
         endl;
 
-      return kElementHelpOnlyYes;
+      return oahElementHelpOnlyKind::kElementHelpOnlyYes;
     }
     else {
       gLogStream <<
@@ -6747,8 +6747,8 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
 
   return
     fOahHandlerFoundAHelpOption
-      ? kElementHelpOnlyYes
-      : kElementHelpOnlyNo;
+      ? oahElementHelpOnlyKind::kElementHelpOnlyYes
+      : oahElementHelpOnlyKind::kElementHelpOnlyNo;
 }
 
 void oahHandler::handleKnownOptionsVectorElementUnderName (
@@ -7064,13 +7064,13 @@ void oahHandler::handleKnownOptionsVectorAtomUnderName (
 #endif
 
   switch (atom->getElementValueKind ()) {
-    case kElementValueWithout:
-    case kElementValueImplicit:
+    case oahElementValueKind::kElementValueWithout:
+    case oahElementValueKind::kElementValueImplicit:
       registerElementUse (
         atom, optionNameUsed, ""); // "===options vector atom without value==="); // JMI to debug
       break;
 
-    case kElementValueMandatory:
+    case oahElementValueKind::kElementValueMandatory:
       if (
         // argv atom expecting a value?
         S_oahAtomExpectingAValue
@@ -7087,13 +7087,13 @@ void oahHandler::handleKnownOptionsVectorAtomUnderName (
         s <<
           "argv atom " <<
           atom->fetchNamesBetweenQuotes () <<
-          " is not expecting a value even though its kind is kElementValueMandatory";
+          " is not expecting a value even though its kind is oahElementValueKind::kElementValueMandatory";
 
         oahInternalError (s.str ());
       }
       break;
 
-    case kElementValueOptional:
+    case oahElementValueKind::kElementValueOptional:
       registerElementUse (
         atom, optionNameUsed, ""); // "===atom with optional value===" JMI to debug
       break;
@@ -7131,8 +7131,8 @@ void oahHandler::handleKnownArgvAtomUnderName (
   }
 
   switch (atom->getElementValueKind ()) {
-    case kElementValueWithout:
-    case kElementValueImplicit:
+    case oahElementValueKind::kElementValueWithout:
+    case oahElementValueKind::kElementValueImplicit:
       registerElementUse (
         atom, optionNameUsed, ""); // "===argv atom without value==="); // JMI to debug
 
@@ -7140,7 +7140,7 @@ void oahHandler::handleKnownArgvAtomUnderName (
       fNameUsedForPendingArgvAtomExpectingAValue = "";
       break;
 
-    case kElementValueMandatory:
+    case oahElementValueKind::kElementValueMandatory:
       if (
         // argv atom expecting a value?
         S_oahAtomExpectingAValue
@@ -7160,13 +7160,13 @@ void oahHandler::handleKnownArgvAtomUnderName (
         s <<
           "argv atom " <<
           atom->fetchNamesBetweenQuotes () <<
-          " is not expecting a value even though its kind is kElementValueMandatory";
+          " is not expecting a value even though its kind is oahElementValueKind::kElementValueMandatory";
 
         oahInternalError (s.str ());
       }
       break;
 
-    case kElementValueOptional:
+    case oahElementValueKind::kElementValueOptional:
       registerElementUse (
         atom, optionNameUsed, ""); // "===use default value===" // JMI to debug
 
@@ -7413,9 +7413,9 @@ oahAtomWithoutValue::oahAtomWithoutValue (
       shortName,
       longName,
       description,
-      kElementValueWithout)
+      oahElementValueKind::kElementValueWithout)
 {
-  this->setElementValueKind (kElementValueWithout);
+  this->setElementValueKind (oahElementValueKind::kElementValueWithout);
 }
 
 oahAtomWithoutValue::~oahAtomWithoutValue ()

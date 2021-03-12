@@ -705,7 +705,7 @@ mxmlTree2msrOahGroup::mxmlTree2msrOahGroup (
     "Mxmltree2msr",
     "hmxmlt2msr", "help-mxmlTree-to-msr",
 R"(These options control the way xmlelement trees are translated to MSR.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   createTheMxmlTree2msrPrefixes (handler);
 
@@ -807,7 +807,7 @@ void mxmlTree2msrOahGroup::initializeMxmlTree2msrTraceOptions ()
         "mxmlTree2msr Trace",
         "hmxmlt2ot", "help-mxmlTree-to-oah-trace",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -822,7 +822,7 @@ void mxmlTree2msrOahGroup::initializeHeaderOptions ()
         "Header",
         "hmxmlh", "help-musicxml-header",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -863,7 +863,7 @@ void mxmlTree2msrOahGroup::initializePartsOptions ()
       "Parts",
       "hm2p", "help-msr-to-lpsr-parts",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -949,7 +949,7 @@ void mxmlTree2msrOahGroup::initializeClefsKeysTimesOptions ()
         "Clefs, keys, times",
         "hmxmlckt", "help-musicxml-clefs-keys-times",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1067,7 +1067,7 @@ void mxmlTree2msrOahGroup::initializeMeasuresOptions ()
         "Measures",
         "hmxmlm", "help-musicxml-measures",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1100,7 +1100,7 @@ void mxmlTree2msrOahGroup::initializeNotesOptions ()
       "Notes",
       "hmsrn", "help-msr-notes",
 R"()",
-    kElementVisibilityWhole,
+    oahElementVisibilityKind::kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -1481,7 +1481,7 @@ void mxmlTree2msrOahGroup::initializeWordsOptions ()
         "Words",
         "hmxmlw", "help-musicxml-words",
 R"(Omit words in MusicXML data.)",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1507,7 +1507,7 @@ void mxmlTree2msrOahGroup::initializeDynamicsAndWedgesOptions ()
         "Dynamics and wedges",
         "hmxmldaw", "help-musicxml-dynamics-and-wedges",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1547,7 +1547,7 @@ void mxmlTree2msrOahGroup::initializeCombinedOptionsOptions ()
         "Combined options",
         "hmxmltco", "help-mxmlTree-combined-options",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);

@@ -232,7 +232,7 @@ extraShowAllHarmoniesContentsAtom::extraShowAllHarmoniesContentsAtom (
     fStringVariable (
       extraShowAllHarmoniesContentsVariable)
 {
-  fElementHelpOnlyKind = kElementHelpOnlyYes;
+  fElementHelpOnlyKind = oahElementHelpOnlyKind::kElementHelpOnlyYes;
 }
 
 extraShowAllHarmoniesContentsAtom::~extraShowAllHarmoniesContentsAtom ()
@@ -473,7 +473,7 @@ extraShowHarmonyDetailsAtom::extraShowHarmonyDetailsAtom (
     fStringVariable (
       extraShowHarmonyDetailsVariable)
 {
-  fElementHelpOnlyKind = kElementHelpOnlyYes;
+  fElementHelpOnlyKind = oahElementHelpOnlyKind::kElementHelpOnlyYes;
 }
 
 extraShowHarmonyDetailsAtom::~extraShowHarmonyDetailsAtom ()
@@ -769,7 +769,7 @@ extraShowHarmonyAnalysisAtom::extraShowHarmonyAnalysisAtom (
     fStringVariable (
       extraShowHarmonyAnalysisVariable)
 {
-  fElementHelpOnlyKind = kElementHelpOnlyYes;
+  fElementHelpOnlyKind = oahElementHelpOnlyKind::kElementHelpOnlyYes;
 }
 
 extraShowHarmonyAnalysisAtom::~extraShowHarmonyAnalysisAtom ()
@@ -1095,7 +1095,7 @@ In the text below:
         "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeExtraOahGroup ();
 }
@@ -1111,7 +1111,7 @@ void extraOahGroup::initializeExtraShowAllHarmoniesStructuresOptions ()
         "Harmonies structures",
         "hecs", "help-extra-harmonies-structures",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1135,7 +1135,7 @@ void extraOahGroup::initializeExtraShowAllHarmoniesContentsOptions ()
 //            existingHarmonyKindsNames ()
 //    HARMONY_KINDS.
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1159,7 +1159,7 @@ void extraOahGroup::initializeExtraShowHarmonyDetailsOptions ()
         "Harmony details",
         "hecd", "help-extra-harmony-details",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1193,7 +1193,7 @@ void extraOahGroup::initializeExtraShowHarmonyAnalysisOptions ()
         "Harmony analysis",
         "heca", "help-extra-harmony-analysis",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);

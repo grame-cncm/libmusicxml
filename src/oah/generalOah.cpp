@@ -48,7 +48,7 @@ generalOahGroup::generalOahGroup ()
     "General",
     "hg", "help-general",
 R"()",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeGeneralOah ();
 }
@@ -64,7 +64,7 @@ void generalOahGroup::initializeGeneralWarningAndErrorsOptions ()
         "Warnings and errors",
         "hwae", "help-warnings-and-errors",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -135,7 +135,7 @@ void generalOahGroup::initializeGeneralCPUUsageOptions ()
         "CPU usage",
         "hgcpu", "help-general-cpu-usage",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

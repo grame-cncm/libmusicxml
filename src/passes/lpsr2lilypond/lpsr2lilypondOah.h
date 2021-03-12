@@ -829,22 +829,17 @@ typedef SMARTP<lilypondLyricsDurationsKindAtom> S_lilypondLyricsDurationsKindAto
 EXP ostream& operator<< (ostream& os, const S_lilypondLyricsDurationsKindAtom& elt);
 
 //______________________________________________________________________________
+enum class lilypondScoreNotationKind {
+  kNotationWestern,
+  kNotationJianpu,
+  kNotationABC // not used yet
+};
+
+extern string lilypondScoreNotationKindAsString (
+  lilypondScoreNotationKind notationKind);
+
 class EXP lpsr2lilypondOahGroup : public oahGroup
 {
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum scoreNotationKind {
-      kWesternNotation,
-      kJianpuNotation,
-      kABCNotation // not used yet
-    };
-
-    static string scoreNotationKindAsString (
-      scoreNotationKind notationKind);
-
   public:
 
     // creation
@@ -1509,7 +1504,7 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
     // score notation
     // --------------------------------------
 
-    // scoreNotationKind     fScoreNotationKind; JMI ???
+    // lilypondScoreNotationKind     fScoreNotationKind; JMI ???
     bool                  fJianpu;
 
     // lyluatex output

@@ -123,22 +123,6 @@ class EXP msdl2gmnInsiderOahGroup : public oahGroup
     // set and get
     // ------------------------------------------------------
 
-    // Guido
-    void                  setGenerateComments ()
-                              { fGenerateComments = true; }
-    bool                  getGenerateComments () const
-                              { return fGenerateComments; }
-
-    void                  setGenerateStem ()
-                              { fGenerateStem = true; }
-    bool                  getGenerateStem () const
-                              { return fGenerateStem; }
-
-    void                  setGenerateBars ()
-                              { fGenerateBars = true; }
-    bool                  getGenerateBars () const
-                              { return fGenerateBars; }
-
     // quit after some passes
     void                  setQuitAfterPass2a ()
                               { fQuitAfterPass2a = true; }
@@ -186,19 +170,10 @@ class EXP msdl2gmnInsiderOahGroup : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  createInsiderGuidoSubGroup ();
-
-    void                  createInsiderQuitSubGroup ();
-
   private:
 
     // private fields
     // ------------------------------------------------------
-
-    // Guido
-    bool                  fGenerateComments;
-    bool                  fGenerateStem;
-    bool                  fGenerateBars;
 
     // quit after some passes
     bool                  fQuitAfterPass2a;
@@ -210,7 +185,7 @@ EXP ostream& operator<< (ostream& os, const S_msdl2gmnInsiderOahGroup& elt);
 EXP extern S_msdl2gmnInsiderOahGroup gGlobalMsdl2gmnInsiderOahGroup;
 
 //______________________________________________________________________________
-S_msdl2gmnInsiderOahGroup createGlobalMsdl2gmnOahGroup ();
+S_msdl2gmnInsiderOahGroup createGlobalMsdl2gmnInsiderOahGroup ();
 
 
 }

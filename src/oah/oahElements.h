@@ -30,7 +30,7 @@ const int K_OAH_FIELD_WIDTH = 40;
 // data types
 // ------------------------------------------------------
 
-enum oahElementValueKind {
+enum class oahElementValueKind {
   kElementValueWithout,   // i.e. -cpu, -minimal, -cubase, groups and subgroups elements
   kElementValueImplicit,  // for oahBoolean
   kElementValueMandatory, // i.e. -global-staff-size 30
@@ -40,8 +40,8 @@ enum oahElementValueKind {
 string elementValueKindAsString (
   oahElementValueKind elementValueKind);
 
-enum oahElementVisibilityKind {
-  kElementVisibilityNone, // default value
+enum class oahElementVisibilityKind {
+kElementVisibilityNone, // default value
   kElementVisibilityWhole,
   kElementVisibilityHeaderOnly,
   kElementVisibilityHidden
@@ -50,7 +50,7 @@ enum oahElementVisibilityKind {
 string elementVisibilityKindAsString (
   oahElementVisibilityKind elementVisibilityKind);
 
-enum EXP oahElementHelpOnlyKind {
+enum class oahElementHelpOnlyKind {
   kElementHelpOnlyYes,
   kElementHelpOnlyNo
 };

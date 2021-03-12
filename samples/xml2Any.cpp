@@ -29,7 +29,7 @@
 
 #include "waeMessagesHandling.h"
 
-#include "generatorsBasicTypes.h"
+#include "multiGeneratorsOah.h"
 
 
 using namespace std;
@@ -140,11 +140,11 @@ static bool arguments2optionsVector (int argc, char *argv[], optionsVector& theO
 }
 
 //_______________________________________________________________________________
-static generatorOutputKind gGeneratorOutputKind = k_NoOutput;
+static multiGeneratorOutputKind gGeneratorOutputKind = multiGeneratorOutputKind::k_NoOutput;
 
-void registerGeneratorOutputKind (generatorOutputKind kind)
+void registerGeneratorOutputKind (multiGeneratorOutputKind kind)
 {
-  if (gGeneratorOutputKind != k_NoOutput) {
+  if (gGeneratorOutputKind != multiGeneratorOutputKind::k_NoOutput) {
     cerr << "only one of '-lilypond', '-braille' and '-musicxml' can be used" << endl;
     exit (2);
   }
@@ -206,26 +206,26 @@ int main (int argc, char *argv[])
   }
 #endif
 
-  // take generatorOutputKind options into account if any
+  // take multiGeneratorOutputKind options into account if any
   // ------------------------------------------------------
 
 	optionsVector keptOptions;
 
 	for (auto option: theOptionsVector) {
 	  if (option.first      == "-guido") {
-	    registerGeneratorOutputKind (kGuidoOutput);
+	    registerGeneratorOutputKind (multiGeneratorOutputKind::kGuidoOutput);
 	  }
 	  else if (option.first == "-lilypond") {
-	    registerGeneratorOutputKind (kLilyPondOutput);
+	    registerGeneratorOutputKind (multiGeneratorOutputKind::kLilyPondOutput);
 	  }
 	  else if (option.first == "-braille") {
-	    registerGeneratorOutputKind (kBrailleOutput);
+	    registerGeneratorOutputKind (multiGeneratorOutputKind::kBrailleOutput);
 	  }
 	  else if (option.first == "-musicxml") {
-	    registerGeneratorOutputKind (kMusicXMLOutput);
+	    registerGeneratorOutputKind (multiGeneratorOutputKind::kMusicXMLOutput);
 	  }
 	  else if (option.first == "-midi") {
-	    registerGeneratorOutputKind (kMidiOutput);
+	    registerGeneratorOutputKind (multiGeneratorOutputKind::kMidiOutput);
 	  }
 	  else {
 	    keptOptions.push_back (option);
@@ -239,15 +239,15 @@ int main (int argc, char *argv[])
 #endif
 
   // the default is '-lilypond'
-  if (gGeneratorOutputKind == k_NoOutput) {
-    gGeneratorOutputKind = kLilyPondOutput;
+  if (gGeneratorOutputKind == multiGeneratorOutputKind::k_NoOutput) {
+    gGeneratorOutputKind = multiGeneratorOutputKind::kLilyPondOutput;
   }
 
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
     cerr <<
-      "==> generatorOutputKind: " <<
-      generatorOutputKindAsString (gGeneratorOutputKind) <<
+      "==> multiGeneratorOutputKind: " <<
+      multiGeneratorOutputKindAsString (gGeneratorOutputKind) <<
       endl;
   }
 #endif
@@ -267,35 +267,35 @@ int main (int argc, char *argv[])
 #endif
 
     switch (gGeneratorOutputKind) {
-      case k_NoOutput:
+      case multiGeneratorOutputKind::k_NoOutput:
         // should not occur
         break;
 
-      case kGuidoOutput:
+      case multiGeneratorOutputKind::kGuidoOutput:
         err =
           musicxmlfd2guido (
             stdin, keptOptions, cout, cerr);
         break;
 
-      case kLilyPondOutput:
+      case multiGeneratorOutputKind::kLilyPondOutput:
         err =
           musicxmlfd2lilypond (
             stdin, keptOptions, cout, cerr);
         break;
 
-      case kBrailleOutput:
+      case multiGeneratorOutputKind::kBrailleOutput:
         err =
           musicxmlfd2braille (
             stdin, keptOptions, cout, cerr);
         break;
 
-      case kMusicXMLOutput:
+      case multiGeneratorOutputKind::kMusicXMLOutput:
         err =
           musicxmlfd2musicxml (
             stdin, keptOptions, cout, cerr);
         break;
 
-      case kMidiOutput:
+      case multiGeneratorOutputKind::kMidiOutput:
         gLogStream <<
           "MIDI output is not implemented yet 2" <<
           endl;
@@ -310,7 +310,7 @@ int main (int argc, char *argv[])
         cerr <<
           executableName <<
           ", " <<
-          generatorOutputKindAsString (gGeneratorOutputKind) <<
+          multiGeneratorOutputKindAsString (gGeneratorOutputKind) <<
           ", from stdin, err = " <<
           err <<
           endl;
@@ -328,35 +328,35 @@ int main (int argc, char *argv[])
 #endif
 
     switch (gGeneratorOutputKind) {
-      case k_NoOutput:
+      case multiGeneratorOutputKind::k_NoOutput:
         // should not occur
         break;
 
-      case kGuidoOutput:
+      case multiGeneratorOutputKind::kGuidoOutput:
         err =
           musicxmlfile2guido (
             inputFileName, keptOptions, cout, cerr);
         break;
 
-      case kLilyPondOutput:
+      case multiGeneratorOutputKind::kLilyPondOutput:
         err =
           musicxmlfile2lilypond (
             inputFileName, keptOptions, cout, cerr);
         break;
 
-      case kBrailleOutput:
+      case multiGeneratorOutputKind::kBrailleOutput:
         err =
           musicxmlfile2braille (
             inputFileName, keptOptions, cout, cerr);
         break;
 
-      case kMusicXMLOutput:
+      case multiGeneratorOutputKind::kMusicXMLOutput:
         err =
           musicxmlfile2musicxml (
             inputFileName, keptOptions, cout, cerr);
         break;
 
-      case kMidiOutput:
+      case multiGeneratorOutputKind::kMidiOutput:
         gLogStream <<
           "MIDI output is not implemented yet 3" <<
           endl;
@@ -371,7 +371,7 @@ int main (int argc, char *argv[])
         cerr <<
           executableName <<
           ", " <<
-          generatorOutputKindAsString (gGeneratorOutputKind) <<
+          multiGeneratorOutputKindAsString (gGeneratorOutputKind) <<
           ", from a file \"" << inputFileName << "\", err = " <<
           err <<
           endl;

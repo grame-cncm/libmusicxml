@@ -49,7 +49,7 @@ typedef SMARTP<oahHandler> S_oahHandler;
 // options default value styles // superfluous ??? JMI
 // ------------------------------------------------------
 
-enum oahOptionsDefaultValuesStyle {
+enum class oahOptionsDefaultValuesStyle {
   kGNUStyle,
   kOAHStyle
 };
@@ -59,7 +59,7 @@ string optionsDefaultValuesStyleAsString (
 
 // handler used thru...?
 //______________________________________________________________________________
-enum oahHandlerUsedThruKind {
+enum class oahHandlerUsedThruKind {
   kHandlerUsedThruUnknown, // default value
   kHandlerUsedThruArgcAndArgv,
   kHandlerUsedThruOptionsVector
@@ -325,7 +325,7 @@ class EXP oahAtomExpectingAValue : public oahAtom
 
     virtual void          applyAtomWithDefaultValue (ostream& os);
                             // used only if fElementValueKind
-                            // is kElementValueImplicit or kElementValueOptional
+                            // is oahElementValueKind::kElementValueImplicit or oahElementValueKind::kElementValueOptional
 
   public:
 
@@ -1391,7 +1391,7 @@ EXP ostream& operator<< (ostream& os, const S_oahHandler& elt);
 
 // optional values style
 //______________________________________________________________________________
-enum oahOptionalValuesStyleKind {
+enum class oahOptionalValuesStyleKind {
   kOptionalValuesStyleGNU, // default value
   kOptionalValuesStyleOAH
 };

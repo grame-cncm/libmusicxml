@@ -17,7 +17,7 @@
 
 #include "msr.h"
 
-#include "generatorsBasicTypes.h"
+#include "multiGeneratorsOah.h"
 
 #include "msrGeneratorsBasicTypes.h"
 

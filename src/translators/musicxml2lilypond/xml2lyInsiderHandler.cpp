@@ -138,22 +138,22 @@ string xml2lyInsiderHandler::usageFromUsedThruKind (
   string result;
 
   switch (handlerUsedThruKind) {
-    case kHandlerUsedThruUnknown:
+    case oahHandlerUsedThruKind::kHandlerUsedThruUnknown:
       {
         stringstream s;
 
         s <<
-          "kHandlerUsedThruUnknown found in usageFromUsedThruKind() in handler \"" <<
+          "oahHandlerUsedThruKind::kHandlerUsedThruUnknown found in usageFromUsedThruKind() in handler \"" <<
           fHandlerHeader <<
           "\"";
 
         oahInternalError (s.str ());
       }
       break;
-    case kHandlerUsedThruArgcAndArgv:
+    case oahHandlerUsedThruKind::kHandlerUsedThruArgcAndArgv:
       result = fHandlerExecutableName + " [[option]* [MusicXMLFile|-] [[option]*"; // JMI ???
       break;
-    case kHandlerUsedThruOptionsVector:
+    case oahHandlerUsedThruKind::kHandlerUsedThruOptionsVector:
       result = "Usage: [options]";
       break;
   } // switch
@@ -623,7 +623,7 @@ xml2lyInsiderOahGroup::xml2lyInsiderOahGroup ()
     "xml2ly",
     "hx2l", "help-xml2ly",
 R"(Options that are used by xml2ly are grouped here.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeXml2lyInsiderOahGroup ();
 }
@@ -669,7 +669,7 @@ void xml2lyInsiderOahGroup::createInsiderQuitSubGroup ()
         "Quit after some passes",
         "hm2lquit", "help-msr2ly-quit",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (quitAfterSomePassesSubGroup);

@@ -51,7 +51,7 @@ musicxmlOahGroup::musicxmlOahGroup ()
     "MusicXML",
     "hmxml", "help-mxml",
 R"(These options control the way MusicXML data is handled.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
   initializeMusicxmlOahGroup ();
 }
@@ -68,7 +68,7 @@ void musicxmlOahGroup::initializeMusicxmlTraceOah ()
         "MusicXML Trace",
         "hmxmltr", "help-musicxml-trace",
 R"()",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);

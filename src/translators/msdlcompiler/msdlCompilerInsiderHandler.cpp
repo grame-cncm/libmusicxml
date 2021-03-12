@@ -25,24 +25,33 @@
 #include "outputFileOah.h"
 #include "extraOah.h"
 
+
 // MSDL
 #include "msdl.h"
 
-#include "msdl2msrOah.h"
 #include "msdlOah.h"
+#include "msdl2msrOah.h"
+
 
 // MSR
 #include "msrOah.h"
 #include "msr2msrOah.h"
 
+
 // Guido
 #include "xml2gmnInsiderHandler.h"
+
+#include "msdl2gmnInsiderHandler.h"
+
 
 // MusicXML
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
 #include "msr2mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
+
+#include "msdl2xmlInsiderHandler.h"
+
 
 // Lilypond
 #include "lpsr.h"
@@ -52,6 +61,9 @@
 #include "lpsr2lilypondOah.h"
 #include "lilypondOah.h"
 
+#include "msdl2lyInsiderHandler.h"
+
+
 // Braille music
 #include "bsr.h"
 
@@ -60,9 +72,12 @@
 #include "bsr2brailleOah.h"
 #include "brailleOah.h"
 
+#include "msdl2brlInsiderHandler.h"
+
+
 // generation
 #include "msrGeneratorsOah.h"
-
+#include "guidoOutputOah.h"
 
 #include "version.h"
 
@@ -76,9 +91,9 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_msdlCompilerInsiderHandler msdlCompilerInsiderHandler::create (
-  const string&       executableName,
-  const string&       handlerHeader,
-  generatorOutputKind generatorOutputKind)
+  const string&            executableName,
+  const string&            handlerHeader,
+  multiGeneratorOutputKind generatorOutputKind)
 {
   // create the insider handler
   msdlCompilerInsiderHandler* o = new
@@ -92,9 +107,9 @@ S_msdlCompilerInsiderHandler msdlCompilerInsiderHandler::create (
 }
 
 msdlCompilerInsiderHandler::msdlCompilerInsiderHandler (
-  const string&       executableName,
-  const string&       handlerHeader,
-  generatorOutputKind generatorOutputKind)
+  const string&            executableName,
+  const string&            handlerHeader,
+  multiGeneratorOutputKind generatorOutputKind)
   : oahInsiderHandler (
       executableName,
       handlerHeader,
@@ -131,17 +146,27 @@ msdlCompilerInsiderHandler::~msdlCompilerInsiderHandler ()
 {}
 
 string msdlCompilerInsiderHandler::usageInformation (
-  generatorOutputKind generatorOutputKind)
+  multiGeneratorOutputKind generatorOutputKind)
 {
   stringstream s;
 
   s <<
-R"(Usage: msdlCompiler [option]*
+R"(Usage: msdl [option]*
 )" <<
-    endl <<
-    "The help below is available when generating " <<
-    generatorOutputKindAsString (generatorOutputKind) <<
-    " output";
+    endl;
+
+  switch (generatorOutputKind) {
+    case multiGeneratorOutputKind::k_NoOutput:
+      s <<
+        "The help below is available whichever output is produced";
+      break;
+
+    default:
+      s <<
+        "The help below is available when generating " <<
+        multiGeneratorOutputKindAsString (generatorOutputKind) <<
+        " output";
+  } // switch
 
   return s.str ();
 }
@@ -154,7 +179,7 @@ void msdlCompilerInsiderHandler::handlerOahError (
   s <<
     errorMessage  <<
     " when generating " <<
-    generatorOutputKindAsString (fGeneratorOutputKind) <<
+    multiGeneratorOutputKindAsString (fGeneratorOutputKind) <<
     " output";
 
   oahError (s.str ());
@@ -168,34 +193,34 @@ string msdlCompilerInsiderHandler::handlerExecutableAboutInformation () const
 }
 
 string msdlCompilerInsiderHandler::msdlCompilerAboutInformation (
-  generatorOutputKind theGeneratorOutputKind) const
+  multiGeneratorOutputKind generatorOutputKind) const
 {
   string result;
 
   unsigned int passesNumber = 0;
 
-  switch (theGeneratorOutputKind) {
-    case k_NoOutput:
+  switch (generatorOutputKind) {
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
       passesNumber = 4;
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       passesNumber = 3;
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       passesNumber = 4;
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       passesNumber = 4;
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       passesNumber = 0;
       break;
   } // switch
@@ -208,7 +233,7 @@ R"(What msdlCompiler does:
     This multi-pass generator basically performs )" <<
     passesNumber <<
     " passes when generating " <<
-    generatorOutputKindAsString (theGeneratorOutputKind) <<
+    multiGeneratorOutputKindAsString (generatorOutputKind) <<
     " output:" <<
     endl <<
 R"(
@@ -216,12 +241,12 @@ R"(
 
   string specificPart;
 
-  switch (theGeneratorOutputKind) {
-    case k_NoOutput:
+  switch (generatorOutputKind) {
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
       specificPart =
 R"(
         Pass 2:  converts the MSR into a second MSR;
@@ -230,7 +255,7 @@ R"(
                  and writes it to standard output.)";
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       specificPart =
 R"(
         Pass 2:  converts the MSR into a
@@ -239,7 +264,7 @@ R"(
                  and writes it to standard output.)";
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       specificPart =
 R"(
         Pass 2a: converts the MSR into a
@@ -254,7 +279,7 @@ R"(
     In this preliminary version, pass 2b merely clones the BSR it receives.)";
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       specificPart =
 R"(
         Pass 2:  converts the MSR into a second MSR;
@@ -263,7 +288,7 @@ R"(
                  and writes it to standard output.)";
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       break;
   } // switch
 
@@ -298,7 +323,7 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerPrefixes ()
 //______________________________________________________________________________
 void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
   const string&       executableName,
-  generatorOutputKind generatorOutputKind)
+  multiGeneratorOutputKind multiGeneratorOutputKind)
 {
 #ifdef TRACING_IS_ENABLED
   if (getTraceOah ()) {
@@ -368,12 +393,12 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
       such as gGlobalMsr2msrOahGroup and gGlobalMsr2lpsrOahGroup
   */
 
-  switch (generatorOutputKind) {
-    case k_NoOutput:
+  switch (multiGeneratorOutputKind) {
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
       // create the msr2msr OAH group
       appendGroupToHandler (
         createGlobalMsr2msrOahGroup ());
@@ -393,9 +418,17 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
       // create the xml2gmn OAH group
       appendGroupToHandler (
         createGlobalXml2gmnOahGroup ());
+
+      // create the msdl2xml OAH group
+      appendGroupToHandler (
+        createGlobalMsdl2xmlOahGroup ());
+
+      // create the Guido generators OAH group
+      appendGroupToHandler (
+        createGlobalGuidoOutputOahGroup ());
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       // initialize the library
       initializeLPSR ();
 
@@ -414,9 +447,14 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
       // create the LilyPond OAH group
       appendGroupToHandler (
         createGlobalLilypondOahGroup ());
+
+      // create the msdl2ly OAH group
+      appendGroupToHandler (
+        createGlobalMsdl2lyInsiderOahGroup ());
+
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       // initialize the library
       initializeBSR ();
 
@@ -435,9 +473,15 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
       // create the braille OAH group
       appendGroupToHandler (
         createGlobalBrailleOahGroup ());
+
+      // create the msdl2brl OAH group
+      appendGroupToHandler (
+        createGlobalMsdl2brlOahGroup (
+          executableName,
+          fHandlerHeader));
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       // create the msr2msr OAH group
       appendGroupToHandler (
         createGlobalMsr2msrOahGroup ());
@@ -453,15 +497,23 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
       // create the MusicXML OAH group
       appendGroupToHandler (
         createGlobalMusicxmlOahGroup ());
+
+      // create the msdl2xml OAH group
+      appendGroupToHandler (
+        createGlobalMsdl2xmlOahGroup ());
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       break;
   } // switch
 
+  // create the multi generator OAH group
+  appendGroupToHandler (
+    createGlobalMultiGeneratorOahGroup ());
+
   // create the msdlCompiler OAH group
   appendGroupToHandler (
-    createGlobalmsdlCompilerOahGroup ());
+    createGlobalMsdlCompilerOahGroup ());
 
   appendGroupToHandler (
     createGlobalmsdlCompilerInsiderOahGroup ());
@@ -486,10 +538,10 @@ void msdlCompilerInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () cons
   }
 #endif
 
-  if (MSDR_STANDARD_INPUT_NAME == "-") {
+  if (MSDR_STANDARD_INPUT_NAME == string ("-")) {
     checkSingleInputSourceInArgumentsVector ();
   }
-  else if (MSDR_STANDARD_INPUT_NAME == "") {
+  else if (MSDR_STANDARD_INPUT_NAME == string ("")) {
     checkNoOrOneInputSourceInArgumentsVector ();
   }
   else {
@@ -560,20 +612,20 @@ string msdlCompilerInsiderHandler::fetchOutputFileNameFromTheOptions () const
 
     // add the output file name suffix
     switch (fGeneratorOutputKind) {
-      case k_NoOutput:
+      case multiGeneratorOutputKind::k_NoOutput:
         // should not occur
         outputFileName = "___k_NoOutput___";
         break;
 
-      case kGuidoOutput:
+      case multiGeneratorOutputKind::kGuidoOutput:
         outputFileName += ".gmn";
         break;
 
-      case kLilyPondOutput:
+      case multiGeneratorOutputKind::kLilyPondOutput:
         outputFileName += ".ly";
         break;
 
-      case kBrailleOutput:
+      case multiGeneratorOutputKind::kBrailleOutput:
         {
           S_oahStringAtom
             outputFileNameStringAtom =
@@ -634,11 +686,11 @@ string msdlCompilerInsiderHandler::fetchOutputFileNameFromTheOptions () const
         }
         break;
 
-      case kMusicXMLOutput:
+      case multiGeneratorOutputKind::kMusicXMLOutput:
         outputFileName += ".xml";
         break;
 
-      case kMidiOutput:
+      case multiGeneratorOutputKind::kMidiOutput:
         outputFileName += ".midi";
         break;
     } // switch
@@ -876,13 +928,9 @@ msdlCompilerInsiderOahGroup::msdlCompilerInsiderOahGroup ()
     "msdlCompiler",
     "hmkk", "help-msdlCompiler",
 R"(Options that are used by msdlCompiler are grouped here.)",
-    kElementVisibilityWhole)
+    oahElementVisibilityKind::kElementVisibilityWhole)
 {
-  fGeneratorOutputKind = k_NoOutput;
-
-  fGenerateComments = false;
-  fGenerateStem = false;
-  fGenerateBars = false;
+  fGeneratorOutputKind = multiGeneratorOutputKind::k_NoOutput;
 
   fQuitAfterPass2a = false;
   fQuitAfterPass2b = false;
@@ -906,69 +954,10 @@ void msdlCompilerInsiderOahGroup::initializemsdlCompilerInsiderOahGroup ()
   }
 #endif
 
-  // Guido
-  // --------------------------------------
-
-  createInsiderGuidoSubGroup ();
-
   // quit after some passes
   // --------------------------------------
 
   createInsiderQuitSubGroup ();
-}
-
-void msdlCompilerInsiderOahGroup::createInsiderGuidoSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-    gLogStream << left <<
-      "Creating insider Guido subgroup in \"" <<
-      fGroupHeader <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Guido",
-        "mkk-guido", "help-mkk-guido",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // generate comments
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-comments", "",
-R"(Generate comments in the Guido output.)",
-        "generateComments",
-        fGenerateComments));
-
-  // generate stem
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-stem", "",
-R"(Generate stem in the Guido output.)",
-        "generateStem",
-        fGenerateStem));
-
-  // generate bars
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "generate-bars", "",
-R"(Generate barlines in the Guido output.)",
-        "generateBars",
-        fGenerateBars));
 }
 
 //_______________________________________________________________________________
@@ -990,7 +979,7 @@ void msdlCompilerInsiderOahGroup::createInsiderQuitSubGroup ()
         "Quit after some passes",
         "hm2xquit", "help-msr2gmn-quit",
 R"()",
-      kElementVisibilityWhole,
+      oahElementVisibilityKind::kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (quitAfterSomePassesSubGroup);
@@ -1050,30 +1039,8 @@ void msdlCompilerInsiderOahGroup::printmsdlCompilerInsiderOahGroupValues (unsign
 
   gLogStream << left <<
     setw (fieldWidth) <<
-    "generatorOutputKind" << " : " <<
-    generatorOutputKindAsString (fGeneratorOutputKind) <<
-    endl;
-
-  --gIndenter;
-
-  // Guido
-  // --------------------------------------
-
-  gLogStream << left <<
-    setw (fieldWidth) << "Guido:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) <<
-    "generateComments" << " : " << booleanAsString (fGenerateComments) <<
-    endl <<
-    setw (fieldWidth) <<
-    "generateStem" << " : " << booleanAsString (fGenerateStem) <<
-    endl <<
-    setw (fieldWidth) <<
-    "generateBars" << " : " << booleanAsString (fGenerateBars) <<
+    "multiGeneratorOutputKind" << " : " <<
+    multiGeneratorOutputKindAsString (fGeneratorOutputKind) <<
     endl;
 
   --gIndenter;

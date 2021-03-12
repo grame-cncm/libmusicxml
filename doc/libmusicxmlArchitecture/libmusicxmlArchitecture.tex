@@ -27,6 +27,9 @@
 \begin{document}
 % -------------------------------------------------------------------------
 
+\def \tab {~~~}
+
+
 \title{
 \lib\ architecture overview \\[5pt]
 {\normalsize 
@@ -159,6 +162,8 @@ MDSR & MIDI Score Representation, to be designed.
 \end{center}
 
 
+\newpage
+
 % -------------------------------------------------------------------------
 \section{Basic tools}
 % -------------------------------------------------------------------------
@@ -167,8 +172,11 @@ MDSR & MIDI Score Representation, to be designed.
 
 \begin{itemize}
 \item {\tt xmlread} converts MusicXML data and displays the corresponding xmlElement tree;
+
 \item {\tt countnotes} reads MusicXML data and displays the number of notes it contains;
-\item other programs such as {\tt xmltranspose} and {\tt partsummary} demonstrate the possibilities of the library, in particular those of the two-phase visitors pattern it uses;
+
+\item other programs such as {\tt xmltranspose} and {\tt partsummary} demonstrate the possibilities of the library, in particular those of the two-phase visitors pattern it uses.
+
 \item {\tt xml2midi} reads MusicXML data and outputs a midi version of it.
 \end{itemize}
 
@@ -178,6 +186,23 @@ It is to be noted that:
 \item \lily\ can generate MIDI files from its input.
 \end{itemize} 
 
+
+% -------------------------------------------------------------------------
+\section{Generators}
+% -------------------------------------------------------------------------
+
+A generator is an executable that creates data representing a score without reading any input file.
+For example:
+\begin{itemize}
+\item \texttt{RandomMusic} generates an mxmlelement tree containing random music, and writes it as \mxml\ to standard output;
+
+\item \texttt{RandomChords} generates an mxmlelement tree containing random two-note chords, and writes it as \mxml\ to standard output;
+
+\item \texttt{MusicAndHarmonies.cpp} generates an mxmlelement tree containing notes and harmonies, and writes it as \mxml\ to standard output;
+\end{itemize}
+
+
+\newpage
 
 % -------------------------------------------------------------------------
 \section{Conversion passes}
@@ -269,8 +294,6 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 % -------------------------------------------------------------------------
 \section{Translators}
 % -------------------------------------------------------------------------
-
-\def \tab {~~~}
 
 A translator is a sequence of two or more passes, each converting one representation into another, in a pipeline way. The first one provided by the library was {\tt xml2guido}.
 
@@ -433,22 +456,14 @@ The {\tt -loop} option is supplied to create \mei\ data back from the \mei\ data
 \end{center}
 
 
-% -------------------------------------------------------------------------
-\section{Generators}
-% -------------------------------------------------------------------------
+%\newpage
 
-A generator is an executable that creates data representing a score without reading any input file.
-For example, {\tt Mikrokosmos3Wandering} creates an MSR graph representing Bartok's Mikrokosmos III Wandering score, and then produces Guido, LilyPond, braille or MusicXML to standard output, depending on the '{\tt -generated-code-kind}' option.
 
-\begin{itemize}
-\item \texttt{RandomMusic} generates an mxmlelement tree containing random music, and writes it as \mxml\ to standard output;
 
-\item \texttt{RandomChords} generates an mxmlelement tree containing random two-note chords, and writes it as \mxml\ to standard output;
+In order to demonstrate the use of the MSR API, {\tt Mikrokosmos3Wandering} creates an MSR graph representing Bartok's Mikrokosmos III Wandering score, and then produces Guido, LilyPond, braille or MusicXML to standard output, depending on the '{\tt -generated-code-kind}' option.
 
-\item \texttt{MusicAndHarmonies.cpp} generates an mxmlelement tree containing notes and harmonies, and writes it as \mxml\ to standard output;
-
-\item other programs such as {\tt countnotes}, {\tt xmltranspose} and {\tt partsummary} demonstrate the possibilities of the library, in particular those of the two-phase visitors pattern it uses.
-\end{itemize}
+MSDL (Music Score Description Language) is a language under evolution being created by this author. It is meant for use by musicians, i.e. non-programmers, to obtain scores from a rather high-level description.\\
+\lib supplies {\tt msdl}, a compiler translating MSDL into Guido, LilyPond, braille or MusicXML to standard output, depending on the '{\tt -generated-code-kind}' option.
 
 
 % -------------------------------------------------------------------------

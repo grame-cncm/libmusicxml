@@ -23,6 +23,8 @@
   #include "traceOah.h"
 #endif
 
+#include "guidoOutputOah.h"
+
 #include "xml2gmnInsiderHandler.h"
 
 #include "msr.h"
@@ -72,12 +74,12 @@ void generateGuidoFromMxmlTree (
 
   // convert the mxmlTree intto Guido data
   xml2guidovisitor v (
-    gGlobalXml2gmnInsiderOahGroup->
-      getGenerateComments (),
-    gGlobalXml2gmnInsiderOahGroup->
-      getGenerateStem (),
-    gGlobalXml2gmnInsiderOahGroup->
-      getGenerateBars (),
+    gGlobalGuidoOutputOahGroup->
+      getGenerateGuidoComments (),
+    gGlobalGuidoOutputOahGroup->
+      getGenerateGuidoStem (),
+    gGlobalGuidoOutputOahGroup->
+      getGenerateGuidoBars (),
     0); // partNum, i.e. all parts
 
   Sguidoelement

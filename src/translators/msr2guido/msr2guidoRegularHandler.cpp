@@ -183,7 +183,7 @@ void msr2guidoRegularHandler::createInformationsRegularGroup ()
         "Informations group",
         "hinfos-group", "help-informations-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -194,7 +194,7 @@ void msr2guidoRegularHandler::createInformationsRegularGroup ()
         "Informations",
         "hinfos", "help-informations",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -218,7 +218,7 @@ void msr2guidoRegularHandler::createFilesRegularGroup ()
         "Files group",
         "files-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -229,7 +229,7 @@ void msr2guidoRegularHandler::createFilesRegularGroup ()
         "Files",
         "files", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -250,7 +250,7 @@ void msr2guidoRegularHandler::createOahRegularGroup ()
         "Options and help group",
         "hoah-group", "help-oah-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -261,7 +261,7 @@ void msr2guidoRegularHandler::createOahRegularGroup ()
         "Options and help",
         "hoah", "help-oah",
         "",
-        kElementVisibilityHeaderOnly,
+        oahElementVisibilityKind::kElementVisibilityHeaderOnly,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -310,7 +310,7 @@ void msr2guidoRegularHandler::createWarningAndErrorsRegularGroup ()
         "warning-and-errors-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -322,7 +322,7 @@ void msr2guidoRegularHandler::createWarningAndErrorsRegularGroup ()
         "warning-and-errors",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -344,7 +344,7 @@ void msr2guidoRegularHandler::createInputRegularGroup ()
         "Input group",
         "hinput-group", "help-input-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -355,7 +355,7 @@ void msr2guidoRegularHandler::createInputRegularGroup ()
         "Input",
         "hinput", "help-input",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -379,7 +379,7 @@ void msr2guidoRegularHandler::createPresentationRegularGroup ()
         "Presentation group",
         "presentation-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -390,7 +390,7 @@ void msr2guidoRegularHandler::createPresentationRegularGroup ()
         "Presentation",
         "presentation", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -411,7 +411,7 @@ void msr2guidoRegularHandler::createPartsRegularGroup ()
         "Parts group",
         "parts-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -422,7 +422,7 @@ void msr2guidoRegularHandler::createPartsRegularGroup ()
         "Parts",
         "parts", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -446,7 +446,7 @@ void msr2guidoRegularHandler::createStavesRegularGroup ()
         "Staves group",
         "staves-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -457,7 +457,7 @@ void msr2guidoRegularHandler::createStavesRegularGroup ()
         "Staves",
         "staves", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -477,7 +477,7 @@ void msr2guidoRegularHandler::createVoicesRegularGroup ()
         "Voices group",
         "voices-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -488,7 +488,7 @@ void msr2guidoRegularHandler::createVoicesRegularGroup ()
         "Voices",
         "voices", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -508,7 +508,7 @@ void msr2guidoRegularHandler::createClefsRegularGroup ()
         "Clefs group",
         "clefs-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -519,7 +519,7 @@ void msr2guidoRegularHandler::createClefsRegularGroup ()
         "Clefs",
         "clefs", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -541,7 +541,7 @@ void msr2guidoRegularHandler::createKeysRegularGroup ()
         "keys-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -552,7 +552,7 @@ void msr2guidoRegularHandler::createKeysRegularGroup ()
         "Keys",
         "keys", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -572,7 +572,7 @@ void msr2guidoRegularHandler::createTimesRegularGroup ()
         "Times group",
         "times-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -583,7 +583,7 @@ void msr2guidoRegularHandler::createTimesRegularGroup ()
         "Times",
         "times", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -604,7 +604,7 @@ void msr2guidoRegularHandler::createMeasuresRegularGroup ()
         "measures-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -615,7 +615,7 @@ void msr2guidoRegularHandler::createMeasuresRegularGroup ()
         "Measures",
         "measures", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -636,7 +636,7 @@ void msr2guidoRegularHandler::createRestsRegularGroup ()
         "rests-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -647,7 +647,7 @@ void msr2guidoRegularHandler::createRestsRegularGroup ()
         "Rests",
         "rests", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -668,7 +668,7 @@ void msr2guidoRegularHandler::createNotesRegularGroup ()
         "notes-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -679,7 +679,7 @@ void msr2guidoRegularHandler::createNotesRegularGroup ()
         "Notes",
         "notes", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -699,7 +699,7 @@ void msr2guidoRegularHandler::creatBeamsRegularGroup ()
         "Beams group",
         "hbeams-group", "help-beams-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -710,7 +710,7 @@ void msr2guidoRegularHandler::creatBeamsRegularGroup ()
         "Beams",
         "hbeams", "help-beams",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -730,7 +730,7 @@ void msr2guidoRegularHandler::createArticulationsRegularGroup ()
         "Articulations group",
         "articulations-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -740,7 +740,7 @@ void msr2guidoRegularHandler::createArticulationsRegularGroup ()
       oahSubGroup::create (
         "Articulations",
         "articulations", "", "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -760,7 +760,7 @@ void msr2guidoRegularHandler::createOrnamentsRegularGroup ()
         "Ornaments group",
         "ornaments-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -772,7 +772,7 @@ void msr2guidoRegularHandler::createOrnamentsRegularGroup ()
         "ornaments",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -792,7 +792,7 @@ void msr2guidoRegularHandler::createGraceNotesRegularGroup ()
         "Grace notes group",
         "grace-notes-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -803,7 +803,7 @@ void msr2guidoRegularHandler::createGraceNotesRegularGroup ()
         "Grace notes",
         "grace-notes", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -825,7 +825,7 @@ void msr2guidoRegularHandler::createChordsRegularGroup ()
         "Chords group",
         "chords-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -836,7 +836,7 @@ void msr2guidoRegularHandler::createChordsRegularGroup ()
         "Chords",
         "chords", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -858,7 +858,7 @@ void msr2guidoRegularHandler::createTiesRegularGroup ()
         "Ties group",
         "hties-group", "help-ties-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -869,7 +869,7 @@ void msr2guidoRegularHandler::createTiesRegularGroup ()
         "Ties",
         "hties", "help-ties",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -889,7 +889,7 @@ void msr2guidoRegularHandler::createSlursRegularGroup ()
         "Slurs group",
         "hslurs-group", "help-slurs-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -900,7 +900,7 @@ void msr2guidoRegularHandler::createSlursRegularGroup ()
         "Slurs",
         "hslurs", "help-slurs",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -922,7 +922,7 @@ void msr2guidoRegularHandler::createLigaturesRegularGroup ()
         "Ligatures group",
         "hligs-group", "help-ligatures-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -933,7 +933,7 @@ void msr2guidoRegularHandler::createLigaturesRegularGroup ()
         "Ligatures",
         "hligs", "help-ligatures",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -953,7 +953,7 @@ void msr2guidoRegularHandler::createDynamicsRegularGroup ()
         "Dynamics group",
         "hdyns-group", "help-dynamics-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -964,7 +964,7 @@ void msr2guidoRegularHandler::createDynamicsRegularGroup ()
         "Dynamics",
         "hdyns", "help-dynamics",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -988,7 +988,7 @@ void msr2guidoRegularHandler::createWedgesRegularGroup ()
         "Wedges group",
         "hweds-group", "help-wedges-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -999,7 +999,7 @@ void msr2guidoRegularHandler::createWedgesRegularGroup ()
         "Wedges",
         "hweds", "help-wedges",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1023,7 +1023,7 @@ void msr2guidoRegularHandler::createTupletsRegularGroup ()
         "Tuplets group",
         "tuplets-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1034,7 +1034,7 @@ void msr2guidoRegularHandler::createTupletsRegularGroup ()
         "Tuplets",
         "tuplets", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1056,7 +1056,7 @@ void msr2guidoRegularHandler::createLyricsRegularGroup ()
         "Lyrics group",
         "lyrics-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1067,7 +1067,7 @@ void msr2guidoRegularHandler::createLyricsRegularGroup ()
         "Lyrics",
         "lyrics", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1087,7 +1087,7 @@ void msr2guidoRegularHandler::createHarmoniesRegularGroup ()
         "Harmonies group",
         "harmonies-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1098,7 +1098,7 @@ void msr2guidoRegularHandler::createHarmoniesRegularGroup ()
         "Harmonies",
         "harmonies", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1120,7 +1120,7 @@ void msr2guidoRegularHandler::createFiguredBassesRegularGroup ()
         "Figured basses group",
         "figured-basses-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1131,7 +1131,7 @@ void msr2guidoRegularHandler::createFiguredBassesRegularGroup ()
         "Figured basses",
         "figured-basses", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1153,7 +1153,7 @@ void msr2guidoRegularHandler::createOutputRegularGroup ()
         "Ouptut group",
         "ouptut-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1164,7 +1164,7 @@ void msr2guidoRegularHandler::createOutputRegularGroup ()
         "Ouptut",
         "ouptut", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);

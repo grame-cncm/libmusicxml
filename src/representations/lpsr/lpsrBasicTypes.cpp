@@ -1162,41 +1162,44 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
 
   // is quarterTonesPitchName in the part renaming map?
   switch (languageKind) {
-    case kNederlands:
+    case msrQuarterTonesPitchesLanguageKind::kQTPNederlands:
       pitchNamesMapPTR = &gGlobalNederlandsPitchesNamesMap;
       break;
-    case kCatalan:
+    case msrQuarterTonesPitchesLanguageKind::kQTPCatalan:
       pitchNamesMapPTR = &gGlobalCatalanPitchesNamesMap;
       break;
-    case kDeutsch:
+    case msrQuarterTonesPitchesLanguageKind::kQTPDeutsch:
       pitchNamesMapPTR = &gGlobalDeutschPitchesNamesMap;
       break;
-    case kEnglish:
+    case msrQuarterTonesPitchesLanguageKind::kQTPEnglish:
       pitchNamesMapPTR = &gGlobalEnglishPitchesNamesMap;
       break;
-    case kEspanol:
+    case msrQuarterTonesPitchesLanguageKind::kQTPEspanol:
       pitchNamesMapPTR = &gGlobalEspanolPitchesNamesMap;
       break;
-    case kFrancais:
+    case msrQuarterTonesPitchesLanguageKind::kQTPFrancais:
       pitchNamesMapPTR = &gGlobalFrancaisPitchesNamesMap;
       break;
-    case kItaliano:
+    case msrQuarterTonesPitchesLanguageKind::kQTPItaliano:
       pitchNamesMapPTR = &gGlobalItalianoPitchesNamesMap;
       break;
-    case kNorsk:
+    case msrQuarterTonesPitchesLanguageKind::kQTPNorsk:
       pitchNamesMapPTR = &gGlobalNorskPitchesNamesMap;
       break;
-    case kPortugues:
+    case msrQuarterTonesPitchesLanguageKind::kQTPPortugues:
       pitchNamesMapPTR = &gGlobalPortuguesPitchesNamesMap;
       break;
-    case kSuomi:
+    case msrQuarterTonesPitchesLanguageKind::kQTPSuomi:
       pitchNamesMapPTR = &gGlobalSuomiPitchesNamesMap;
       break;
-    case kSvenska:
+    case msrQuarterTonesPitchesLanguageKind::kQTPSvenska:
       pitchNamesMapPTR = &gGlobalSvenskaPitchesNamesMap;
       break;
-    case kVlaams:
+    case msrQuarterTonesPitchesLanguageKind::kQTPVlaams:
       pitchNamesMapPTR = &gGlobalVlaamsPitchesNamesMap;
+      break;
+    case msrQuarterTonesPitchesLanguageKind::kQTPArabic:
+      pitchNamesMapPTR = &gGlobalArabicPitchesNamesMap;
       break;
   } // switch
 

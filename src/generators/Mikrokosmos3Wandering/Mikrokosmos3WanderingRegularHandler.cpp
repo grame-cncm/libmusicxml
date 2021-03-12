@@ -32,7 +32,10 @@
 
 #include "version.h"
 
-#include "Mikrokosmos3WanderingOah.h"
+#include "msrGeneratorsOah.h"
+
+#include "bsr2brailleOah.h"
+
 #include "Mikrokosmos3WanderingRegularHandler.h"
 
 
@@ -43,11 +46,11 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_Mikrokosmos3WanderingRegularHandler Mikrokosmos3WanderingRegularHandler::create (
-  string              executableName,
-  string              handlerHeader,
+  string                   executableName,
+  string                   handlerHeader,
   S_Mikrokosmos3WanderingInsiderHandler
-                      insiderOahHandler,
-  generatorOutputKind theGeneratorOutputKind)
+                           insiderOahHandler,
+  multiGeneratorOutputKind generatorOutputKind)
 {
   // create the regular handler
   Mikrokosmos3WanderingRegularHandler* o = new
@@ -55,24 +58,24 @@ S_Mikrokosmos3WanderingRegularHandler Mikrokosmos3WanderingRegularHandler::creat
       executableName,
       handlerHeader,
       insiderOahHandler,
-      theGeneratorOutputKind);
+      generatorOutputKind);
   assert (o != nullptr);
 
   return o;
 }
 
 Mikrokosmos3WanderingRegularHandler::Mikrokosmos3WanderingRegularHandler (
-  string              executableName,
-  string              handlerHeader,
+  string                   executableName,
+  string                   handlerHeader,
   S_Mikrokosmos3WanderingInsiderHandler
-                      insiderOahHandler,
-  generatorOutputKind theGeneratorOutputKind)
+                           insiderOahHandler,
+  multiGeneratorOutputKind generatorOutputKind)
   : oahRegularHandler (
       executableName,
       handlerHeader,
       insiderOahHandler)
 {
-  fGeneratorOutputKind = theGeneratorOutputKind;
+  fGeneratorOutputKind = generatorOutputKind;
 
   // this is done only only after the constructor has been executed,
   // because it uses pure virtual methods
@@ -81,24 +84,28 @@ Mikrokosmos3WanderingRegularHandler::Mikrokosmos3WanderingRegularHandler (
   // create the regular handler groups
   createRegularHandlerGroups ();
 
-    // print the options handler initial state
-    gLogStream <<
-      "Mikrokosmos3WanderingRegularHandler \"" <<
-      fHandlerHeader <<
-      "\" has been initialized as:" <<
-      endl;
+/*
+  // print the options handler initial state
+  gLogStream <<
+    "Mikrokosmos3WanderingRegularHandler \"" <<
+    fHandlerHeader <<
+    "\" has been initialized as:" <<
+    endl;
 
-    ++gIndenter;
+  ++gIndenter;
 
-    gLogStream <<
-      "===> printHelp():" <<
-      endl;
-    this->printHelp (gOutputStream); // JMI
+  gLogStream <<
+    "===> printHelp():" <<
+    endl;
+  this->printHelp (gOutputStream); // JMI
 
-    --gIndenter;
+  --gIndenter;
+*/
 
 #ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {}
+  if (getTraceOah ()) {
+    // JMI ???
+  }
 #endif
 }
 
@@ -134,27 +141,27 @@ void Mikrokosmos3WanderingRegularHandler::createRegularHandlerGroups ()
   */
 
   switch (fGeneratorOutputKind) {
-    case k_NoOutput:
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
       // create the Guido OAH group
       createGuidoRegularGroup ();
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       // create the braille OAH group
       createBrailleRegularGroup ();
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       break;
   } // switch
 
@@ -227,7 +234,7 @@ void Mikrokosmos3WanderingRegularHandler::createInformationsRegularGroup ()
         "Informations group",
         "hinfos-group", "help-informations-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -238,7 +245,7 @@ void Mikrokosmos3WanderingRegularHandler::createInformationsRegularGroup ()
         "Informations",
         "hinfos", "help-informations",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -266,7 +273,7 @@ void Mikrokosmos3WanderingRegularHandler::createAPIRegularGroup ()
         "Generation API group",
         "generation-api-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -277,7 +284,7 @@ void Mikrokosmos3WanderingRegularHandler::createAPIRegularGroup ()
         "Generation API",
         "generation-api", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -297,7 +304,7 @@ void Mikrokosmos3WanderingRegularHandler::createOutputRegularGroup ()
         "Output group",
         "output-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -308,7 +315,7 @@ void Mikrokosmos3WanderingRegularHandler::createOutputRegularGroup ()
         "Output",
         "output", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -316,24 +323,24 @@ void Mikrokosmos3WanderingRegularHandler::createOutputRegularGroup ()
   // atoms from the insider handler depending on the generated output kind
 
   switch (fGeneratorOutputKind) {
-    case k_NoOutput:
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
       registerAtomInRegularSubgroup ("musicxml-comments", subGroup);
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       break;
   } // switch
 }
@@ -348,7 +355,7 @@ void Mikrokosmos3WanderingRegularHandler::createGuidoRegularGroup ()
         "Guido group",
         "guido-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -359,16 +366,16 @@ void Mikrokosmos3WanderingRegularHandler::createGuidoRegularGroup ()
         "Guido subgroup",
         "guido-subgroup", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
 
   // atoms
 
-  registerAtomInRegularSubgroup ("generate-comments", subGroup);
-  registerAtomInRegularSubgroup ("generate-stem", subGroup);
-  registerAtomInRegularSubgroup ("generate-bars", subGroup);
+  registerAtomInRegularSubgroup ("generate-guido-comments", subGroup);
+  registerAtomInRegularSubgroup ("generate-guido-stem", subGroup);
+  registerAtomInRegularSubgroup ("generate-guido-bars", subGroup);
 }
 
 void Mikrokosmos3WanderingRegularHandler::createBrailleRegularGroup ()
@@ -381,7 +388,7 @@ void Mikrokosmos3WanderingRegularHandler::createBrailleRegularGroup ()
         "Braille group",
         "braille-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -392,7 +399,7 @@ void Mikrokosmos3WanderingRegularHandler::createBrailleRegularGroup ()
         "Braille output",
         "braille-output", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -415,7 +422,7 @@ void Mikrokosmos3WanderingRegularHandler::createFilesRegularGroup ()
         "Files group",
         "files-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -426,7 +433,7 @@ void Mikrokosmos3WanderingRegularHandler::createFilesRegularGroup ()
         "Files",
         "files", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -447,7 +454,7 @@ void Mikrokosmos3WanderingRegularHandler::createOahRegularGroup ()
         "Options and help group",
         "hoah-group", "help-oah-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -458,7 +465,7 @@ void Mikrokosmos3WanderingRegularHandler::createOahRegularGroup ()
         "Options and help",
         "hoah", "help-oah",
         "",
-        kElementVisibilityHeaderOnly,
+        oahElementVisibilityKind::kElementVisibilityHeaderOnly,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -494,18 +501,18 @@ void Mikrokosmos3WanderingRegularHandler::createOahRegularGroup ()
 
   // atoms from the insider handler depending on the generated output kind
   switch (fGeneratorOutputKind) {
-    case k_NoOutput:
+    case multiGeneratorOutputKind::k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuidoOutput:
+    case multiGeneratorOutputKind::kGuidoOutput:
 #ifdef TRACING_IS_ENABLED
       registerAtomInRegularSubgroup ("trace-encoding", subGroup);
       registerAtomInRegularSubgroup ("trace-divisions", subGroup);
 #endif
       break;
 
-    case kLilyPondOutput:
+    case multiGeneratorOutputKind::kLilyPondOutput:
       registerAtomInRegularSubgroup ("jianpu", subGroup);
       registerAtomInRegularSubgroup ("lyluatex", subGroup);
 
@@ -515,18 +522,18 @@ void Mikrokosmos3WanderingRegularHandler::createOahRegularGroup ()
       registerAtomInRegularSubgroup ("global-staff-size", subGroup);
       break;
 
-    case kBrailleOutput:
+    case multiGeneratorOutputKind::kBrailleOutput:
       registerAtomInRegularSubgroup ("display-bsr", subGroup);
       break;
 
-    case kMusicXMLOutput:
+    case multiGeneratorOutputKind::kMusicXMLOutput:
 #ifdef TRACING_IS_ENABLED
       registerAtomInRegularSubgroup ("trace-encoding", subGroup);
       registerAtomInRegularSubgroup ("trace-divisions", subGroup);
 #endif
       break;
 
-    case kMidiOutput:
+    case multiGeneratorOutputKind::kMidiOutput:
       break;
   } // switch
 }
@@ -542,7 +549,7 @@ void Mikrokosmos3WanderingRegularHandler::createWarningAndErrorsRegularGroup ()
         "warning-and-errors-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -554,7 +561,7 @@ void Mikrokosmos3WanderingRegularHandler::createWarningAndErrorsRegularGroup ()
         "warning-and-errors",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -576,7 +583,7 @@ void Mikrokosmos3WanderingRegularHandler::createGenerateCodeRegularGroup ()
         "Generated output group",
         "hgc-group", "help-generate-output-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -587,7 +594,7 @@ void Mikrokosmos3WanderingRegularHandler::createGenerateCodeRegularGroup ()
         "Generated output",
         "hgo", "help-generate-output",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -613,7 +620,7 @@ void Mikrokosmos3WanderingRegularHandler::createPresentationRegularGroup ()
         "Presentation group",
         "presentation-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -624,7 +631,7 @@ void Mikrokosmos3WanderingRegularHandler::createPresentationRegularGroup ()
         "Presentation",
         "presentation", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -645,7 +652,7 @@ void Mikrokosmos3WanderingRegularHandler::createPartsRegularGroup ()
         "Parts group",
         "parts-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -656,7 +663,7 @@ void Mikrokosmos3WanderingRegularHandler::createPartsRegularGroup ()
         "Parts",
         "parts", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -680,7 +687,7 @@ void Mikrokosmos3WanderingRegularHandler::createStavesRegularGroup ()
         "Staves group",
         "staves-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -691,7 +698,7 @@ void Mikrokosmos3WanderingRegularHandler::createStavesRegularGroup ()
         "Staves",
         "staves", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -711,7 +718,7 @@ void Mikrokosmos3WanderingRegularHandler::createVoicesRegularGroup ()
         "Voices group",
         "voices-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -722,7 +729,7 @@ void Mikrokosmos3WanderingRegularHandler::createVoicesRegularGroup ()
         "Voices",
         "voices", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -742,7 +749,7 @@ void Mikrokosmos3WanderingRegularHandler::createClefsRegularGroup ()
         "Clefs group",
         "clefs-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -753,7 +760,7 @@ void Mikrokosmos3WanderingRegularHandler::createClefsRegularGroup ()
         "Clefs",
         "clefs", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -775,7 +782,7 @@ void Mikrokosmos3WanderingRegularHandler::createKeysRegularGroup ()
         "keys-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -786,7 +793,7 @@ void Mikrokosmos3WanderingRegularHandler::createKeysRegularGroup ()
         "Keys",
         "keys", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -806,7 +813,7 @@ void Mikrokosmos3WanderingRegularHandler::createTimesRegularGroup ()
         "Times group",
         "times-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -817,7 +824,7 @@ void Mikrokosmos3WanderingRegularHandler::createTimesRegularGroup ()
         "Times",
         "times", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -838,7 +845,7 @@ void Mikrokosmos3WanderingRegularHandler::createMeasuresRegularGroup ()
         "measures-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -849,7 +856,7 @@ void Mikrokosmos3WanderingRegularHandler::createMeasuresRegularGroup ()
         "Measures",
         "measures", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -870,7 +877,7 @@ void Mikrokosmos3WanderingRegularHandler::createRestsRegularGroup ()
         "rests-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -881,7 +888,7 @@ void Mikrokosmos3WanderingRegularHandler::createRestsRegularGroup ()
         "Rests",
         "rests", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -902,7 +909,7 @@ void Mikrokosmos3WanderingRegularHandler::createNotesRegularGroup ()
         "notes-group",
         "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -913,7 +920,7 @@ void Mikrokosmos3WanderingRegularHandler::createNotesRegularGroup ()
         "Notes",
         "notes", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -933,7 +940,7 @@ void Mikrokosmos3WanderingRegularHandler::creatBeamsRegularGroup ()
         "Beams group",
         "hbeams-group", "help-beams-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -944,7 +951,7 @@ void Mikrokosmos3WanderingRegularHandler::creatBeamsRegularGroup ()
         "Beams",
         "hbeams", "help-beams",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -964,7 +971,7 @@ void Mikrokosmos3WanderingRegularHandler::createArticulationsRegularGroup ()
         "Articulations group",
         "articulations-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -974,7 +981,7 @@ void Mikrokosmos3WanderingRegularHandler::createArticulationsRegularGroup ()
       oahSubGroup::create (
         "Articulations",
         "articulations", "", "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -994,7 +1001,7 @@ void Mikrokosmos3WanderingRegularHandler::createOrnamentsRegularGroup ()
         "Ornaments group",
         "ornaments-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1006,7 +1013,7 @@ void Mikrokosmos3WanderingRegularHandler::createOrnamentsRegularGroup ()
         "ornaments",
         "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1026,7 +1033,7 @@ void Mikrokosmos3WanderingRegularHandler::createGraceNotesRegularGroup ()
         "Grace notes group",
         "grace-notes-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1037,7 +1044,7 @@ void Mikrokosmos3WanderingRegularHandler::createGraceNotesRegularGroup ()
         "Grace notes",
         "grace-notes", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1059,7 +1066,7 @@ void Mikrokosmos3WanderingRegularHandler::createChordsRegularGroup ()
         "Chords group",
         "chords-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1070,7 +1077,7 @@ void Mikrokosmos3WanderingRegularHandler::createChordsRegularGroup ()
         "Chords",
         "chords", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1092,7 +1099,7 @@ void Mikrokosmos3WanderingRegularHandler::createTiesRegularGroup ()
         "Ties group",
         "hties-group", "help-ties-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1103,7 +1110,7 @@ void Mikrokosmos3WanderingRegularHandler::createTiesRegularGroup ()
         "Ties",
         "hties", "help-ties",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1123,7 +1130,7 @@ void Mikrokosmos3WanderingRegularHandler::createSlursRegularGroup ()
         "Slurs group",
         "hslurs-group", "help-slurs-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1134,7 +1141,7 @@ void Mikrokosmos3WanderingRegularHandler::createSlursRegularGroup ()
         "Slurs",
         "hslurs", "help-slurs",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1156,7 +1163,7 @@ void Mikrokosmos3WanderingRegularHandler::createLigaturesRegularGroup ()
         "Ligatures group",
         "hligs-group", "help-ligatures-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1167,7 +1174,7 @@ void Mikrokosmos3WanderingRegularHandler::createLigaturesRegularGroup ()
         "Ligatures",
         "hligs", "help-ligatures",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1187,7 +1194,7 @@ void Mikrokosmos3WanderingRegularHandler::createDynamicsRegularGroup ()
         "Dynamics group",
         "hdyns-group", "help-dynamics-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1198,7 +1205,7 @@ void Mikrokosmos3WanderingRegularHandler::createDynamicsRegularGroup ()
         "Dynamics",
         "hdyns", "help-dynamics",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1222,7 +1229,7 @@ void Mikrokosmos3WanderingRegularHandler::createWedgesRegularGroup ()
         "Wedges group",
         "hweds-group", "help-wedges-group",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1233,7 +1240,7 @@ void Mikrokosmos3WanderingRegularHandler::createWedgesRegularGroup ()
         "Wedges",
         "hweds", "help-wedges",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1257,7 +1264,7 @@ void Mikrokosmos3WanderingRegularHandler::createTupletsRegularGroup ()
         "Tuplets group",
         "tuplets-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1268,7 +1275,7 @@ void Mikrokosmos3WanderingRegularHandler::createTupletsRegularGroup ()
         "Tuplets",
         "tuplets", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1290,7 +1297,7 @@ void Mikrokosmos3WanderingRegularHandler::createLyricsRegularGroup ()
         "Lyrics group",
         "lyrics-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1301,7 +1308,7 @@ void Mikrokosmos3WanderingRegularHandler::createLyricsRegularGroup ()
         "Lyrics",
         "lyrics", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1321,7 +1328,7 @@ void Mikrokosmos3WanderingRegularHandler::createHarmoniesRegularGroup ()
         "Harmonies group",
         "harmonies-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1332,7 +1339,7 @@ void Mikrokosmos3WanderingRegularHandler::createHarmoniesRegularGroup ()
         "Harmonies",
         "harmonies", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1354,7 +1361,7 @@ void Mikrokosmos3WanderingRegularHandler::createFiguredBassesRegularGroup ()
         "Figured basses group",
         "figured-basses-group", "",
         "",
-        kElementVisibilityWhole);
+        oahElementVisibilityKind::kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
 
   // subgroup
@@ -1365,7 +1372,7 @@ void Mikrokosmos3WanderingRegularHandler::createFiguredBassesRegularGroup ()
         "Figured basses",
         "figured-basses", "",
         "",
-        kElementVisibilityWhole,
+        oahElementVisibilityKind::kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);

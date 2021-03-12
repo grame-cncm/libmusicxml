@@ -75,6 +75,7 @@ void initializeMsdlCommentsTypeKindsMap ();
 
 // pitches languages
 //______________________________________________________________________________
+/* JMI
 enum msdlPitchesLanguageKind {
   kPitchesLanguageEnglish, // MSDL default
 
@@ -97,6 +98,7 @@ extern map<string, msdlPitchesLanguageKind>
 string existingMsdlPitchesLanguageKinds (unsigned int namesListMaxLength);
 
 void initializeMsdlPitchesLanguageKindsMap ();
+*/
 
 // initialization
 //______________________________________________________________________________

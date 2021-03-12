@@ -58,6 +58,9 @@ class msdlParser : public smartable
     // set and get
     // ------------------------------------------------------
 
+    S_msrScore            getCurrentScore () const
+                              { return fCurrentScore; }
+
     bool                  getSourceIsSyntacticallyCorrect () const
                               { return fSourceIsSyntacticallyCorrect; }
 
@@ -136,6 +139,12 @@ class msdlParser : public smartable
     // keywords language
     msdlKeywordsLanguageKind
                           fKeywordsInputLanguageKind;
+
+    S_msrIdentification   fMsrIdentification;
+
+    // pitches language
+    msrQuarterTonesPitchesLanguageKind
+                          fPitchesLanguageKind;
 
     // input source name
     string                fInputSourceName;
@@ -217,12 +226,6 @@ class msdlParser : public smartable
     S_msdlTokenKindsSet   fIdentificationFIRST;
     S_msdlTokenKindsSet   fIdentificationFOLLOW;
 
-    S_msrIdentification   fMsrIdentification;
-
-    // Pitches
-    msrQuarterTonesPitchKind // JMI ??? msdlPitchesLanguageKind
-                          fPitchesLanguageKind;
-
     // Anacrusis
     bool                  fAnacrusis;
 
@@ -293,7 +296,7 @@ class msdlParser : public smartable
     void                    Opus (S_msdlTokenKindsSet stopperTokensSet);
 
     // pitches language
-    void                  Pitches (S_msdlTokenKindsSet stopperTokensSet);
+    void                  PitchesLanguage (S_msdlTokenKindsSet stopperTokensSet);
 
     // anacrusis
     void                  Anacrusis (S_msdlTokenKindsSet stopperTokensSet);
