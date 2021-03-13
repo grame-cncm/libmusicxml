@@ -15,9 +15,8 @@
 
 #include <list>
 
-#include "msrSegnosAndCodas.h"
-
 #include "msrBasicTypes.h"
+#include "msrMeasureElements.h"
 
 
 namespace MusicXML2

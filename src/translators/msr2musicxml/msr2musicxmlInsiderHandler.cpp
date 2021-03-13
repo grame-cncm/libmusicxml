@@ -25,12 +25,12 @@
 #include "outputFileOah.h"
 #include "generalOah.h"
 
-#include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
-#include "msr2mxmlTreeOah.h"
+#include "mxmlTreeOah.h"
+#include "mxmltreeGenerationOah.h"
 #include "msrOah.h"
 #include "msr2msrOah.h"
-#include "msr2mxmlTreeOah.h"
+#include "mxmltreeGenerationOah.h"
 #include "mxmlTree2msrOah.h"
 
 #include "version.h"
@@ -183,10 +183,6 @@ void msr2musicxmlInsiderHandler::createTheMsr2musicxmlOptionGroups (
   appendGroupToHandler (
     createGlobalMsr2musicxmlOahGroup ());
 
-  // create the MusicXML OAH group
-  appendGroupToHandler (
-    createGlobalMusicxmlOahGroup ());
-
   // create the mxmlTree OAH group
   appendGroupToHandler (
     createGlobalMxmlTreeOahGroup ());
@@ -206,7 +202,7 @@ void msr2musicxmlInsiderHandler::createTheMsr2musicxmlOptionGroups (
 
   // create the msr2mxmlTree OAH group
   appendGroupToHandler (
-    createGlobalMsr2mxmlTreeOahGroup ());
+    createGlobalMxmltreeGenerationOahGroup ());
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group
@@ -374,7 +370,7 @@ void msr2musicxmlInsiderHandler::enforceHandlerQuietness ()
   gGlobalGeneralOahGroup->
     enforceGroupQuietness ();
 
-  gGlobalMusicxmlOahGroup->
+  gGlobalMxmltreeGenerationOahGroup->
     enforceGroupQuietness ();
 
   gGlobalMxmlTreeOahGroup->
@@ -386,7 +382,7 @@ void msr2musicxmlInsiderHandler::enforceHandlerQuietness ()
   gGlobalMsrOahGroup->
     enforceGroupQuietness ();
 
-  gGlobalMsr2mxmlTreeOahGroup->
+  gGlobalMxmltreeGenerationOahGroup->
     enforceGroupQuietness ();
 
 #ifdef EXTRA_OAH_IS_ENABLED

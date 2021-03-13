@@ -154,30 +154,34 @@ if (LIB)
     add_definitions(-DXML)
 endif()
 
-set (SRCFOLDERS ${SRCFOLDERS} utilities oah wae)
+set (SRCFOLDERS ${SRCFOLDERS} utilities oah wae manpage)
 
 if (MSR)
-	set (SRCFOLDERS ${SRCFOLDERS} representations/musicxml passes/mxml2mxmltree representations/mxmltree passes/mxmltree2msr representations/msr passes/msr2msr generators/Mikrokosmos3Wandering)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/mxml2mxmltree representations/mxmltree passes/mxmltree2msr representations/msr passes/msr2msr generation/multiGeneration generation/msrGeneration cli/Mikrokosmos3Wandering)
 endif()
 
 if (LILY)
-	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2lpsr representations/lpsr passes/lpsr2lilypond representations/lilypond translators/musicxml2lilypond translators/msr2lilypond)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2lpsr representations/lpsr passes/lpsr2lilypond translators/musicxml2lilypond translators/msr2lilypond generation/lilypondGeneration cli/xml2ly)
 endif()
 
 if (BRAILLE)
-	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2bsr representations/bsr passes/bsr2bsr passes/bsr2braille representations/braille translators/musicxml2braille translators/msr2braille)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2bsr representations/bsr passes/bsr2bsr passes/bsr2braille translators/musicxml2braille translators/msr2braille generation/brailleGeneration cli/xml2brl)
+endif()
+
+if (MXML OR GUIDO)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2mxmltree)
 endif()
 
 if (MXML)
-	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2mxmltree passes/mxmltree2mxml translators/musicxml2musicxml translators/msr2musicxml)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/mxmltree2mxml translators/musicxml2musicxml translators/msr2musicxml generation/mxmltreeGeneration cli/xml2xml)
 endif()
 
 if (GUIDO)
-	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2mxmltree passes/mxmltree2guido translators/musicxml2guido translators/msr2guido)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/mxmltree2guido translators/musicxml2guido translators/msr2guido generation/guidoGeneration cli/xml2gmn)
 endif()
 
 if (MSDL)
-	set (SRCFOLDERS ${SRCFOLDERS} representations/msdl representations/msdr passes/msdl2msr passes/msdl2msr translators/msdlcompiler translators/msdl2braille translators/msdl2guido translators/msdl2lilypond translators/msdl2musicxml)
+	set (SRCFOLDERS ${SRCFOLDERS} representations/msdl representations/msdr passes/msdl2msr passes/msdl2msr translators/msdlcompiler translators/msdl2braille translators/msdl2guido translators/msdl2lilypond translators/msdl2musicxml cli/msdl)
 endif()
 
 foreach(folder ${SRCFOLDERS})
@@ -257,27 +261,33 @@ endif()
 
 #######################################
 # set sample targets
-set (SAMPLES xmlversion RandomMusic RandomChords MusicAndHarmonies xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
+set (SAMPLES xmlversion RandomMusic RandomChords MusicAndHarmonies xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone libMultipleInitsTest xml2Any Mikrokosmos3Wandering)
+
 set (TOOLS  xml2guido xmlread xmltranspose xmlversion)
+
 if (LILY)
-	set (SAMPLES ${SAMPLES} libMultipleInitsTest xml2Any xml2ly Mikrokosmos3Wandering msdl)
-	set (TOOLS   ${TOOLS}   xml2ly msdl)
+	set (SAMPLES ${SAMPLES} xml2ly)
+	set (TOOLS   ${TOOLS}   xml2ly)
 endif()
+
 if (BRAILLE)
-	set (SAMPLES ${SAMPLES} xml2brl)
+  set (SAMPLES ${SAMPLES} xml2brl)
 	set (TOOLS   ${TOOLS}   xml2brl)
 endif()
+
 if (MXML)
 	set (SAMPLES ${SAMPLES} xml2xml)
 	set (TOOLS   ${TOOLS}   xml2xml)
 endif()
+
 if (GUIDO)
 	set (SAMPLES ${SAMPLES} xml2gmn)
 	set (TOOLS   ${TOOLS}   xml2gmn)
 endif()
+
 if (MSDL)
-#	set (SAMPLES ${SAMPLES} msdl)
-#	set (TOOLS   ${TOOLS}   msdl)
+	set (SAMPLES ${SAMPLES} msdl)
+	set (TOOLS   ${TOOLS}   msdl)
 endif()
 
 
@@ -287,6 +297,17 @@ else()
   set (LINKTO ${target})
 endif()
 
+
+if(NOT IOS )
+foreach(sample ${SAMPLES})
+	add_executable( ${sample} ${SAMPLEDIR}/${sample}.cpp )
+	target_link_libraries( ${sample} ${LINKTO})
+	set_target_properties (${sample} PROPERTIES
+		RUNTIME_OUTPUT_DIRECTORY  ${BINDIR}
+		RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${BINDIR})
+	add_dependencies(${sample} ${target})
+endforeach(sample)
+endif()
 
 if(NOT IOS )
 foreach(sample ${SAMPLES})

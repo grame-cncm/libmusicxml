@@ -32,14 +32,13 @@
 
 #include "msdl2msrOah.h"
 
-#include "musicxmlOah.h"
+#include "mxmlTreeOah.h"
 #include "mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
 #include "msrOah.h"
 #include "msr2bsrOah.h"
 #include "bsrOah.h"
-#include "bsr2brailleOah.h"
-#include "brailleOah.h"
+#include "brailleGenerationOah.h"
 
 #include "version.h"
 
@@ -197,10 +196,6 @@ void msdl2brlInsiderHandler::createTheMsdl2brlOptionGroups (
       executableName,
       fHandlerHeader));
 
-  // create the MusicXML OAH group
-  appendGroupToHandler (
-    createGlobalMusicxmlOahGroup ());
-
   // create the mxmlTree OAH group
   appendGroupToHandler (
     createGlobalMxmlTreeOahGroup ());
@@ -222,13 +217,9 @@ void msdl2brlInsiderHandler::createTheMsdl2brlOptionGroups (
   appendGroupToHandler (
     createGlobalBsrOahGroup ());
 
-  // create the bsr2braille OAH group
+  // create the braille generation OAH group
   appendGroupToHandler (
-    createGlobalBsr2brailleOahGroup ());
-
-  // create the braille OAH group
-  appendGroupToHandler (
-    createGlobalBrailleOahGroup ());
+    createGlobalBrailleGenerationOahGroup ());
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group
@@ -295,15 +286,6 @@ void msdl2brlInsiderHandler::enforceHandlerQuietness ()
   gGlobalGeneralOahGroup->
     enforceGroupQuietness ();
 
-  gGlobalMusicxmlOahGroup->
-    enforceGroupQuietness ();
-
-  gGlobalMxmlTreeOahGroup->
-    enforceGroupQuietness ();
-
-  gGlobalMxmlTree2msrOahGroup->
-    enforceGroupQuietness ();
-
   gGlobalMsrOahGroup->
     enforceGroupQuietness ();
 
@@ -313,10 +295,7 @@ void msdl2brlInsiderHandler::enforceHandlerQuietness ()
   gGlobalBsrOahGroup->
     enforceGroupQuietness ();
 
-  gGlobalBsr2brailleOahGroup->
-    enforceGroupQuietness ();
-
-  gGlobalBrailleOahGroup->
+  gGlobalBrailleGenerationOahGroup->
     enforceGroupQuietness ();
 
 #ifdef EXTRA_OAH_IS_ENABLED
@@ -505,24 +484,7 @@ void msdl2brlInsiderOahGroup::printMsdl2brlInsiderOahGroupValues (
 
   ++gIndenter;
 
-  // quit after some passes
-  // --------------------------------------
-
-  gLogStream <<
-    "Quit after some passes:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "quitAfterPass2a" << " : " <<
-    booleanAsString (fQuitAfterPass2a) <<
-    endl <<
-    setw (fieldWidth) << "quitAfterPass2b" << " : " <<
-    booleanAsString (fQuitAfterPass2b) <<
-    endl;
-
-  --gIndenter;
+  // JMI
 
   --gIndenter;
 }

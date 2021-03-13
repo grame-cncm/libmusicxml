@@ -16,8 +16,6 @@
 
 #include "utilities.h"
 
-#include "msrSegnosAndCodas.h"
-
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
@@ -26,6 +24,8 @@
 #include "oahOah.h"
 
 #include "msrOah.h"
+
+#include "msrSegnosAndCodas.h"
 
 
 using namespace std;

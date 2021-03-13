@@ -3,6 +3,7 @@
 
 #include "msrBasicTypes.h"
 #include "msrElements.h"
+#include "msrMeasureElements.h"
 #include "msrNotes.h"
 #include "msrTablatures.h"
 #include "msrVoices.h"

@@ -22,7 +22,7 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "lpsr2lilypondOah.h"
+#include "lilypondGenerationOah.h"
 
 
 using namespace std;
@@ -96,7 +96,7 @@ lpsrScore::lpsrScore (
 
   // should the initial comments about the executable and the options used
   // be generated?
-  if (gGlobalLpsr2lilypondOahGroup->getXml2lyInfos ()) {
+  if (gGlobalLilypondGenerationOahGroup->getXml2lyInfos ()) {
     // create the 'input source name and translation date' comment
     {
       stringstream s;
@@ -250,22 +250,22 @@ lpsrScore::lpsrScore (
   // spanners with centered text
   fTextSpannerWithCenteredTextIsNeeded = false;
 
-  if (gGlobalLpsr2lilypondOahGroup->getLilypondCompileDate ()) {
+  if (gGlobalLilypondGenerationOahGroup->getLilypondCompileDate ()) {
     // create the date and time functions
     addDateAndTimeSchemeFunctionsToScore ();
   }
 
-  if (gGlobalLpsr2lilypondOahGroup->getPointAndClickOff ()) {
+  if (gGlobalLilypondGenerationOahGroup->getPointAndClickOff ()) {
     // create the pointAndClickOff scheme function
     addPointAndClickOffSchemeFunctionsToScore ();
   }
 
-  if (gGlobalLpsr2lilypondOahGroup->getPointAndClickOff ()) {
+  if (gGlobalLilypondGenerationOahGroup->getPointAndClickOff ()) {
     // create the glissandoWithText scheme functions
     addGlissandoWithTextSchemeFunctionsToScore ();
   }
 
-  if (gGlobalLpsr2lilypondOahGroup->getJianpu ()) {
+  if (gGlobalLilypondGenerationOahGroup->getJianpu ()) {
     // create the Jianpu include command JMI
   }
 
@@ -397,7 +397,7 @@ lpsrScore::lpsrScore (
 
   // compile date
 
-  if (gGlobalLpsr2lilypondOahGroup->getLilypondCompileDate ()) {
+  if (gGlobalLilypondGenerationOahGroup->getLilypondCompileDate ()) {
     // define headers and footers
 
     fScorePaper->
@@ -465,7 +465,7 @@ R"(
   }
 
   // create the score layout
-  if (! gGlobalLpsr2lilypondOahGroup->getNoTopLevelLayoutBlock ()) {
+  if (! gGlobalLilypondGenerationOahGroup->getNoTopLevelLayoutBlock ()) {
     fScoreLayout =
       lpsrLayout::create (
         inputLineNumber);
@@ -1717,14 +1717,14 @@ R"###(% Exception music is chords with markups
 chExceptionMusic = {)###" <<
   endl;
 
-    if (gGlobalLpsr2lilypondOahGroup->getJazzChordsDisplay ()) {
+    if (gGlobalLilypondGenerationOahGroup->getJazzChordsDisplay ()) {
       s <<
-        gGlobalLpsr2lilypondOahGroup->getJazzChordsDisplayLilypondcode ();
+        gGlobalLilypondGenerationOahGroup->getJazzChordsDisplayLilypondcode ();
     }
 
   const list<pair<string, string> >&
     chordsDisplayList =
-      gGlobalLpsr2lilypondOahGroup->getChordsDisplayList ();
+      gGlobalLilypondGenerationOahGroup->getChordsDisplayList ();
 
   if (chordsDisplayList.size ()) {
     list<pair<string, string> >::const_iterator
@@ -1805,11 +1805,11 @@ R"###(% there is ony one ledger line spanner/grob/stencil
      (new-stil (box-stencil (stencil-with-color stil  (rgb-color )###";
 
   s <<
-    gGlobalLpsr2lilypondOahGroup->getLedgerLinesRGBColor ().getR () <<
+    gGlobalLilypondGenerationOahGroup->getLedgerLinesRGBColor ().getR () <<
     " " <<
-    gGlobalLpsr2lilypondOahGroup->getLedgerLinesRGBColor ().getG () <<
+    gGlobalLilypondGenerationOahGroup->getLedgerLinesRGBColor ().getG () <<
     " " <<
-    gGlobalLpsr2lilypondOahGroup->getLedgerLinesRGBColor ().getB ();
+    gGlobalLilypondGenerationOahGroup->getLedgerLinesRGBColor ().getB ();
 
   s <<
 R"###()) 0.1 1))

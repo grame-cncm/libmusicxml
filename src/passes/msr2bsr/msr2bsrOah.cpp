@@ -182,52 +182,6 @@ R"(Include clefs in BSR. By default, they are not.)",
         fIncludeClefs));
 }
 
-void msr2bsrOahGroup::initializeMsr2bsrQuitAfterSomePassesOptions ()
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Quit after some passes",
-        "hbquit", "help-bsr-quit",
-R"()",
-      oahElementVisibilityKind::kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // '-quit-3a' is hidden...
-
-  fQuitAfterPass3a = false;
-
-  S_oahBooleanAtom
-    quit3aOahBooleanAtom =
-      oahBooleanAtom::create (
-        "q3a", "quitAfterPass-3a",
-R"(Quit after pass 3a, i.e. after conversion
-of the MSR to the first BSR score.)",
-        "quitAfterPass3a",
-        fQuitAfterPass3a);
-
-  subGroup->
-    appendAtomToSubGroup (
-      quit3aOahBooleanAtom);
-
-  fQuitAfterPass3b = false;
-
-  S_oahBooleanAtom
-    quit3bOahBooleanAtom =
-      oahBooleanAtom::create (
-        "q3b", "quitAfterPass-3b",
-R"(Quit after pass 3b, i.e. after conversion
-of the first BSR to the second BSR.)",
-        "quitAfterPass3b",
-        fQuitAfterPass3b);
-
-  subGroup->
-    appendAtomToSubGroup (
-      quit3bOahBooleanAtom);
-}
-
 void msr2bsrOahGroup::initializeMsr2bsrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
@@ -239,21 +193,14 @@ void msr2bsrOahGroup::initializeMsr2bsrOahGroup ()
   // miscellaneous
   // --------------------------------------
   initializeMsr2bsrMiscellaneousOptions ();
-
-  // quit after some passes
-  // --------------------------------------
-  initializeMsr2bsrQuitAfterSomePassesOptions ();
 }
 
-//______________________________________________________________________________
 void msr2bsrOahGroup::enforceGroupQuietness ()
 {}
 
-//______________________________________________________________________________
 void msr2bsrOahGroup::checkGroupOptionsConsistency ()
 {}
 
-//______________________________________________________________________________
 void msr2bsrOahGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
@@ -368,25 +315,6 @@ void msr2bsrOahGroup::printMsr2bsrOahValues (unsigned int fieldWidth)
     setw (fieldWidth) << "includeClefs" << " : " <<
       booleanAsString (fIncludeClefs) <<
       endl;
-
-  --gIndenter;
-
-  // quit after some passes
-  // --------------------------------------
-
-  gLogStream <<
-    "Quit after some passes:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "quitAfterPass3a" << " : " <<
-    booleanAsString (fQuitAfterPass3a) <<
-    endl <<
-    setw (fieldWidth) << "quitAfterPass3b" << " : " <<
-    booleanAsString (fQuitAfterPass3b) <<
-    endl;
 
   --gIndenter;
 

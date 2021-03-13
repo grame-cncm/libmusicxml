@@ -23,7 +23,7 @@
 
 #include "utilities.h"
 
-#include "bsr2brailleOah.h"
+#include "brailleGenerationOah.h"
 
 #include "bsr2brailleTranslator.h"
 

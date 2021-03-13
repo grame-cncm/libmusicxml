@@ -19,7 +19,7 @@
 
 #include "oahOah.h"
 #include "bsrOah.h"
-#include "bsr2brailleOah.h"
+#include "brailleGenerationOah.h"
 
 
 using namespace std;
@@ -43,7 +43,7 @@ bsrFootNotes::bsrFootNotes (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        gGlobalBsr2brailleOahGroup->getCellsPerLine ())
+        gGlobalBrailleGenerationOahGroup->getCellsPerLine ())
 {}
 
 bsrFootNotes::~bsrFootNotes ()

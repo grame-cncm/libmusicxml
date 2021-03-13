@@ -21,7 +21,7 @@
 
 #include "oahOah.h"
 
-#include "bsr2brailleOah.h"
+#include "brailleGenerationOah.h"
 
 
 using namespace std;
@@ -52,8 +52,8 @@ bsrScore::bsrScore (
     bsrTranscriptionNotes::create (
       inputLineNumber);
 
-  fBrailleLineLength = gGlobalBsr2brailleOahGroup->getCellsPerLine ();
-  fBraillePageLength = gGlobalBsr2brailleOahGroup->getLinesPerPage ();
+  fBrailleLineLength = gGlobalBrailleGenerationOahGroup->getCellsPerLine ();
+  fBraillePageLength = gGlobalBrailleGenerationOahGroup->getLinesPerPage ();
 }
 
 bsrScore::~bsrScore ()

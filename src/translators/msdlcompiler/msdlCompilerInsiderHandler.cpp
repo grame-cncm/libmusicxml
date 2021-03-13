@@ -29,7 +29,7 @@
 // MSDL
 #include "msdl.h"
 
-#include "msdlOah.h"
+#include "msdlInputOah.h"
 #include "msdl2msrOah.h"
 
 
@@ -45,9 +45,9 @@
 
 
 // MusicXML
-#include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
-#include "msr2mxmlTreeOah.h"
+#include "mxmlTreeOah.h"
+#include "mxmltreeGenerationOah.h"
 #include "mxmlTree2msrOah.h"
 
 #include "msdl2xmlInsiderHandler.h"
@@ -58,8 +58,7 @@
 
 #include "msr2lpsrOah.h"
 #include "lpsrOah.h"
-#include "lpsr2lilypondOah.h"
-#include "lilypondOah.h"
+#include "lilypondGenerationOah.h"
 
 #include "msdl2lyInsiderHandler.h"
 
@@ -69,15 +68,14 @@
 
 #include "msr2bsrOah.h"
 #include "bsrOah.h"
-#include "bsr2brailleOah.h"
-#include "brailleOah.h"
+#include "brailleGenerationOah.h"
 
 #include "msdl2brlInsiderHandler.h"
 
 
 // generation
-#include "msrGeneratorsOah.h"
-#include "guidoOutputOah.h"
+#include "msrGenerationOah.h"
+#include "guidoGenerationOah.h"
 
 #include "version.h"
 
@@ -374,7 +372,7 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
 
   // create the MSDR OAH group
   appendGroupToHandler (
-    createGlobalMsdlOahGroup (
+    createGlobalMsdlInputOahGroup (
       executableName));
 
   // create the msdl2msr OAH group
@@ -405,15 +403,11 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
 
       // create the msr2mxmlTree OAH group
       appendGroupToHandler (
-        createGlobalMsr2mxmlTreeOahGroup ());
+        createGlobalMxmltreeGenerationOahGroup ());
 
       // create the mxmlTree OAH group
       appendGroupToHandler (
         createGlobalMxmlTreeOahGroup ());
-
-      // create the MusicXML OAH group
-      appendGroupToHandler (
-        createGlobalMusicxmlOahGroup ());
 
       // create the xml2gmn OAH group
       appendGroupToHandler (
@@ -425,7 +419,7 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
 
       // create the Guido generators OAH group
       appendGroupToHandler (
-        createGlobalGuidoOutputOahGroup ());
+        createGlobalGuidoGenerationOahGroup ());
       break;
 
     case multiGeneratorOutputKind::kLilyPondOutput:
@@ -440,13 +434,9 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
       appendGroupToHandler (
         createGlobalLpsrOahGroup ());
 
-      // create the lpsr2lilypond OAH group
+      // create the LilyPond generation OAH group
       appendGroupToHandler (
-        createGlobalLpsr2lilypondOahGroup ());
-
-      // create the LilyPond OAH group
-      appendGroupToHandler (
-        createGlobalLilypondOahGroup ());
+        createGlobalLilypondGenerationOahGroup ());
 
       // create the msdl2ly OAH group
       appendGroupToHandler (
@@ -466,13 +456,9 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
       appendGroupToHandler (
         createGlobalBsrOahGroup ());
 
-      // create the bsr2braille OAH group
+      // create the braille generation OAH group
       appendGroupToHandler (
-        createGlobalBsr2brailleOahGroup ());
-
-      // create the braille OAH group
-      appendGroupToHandler (
-        createGlobalBrailleOahGroup ());
+        createGlobalBrailleGenerationOahGroup ());
 
       // create the msdl2brl OAH group
       appendGroupToHandler (
@@ -488,15 +474,11 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
 
       // create the msr2mxmlTree OAH group
       appendGroupToHandler (
-        createGlobalMsr2mxmlTreeOahGroup ());
+        createGlobalMxmltreeGenerationOahGroup ());
 
       // create the mxmlTree OAH group
       appendGroupToHandler (
         createGlobalMxmlTreeOahGroup ());
-
-      // create the MusicXML OAH group
-      appendGroupToHandler (
-        createGlobalMusicxmlOahGroup ());
 
       // create the msdl2xml OAH group
       appendGroupToHandler (
@@ -635,10 +617,10 @@ string msdlCompilerInsiderHandler::fetchOutputFileNameFromTheOptions () const
           // should encoding be used by the output file name?
           bsrBrailleOutputKind
             brailleOutputKind =
-              gGlobalBsr2brailleOahGroup->
+              gGlobalBrailleGenerationOahGroup->
                 getBrailleOutputKind ();
 
-          if (gGlobalBsr2brailleOahGroup->getUseEncodingInFileName ()) {
+          if (gGlobalBrailleGenerationOahGroup->getUseEncodingInFileName ()) {
             switch (brailleOutputKind) {
               case kBrailleOutputAscii:
                 outputFileName += "_ASCII";
@@ -647,7 +629,7 @@ string msdlCompilerInsiderHandler::fetchOutputFileNameFromTheOptions () const
               case kBrailleOutputUTF8:
                 outputFileName += "_UTF8";
                   /* JMI
-                switch (gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) {
+                switch (gGlobalBrailleGenerationOahGroup->getByteOrderingKind ()) {
                   case kByteOrderingNone:
                     break;
                   case kByteOrderingBigEndian:
@@ -666,7 +648,7 @@ string msdlCompilerInsiderHandler::fetchOutputFileNameFromTheOptions () const
 
               case kBrailleOutputUTF16:
                 outputFileName += "_UTF16";
-                switch (gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) {
+                switch (gGlobalBrailleGenerationOahGroup->getByteOrderingKind ()) {
                   case kByteOrderingNone:
                     break;
 
@@ -732,7 +714,7 @@ void msdlCompilerInsiderHandler::enforceHandlerQuietness ()
   gGlobalGeneralOahGroup->
     enforceGroupQuietness ();
 
-  gGlobalMusicxmlOahGroup->
+  gGlobalMxmltreeGenerationOahGroup->
     enforceGroupQuietness ();
 
   gGlobalMxmlTreeOahGroup->
@@ -744,7 +726,7 @@ void msdlCompilerInsiderHandler::enforceHandlerQuietness ()
   gGlobalMsrOahGroup->
     enforceGroupQuietness ();
 
-  gGlobalMsr2mxmlTreeOahGroup->
+  gGlobalMxmltreeGenerationOahGroup->
     enforceGroupQuietness ();
 
 #ifdef EXTRA_OAH_IS_ENABLED

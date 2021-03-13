@@ -13,9 +13,8 @@
 #ifndef ___msrTranspositions___
 #define ___msrTranspositions___
 
-#include "msrSegnosAndCodas.h"
-
 #include "msrBasicTypes.h"
+#include "msrMeasureElements.h"
 
 
 namespace MusicXML2

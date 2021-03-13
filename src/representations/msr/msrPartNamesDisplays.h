@@ -13,9 +13,9 @@
 #ifndef ___msrPartNamesDisplays___
 #define ___msrPartNamesDisplays___
 
-#include "msrSegnosAndCodas.h"
 
 #include "msrBasicTypes.h"
+#include "msrMeasureElements.h"
 
 
 namespace MusicXML2

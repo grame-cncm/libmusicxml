@@ -29,7 +29,7 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "msrGeneratorsOah.h"
+#include "msrGenerationOah.h"
 
 #include "Mikrokosmos3WanderingInsiderHandler.h"
 #include "Mikrokosmos3WanderingRegularHandler.h"
@@ -195,7 +195,7 @@ void enforceSomeOptions (
 
     case multiGeneratorOutputKind::kGuidoOutput:
 /*
-     gGlobalMusicxmlOahGroup->setTraceDivisions ();
+     gGlobalMxmltreeGenerationOahGroup->setTraceDivisions ();
 */
      break;
 
@@ -213,8 +213,8 @@ void enforceSomeOptions (
       // ------------------------------------------------------
 
 /*
-      gGlobalLpsr2lilypondOahGroup->setLilypondCompileDate (); // JMI NOT OK
-      gGlobalLpsr2lilypondOahGroup->setInputLineNumbers ();
+      gGlobalLilypondGenerationOahGroup->setLilypondCompileDate (); // JMI NOT OK
+      gGlobalLilypondGenerationOahGroup->setInputLineNumbers ();
 */
       break;
 
@@ -231,7 +231,7 @@ void enforceSomeOptions (
       // ------------------------------------------------------
 
 /*
-      gGlobalBsr2brailleOahGroup->
+      gGlobalBrailleGenerationOahGroup->
         setBrailleOutputKind (kBrailleOutputUTF8Debug);
 */
       break;
@@ -241,7 +241,7 @@ void enforceSomeOptions (
       // ------------------------------------------------------
 
 /*
-      gGlobalMusicxmlOahGroup->setTraceDivisions ();
+      gGlobalMxmltreeGenerationOahGroup->setTraceDivisions ();
 
       gGlobalMxmlTreeOahGroup->setTraceMusicXMLTreeVisitors ();
 */

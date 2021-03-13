@@ -15,7 +15,6 @@
 
 #include "bsrOah.h"
 
-#include "msrSegnosAndCodas.h"
 
 #include "oahBasicTypes.h"
 
@@ -94,12 +93,6 @@ class EXP msr2bsrOahGroup : public oahGroup
     bool                  getIncludeClefs () const
                               { return fIncludeClefs; }
 
-    // quit after some passes
-    bool                  getQuitAfterPass3a () const
-                              { return fQuitAfterPass3a; }
-    bool                  getQuitAfterPass3b () const
-                              { return fQuitAfterPass3b; }
-
   public:
 
     // public services
@@ -115,8 +108,6 @@ class EXP msr2bsrOahGroup : public oahGroup
 #endif
 
     void                  initializeMsr2bsrMiscellaneousOptions ();
-
-    void                  initializeMsr2bsrQuitAfterSomePassesOptions ();
 
   public:
 
@@ -158,10 +149,6 @@ class EXP msr2bsrOahGroup : public oahGroup
     bsrFacSimileKind      fFacSimileKind;
 
     bool                  fIncludeClefs;
-
-    // quit after some passes
-    bool                  fQuitAfterPass3a;
-    bool                  fQuitAfterPass3b;
 };
 typedef SMARTP<msr2bsrOahGroup> S_msr2bsrOahGroup;
 EXP ostream& operator<< (ostream& os, const S_msr2bsrOahGroup& elt);

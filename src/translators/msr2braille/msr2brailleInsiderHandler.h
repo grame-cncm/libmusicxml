@@ -188,7 +188,7 @@ EXP ostream& operator<< (ostream& os, const S_msr2brailleInsiderOahGroup& elt);
 EXP extern S_msr2brailleInsiderOahGroup gGlobalMsr2brailleInsiderOahGroup;
 
 //______________________________________________________________________________
-S_msr2brailleInsiderOahGroup createGlobalMsr2brailleOahGroup (
+S_msr2brailleInsiderOahGroup createGlobalMrailleGenerationOahGroup (
   string executableName,
   string handlerHeader);
 

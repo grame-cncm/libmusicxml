@@ -30,7 +30,7 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "musicxmlOah.h"
+#include "mxmlTreeOah.h"
 #include "mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
 #include "msrOah.h"
@@ -2491,7 +2491,7 @@ void mxmlTree2msrTranslator::visitStart ( S_divisions& elt )
 
   // set current part's divisions per quarter note
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceDivisions ()) {
     if (fCurrentDivisionsPerQuarterNote == 1) {
       gLogStream <<
         "There is 1 division";
@@ -6276,7 +6276,7 @@ void mxmlTree2msrTranslator::visitEnd (S_backup& elt )
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceBackup ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceBackup ()) {
     gLogStream <<
       "Backup by " <<
       singularOrPlural (
@@ -6343,7 +6343,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_forward& elt )
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceForward ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceForward ()) {
     gLogStream <<
       "Handling 'forward <<< " << fCurrentBackupDivisions <<
       " divisions >>>" <<
@@ -6386,7 +6386,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_forward& elt )
 
   // compute the forward step length
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalMusicxmlOahGroup->getTraceForward ()) {
+    if (gGlobalMxmlTreeOahGroup->getTraceForward ()) {
       gLogStream <<
         "--> current forward divisions: " <<
         fCurrentForwardDivisions <<
@@ -8062,7 +8062,7 @@ void mxmlTree2msrTranslator::visitStart (S_measure& elt)
       gGlobalGeneralOahGroup  = gGlobalGeneralOahGroupWithDetailedTrace;
       gGlobalMsrOahGroup      = gGlobalMsrOahWithDetailedTrace;
       gGlobalLpsrOahGroup     = gGlobalLpsrOahWithDetailedTrace;
-      gGlobalLpsr2lilypondOahGroup = gGlobalLilypondOahWithDetailedTrace;
+      gGlobalLilypondGenerationOahGroup = gGlobalLilypondOahWithDetailedTrace;
     }
   }
 #endif
@@ -20290,7 +20290,7 @@ void mxmlTree2msrTranslator::handleBackup (
   int inputLineNumber)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceBackup ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceBackup ()) {
     gLogStream <<
       "Handling pending backup" <<
       ", fCurrentBackupDivisions: " <<

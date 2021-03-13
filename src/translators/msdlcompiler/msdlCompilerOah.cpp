@@ -24,7 +24,7 @@
 
 #include "waeMessagesHandling.h"
 
-#include "multiGeneratorsOah.h"
+#include "multiGenerationOah.h"
 
 #include "oahOah.h"
 #include "generalOah.h"
@@ -82,41 +82,12 @@ void msdlCompilerOahGroup::initializeMsdlCompilerOahGroup ()
 #endif
 }
 
-//______________________________________________________________________________
 void msdlCompilerOahGroup::enforceGroupQuietness ()
 {}
 
-//______________________________________________________________________________
 void msdlCompilerOahGroup::checkGroupOptionsConsistency ()
-{
-/* JMI
-  switch (fGeneratorOutputKind) {
-    case multiGeneratorOutputKind::k_NoOutput:
-      {
-        stringstream s;
+{}
 
-        s <<
-          fHandlerUpLink->getHandlerExecutableName () <<
-          " needs an generate code option chosen among:" <<
-          endl;
-
-        ++gIndenter;
-
-        s <<
-          existingGeneratorOutputKinds (K_NAMES_LIST_MAX_LENGTH);
-
-        --gIndenter;
-
-        oahError (s.str ());
-      }
-      break;
-    default:
-      ;
-  } // switch
-  */
-}
-
-//______________________________________________________________________________
 void msdlCompilerOahGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
@@ -180,7 +151,6 @@ void msdlCompilerOahGroup::browseData (basevisitor* v)
 #endif
 }
 
-//______________________________________________________________________________
 void msdlCompilerOahGroup::printMsdlCompilerOahValues (
   unsigned int fieldWidth)
 {
@@ -189,68 +159,6 @@ void msdlCompilerOahGroup::printMsdlCompilerOahValues (
     endl;
 
   ++gIndenter;
-
-/*
-  // generator output kind
-  // --------------------------------------
-
-  gLogStream <<
-    "Generator output:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "multiGeneratorOutputKind" << " : " <<
-      multiGeneratorOutputKindAsString (fGeneratorOutputKind) <<
-      endl;
-
-  --gIndenter;
-*/
-
-/* JMI
-  // code generation
-  // --------------------------------------
-
-  gLogStream <<
-    "Braille code generation:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "UTFKind" << " : " <<
-      bsrUTFKindAsString (fUTFKind) <<
-      endl <<
-
-    setw (fieldWidth) << "byteOrderingKind" << " : " <<
-      bsrByteOrderingKindAsString (fByteOrderingKind) <<
-      endl <<
-
-    setw (fieldWidth) << "useEncodingInFileName" << " : " <<
-      booleanAsString (fUseEncodingInFileName) <<
-      endl <<
-
-    setw (fieldWidth) << "cellsPerLine" << " : " <<
-      fCellsPerLine <<
-      endl <<
-    setw (fieldWidth) << "measuresPerLine" << " : " <<
-      fMeasuresPerLine <<
-      endl <<
-    setw (fieldWidth) << "linesPerPage" << " : " <<
-      fLinesPerPage <<
-      endl <<
-
-    setw (fieldWidth) << "xml2brlInfos" << " : " <<
-      booleanAsString (fXml2brlInfos) <<
-      endl <<
-
-    setw (fieldWidth) << "noBrailleCode" << " : " <<
-      booleanAsString (fNoBrailleCode) <<
-      endl;
-
-  --gIndenter;
-*/
 
   --gIndenter;
 }

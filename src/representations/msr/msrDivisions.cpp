@@ -21,7 +21,7 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "musicxmlOah.h"
+#include "mxmlTreeOah.h"
 #include "msrOah.h"
 
 #include "waeMessagesHandling.h"
@@ -47,7 +47,7 @@ S_msrDivisions msrDivisions::create (
 S_msrDivisions msrDivisions::createDivisionsNewbornClone ()
 {
 #ifdef TRACING_IS_ENABLED
- if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+ if (gGlobalMxmlTreeOahGroup->getTraceDivisions ()) {
     gLogStream <<
       "Creating a newborn clone of divisions '" <<
       asString () <<
@@ -83,7 +83,7 @@ msrDivisions::~msrDivisions ()
 void msrDivisions::initializeDivisions ()
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceDivisions () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceDivisions () && ! gGlobalGeneralOahGroup->getQuiet ()) {
     gLogStream <<
       "Initializing divisions" <<
       ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
@@ -146,7 +146,7 @@ void msrDivisions::initializeDivisions ()
 
   // print the durations divisions if needed
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceDivisions ()) {
     printDurationKindsDivisions (gLogStream);
   }
 #endif
@@ -257,7 +257,7 @@ string msrDivisions::divisionsAsMsrString (
   // either a sequence of dots or a multiplication factor
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceDivisions ()) {
     const unsigned int fieldWidth = 16;
 
     gLogStream <<
@@ -309,7 +309,7 @@ string msrDivisions::divisionsAsMsrString (
         msrDurationKindAsString (baseDurationKind);
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+      if (gGlobalMxmlTreeOahGroup->getTraceDivisions ()) {
         const unsigned int fieldWidth = 22;
 
         gLogStream <<
@@ -344,7 +344,7 @@ string msrDivisions::divisionsAsMsrString (
       baseDurationDivisions / 2;
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+    if (gGlobalMxmlTreeOahGroup->getTraceDivisions ()) {
       const unsigned int fieldWidth = 22;
 
       gLogStream <<
@@ -371,7 +371,7 @@ string msrDivisions::divisionsAsMsrString (
       r.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+      if (gGlobalMxmlTreeOahGroup->getTraceDivisions ()) {
         const unsigned int fieldWidth = 22;
 
         gLogStream <<
@@ -400,7 +400,7 @@ string msrDivisions::divisionsAsMsrString (
         nextDivisionsInList /= 2;
 
 #ifdef TRACING_IS_ENABLED
-        if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+        if (gGlobalMxmlTreeOahGroup->getTraceDivisions ()) {
           const unsigned int fieldWidth = 22;
 
           gLogStream <<
@@ -428,7 +428,7 @@ string msrDivisions::divisionsAsMsrString (
       } // while
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+      if (gGlobalMxmlTreeOahGroup->getTraceDivisions ()) {
         const unsigned int fieldWidth = 24;
 
         gLogStream <<
@@ -461,7 +461,7 @@ string msrDivisions::divisionsAsMsrString (
   numberOfDotsNeeded = dotsNumber;
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceDivisions ()) {
     gLogStream <<
       "<-- divisionsAsMsrString (): returns " << result <<
       endl << endl;

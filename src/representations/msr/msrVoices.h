@@ -17,6 +17,7 @@
 #include "msrRestMeasures.h"
 #include "msrScores.h"
 #include "msrSegments.h"
+#include "msrSegnosAndCodas.h"
 #include "msrStaves.h"
 #include "msrStavesDetails.h"
 #include "msrTimes.h"

@@ -30,7 +30,7 @@
 #include "msrOah.h"
 #include "msr2lpsrOah.h"
 #include "lpsrOah.h"
-#include "lpsr2lilypondOah.h"
+#include "lilypondGenerationOah.h"
 
 
 using namespace std;
@@ -564,35 +564,35 @@ void msr2lpsrTranslator::visitStart (S_msrScore& elt)
     fResultingLpsrScore-> getScoreHeader();
 
   // are the rests to be merged?
-  if (gGlobalLpsr2lilypondOahGroup->getMergeRests ()) {
+  if (gGlobalLilypondGenerationOahGroup->getMergeRests ()) {
     fResultingLpsrScore->
       // this score needs the 'merge rests' Scheme functions
       setMergeRestsIsNeeded ();
   }
 
   // is the LilyPond macro 'boxAroundNextBarNumber' to be generated?
-  if (gGlobalLpsr2lilypondOahGroup->getBoxAroundBarNumberSet ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getBoxAroundBarNumberSet ().size ()) {
     fResultingLpsrScore->
       // this score needs the 'boxAroundNextBarNumber' Scheme function
       setBoxAroundNextBarNumberIsNeeded ();
   }
 
   // is the Scheme function 'whiteNoteHeads' to be generated?
-  if (gGlobalLpsr2lilypondOahGroup->getWhiteNoteHeads ()) {
+  if (gGlobalLilypondGenerationOahGroup->getWhiteNoteHeads ()) {
     fResultingLpsrScore->
       // this score needs the 'whiteNoteHeads' Scheme function
       setWhiteNoteHeadsIsNeeded ();
   }
 
   // is the Scheme function 'jazzChordsDisplay' to be generated?
-  if (gGlobalLpsr2lilypondOahGroup->getJazzChordsDisplay ()) {
+  if (gGlobalLilypondGenerationOahGroup->getJazzChordsDisplay ()) {
     fResultingLpsrScore->
       // this score needs the 'jazzChordsDisplay' Scheme function
       setJazzChordsDisplayIsNeeded ();
   }
 
   // is jiǎnpǔ notation to be generated?
-  if (gGlobalLpsr2lilypondOahGroup->getJianpu ()) {
+  if (gGlobalLilypondGenerationOahGroup->getJianpu ()) {
     fResultingLpsrScore->
       // this score needs the 'jianpu file include' Scheme function
       setJianpuFileIncludeIsNeeded ();
@@ -601,7 +601,7 @@ void msr2lpsrTranslator::visitStart (S_msrScore& elt)
   // get the print notes head RGB color atom
   S_oahRGBColorAtom
     ledgerLinesRGBColorAtom =
-      gGlobalLpsr2lilypondOahGroup-> // JMI BLARK put that in gGlobalMsr2lpsrOahGroup
+      gGlobalLilypondGenerationOahGroup-> // JMI BLARK put that in gGlobalMsr2lpsrOahGroup
         getLedgerLinesRGBColorAtom ();
 
   // has the atom been used?
@@ -2238,7 +2238,7 @@ void msr2lpsrTranslator::visitStart (S_msrMeasure& elt)
     // yes
 
     // should we compress full measures rests?
-    if (gGlobalLpsr2lilypondOahGroup->getCompressFullMeasureRests ()) {
+    if (gGlobalLilypondGenerationOahGroup->getCompressFullMeasureRests ()) {
       // yes
 
       if (! fCurrentRestMeasure) {
@@ -2423,7 +2423,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasure& elt)
     // no
 
     // should we compress full measures rests?
-    if (gGlobalLpsr2lilypondOahGroup->getCompressFullMeasureRests ()) {
+    if (gGlobalLilypondGenerationOahGroup->getCompressFullMeasureRests ()) {
       // yes
 
       if (fCurrentRestMeasures) {
@@ -6695,34 +6695,34 @@ void msr2lpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
 
 /*
   // is there a rights option?
-  if (gGlobalLpsr2lilypondOahGroup->getRights ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getRights ().size ()) {
     // define rights
     fCurrentLpsrScoreHeader->
       appendRight (
         inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getRights ());
+        gGlobalLilypondGenerationOahGroup->getRights ());
   }
 
   // is there a composer option?
-  if (gGlobalLpsr2lilypondOahGroup->getComposer ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getComposer ().size ()) {
     // define composer
     fCurrentLpsrScoreHeader->
       appendComposer (
         inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getComposer ());
+        gGlobalLilypondGenerationOahGroup->getComposer ());
   }
 
   // is there an arranger option?
-  if (gGlobalLpsr2lilypondOahGroup->getArranger ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getArranger ().size ()) {
     // define arranger
     fCurrentLpsrScoreHeader->
       appendArranger (
         inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getArranger ());
+        gGlobalLilypondGenerationOahGroup->getArranger ());
   }
 
   // is there a poet option?
-  if (gGlobalLpsr2lilypondOahGroup->getPoetAtom ()->getVariableHasBeenSet ()) {
+  if (gGlobalLilypondGenerationOahGroup->getPoetAtom ()->getVariableHasBeenSet ()) {
     // remove all poets
     fCurrentLpsrScoreHeader->
       removeAllPoets (inputLineNumber);
@@ -6730,97 +6730,97 @@ void msr2lpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
     fCurrentLpsrScoreHeader->
       appendPoet (
         inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getPoet ());
+        gGlobalLilypondGenerationOahGroup->getPoet ());
   }
 
   // is there a lyricist option?
-  if (gGlobalLpsr2lilypondOahGroup->getLyricist ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getLyricist ().size ()) {
     // define lyricist
     fCurrentLpsrScoreHeader->
       appendLyricist (
         inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getLyricist ());
+        gGlobalLilypondGenerationOahGroup->getLyricist ());
   }
 
   // is there a software option?
-  if (gGlobalLpsr2lilypondOahGroup->getSoftware ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getSoftware ().size ()) {
     // define software
     fCurrentLpsrScoreHeader->
       appendSoftware (
         inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getSoftware ());
+        gGlobalLilypondGenerationOahGroup->getSoftware ());
   }
 
   // is there a dedication?
-  if (gGlobalLpsr2lilypondOahGroup->getDedication ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getDedication ().size ()) {
     // define dedication
     fCurrentLpsrScoreHeader->
       setLilypondDedication (
-        gGlobalLpsr2lilypondOahGroup->getDedication ());
+        gGlobalLilypondGenerationOahGroup->getDedication ());
   }
 
   // is there a piece?
-  if (gGlobalLpsr2lilypondOahGroup->getPiece ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getPiece ().size ()) {
     // define piece
     fCurrentLpsrScoreHeader->
       setLilypondPiece (
-        gGlobalLpsr2lilypondOahGroup->getPiece ());
+        gGlobalLilypondGenerationOahGroup->getPiece ());
   }
 
   // is there an opus?
-  if (gGlobalLpsr2lilypondOahGroup->getOpus ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getOpus ().size ()) {
     // define opus
     fCurrentLpsrScoreHeader->
       setLilypondOpus (
-        gGlobalLpsr2lilypondOahGroup->getOpus ());
+        gGlobalLilypondGenerationOahGroup->getOpus ());
   }
 
   // is there a title?
-  if (gGlobalLpsr2lilypondOahGroup->getTitle ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getTitle ().size ()) {
     // define title
     fCurrentLpsrScoreHeader->
       setLilypondTitle (
-        gGlobalLpsr2lilypondOahGroup->getTitle ());
+        gGlobalLilypondGenerationOahGroup->getTitle ());
   }
 
   // is there a subtitle?
-  if (gGlobalLpsr2lilypondOahGroup->getSubTitle ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getSubTitle ().size ()) {
     // define subtitle
     fCurrentLpsrScoreHeader->
       setLilypondSubTitle (
-        gGlobalLpsr2lilypondOahGroup->getSubTitle ());
+        gGlobalLilypondGenerationOahGroup->getSubTitle ());
   }
 
   // is there a subsubtitle?
-  if (gGlobalLpsr2lilypondOahGroup->getSubSubTitle ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getSubSubTitle ().size ()) {
     // define subsubtitle
     fCurrentLpsrScoreHeader->
       setLilypondSubSubTitle (
-        gGlobalLpsr2lilypondOahGroup->getSubSubTitle ());
+        gGlobalLilypondGenerationOahGroup->getSubSubTitle ());
   }
 
   // is there a meter?
-  if (gGlobalLpsr2lilypondOahGroup->getMeter ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getMeter ().size ()) {
     // define meter
     fCurrentLpsrScoreHeader->
       setLilypondMeter (
-        gGlobalLpsr2lilypondOahGroup->getMeter ());
+        gGlobalLilypondGenerationOahGroup->getMeter ());
   }
 
   // is there a tagline?
-  if (gGlobalLpsr2lilypondOahGroup->getTagline ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getTagline ().size ()) {
     // define tagline
     fCurrentLpsrScoreHeader->
       setLilypondTagline (
-        gGlobalLpsr2lilypondOahGroup->getTagline ());
+        gGlobalLilypondGenerationOahGroup->getTagline ());
   }
 
   // is there a copyright?
-  if (gGlobalLpsr2lilypondOahGroup->getCopyright ().size ()) {
+  if (gGlobalLilypondGenerationOahGroup->getCopyright ().size ()) {
     // define copyright
     fCurrentLpsrScoreHeader->
       setLilypondCopyright (
-        gGlobalLpsr2lilypondOahGroup->getCopyright ());
+        gGlobalLilypondGenerationOahGroup->getCopyright ());
   }
 
 */

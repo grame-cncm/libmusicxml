@@ -13,15 +13,14 @@
 #ifndef ___msdl2msrOah___
 #define ___msdl2msrOah___
 
-#include "msrSegnosAndCodas.h"
 
 #include "oahBasicTypes.h"
 
 #include "msdlKeywords.h"
 
-// JMI #include "multiGeneratorsOah.h"
+// JMI #include "multiGenerationOah.h"
 
-#include "msdlOah.h"
+#include "msdlInputOah.h"
 
 
 namespace MusicXML2

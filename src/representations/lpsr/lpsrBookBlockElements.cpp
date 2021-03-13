@@ -23,7 +23,7 @@
 #include "generalOah.h"
 
 #include "lpsrOah.h"
-#include "lpsr2lilypondOah.h"
+#include "lilypondGenerationOah.h"
 
 using namespace std;
 
@@ -175,7 +175,7 @@ lpsrScoreBlock::lpsrScoreBlock (
       lpsrParallelMusicBLock::kEndOfLine);
 
   // create the score block layout?
-  if (! gGlobalLpsr2lilypondOahGroup->getNoTopLevelLayoutBlock ()) {
+  if (! gGlobalLilypondGenerationOahGroup->getNoTopLevelLayoutBlock ()) {
     fScoreBlockLayout =
       lpsrLayout::create (
         inputLineNumber);
@@ -183,8 +183,8 @@ lpsrScoreBlock::lpsrScoreBlock (
 
   /*
   // create the score block midi tempo
-  string midiTempoDuration  = gGlobalLpsr2lilypondOahGroup->getMidiTempo ().first; // BLARK JMI ???
-  int    midiTempoPerSecond = gGlobalLpsr2lilypondOahGroup->getMidiTempo ().second;
+  string midiTempoDuration  = gGlobalLilypondGenerationOahGroup->getMidiTempo ().first; // BLARK JMI ???
+  int    midiTempoPerSecond = gGlobalLilypondGenerationOahGroup->getMidiTempo ().second;
 
   fScoreBlockMidiTempo =
     msrMidiTempo::create (
@@ -194,7 +194,7 @@ lpsrScoreBlock::lpsrScoreBlock (
       */
   // create the score block midi tempo
   fScoreBlockMidiTempo = // options for this ???
-    gGlobalLpsr2lilypondOahGroup->
+    gGlobalLilypondGenerationOahGroup->
       getMidiTempo ().
         createMsrMidiTempoNewbornClone ();
 }

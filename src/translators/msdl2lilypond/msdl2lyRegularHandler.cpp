@@ -25,14 +25,13 @@
 
 #include "generalOah.h"
 
-#include "musicxmlOah.h"
+#include "mxmlTreeOah.h"
 #include "mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
 #include "msrOah.h"
 #include "msr2lpsrOah.h"
 #include "lpsrOah.h"
-#include "lpsr2lilypondOah.h"
-#include "lilypondOah.h"
+#include "lilypondGenerationOah.h"
 
 #include "version.h"
 

@@ -2,6 +2,7 @@
 #define ___msrFiguredBasses___
 
 #include "msrElements.h"
+#include "msrMeasureElements.h"
 #include "msrNotes.h"
 #include "msrParts.h"
 

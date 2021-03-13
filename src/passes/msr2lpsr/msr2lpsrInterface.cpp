@@ -26,7 +26,7 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "lpsr2lilypondOah.h"
+#include "lilypondGenerationOah.h"
 
 #include "msr2lpsrInterface.h"
 
@@ -47,7 +47,7 @@ S_lpsrScore convertMsrScoreToLpsrScore (
   string         passNumber,
   string         passDescription)
 {
-  if (gGlobalLpsr2lilypondOahGroup->getNoLilypondCode ()) {
+  if (gGlobalLilypondGenerationOahGroup->getNoLilypondCode ()) {
     gLogStream <<
       "Option '-nolpc, -no-lilypond-code' is set, no LPSR is created" <<
       endl;
@@ -118,7 +118,7 @@ clock_t startClock = clock ();
     gIndenter.resetToZero ();
   }
 
-  if (! resultingLpsrScore && ! gGlobalLpsr2lilypondOahGroup->getNoLilypondCode ()) {
+  if (! resultingLpsrScore && ! gGlobalLilypondGenerationOahGroup->getNoLilypondCode ()) {
     string message =
       "### Conversion from MSR to LPSR failed ###";
 

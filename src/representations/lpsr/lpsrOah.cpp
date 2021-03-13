@@ -1397,7 +1397,9 @@ R"()",
 
   // lpsr pitches language
 
-  if (! setLpsrQuarterTonesPitchesLanguage ("nederlands")) {
+  if (
+    ! setLpsrQuarterTonesPitchesLanguage ("nederlands")
+  ) {
     stringstream s;
 
     s <<
@@ -1516,37 +1518,6 @@ for instruments in 'a', 'f' and B flat respectively)",
         fTransposeSemiTonesPitchAndOctave));
 }
 
-void lpsrOahGroup::initializeLpsrQuitAfterSomePassesOptions ()
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Quit after some passes",
-        "hlquit", "help-lpsr-quit",
-R"()",
-      oahElementVisibilityKind::kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // quit after pass 3
-
-  fQuitAfterPass3 = false;
-
-  S_oahBooleanAtom
-    quit3OahBooleanAtom =
-      oahBooleanAtom::create (
-        "lq3", "lpsr-quit-after-pass-3",
-R"(Quit after pass 3, i.e. after conversion
-of the MSR to LPSR.)",
-        "quitAfterPass3",
-        fQuitAfterPass3);
-
-  subGroup->
-    appendAtomToSubGroup (
-      quit3OahBooleanAtom);
-}
-
 void lpsrOahGroup::initializeLpsrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
@@ -1584,10 +1555,6 @@ void lpsrOahGroup::initializeLpsrOahGroup ()
   // --------------------------------------
   initializeLpsrTransposeOptions ();
 */
-
-  // quit after some passes
-  // --------------------------------------
-  initializeLpsrQuitAfterSomePassesOptions ();
 }
 
 //______________________________________________________________________________
@@ -1609,7 +1576,7 @@ bool lpsrOahGroup::setLpsrQuarterTonesPitchesLanguage (string language)
 }
 
 //______________________________________________________________________________
-bool lpsrOahGroup::setLpsrChordsLanguage (string language)
+bool lpsrOahGroup::setLpsrChordsLanguageKind (string language)
 {
   // is language in the chords languages map?
   map<string, lpsrChordsLanguageKind>::const_iterator

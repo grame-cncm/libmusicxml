@@ -112,18 +112,6 @@ EXP xmlErr msrScore2brailleWithHandler (
         gGlobalMsrOahGroup,
         gGlobalBsrOahGroup);
     }
-
-    // should we return now?
-    // ------------------------------------------------------
-
-    if (gGlobalMsr2bsrOahGroup->getQuitAfterPass3a ()) {
-      err <<
-        endl <<
-        "Quitting after pass 3a as requested" <<
-        endl;
-
-      return kNoErr;
-    }
   }
 
   // the finalized BSR score
@@ -165,18 +153,6 @@ EXP xmlErr msrScore2brailleWithHandler (
         finalizedBsrScore,
         gGlobalMsrOahGroup,
         gGlobalBsrOahGroup);
-    }
-
-    // should we return now?
-    // ------------------------------------------------------
-
-    if (gGlobalMsr2bsrOahGroup->getQuitAfterPass3b ()) {
-      err <<
-        endl <<
-        "Quitting after pass 3b as requested" <<
-        endl;
-
-      return kNoErr;
     }
   }
 

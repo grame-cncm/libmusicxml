@@ -73,6 +73,94 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
+  // the 'MusicXML' multiplex booleans atom
+
+  S_oahMultiplexBooleansAtom
+    musicXMLMultiplexBooleansAtom =
+      oahMultiplexBooleansAtom::create (
+       "twhmd", "trace-when-handling-musicxml-data",
+        "Trace SHORT_NAME/LONG_NAME when handling MusicXML data.",
+        "SHORT_NAME",
+        "LONG_NAME",
+        gGlobalTraceOahGroup->getShortTracePrefix (),
+        gGlobalTraceOahGroup->getLongTracePrefix ());
+
+  subGroup->
+    appendAtomToSubGroup (
+      musicXMLMultiplexBooleansAtom);
+
+  // encoding
+
+  fTraceEncoding = false;
+
+  S_oahBooleanAtom
+    traceEncodingAtom =
+      oahBooleanAtom::create (
+        "tenc", "trace-encoding",
+R"(Encoding)",
+        "traceEncoding",
+        fTraceEncoding);
+  subGroup->
+    appendAtomToSubGroup (
+      traceEncodingAtom);
+  musicXMLMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceEncodingAtom);
+
+  // divisions
+
+  fTraceDivisions = false;
+
+  S_oahBooleanAtom
+    traceDivisionsAtom =
+      oahBooleanAtom::create (
+        "tdivs", "trace-divisions",
+R"(Divisions)",
+        "traceDivisions",
+        fTraceDivisions);
+  subGroup->
+    appendAtomToSubGroup (
+      traceDivisionsAtom);
+  musicXMLMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceDivisionsAtom);
+
+  // backup
+
+  fTraceBackup = false;
+
+  S_oahBooleanAtom
+    traceBackupAtom =
+      oahBooleanAtom::create (
+        "tbackup", "trace-backup",
+R"(Backup)",
+        "traceBackup",
+        fTraceBackup);
+  subGroup->
+    appendAtomToSubGroup (
+      traceBackupAtom);
+  musicXMLMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceBackupAtom);
+
+  // forward
+
+  fTraceForward = false;
+
+  S_oahBooleanAtom
+    traceForwardAtom =
+      oahBooleanAtom::create (
+        "tforward", "trace-forward",
+R"(Forward)",
+        "traceForward",
+        fTraceForward);
+  subGroup->
+    appendAtomToSubGroup (
+      traceForwardAtom);
+  musicXMLMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceForwardAtom);
+
   // MusicXML tree
 
   fTraceMusicXMLTree = false;
@@ -108,7 +196,6 @@ void mxmlTreeOahGroup::initializeMxmlTreeOah ()
 #endif
 }
 
-//______________________________________________________________________________
 void mxmlTreeOahGroup::enforceGroupQuietness ()
 {
 #ifdef TRACING_IS_ENABLED
@@ -116,7 +203,6 @@ void mxmlTreeOahGroup::enforceGroupQuietness ()
 #endif
 }
 
-//______________________________________________________________________________
 void mxmlTreeOahGroup::checkGroupOptionsConsistency ()
 {
   // JMI
@@ -186,7 +272,6 @@ void mxmlTreeOahGroup::browseData (basevisitor* v)
 #endif
 }
 
-//______________________________________________________________________________
 void mxmlTreeOahGroup::printMxmlTreeOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
@@ -206,6 +291,22 @@ void mxmlTreeOahGroup::printMxmlTreeOahValues (unsigned int fieldWidth)
   ++gIndenter;
 
   gLogStream << left <<
+    setw (fieldWidth) << "traceEncoding" << " : " <<
+    booleanAsString (fTraceEncoding) <<
+    endl <<
+
+    setw (fieldWidth) << "traceDivisions" << " : " <<
+    booleanAsString (fTraceDivisions) <<
+    endl <<
+
+    setw (fieldWidth) << "traceBackup" << " : " <<
+    booleanAsString (fTraceBackup) <<
+    endl <<
+
+    setw (fieldWidth) << "traceForward" << " : " <<
+    booleanAsString (fTraceForward) <<
+    endl <<
+
     setw (fieldWidth) << "traceMusicXMLTree" << " : " <<
     booleanAsString (fTraceMusicXMLTree) <<
     endl <<

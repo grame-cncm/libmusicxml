@@ -13,9 +13,8 @@
 #ifndef ___msrRehearsals___
 #define ___msrRehearsals___
 
-#include "msrSegnosAndCodas.h"
-
 #include "msrBasicTypes.h"
+#include "msrMeasureElements.h"
 
 
 namespace MusicXML2

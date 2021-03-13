@@ -24,18 +24,17 @@
 
 #include "generalOah.h"
 
-#include "musicxmlOah.h"
+#include "mxmlTreeOah.h"
 #include "mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
 #include "msrOah.h"
 #include "msr2bsrOah.h"
 #include "bsrOah.h"
-#include "bsr2brailleOah.h"
-#include "brailleOah.h"
+#include "brailleGenerationOah.h"
 
 #include "version.h"
 
-#include "bsr2brailleOah.h"
+#include "brailleGenerationOah.h"
 #include "msdl2brlRegularHandler.h"
 
 

@@ -30,14 +30,13 @@
 #include "outputFileOah.h"
 #include "generalOah.h"
 
-#include "musicxmlOah.h"
+#include "mxmlTreeOah.h"
 #include "mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
 #include "msrOah.h"
 #include "msr2bsrOah.h"
 #include "bsrOah.h"
-#include "bsr2brailleOah.h"
-#include "brailleOah.h"
+#include "brailleGenerationOah.h"
 
 #include "version.h"
 
@@ -190,13 +189,9 @@ void msr2brailleInsiderHandler::createTheXml2brailleOptionGroups (
 
   // create the msr2braille OAH group
   appendGroupToHandler (
-    createGlobalMsr2brailleOahGroup (
+    createGlobalMrailleGenerationOahGroup (
       executableName,
       fHandlerHeader));
-
-  // create the MusicXML OAH group
-  appendGroupToHandler (
-    createGlobalMusicxmlOahGroup ());
 
   // create the mxmlTree OAH group
   appendGroupToHandler (
@@ -219,13 +214,9 @@ void msr2brailleInsiderHandler::createTheXml2brailleOptionGroups (
   appendGroupToHandler (
     createGlobalBsrOahGroup ());
 
-  // create the bsr2braille OAH group
+  // create the braille generation OAH group
   appendGroupToHandler (
-    createGlobalBsr2brailleOahGroup ());
-
-  // create the braille OAH group
-  appendGroupToHandler (
-    createGlobalBrailleOahGroup ());
+    createGlobalBrailleGenerationOahGroup ());
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group
@@ -372,10 +363,10 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
       // should encoding be used by the output file name?
       bsrBrailleOutputKind
         brailleOutputKind =
-          gGlobalBsr2brailleOahGroup->
+          gGlobalBrailleGenerationOahGroup->
             getBrailleOutputKind ();
 
-      if (gGlobalBsr2brailleOahGroup->getUseEncodingInFileName ()) {
+      if (gGlobalBrailleGenerationOahGroup->getUseEncodingInFileName ()) {
         switch (brailleOutputKind) {
           case kBrailleOutputAscii:
             outputFileName += "_ASCII";
@@ -384,7 +375,7 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
           case kBrailleOutputUTF8:
             outputFileName += "_UTF8";
               /* JMI
-            switch (gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) {
+            switch (gGlobalBrailleGenerationOahGroup->getByteOrderingKind ()) {
               case kByteOrderingNone:
                 break;
               case kByteOrderingBigEndian:
@@ -403,7 +394,7 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
 
           case kBrailleOutputUTF16:
             outputFileName += "_UTF16";
-            switch (gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) {
+            switch (gGlobalBrailleGenerationOahGroup->getByteOrderingKind ()) {
               case kByteOrderingNone:
                 break;
 
@@ -484,15 +475,6 @@ void msr2brailleInsiderHandler::enforceHandlerQuietness ()
   gGlobalGeneralOahGroup->
     enforceGroupQuietness ();
 
-  gGlobalMusicxmlOahGroup->
-    enforceGroupQuietness ();
-
-  gGlobalMxmlTreeOahGroup->
-    enforceGroupQuietness ();
-
-  gGlobalMxmlTree2msrOahGroup->
-    enforceGroupQuietness ();
-
   gGlobalMsrOahGroup->
     enforceGroupQuietness ();
 
@@ -502,10 +484,7 @@ void msr2brailleInsiderHandler::enforceHandlerQuietness ()
   gGlobalBsrOahGroup->
     enforceGroupQuietness ();
 
-  gGlobalBsr2brailleOahGroup->
-    enforceGroupQuietness ();
-
-  gGlobalBrailleOahGroup->
+  gGlobalBrailleGenerationOahGroup->
     enforceGroupQuietness ();
 
 #ifdef EXTRA_OAH_IS_ENABLED
@@ -716,7 +695,7 @@ void msr2brailleInsiderOahGroup::printXml2brailleInsiderOahGroupValues (unsigned
 }
 
 //______________________________________________________________________________
-S_msr2brailleInsiderOahGroup createGlobalMsr2brailleOahGroup (
+S_msr2brailleInsiderOahGroup createGlobalMrailleGenerationOahGroup (
   string executableName,
   string handlerHeader)
 {

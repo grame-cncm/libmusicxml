@@ -22,7 +22,7 @@
 
 #include "mxmlTreeOah.h"
 #include "bsrOah.h"
-#include "bsr2brailleOah.h"
+#include "brailleGenerationOah.h"
 
 
 using namespace std;
@@ -46,17 +46,17 @@ bsr2brailleTranslator::bsr2brailleTranslator (
 #ifdef TRACING_IS_ENABLED
   if (gGlobalBsrOahGroup->getTraceBsr ()) {
     gLogStream <<
-      "gGlobalBsr2brailleOahGroup->getBrailleOutputKind (): " <<
+      "gGlobalBrailleGenerationOahGroup->getBrailleOutputKind (): " <<
       bsrBrailleOutputKindAsString (
-        gGlobalBsr2brailleOahGroup->getBrailleOutputKind ()) <<
-      ", gGlobalBsr2brailleOahGroup->getByteOrderingKind (): " <<
+        gGlobalBrailleGenerationOahGroup->getBrailleOutputKind ()) <<
+      ", gGlobalBrailleGenerationOahGroup->getByteOrderingKind (): " <<
       bsrByteOrderingKindAsString (
-        gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) <<
+        gGlobalBrailleGenerationOahGroup->getByteOrderingKind ()) <<
       endl;
   }
 #endif
 
-  switch (gGlobalBsr2brailleOahGroup->getBrailleOutputKind ()) {
+  switch (gGlobalBrailleGenerationOahGroup->getBrailleOutputKind ()) {
     case kBrailleOutputAscii:
       fBrailleGenerator =
         bsrAsciiBrailleGenerator::create (
@@ -66,19 +66,19 @@ bsr2brailleTranslator::bsr2brailleTranslator (
     case kBrailleOutputUTF8:
       fBrailleGenerator =
         bsrUTF8BrailleGenerator::create (
-          gGlobalBsr2brailleOahGroup->getByteOrderingKind (),
+          gGlobalBrailleGenerationOahGroup->getByteOrderingKind (),
           fBrailleOutputStream);
       break;
 
     case kBrailleOutputUTF8Debug:
       fBrailleGenerator =
         bsrUTF8DebugBrailleGenerator::create (
-          gGlobalBsr2brailleOahGroup->getByteOrderingKind (),
+          gGlobalBrailleGenerationOahGroup->getByteOrderingKind (),
           fBrailleOutputStream);
       break;
 
     case kBrailleOutputUTF16:
-      switch (gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) {
+      switch (gGlobalBrailleGenerationOahGroup->getByteOrderingKind ()) {
         case kByteOrderingNone:
           {
             stringstream s;
@@ -100,14 +100,14 @@ bsr2brailleTranslator::bsr2brailleTranslator (
         case kByteOrderingBigEndian:
           fBrailleGenerator =
             bsrUTF16BigEndianBrailleGenerator::create (
-              gGlobalBsr2brailleOahGroup->getByteOrderingKind (),
+              gGlobalBrailleGenerationOahGroup->getByteOrderingKind (),
               fBrailleOutputStream);
           break;
 
         case kByteOrderingSmallEndian:
           fBrailleGenerator =
             bsrUTF16SmallEndianBrailleGenerator::create (
-              gGlobalBsr2brailleOahGroup->getByteOrderingKind (),
+              gGlobalBrailleGenerationOahGroup->getByteOrderingKind (),
               fBrailleOutputStream);
           break;
       } // switch
@@ -811,23 +811,23 @@ void bsr2brailleTranslator::visitEnd (S_bsrNote& elt)
 } // namespace
 
 /* JMI
-  switch (gGlobalBsr2brailleOahGroup->getUTFKind ()) {
+  switch (gGlobalBrailleGenerationOahGroup->getUTFKind ()) {
     case kUTF8:
       fBrailleGenerator =
         bsrUTF8BrailleGenerator::create (
-          gGlobalBsr2brailleOahGroup->getByteOrderingKind (),
+          gGlobalBrailleGenerationOahGroup->getByteOrderingKind (),
           fBrailleOutputStream);
       break;
 
     case kUTF16:
-      switch (gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) {
+      switch (gGlobalBrailleGenerationOahGroup->getByteOrderingKind ()) {
         case kByteOrderingNone:
           break;
 
         case kByteOrderingBigEndian:
           fBrailleGenerator =
             bsrUTF16BigEndianBrailleGenerator::create (
-              gGlobalBsr2brailleOahGroup->getByteOrderingKind (),
+              gGlobalBrailleGenerationOahGroup->getByteOrderingKind (),
               fBrailleOutputStream);
           break;
 
@@ -835,7 +835,7 @@ void bsr2brailleTranslator::visitEnd (S_bsrNote& elt)
           break;
           fBrailleGenerator =
             bsrUTF16SmallEndianBrailleGenerator::create (
-              gGlobalBsr2brailleOahGroup->getByteOrderingKind (),
+              gGlobalBrailleGenerationOahGroup->getByteOrderingKind (),
               fBrailleOutputStream);
       } // switch
       break;

@@ -15,9 +15,8 @@
 
 #include <list>
 
-#include "msrSegnosAndCodas.h"
-
 #include "msrBasicTypes.h"
+#include "msrMeasureElements.h"
 
 #include "msrBeams.h"
 #include "msrWords.h"

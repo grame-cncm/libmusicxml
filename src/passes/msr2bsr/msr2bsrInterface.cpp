@@ -26,7 +26,7 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "bsr2brailleOah.h"
+#include "brailleGenerationOah.h"
 
 #include "msr2bsrInterface.h"
 

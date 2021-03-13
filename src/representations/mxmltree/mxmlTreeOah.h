@@ -13,12 +13,7 @@
 #ifndef ___mxmlTreeOah___
 #define ___mxmlTreeOah___
 
-#include "msrSegnosAndCodas.h"
-
 #include "oahBasicTypes.h"
-
-
-//#include "msrBasicTypes.h"
 
 
 namespace MusicXML2
@@ -70,6 +65,33 @@ class EXP mxmlTreeOahGroup : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACING_IS_ENABLED
+    // specific trace
+    // --------------------------------------
+
+    // encoding
+    void                  setTraceEncoding ()
+                              { fTraceEncoding = true; }
+    bool                  getTraceEncoding () const
+                              { return fTraceEncoding; }
+
+    // divisions
+    void                  setTraceDivisions ()
+                              { fTraceDivisions = true; }
+    bool                  getTraceDivisions () const
+                              { return fTraceDivisions; }
+
+    // backup
+    void                  setTraceBackup ()
+                              { fTraceBackup = true; }
+    bool                  getTraceBackup () const
+                              { return fTraceBackup; }
+
+    // forward
+    void                  setTraceForward ()
+                              { fTraceForward = true; }
+    bool                  getTraceForward () const
+                              { return fTraceForward; }
+
     // specific trace JMI move to traceOah
     // --------------------------------------
 
@@ -123,9 +145,23 @@ class EXP mxmlTreeOahGroup : public oahGroup
     // private fields
     // ------------------------------------------------------
 
-
 #ifdef TRACING_IS_ENABLED
-    // specific trace JMI move to traceOah
+    // specific trace
+    // --------------------------------------
+
+    // encoding
+    bool                  fTraceEncoding;
+
+    // divisions
+    bool                  fTraceDivisions;
+
+    // backup
+    bool                  fTraceBackup;
+
+    // forward
+    bool                  fTraceForward;
+
+    // specific trace JMI move to traceOah JMI ???
     // --------------------------------------
 
     bool                  fTraceMusicXMLTree;

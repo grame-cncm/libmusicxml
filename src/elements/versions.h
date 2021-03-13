@@ -45,6 +45,13 @@ class EXP versions {
     static float        xml2xmlVersion();
     static const char*  xml2xmlVersionStr();
 
+    static float        xml2gmnVersion();
+    static const char*  xml2gmnVersionStr();
+
+    static float        msdlVersion();
+    static const char*  msdlVersionStr();
+
+/*
     static float        xml2bmmlVersion();
     static const char*  xml2bmmlVersionStr();
 
@@ -62,6 +69,7 @@ class EXP versions {
 
     static float        mei2meiVersion();
     static const char*  mei2meiVersionStr();
+*/
 
 //    static float    xml2antescofoVersion();
 //    static const char*  xml2antescofoVersionStr();

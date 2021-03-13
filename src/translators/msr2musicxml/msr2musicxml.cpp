@@ -28,12 +28,11 @@
 
 #include "msrOah.h"
 #include "msr2msrOah.h"
-#include "musicxmlOah.h"
+#include "mxmlTreeOah.h"
 
 #include "msr2musicxmlInsiderHandler.h"
 #include "msr2musicxmlRegularHandler.h"
 
-#include "musicxml2mxmlTreeInterface.h"
 #include "mxmlTree2msrSkeletonBuilderInterface.h"
 #include "mxmlTree2msrTranslatorInterface.h"
 

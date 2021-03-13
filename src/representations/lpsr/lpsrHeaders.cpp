@@ -24,7 +24,7 @@
 #include "oahOah.h"
 
 #include "lpsrOah.h"
-#include "lpsr2lilypondOah.h"
+#include "lilypondGenerationOah.h"
 
 
 using namespace std;

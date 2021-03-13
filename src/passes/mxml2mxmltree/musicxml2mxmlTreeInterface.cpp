@@ -22,8 +22,6 @@
 
 #include "waeMessagesHandling.h"
 
-#include "musicxml2mxmlTreeInterface.h"
-
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
@@ -32,7 +30,8 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "musicxmlOah.h"
+#include "musicxml2mxmlTreeInterface.h"
+
 #include "msrOah.h"
 
 #include "oahAtomsCollection.h"
@@ -566,7 +565,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceEncoding ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceEncoding ()) {
     gLogStream <<
       endl <<
       "!!!!! xmlFile contents from file:" <<
@@ -583,7 +582,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   TXMLDecl * xmlDecl = xmlFile->getXMLDecl ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceEncoding ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceEncoding ()) {
     gLogStream <<
       endl <<
       "!!!!! xmlDecl contents from file:" <<
@@ -599,7 +598,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
 
-  if (gGlobalMusicxmlOahGroup->getTraceEncoding ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceEncoding ()) {
     gLogStream <<
       endl <<
       "!!!!! docType from file:" <<
@@ -715,7 +714,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceEncoding ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceEncoding ()) {
     gLogStream <<
       "!!!!! xmlFile contents from stream:" <<
       endl;
@@ -728,7 +727,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   TXMLDecl *xmlDecl = xmlFile->getXMLDecl ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceEncoding ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceEncoding ()) {
     gLogStream <<
       endl <<
       "xmlDecl contents:" <<
@@ -744,7 +743,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
 
-  if (gGlobalMusicxmlOahGroup->getTraceEncoding ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceEncoding ()) {
     gLogStream <<
       endl <<
       "!!!!! docType from stream:" <<
@@ -763,7 +762,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   string desiredEncoding = "UTF-8";
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceEncoding ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceEncoding ()) {
     gLogStream <<
       "% MusicXML data uses \"" <<
       desiredEncoding <<

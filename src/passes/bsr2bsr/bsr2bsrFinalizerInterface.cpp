@@ -21,7 +21,7 @@
 #include "generalOah.h"
 #include "oahOah.h"
 
-#include "bsr2brailleOah.h"
+#include "brailleGenerationOah.h"
 
 #include "bsr2bsrFinalizer.h"
 
@@ -41,7 +41,7 @@ S_bsrScore convertBsrFirstScoreToFinalizedBsrScore (
 {
   S_bsrScore finalizedBsrScore;
 
-  if (! gGlobalBsr2brailleOahGroup->getNoBrailleCode ()) {
+  if (! gGlobalBrailleGenerationOahGroup->getNoBrailleCode ()) {
     // sanity check
       msgAssert (
         __FILE__, __LINE__,

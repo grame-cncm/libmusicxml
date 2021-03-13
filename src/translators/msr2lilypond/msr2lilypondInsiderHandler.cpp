@@ -30,14 +30,13 @@
 #include "outputFileOah.h"
 #include "generalOah.h"
 
-#include "musicxmlOah.h"
+#include "mxmlTreeOah.h"
 #include "mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
 #include "msrOah.h"
 #include "msr2lpsrOah.h"
 #include "lpsrOah.h"
-#include "lpsr2lilypondOah.h"
-#include "lilypondOah.h"
+#include "lilypondGenerationOah.h"
 
 #include "version.h"
 
@@ -226,10 +225,6 @@ void msr2lilypondInsiderHandler::createTheMsr2lilypondOptionGroups (
   appendGroupToHandler (
     createGlobalMsr2lilypondInsiderOahGroup ());
 
-  // create the MusicXML OAH group
-  appendGroupToHandler (
-    createGlobalMusicxmlOahGroup ());
-
   // create the mxmlTree OAH group
   appendGroupToHandler (
     createGlobalMxmlTreeOahGroup ());
@@ -251,13 +246,9 @@ void msr2lilypondInsiderHandler::createTheMsr2lilypondOptionGroups (
   appendGroupToHandler (
     createGlobalLpsrOahGroup ());
 
-  // create the lpsr2lilypond OAH group
+  // create the LilyPond generation OAH group
   appendGroupToHandler (
-    createGlobalLpsr2lilypondOahGroup ());
-
-  // create the LilyPond OAH group
-  appendGroupToHandler (
-    createGlobalLilypondOahGroup ());
+    createGlobalLilypondGenerationOahGroup ());
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group
@@ -453,12 +444,6 @@ void msr2lilypondInsiderHandler::enforceHandlerQuietness ()
   gGlobalGeneralOahGroup->
     enforceGroupQuietness ();
 
-  gGlobalMusicxmlOahGroup->
-    enforceGroupQuietness ();
-
-  gGlobalMxmlTreeOahGroup->
-    enforceGroupQuietness ();
-
   gGlobalMsrOahGroup->
     enforceGroupQuietness ();
 
@@ -468,10 +453,7 @@ void msr2lilypondInsiderHandler::enforceHandlerQuietness ()
   gGlobalLpsrOahGroup->
     enforceGroupQuietness ();
 
-  gGlobalLpsr2lilypondOahGroup->
-    enforceGroupQuietness ();
-
-  gGlobalLilypondOahGroup->
+  gGlobalLilypondGenerationOahGroup->
     enforceGroupQuietness ();
 
 #ifdef EXTRA_OAH_IS_ENABLED

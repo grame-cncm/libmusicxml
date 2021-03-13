@@ -31,10 +31,10 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "musicxmlOah.h"
+#include "mxmlTreeOah.h"
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
-#include "msr2mxmlTreeOah.h"
+#include "mxmltreeGenerationOah.h"
 
 #include "version.h"
 
@@ -127,7 +127,7 @@ int msr2mxmlTreeTranslator::wholeNotesAsDivisions (
   durationAsRational.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceDivisions ()) {
     gLogStream <<
       "--> durationAsRational: " <<
       durationAsRational <<
@@ -428,7 +428,7 @@ void msr2mxmlTreeTranslator::appendToScoreDefaultsPageLayout (
 //________________________________________________________________________
 void msr2mxmlTreeTranslator::createMxmlAttributesElementAndAppendItToMeasure ()
 {
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     // create an attributes comment
     stringstream s;
     s <<
@@ -497,7 +497,7 @@ void msr2mxmlTreeTranslator::appendToMeasureDirection (
   Sxmlelement      elem,
   msrPlacementKind placementKind)
 {
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     // create a direction comment
     stringstream s;
     s <<
@@ -787,7 +787,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
 
   // append the score identification element if any to the score part wise element
   if (fScoreIdentificationElement) {
-    if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+    if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
       // create an identification comment
       stringstream s;
       s <<
@@ -837,7 +837,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
 
   // append the score defaults element if any to the score part wise element
   if (fScoreDefaultsElement) {
-    if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+    if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
       // create an defaults comment
       stringstream s;
       s <<
@@ -858,7 +858,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
     fPendingScoreCreditElementsList.size ();
 
   if (pendingScoreCreditElementsListSize) {
-    if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+    if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
       stringstream s;
       s <<
         " ===== " <<
@@ -883,7 +883,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
     } // for
   }
 
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     // create an part-list comment
     stringstream s;
     s <<
@@ -908,7 +908,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
   ) {
     Sxmlelement partElement = (*i);
 
-    if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+    if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
       // create a part comment
       stringstream s;
       s <<
@@ -2302,7 +2302,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrPartGroup& elt)
 
     case msrPartGroup::kPartGroupImplicitNo:
       {
-        if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+        if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
           // create a start comment
           stringstream s;
           s <<
@@ -2439,7 +2439,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrPartGroup& elt)
 
     case msrPartGroup::kPartGroupImplicitNo:
       {
-        if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+        if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
           // create an end comment
           stringstream s;
           s <<
@@ -2639,7 +2639,7 @@ if (false) // JMI
     divisionsPerQuarterNoteAsRational.getDenominator ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceDivisions ()) {
     gLogStream <<
       "--> partShortestNoteDuration: " <<
       fPartShortestNoteDuration <<
@@ -2977,7 +2977,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSegment& elt)
   }
 #endif
 
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     // create a start comment
     stringstream s;
     s <<
@@ -3018,7 +3018,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrSegment& elt)
   }
 #endif
 
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     // create an end comment
     stringstream s;
     s <<
@@ -3096,7 +3096,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasure& elt)
   else {
     // no
 
-    if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+    if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
       // create a comment
       stringstream s;
       s <<
@@ -3129,7 +3129,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasure& elt)
       elt->getMeasurePrintLayout ();
 
   if (measurePrintLayout) {
-    if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+    if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
       // create a print comment
       stringstream s;
       s <<
@@ -3167,9 +3167,9 @@ if (false) { // JMI
   // there's no previous MSR note yet in this measure
 #ifdef TRACING_IS_ENABLED
     if (
-      gGlobalMusicxmlOahGroup->getTraceBackup ()
+      gGlobalMxmlTreeOahGroup->getTraceBackup ()
         ||
-      gGlobalMusicxmlOahGroup->getTraceForward ()
+      gGlobalMxmlTreeOahGroup->getTraceForward ()
     ) {
       gLogStream <<
         "--> setting previous note  to nullptr at " <<
@@ -4392,7 +4392,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrChord& elt)
   }
 #endif
 
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     // create a chord start comment
     stringstream s;
     s <<
@@ -4428,7 +4428,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrChord& elt)
   }
 #endif
 
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     // create a chord end comment
     stringstream s;
     s <<
@@ -4468,7 +4468,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTuplet& elt)
   }
 #endif
 
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     // create a tuplet start comment
     stringstream s;
     s <<
@@ -4501,7 +4501,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrTuplet& elt)
   }
 #endif
 
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     // create a tuplet end comment
     stringstream s;
     s <<
@@ -4731,7 +4731,7 @@ void msr2mxmlTreeTranslator::appendABackupToMeasure (
         backupDuration);
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceBackup ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceBackup ()) {
     gLogStream <<
       "Creating a backup element, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -4754,7 +4754,7 @@ void msr2mxmlTreeTranslator::appendABackupToMeasure (
   }
 #endif
 
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     S_msrVoice
       noteVoice =
         theMsrNote->fetchNoteVoiceUpLink ();
@@ -4836,7 +4836,7 @@ void msr2mxmlTreeTranslator:: appendAForwardToMeasure (
         fCurrentCumulatedSkipsDurations);
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceForward ()) {
+  if (gGlobalMxmlTreeOahGroup->getTraceForward ()) {
     gLogStream <<
       "Creating a forward element, note = " <<
       theMsrNote->asShortString () <<
@@ -4856,7 +4856,7 @@ void msr2mxmlTreeTranslator:: appendAForwardToMeasure (
         fetchNoteVoiceUpLink ()->
           getVoiceNumber ();
 
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     int
       previousMSRNoteStaffNumber =
         fPreviousMSRNoteStaff->
@@ -4938,9 +4938,9 @@ void msr2mxmlTreeTranslator:: appendABackupOrForwardToMeasureIfNeeded (
 
 #ifdef TRACING_IS_ENABLED
   if (
-    gGlobalMusicxmlOahGroup->getTraceBackup ()
+    gGlobalMxmlTreeOahGroup->getTraceBackup ()
       ||
-    gGlobalMusicxmlOahGroup->getTraceForward ()
+    gGlobalMxmlTreeOahGroup->getTraceForward ()
   ) {
     gLogStream <<
       "--> appendABackupOrForwardToMeasureIfNeeded(1), theMsrNote = " <<
@@ -5008,9 +5008,9 @@ fCurrentCumulatedSkipsVoiceNumber
 
 #ifdef TRACING_IS_ENABLED
           if (
-            gGlobalMusicxmlOahGroup->getTraceBackup ()
+            gGlobalMxmlTreeOahGroup->getTraceBackup ()
               ||
-            gGlobalMusicxmlOahGroup->getTraceForward ()
+            gGlobalMxmlTreeOahGroup->getTraceForward ()
           ) {
             gLogStream <<
               "--> appendABackupOrForwardToMeasureIfNeeded(2), note = " <<
@@ -7116,7 +7116,7 @@ void msr2mxmlTreeTranslator::appendMsrNoteToMesureIfRelevant (
           getNoteGraceNotesGroupAfter ();
 
     if (! (noteGraceNotesGroupBefore || noteGraceNotesGroupAfter)) {
-      if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+      if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
         // create a note comment
         S_msrVoice
           noteVoice =
@@ -7173,7 +7173,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrGraceNotesGroup& elt)
   }
 #endif
 
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     // create a start comment
     stringstream s;
     s <<
@@ -7204,7 +7204,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
   }
 #endif
 
-  if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
+  if (gGlobalMxmltreeGenerationOahGroup->getMusicXMLComments ()) {
     // create an end comment
     stringstream s;
     s <<
@@ -7361,9 +7361,9 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrNote& elt)
   if (doRememberThisNote) {
 #ifdef TRACING_IS_ENABLED
     if (
-      gGlobalMusicxmlOahGroup->getTraceBackup ()
+      gGlobalMxmlTreeOahGroup->getTraceBackup ()
         ||
-      gGlobalMusicxmlOahGroup->getTraceForward ()
+      gGlobalMxmlTreeOahGroup->getTraceForward ()
     ) {
       gLogStream <<
         "--> remembering note " <<
@@ -10431,7 +10431,7 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
         if (
           timeSymbolKind == kTimeSymbolNone
             ||
-          gGlobalLpsr2lilypondOahGroup->getNumericalTime ()) {
+          gGlobalLilypondGenerationOahGroup->getNumericalTime ()) {
           fOutputStream <<
             "\\numericTimeSignature ";
         }

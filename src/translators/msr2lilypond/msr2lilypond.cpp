@@ -114,18 +114,6 @@ EXP xmlErr msrScore2lilypondWithHandler (
         gGlobalMsrOahGroup,
         gGlobalLpsrOahGroup);
     }
-
-    // should we return now?
-    // ------------------------------------------------------
-
-    if (gGlobalLpsrOahGroup->getQuitAfterPass3 ()) {
-      err <<
-        endl <<
-        "Quitting after pass 3 as requested" <<
-        endl;
-
-      return kNoErr;
-    }
   }
 
   {

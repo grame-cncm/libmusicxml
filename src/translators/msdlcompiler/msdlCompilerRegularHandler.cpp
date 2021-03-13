@@ -27,12 +27,12 @@
 #include "lpsr.h"
 
 // MusicXML
-#include "musicxmlOah.h"
+#include "mxmlTreeOah.h"
 #include "mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
 #include "msrOah.h"
 #include "msr2msrOah.h"
-#include "msr2mxmlTreeOah.h"
+#include "mxmltreeGenerationOah.h"
 
 
 #include "version.h"

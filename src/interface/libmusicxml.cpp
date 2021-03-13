@@ -21,20 +21,26 @@ using namespace std;
 namespace MusicXML2
 {
 
-EXP float   	  musicxmllibVersion()     	  { return versions::libVersion(); }
+EXP float   	  musicxmllibVersion()     	    { return versions::libVersion(); }
 EXP const char* musicxmllibVersionStr()       { return versions::libVersionStr(); }
 
 EXP float   	  musicxml2guidoVersion()       { return versions::xml2guidoVersion(); }
 EXP const char* musicxml2guidoVersionStr()    { return versions::xml2guidoVersionStr(); }
-
-EXP float   	  musicxml2musicxmlVersion()      { return versions::xml2brailleVersion(); }
-EXP const char* musicxml2musicxmlVersionStr()   { return versions::xml2brailleVersionStr(); }
 
 EXP float   	  musicxml2lilypondVersion()    { return versions::xml2lilypondVersion(); }
 EXP const char* musicxml2lilypondVersionStr() { return versions::xml2lilypondVersionStr(); }
 
 EXP float     	musicxml2brailleVersion()     { return versions::xml2brailleVersion(); }
 EXP const char* musicxml2brailleVersionStr()  { return versions::xml2brailleVersionStr(); }
+
+EXP float   	  musicxml2musicxmlVersion()    { return versions::xml2xmlVersion(); }
+EXP const char* musicxml2musicxmlVersionStr() { return versions::xml2xmlVersionStr(); }
+
+EXP float   	  musicxml2gmnVersion()         { return versions::xml2gmnVersion(); }
+EXP const char* musicxml2gmnVersionStr()      { return versions::xml2gmnVersionStr(); }
+
+EXP float     	msdlVersion()                 { return versions::msdlVersion(); }
+EXP const char* msdlVersionStr()              { return versions::msdlVersionStr(); }
 
 
 //------------------------------------------------------------------------

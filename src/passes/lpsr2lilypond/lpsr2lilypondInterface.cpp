@@ -21,7 +21,7 @@
   #include "traceOah.h"
 #endif
 
-#include "lpsr2lilypondOah.h"
+#include "lilypondGenerationOah.h"
 
 #include "lpsr2lilypondTranslator.h"
 

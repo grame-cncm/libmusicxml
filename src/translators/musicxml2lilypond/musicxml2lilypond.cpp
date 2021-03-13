@@ -36,6 +36,7 @@
 #include "xml2lyRegularHandler.h"
 
 #include "musicxml2mxmlTreeInterface.h"
+#include "mxmlTreeOah.h"
 #include "mxmlTree2msrSkeletonBuilderInterface.h"
 #include "mxmlTree2msrTranslatorInterface.h"
 #include "msr2mxmlTreeInterface.h"
@@ -202,18 +203,6 @@ static xmlErr xmlFile2lilypondWithHandler (
         theLpsrScore,
         gGlobalMsrOahGroup,
         gGlobalLpsrOahGroup);
-    }
-
-    // should we return now?
-    // ------------------------------------------------------
-
-    if (gGlobalLpsrOahGroup->getQuitAfterPass3 ()) {
-      err <<
-        endl <<
-        "Quitting after pass 3 as requested" <<
-        endl;
-
-      return kNoErr;
     }
   }
 

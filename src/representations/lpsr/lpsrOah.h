@@ -502,9 +502,13 @@ class EXP lpsrOahGroup : public oahGroup
     // languages
     // --------------------------------------
 
+    bool                  setLpsrQuarterTonesPitchesLanguage (string language);
+
     msrQuarterTonesPitchesLanguageKind
                           getLpsrQuarterTonesPitchesLanguageKind () const
                               { return fLpsrQuarterTonesPitchesLanguageKind; }
+
+    bool                  setLpsrChordsLanguageKind (string language);
 
     lpsrChordsLanguageKind
                           getLpsrChordsLanguageKind () const
@@ -516,20 +520,6 @@ class EXP lpsrOahGroup : public oahGroup
     S_msrSemiTonesPitchAndOctave
                           getTransposeSemiTonesPitchAndOctave () const
                               { return fTransposeSemiTonesPitchAndOctave; }
-
-    // quit after some passes
-    // --------------------------------------
-
-    void                  setQuitAfterPass3 ()
-                              { fQuitAfterPass3 = true; }
-    bool                  getQuitAfterPass3 () const
-                              { return fQuitAfterPass3; }
-
-    bool                  setLpsrQuarterTonesPitchesLanguage (
-                            string language);
-
-    bool                  setLpsrChordsLanguage (
-                            string language);
 
   public:
 
@@ -590,8 +580,6 @@ class EXP lpsrOahGroup : public oahGroup
     void                  initializeLpsrLanguagesOptions ();
 
     void                  initializeLpsrTransposeOptions ();
-
-    void                  initializeLpsrQuitAfterSomePassesOptions ();
 
   private:
 
@@ -713,11 +701,6 @@ class EXP lpsrOahGroup : public oahGroup
 
     S_msrSemiTonesPitchAndOctave
                           fTransposeSemiTonesPitchAndOctave;
-
-    // quit after some passes
-    // --------------------------------------
-
-    bool                  fQuitAfterPass3;
 };
 typedef SMARTP<lpsrOahGroup> S_lpsrOahGroup;
 EXP ostream& operator<< (ostream& os, const S_lpsrOahGroup& elt);

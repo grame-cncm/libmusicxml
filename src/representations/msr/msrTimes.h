@@ -13,9 +13,8 @@
 #ifndef ___msrTimes___
 #define ___msrTimes___
 
-#include "msrSegnosAndCodas.h"
-
 #include "msrBasicTypes.h"
+#include "msrMeasureElements.h"
 
 
 namespace MusicXML2
