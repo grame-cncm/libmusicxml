@@ -21,7 +21,7 @@ anacrusis                 % measure numbers start at 0
 % score helloWorld = "Hello World in MSPL" {
 
   music {
-    |1 c,2.. d'8
+    |1 c2.. d''8
     |||                   % final bar
   }
 

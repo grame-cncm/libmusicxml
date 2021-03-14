@@ -66,7 +66,7 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
   fOnGoingPageLayout = false;
 
   fOnGoingPageMargins = false;
-  fCurrentPageMarginsTypeKind = kBothMargins; // default value
+  fCurrentPageMarginsTypeKind = msrMarginTypeKind::kMarginBoth; // default value
 
   // system layout
   fOnGoingSystemLayout = false;
@@ -81,9 +81,9 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
   fOnGoingPrint = false;
 
   // measure style handling
-  fCurrentSlashTypeKind     = k_NoSlashType;
-  fCurrentUseDotsKind  = k_NoUseDots;
-  fCurrentSlashUseStemsKind = k_NoSlashUseStems;
+  fCurrentSlashTypeKind     = msrSlashTypeKind::k_NoSlashType;
+  fCurrentUseDotsKind  = msrUseDotsKind::k_NoUseDots;
+  fCurrentSlashUseStemsKind = msrSlashUseStemsKind::k_NoSlashUseStems;
 
   fCurrentBeatRepeatSlashes = -1;
 
@@ -111,13 +111,13 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
     msrStaffDetails::kShowFretsNumbers; // default value
 
   fCurrentPrintObjectKind =
-    kPrintObjectYes; // default value
+    msrPrintObjectKind::kPrintObjectYes; // default value
 
   fCurrentPrintSpacingKind =
     msrStaffDetails::kPrintSpacingNo; // default value ??? JMI
 
   // staff tuning handling
-  fCurrentStaffTuningAlterationKind = k_NoAlteration;
+  fCurrentStaffTuningAlterationKind = msrAlterationKind::k_NoAlteration;
   fCurrentStaffTuningOctaveKind     = msrOctaveKind::k_NoOctave;
 
   fCurrentStaffDetailsCapo = 0;
@@ -128,8 +128,8 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
   // scordatura handling
 
   fCurrentStringTuningNumber = -1;
-  fCurrentStringTuningDiatonicPitchKind = k_NoDiatonicPitch;
-  fCurrentStringTuningAlterationKind = k_NoAlteration;
+  fCurrentStringTuningDiatonicPitchKind = msrDiatonicPitchKind::k_NoDiatonicPitch;
+  fCurrentStringTuningAlterationKind = msrAlterationKind::k_NoAlteration;
   fCurrentStringTuningOctaveKind = msrOctaveKind::k_NoOctave;
 
   fOnGoingAccord = false;
@@ -156,16 +156,16 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
   fCurrentClefOctaveChange = -77;
 
   // key handling
-  fCurrentKeyKind = kTraditionalKind;
+  fCurrentKeyKind = msrKeyKind::kKeyTraditional;
 
   fCurrentKeyStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentKeyFifths = -1;
   fCurrentKeyCancelFifths = -37;
-  fCurrentModeKind = k_NoMode;
+  fCurrentModeKind = msrModeKind::k_NoMode;
 
   // time handling
   fCurrentTimeSymbolKind =
-    kTimeSymbolNone; // default value
+    msrTimeSymbolKind::kTimeSymbolNone; // default value
 
   fOnGoingInterchangeable = false;
 
@@ -239,14 +239,14 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
   // harmonies handling
   fHarmonyVoicesCounter = 0;
 
-  fCurrentHarmonyRootDiatonicPitchKind = k_NoDiatonicPitch;
-  fCurrentHarmonyRootAlterationKind    = k_NoAlteration;
+  fCurrentHarmonyRootDiatonicPitchKind = msrDiatonicPitchKind::k_NoDiatonicPitch;
+  fCurrentHarmonyRootAlterationKind    = msrAlterationKind::k_NoAlteration;
   fCurrentHarmonyKind                  = k_NoHarmony;
   fCurrentHarmonyKindText              = "";
-  fCurrentHarmonyBassDiatonicPitchKind = k_NoDiatonicPitch;
-  fCurrentHarmonyBassAlterationKind    = k_NoAlteration;
+  fCurrentHarmonyBassDiatonicPitchKind = msrDiatonicPitchKind::k_NoDiatonicPitch;
+  fCurrentHarmonyBassAlterationKind    = msrAlterationKind::k_NoAlteration;
   fCurrentHarmonyDegreeValue           = -1;
-  fCurrentHarmonyDegreeAlterationKind  = k_NoAlteration;
+  fCurrentHarmonyDegreeAlterationKind  = msrAlterationKind::k_NoAlteration;
 
   fCurrentHarmonyStaffNumber = K_NO_STAFF_NUMBER;
 
@@ -295,11 +295,11 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
   fCurrentRepeatEndingStartBarline = nullptr;
 
   // MusicXML notes handling
-  fCurrentNoteDiatonicPitchKind = k_NoDiatonicPitch;
-  fCurrentNoteAlterationKind    = k_NoAlteration;
+  fCurrentNoteDiatonicPitchKind = msrDiatonicPitchKind::k_NoDiatonicPitch;
+  fCurrentNoteAlterationKind    = msrAlterationKind::k_NoAlteration;
 
   // note print kind
-  fCurrentNotePrintObjectKind = kPrintObjectYes;
+  fCurrentNotePrintObjectKind = msrPrintObjectKind::kPrintObjectYes;
 
   // note head
   fCurrentNoteHeadKind = msrNote::kNoteHeadNormal;
@@ -323,7 +323,7 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
 
   // tremolos handling
   fCurrentNoteBelongsToADoubleTremolo = false;
-  fCurrentTremoloTypeKind             = k_NoTremoloType;
+  fCurrentTremoloTypeKind             = msrTremoloTypeKind::k_NoTremoloType;
 
   // chords handling
   fOnGoingChord = false;
@@ -399,7 +399,7 @@ void mxmlTree2msrTranslator::initializeNoteData ()
 
 // JMI  fCurrentNoteKind = k_NoNote;
 
-  fCurrentNoteQuarterTonesPitchKind = k_NoQuarterTonesPitch_QTP;
+  fCurrentNoteQuarterTonesPitchKind = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
 
   fCurrentNoteSoundingWholeNotes             = rational (-13, 1);
   fCurrentNoteSoundingWholeNotesFromDuration = rational (-17, 1);
@@ -413,8 +413,8 @@ void mxmlTree2msrTranslator::initializeNoteData ()
 
   fCurrentNoteOctave = msrOctaveKind::k_NoOctave;
 
-  fCurrentNoteQuarterTonesDisplayPitchKind = k_NoQuarterTonesPitch_QTP;
-  fCurrentDisplayDiatonicPitchKind = k_NoDiatonicPitch;
+  fCurrentNoteQuarterTonesDisplayPitchKind = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
+  fCurrentDisplayDiatonicPitchKind = msrDiatonicPitchKind::k_NoDiatonicPitch;
   fCurrentDisplayOctave = msrOctaveKind::k_NoOctave;
 
   // rests
@@ -437,13 +437,13 @@ void mxmlTree2msrTranslator::initializeNoteData ()
   // accidentals
 
   fCurrentAccidentalKind =
-    kAccidentalNone; // default value
+    msrAccidentalKind::kAccidentalNone; // default value
 
   fCurrentEditorialAccidentalKind =
-    kEditorialAccidentalNo; // default value
+    msrEditorialAccidentalKind::kEditorialAccidentalNo; // default value
 
   fCurrentCautionaryAccidentalKind =
-    kCautionaryAccidentalNo; // default value
+    msrCautionaryAccidentalKind::kCautionaryAccidentalNo; // default value
 
   // current note staff number
   fCurrentMusicXMLStaffNumber = 1; // default value, it may be absent
@@ -930,7 +930,7 @@ void mxmlTree2msrTranslator::visitStart ( S_system_distance& elt )
     fCurrentSystemLayout->
       setSystemDistance (
         msrLength::create (
-          kMillimeterUnit,
+          msrLengthUnitKind::kUnitMillimeter,
           systemDistanceTenths * fCurrentMillimeters / fCurrentTenths));
   }
 
@@ -963,7 +963,7 @@ void mxmlTree2msrTranslator::visitStart ( S_top_system_distance& elt )
     fCurrentSystemLayout->
       setTopSystemDistance (
         msrLength::create (
-          kMillimeterUnit,
+          msrLengthUnitKind::kUnitMillimeter,
           topSystemDistanceTenths * fCurrentMillimeters / fCurrentTenths));
   }
 
@@ -1114,7 +1114,7 @@ void mxmlTree2msrTranslator::visitStart ( S_page_height& elt )
     fCurrentPageLayout->
       setPageHeight (
         msrLength::create (
-          kMillimeterUnit,
+          msrLengthUnitKind::kUnitMillimeter,
           pageHeight * fCurrentMillimeters / fCurrentTenths));
   }
   else {
@@ -1143,7 +1143,7 @@ void mxmlTree2msrTranslator::visitStart ( S_page_width& elt )
     fCurrentPageLayout->
       setPageWidth (
         msrLength::create (
-          kMillimeterUnit,
+          msrLengthUnitKind::kUnitMillimeter,
           pageWidth * fCurrentMillimeters / fCurrentTenths));
   }
   else {
@@ -1173,14 +1173,14 @@ void mxmlTree2msrTranslator::visitStart ( S_page_margins& elt )
     string pageMarginsType =
       elt->getAttributeValue ("type");
 
-    fCurrentPageMarginsTypeKind = kBothMargins; // default value
+    fCurrentPageMarginsTypeKind = msrMarginTypeKind::kMarginBoth; // default value
 
     if      (pageMarginsType == "odd")
-      fCurrentPageMarginsTypeKind = kOddMargin;
+      fCurrentPageMarginsTypeKind = msrMarginTypeKind::kMarginOdd;
     else if (pageMarginsType == "even")
-      fCurrentPageMarginsTypeKind = kEvenMargin;
+      fCurrentPageMarginsTypeKind = msrMarginTypeKind::kMarginEven;
     else if (pageMarginsType == "both")
-      fCurrentPageMarginsTypeKind = kBothMargins;
+      fCurrentPageMarginsTypeKind = msrMarginTypeKind::kMarginBoth;
     else if (pageMarginsType. size ()) {
       stringstream s;
 
@@ -1211,19 +1211,19 @@ void mxmlTree2msrTranslator::visitStart ( S_page_margins& elt )
 
   // create a margins group if not yet done
   switch (fCurrentPageMarginsTypeKind) {
-    case kOddMargin:
+    case msrMarginTypeKind::kMarginOdd:
       fCurrentPageLayout->
         setOddMarginsGroup (
           inputLineNumber,
           fCurrentPageLayoutMarginsGroup);
       break;
-    case kEvenMargin:
+    case msrMarginTypeKind::kMarginEven:
       fCurrentPageLayout->
         setEvenMarginsGroup (
           inputLineNumber,
           fCurrentPageLayoutMarginsGroup);
       break;
-    case kBothMargins: // default value
+    case msrMarginTypeKind::kMarginBoth: // default value
       fCurrentPageLayout->
         setBothMarginsGroup (
           inputLineNumber,
@@ -1270,7 +1270,7 @@ void mxmlTree2msrTranslator::visitStart ( S_left_margin& elt )
 
   msrLength
     leftMarginLength (
-      kMillimeterUnit,
+      msrLengthUnitKind::kUnitMillimeter,
       leftMargin * fCurrentMillimeters / fCurrentTenths);
 
   if (fOnGoingPageMargins) {
@@ -1288,7 +1288,7 @@ void mxmlTree2msrTranslator::visitStart ( S_left_margin& elt )
         msrMargin::create (
           fCurrentPageMarginsTypeKind,
           msrLength (
-            kMillimeterUnit,
+            msrLengthUnitKind::kUnitMillimeter,
             leftMargin * fCurrentMillimeters / fCurrentTenths)));
   }
 
@@ -1320,7 +1320,7 @@ void mxmlTree2msrTranslator::visitStart ( S_right_margin& elt )
 
   msrLength
     rightMarginLength (
-      kMillimeterUnit,
+      msrLengthUnitKind::kUnitMillimeter,
       rightMargin * fCurrentMillimeters / fCurrentTenths);
 
   if (fOnGoingPageMargins) {
@@ -1338,7 +1338,7 @@ void mxmlTree2msrTranslator::visitStart ( S_right_margin& elt )
         msrMargin::create (
           fCurrentPageMarginsTypeKind,
           msrLength (
-            kMillimeterUnit,
+            msrLengthUnitKind::kUnitMillimeter,
             rightMargin * fCurrentMillimeters / fCurrentTenths)));
   }
 
@@ -1375,7 +1375,7 @@ void mxmlTree2msrTranslator::visitStart ( S_top_margin& elt )
         msrMargin::create (
           fCurrentPageMarginsTypeKind,
           msrLength (
-            kMillimeterUnit,
+            msrLengthUnitKind::kUnitMillimeter,
             topMargin * fCurrentMillimeters / fCurrentTenths)));
   }
 
@@ -1412,7 +1412,7 @@ void mxmlTree2msrTranslator::visitStart ( S_bottom_margin& elt )
         msrMargin::create (
           fCurrentPageMarginsTypeKind,
           msrLength (
-            kMillimeterUnit,
+            msrLengthUnitKind::kUnitMillimeter,
             bottomMargin * fCurrentMillimeters / fCurrentTenths)));
   }
 
@@ -1513,7 +1513,7 @@ void mxmlTree2msrTranslator::visitStart ( S_staff_distance& elt )
     fCurrentStaffLayout->
       setStaffDistance (
         msrLength::create (
-          kMillimeterUnit,
+          msrLengthUnitKind::kUnitMillimeter,
           staffDistanceTenths * fCurrentMillimeters / fCurrentTenths));
   }
 
@@ -1589,7 +1589,7 @@ void mxmlTree2msrTranslator::visitStart ( S_measure_distance& elt )
     fCurrentMeasureLayout->
       setMeasureDistance (
         msrLength::create (
-          kMillimeterUnit,
+          msrLengthUnitKind::kUnitMillimeter,
           measureDistanceTenths * fCurrentMillimeters / fCurrentTenths));
   }
 
@@ -1827,7 +1827,7 @@ void mxmlTree2msrTranslator::visitStart ( S_line_width& elt )
             inputLineNumber,
             lineWidthTypeKind,
             msrLength::create (
-              kMillimeterUnit,
+              msrLengthUnitKind::kUnitMillimeter,
               lineWidthTenths * fCurrentMillimeters / fCurrentTenths));
 
       // append it to the current appearance
@@ -1997,7 +1997,7 @@ void mxmlTree2msrTranslator::visitStart ( S_distance& elt )
             inputLineNumber,
             distanceTypeKind,
             msrLength::create (
-              kMillimeterUnit,
+              msrLengthUnitKind::kUnitMillimeter,
               distanceTenths * fCurrentMillimeters / fCurrentTenths));
 
       // append it to the current appearance
@@ -2879,13 +2879,13 @@ void mxmlTree2msrTranslator::visitStart ( S_key& elt )
   fCurrentKeyStaffNumber =
     elt->getAttributeIntValue ("number", 0);
 
-  fCurrentKeyKind = kTraditionalKind;
+  fCurrentKeyKind = msrKeyKind::kKeyTraditional;
 
   // traditional
   fCurrentKeyFifths       = 0;
   fCurrentKeyCancelFifths = 0;
 
-  fCurrentModeKind = k_NoMode;
+  fCurrentModeKind = msrModeKind::k_NoMode;
 
   // Humdrum-Scot
 
@@ -2917,7 +2917,7 @@ void mxmlTree2msrTranslator::visitStart ( S_fifths& elt )
   }
 #endif
 
-  fCurrentKeyKind = kTraditionalKind;
+  fCurrentKeyKind = msrKeyKind::kKeyTraditional;
 
   fCurrentKeyFifths = (int)(*elt);
 }
@@ -2939,34 +2939,34 @@ void mxmlTree2msrTranslator::visitStart ( S_mode& elt )
   string mode = elt->getValue();
 
   if       (mode == "none") {
-    fCurrentModeKind = k_NoMode;
+    fCurrentModeKind = msrModeKind::k_NoMode;
   }
   else if  (mode == "major") {
-    fCurrentModeKind = kMajorMode;
+    fCurrentModeKind = msrModeKind::kModeMajor;
   }
   else  if (mode == "minor") {
-    fCurrentModeKind = kMinorMode;
+    fCurrentModeKind = msrModeKind::kModeMinor;
   }
   else  if (mode == "ionian") {
-    fCurrentModeKind = kIonianMode;
+    fCurrentModeKind = msrModeKind::kModeIonian;
   }
   else  if (mode == "dorian") {
-    fCurrentModeKind = kDorianMode;
+    fCurrentModeKind = msrModeKind::kModeDorian;
   }
   else  if (mode == "phrygian") {
-    fCurrentModeKind = kPhrygianMode;
+    fCurrentModeKind = msrModeKind::kModePhrygian;
   }
   else  if (mode == "lydian") {
-    fCurrentModeKind = kLydianMode;
+    fCurrentModeKind = msrModeKind::kModeLydian;
   }
   else  if (mode == "mixolydian") {
-    fCurrentModeKind = kMixolydianMode;
+    fCurrentModeKind = msrModeKind::kModeMixolydian;
   }
   else  if (mode == "aeolian") {
-    fCurrentModeKind = kAeolianMode;
+    fCurrentModeKind = msrModeKind::kModeAeolian;
   }
   else  if (mode == "locrian") {
-    fCurrentModeKind = kLocrianMode;
+    fCurrentModeKind = msrModeKind::kModeLocrian;
   }
   else {
     stringstream s;
@@ -3004,7 +3004,7 @@ void mxmlTree2msrTranslator::visitStart ( S_key_step& elt )
       "Humdrum/Scot key step found while another one is being handled");
   }
 
-  fCurrentKeyKind = kHumdrumScotKind;
+  fCurrentKeyKind = msrKeyKind::kKeyHumdrumScot;
 
   string step = elt->getValue();
 
@@ -3064,7 +3064,7 @@ void mxmlTree2msrTranslator::visitStart ( S_key_alter& elt )
       msrAlterationKindFromMusicXMLAlter (
         keyAlter);
 
-  if (keyAlterationKind == k_NoAlteration) {
+  if (keyAlterationKind == msrAlterationKind::k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -3192,12 +3192,12 @@ void mxmlTree2msrTranslator::visitEnd ( S_key& elt )
   S_msrKey key;
 
   switch (fCurrentKeyKind) {
-    case kTraditionalKind:
+    case msrKeyKind::kKeyTraditional:
       key =
         handleTraditionalKey (inputLineNumber);
       break;
 
-    case kHumdrumScotKind:
+    case msrKeyKind::kKeyHumdrumScot:
       key =
         handleHumdrumScotKey (inputLineNumber);
       break;
@@ -3225,80 +3225,80 @@ S_msrKey mxmlTree2msrTranslator::handleTraditionalKey (
   // key fifths number
   msrQuarterTonesPitchKind
     keyTonicPitchKind =
-      k_NoQuarterTonesPitch_QTP;
+      msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
 
   switch (fCurrentKeyFifths) {
     case 0:
-      keyTonicPitchKind = kC_Natural_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_C_Natural;
       break;
     case 1:
-      keyTonicPitchKind = kG_Natural_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_G_Natural;
       break;
     case 2:
-      keyTonicPitchKind = kD_Natural_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_D_Natural;
       break;
     case 3:
-      keyTonicPitchKind = kA_Natural_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_A_Natural;
       break;
     case 4:
-      keyTonicPitchKind = kE_Natural_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_E_Natural;
       break;
     case 5:
-      keyTonicPitchKind = kB_Natural_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_B_Natural;
       break;
     case 6:
-      keyTonicPitchKind = kF_Sharp_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_F_Sharp;
       break;
     case 7:
-      keyTonicPitchKind = kC_Sharp_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_C_Sharp;
       break;
 
     case 8: // JMI
-      keyTonicPitchKind = kG_Sharp_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_G_Sharp;
       break;
     case 9:
-      keyTonicPitchKind = kD_Sharp_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_D_Sharp;
       break;
     case 10:
-      keyTonicPitchKind = kA_Sharp_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_A_Sharp;
       break;
     case 11:
-      keyTonicPitchKind = kE_Sharp_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_E_Sharp;
       break;
 
     case -1:
-      keyTonicPitchKind = kF_Natural_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_F_Natural;
       break;
     case -2:
-      keyTonicPitchKind = kB_Flat_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_B_Flat;
       break;
     case -3:
-      keyTonicPitchKind = kE_Flat_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_E_Flat;
       break;
     case -4:
-      keyTonicPitchKind = kA_Flat_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_A_Flat;
       break;
     case -5:
-      keyTonicPitchKind = kD_Flat_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_D_Flat;
       break;
     case -6:
-      keyTonicPitchKind = kG_Flat_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_G_Flat;
       break;
     case -7:
-      keyTonicPitchKind = kC_Flat_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_C_Flat;
       break;
 
     case -8: // JMI
-      keyTonicPitchKind = kF_Flat_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_F_Flat;
       break;
     case -9:
-      keyTonicPitchKind = kB_DoubleFlat_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
       break;
     case -10:
-      keyTonicPitchKind = kE_DoubleFlat_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
       break;
     case -11:
-      keyTonicPitchKind = kA_DoubleFlat_QTP;
+      keyTonicPitchKind = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
       break;
 
     default: // unknown key sign!!
@@ -3394,22 +3394,22 @@ void mxmlTree2msrTranslator::visitStart ( S_time& elt )
     elt->getAttributeValue ("symbol");
 
   fCurrentTimeSymbolKind =
-    kTimeSymbolNone; // default value
+    msrTimeSymbolKind::kTimeSymbolNone; // default value
 
   if       (timeSymbol == "common") {
-    fCurrentTimeSymbolKind = kTimeSymbolCommon;
+    fCurrentTimeSymbolKind = msrTimeSymbolKind::kTimeSymbolCommon;
   }
   else  if (timeSymbol == "cut") {
-    fCurrentTimeSymbolKind = kTimeSymbolCut;
+    fCurrentTimeSymbolKind = msrTimeSymbolKind::kTimeSymbolCut;
   }
   else  if (timeSymbol == "note") {
-    fCurrentTimeSymbolKind = kTimeSymbolNote;
+    fCurrentTimeSymbolKind = msrTimeSymbolKind::kTimeSymbolNote;
   }
   else  if (timeSymbol == "dotted-note") {
-    fCurrentTimeSymbolKind = kTimeSymbolDottedNote;
+    fCurrentTimeSymbolKind = msrTimeSymbolKind::kTimeSymbolDottedNote;
   }
   else  if (timeSymbol == "single-number") {
-    fCurrentTimeSymbolKind = kTimeSymbolSingleNumber;
+    fCurrentTimeSymbolKind = msrTimeSymbolKind::kTimeSymbolSingleNumber;
   }
 
   else {
@@ -3517,7 +3517,7 @@ void mxmlTree2msrTranslator::visitStart ( S_senza_misura& elt )
   }
 #endif
 
-  fCurrentTimeSymbolKind = kTimeSymbolSenzaMisura;
+  fCurrentTimeSymbolKind = msrTimeSymbolKind::kTimeSymbolSenzaMisura;
 }
 
 void mxmlTree2msrTranslator::visitStart ( S_interchangeable& elt )
@@ -3538,22 +3538,22 @@ void mxmlTree2msrTranslator::visitStart ( S_interchangeable& elt )
     elt->getAttributeValue ("symbol");
 
   fCurrentInterchangeableSymbolKind =
-    kTimeSymbolNone; // default value
+    msrTimeSymbolKind::kTimeSymbolNone; // default value
 
   if       (interchangeableSymbol == "common") {
-    fCurrentInterchangeableSymbolKind = kTimeSymbolCommon;
+    fCurrentInterchangeableSymbolKind = msrTimeSymbolKind::kTimeSymbolCommon;
   }
   else  if (interchangeableSymbol == "cut") {
-    fCurrentInterchangeableSymbolKind = kTimeSymbolCut;
+    fCurrentInterchangeableSymbolKind = msrTimeSymbolKind::kTimeSymbolCut;
   }
   else  if (interchangeableSymbol == "note") {
-    fCurrentInterchangeableSymbolKind = kTimeSymbolNote;
+    fCurrentInterchangeableSymbolKind = msrTimeSymbolKind::kTimeSymbolNote;
   }
   else  if (interchangeableSymbol == "dotted-note") {
-    fCurrentInterchangeableSymbolKind = kTimeSymbolDottedNote;
+    fCurrentInterchangeableSymbolKind = msrTimeSymbolKind::kTimeSymbolDottedNote;
   }
   else  if (interchangeableSymbol == "single-number") {
-    fCurrentInterchangeableSymbolKind = kTimeSymbolSingleNumber;
+    fCurrentInterchangeableSymbolKind = msrTimeSymbolKind::kTimeSymbolSingleNumber;
   }
 
   else {
@@ -3575,22 +3575,22 @@ void mxmlTree2msrTranslator::visitStart ( S_interchangeable& elt )
     elt->getAttributeValue ("separator");
 
   fCurrentInterchangeableSeparatorKind =
-    kTimeSeparatorNone; // default value
+    msrTimeSeparatorKind::kTimeSeparatorNone; // default value
 
   if       (interchangeableSymbol == "none") {
-    fCurrentInterchangeableSeparatorKind = kTimeSeparatorNone;
+    fCurrentInterchangeableSeparatorKind = msrTimeSeparatorKind::kTimeSeparatorNone;
   }
   else  if (interchangeableSymbol == "horizontal") {
-    fCurrentInterchangeableSeparatorKind = kTimeSeparatorHorizontal;
+    fCurrentInterchangeableSeparatorKind = msrTimeSeparatorKind::kTimeSeparatorHorizontal;
   }
   else  if (interchangeableSymbol == "diagonal") {
-    fCurrentInterchangeableSeparatorKind = kTimeSeparatorDiagonal;
+    fCurrentInterchangeableSeparatorKind = msrTimeSeparatorKind::kTimeSeparatorDiagonal;
   }
   else  if (interchangeableSymbol == "vertical") {
-    fCurrentInterchangeableSeparatorKind = kTimeSeparatorVertical;
+    fCurrentInterchangeableSeparatorKind = msrTimeSeparatorKind::kTimeSeparatorVertical;
   }
   else  if (interchangeableSymbol == "adjacent") {
-    fCurrentInterchangeableSeparatorKind = kTimeSeparatorAdjacent;
+    fCurrentInterchangeableSeparatorKind = msrTimeSeparatorKind::kTimeSeparatorAdjacent;
   }
 
   else {
@@ -3628,25 +3628,25 @@ void mxmlTree2msrTranslator::visitStart ( S_time_relation& elt )
   string timeRelation = elt->getValue ();
 
   fCurrentInterchangeableRelationKind =
-    kTimeRelationNone; // default value
+    msrTimeRelationKind::kTimeRelationNone; // default value
 
   if       (timeRelation == "parentheses") {
-    fCurrentInterchangeableRelationKind = kTimeRelationParentheses;
+    fCurrentInterchangeableRelationKind = msrTimeRelationKind::kTimeRelationParentheses;
   }
   else  if (timeRelation == "bracket") {
-    fCurrentInterchangeableRelationKind = kTimeRelationBracket;
+    fCurrentInterchangeableRelationKind = msrTimeRelationKind::kTimeRelationBracket;
   }
   else  if (timeRelation == "equals") {
-    fCurrentInterchangeableRelationKind = kTimeRelationEquals;
+    fCurrentInterchangeableRelationKind = msrTimeRelationKind::kTimeRelationEquals;
   }
   else  if (timeRelation == "slash") {
-    fCurrentInterchangeableRelationKind = kTimeRelationSlash;
+    fCurrentInterchangeableRelationKind = msrTimeRelationKind::kTimeRelationSlash;
   }
   else  if (timeRelation == "space") {
-    fCurrentInterchangeableRelationKind = kTimeRelationSpace;
+    fCurrentInterchangeableRelationKind = msrTimeRelationKind::kTimeRelationSpace;
   }
   else  if (timeRelation == "hyphen") {
-    fCurrentInterchangeableRelationKind = kTimeRelationHyphen;
+    fCurrentInterchangeableRelationKind = msrTimeRelationKind::kTimeRelationHyphen;
   }
 
   else {
@@ -3702,7 +3702,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_time& elt )
 
   else {
     // only a 'semza misura' time may be empty
-    if (  fCurrentTimeSymbolKind != kTimeSymbolSenzaMisura) {
+    if (  fCurrentTimeSymbolKind != msrTimeSymbolKind::kTimeSymbolSenzaMisura) {
       msrMusicXMLError (
         gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,
@@ -4266,7 +4266,7 @@ From direction.mod:
             0),       // JMI could be different?
           tempoString,
           msrTempo::kTempoParenthesizedNo,
-          kPlacementBelow);
+          msrPlacementKind::kPlacementBelow);
     }
   }
 
@@ -4456,12 +4456,12 @@ void mxmlTree2msrTranslator::visitStart (S_words& elt)
   // font style
   string wordsFontStyleString = elt->getAttributeValue ("font-style");
 
-  msrFontStyleKind fontStyleKind = kFontStyleNone; // default value
+  msrFontStyleKind fontStyleKind = msrFontStyleKind::kFontStyleNone; // default value
 
   if      (wordsFontStyleString == "normal")
-    fontStyleKind = kFontStyleNormal;
+    fontStyleKind = msrFontStyleKind::kFontStyleNormal;
   else if (wordsFontStyleString == "italic")
-    fontStyleKind = KFontStyleItalic;
+    fontStyleKind = msrFontStyleKind::KFontStyleItalic;
   else {
     if (wordsFontStyleString.size ()) {
       stringstream s;
@@ -4483,14 +4483,14 @@ void mxmlTree2msrTranslator::visitStart (S_words& elt)
   // justify
   string wordsFontJustifyString = elt->getAttributeValue ("justify");
 
-  msrJustifyKind fontJustifyKind = kJustifyNone; // default value
+  msrJustifyKind fontJustifyKind = msrJustifyKind::kJustifyNone; // default value
 
   if      (wordsFontJustifyString == "left")
-    fontJustifyKind = kFontStyleNormal;
+    fontJustifyKind = msrFontStyleKind::kFontStyleNormal;
   else if (wordsFontJustifyString == "center")
-    fontJustifyKind = KFontStyleItalic;
+    fontJustifyKind = msrFontStyleKind::KFontStyleItalic;
   else if (wordsFontJustifyString == "right")
-    fontJustifyKind = KFontStyleItalic;
+    fontJustifyKind = msrFontStyleKind::KFontStyleItalic;
   else {
     if (wordsFontJustifyString.size ()) {
       stringstream s;
@@ -4513,46 +4513,46 @@ void mxmlTree2msrTranslator::visitStart (S_words& elt)
 
   msrFontSizeKind
     fontSizeKind =
-      kFontSizeNone; // default value
+      msrFontSizeKind::kFontSizeNone; // default value
 
   float fontSizeFloatValue = 0.0;
 
   if      (wordsFontSizeString == "xx-smal")
-    fontSizeKind = kFontSizeXXSmall;
+    fontSizeKind = msrFontSizeKind::kFontSizeXXSmall;
   else if (wordsFontSizeString == "x-small")
-    fontSizeKind = kFontSizeXSmall;
+    fontSizeKind = msrFontSizeKind::kFontSizeXSmall;
   else if (wordsFontSizeString == "small")
-    fontSizeKind = kFontSizeSmall;
+    fontSizeKind = msrFontSizeKind::kFontSizeSmall;
   else if (wordsFontSizeString == "medium")
-    fontSizeKind = kFontSizeMedium;
+    fontSizeKind = msrFontSizeKind::kFontSizeMedium;
   else if (wordsFontSizeString == "large")
-    fontSizeKind = kFontSizeLarge;
+    fontSizeKind = msrFontSizeKind::kFontSizeLarge;
   else if (wordsFontSizeString == "x-large")
-    fontSizeKind = kFontSizeXLarge;
+    fontSizeKind = msrFontSizeKind::kFontSizeXLarge;
   else if (wordsFontSizeString == "xx-large")
-    fontSizeKind = kFontSizeXXLarge;
+    fontSizeKind = msrFontSizeKind::kFontSizeXXLarge;
   else {
     fontSizeFloatValue =
       elt->getAttributeFloatValue ("font-size", 0.0);
-    fontSizeKind = kFontSizeNumeric;
+    fontSizeKind = msrFontSizeKind::kFontSizeNumeric;
   }
 
   S_msrFontSize fontSize;
 
   switch (fontSizeKind) {
-    case kFontSizeNone:
-    case kFontSizeXXSmall:
-    case kFontSizeXSmall:
-    case kFontSizeSmall:
-    case kFontSizeMedium:
-    case kFontSizeLarge:
-    case kFontSizeXLarge:
-    case kFontSizeXXLarge:
+    case msrFontSizeKind::kFontSizeNone:
+    case msrFontSizeKind::kFontSizeXXSmall:
+    case msrFontSizeKind::kFontSizeXSmall:
+    case msrFontSizeKind::kFontSizeSmall:
+    case msrFontSizeKind::kFontSizeMedium:
+    case msrFontSizeKind::kFontSizeLarge:
+    case msrFontSizeKind::kFontSizeXLarge:
+    case msrFontSizeKind::kFontSizeXXLarge:
       fontSize =
         msrFontSize::create (fontSizeKind);
       break;
 
-    case kFontSizeNumeric:
+    case msrFontSizeKind::kFontSizeNumeric:
       fontSize =
         msrFontSize::create (fontSizeFloatValue);
       break;
@@ -4561,12 +4561,12 @@ void mxmlTree2msrTranslator::visitStart (S_words& elt)
   // font weight
   string wordsFontWeightString = elt->getAttributeValue ("font-weight");
 
-  msrFontWeightKind fontWeightKind = kFontWeightNone; // default value
+  msrFontWeightKind fontWeightKind = msrFontWeightKind::kFontWeightNone; // default value
 
   if      (wordsFontWeightString == "normal")
-    fontWeightKind = kFontWeightNormal;
+    fontWeightKind = msrFontWeightKind::kFontWeightNormal;
   else if (wordsFontWeightString == "bold")
-    fontWeightKind = kFontWeightBold;
+    fontWeightKind = msrFontWeightKind::kFontWeightBold;
   else {
     if (wordsFontWeightString.size ()) {
       stringstream s;
@@ -5011,22 +5011,22 @@ void mxmlTree2msrTranslator::visitStart ( S_metronome_beam& elt )
 
   fCurrentMetronomeBeamValue = elt->getValue();
 
-  msrBeamKind beamKind = k_NoBeam;
+  msrBeamKind beamKind = msrBeamKind::k_NoBeam;
 
   if      (fCurrentMetronomeBeamValue == "begin") {
-    beamKind = kBeamBegin;
+    beamKind = msrBeamKind::kBeamBegin;
   }
   else if (fCurrentMetronomeBeamValue == "continue") {
-    beamKind = kBeamContinue;
+    beamKind = msrBeamKind::kBeamContinue;
   }
   else if (fCurrentMetronomeBeamValue == "end") {
-    beamKind = kBeamEnd;
+    beamKind = msrBeamKind::kBeamEnd;
   }
   else if (fCurrentMetronomeBeamValue == "forward hook") {
-    beamKind = kBeamForwardHook;
+    beamKind = msrBeamKind::kBeamForwardHook;
   }
   else if (fCurrentMetronomeBeamValue == "backward hook") {
-    beamKind = kBeamBackwardHook;
+    beamKind = msrBeamKind::kBeamBackwardHook;
   }
   else {
     stringstream s;
@@ -5845,7 +5845,7 @@ void mxmlTree2msrTranslator::visitStart (S_staff_details& elt )
   fCurrentStaffTypeKind =
     msrStaffDetails::kRegularStaffType;
 
-  fCurrentStaffTuningAlterationKind = k_NoAlteration;
+  fCurrentStaffTuningAlterationKind = msrAlterationKind::k_NoAlteration;
   fCurrentStaffTuningOctaveKind     = msrOctaveKind::k_NoOctave;
 
   fCurrentStaffDetailsStaffSize = 0;
@@ -5953,7 +5953,7 @@ void mxmlTree2msrTranslator::visitStart (S_staff_tuning& elt )
   fCurrentStaffTuningLine =
     elt->getAttributeIntValue ("line", 0);
 
-  fCurrentStaffTuningAlterationKind = kNatural; // may be absent
+  fCurrentStaffTuningAlterationKind = msrAlterationKind::kAlterationNatural; // may be absent
   fCurrentStaffTuningOctaveKind     = msrOctaveKind::k_NoOctave;
 
   fOnGoingStaffTuning = true;
@@ -6071,7 +6071,7 @@ void mxmlTree2msrTranslator::visitStart (S_tuning_alter& elt )
       msrAlterationKindFromMusicXMLAlter (
         tuningAlter);
 
-  if (tuningAlterationKind == k_NoAlteration) {
+  if (tuningAlterationKind == msrAlterationKind::k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -6439,16 +6439,16 @@ void mxmlTree2msrTranslator::visitStart (S_tied& elt )
   fCurrentTiedOrientation =
     elt->getAttributeValue ("orientation");
 
-  fCurrentTieKind = kTieNone;
+  fCurrentTieKind = msrTieKind::kTieNone;
 
   if      (tiedType == "start") {
-    fCurrentTieKind = kTieStart;
+    fCurrentTieKind = msrTieKind::kTieStart;
   }
   else if (tiedType == "continue") {
-    fCurrentTieKind = kTieContinue;
+    fCurrentTieKind = msrTieKind::kTieContinue;
   }
   else if (tiedType == "stop") {
-    fCurrentTieKind = kTieStop;
+    fCurrentTieKind = msrTieKind::kTieStop;
   }
   else {
     // inner tied notes may miss the "continue" type:
@@ -6487,7 +6487,7 @@ void mxmlTree2msrTranslator::visitStart (S_tied& elt )
 
   // color JMI
 
-  if (fCurrentTieKind != kTieNone) {
+  if (fCurrentTieKind != msrTieKind::kTieNone) {
     if (! gGlobalMxmlTree2msrOahGroup->getOmitTies ()) {
       fCurrentTie =
         msrTie::create (
@@ -6642,7 +6642,7 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
     if (fCurrentSlurType == "start") {
       switch (slurStartsStackSize) {
         case 0:
-          fCurrentSlurTypeKind = kRegularSlurStart;
+          fCurrentSlurTypeKind = msrSlurTypeKind::kSlurTypeRegularStart;
           break;
 
         case 1:
@@ -6651,7 +6651,7 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
               containingSlur =
                 fSlurStartsStack.front ();
 
-            fCurrentSlurTypeKind = kRegularSlurStart;
+            fCurrentSlurTypeKind = msrSlurTypeKind::kSlurTypeRegularStart;
 
 /* JMI BUGGED?
             // the stack top is in fact a phrasing slur start
@@ -6668,7 +6668,7 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
 
             containingSlur->
               setSlurTypeKind (
-                kPhrasingSlurStart);
+                msrSlurTypeKind::kSlurTypePhrasingStart);
                 */
           }
           break;
@@ -6693,11 +6693,11 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
     }
 
     else if (fCurrentSlurType == "continue") {
-      fCurrentSlurTypeKind = kSlurContinue;
+      fCurrentSlurTypeKind = msrSlurTypeKind::kSlurTypeContinue;
     }
 
     else if (fCurrentSlurType == "stop") {
-      fCurrentSlurTypeKind = kRegularSlurStop;
+      fCurrentSlurTypeKind = msrSlurTypeKind::kSlurTypeRegularStop;
       switch (slurStartsStackSize) {
         case 0:
           {
@@ -6716,7 +6716,7 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
         case 1:
         /* JMI
           // the current slur stop is regular
-          fCurrentSlurTypeKind = kRegularSlurStop;
+          fCurrentSlurTypeKind = msrSlurTypeKind::kSlurTypeRegularStop;
 
           // pop the top element off the stack
           fSlurStartsStack.pop_front ();
@@ -6725,11 +6725,11 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
         case 2:
           // the current slur stop kind depends on that of the stack's top
           switch (fSlurStartsStack.front ()->getSlurTypeKind ()) {
-            case kRegularSlurStart:
-              fCurrentSlurTypeKind = kRegularSlurStop;
+            case msrSlurTypeKind::kSlurTypeRegularStart:
+              fCurrentSlurTypeKind = msrSlurTypeKind::kSlurTypeRegularStop;
               break;
 
-            case kPhrasingSlurStart:
+            case msrSlurTypeKind::kSlurTypePhrasingStart:
               // the stack top is in fact a phrasing slur start
 #ifdef TRACING_IS_ENABLED
               if (gGlobalTraceOahGroup->getTraceSlurs ()) {
@@ -6740,7 +6740,7 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
               }
 #endif
 
-              fCurrentSlurTypeKind = kPhrasingSlurStop;
+              fCurrentSlurTypeKind = msrSlurTypeKind::kSlurTypePhrasingStop;
               break;
 
             default:
@@ -6784,19 +6784,19 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
 
     msrLineTypeKind
       slurLineTypeKind =
-        kLineTypeSolid; // default value
+        msrLineTypeKind::kLineTypeSolid; // default value
 
     if      (slurLineType == "solid") {
-      slurLineTypeKind = kLineTypeSolid;
+      slurLineTypeKind = msrLineTypeKind::kLineTypeSolid;
     }
     else if (slurLineType == "dashed") {
-      slurLineTypeKind = kLineTypeDashed;
+      slurLineTypeKind = msrLineTypeKind::kLineTypeDashed;
     }
     else if (slurLineType == "dotted") {
-      slurLineTypeKind = kLineTypeDotted;
+      slurLineTypeKind = msrLineTypeKind::kLineTypeDotted;
     }
     else if (slurLineType == "wavy") {
-      slurLineTypeKind = kLineTypeWavy;
+      slurLineTypeKind = msrLineTypeKind::kLineTypeWavy;
     }
     else {
       if (slurLineType.size ()) {
@@ -6840,8 +6840,8 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
 
       // push slurs starts onto the stack
       switch (fCurrentSlurTypeKind) {
-        case kRegularSlurStart:
-        case kPhrasingSlurStart:
+        case msrSlurTypeKind::kSlurTypeRegularStart:
+        case msrSlurTypeKind::kSlurTypePhrasingStart:
           fSlurStartsStack.push_front (slur);
           break;
         default:
@@ -6960,19 +6960,19 @@ void mxmlTree2msrTranslator::visitStart (S_bracket& elt )
 
   msrLineTypeKind
     ligatureLineTypeKind =
-      kLineTypeSolid; // default value
+      msrLineTypeKind::kLineTypeSolid; // default value
 
   if      (ligatureLineTypeValue == "solid") {
-    ligatureLineTypeKind = kLineTypeSolid;
+    ligatureLineTypeKind = msrLineTypeKind::kLineTypeSolid;
   }
   else if (ligatureLineTypeValue == "dashed") {
-    ligatureLineTypeKind = kLineTypeDashed;
+    ligatureLineTypeKind = msrLineTypeKind::kLineTypeDashed;
   }
   else if (ligatureLineTypeValue == "dotted") {
-    ligatureLineTypeKind = kLineTypeDotted;
+    ligatureLineTypeKind = msrLineTypeKind::kLineTypeDotted;
   }
   else if (ligatureLineTypeValue == "wavy") {
-    ligatureLineTypeKind = kLineTypeWavy;
+    ligatureLineTypeKind = msrLineTypeKind::kLineTypeWavy;
   }
   else {
     if (ligatureLineTypeValue.size ()) {
@@ -7020,7 +7020,7 @@ void mxmlTree2msrTranslator::visitStart (S_bracket& elt )
             }
 #endif
 
-            ligature->setLigaturePlacementKind (kPlacementAbove);
+            ligature->setLigaturePlacementKind (msrPlacementKind::kPlacementAbove);
             fCurrentLigatureStartAbove = ligature;
           }
           break;
@@ -7056,7 +7056,7 @@ void mxmlTree2msrTranslator::visitStart (S_bracket& elt )
             }
 #endif
 
-            ligature->setLigaturePlacementKind (kPlacementAbove);
+            ligature->setLigaturePlacementKind (msrPlacementKind::kPlacementAbove);
 
             if (! fCurrentLigatureStartAbove) {
               stringstream s;
@@ -7227,19 +7227,19 @@ void mxmlTree2msrTranslator::visitStart ( S_wedge& elt )
 
   msrLineTypeKind
     wedgeLineTypeKind =
-      kLineTypeSolid; // default value
+      msrLineTypeKind::kLineTypeSolid; // default value
 
   if      (wedgeLineType == "solid") {
-    wedgeLineTypeKind = kLineTypeSolid;
+    wedgeLineTypeKind = msrLineTypeKind::kLineTypeSolid;
   }
   else if (wedgeLineType == "dashed") {
-    wedgeLineTypeKind = kLineTypeDashed;
+    wedgeLineTypeKind = msrLineTypeKind::kLineTypeDashed;
   }
   else if (wedgeLineType == "dotted") {
-    wedgeLineTypeKind = kLineTypeDotted;
+    wedgeLineTypeKind = msrLineTypeKind::kLineTypeDotted;
   }
   else if (wedgeLineType == "wavy") {
-    wedgeLineTypeKind = kLineTypeWavy;
+    wedgeLineTypeKind = msrLineTypeKind::kLineTypeWavy;
   }
   else {
     if (wedgeLineType.size ()) {
@@ -7255,7 +7255,7 @@ void mxmlTree2msrTranslator::visitStart ( S_wedge& elt )
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllWedgesBelow ()) {
-    fCurrentDirectionPlacementKind = kPlacementBelow;
+    fCurrentDirectionPlacementKind = msrPlacementKind::kPlacementBelow;
   }
 
   if (! gGlobalMxmlTree2msrOahGroup->getOmitWedges ()) {
@@ -8009,15 +8009,15 @@ void mxmlTree2msrTranslator::visitStart (S_measure& elt)
 
   msrMeasureImplicitKind
     measureImplicitKind =
-      kMeasureImplicitKindNo; // default value
+      msrMeasureImplicitKind::kMeasureImplicitKindNo; // default value
 
   if       (implicit == "yes") {
     measureImplicitKind =
-      kMeasureImplicitKindYes;
+      msrMeasureImplicitKind::kMeasureImplicitKindYes;
   }
   else  if (implicit == "no") {
     measureImplicitKind =
-      kMeasureImplicitKindNo;
+      msrMeasureImplicitKind::kMeasureImplicitKindNo;
   }
   else {
     if (implicit.size ()) {
@@ -9494,15 +9494,15 @@ void mxmlTree2msrTranslator::visitStart ( S_note& elt )
   // initialize note data to a neutral state
   initializeNoteData ();
 
-  fCurrentNoteDiatonicPitchKind = k_NoDiatonicPitch;
-  fCurrentNoteAlterationKind    = kNatural;
+  fCurrentNoteDiatonicPitchKind = msrDiatonicPitchKind::k_NoDiatonicPitch;
+  fCurrentNoteAlterationKind    = msrAlterationKind::kAlterationNatural;
 
   fCurrentNoteOctave = msrOctaveKind::k_NoOctave;
 
   fCurrentNoteSoundingWholeNotes             = rational (0, 1);
   fCurrentNoteSoundingWholeNotesFromDuration = rational (0, 1);
 
-  fCurrentDisplayDiatonicPitchKind      = k_NoDiatonicPitch;
+  fCurrentDisplayDiatonicPitchKind      = msrDiatonicPitchKind::k_NoDiatonicPitch;
   fCurrentDisplayOctave                 = msrOctaveKind::k_NoOctave;
   fCurrentNoteDisplayWholeNotes         = rational (0, 1);
   fCurrentNoteDisplayWholeNotesFromType = rational (0, 1);
@@ -9559,7 +9559,7 @@ void mxmlTree2msrTranslator::visitStart ( S_note& elt )
   // tremolos
 
   fCurrentNoteBelongsToADoubleTremolo = false;
-  fCurrentTremoloTypeKind             = k_NoTremoloType;
+  fCurrentTremoloTypeKind             = msrTremoloTypeKind::k_NoTremoloType;
 
   // ties
 
@@ -9569,7 +9569,7 @@ void mxmlTree2msrTranslator::visitStart ( S_note& elt )
   // slurs
 
   fCurrentSlurType = "";
-  fCurrentSlurTypeKind = k_NoSlur;
+  fCurrentSlurTypeKind = msrSlurTypeKind::k_NoSlur;
 
   // ligatures
 
@@ -9687,7 +9687,7 @@ void mxmlTree2msrTranslator::visitStart ( S_alter& elt)
     msrAlterationKindFromMusicXMLAlter (
       alter);
 
-  if (fCurrentNoteAlterationKind == k_NoAlteration) {
+  if (fCurrentNoteAlterationKind == msrAlterationKind::k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -10120,77 +10120,77 @@ void mxmlTree2msrTranslator::visitStart ( S_accidental& elt ) // JMI
   {
     string accidentalValue = elt->getValue ();
 
-    fCurrentAccidentalKind = kAccidentalNone;
+    fCurrentAccidentalKind = msrAccidentalKind::kAccidentalNone;
 
     if      (accidentalValue == "sharp")
-      fCurrentAccidentalKind = kAccidentalSharp;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalSharp;
     else if (accidentalValue == "natural")
-      fCurrentAccidentalKind = kAccidentalNatural;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalNatural;
     else if (accidentalValue == "flat")
-      fCurrentAccidentalKind = kAccidentalFlat;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalFlat;
     else if (accidentalValue == "double-sharp")
-      fCurrentAccidentalKind = kAccidentalDoubleSharp;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalDoubleSharp;
     else if (accidentalValue == "sharp-sharp")
-      fCurrentAccidentalKind = kAccidentalSharpSharp;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalSharpSharp;
     else if (accidentalValue == "flat-flat")
-      fCurrentAccidentalKind = kAccidentalFlatFlat;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalFlatFlat;
     else if (accidentalValue == "natural-sharp")
-      fCurrentAccidentalKind = kAccidentalNaturalSharp;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalNaturalSharp;
     else if (accidentalValue == "natural-flat")
-      fCurrentAccidentalKind = kAccidentalNaturalFlat;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalNaturalFlat;
     else if (accidentalValue == "quarter-flat")
-      fCurrentAccidentalKind = kAccidentalQuarterFlat;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalQuarterFlat;
     else if (accidentalValue == "quarter-sharp")
-      fCurrentAccidentalKind = kAccidentalQuarterSharp;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalQuarterSharp;
     else if (accidentalValue == "three-quarters-flat")
-      fCurrentAccidentalKind = kAccidentalThreeQuartersFlat;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalThreeQuartersFlat;
     else if (accidentalValue == "three-quarters-sharp")
-      fCurrentAccidentalKind = kAccidentalThreeQuartersSharp;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalThreeQuartersSharp;
 
     else if (accidentalValue == "sharp-down")
-      fCurrentAccidentalKind = kAccidentalSharpDown;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalSharpDown;
     else if (accidentalValue == "sharp-up")
-      fCurrentAccidentalKind = kAccidentalSharpUp;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalSharpUp;
     else if (accidentalValue == "natural-down")
-      fCurrentAccidentalKind = kAccidentalNaturalDown;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalNaturalDown;
     else if (accidentalValue == "natural-up")
-      fCurrentAccidentalKind = kAccidentalNaturalUp;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalNaturalUp;
     else if (accidentalValue == "flat-down")
-      fCurrentAccidentalKind = kAccidentalFlatDown;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalFlatDown;
     else if (accidentalValue == "flat-up")
-      fCurrentAccidentalKind = kAccidentalFlatUp;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalFlatUp;
     else if (accidentalValue == "triple-sharp")
-      fCurrentAccidentalKind = kAccidentalTripleSharp;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalTripleSharp;
     else if (accidentalValue == "triple-flat")
-      fCurrentAccidentalKind = kAccidentalTripleFlat;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalTripleFlat;
     else if (accidentalValue == "slash-quarter-sharp")
-      fCurrentAccidentalKind = kAccidentalSlashQuarterSharp;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalSlashQuarterSharp;
     else if (accidentalValue == "slash-sharp")
-      fCurrentAccidentalKind = kAccidentalSlashSharp;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalSlashSharp;
     else if (accidentalValue == "slash-flat")
-      fCurrentAccidentalKind = kAccidentalSlashFlat;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalSlashFlat;
     else if (accidentalValue == "double-slash-flat")
-      fCurrentAccidentalKind = kAccidentalDoubleSlashFlat;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalDoubleSlashFlat;
     else if (accidentalValue == "sharp-1")
-      fCurrentAccidentalKind = kAccidentalSharp_1;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalSharp_1;
     else if (accidentalValue == "sharp-2")
-      fCurrentAccidentalKind = kAccidentalSharp_2;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalSharp_2;
     else if (accidentalValue == "sharp-3")
-      fCurrentAccidentalKind = kAccidentalSharp_3;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalSharp_3;
     else if (accidentalValue == "sharp-5")
-      fCurrentAccidentalKind = kAccidentalSharp_5;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalSharp_5;
     else if (accidentalValue == "flat-1")
-      fCurrentAccidentalKind = kAccidentalFlat_1;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalFlat_1;
     else if (accidentalValue == "flat-2")
-      fCurrentAccidentalKind = kAccidentalFlat_2;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalFlat_2;
     else if (accidentalValue == "flat-3")
-      fCurrentAccidentalKind = kAccidentalFlat_3;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalFlat_3;
     else if (accidentalValue == "flat-4")
-      fCurrentAccidentalKind = kAccidentalFlat_4;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalFlat_4;
     else if (accidentalValue == "sori")
-      fCurrentAccidentalKind = kAccidentalSori;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalSori;
     else if (accidentalValue == "koron")
-      fCurrentAccidentalKind = kAccidentalKoron;
+      fCurrentAccidentalKind = msrAccidentalKind::kAccidentalKoron;
     else {
       if (accidentalValue.size ()) {
         stringstream s;
@@ -10214,14 +10214,14 @@ void mxmlTree2msrTranslator::visitStart ( S_accidental& elt ) // JMI
     string editorialAccidental = elt->getAttributeValue ("editorial");
 
     fCurrentEditorialAccidentalKind =
-      kEditorialAccidentalNo; // default value
+      msrEditorialAccidentalKind::kEditorialAccidentalNo; // default value
 
     if      (editorialAccidental == "yes")
       fCurrentEditorialAccidentalKind =
-        kEditorialAccidentalYes;
+        msrEditorialAccidentalKind::kEditorialAccidentalYes;
     else if (editorialAccidental == "no")
       fCurrentEditorialAccidentalKind =
-        kEditorialAccidentalNo;
+        msrEditorialAccidentalKind::kEditorialAccidentalNo;
     else {
       if (editorialAccidental.size ()) {
         stringstream s;
@@ -10245,14 +10245,14 @@ void mxmlTree2msrTranslator::visitStart ( S_accidental& elt ) // JMI
     string cautionaryAccidental = elt->getAttributeValue ("cautionary");
 
     fCurrentCautionaryAccidentalKind =
-      kCautionaryAccidentalNo; // default value
+      msrCautionaryAccidentalKind::kCautionaryAccidentalNo; // default value
 
     if      (cautionaryAccidental == "yes")
       fCurrentCautionaryAccidentalKind =
-        kCautionaryAccidentalYes;
+        msrCautionaryAccidentalKind::kCautionaryAccidentalYes;
     else if (cautionaryAccidental == "no")
       fCurrentCautionaryAccidentalKind =
-        kCautionaryAccidentalNo;
+        msrCautionaryAccidentalKind::kCautionaryAccidentalNo;
     else {
       if (cautionaryAccidental.size ()) {
         stringstream s;
@@ -10360,22 +10360,22 @@ void mxmlTree2msrTranslator::visitStart ( S_beam& elt )
 
   fCurrentBeamValue = elt->getValue();
 
-  msrBeamKind beamKind = k_NoBeam;
+  msrBeamKind beamKind = msrBeamKind::k_NoBeam;
 
   if      (fCurrentBeamValue == "begin") {
-    beamKind = kBeamBegin;
+    beamKind = msrBeamKind::kBeamBegin;
   }
   else if (fCurrentBeamValue == "continue") {
-    beamKind = kBeamContinue;
+    beamKind = msrBeamKind::kBeamContinue;
   }
   else if (fCurrentBeamValue == "end") {
-    beamKind = kBeamEnd;
+    beamKind = msrBeamKind::kBeamEnd;
   }
   else if (fCurrentBeamValue == "forward hook") {
-    beamKind = kBeamForwardHook;
+    beamKind = msrBeamKind::kBeamForwardHook;
   }
   else if (fCurrentBeamValue == "backward hook") {
-    beamKind = kBeamBackwardHook;
+    beamKind = msrBeamKind::kBeamBackwardHook;
   }
   else {
     stringstream s;
@@ -10640,9 +10640,9 @@ void mxmlTree2msrTranslator::visitStart ( S_slash& elt )
   string slashType = elt->getAttributeValue ("type");
 
   if      (slashType == "start")
-    fCurrentSlashTypeKind = kSlashTypeStart;
+    fCurrentSlashTypeKind = msrSlashTypeKind::kSlashTypeStart;
   else if (slashType == "stop")
-    fCurrentSlashTypeKind = kSlashTypeStop;
+    fCurrentSlashTypeKind = msrSlashTypeKind::kSlashTypeStop;
   else {
     stringstream s;
 
@@ -10671,9 +10671,9 @@ void mxmlTree2msrTranslator::visitStart ( S_slash& elt )
   string slashUseStems = elt->getAttributeValue ("use-stems");
 
   if      (slashUseStems == "yes")
-    fCurrentSlashUseStemsKind = kSlashUseStemsYes;
+    fCurrentSlashUseStemsKind = msrSlashUseStemsKind::kSlashUseStemsYes;
   else if (slashUseStems == "no")
-    fCurrentSlashUseStemsKind = kSlashUseStemsNo;
+    fCurrentSlashUseStemsKind = msrSlashUseStemsKind::kSlashUseStemsNo;
   else {
     if (slashUseStems.size ()) {
       stringstream s;
@@ -11404,12 +11404,12 @@ void mxmlTree2msrTranslator::visitStart ( S_arpeggiate& elt )
 
   string directionString = elt->getAttributeValue ("direction");
 
-  msrDirectionKind directionKind = kDirectionNone; // default value
+  msrDirectionKind directionKind = msrDirectionKind::kDirectionNone; // default value
 
   if      (directionString == "up")
-    directionKind = kDirectionUp;
+    directionKind = msrDirectionKind::kDirectionUp;
   else if (directionString == "down")
-    directionKind = kDirectionDown;
+    directionKind = msrDirectionKind::kDirectionDown;
   else {
     if (directionString.size ()) {
       stringstream s;
@@ -11826,7 +11826,7 @@ void mxmlTree2msrTranslator::visitStart ( S_fret& elt )
     string placementString = elt->getAttributeValue ("placement");
 
     msrPlacementKind
-      fretPlacementKind =  k_NoPlacement;
+      fretPlacementKind =  msrPlacementKind::k_NoPlacement;
 
     // color JMI ???
 
@@ -11882,12 +11882,12 @@ void mxmlTree2msrTranslator::visitStart ( S_hammer_on& elt )
 
   string hammerOnType = elt->getAttributeValue ("type");
 
-  msrTechnicalTypeKind hammerOnTechnicalTypeKind = k_NoTechnicalType;
+  msrTechnicalTypeKind hammerOnTechnicalTypeKind = msrTechnicalTypeKind::k_NoTechnicalType;
 
   if      (hammerOnType == "start")
-    hammerOnTechnicalTypeKind = kTechnicalTypeStart;
+    hammerOnTechnicalTypeKind = msrTechnicalTypeKind::kTechnicalTypeStart;
   else if (hammerOnType == "stop")
-    hammerOnTechnicalTypeKind = kTechnicalTypeStop;
+    hammerOnTechnicalTypeKind = msrTechnicalTypeKind::kTechnicalTypeStop;
   else {
     if (hammerOnType.size ()) {
       stringstream s;
@@ -11959,7 +11959,7 @@ void mxmlTree2msrTranslator::visitStart ( S_handbell& elt )
       msrTechnicalWithString::create (
         inputLineNumber,
         msrTechnicalWithString::kHandbell,
-        k_NoTechnicalType,
+        msrTechnicalTypeKind::k_NoTechnicalType,
         handBellValue,
         placementKind);
 
@@ -12138,7 +12138,7 @@ void mxmlTree2msrTranslator::visitStart ( S_other_technical& elt )
       msrTechnicalWithString::create (
         inputLineNumber,
         msrTechnicalWithString::kOtherTechnical,
-        k_NoTechnicalType,
+        msrTechnicalTypeKind::k_NoTechnicalType,
         otherTechnicalValue,
         placementKind);
 
@@ -12177,7 +12177,7 @@ void mxmlTree2msrTranslator::visitStart ( S_pluck& elt )
       msrTechnicalWithString::create (
         inputLineNumber,
         msrTechnicalWithString::kPluck,
-        k_NoTechnicalType,
+        msrTechnicalTypeKind::k_NoTechnicalType,
         pluckValue,
         placementKind);
 
@@ -12204,12 +12204,12 @@ void mxmlTree2msrTranslator::visitStart ( S_pull_off& elt )
 
   string pullOffType = elt->getAttributeValue ("type");
 
-  msrTechnicalTypeKind pullOffTechnicalTypeKind = k_NoTechnicalType;
+  msrTechnicalTypeKind pullOffTechnicalTypeKind = msrTechnicalTypeKind::k_NoTechnicalType;
 
   if      (pullOffType == "start")
-    pullOffTechnicalTypeKind = kTechnicalTypeStart;
+    pullOffTechnicalTypeKind = msrTechnicalTypeKind::kTechnicalTypeStart;
   else if (pullOffType == "stop")
-    pullOffTechnicalTypeKind = kTechnicalTypeStop;
+    pullOffTechnicalTypeKind = msrTechnicalTypeKind::kTechnicalTypeStop;
   else {
     if (pullOffType.size ()) {
       stringstream s;
@@ -12738,16 +12738,16 @@ void mxmlTree2msrTranslator::visitStart ( S_tremolo& elt )
 
   string tremoloType = elt->getAttributeValue ("type");
 
-  fCurrentTremoloTypeKind = kTremoloTypeSingle; // default value
+  fCurrentTremoloTypeKind = msrTremoloTypeKind::kTremoloTypeSingle; // default value
 
   if      (tremoloType == "single")
-    fCurrentTremoloTypeKind = kTremoloTypeSingle;
+    fCurrentTremoloTypeKind = msrTremoloTypeKind::kTremoloTypeSingle;
 
   else if (tremoloType == "start")
-    fCurrentTremoloTypeKind = kTremoloTypeStart;
+    fCurrentTremoloTypeKind = msrTremoloTypeKind::kTremoloTypeStart;
 
   else if (tremoloType == "stop")
-    fCurrentTremoloTypeKind = kTremoloTypeStop;
+    fCurrentTremoloTypeKind = msrTremoloTypeKind::kTremoloTypeStop;
 
   else if (tremoloType.size ()) {
     stringstream s;
@@ -12768,10 +12768,10 @@ void mxmlTree2msrTranslator::visitStart ( S_tremolo& elt )
   string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    singleTremoloPlacementKind = k_NoPlacement;
+    singleTremoloPlacementKind = msrPlacementKind::k_NoPlacement;
 
   msrPlacementKind
-    doubleTremoloPlacementKind = k_NoPlacement;
+    doubleTremoloPlacementKind = msrPlacementKind::k_NoPlacement;
 
 /* JMI ???
   msrPlacementKind
@@ -12783,34 +12783,34 @@ void mxmlTree2msrTranslator::visitStart ( S_tremolo& elt )
 
   if      (placementString == "above") {
     switch (fCurrentTremoloTypeKind) {
-      case k_NoTremoloType:
+      case msrTremoloTypeKind::k_NoTremoloType:
         // just to avoid a compiler message
         break;
 
-      case kTremoloTypeSingle:
-        singleTremoloPlacementKind = kPlacementAbove;
+      case msrTremoloTypeKind::kTremoloTypeSingle:
+        singleTremoloPlacementKind = msrPlacementKind::kPlacementAbove;
         break;
 
-      case kTremoloTypeStart:
-      case kTremoloTypeStop:
-        doubleTremoloPlacementKind = kPlacementAbove;
+      case msrTremoloTypeKind::kTremoloTypeStart:
+      case msrTremoloTypeKind::kTremoloTypeStop:
+        doubleTremoloPlacementKind = msrPlacementKind::kPlacementAbove;
         break;
     } // switch
   }
 
   else if (placementString == "below") {
     switch (fCurrentTremoloTypeKind) {
-      case k_NoTremoloType:
+      case msrTremoloTypeKind::k_NoTremoloType:
         // just to avoid a compiler message
         break;
 
-      case kTremoloTypeSingle:
-        singleTremoloPlacementKind = kPlacementBelow;
+      case msrTremoloTypeKind::kTremoloTypeSingle:
+        singleTremoloPlacementKind = msrPlacementKind::kPlacementBelow;
         break;
 
-      case kTremoloTypeStart:
-      case kTremoloTypeStop:
-        doubleTremoloPlacementKind = kPlacementBelow;
+      case msrTremoloTypeKind::kTremoloTypeStart:
+      case msrTremoloTypeKind::kTremoloTypeStop:
+        doubleTremoloPlacementKind = msrPlacementKind::kPlacementBelow;
         break;
     } // switch
   }
@@ -12832,11 +12832,11 @@ void mxmlTree2msrTranslator::visitStart ( S_tremolo& elt )
 
   // handle double tremolos
   switch (fCurrentTremoloTypeKind) {
-    case k_NoTremoloType:
+    case msrTremoloTypeKind::k_NoTremoloType:
       // just to avoid a compiler message
       break;
 
-    case kTremoloTypeSingle:
+    case msrTremoloTypeKind::kTremoloTypeSingle:
       // create a single tremolo, it will be attached to current note
       // in attachCurrentSingleTremoloToNote()
 #ifdef TRACING_IS_ENABLED
@@ -12861,7 +12861,7 @@ void mxmlTree2msrTranslator::visitStart ( S_tremolo& elt )
           singleTremoloPlacementKind);
       break;
 
-    case kTremoloTypeStart:
+    case msrTremoloTypeKind::kTremoloTypeStart:
   //    if (! fCurrentDoubleTremolo) { JMI
       {
         // fetch current voice
@@ -12892,7 +12892,7 @@ void mxmlTree2msrTranslator::visitStart ( S_tremolo& elt )
           msrDoubleTremolo::create (
             inputLineNumber,
             msrDoubleTremolo::kNotesDoubleTremolo,
-            kTremoloTypeStart,
+            msrTremoloTypeKind::kTremoloTypeStart,
             tremoloMarksNumber,
             doubleTremoloPlacementKind);
       }
@@ -12913,7 +12913,7 @@ void mxmlTree2msrTranslator::visitStart ( S_tremolo& elt )
 */
       break;
 
-    case kTremoloTypeStop:
+    case msrTremoloTypeKind::kTremoloTypeStop:
       if (fCurrentDoubleTremolo) {
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceTremolos ()) {
@@ -13007,14 +13007,14 @@ void mxmlTree2msrTranslator::visitStart ( S_dashes& elt )
 
   string dashesType = elt->getAttributeValue ("type");
 
-  msrSpannerTypeKind fDashesSpannerTypeKind = k_NoSpannerType;
+  msrSpannerTypeKind fDashesSpannerTypeKind = msrSpannerTypeKind::k_NoSpannerType;
 
   if      (dashesType == "start")
-    fDashesSpannerTypeKind = kSpannerTypeStart;
+    fDashesSpannerTypeKind = msrSpannerTypeKind::kSpannerTypeStart;
   else if (dashesType == "continue")
-    fDashesSpannerTypeKind = kSpannerTypeContinue;
+    fDashesSpannerTypeKind = msrSpannerTypeKind::kSpannerTypeContinue;
   else if (dashesType == "stop")
-    fDashesSpannerTypeKind = kSpannerTypeStop;
+    fDashesSpannerTypeKind = msrSpannerTypeKind::kSpannerTypeStop;
   else {
     if (dashesType.size ()) {
       stringstream s;
@@ -13079,14 +13079,14 @@ void mxmlTree2msrTranslator::visitStart ( S_wavy_line& elt )
 
   string wavyLineType = elt->getAttributeValue ("type");
 
-  msrSpannerTypeKind fWavyLineSpannerTypeKind = k_NoSpannerType;
+  msrSpannerTypeKind fWavyLineSpannerTypeKind = msrSpannerTypeKind::k_NoSpannerType;
 
   if      (wavyLineType == "start")
-    fWavyLineSpannerTypeKind = kSpannerTypeStart;
+    fWavyLineSpannerTypeKind = msrSpannerTypeKind::kSpannerTypeStart;
   else if (wavyLineType == "continue")
-    fWavyLineSpannerTypeKind = kSpannerTypeContinue;
+    fWavyLineSpannerTypeKind = msrSpannerTypeKind::kSpannerTypeContinue;
   else if (wavyLineType == "stop")
-    fWavyLineSpannerTypeKind = kSpannerTypeStop;
+    fWavyLineSpannerTypeKind = msrSpannerTypeKind::kSpannerTypeStop;
   else {
     if (wavyLineType.size ()) {
       stringstream s;
@@ -13127,14 +13127,14 @@ void mxmlTree2msrTranslator::visitStart ( S_wavy_line& elt )
         nullptr); // will be set later REMOVE??? JMI
 
   switch (fWavyLineSpannerTypeKind) {
-    case kSpannerTypeStart:
+    case msrSpannerTypeKind::kSpannerTypeStart:
       fCurrentSpannersList.push_back (spanner);
 
       // remember this wavy line spanner start
       fCurrentWavyLineSpannerStart = spanner;
       break;
 
-    case kSpannerTypeStop:
+    case msrSpannerTypeKind::kSpannerTypeStop:
       // set spanner two-way sideLinks
       // between both ends of the wavy line spanner
       if (! fCurrentWavyLineSpannerStart) {
@@ -13160,10 +13160,10 @@ void mxmlTree2msrTranslator::visitStart ( S_wavy_line& elt )
       }
       break;
 
-    case kSpannerTypeContinue:
+    case msrSpannerTypeKind::kSpannerTypeContinue:
       break;
 
-    case k_NoSpannerType:
+    case msrSpannerTypeKind::k_NoSpannerType:
       // JMI ???
       break;
   } // switch
@@ -13567,112 +13567,112 @@ void mxmlTree2msrTranslator::visitStart ( S_accidental_mark& elt )
 
   msrAccidentalKind
     currentOrnamentAccidentalKind =
-      kAccidentalNone;
+      msrAccidentalKind::kAccidentalNone;
 
   if (accidentalMark      == "sharp")
-    currentOrnamentAccidentalKind = kAccidentalSharp;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalSharp;
 
   else if (accidentalMark == "natural")
-    currentOrnamentAccidentalKind = kAccidentalNatural;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalNatural;
 
   else if (accidentalMark == "flat")
-    currentOrnamentAccidentalKind = kAccidentalFlat;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalFlat;
 
   else if (accidentalMark == "double-sharp")
-    currentOrnamentAccidentalKind = kAccidentalDoubleSharp;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalDoubleSharp;
 
   else if (accidentalMark == "sharp-sharp")
-    currentOrnamentAccidentalKind = kAccidentalSharpSharp;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalSharpSharp;
 
   else if (accidentalMark == "flat-flat")
-    currentOrnamentAccidentalKind = kAccidentalFlatFlat;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalFlatFlat;
 
   else if (accidentalMark == "natural-sharp")
-    currentOrnamentAccidentalKind = kAccidentalNaturalSharp;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalNaturalSharp;
 
   else if (accidentalMark == "natural-flat")
-    currentOrnamentAccidentalKind = kAccidentalQuarterFlat;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalQuarterFlat;
 
   else if (accidentalMark == "quarter-flat")
-    currentOrnamentAccidentalKind = kAccidentalNaturalFlat;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalNaturalFlat;
 
   else if (accidentalMark == "quarter-sharp")
-    currentOrnamentAccidentalKind = kAccidentalQuarterSharp;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalQuarterSharp;
 
   else if (accidentalMark == "three-quarters-flat")
-    currentOrnamentAccidentalKind = kAccidentalThreeQuartersFlat;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalThreeQuartersFlat;
 
   else if (accidentalMark == "three-quarters-sharp")
-    currentOrnamentAccidentalKind = kAccidentalThreeQuartersSharp;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalThreeQuartersSharp;
 
   else if (accidentalMark == "sharp-down")
-    currentOrnamentAccidentalKind = kAccidentalSharpDown;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalSharpDown;
 
   else if (accidentalMark == "sharp-up")
-    currentOrnamentAccidentalKind = kAccidentalSharpUp;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalSharpUp;
 
   else if (accidentalMark == "natural-down")
-    currentOrnamentAccidentalKind = kAccidentalNaturalDown;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalNaturalDown;
 
   else if (accidentalMark == "natural-up")
-    currentOrnamentAccidentalKind = kAccidentalNaturalUp;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalNaturalUp;
 
   else if (accidentalMark == "flat-down")
-    currentOrnamentAccidentalKind = kAccidentalFlatDown;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalFlatDown;
 
   else if (accidentalMark == "flat-up")
-    currentOrnamentAccidentalKind = kAccidentalFlatUp;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalFlatUp;
 
   else if (accidentalMark == "triple-sharp")
-    currentOrnamentAccidentalKind = kAccidentalTripleSharp;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalTripleSharp;
 
   else if (accidentalMark == "triple-flat")
-    currentOrnamentAccidentalKind = kAccidentalTripleFlat;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalTripleFlat;
 
   else if (accidentalMark == "slash-quarter-sharp")
-    currentOrnamentAccidentalKind = kAccidentalSlashQuarterSharp;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalSlashQuarterSharp;
 
   else if (accidentalMark == "slash-sharp")
-    currentOrnamentAccidentalKind = kAccidentalSlashSharp;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalSlashSharp;
 
   else if (accidentalMark == "slash-flat")
-    currentOrnamentAccidentalKind = kAccidentalSlashFlat;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalSlashFlat;
 
   else if (accidentalMark == "double-slash-flat")
-    currentOrnamentAccidentalKind = kAccidentalDoubleSlashFlat;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalDoubleSlashFlat;
 
   else if (accidentalMark == "sharp-1")
-    currentOrnamentAccidentalKind = kAccidentalSharp_1;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalSharp_1;
 
   else if (accidentalMark == "sharp-2")
-    currentOrnamentAccidentalKind = kAccidentalSharp_2;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalSharp_2;
 
   else if (accidentalMark == "sharp-3")
-    currentOrnamentAccidentalKind = kAccidentalSharp_3;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalSharp_3;
 
   else if (accidentalMark == "sharp-5")
-    currentOrnamentAccidentalKind = kAccidentalSharp_3;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalSharp_3;
 
   else if (accidentalMark == "flat-1")
-    currentOrnamentAccidentalKind = kAccidentalFlat_1;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalFlat_1;
 
   else if (accidentalMark == "flat-2")
-    currentOrnamentAccidentalKind = kAccidentalFlat_2;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalFlat_2;
 
   else if (accidentalMark == "flat-3")
-    currentOrnamentAccidentalKind = kAccidentalFlat_3;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalFlat_3;
 
   else if (accidentalMark == "flat-4")
-    currentOrnamentAccidentalKind = kAccidentalFlat_4;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalFlat_4;
 
   else if (accidentalMark == "sori")
-    currentOrnamentAccidentalKind = kAccidentalSori;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalSori;
 
   else if (accidentalMark == "koron")
-    currentOrnamentAccidentalKind = kAccidentalKoron;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalKoron;
 
   else if (accidentalMark == "other")
-    currentOrnamentAccidentalKind = kAccidentalOther;
+    currentOrnamentAccidentalKind = msrAccidentalKind::kAccidentalOther;
 
   else if (accidentalMark.size ()) {
     stringstream s;
@@ -13754,7 +13754,7 @@ void mxmlTree2msrTranslator::visitStart( S_f& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -13763,7 +13763,7 @@ void mxmlTree2msrTranslator::visitStart( S_f& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsF,
+          msrDynamicsKind::kDynamicsF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -13795,7 +13795,7 @@ void mxmlTree2msrTranslator::visitStart( S_ff& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -13804,7 +13804,7 @@ void mxmlTree2msrTranslator::visitStart( S_ff& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsFF,
+          msrDynamicsKind::kDynamicsFF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -13836,7 +13836,7 @@ void mxmlTree2msrTranslator::visitStart( S_fff& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -13845,7 +13845,7 @@ void mxmlTree2msrTranslator::visitStart( S_fff& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsFFF,
+          msrDynamicsKind::kDynamicsFFF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -13877,7 +13877,7 @@ void mxmlTree2msrTranslator::visitStart( S_ffff& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -13886,7 +13886,7 @@ void mxmlTree2msrTranslator::visitStart( S_ffff& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsFFFF,
+          msrDynamicsKind::kDynamicsFFFF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -13918,7 +13918,7 @@ void mxmlTree2msrTranslator::visitStart( S_fffff& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -13927,7 +13927,7 @@ void mxmlTree2msrTranslator::visitStart( S_fffff& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsFFFFF,
+          msrDynamicsKind::kDynamicsFFFFF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -13959,7 +13959,7 @@ void mxmlTree2msrTranslator::visitStart( S_ffffff& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -13968,7 +13968,7 @@ void mxmlTree2msrTranslator::visitStart( S_ffffff& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsFFFFFF,
+          msrDynamicsKind::kDynamicsFFFFFF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14001,7 +14001,7 @@ void mxmlTree2msrTranslator::visitStart( S_p& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14010,7 +14010,7 @@ void mxmlTree2msrTranslator::visitStart( S_p& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsP,
+          msrDynamicsKind::kDynamicsP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14042,7 +14042,7 @@ void mxmlTree2msrTranslator::visitStart( S_pp& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14051,7 +14051,7 @@ void mxmlTree2msrTranslator::visitStart( S_pp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsPP,
+          msrDynamicsKind::kDynamicsPP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14083,7 +14083,7 @@ void mxmlTree2msrTranslator::visitStart( S_ppp& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14092,7 +14092,7 @@ void mxmlTree2msrTranslator::visitStart( S_ppp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsPPP,
+          msrDynamicsKind::kDynamicsPPP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14124,7 +14124,7 @@ void mxmlTree2msrTranslator::visitStart( S_pppp& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14133,7 +14133,7 @@ void mxmlTree2msrTranslator::visitStart( S_pppp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsPPPP,
+          msrDynamicsKind::kDynamicsPPPP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14165,7 +14165,7 @@ void mxmlTree2msrTranslator::visitStart( S_ppppp& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14174,7 +14174,7 @@ void mxmlTree2msrTranslator::visitStart( S_ppppp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsPPPPP,
+          msrDynamicsKind::kDynamicsPPPPP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14206,7 +14206,7 @@ void mxmlTree2msrTranslator::visitStart( S_pppppp& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14215,7 +14215,7 @@ void mxmlTree2msrTranslator::visitStart( S_pppppp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsPPPPPP,
+          msrDynamicsKind::kDynamicsPPPPPP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14249,7 +14249,7 @@ void mxmlTree2msrTranslator::visitStart( S_mf& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14258,7 +14258,7 @@ void mxmlTree2msrTranslator::visitStart( S_mf& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsMF,
+          msrDynamicsKind::kDynamicsMF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14290,7 +14290,7 @@ void mxmlTree2msrTranslator::visitStart( S_mp& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14299,7 +14299,7 @@ void mxmlTree2msrTranslator::visitStart( S_mp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsMP,
+          msrDynamicsKind::kDynamicsMP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14332,7 +14332,7 @@ void mxmlTree2msrTranslator::visitStart( S_fp& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14341,7 +14341,7 @@ void mxmlTree2msrTranslator::visitStart( S_fp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsFP,
+          msrDynamicsKind::kDynamicsFP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14373,7 +14373,7 @@ void mxmlTree2msrTranslator::visitStart( S_fz& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14382,7 +14382,7 @@ void mxmlTree2msrTranslator::visitStart( S_fz& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsFZ,
+          msrDynamicsKind::kDynamicsFZ,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14415,7 +14415,7 @@ void mxmlTree2msrTranslator::visitStart( S_rf& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14424,7 +14424,7 @@ void mxmlTree2msrTranslator::visitStart( S_rf& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsRF,
+          msrDynamicsKind::kDynamicsRF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14457,7 +14457,7 @@ void mxmlTree2msrTranslator::visitStart( S_sf& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14466,7 +14466,7 @@ void mxmlTree2msrTranslator::visitStart( S_sf& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsSF,
+          msrDynamicsKind::kDynamicsSF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14499,7 +14499,7 @@ void mxmlTree2msrTranslator::visitStart( S_rfz& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14508,7 +14508,7 @@ void mxmlTree2msrTranslator::visitStart( S_rfz& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsRFZ,
+          msrDynamicsKind::kDynamicsRFZ,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14541,7 +14541,7 @@ void mxmlTree2msrTranslator::visitStart( S_sfz& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14550,7 +14550,7 @@ void mxmlTree2msrTranslator::visitStart( S_sfz& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsSFZ,
+          msrDynamicsKind::kDynamicsSFZ,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14583,7 +14583,7 @@ void mxmlTree2msrTranslator::visitStart( S_sfp& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14592,7 +14592,7 @@ void mxmlTree2msrTranslator::visitStart( S_sfp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsSFP,
+          msrDynamicsKind::kDynamicsSFP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14625,7 +14625,7 @@ void mxmlTree2msrTranslator::visitStart( S_sfpp& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14634,7 +14634,7 @@ void mxmlTree2msrTranslator::visitStart( S_sfpp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsSFPP,
+          msrDynamicsKind::kDynamicsSFPP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14667,7 +14667,7 @@ void mxmlTree2msrTranslator::visitStart( S_sffz& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the dynamics
@@ -14676,7 +14676,7 @@ void mxmlTree2msrTranslator::visitStart( S_sffz& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          kDynamicsSFFZ,
+          msrDynamicsKind::kDynamicsSFFZ,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14711,7 +14711,7 @@ void mxmlTree2msrTranslator::visitStart( S_other_dynamics& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the other dynamics
@@ -14836,7 +14836,7 @@ void mxmlTree2msrTranslator::visitStart( S_soft_pedal& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the other dynamics
@@ -14873,7 +14873,7 @@ void mxmlTree2msrTranslator::visitStart( S_sostenuto_pedal& elt)
 
   // should the placement be forced to 'below'?
   if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
-    placementKind = kPlacementBelow;
+    placementKind = msrPlacementKind::kPlacementBelow;
   }
 
   // create the other dynamics
@@ -15693,19 +15693,19 @@ void mxmlTree2msrTranslator::visitStart ( S_glissando& elt )
 
   msrLineTypeKind
     glissandoLineTypeKind =
-      kLineTypeSolid; // default value
+      msrLineTypeKind::kLineTypeSolid; // default value
 
   if      (glissandoLineType == "solid") {
-    glissandoLineTypeKind = kLineTypeSolid;
+    glissandoLineTypeKind = msrLineTypeKind::kLineTypeSolid;
   }
   else if (glissandoLineType == "dashed") {
-    glissandoLineTypeKind = kLineTypeDashed;
+    glissandoLineTypeKind = msrLineTypeKind::kLineTypeDashed;
   }
   else if (glissandoLineType == "dotted") {
-    glissandoLineTypeKind = kLineTypeDotted;
+    glissandoLineTypeKind = msrLineTypeKind::kLineTypeDotted;
   }
   else if (glissandoLineType == "wavy") {
-    glissandoLineTypeKind = kLineTypeWavy;
+    glissandoLineTypeKind = msrLineTypeKind::kLineTypeWavy;
   }
   else {
     if (glissandoLineType.size ()) {
@@ -15811,19 +15811,19 @@ void mxmlTree2msrTranslator::visitStart ( S_slide& elt )
 
   msrLineTypeKind
     slideLineTypeKind =
-      kLineTypeSolid; // default value
+      msrLineTypeKind::kLineTypeSolid; // default value
 
   if      (slideLineType == "solid") {
-    slideLineTypeKind = kLineTypeSolid;
+    slideLineTypeKind = msrLineTypeKind::kLineTypeSolid;
   }
   else if (slideLineType == "dashed") {
-    slideLineTypeKind = kLineTypeDashed;
+    slideLineTypeKind = msrLineTypeKind::kLineTypeDashed;
   }
   else if (slideLineType == "dotted") {
-    slideLineTypeKind = kLineTypeDotted;
+    slideLineTypeKind = msrLineTypeKind::kLineTypeDotted;
   }
   else if (slideLineType == "wavy") {
-    slideLineTypeKind = kLineTypeWavy;
+    slideLineTypeKind = msrLineTypeKind::kLineTypeWavy;
   }
   else {
     if (slideLineType.size ()) {
@@ -15922,7 +15922,7 @@ void mxmlTree2msrTranslator::visitStart ( S_rest& elt)
 
 */
 
-  fCurrentNoteQuarterTonesPitchKind = k_Rest_QTP;
+  fCurrentNoteQuarterTonesPitchKind = msrQuarterTonesPitchKind::kQTP_Rest;
   fCurrentNoteIsARest = true;
 
   string restMeasure = elt->getAttributeValue ("measure");
@@ -15974,7 +15974,7 @@ void mxmlTree2msrTranslator::visitStart ( S_display_step& elt)
 
   // pitched rests don't allow for alterations since
   // the display-step merely indicates where to place them on the staff
-  fCurrentNoteAlterationKind = kNatural;
+  fCurrentNoteAlterationKind = msrAlterationKind::kAlterationNatural;
 }
 
 void mxmlTree2msrTranslator::visitStart ( S_display_octave& elt)
@@ -17977,16 +17977,16 @@ void mxmlTree2msrTranslator::attachCurrentSpannersToNote (
       switch (spanner->getSpannerKind ()) {
         case msrSpanner::kSpannerDashes: // JMI
           switch (spanner->getSpannerTypeKind ()) {
-            case kSpannerTypeStart:
+            case msrSpannerTypeKind::kSpannerTypeStart:
               spannerStopMetForThisNote = true;
               break;
-            case kSpannerTypeStop:
+            case msrSpannerTypeKind::kSpannerTypeStop:
               doHandleSpanner =
                 ! spannerStopMetForThisNote;
               break;
-            case kSpannerTypeContinue:
+            case msrSpannerTypeKind::kSpannerTypeContinue:
               break;
-            case k_NoSpannerType:
+            case msrSpannerTypeKind::k_NoSpannerType:
               // JMI ???
               break;
           } // switch
@@ -17994,16 +17994,16 @@ void mxmlTree2msrTranslator::attachCurrentSpannersToNote (
 
         case msrSpanner::kSpannerWavyLine:
           switch (spanner->getSpannerTypeKind ()) {
-            case kSpannerTypeStart:
+            case msrSpannerTypeKind::kSpannerTypeStart:
               spannerStopMetForThisNote = true;
               break;
-            case kSpannerTypeStop:
+            case msrSpannerTypeKind::kSpannerTypeStop:
               doHandleSpanner =
                 ! spannerStopMetForThisNote;
               break;
-            case kSpannerTypeContinue:
+            case msrSpannerTypeKind::kSpannerTypeContinue:
               break;
-            case k_NoSpannerType:
+            case msrSpannerTypeKind::k_NoSpannerType:
               // JMI ???
               break;
           } // switch
@@ -19770,9 +19770,9 @@ S_msrNote mxmlTree2msrTranslator::createNote (
   }
 
   else if (
-    fCurrentTremoloTypeKind == kTremoloTypeStart
+    fCurrentTremoloTypeKind == msrTremoloTypeKind::kTremoloTypeStart
       ||
-    fCurrentTremoloTypeKind == kTremoloTypeStop
+    fCurrentTremoloTypeKind == msrTremoloTypeKind::kTremoloTypeStop
   ) {
     // double tremolo note
     if (fCurrentNoteGraphicDurationKind == msrDurationKind::k_NoDuration) {
@@ -20821,9 +20821,9 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 
   else if (
-    fCurrentTremoloTypeKind == kTremoloTypeStart
+    fCurrentTremoloTypeKind == msrTremoloTypeKind::kTremoloTypeStart
       ||
-    fCurrentTremoloTypeKind == kTremoloTypeStop
+    fCurrentTremoloTypeKind == msrTremoloTypeKind::kTremoloTypeStop
   ) {
     // double tremolo note
     newNote->
@@ -21028,15 +21028,15 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       appendNoteToGraceNotesGroup (newNote);
   }
 
-  else if (fCurrentTremoloTypeKind != k_NoTremoloType) {
+  else if (fCurrentTremoloTypeKind != msrTremoloTypeKind::k_NoTremoloType) {
     // newNote belongs to a tremolo
 
     switch (fCurrentTremoloTypeKind) {
-      case k_NoTremoloType:
+      case msrTremoloTypeKind::k_NoTremoloType:
         // just to avoid a compiler message
         break;
 
-      case kTremoloTypeSingle:
+      case msrTremoloTypeKind::kTremoloTypeSingle:
         // append newNote to the current voice
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceNotes ()) {
@@ -21058,7 +21058,7 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         // attachCurrentSingleTremoloToNote()
         break;
 
-      case kTremoloTypeStart:
+      case msrTremoloTypeKind::kTremoloTypeStart:
         // register newNote as first element of the current double tremolo
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceNotes ()) {
@@ -21079,7 +21079,7 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
             newNote);
         break;
 
-      case kTremoloTypeStop:
+      case msrTremoloTypeKind::kTremoloTypeStop:
         // register newNote as second element of the current double tremolo
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceNotes ()) {
@@ -21143,17 +21143,17 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 
   // take care of slurs JMI ???
   switch (fCurrentSlurTypeKind) {
-    case kRegularSlurStart:
-    case kPhrasingSlurStart:
+    case msrSlurTypeKind::kSlurTypeRegularStart:
+    case msrSlurTypeKind::kSlurTypePhrasingStart:
       fFirstSyllableInSlurKind = fCurrentSyllableKind;
       break;
-    case kSlurContinue:
+    case msrSlurTypeKind::kSlurTypeContinue:
       break;
-    case kRegularSlurStop:
-    case kPhrasingSlurStop:
+    case msrSlurTypeKind::kSlurTypeRegularStop:
+    case msrSlurTypeKind::kSlurTypePhrasingStop:
       fFirstSyllableInSlurKind = msrSyllable::kSyllableNone;
       break;
-    case k_NoSlur:
+    case msrSlurTypeKind::k_NoSlur:
       ;
   } // switch
 
@@ -22931,7 +22931,7 @@ void mxmlTree2msrTranslator::handleRepeatHookedEndingEnd (
     handleRepeatEndingEndInPart (
       inputLineNumber,
       fCurrentBarlineEndingNumber,
-      kHookedEnding);
+      msrRepeatEndingKind::kEndingHooked);
 }
 
 //______________________________________________________________________________
@@ -22992,7 +22992,7 @@ void mxmlTree2msrTranslator::handleRepeatHooklessEndingEnd (
     handleRepeatEndingEndInPart (
       inputLineNumber,
       fCurrentBarlineEndingNumber,
-      kHooklessEnding);
+      msrRepeatEndingKind::kEndingHookless);
 }
 
 //______________________________________________________________________________
@@ -23096,15 +23096,15 @@ void mxmlTree2msrTranslator::visitStart ( S_harmony& elt )
   ++fHarmonyVoicesCounter;
 
   fCurrentHarmonyInputLineNumber       = inputLineNumber;
-  fCurrentHarmonyRootDiatonicPitchKind = k_NoDiatonicPitch;
-  fCurrentHarmonyRootAlterationKind    = kNatural;
+  fCurrentHarmonyRootDiatonicPitchKind = msrDiatonicPitchKind::k_NoDiatonicPitch;
+  fCurrentHarmonyRootAlterationKind    = msrAlterationKind::kAlterationNatural;
   fCurrentHarmonyKind                  = k_NoHarmony;
   fCurrentHarmonyKindText              = "";
   fCurrentHarmonyInversion             = K_HARMONY_NO_INVERSION;
-  fCurrentHarmonyBassDiatonicPitchKind = k_NoDiatonicPitch;
-  fCurrentHarmonyBassAlterationKind    = kNatural;
+  fCurrentHarmonyBassDiatonicPitchKind = msrDiatonicPitchKind::k_NoDiatonicPitch;
+  fCurrentHarmonyBassAlterationKind    = msrAlterationKind::kAlterationNatural;
   fCurrentHarmonyDegreeValue           = -1;
-  fCurrentHarmonyDegreeAlterationKind  = kNatural;
+  fCurrentHarmonyDegreeAlterationKind  = msrAlterationKind::kAlterationNatural;
 
   fCurrentHarmonyWholeNotesOffset = rational (0, 1);
 
@@ -23156,7 +23156,7 @@ void mxmlTree2msrTranslator::visitStart ( S_root_alter& elt )
     msrAlterationKindFromMusicXMLAlter (
       rootAlter);
 
-  if (fCurrentHarmonyRootAlterationKind == k_NoAlteration) {
+  if (fCurrentHarmonyRootAlterationKind == msrAlterationKind::k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -23462,7 +23462,7 @@ void mxmlTree2msrTranslator::visitStart ( S_bass_alter& elt )
     msrAlterationKindFromMusicXMLAlter (
       bassAlter);
 
-  if (fCurrentHarmonyBassAlterationKind == k_NoAlteration) {
+  if (fCurrentHarmonyBassAlterationKind == msrAlterationKind::k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -23523,7 +23523,7 @@ void mxmlTree2msrTranslator::visitStart ( S_degree_alter& elt )
     msrAlterationKindFromMusicXMLAlter (
       degreeAlter);
 
-  if (fCurrentHarmonyDegreeAlterationKind == k_NoAlteration) {
+  if (fCurrentHarmonyDegreeAlterationKind == msrAlterationKind::k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -23665,7 +23665,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_harmony& elt )
       s.str ());
 
     fCurrentHarmonyBassQuarterTonesPitchKind =
-      k_NoQuarterTonesPitch_QTP;
+      msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
   }
 
   if (gGlobalMxmlTree2msrOahGroup->getOmitHarmonies ()) {
@@ -23891,7 +23891,7 @@ void mxmlTree2msrTranslator::visitStart ( S_frame& elt )
     msrAlterationKindFromMusicXMLAlter (
       degreeAlter);
 
-  if (fCurrentHarmonyDegreeAlterationKind == k_NoAlteration) {
+  if (fCurrentHarmonyDegreeAlterationKind == msrAlterationKind::k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -24555,7 +24555,7 @@ void mxmlTree2msrTranslator::visitStart (S_pedal_alter& elt )
     msrAlterationKindFromMusicXMLAlter (
       pedalAlter);
 
-  if (fCurrentHarpPedalAlterationKind == k_NoAlteration) {
+  if (fCurrentHarpPedalAlterationKind == msrAlterationKind::k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -24845,8 +24845,8 @@ void mxmlTree2msrTranslator::visitStart (S_accord& elt )
 
   fCurrentStringTuningNumber = elt->getAttributeIntValue ("string", 0);
 
-  fCurrentStringTuningDiatonicPitchKind = k_NoDiatonicPitch;
-  fCurrentStringTuningAlterationKind = kNatural; // default value
+  fCurrentStringTuningDiatonicPitchKind = msrDiatonicPitchKind::k_NoDiatonicPitch;
+  fCurrentStringTuningAlterationKind = msrAlterationKind::kAlterationNatural; // default value
   fCurrentStringTuningOctaveKind = msrOctaveKind::k_NoOctave;
 
   fOnGoingAccord = true;

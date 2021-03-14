@@ -186,7 +186,7 @@ S_msdlCompilerOahGroup createGlobalMsdlCompilerOahGroup ()
     // initialize the generated output kinds map
     // ------------------------------------------------------
 
-    initializeGeneratorOutputKindsMap ();
+    initializeMultiGeneratorOutputKindsMap ();
 
     // create the msdlCompiler options
     // ------------------------------------------------------

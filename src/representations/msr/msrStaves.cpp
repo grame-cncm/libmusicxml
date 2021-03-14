@@ -92,38 +92,38 @@ void msrStaff::initializeStaff ()
 
   // set staff name
   switch (fStaffKind) {
-    case kStaffRegular:
+    case msrStaffKind::kStaffRegular:
       fStaffName =
         fStaffPartUpLink->getPartMsrName () +
         "_Staff_" +
         int2EnglishWord (fStaffNumber);
       break;
 
-    case kStaffTablature:
+    case msrStaffKind::kStaffTablature:
         fStaffPartUpLink->getPartMsrName () +
         "_Tablature_" +
         int2EnglishWord (fStaffNumber);
       break;
 
-    case kStaffHarmony:
+    case msrStaffKind::kStaffHarmony:
       fStaffName =
         fStaffPartUpLink->getPartMsrName () +
         "_HARMONY_Staff";
       break;
 
-    case kStaffFiguredBass:
+    case msrStaffKind::kStaffFiguredBass:
       fStaffName =
         fStaffPartUpLink->getPartMsrName () +
         "_FIGURED_BASS_Staff";
       break;
 
-    case kStaffDrum:
+    case msrStaffKind::kStaffDrum:
       fStaffName =
         fStaffPartUpLink->getPartMsrName () +
         "_DRUM_Staff";
       break;
 
-    case kStaffRythmic:
+    case msrStaffKind::kStaffRythmic:
       fStaffName =
         fStaffPartUpLink->getPartMsrName () +
         "_RYTHMIC_Staff";
@@ -134,7 +134,7 @@ void msrStaff::initializeStaff ()
 
   // check the staff number
   switch (fStaffKind) {
-    case kStaffRegular:
+    case msrStaffKind::kStaffRegular:
       // the staff number should not be negative
       if (fStaffNumber < 0) {
         stringstream s;
@@ -150,13 +150,13 @@ void msrStaff::initializeStaff ()
       }
       break;
 
-    case kStaffTablature:
+    case msrStaffKind::kStaffTablature:
       break;
 
-    case kStaffHarmony:
+    case msrStaffKind::kStaffHarmony:
       break;
 
-    case kStaffFiguredBass:
+    case msrStaffKind::kStaffFiguredBass:
     /* JMI
       if (fStaffNumber != K_PART_FIGURED_BASS_STAFF_NUMBER) {
         stringstream s;
@@ -174,10 +174,10 @@ void msrStaff::initializeStaff ()
       */
       break;
 
-    case kStaffDrum:
+    case msrStaffKind::kStaffDrum:
       break;
 
-    case kStaffRythmic:
+    case msrStaffKind::kStaffRythmic:
       break;
   } // switch
 
@@ -401,16 +401,16 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
           (*i).second;
 
       switch (voice->getVoiceKind ()) {
-        case kVoiceRegular:
+        case msrVoiceKind::kVoiceRegular:
           if (voice->getMusicHasBeenInsertedInVoice ()) {
             ++result;
           }
           break;
 
-        case kVoiceHarmony: // JMI
+        case msrVoiceKind::kVoiceHarmony: // JMI
           break;
 
-        case kVoiceFiguredBass: // JMI
+        case msrVoiceKind::kVoiceFiguredBass: // JMI
           break;
       } // switch
 
@@ -454,9 +454,9 @@ void msrStaff::createMeasureAndAppendItToStaff (
       "voice is null");
 
     switch (voice->getVoiceKind ()) {
-      case kVoiceRegular:
-      case kVoiceHarmony:
-      case kVoiceFiguredBass:
+      case msrVoiceKind::kVoiceRegular:
+      case msrVoiceKind::kVoiceHarmony:
+      case msrVoiceKind::kVoiceFiguredBass:
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceMeasures ()) {
           gLogStream <<
@@ -475,10 +475,10 @@ void msrStaff::createMeasureAndAppendItToStaff (
             measureImplicitKind);
         break;
 /* JMI
-      case kVoiceHarmony:
+      case msrVoiceKind::kVoiceHarmony:
         break;
 
-      case kVoiceFiguredBass:
+      case msrVoiceKind::kVoiceFiguredBass:
         break;
         */
     } // switch
@@ -626,7 +626,7 @@ S_msrVoice msrStaff::createRegularVoiceInStaffByItsNumber (
     voice =
       msrVoice::create (
         inputLineNumber,
-        kVoiceRegular,
+        msrVoiceKind::kVoiceRegular,
         voiceNumber,
         msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
         this);
@@ -640,7 +640,7 @@ S_msrVoice msrStaff::createRegularVoiceInStaffByItsNumber (
 }
 
 /*
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceHarmony:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceVoices ()) {
         gLogStream <<
@@ -658,7 +658,7 @@ S_msrVoice msrStaff::createRegularVoiceInStaffByItsNumber (
 #endif
       break;
 
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceVoices ()) {
         gLogStream <<
@@ -689,15 +689,15 @@ S_msrVoice msrStaff::createRegularVoiceInStaffByItsNumber (
 
   // take this new voice into account if relevant
   switch (voiceKind) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       // register the voice in staff by its number
       registerRegularVoiceByItsNumber (
         voice,
         voiceNumber);
       break;
 
-    case kVoiceHarmony:
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceHarmony:
+    case msrVoiceKind::kVoiceFiguredBass:
       // register the voice in staff by its number
       registerPartLevelVoiceInStaff (
         inputLineNumber,
@@ -841,10 +841,10 @@ void msrStaff::registerVoiceByItsNumber (
 
   // sort the all voices list if necessary
   switch (voice->getVoiceKind ()) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       break;
 
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceHarmony:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceVoices ()) {
         gLogStream <<
@@ -863,7 +863,7 @@ void msrStaff::registerVoiceByItsNumber (
       }
       break;
 
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceVoices ()) {
         gLogStream <<
@@ -1217,7 +1217,7 @@ void msrStaff::registerVoiceInStaff (
 
   // take this new voice into account if relevant
   switch (voiceKind) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       // take that regular voice into account
       ++fStaffRegularVoicesCounter;
 
@@ -1249,9 +1249,9 @@ void msrStaff::registerVoiceInStaff (
       }
       break;
 
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceHarmony:
       break;
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
       break;
   } // switch
 
@@ -1259,21 +1259,21 @@ void msrStaff::registerVoiceInStaff (
   int voiceNumber = voice->getVoiceNumber ();
 
   switch (voiceKind) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       // register regular voice in staff by its number
       registerRegularVoiceByItsNumber (
         voice,
         voiceNumber);
       break;
 
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceHarmony:
       // register harmony voice in staff by its number
       registerHarmonyVoiceByItsNumber (
         voice,
         voiceNumber);
       break;
 
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
       // register figured bass voice in staff by its number
       registerFiguredBassVoiceByItsNumber (
         voice,
@@ -1302,11 +1302,11 @@ void msrStaff::registerPartLevelVoiceInStaff (
 
   // take this new voice into account if relevant
   switch (voiceKind) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       break;
 
-    case kVoiceHarmony:
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceHarmony:
+    case msrVoiceKind::kVoiceFiguredBass:
       // take that regular voice into account // JMI
       ++fStaffRegularVoicesCounter;
 
@@ -1362,21 +1362,21 @@ void msrStaff::registerPartLevelVoiceInStaff (
   int voiceNumber = voice->getVoiceNumber ();
 
   switch (voiceKind) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       // register regular voice in staff by its number
       registerRegularVoiceByItsNumber (
         voice,
         voiceNumber);
       break;
 
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceHarmony:
       // register harmony voice in staff by its number
       registerHarmonyVoiceByItsNumber (
         voice,
         voiceNumber);
       break;
 
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
       // register figured bass voice in staff by its number
       registerFiguredBassVoiceByItsNumber (
         voice,
@@ -1405,7 +1405,7 @@ void msrStaff::registerVoiceInStaffClone (
 
   // take this new voice into account if relevant
   switch (voiceKind) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       // take that regular voice into account
       ++fStaffRegularVoicesCounter;
 
@@ -1437,9 +1437,9 @@ void msrStaff::registerVoiceInStaffClone (
       }
       break;
 
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceHarmony:
       break;
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
       break;
   } // switch
 
@@ -1466,21 +1466,21 @@ void msrStaff::registerVoiceInStaffClone (
   int voiceNumber = voice->getVoiceNumber ();
 
   switch (voiceKind) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       // register regular voice in staff clone by its number
       registerRegularVoiceByItsNumber (
         voice,
         voiceNumber);
       break;
 
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceHarmony:
       // register harmony voice in staff clone by its number
       registerHarmonyVoiceByItsNumber (
         voice,
         voiceNumber);
       break;
 
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
       // register figured bass voice in staff clone by its number
       registerFiguredBassVoiceByItsNumber (
         voice,
@@ -2411,10 +2411,10 @@ void msrStaff::appendStaffDetailsToStaff (
   switch (staffDetails->getStaffLinesNumber ()) {
     case 1:
       if (gGlobalMsrOahGroup->getCreateSingleLineStavesAsRythmic ()) {
-        fStaffKind = kStaffRythmic;
+        fStaffKind = msrStaffKind::kStaffRythmic;
       }
       else {
-        fStaffKind = kStaffDrum;
+        fStaffKind = msrStaffKind::kStaffDrum;
       }
       break;
     default:
@@ -2561,9 +2561,9 @@ void msrStaff::finalizeLastAppendedMeasureInStaff (
         (*i).second;
 
     switch (voice->getVoiceKind ()) {
-      case kVoiceRegular:
-      case kVoiceHarmony:
-      case kVoiceFiguredBass:
+      case msrVoiceKind::kVoiceRegular:
+      case msrVoiceKind::kVoiceHarmony:
+      case msrVoiceKind::kVoiceFiguredBass:
         {
           // handle the regular voice
           voice->
@@ -2599,8 +2599,8 @@ void msrStaff::finalizeLastAppendedMeasureInStaff (
         break;
 
 /* JMI
-      case kVoiceHarmony:
-      case kVoiceFiguredBass:
+      case msrVoiceKind::kVoiceHarmony:
+      case msrVoiceKind::kVoiceFiguredBass:
         break;
         */
     } // switch
@@ -2643,49 +2643,49 @@ bool msrStaff::compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
 
   /* JMI
   switch (firstVoiceNumber) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       switch (secondVoiceNumber) {
-        case kVoiceRegular:
+        case msrVoiceKind::kVoiceRegular:
           break;
 
-        case kVoiceHarmony:
+        case msrVoiceKind::kVoiceHarmony:
           result =
             secondVoiceNumber - K_VOICE_HARMONY_VOICE_BASE_NUMBER
               >
             firstVoiceNumber;
           break;
 
-        case kVoiceFiguredBass:
+        case msrVoiceKind::kVoiceFiguredBass:
           break;
       } // switch
       break;
 
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceHarmony:
       switch (secondVoiceNumber) {
-        case kVoiceRegular:
+        case msrVoiceKind::kVoiceRegular:
           result =
             firstVoiceNumber - K_VOICE_HARMONY_VOICE_BASE_NUMBER
               >
             secondVoiceNumber;
           break;
 
-        case kVoiceHarmony:
+        case msrVoiceKind::kVoiceHarmony:
           break;
 
-        case kVoiceFiguredBass:
+        case msrVoiceKind::kVoiceFiguredBass:
           break;
       } // switch
       break;
 
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
       switch (secondVoiceNumber) {
-        case kVoiceRegular:
+        case msrVoiceKind::kVoiceRegular:
           break;
 
-        case kVoiceHarmony:
+        case msrVoiceKind::kVoiceHarmony:
           break;
 
-        case kVoiceFiguredBass:
+        case msrVoiceKind::kVoiceFiguredBass:
           break;
       } // switch
       break;
@@ -3210,12 +3210,12 @@ os <<
 
         /* JMI
       switch (voice->getVoiceKind ()) {
-        case kVoiceRegular:
+        case msrVoiceKind::kVoiceRegular:
           os <<
             voice;
           break;
 
-        case kVoiceHarmony:
+        case msrVoiceKind::kVoiceHarmony:
           if (
             gGlobalMsrOahGroup->getShowHarmonyVoices ()
               ||
@@ -3224,7 +3224,7 @@ os <<
               voice;
           break;
 
-        case kVoiceFiguredBass:
+        case msrVoiceKind::kVoiceFiguredBass:
           if (
             gGlobalMsrOahGroup->getShowFiguredBassVoices ()
               ||
@@ -3289,12 +3289,12 @@ os <<
 
         /* JMI
       switch (voice->getVoiceKind ()) {
-        case kVoiceRegular:
+        case msrVoiceKind::kVoiceRegular:
           os <<
             voice;
           break;
 
-        case kVoiceHarmony:
+        case msrVoiceKind::kVoiceHarmony:
           if (
             gGlobalMsrOahGroup->getShowHarmonyVoices ()
               ||
@@ -3303,7 +3303,7 @@ os <<
               voice;
           break;
 
-        case kVoiceFiguredBass:
+        case msrVoiceKind::kVoiceFiguredBass:
           if (
             gGlobalMsrOahGroup->getShowFiguredBassVoices ()
               ||

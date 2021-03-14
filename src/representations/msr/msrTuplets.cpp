@@ -71,7 +71,7 @@ msrTuplet::msrTuplet (
   rational                memberNotesDisplayWholeNotes)
     : msrTupletElement (inputLineNumber)
 {
-  fTupletKind = k_NoTuplet;
+  fTupletKind = msrTupletInKind::k_NoTupletIn;
 
   fTupletNumber = tupletNumber;
 
@@ -154,14 +154,14 @@ S_msrMeasure msrTuplet::fetchTupletMeasureUpLink () const
   S_msrMeasure result;
 
   switch (fTupletKind) {
-    case k_NoTuplet:
+    case msrTupletInKind::k_NoTupletIn:
       break;
 
-    case kTupletInMeasure:
+    case msrTupletInKind::kTupletInMeasure:
       result = fTupletDirectMeasureUpLink;
       break;
 
-    case kTupletInTuplet:
+    case msrTupletInKind::kTupletInTuplet:
       if (fTupletDirectTupletUpLink) {
         result =
           fTupletDirectTupletUpLink->
@@ -179,13 +179,13 @@ S_msrTuplet msrTuplet::fetchTupletTupletUpLink () const
   S_msrTuplet result;
 
   switch (fTupletKind) {
-    case k_NoTuplet:
+    case msrTupletInKind::k_NoTupletIn:
       break;
 
-    case kTupletInMeasure:
+    case msrTupletInKind::kTupletInMeasure:
       break;
 
-    case kTupletInTuplet:
+    case msrTupletInKind::kTupletInTuplet:
       result = fTupletDirectTupletUpLink;
       break;
   } // switch
@@ -370,7 +370,7 @@ void msrTuplet::appendChordToTuplet (S_msrChord chord)
 #endif
 
   // set the chord kind
-  chord->setChordKind (kChordInTuplet);
+  chord->setChordKind (msrChordInKind::kChordInTuplet);
 
   // append chord to elements list
   fTupletElementsList.push_back (chord);
@@ -425,7 +425,7 @@ void msrTuplet::appendTupletToTuplet (S_msrTuplet tuplet)
   */
 
   // set the tuplet kind
-  tuplet->setTupletKind (kTupletInTuplet);
+  tuplet->setTupletKind (msrTupletInKind::kTupletInTuplet);
 
   // append tuplet to elements list
   fTupletElementsList.push_back (tuplet);

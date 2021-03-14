@@ -174,7 +174,7 @@ S_msrStaff Mikrokosmos3WanderingGenerator::createStaffInPart (
   S_msrStaff
     staff =
       msrStaff::create (
-        __LINE__, kStaffRegular, staffNumber, part);
+        __LINE__, msrStaffKind::kStaffRegular, staffNumber, part);
 
   // append it to the part
   part ->
@@ -341,7 +341,7 @@ S_msrMeasure Mikrokosmos3WanderingGenerator::createMeasureInVoice (
       createMeasureAndAppendItToVoice (
         inputLineNumber,
         measureNumber,
-        kMeasureImplicitKindNo);
+        msrMeasureImplicitKind::kMeasureImplicitKindNo);
 }
 
 //------------------------------------------------------------------------
@@ -380,8 +380,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
       appendKeyToMeasure (
         msrKey::createTraditional (
           __LINE__,
-          kC_Natural_QTP,
-          kMajorMode,
+          msrQuarterTonesPitchKind::kQTP_C_Natural,
+          msrModeKind::kModeMajor,
           0)); // keyCancel JMI
 
     // append the time
@@ -399,7 +399,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure1number,
-            kA_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_A_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -410,8 +410,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
         appendDynamicsToNote (
           msrDynamics::create (
             __LINE__,
-            kDynamicsPP,
-            kPlacementBelow));
+            msrDynamicsKind::kDynamicsPP,
+            msrPlacementKind::kPlacementBelow));
 
       // append the slur start to the note
       note1->
@@ -419,9 +419,9 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            kRegularSlurStart,
-            kLineTypeSolid,
-            kPlacementBelow));
+            msrSlurTypeKind::kSlurTypeRegularStart,
+            msrLineTypeKind::kLineTypeSolid,
+            msrPlacementKind::kPlacementBelow));
 
       // append the first beam begin to the note
       note1->
@@ -429,7 +429,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamBegin));
+            msrBeamKind::kBeamBegin));
 
       // append the note to the measure
       measure1->
@@ -442,7 +442,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure1number,
-            kG_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_G_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -454,7 +454,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamContinue));
+            msrBeamKind::kBeamContinue));
 
       // append the note to the measure
       measure1->
@@ -467,7 +467,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure1number,
-            kF_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_F_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -479,14 +479,14 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamContinue));
+            msrBeamKind::kBeamContinue));
 
       note3->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamContinue));
+            msrBeamKind::kBeamContinue));
 
       // append the note to the measure
       measure1->
@@ -499,7 +499,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure1number,
-            kE_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_E_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -511,7 +511,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamEnd));
+            msrBeamKind::kBeamEnd));
 
       // append the note to the measure
       measure1->
@@ -549,7 +549,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
-            kD_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_D_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 4), // soundingWholeNotes
             rational (1, 4), // displayWholeNotes
@@ -561,8 +561,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            kRegularSlurStop,
-            kLineTypeSolid));
+            msrSlurTypeKind::kSlurTypeRegularStop,
+            msrLineTypeKind::kLineTypeSolid));
 
       // append the note to the measure
       measure2->
@@ -575,7 +575,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
-            kG_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_G_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -586,8 +586,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
         appendDynamicsToNote (
           msrDynamics::create (
             __LINE__,
-            kDynamicsMP,
-            kPlacementBelow));
+            msrDynamicsKind::kDynamicsMP,
+            msrPlacementKind::kPlacementBelow));
 
       // append the slur start to the note
       note2->
@@ -595,9 +595,9 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            kRegularSlurStart,
-            kLineTypeSolid,
-            kPlacementBelow));
+            msrSlurTypeKind::kSlurTypeRegularStart,
+            msrLineTypeKind::kLineTypeSolid,
+            msrPlacementKind::kPlacementBelow));
 
       // append the first beam begin to the note
       note2->
@@ -605,7 +605,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamBegin));
+            msrBeamKind::kBeamBegin));
 
       // append the note to the measure
       measure2->
@@ -618,7 +618,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
-            kF_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_F_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -630,14 +630,14 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamContinue));
+            msrBeamKind::kBeamContinue));
 
       note3->
         appendBeamToNote (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamContinue));
+            msrBeamKind::kBeamContinue));
 
       // append the note to the measure
       measure2->
@@ -650,7 +650,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
-            kE_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_E_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -662,7 +662,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamContinue));
+            msrBeamKind::kBeamContinue));
 
       // append the note to the measure
       measure2->
@@ -675,7 +675,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
-            kD_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_D_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -687,7 +687,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamEnd));
+            msrBeamKind::kBeamEnd));
 
       measure2->
         appendNoteOrPaddingToMeasure (note5);
@@ -725,7 +725,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure3number,
-            kC_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_C_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -737,8 +737,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           appendDynamicsToNote (
             msrDynamics::create (
               __LINE__,
-              kDynamicsPPP,
-              kPlacementBelow));
+              msrDynamicsKind::kDynamicsPPP,
+              msrPlacementKind::kPlacementBelow));
       }
 
       // append the first beam begin to the note
@@ -747,7 +747,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamBegin));
+            msrBeamKind::kBeamBegin));
 
       // append the crescendo wedge to it
       note1->
@@ -756,8 +756,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             msrWedge::kWedgeCrescendo,
             msrWedge::kWedgeNienteNo,
-            kLineTypeSolid,
-            kPlacementBelow));
+            msrLineTypeKind::kLineTypeSolid,
+            msrPlacementKind::kPlacementBelow));
 
       // append the spanner start to the note
       S_msrSpanner
@@ -766,8 +766,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             1, // spannerNumber
             msrSpanner::kSpannerDashes,
-            kSpannerTypeStart,
-            kPlacementAbove,
+            msrSpannerTypeKind::kSpannerTypeStart,
+            msrPlacementKind::kPlacementAbove,
             note1);
 
       spannerStart->
@@ -797,7 +797,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure3number,
-            kD_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_D_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 16), // soundingWholeNotes
             rational (1, 16), // displayWholeNotes
@@ -809,7 +809,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamContinue));
+            msrBeamKind::kBeamContinue));
 
       // append the second beam begin to the note
       note2->
@@ -817,7 +817,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             2, // beamNumber
-            kBeamBegin));
+            msrBeamKind::kBeamBegin));
 
       // append the note to the measure
       measure3->
@@ -830,7 +830,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure3number,
-            kE_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_E_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 16), // soundingWholeNotes
             rational (1, 16), // displayWholeNotes
@@ -842,7 +842,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             2, // beamNumber
-            kBeamEnd));
+            msrBeamKind::kBeamEnd));
 
       // append the first beam end to the note
       note3->
@@ -850,7 +850,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamEnd));
+            msrBeamKind::kBeamEnd));
 
       // append the note to the measure
       measure3->
@@ -863,7 +863,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure3number,
-            kF_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_F_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -875,7 +875,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamBegin));
+            msrBeamKind::kBeamBegin));
 
       // append the note to the measure
       measure3->
@@ -888,7 +888,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure3number,
-            kE_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_E_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -901,8 +901,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             msrWedge::kWedgeStop,
             msrWedge::kWedgeNienteNo,
-            kLineTypeSolid,
-            kPlacementBelow));
+            msrLineTypeKind::kLineTypeSolid,
+            msrPlacementKind::kPlacementBelow));
 
       // append the first beam end to the note
       note5->
@@ -910,7 +910,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamEnd));
+            msrBeamKind::kBeamEnd));
 
       // append the note to the measure
       measure3->
@@ -942,7 +942,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure4number,
-            kD_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_D_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 2), // soundingWholeNotes
             rational (1, 2), // displayWholeNotes
@@ -953,8 +953,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
         setNoteTie (
           msrTie::create (
             __LINE__,
-            kTieStart,
-            kPlacementBelow));
+            msrTieKind::kTieStart,
+            msrPlacementKind::kPlacementBelow));
 
       // append the decrescendo wedge to the note
       note1->
@@ -963,8 +963,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             msrWedge::kWedgeDecrescendo,
             msrWedge::kWedgeNienteNo,
-            kLineTypeSolid,
-            kPlacementBelow));
+            msrLineTypeKind::kLineTypeSolid,
+            msrPlacementKind::kPlacementBelow));
 
       // append the note to the measure
       measure4->
@@ -996,7 +996,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure5number,
-            kD_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_D_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 2), // soundingWholeNotes
             rational (1, 2), // displayWholeNotes
@@ -1007,7 +1007,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
         setNoteTie (
           msrTie::create (
             __LINE__,
-            kTieStop));
+            msrTieKind::kTieStop));
 
       // append the slur stop to the note
       note1->
@@ -1015,8 +1015,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            kRegularSlurStop,
-            kLineTypeSolid));
+            msrSlurTypeKind::kSlurTypeRegularStop,
+            msrLineTypeKind::kLineTypeSolid));
 
       // append the wedge stop to the note
       note1->
@@ -1025,8 +1025,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             msrWedge::kWedgeStop,
             msrWedge::kWedgeNienteNo,
-            kLineTypeSolid,
-            kPlacementBelow));
+            msrLineTypeKind::kLineTypeSolid,
+            msrPlacementKind::kPlacementBelow));
 
       // append the spanner start to the note
       note1->
@@ -1035,8 +1035,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
             __LINE__,
             1, // spannerNumber
             msrSpanner::kSpannerDashes,
-            kSpannerTypeStop,
-            kPlacementAbove,
+            msrSpannerTypeKind::kSpannerTypeStop,
+            msrPlacementKind::kPlacementAbove,
             note1));
 
       // append the note to the measure
@@ -1091,8 +1091,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
       appendKeyToMeasure (
         msrKey::createTraditional (
           __LINE__,
-          kC_Natural_QTP,
-          kMajorMode,
+          msrQuarterTonesPitchKind::kQTP_C_Natural,
+          msrModeKind::kModeMajor,
           0)); // keyCancel JMI
 
     // append the time
@@ -1118,7 +1118,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
        msrDynamics::createDynamicsFromString (
           __LINE__,
           "pp",
-          kPlacementBelow));
+          msrPlacementKind::kPlacementBelow));
 
     // append the note to the measure
     measure1->
@@ -1371,8 +1371,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
       appendKeyToMeasure (
         msrKey::createTraditional (
           __LINE__,
-          kC_Natural_QTP,
-          kMajorMode,
+          msrQuarterTonesPitchKind::kQTP_C_Natural,
+          msrModeKind::kModeMajor,
           0)); // keyCancel JMI
 
     // append the time
@@ -1390,7 +1390,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure1number,
-            kB_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_B_Natural,
             msrOctaveKind::kOctave3,
             rational (1, 4), // soundingWholeNotes
             rational (1, 4), // displayWholeNotes
@@ -1403,7 +1403,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure1number,
-            kD_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_D_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -1414,8 +1414,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
         appendDynamicsToNote (
           msrDynamics::create (
             __LINE__,
-            kDynamicsPP,
-            kPlacementBelow));
+            msrDynamicsKind::kDynamicsPP,
+            msrPlacementKind::kPlacementBelow));
 
       // append the first beam begin to the note
       note2->
@@ -1423,7 +1423,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamBegin));
+            msrBeamKind::kBeamBegin));
 
       // append the slur start to the note
       note2->
@@ -1431,9 +1431,9 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            kRegularSlurStart,
-            kLineTypeSolid,
-            kPlacementAbove));
+            msrSlurTypeKind::kSlurTypeRegularStart,
+            msrLineTypeKind::kLineTypeSolid,
+            msrPlacementKind::kPlacementAbove));
 
       // append the note to the measure
       measure1->
@@ -1446,7 +1446,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure1number,
-            kC_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_C_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -1458,7 +1458,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamContinue));
+            msrBeamKind::kBeamContinue));
 
       // append the note to the measure
       measure1->
@@ -1497,7 +1497,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
-            kB_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_B_Natural,
             msrOctaveKind::kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -1509,7 +1509,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamContinue));
+            msrBeamKind::kBeamContinue));
 
       // append the note to the measure
       measure2->
@@ -1522,7 +1522,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
-            kA_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_A_Natural,
             msrOctaveKind::kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -1534,7 +1534,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamEnd));
+            msrBeamKind::kBeamEnd));
 
       // append the note to the measure
       measure2->
@@ -1547,7 +1547,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
-            kA_Flat_QTP,
+            msrQuarterTonesPitchKind::kQTP_A_Flat,
             msrOctaveKind::kOctave3,
             rational (1, 4), // soundingWholeNotes
             rational (1, 4), // displayWholeNotes
@@ -1559,8 +1559,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            kRegularSlurStop,
-            kLineTypeSolid));
+            msrSlurTypeKind::kSlurTypeRegularStop,
+            msrLineTypeKind::kLineTypeSolid));
 
       // append the note to the measure
       measure2->
@@ -1573,7 +1573,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
-            kC_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_C_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -1584,8 +1584,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
         appendDynamicsToNote (
           msrDynamics::create (
             __LINE__,
-            kDynamicsMP,
-            kPlacementBelow));
+            msrDynamicsKind::kDynamicsMP,
+            msrPlacementKind::kPlacementBelow));
 
       // append the first beam begin to the note
       note4->
@@ -1593,7 +1593,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamBegin));
+            msrBeamKind::kBeamBegin));
 
       // append the note to the measure
       measure2->
@@ -1606,7 +1606,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure2number,
-            kB_Flat_QTP,
+            msrQuarterTonesPitchKind::kQTP_B_Flat,
             msrOctaveKind::kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -1618,7 +1618,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamContinue));
+            msrBeamKind::kBeamContinue));
 
       // append the note to the measure
       measure2->
@@ -1657,7 +1657,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure3number,
-            kA_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_A_Natural,
             msrOctaveKind::kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -1669,7 +1669,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamContinue));
+            msrBeamKind::kBeamContinue));
 
       // append the note to the measure
       measure3->
@@ -1682,7 +1682,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure3number,
-            kG_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_G_Natural,
             msrOctaveKind::kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -1694,7 +1694,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamEnd));
+            msrBeamKind::kBeamEnd));
 
       // append the note to the measure
       measure3->
@@ -1707,7 +1707,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure3number,
-            kF_Sharp_QTP,
+            msrQuarterTonesPitchKind::kQTP_F_Sharp,
             msrOctaveKind::kOctave3,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -1719,7 +1719,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamBegin));
+            msrBeamKind::kBeamBegin));
 
       measure3->
         appendNoteOrPaddingToMeasure (note3);
@@ -1731,7 +1731,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure3number,
-            kG_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_G_Natural,
             msrOctaveKind::kOctave3,
             rational (1, 16), // soundingWholeNotes
             rational (1, 16), // displayWholeNotes
@@ -1743,7 +1743,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamContinue));
+            msrBeamKind::kBeamContinue));
 
       // append the second beam begin to the note
       note4->
@@ -1751,7 +1751,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             2, // beamNumber
-            kBeamBegin));
+            msrBeamKind::kBeamBegin));
 
       // append the note to the measure
       measure3->
@@ -1764,7 +1764,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure3number,
-            kA_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_A_Natural,
             msrOctaveKind::kOctave3,
             rational (1, 16), // soundingWholeNotes
             rational (1, 16), // displayWholeNotes
@@ -1776,7 +1776,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             2, // beamNumber
-            kBeamEnd));
+            msrBeamKind::kBeamEnd));
 
       // append the first beam end to the note
       note5->
@@ -1784,7 +1784,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamEnd));
+            msrBeamKind::kBeamEnd));
 
       // append the note to the measure
       measure3->
@@ -1895,8 +1895,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheStringsAPI (
       appendKeyToMeasure (
         msrKey::createTraditional (
           __LINE__,
-          kC_Natural_QTP,
-          kMajorMode,
+          msrQuarterTonesPitchKind::kQTP_C_Natural,
+          msrModeKind::kModeMajor,
           0)); // keyCancel JMI
 
     // append the time
@@ -2149,8 +2149,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
       appendKeyToMeasure (
         msrKey::createTraditional (
           __LINE__,
-          kC_Natural_QTP,
-          kMajorMode,
+          msrQuarterTonesPitchKind::kQTP_C_Natural,
+          msrModeKind::kModeMajor,
           0)); // keyCancel JMI
 
     // append the time
@@ -2264,7 +2264,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure4number,
-            kB_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_B_Natural,
             msrOctaveKind::kOctave3,
             rational (1, 2), // soundingWholeNotes
             rational (1, 2), // displayWholeNotes
@@ -2275,8 +2275,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
         setNoteTie (
           msrTie::create (
             __LINE__,
-            kTieStart,
-            kPlacementAbove));
+            msrTieKind::kTieStart,
+            msrPlacementKind::kPlacementAbove));
 
       measure4->
         appendNoteOrPaddingToMeasure (note1);
@@ -2307,7 +2307,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
           msrNote::createRegularNote (
             __LINE__,
             measure5number,
-            kB_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_B_Natural,
             msrOctaveKind::kOctave3,
             rational (1, 2), // soundingWholeNotes
             rational (1, 2), // displayWholeNotes
@@ -2318,7 +2318,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
         setNoteTie (
           msrTie::create (
             __LINE__,
-            kTieStop));
+            msrTieKind::kTieStop));
 
       // append the note to the measure
       measure5->
@@ -2370,8 +2370,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheStringsAPI (
       appendKeyToMeasure (
         msrKey::createTraditional (
           __LINE__,
-          kC_Natural_QTP,
-          kMajorMode,
+          msrQuarterTonesPitchKind::kQTP_C_Natural,
+          msrModeKind::kModeMajor,
           0)); // keyCancel JMI
 
     // append the time

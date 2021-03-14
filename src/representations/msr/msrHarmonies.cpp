@@ -412,7 +412,7 @@ msrHarmony::msrHarmony (
           fHarmonyRootQuarterTonesPitchKind);
 
     // is this compatible with bass quartertones pitch if specified?
-    if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
+    if (fHarmonyBassQuarterTonesPitchKind != msrQuarterTonesPitchKind::k_NoQuarterTonesPitch) {
       if (
         invertedHarmonyBassQuarterTonesPitchKind
           !=
@@ -737,7 +737,7 @@ string msrHarmony::asString () const
     s << fHarmonyInversion;
   }
 
-  if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
+  if (fHarmonyBassQuarterTonesPitchKind != msrQuarterTonesPitchKind::k_NoQuarterTonesPitch) {
     s <<
       ", harmonyBassQuarterTonesPitchKind: " <<
     msrQuarterTonesPitchKindAsStringInLanguage (

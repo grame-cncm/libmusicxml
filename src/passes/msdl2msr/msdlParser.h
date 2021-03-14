@@ -133,6 +133,9 @@ class msdlParser : public smartable
     bool                  fTraceSyntaxErrorRecoveryDetails;
 #endif
 
+    // software
+    string                fSoftware;
+
     // user language
     msdlUserLanguageKind  fUserLanguageKind;
 
@@ -142,9 +145,10 @@ class msdlParser : public smartable
 
     S_msrIdentification   fMsrIdentification;
 
-    // pitches language
+    // pitches
     msrQuarterTonesPitchesLanguageKind
                           fPitchesLanguageKind;
+    msrOctaveEntryKind    fPitchesOctaveEntryKind;
 
     // input source name
     string                fInputSourceName;
@@ -179,23 +183,47 @@ class msdlParser : public smartable
     // private score building fields
     // ------------------------------------------------------
 
+    // book
     S_msrBook             fCurrentBook;
 
+    // score
+    int                   fCurrentScoreNumber;
     S_msrScore            fCurrentScore;
 
+    // partGroup
+    int                   fCurrentPartGroupNumber;
     S_msrPartGroup        fCurrentPartGroup;
 
+    // part
+    int                   fCurrentPartNumber;
     S_msrPart             fCurrentPart;
 
+    // staff
     int                   fCurrentStaffNumber;
     S_msrStaff            fCurrentStaff;
 
+    // voice
     int                   fCurrentVoiceNumber;
     S_msrVoice            fCurrentVoice;
 
+    // measure
     int                   fCurrentMeasureNumber;
     S_msrMeasure          fCurrentMeasure;
 
+    // octaves entry
+      /* this reference is:
+            mobile in relative mode
+            unused in absolute mode
+            fixed  in fixed mode
+      */
+    S_msrNote             fCurrentOctaveEntryReference;
+    void                  setCurrentOctaveEntryReference ();
+
+    string                lilypondOctaveInRelativeEntryMode (
+                            S_msrNote note);
+
+    string                lilypondOctaveInFixedEntryMode (
+                            S_msrNote note);
 
     // private score building methods
     // ------------------------------------------------------
@@ -295,8 +323,15 @@ class msdlParser : public smartable
 
     void                    Opus (S_msdlTokenKindsSet stopperTokensSet);
 
-    // pitches language
-    void                  PitchesLanguage (S_msdlTokenKindsSet stopperTokensSet);
+    // identifier
+    void                  Identifier (S_msdlTokenKindsSet stopperTokensSet);
+
+    // pitches
+    void                  Pitches (S_msdlTokenKindsSet stopperTokensSet);
+
+    void                    PitchesLanguage (S_msdlTokenKindsSet stopperTokensSet);
+
+    void                    PitchesOctaveEntry (S_msdlTokenKindsSet stopperTokensSet);
 
     // anacrusis
     void                  Anacrusis (S_msdlTokenKindsSet stopperTokensSet);
@@ -343,15 +378,12 @@ class msdlParser : public smartable
     // note
     void                  Note (S_msdlTokenKindsSet stopperTokensSet);
 
-      void                  Pitch (S_msdlTokenKindsSet stopperTokensSet);
+    void                    Pitch (S_msdlTokenKindsSet stopperTokensSet);
 
-    // octave indication
     msrOctaveKind           OctaveIndication (S_msdlTokenKindsSet stopperTokensSet);
 
-    // note duration
     void                    NoteDuration (
                               msrDottedDuration&  dottedDuration,
-                              int                 dotsNumber,
                               S_msdlTokenKindsSet stopperTokensSet);
 };
 typedef SMARTP<msdlParser> S_msdlParser;

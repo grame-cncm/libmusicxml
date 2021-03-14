@@ -568,6 +568,9 @@ xml2xmlInsiderOahGroup::xml2xmlInsiderOahGroup ()
 R"(Options that are used by xml2xml are grouped here.)",
     oahElementVisibilityKind::kElementVisibilityWhole)
 {
+  fQuitAfterPass2a = false;
+  fQuitAfterPass2b = false;
+
   initializeXml2xmlInsiderOahGroup ();
 }
 

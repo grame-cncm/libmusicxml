@@ -55,7 +55,7 @@ extern map<string, multiGeneratorOutputKind>
 
 string existingMultiGeneratorOutputKinds (unsigned int namesListMaxLength);
 
-void initializeGeneratorOutputKindsMap ();
+void initializeMultiGeneratorOutputKindsMap ();
 
 //______________________________________________________________________________
 class EXP multiGeneratorOutputKindAtom : public oahAtomStoringAValueInAVariable

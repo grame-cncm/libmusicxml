@@ -1568,7 +1568,7 @@ S_msrStaff mxmlTree2msrSkeletonBuilder::createStaffInCurrentPartIfNotYetDone (
       fCurrentPart->
         addStaffToPartByItsNumber (
           inputLineNumber,
-          kStaffRegular,
+          msrStaffKind::kStaffRegular,
           staffNumber);
   }
 
@@ -3450,7 +3450,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart (S_staves& elt)
       fCurrentPart->
         addStaffToPartByItsNumber (
           inputLineNumber,
-          kStaffRegular,
+          msrStaffKind::kStaffRegular,
           n);
           */
       S_msrStaff

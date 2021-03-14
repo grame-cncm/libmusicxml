@@ -104,7 +104,7 @@ void msrMeasure::initializeMeasure ()
 #endif
 
   // measure kind
-  fMeasureKind = kMeasureKindUnknown;
+  fMeasureKind = msrMeasureKind::kMeasureKindUnknown;
 
   // measure 'first in segment' kind
   fMeasureFirstInSegmentKind = kMeasureFirstInSegmentKindUnknown;
@@ -1583,12 +1583,12 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
   ++gIndenter;
 
   switch (time->getTimeSymbolKind ()) {
-    case kTimeSymbolCommon:
-    case kTimeSymbolCut:
-    case kTimeSymbolNote:
-    case kTimeSymbolDottedNote:
-    case kTimeSymbolSingleNumber:
-    case kTimeSymbolNone:
+    case msrTimeSymbolKind::kTimeSymbolCommon:
+    case msrTimeSymbolKind::kTimeSymbolCut:
+    case msrTimeSymbolKind::kTimeSymbolNote:
+    case msrTimeSymbolKind::kTimeSymbolDottedNote:
+    case msrTimeSymbolKind::kTimeSymbolSingleNumber:
+    case msrTimeSymbolKind::kTimeSymbolNone:
       {
         // this measure is con misura
 
@@ -1655,7 +1655,7 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
       }
       break;
 
-    case kTimeSymbolSenzaMisura:
+    case msrTimeSymbolKind::kTimeSymbolSenzaMisura:
 
       // this measure is senza misura
 
@@ -1678,7 +1678,7 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
       }
 #endif
 
-      setMeasureKind (kMeasureKindCadenza);
+      setMeasureKind (msrMeasureKind::kMeasureKindCadenza);
 
       setFullMeasureWholeNotesDuration (
         rational (INT_MAX, 1));
@@ -1771,7 +1771,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 
   // set barline's position in measure if relevant
   switch (voice->getVoiceKind ()) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       // register barline position in measure
       barline->
         setMeasureElementPositionInMeasure (
@@ -1779,8 +1779,8 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
           "appendBarlineToMeasure()");
       break;
 
-    case kVoiceHarmony:
-    case kVoiceFiguredBass: // JMI
+    case msrVoiceKind::kVoiceHarmony:
+    case msrVoiceKind::kVoiceFiguredBass: // JMI
       // DON'T set barline's position in measure here:
       // we need to keep the one set when this same barline
       // has been appended to the regular voice (just above),
@@ -2371,7 +2371,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord)
 #endif
 
   // set the chord kind
-  chord->setChordKind (kChordInMeasure);
+  chord->setChordKind (msrChordInKind::kChordInMeasure);
 
   // append the chord to the measure elements list
   appendElementToMeasure (chord);
@@ -2419,7 +2419,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   ++gIndenter;
 
   // set the tuplet kind
-  tuplet->setTupletKind (kTupletInMeasure);
+  tuplet->setTupletKind (msrTupletInKind::kTupletInMeasure);
 
   // populate measure upLink
   tuplet->setTupletDirectMeasureUpLink (this);
@@ -2751,7 +2751,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
     // set this measure as being padded // JMI
     this->
       setMeasureCreatedForARepeatKind (
-        kMeasureKindCreatedForARepeatPadded);
+        msrMeasureKind::kMeasureKindCreatedForARepeatPadded);
     */
 
     // this measure contains music
@@ -3295,13 +3295,13 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 #endif
 
     // set it's measure kind
-    setMeasureKind (kMeasureKindMusicallyEmpty);
+    setMeasureKind (msrMeasureKind::kMeasureKindMusicallyEmpty);
 
     // increment voice's current measure purist number
     voice->
       incrementVoiceCurrentMeasurePuristNumber (
         inputLineNumber,
-        "determineMeasureKindAndPuristNumber() 3 kMeasureKindMusicallyEmpty");
+        "determineMeasureKindAndPuristNumber() 3 msrMeasureKind::kMeasureKindMusicallyEmpty");
 
     // reset voice whole notes since last regular measure end  // JMI ???
     voice->
@@ -3317,7 +3317,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     setMeasureEndRegularKind (kMeasureEndRegularKindYes);
 
     // set it's measure kind
-    setMeasureKind (kMeasureKindRegular);
+    setMeasureKind (msrMeasureKind::kMeasureKindRegular);
 
     // this is a regular measure end
     setMeasureEndRegularKind (kMeasureEndRegularKindYes);
@@ -3351,7 +3351,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
         // this is an anacrusis
 
         // set it's measure kind
-        setMeasureKind (kMeasureKindAnacrusis);
+        setMeasureKind (msrMeasureKind::kMeasureKindAnacrusis);
 
         // this is a regular measure end
         setMeasureEndRegularKind (kMeasureEndRegularKindYes);
@@ -3418,7 +3418,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
             }
 
             // set it's measure kind
-            setMeasureKind (kMeasureKindIncompleteStandalone); // JMI
+            setMeasureKind (msrMeasureKind::kMeasureKindIncompleteStandalone); // JMI
             break;
 
           case msrMeasure::kMeasuresRepeatContextKindNone:
@@ -3430,7 +3430,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
               case msrMeasure::kMeasureEndRegularKindYes:
                 // set it's measure kind
-                setMeasureKind (kMeasureKindIncompleteStandalone);
+                setMeasureKind (msrMeasureKind::kMeasureKindIncompleteStandalone);
 
                 // don't increment the voice current measure purist number,
                 // this has already been done for the 'first part' of the measure
@@ -3438,35 +3438,35 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
               case msrMeasure::kMeasureEndRegularKindNo:
                 // set it's measure kind
-                setMeasureKind (kMeasureKindIncompleteStandalone);
+                setMeasureKind (msrMeasureKind::kMeasureKindIncompleteStandalone);
                 break;
             } // switch
             break;
 
           case msrMeasure::kMeasuresRepeatContextKindCommonPartLastMeasure:
             setMeasureKind (
-              kMeasureKindIncompleteLastInRepeatCommonPart);
+              msrMeasureKind::kMeasureKindIncompleteLastInRepeatCommonPart);
             break;
           case msrMeasure::kMeasuresRepeatContextKindHookedEndingLastMeasure:
             setMeasureKind (
-              kMeasureKindIncompleteLastInRepeatHookedEnding);
+              msrMeasureKind::kMeasureKindIncompleteLastInRepeatHookedEnding);
             break;
           case msrMeasure::kMeasuresRepeatContextKindHooklessEndingLastMeasure:
             setMeasureKind (
-              kMeasureKindIncompleteLastInRepeatHooklessEnding);
+              msrMeasureKind::kMeasureKindIncompleteLastInRepeatHooklessEnding);
             break;
 
           case msrMeasure::kMeasuresRepeatContextKindNextMeasureAfterCommonPart:
             setMeasureKind (
-              kMeasureKindIncompleteNextMeasureAfterCommonPart);
+              msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterCommonPart);
             break;
           case msrMeasure::kMeasuresRepeatContextKindNextMeasureAfterHookedEnding:
             setMeasureKind (
-              kMeasureKindIncompleteNextMeasureAfterHookedEnding);
+              msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterHookedEnding);
             break;
           case msrMeasure::kMeasuresRepeatContextKindNextMeasureAfterHooklessEnding:
             setMeasureKind (
-              kMeasureKindIncompleteNextMeasureAfterHooklessEnding);
+              msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterHooklessEnding);
             break;
         } // switch
       }
@@ -3476,7 +3476,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       // this is an overfull measure
 
       // set it's measure kind
-      setMeasureKind (kMeasureKindOvercomplete);
+      setMeasureKind (msrMeasureKind::kMeasureKindOvercomplete);
 
       // this is a regular measure end
       setMeasureEndRegularKind (kMeasureEndRegularKindYes);
@@ -3485,7 +3485,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       voice->
         incrementVoiceCurrentMeasurePuristNumber (
           inputLineNumber,
-          "determineMeasureKindAndPuristNumber() 7 kMeasureKindOvercomplete");
+          "determineMeasureKindAndPuristNumber() 7 msrMeasureKind::kMeasureKindOvercomplete");
 
       // reset voice whole notes since last regular measure end
       voice->
@@ -3810,26 +3810,26 @@ void msrMeasure::finalizeRegularMeasure (
 
   // pad measure up to whole measure whole notes high tide JMI ???
   switch (fMeasureKind) {
-    case kMeasureKindCadenza:
+    case msrMeasureKind::kMeasureKindCadenza:
       break;
 
-    case kMeasureKindOvercomplete:
-    case kMeasureKindAnacrusis:
-    case kMeasureKindRegular:
-    case kMeasureKindIncompleteStandalone: // JMI
-    case kMeasureKindIncompleteLastInRepeatCommonPart: // JMI
-    case kMeasureKindIncompleteLastInRepeatHookedEnding: // JMI
-    case kMeasureKindIncompleteLastInRepeatHooklessEnding: // JMI
-    case kMeasureKindIncompleteNextMeasureAfterCommonPart: // JMI
-    case kMeasureKindIncompleteNextMeasureAfterHookedEnding: // JMI
-    case kMeasureKindIncompleteNextMeasureAfterHooklessEnding: // JMI
+    case msrMeasureKind::kMeasureKindOvercomplete:
+    case msrMeasureKind::kMeasureKindAnacrusis:
+    case msrMeasureKind::kMeasureKindRegular:
+    case msrMeasureKind::kMeasureKindIncompleteStandalone: // JMI
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatCommonPart: // JMI
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatHookedEnding: // JMI
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatHooklessEnding: // JMI
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterCommonPart: // JMI
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterHookedEnding: // JMI
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterHooklessEnding: // JMI
       break;
 
-    case kMeasureKindUnknown:
+    case msrMeasureKind::kMeasureKindUnknown:
       // JMI ???
       break;
 
-    case kMeasureKindMusicallyEmpty:
+    case msrMeasureKind::kMeasureKindMusicallyEmpty:
       {
       /* JMI
           */
@@ -3975,26 +3975,26 @@ void msrMeasure::finalizeRegularMeasure_BIS (
 
   // pad measure up to whole measure whole notes high tide JMI ???
   switch (fMeasureKind) {
-    case kMeasureKindCadenza:
+    case msrMeasureKind::kMeasureKindCadenza:
       break;
 
-    case kMeasureKindOvercomplete:
-    case kMeasureKindAnacrusis:
-    case kMeasureKindRegular:
-    case kMeasureKindIncompleteStandalone: // JMI
-    case kMeasureKindIncompleteLastInRepeatCommonPart: // JMI
-    case kMeasureKindIncompleteLastInRepeatHookedEnding: // JMI
-    case kMeasureKindIncompleteLastInRepeatHooklessEnding: // JMI
-    case kMeasureKindIncompleteNextMeasureAfterCommonPart: // JMI
-    case kMeasureKindIncompleteNextMeasureAfterHookedEnding: // JMI
-    case kMeasureKindIncompleteNextMeasureAfterHooklessEnding: // JMI
+    case msrMeasureKind::kMeasureKindOvercomplete:
+    case msrMeasureKind::kMeasureKindAnacrusis:
+    case msrMeasureKind::kMeasureKindRegular:
+    case msrMeasureKind::kMeasureKindIncompleteStandalone: // JMI
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatCommonPart: // JMI
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatHookedEnding: // JMI
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatHooklessEnding: // JMI
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterCommonPart: // JMI
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterHookedEnding: // JMI
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterHooklessEnding: // JMI
       break;
 
-    case kMeasureKindUnknown:
+    case msrMeasureKind::kMeasureKindUnknown:
       // JMI ???
       break;
 
-    case kMeasureKindMusicallyEmpty:
+    case msrMeasureKind::kMeasureKindMusicallyEmpty:
       {
       /* JMI
           */
@@ -5711,19 +5711,19 @@ void msrMeasure::finalizeMeasure (
 #endif
 
     switch (voice->getVoiceKind ()) {
-      case kVoiceRegular:
+      case msrVoiceKind::kVoiceRegular:
         finalizeRegularMeasure (
           inputLineNumber,
           measuresRepeatContextKind,
           context);
         break;
-      case kVoiceHarmony:
+      case msrVoiceKind::kVoiceHarmony:
         finalizeHarmonyMeasure (
           inputLineNumber,
           measuresRepeatContextKind,
           context);
         break;
-      case kVoiceFiguredBass:
+      case msrVoiceKind::kVoiceFiguredBass:
         finalizeFiguredBassMeasure (
           inputLineNumber,
           measuresRepeatContextKind,
@@ -6040,19 +6040,19 @@ void msrMeasure::finalizeMeasure_BIS (
     }
 
     switch (voice->getVoiceKind ()) {
-      case kVoiceRegular:
+      case msrVoiceKind::kVoiceRegular:
         finalizeRegularMeasure_BIS (
           inputLineNumber,
           measuresRepeatContextKind,
           context);
         break;
-      case kVoiceHarmony:
+      case msrVoiceKind::kVoiceHarmony:
         finalizeHarmonyMeasure_BIS (
           inputLineNumber,
           measuresRepeatContextKind,
           context);
         break;
-      case kVoiceFiguredBass:
+      case msrVoiceKind::kVoiceFiguredBass:
         finalizeFiguredBassMeasure_BIS (
           inputLineNumber,
           measuresRepeatContextKind,

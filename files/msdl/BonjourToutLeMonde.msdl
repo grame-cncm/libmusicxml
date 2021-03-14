@@ -21,7 +21,7 @@ hauteurs francais  % par défaut: english
 partition bonjourToutLeMonde = "Bonjour tout le monde en MSDL" {
 
   musique {
-    |1 do1                % à placer dans la mesure 1
+    |1 do2.. re''8        % à placer dans la mesure 1
     |||                   % double barre finale
   }
 

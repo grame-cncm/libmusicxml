@@ -146,8 +146,8 @@ void notevisitor::visitStart ( S_tie& elt )
 	const string& value = elt->getAttributeValue("type");
 	fTie = StartStop::type(fTie | StartStop::xml(value));
 /*
-	if (value == "start") fTie |= kTieStart;
-	else if (value == "stop") fTie |= kTieStop;	
+	if (value == "start") fTie |= msrTieKind::kTieStart;
+	else if (value == "stop") fTie |= msrTieKind::kTieStop;	
 */
 }
 

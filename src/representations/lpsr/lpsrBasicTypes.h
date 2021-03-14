@@ -48,24 +48,6 @@ string existingLpsrScoreOutputKinds (unsigned int namesListMaxLength);
 
 void initializeLpsrScoreOutputKindsMap ();
 
-// octave entry
-//______________________________________________________________________________
-enum lpsrOctaveEntryKind {
-  kOctaveEntryRelative, // default value
-  kOctaveEntryAbsolute,
-  kOctaveEntryFixed
-};
-
-string lpsrOctaveEntryKindAsString (
-  lpsrOctaveEntryKind octaveEntryKind);
-
-extern map<string, lpsrOctaveEntryKind>
-  gGlobalLpsrOctaveEntryKindsMap;
-
-string existingLpsrOctaveEntryKinds (unsigned int namesListMaxLength);
-
-void initializeLpsrOctaveEntryKindsMap ();
-
 // accidental styles
 //______________________________________________________________________________
 enum lpsrAccidentalStyleKind {

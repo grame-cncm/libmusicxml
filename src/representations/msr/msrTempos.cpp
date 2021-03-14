@@ -1030,7 +1030,7 @@ msrTempo::msrTempo (
 
   fTempoParenthesizedKind = kTempoParenthesizedNo;
 
-  fTempoPlacementKind = kPlacementAbove;
+  fTempoPlacementKind = msrPlacementKind::kPlacementAbove;
 
   fTempoWordsList.push_back (tempoWords);
 }

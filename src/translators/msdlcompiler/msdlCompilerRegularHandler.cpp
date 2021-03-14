@@ -342,9 +342,9 @@ void msdlCompilerRegularHandler::createGuidoRegularGroup ()
 
   // atoms
 
-  registerAtomInRegularSubgroup ("generate-comments", subGroup);
-  registerAtomInRegularSubgroup ("generate-stem", subGroup);
-  registerAtomInRegularSubgroup ("generate-bars", subGroup);
+  registerAtomInRegularSubgroup ("generate-guido-comments", subGroup);
+  registerAtomInRegularSubgroup ("generate-guido-stem", subGroup);
+  registerAtomInRegularSubgroup ("generate-guido-bars", subGroup);
 }
 
 void msdlCompilerRegularHandler::createBrailleRegularGroup ()
@@ -1366,7 +1366,16 @@ void msdlCompilerRegularHandler::checkOptionsAndArgumentsFromArgcAndArgv () cons
   }
 #endif
 
-  checkNoInputSourceInArgumentsVector ();
+  if (MSDR_STANDARD_INPUT_NAME == string ("-")) {
+    checkSingleInputSourceInArgumentsVector ();
+  }
+  else if (MSDR_STANDARD_INPUT_NAME == string ("")) {
+    checkNoOrOneInputSourceInArgumentsVector ();
+  }
+  else {
+    oahInternalError (
+      "MSDR_STANDARD_INPUT_NAME should be empty or contain a single '-'");
+  }
 }
 
 //______________________________________________________________________________

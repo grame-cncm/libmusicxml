@@ -887,7 +887,7 @@ This helps the user adapting the generate code for their needs.)",
 
   // length unit kind
 
-  fLengthUnitKindDefaultValue = kMillimeterUnit; // default value;
+  fLengthUnitKindDefaultValue = msrLengthUnitKind::kUnitMillimeter; // default value;
   fLengthUnitKind = fLengthUnitKindDefaultValue;
 
   subGroup->
@@ -917,7 +917,7 @@ The default is 'DEFAULT_VALUE'.)",
 
   // paper height
 
-  fPaperHeight.setLengthUnitKind (kMillimeterUnit);
+  fPaperHeight.setLengthUnitKind (msrLengthUnitKind::kUnitMillimeter);
   fPaperHeight.setLengthValue (297);
 
   fPaperHeightAtom =
@@ -936,7 +936,7 @@ By default, LilyPond uses 297 mm (A4 format).)",
 
   // paper width
 
-  fPaperWidth.setLengthUnitKind (kMillimeterUnit);
+  fPaperWidth.setLengthUnitKind (msrLengthUnitKind::kUnitMillimeter);
   fPaperWidth.setLengthValue (210);
 
   fPaperWidthAtom =
@@ -955,7 +955,7 @@ By default, LilyPond uses 210 mm (A4 format).)",
 
   // left margin
 
-  fPaperLeftMargin.setLengthUnitKind (kMillimeterUnit);
+  fPaperLeftMargin.setLengthUnitKind (msrLengthUnitKind::kUnitMillimeter);
   fPaperLeftMargin.setLengthValue (15);
 
   fPaperLeftMarginAtom =
@@ -974,7 +974,7 @@ By default, this is left to LilyPond'.)",
 
   // right margin
 
-  fPaperRightMargin.setLengthUnitKind (kMillimeterUnit);
+  fPaperRightMargin.setLengthUnitKind (msrLengthUnitKind::kUnitMillimeter);
   fPaperRightMargin.setLengthValue (15);
 
   fPaperRightMarginAtom =
@@ -993,7 +993,7 @@ By default, this is left to LilyPond'.)",
 
   // top margin
 
-  fPaperTopMargin.setLengthUnitKind (kMillimeterUnit);
+  fPaperTopMargin.setLengthUnitKind (msrLengthUnitKind::kUnitMillimeter);
   fPaperTopMargin.setLengthValue (15);
 
   fPaperTopMarginAtom =
@@ -1012,7 +1012,7 @@ By default, this is left to LilyPond'.)",
 
   // bottom margin
 
-  fPaperBottomMargin.setLengthUnitKind (kMillimeterUnit);
+  fPaperBottomMargin.setLengthUnitKind (msrLengthUnitKind::kUnitMillimeter);
   fPaperBottomMargin.setLengthValue (15);
 
   fPaperBottomMarginAtom =

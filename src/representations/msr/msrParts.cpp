@@ -1218,26 +1218,26 @@ void msrPart::appendRepeatCloneToPart (
         (*i).second;
 
     switch (staff->getStaffKind ()) {
-      case kStaffRegular:
+      case msrStaffKind::kStaffRegular:
         staff->appendRepeatCloneToStaff (
           inputLineNumber, repeatCLone);
         break;
 
-      case kStaffTablature:
+      case msrStaffKind::kStaffTablature:
         break;
 
-      case kStaffHarmony:
+      case msrStaffKind::kStaffHarmony:
         break;
 
-      case kStaffFiguredBass:
+      case msrStaffKind::kStaffFiguredBass:
         break;
 
-      case kStaffDrum:
+      case msrStaffKind::kStaffDrum:
         staff->appendRepeatCloneToStaff (
           inputLineNumber, repeatCLone);
         break;
 
-      case kStaffRythmic:
+      case msrStaffKind::kStaffRythmic:
         staff->appendRepeatCloneToStaff (
           inputLineNumber, repeatCLone);
         break;
@@ -1465,24 +1465,24 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
 
   // register staff in this part if relevant
   switch (staffKind) {
-    case kStaffRegular:
-    case kStaffTablature:
-    case kStaffHarmony:
-    case kStaffFiguredBass:
-    case kStaffDrum:
-    case kStaffRythmic:
+    case msrStaffKind::kStaffRegular:
+    case msrStaffKind::kStaffTablature:
+    case msrStaffKind::kStaffHarmony:
+    case msrStaffKind::kStaffFiguredBass:
+    case msrStaffKind::kStaffDrum:
+    case msrStaffKind::kStaffRythmic:
       fPartStavesMap [staffNumber] = staff;
       break;
   } // switch
 
   // initialize staff current clef and key if relevant // JMI
   switch (staffKind) {
-    case kStaffRegular:
-    case kStaffTablature:
-    case kStaffHarmony:
-    case kStaffFiguredBass:
-    case kStaffDrum:
-    case kStaffRythmic:
+    case msrStaffKind::kStaffRegular:
+    case msrStaffKind::kStaffTablature:
+    case msrStaffKind::kStaffHarmony:
+    case msrStaffKind::kStaffFiguredBass:
+    case msrStaffKind::kStaffDrum:
+    case msrStaffKind::kStaffRythmic:
       staff->setStaffCurrentClef (fPartCurrentClef);
       staff->setStaffCurrentKey (fPartCurrentKey);
       break;
@@ -1539,24 +1539,24 @@ S_msrStaff msrPart::addPartLevelStaffToPart (
 /* JMI
   // register staff in this part if relevant
   switch (staffKind) {
-    case kStaffRegular:
-    case kStaffTablature:
-    case kStaffHarmony:
-    case kStaffFiguredBass:
-    case kStaffDrum:
-    case kStaffRythmic:
+    case msrStaffKind::kStaffRegular:
+    case msrStaffKind::kStaffTablature:
+    case msrStaffKind::kStaffHarmony:
+    case msrStaffKind::kStaffFiguredBass:
+    case msrStaffKind::kStaffDrum:
+    case msrStaffKind::kStaffRythmic:
       fPartStavesMap [staffNumber] = staff;
       break;
   } // switch
 
   // initialize staff current clef and key if relevant // JMI
   switch (staffKind) {
-    case kStaffRegular:
-    case kStaffTablature:
-    case kStaffHarmony:
-    case kStaffFiguredBass:
-    case kStaffDrum:
-    case kStaffRythmic:
+    case msrStaffKind::kStaffRegular:
+    case msrStaffKind::kStaffTablature:
+    case msrStaffKind::kStaffHarmony:
+    case msrStaffKind::kStaffFiguredBass:
+    case msrStaffKind::kStaffDrum:
+    case msrStaffKind::kStaffRythmic:
       staff->setStaffCurrentClef (fPartCurrentClef);
       staff->setStaffCurrentKey (fPartCurrentKey);
       break;
@@ -1642,7 +1642,7 @@ S_msrVoice msrPart::createPartHarmonyVoice (
   fPartHarmoniesStaff =
     addPartLevelStaffToPart (
       inputLineNumber,
-      kStaffHarmony,
+      msrStaffKind::kStaffHarmony,
       partHarmonyStaffNumber);
 
   // create the part harmony voice
@@ -1664,7 +1664,7 @@ S_msrVoice msrPart::createPartHarmonyVoice (
   fPartHarmoniesVoice =
     msrVoice::create (
       inputLineNumber,
-      kVoiceHarmony,
+      msrVoiceKind::kVoiceHarmony,
       partHarmonyVoiceNumber,
       msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
       fPartHarmoniesStaff);
@@ -1694,7 +1694,7 @@ void msrPart::appendHarmonyToPart (
   ++gIndenter;
 
   switch (harmonySupplierVoice->getVoiceKind ()) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       // append the harmony to the part harmony voice
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
@@ -1712,8 +1712,8 @@ void msrPart::appendHarmonyToPart (
         appendHarmonyToVoice (harmony);
       break;
 
-    case kVoiceHarmony:
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceHarmony:
+    case msrVoiceKind::kVoiceFiguredBass:
       {
         stringstream s;
 
@@ -1747,7 +1747,7 @@ void msrPart::appendHarmonyToPartClone (
   ++gIndenter;
 
   switch (harmonySupplierVoice->getVoiceKind ()) {
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
       // append the harmony to the part harmony voice
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
@@ -1765,8 +1765,8 @@ void msrPart::appendHarmonyToPartClone (
         appendHarmonyToVoiceClone (harmony);
       break;
 
-    case kVoiceRegular:
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceRegular:
+    case msrVoiceKind::kVoiceHarmony:
       {
         stringstream s;
 
@@ -1828,7 +1828,7 @@ S_msrVoice msrPart::createPartFiguredBassVoice (
   fPartFiguredBassStaff =
     addPartLevelStaffToPart (
       inputLineNumber,
-      kStaffFiguredBass,
+      msrStaffKind::kStaffFiguredBass,
       partFiguredBassStaffNumber);
 
   // create the voice figured bass voice
@@ -1850,7 +1850,7 @@ S_msrVoice msrPart::createPartFiguredBassVoice (
   fPartFiguredBassVoice =
     msrVoice::create (
       inputLineNumber,
-      kVoiceFiguredBass,
+      msrVoiceKind::kVoiceFiguredBass,
       partFiguredBassVoiceNumber,
       msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
       fPartFiguredBassStaff);
@@ -1880,7 +1880,7 @@ void msrPart::appendFiguredBassToPart (
   ++gIndenter;
 
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       // append the figured bass to the part figured bass voice
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
@@ -1898,8 +1898,8 @@ void msrPart::appendFiguredBassToPart (
         appendFiguredBassToVoice (figuredBass);
       break;
 
-    case kVoiceHarmony:
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceHarmony:
+    case msrVoiceKind::kVoiceFiguredBass:
       {
         stringstream s;
 
@@ -1933,7 +1933,7 @@ void msrPart::appendFiguredBassToPartClone (
   ++gIndenter;
 
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
       // append the figured bass to the part figured bass voice
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
@@ -1951,8 +1951,8 @@ void msrPart::appendFiguredBassToPartClone (
         appendFiguredBassToVoiceClone (figuredBass);
       break;
 
-    case kVoiceRegular:
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceRegular:
+    case msrVoiceKind::kVoiceHarmony:
       {
         stringstream s;
 
@@ -2692,29 +2692,29 @@ void msrPart::print (ostream& os) const
           staff->getStaffKind ();
 
       switch (staffKind) { // JMI
-        case kStaffRegular:
+        case msrStaffKind::kStaffRegular:
           os << staff;
           break;
 
-        case kStaffTablature:
+        case msrStaffKind::kStaffTablature:
           os << staff;
           break;
 
-        case kStaffHarmony:
+        case msrStaffKind::kStaffHarmony:
     // JMI      if (gGlobalMsrOahGroup->getShowHarmonyVoices ()) {}
           os << staff;
           break;
 
-        case kStaffFiguredBass:
+        case msrStaffKind::kStaffFiguredBass:
     // JMI      if (gGlobalMsrOahGroup->getShowFiguredBassVoices ()) {}
           os << staff;
           break;
 
-        case kStaffDrum:
+        case msrStaffKind::kStaffDrum:
           os << staff;
           break;
 
-        case kStaffRythmic:
+        case msrStaffKind::kStaffRythmic:
           os << staff;
           break;
       } // switch
@@ -2990,29 +2990,29 @@ void msrPart::printShort (ostream& os) const
           staff->getStaffKind ();
 
       switch (staffKind) { // JMI
-        case kStaffRegular:
+        case msrStaffKind::kStaffRegular:
           staff->printShort (os);
           break;
 
-        case kStaffTablature:
+        case msrStaffKind::kStaffTablature:
           staff->printShort (os);
           break;
 
-        case kStaffHarmony:
+        case msrStaffKind::kStaffHarmony:
     // JMI      if (gGlobalMsrOahGroup->getShowHarmonyVoices ()) {}
           staff->printShort (os);
           break;
 
-        case kStaffFiguredBass:
+        case msrStaffKind::kStaffFiguredBass:
     // JMI      if (gGlobalMsrOahGroup->getShowFiguredBassVoices ()) {}
           staff->printShort (os);
           break;
 
-        case kStaffDrum:
+        case msrStaffKind::kStaffDrum:
           staff->printShort (os);
           break;
 
-        case kStaffRythmic:
+        case msrStaffKind::kStaffRythmic:
           staff->printShort (os);
           break;
       } // switch

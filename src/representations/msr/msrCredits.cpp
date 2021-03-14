@@ -207,7 +207,7 @@ void msrCreditWords::print (ostream& os) const
 
     setw (fieldWidth) <<
     "creditWordsXMLLang" << " : \"" <<
-    fCreditWordsXMLLang <<
+    msrXMLLangKindAsString (fCreditWordsXMLLang) <<
     "\"" <<
     endl;
 

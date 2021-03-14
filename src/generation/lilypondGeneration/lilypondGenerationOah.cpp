@@ -962,7 +962,7 @@ S_lilypondAbsoluteOctaveEntryAtom lilypondAbsoluteOctaveEntryAtom::create (
   string               longName,
   string               description,
   string               variableName,
-  lpsrOctaveEntryKind& lpsrOctaveEntryKindVariable)
+  msrOctaveEntryKind& msrOctaveEntryKindVariable)
 {
   lilypondAbsoluteOctaveEntryAtom* o = new
     lilypondAbsoluteOctaveEntryAtom (
@@ -970,7 +970,7 @@ S_lilypondAbsoluteOctaveEntryAtom lilypondAbsoluteOctaveEntryAtom::create (
       longName,
       description,
       variableName,
-      lpsrOctaveEntryKindVariable);
+      msrOctaveEntryKindVariable);
   assert (o != nullptr);
   return o;
 }
@@ -980,15 +980,15 @@ lilypondAbsoluteOctaveEntryAtom::lilypondAbsoluteOctaveEntryAtom (
   string               longName,
   string               description,
   string               variableName,
-  lpsrOctaveEntryKind& lpsrOctaveEntryKindVariable)
+  msrOctaveEntryKind& msrOctaveEntryKindVariable)
   : oahAtomStoringAValueInAVariable (
       shortName,
       longName,
       description,
       "", // to value specification is used for absolute octave entry
       variableName),
-    fLpsrOctaveEntryKindVariable (
-      lpsrOctaveEntryKindVariable)
+    fMsrOctaveEntryKindVariable (
+      msrOctaveEntryKindVariable)
 {}
 
 lilypondAbsoluteOctaveEntryAtom::~lilypondAbsoluteOctaveEntryAtom ()
@@ -1006,7 +1006,7 @@ void lilypondAbsoluteOctaveEntryAtom::applyElement (ostream& os)
 #endif
 
   // set octave entry kind
-  fLpsrOctaveEntryKindVariable = kOctaveEntryAbsolute;
+  fMsrOctaveEntryKindVariable = msrOctaveEntryKind::kOctaveEntryAbsolute;
 }
 
 void lilypondAbsoluteOctaveEntryAtom::acceptIn (basevisitor* v)
@@ -1100,10 +1100,10 @@ void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "lpsrOctaveEntryKindVariable" << " : " <<
+    "msrOctaveEntryKindVariable" << " : " <<
     "\"" <<
-    lpsrOctaveEntryKindAsString (
-      fLpsrOctaveEntryKindVariable) <<
+    msrOctaveEntryKindAsString (
+      fMsrOctaveEntryKindVariable) <<
     "\"" <<
     endl;
 
@@ -1129,7 +1129,7 @@ S_lilypondRelativeOctaveEntryAtom lilypondRelativeOctaveEntryAtom::create (
   string                        description,
   string                        valueSpecification,
   string                        variableName,
-  lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+  msrOctaveEntryKind&          msrOctaveEntryKindVariable,
   S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable)
 {
   lilypondRelativeOctaveEntryAtom* o = new
@@ -1139,7 +1139,7 @@ S_lilypondRelativeOctaveEntryAtom lilypondRelativeOctaveEntryAtom::create (
       description,
       valueSpecification,
       variableName,
-      lpsrOctaveEntryKindVariable,
+      msrOctaveEntryKindVariable,
       lilypondRelativeOctaveEntryVariable);
   assert (o != nullptr);
   return o;
@@ -1151,7 +1151,7 @@ lilypondRelativeOctaveEntryAtom::lilypondRelativeOctaveEntryAtom (
   string                        description,
   string                        valueSpecification,
   string                        variableName,
-  lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+  msrOctaveEntryKind&          msrOctaveEntryKindVariable,
   S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable)
   : oahAtomStoringAValueInAVariable (
       shortName,
@@ -1159,8 +1159,8 @@ lilypondRelativeOctaveEntryAtom::lilypondRelativeOctaveEntryAtom (
       description,
       valueSpecification,
       variableName),
-    fLpsrOctaveEntryKindVariable (
-      lpsrOctaveEntryKindVariable),
+    fMsrOctaveEntryKindVariable (
+      msrOctaveEntryKindVariable),
     fSemiTonesPitchAndOctaveVariable (
       lilypondRelativeOctaveEntryVariable)
 {}
@@ -1192,12 +1192,12 @@ void lilypondRelativeOctaveEntryAtom::applyAtomWithValue (
 #endif
 
 /* JMI
-  map<string, lpsrOctaveEntryKind>::const_iterator
+  map<string, msrOctaveEntryKind>::const_iterator
     it =
-      gGlobalLpsrOctaveEntryKindsMap.find (
+      gGlobalMsrOctaveEntryKindsMap.find (
         theString);
 
-  if (it == gGlobalLpsrOctaveEntryKindsMap.end ()) {
+  if (it == gGlobalMsrOctaveEntryKindsMap.end ()) {
     // no, octave entry kind is unknown in the map
 
     printOptionsSummary (gLogStream);
@@ -1209,14 +1209,14 @@ void lilypondRelativeOctaveEntryAtom::applyAtomWithValue (
       "' is unknown" <<
       endl <<
       "The " <<
-      gGlobalLpsrOctaveEntryKindsMap.size () <<
+      gGlobalMsrOctaveEntryKindsMap.size () <<
       " known octave entry kinds are:" <<
       endl;
 
     ++gIndenter;
 
     s <<
-      existingLpsrOctaveEntryKinds ();
+      existingMsrOctaveEntryKinds ();
 
     --gIndenter;
 
@@ -1336,10 +1336,10 @@ void lilypondRelativeOctaveEntryAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "lpsrOctaveEntryKindVariable" << " : " <<
+    "msrOctaveEntryKindVariable" << " : " <<
     "\"" <<
-    lpsrOctaveEntryKindAsString (
-      fLpsrOctaveEntryKindVariable) <<
+    msrOctaveEntryKindAsString (
+      fMsrOctaveEntryKindVariable) <<
     "\"" <<
     endl;
 
@@ -1387,7 +1387,7 @@ S_lilypondFixedOctaveEntryAtom lilypondFixedOctaveEntryAtom::create (
   string                        description,
   string                        valueSpecification,
   string                        variableName,
-  lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+  msrOctaveEntryKind&          msrOctaveEntryKindVariable,
   S_msrSemiTonesPitchAndOctave& lilypondFixedOctaveEntryVariable)
 {
   lilypondFixedOctaveEntryAtom* o = new
@@ -1397,7 +1397,7 @@ S_lilypondFixedOctaveEntryAtom lilypondFixedOctaveEntryAtom::create (
       description,
       valueSpecification,
       variableName,
-      lpsrOctaveEntryKindVariable,
+      msrOctaveEntryKindVariable,
       lilypondFixedOctaveEntryVariable);
   assert (o != nullptr);
   return o;
@@ -1409,7 +1409,7 @@ lilypondFixedOctaveEntryAtom::lilypondFixedOctaveEntryAtom (
   string                        description,
   string                        valueSpecification,
   string                        variableName,
-  lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+  msrOctaveEntryKind&          msrOctaveEntryKindVariable,
   S_msrSemiTonesPitchAndOctave& lilypondFixedOctaveEntryVariable)
   : oahAtomStoringAValueInAVariable (
       shortName,
@@ -1417,8 +1417,8 @@ lilypondFixedOctaveEntryAtom::lilypondFixedOctaveEntryAtom (
       description,
       valueSpecification,
       variableName),
-    fLpsrOctaveEntryKindVariable (
-      lpsrOctaveEntryKindVariable),
+    fMsrOctaveEntryKindVariable (
+      msrOctaveEntryKindVariable),
     fSemiTonesPitchAndOctaveVariable (
       lilypondFixedOctaveEntryVariable)
 {}
@@ -1549,10 +1549,10 @@ void lilypondFixedOctaveEntryAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "lpsrOctaveEntryKindVariable" << " : " <<
+    "msrOctaveEntryKindVariable" << " : " <<
     "\"" <<
-    lpsrOctaveEntryKindAsString (
-      fLpsrOctaveEntryKindVariable) <<
+    msrOctaveEntryKindAsString (
+      fMsrOctaveEntryKindVariable) <<
     "\"" <<
     endl;
 
@@ -3046,9 +3046,9 @@ R"()",
   // octave entry
   // --------------------------------------
 
-  lpsrOctaveEntryKind
+  msrOctaveEntryKind
     octaveEntryKindDefaultValue =
-      kOctaveEntryAbsolute; // relative is LilyPond's default value
+      msrOctaveEntryKind::kOctaveEntryAbsolute; // relative is LilyPond's default value
   fOctaveEntryKind = octaveEntryKindDefaultValue;
 
   // leave fOctaveEntrySemiTonesPitchAndOctave equal to nullptr here,
@@ -3057,7 +3057,7 @@ R"()",
   fSemiTonesPitchAndOctaveDefaultValue = // JMI
     msrSemiTonesPitchAndOctave::create (
       // F under middle C, LilyPond default for relative octave entry
-      kF_Natural_STP,
+      msrSemiTonesPitchKind::kSTP_F_Natural,
       msrOctaveKind::kOctave3);
 
   subGroup->
@@ -4970,11 +4970,11 @@ void lilypondGenerationOahGroup::printAtomWithVariableOptionsValues (
 
   os << left <<
     setw (valueFieldWidth) << "octaveEntryKind" << " : " <<
-    lpsrOctaveEntryKindAsString (fOctaveEntryKind) <<
+    msrOctaveEntryKindAsString (fOctaveEntryKind) <<
     endl;
 
   switch (gGlobalLilypondGenerationOahGroup->getOctaveEntryKind ()) {
-    case kOctaveEntryRelative:
+    case msrOctaveEntryKind::kOctaveEntryRelative:
       if (fRelativeOctaveEntrySemiTonesPitchAndOctave) {
         os << left <<
           setw (valueFieldWidth) <<
@@ -4991,9 +4991,9 @@ void lilypondGenerationOahGroup::printAtomWithVariableOptionsValues (
           endl;
       }
       break;
-    case kOctaveEntryAbsolute:
+    case msrOctaveEntryKind::kOctaveEntryAbsolute:
       break;
-    case kOctaveEntryFixed:
+    case msrOctaveEntryKind::kOctaveEntryFixed:
       if (fFixedOctaveEntrySemiTonesPitchAndOctave) {
         os << left <<
           setw (valueFieldWidth) <<
@@ -5625,7 +5625,7 @@ void lilypondGenerationOahGroup::printLilypondGenerationOahValues (unsigned int 
 
   gLogStream << left <<
     setw (fieldWidth) << "octaveEntryKind" << " : " <<
-      lpsrOctaveEntryKindAsString (fOctaveEntryKind) <<
+      msrOctaveEntryKindAsString (fOctaveEntryKind) <<
       endl <<
 
     setw (fieldWidth) << "allDurations" << " : " <<

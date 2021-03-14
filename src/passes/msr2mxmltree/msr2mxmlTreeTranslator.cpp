@@ -162,13 +162,13 @@ string msr2mxmlTreeTranslator::msrLengthAsTenths (
 
   // convert lengthValue to millimeters
   switch (length.getLengthUnitKind ()) {
-    case kInchUnit:
+    case msrLengthUnitKind::kUnitInch:
       lengthValue *= 25.4f;
       break;
-    case kCentimeterUnit:
+    case msrLengthUnitKind::kUnitCentimeter:
       lengthValue *= 10.0f;
       break;
-    case kMillimeterUnit:
+    case msrLengthUnitKind::kUnitMillimeter:
       break;
   } // switch
 
@@ -350,16 +350,16 @@ string msr2mxmlTreeTranslator::msrSpannerTypeKindAsMusicXMLString (
   string result;
 
   switch (spannerTypeKind) {
-    case k_NoSpannerType:
+    case msrSpannerTypeKind::k_NoSpannerType:
       // should not occur
       break;
-    case kSpannerTypeStart:
+    case msrSpannerTypeKind::kSpannerTypeStart:
       result = "start";
       break;
-    case kSpannerTypeStop:
+    case msrSpannerTypeKind::kSpannerTypeStop:
       result = "stop";
       break;
-    case kSpannerTypeContinue:
+    case msrSpannerTypeKind::kSpannerTypeContinue:
       result = "continue";
       break;
   } // switch
@@ -625,7 +625,7 @@ void msr2mxmlTreeTranslator::appendToNoteNotationsOrnaments (
     // append it to fCurrentNoteNotationsElement
     appendToNoteNotations (
       fCurrentNoteNotationsOrnamentsElement,
-      k_NoPlacement); // no placement for '<ornaments/>', only <trill-mark> has JMI ???
+      msrPlacementKind::k_NoPlacement); // no placement for '<ornaments/>', only <trill-mark> has JMI ???
   }
 
   // set elem's "placement" attribute if relevant
@@ -2162,12 +2162,12 @@ void msr2mxmlTreeTranslator::visitStart (S_msrCreditWords& elt)
   string fontWeightString;
 
   switch (elt->getCreditWordsFontWeightKind ()) {
-    case kFontWeightNone:
+    case msrFontWeightKind::kFontWeightNone:
       break;
-    case kFontWeightNormal:
+    case msrFontWeightKind::kFontWeightNormal:
       fontWeightString = "normal";
       break;
-    case kFontWeightBold:
+    case msrFontWeightKind::kFontWeightBold:
       fontWeightString = "bold";
       break;
     } // switch
@@ -2180,12 +2180,12 @@ void msr2mxmlTreeTranslator::visitStart (S_msrCreditWords& elt)
   string fontStyleString;
 
   switch (elt->getCreditWordsFontStyleKind ()) {
-    case kFontStyleNone:
+    case msrFontStyleKind::kFontStyleNone:
       break;
-    case kFontStyleNormal:
+    case msrFontStyleKind::kFontStyleNormal:
       fontStyleString = "normal";
       break;
-    case KFontStyleItalic:
+    case msrFontStyleKind::KFontStyleItalic:
       fontStyleString = "italic";
       break;
     } // switch
@@ -2198,15 +2198,15 @@ void msr2mxmlTreeTranslator::visitStart (S_msrCreditWords& elt)
   string justifyString;
 
   switch (elt->getCreditWordsJustifyKind ()) {
-    case kJustifyNone:
+    case msrJustifyKind::kJustifyNone:
       break;
-    case kJustifyLeft:
+    case msrJustifyKind::kJustifyLeft:
       justifyString = "left";
       break;
-    case kJustifyCenter:
+    case msrJustifyKind::kJustifyCenter:
       justifyString = "center";
       break;
-    case kJustifyRight:
+    case msrJustifyKind::kJustifyRight:
       justifyString = "right";
       break;
     } // switch
@@ -2219,15 +2219,15 @@ void msr2mxmlTreeTranslator::visitStart (S_msrCreditWords& elt)
   string horizontalAlignmentString;
 
   switch (elt->getCreditWordsHorizontalAlignmentKind ()) {
-    case kHorizontalAlignmentNone:
+    case msrHorizontalAlignmentKind::kHorizontalAlignmentNone:
       break;
-    case kHorizontalAlignmentLeft:
+    case msrHorizontalAlignmentKind::kHorizontalAlignmentLeft:
       horizontalAlignmentString = "left";
       break;
-    case kHorizontalAlignmentCenter:
+    case msrHorizontalAlignmentKind::kHorizontalAlignmentCenter:
       horizontalAlignmentString = "center";
       break;
-    case kHorizontalAlignmentRight:
+    case msrHorizontalAlignmentKind::kHorizontalAlignmentRight:
       horizontalAlignmentString = "right";
       break;
     } // switch
@@ -2240,15 +2240,15 @@ void msr2mxmlTreeTranslator::visitStart (S_msrCreditWords& elt)
   string verticalAlignmentString;
 
   switch (elt->getCreditWordsVerticalAlignmentKind ()) {
-    case kVerticalAlignmentNone:
+    case msrVerticalAlignmentKind::kVerticalAlignmentNone:
       break;
-    case kVerticalAlignmentTop:
+    case msrVerticalAlignmentKind::kVerticalAlignmentTop:
       verticalAlignmentString = "top";
       break;
-    case kVerticalAlignmentMiddle:
+    case msrVerticalAlignmentKind::kVerticalAlignmentMiddle:
       verticalAlignmentString = "middle";
       break;
-    case kVerticalAlignmentBottom:
+    case msrVerticalAlignmentKind::kVerticalAlignmentBottom:
       verticalAlignmentString = "bottom";
       break;
     } // switch
@@ -2756,10 +2756,10 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
   ++gIndenter;
 
   switch (elt->getStaffKind ()) {
-    case kStaffRegular:
-    case kStaffTablature:
-    case kStaffDrum:
-    case kStaffRythmic:
+    case msrStaffKind::kStaffRegular:
+    case msrStaffKind::kStaffTablature:
+    case msrStaffKind::kStaffDrum:
+    case msrStaffKind::kStaffRythmic:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -2813,7 +2813,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
       }
       break;
 
-    case kStaffHarmony:
+    case msrStaffKind::kStaffHarmony:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -2829,7 +2829,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
       }
       break;
 
-    case kStaffFiguredBass:
+    case msrStaffKind::kStaffFiguredBass:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -2868,23 +2868,23 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrStaff& elt)
   --gIndenter;
 
   switch (elt->getStaffKind ()) {
-    case kStaffRegular:
-    case kStaffDrum:
-    case kStaffRythmic:
+    case msrStaffKind::kStaffRegular:
+    case msrStaffKind::kStaffDrum:
+    case msrStaffKind::kStaffRythmic:
       {
         fOnGoingStaff = false;
       }
       break;
 
-    case kStaffTablature:
+    case msrStaffKind::kStaffTablature:
       // JMI
       break;
 
-    case kStaffHarmony:
+    case msrStaffKind::kStaffHarmony:
       // JMI
       break;
 
-    case kStaffFiguredBass:
+    case msrStaffKind::kStaffFiguredBass:
       // JMI
       break;
   } // switch
@@ -2937,15 +2937,15 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrVoice& elt)
   --gIndenter;
 
   switch (elt->getVoiceKind ()) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       // JMI
       break;
 
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceHarmony:
       fOnGoingHarmonyVoice = false;
       break;
 
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
       fOnGoingFiguredBassVoice = false;
       break;
   } // switch
@@ -3720,7 +3720,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrKey& elt)
 
     // populate it
     switch (elt->getKeyKind ()) {
-      case kTraditionalKind:
+      case msrKeyKind::kKeyTraditional:
         {
           // compute the number of fifths
           const int K_NO_FIFTHS_NUMBER = -99;
@@ -3731,82 +3731,82 @@ void msr2mxmlTreeTranslator::visitStart (S_msrKey& elt)
               elt->getKeyTonicQuarterTonesPitchKind ();
 
           switch (keyTonicQuarterTonesPitchKind) {
-            case k_NoQuarterTonesPitch_QTP:
-            case k_Rest_QTP:
-            case k_Skip_QTP:
+            case msrQuarterTonesPitchKind::k_NoQuarterTonesPitch:
+            case msrQuarterTonesPitchKind::kQTP_Rest:
+            case msrQuarterTonesPitchKind::kQTP_Skip:
               // should not occur
               break;
 
-            case kC_Natural_QTP:
+            case msrQuarterTonesPitchKind::kQTP_C_Natural:
               fifthsNumber = 0;
               break;
-            case kG_Natural_QTP:
+            case msrQuarterTonesPitchKind::kQTP_G_Natural:
               fifthsNumber = 1;
               break;
-            case kD_Natural_QTP:
+            case msrQuarterTonesPitchKind::kQTP_D_Natural:
               fifthsNumber = 2;
               break;
-            case kA_Natural_QTP:
+            case msrQuarterTonesPitchKind::kQTP_A_Natural:
               fifthsNumber = 3;
               break;
-            case kE_Natural_QTP:
+            case msrQuarterTonesPitchKind::kQTP_E_Natural:
               fifthsNumber = 4;
               break;
-            case kB_Natural_QTP:
+            case msrQuarterTonesPitchKind::kQTP_B_Natural:
               fifthsNumber = 5;
               break;
-            case kF_Sharp_QTP:
+            case msrQuarterTonesPitchKind::kQTP_F_Sharp:
               fifthsNumber = 6;
               break;
-            case kC_Sharp_QTP:
+            case msrQuarterTonesPitchKind::kQTP_C_Sharp:
               fifthsNumber = 7;
               break;
 
-            case kG_Sharp_QTP: // JMI
+            case msrQuarterTonesPitchKind::kQTP_G_Sharp: // JMI
               fifthsNumber = 8;
               break;
-            case kD_Sharp_QTP:
+            case msrQuarterTonesPitchKind::kQTP_D_Sharp:
               fifthsNumber = 9;
               break;
-            case kA_Sharp_QTP:
+            case msrQuarterTonesPitchKind::kQTP_A_Sharp:
               fifthsNumber = 10;
               break;
-            case kE_Sharp_QTP:
+            case msrQuarterTonesPitchKind::kQTP_E_Sharp:
               fifthsNumber = 11;
               break;
 
-            case kF_Natural_QTP:
+            case msrQuarterTonesPitchKind::kQTP_F_Natural:
               fifthsNumber = -1;
               break;
-            case kB_Flat_QTP:
+            case msrQuarterTonesPitchKind::kQTP_B_Flat:
               fifthsNumber = -2;
               break;
-            case kE_Flat_QTP:
+            case msrQuarterTonesPitchKind::kQTP_E_Flat:
               fifthsNumber = -3;
               break;
-            case kA_Flat_QTP:
+            case msrQuarterTonesPitchKind::kQTP_A_Flat:
               fifthsNumber = -4;
               break;
-            case kD_Flat_QTP:
+            case msrQuarterTonesPitchKind::kQTP_D_Flat:
               fifthsNumber = -5;
               break;
-            case kG_Flat_QTP:
+            case msrQuarterTonesPitchKind::kQTP_G_Flat:
               fifthsNumber = -6;
               break;
-            case kC_Flat_QTP:
+            case msrQuarterTonesPitchKind::kQTP_C_Flat:
               fifthsNumber = -7;
               break;
 
-            case kF_Flat_QTP: // JMI
+            case msrQuarterTonesPitchKind::kQTP_F_Flat: // JMI
               fifthsNumber = -8;
               break;
-            case kB_DoubleFlat_QTP:
+            case msrQuarterTonesPitchKind::kQTP_B_DoubleFlat:
               fifthsNumber = -9;
               break;
-            case kE_DoubleFlat_QTP:
+            case msrQuarterTonesPitchKind::kQTP_E_DoubleFlat:
               fifthsNumber = -10;
               break;
-            case kA_DoubleFlat_QTP:
+            case msrQuarterTonesPitchKind::kQTP_A_DoubleFlat:
               fifthsNumber = -11;
               break;
 
@@ -3844,7 +3844,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrKey& elt)
         }
         break;
 
-      case kHumdrumScotKind:
+      case msrKeyKind::kKeyHumdrumScot:
         {
           // JMI
         }
@@ -3903,7 +3903,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTime& elt)
 
     // populate it
     switch (elt->getTimeSymbolKind ()) {
-      case kTimeSymbolCommon:
+      case msrTimeSymbolKind::kTimeSymbolCommon:
         {
           fTimeElement->add (createMxmlAttribute ("symbol", "common"));
 
@@ -3918,7 +3918,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTime& elt)
         }
         break;
 
-      case kTimeSymbolCut:
+      case msrTimeSymbolKind::kTimeSymbolCut:
          {
           fTimeElement->add (createMxmlAttribute ("symbol", "cut"));
 
@@ -3933,19 +3933,19 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTime& elt)
         }
        break;
 
-      case kTimeSymbolNote:
+      case msrTimeSymbolKind::kTimeSymbolNote:
         break;
 
-      case kTimeSymbolDottedNote:
+      case msrTimeSymbolKind::kTimeSymbolDottedNote:
         break;
 
-      case kTimeSymbolSingleNumber:
+      case msrTimeSymbolKind::kTimeSymbolSingleNumber:
         break;
 
-      case kTimeSymbolSenzaMisura:
+      case msrTimeSymbolKind::kTimeSymbolSenzaMisura:
         break;
 
-      case kTimeSymbolNone:
+      case msrTimeSymbolKind::kTimeSymbolNone:
         {
           const vector<S_msrTimeItem>&
             timeItemsVector =
@@ -4606,79 +4606,79 @@ void msr2mxmlTreeTranslator:: appendNoteDynamics (
       int subElementID = -1;
 
       switch (dynamics->getDynamicsKind ()) {
-        case kDynamicsF:
+        case msrDynamicsKind::kDynamicsF:
           subElementID = k_f;
           break;
-        case kDynamicsFF:
+        case msrDynamicsKind::kDynamicsFF:
           subElementID = k_ff;
           break;
-        case kDynamicsFFF:
+        case msrDynamicsKind::kDynamicsFFF:
           subElementID = k_fff;
           break;
-        case kDynamicsFFFF:
+        case msrDynamicsKind::kDynamicsFFFF:
           subElementID = k_ffff;
           break;
-        case kDynamicsFFFFF:
+        case msrDynamicsKind::kDynamicsFFFFF:
           subElementID = k_fffff;
           break;
-        case kDynamicsFFFFFF:
+        case msrDynamicsKind::kDynamicsFFFFFF:
           subElementID = k_ffffff;
           break;
 
-        case kDynamicsP:
+        case msrDynamicsKind::kDynamicsP:
           subElementID = k_p;
           break;
-        case kDynamicsPP:
+        case msrDynamicsKind::kDynamicsPP:
           subElementID = k_pp;
           break;
-        case kDynamicsPPP:
+        case msrDynamicsKind::kDynamicsPPP:
           subElementID = k_ppp;
           break;
-        case kDynamicsPPPP:
+        case msrDynamicsKind::kDynamicsPPPP:
           subElementID = k_pppp;
           break;
-        case kDynamicsPPPPP:
+        case msrDynamicsKind::kDynamicsPPPPP:
           subElementID = k_ppppp;
           break;
-        case kDynamicsPPPPPP:
+        case msrDynamicsKind::kDynamicsPPPPPP:
           subElementID = k_pppppp;
           break;
 
-        case kDynamicsMF:
+        case msrDynamicsKind::kDynamicsMF:
           subElementID = k_mf;
           break;
-        case kDynamicsMP:
+        case msrDynamicsKind::kDynamicsMP:
           subElementID = k_mp;
           break;
-        case kDynamicsFP:
+        case msrDynamicsKind::kDynamicsFP:
           subElementID = k_fp;
           break;
-        case kDynamicsFZ:
+        case msrDynamicsKind::kDynamicsFZ:
           subElementID = k_fz;
           break;
-        case kDynamicsRF:
+        case msrDynamicsKind::kDynamicsRF:
           subElementID = k_rf;
           break;
-        case kDynamicsSF:
+        case msrDynamicsKind::kDynamicsSF:
           subElementID = k_sf;
           break;
 
-        case kDynamicsRFZ:
+        case msrDynamicsKind::kDynamicsRFZ:
           subElementID = k_rfz;
           break;
-        case kDynamicsSFZ:
+        case msrDynamicsKind::kDynamicsSFZ:
           subElementID = k_sfz;
           break;
-        case kDynamicsSFP:
+        case msrDynamicsKind::kDynamicsSFP:
           subElementID = k_sfp;
           break;
-        case kDynamicsSFPP:
+        case msrDynamicsKind::kDynamicsSFPP:
           subElementID = k_sfpp;
           break;
-        case kDynamicsSFFZ:
+        case msrDynamicsKind::kDynamicsSFFZ:
           subElementID = k_sffz;
           break;
-        case k_NoDynamics:
+        case msrDynamicsKind::k_NoDynamics:
           ; // should not occur
           break;
       } // switch
@@ -5697,15 +5697,15 @@ void msr2mxmlTreeTranslator:: appendNoteTieIfAny (
     string typeString;
 
     switch (noteTie->getTieKind ()) {
-      case kTieNone:
+      case msrTieKind::kTieNone:
         break;
-      case kTieStart:
+      case msrTieKind::kTieStart:
         typeString = "start";
         break;
-      case kTieContinue:
+      case msrTieKind::kTieContinue:
         typeString = "continue";
         break;
-      case kTieStop:
+      case msrTieKind::kTieStop:
         typeString = "stop";
         break;
     } // switch
@@ -5765,21 +5765,21 @@ void msr2mxmlTreeTranslator:: appendNoteSlursIfAny (
       string slurTypeString;
 
       switch (slurTypeKind) {
-        case k_NoSlur:
+        case msrSlurTypeKind::k_NoSlur:
           break;
-        case kRegularSlurStart:
+        case msrSlurTypeKind::kSlurTypeRegularStart:
           slurTypeString = "start";
           break;
-        case kPhrasingSlurStart:
+        case msrSlurTypeKind::kSlurTypePhrasingStart:
           slurTypeString = "start";
           break;
-        case kSlurContinue:
+        case msrSlurTypeKind::kSlurTypeContinue:
           slurTypeString = "slurContinue";
           break;
-        case kRegularSlurStop:
+        case msrSlurTypeKind::kSlurTypeRegularStop:
           slurTypeString = "stop";
           break;
-        case kPhrasingSlurStop:
+        case msrSlurTypeKind::kSlurTypePhrasingStop:
           slurTypeString = "stop";
           break;
       } // switch
@@ -5871,7 +5871,7 @@ void msr2mxmlTreeTranslator:: appendNoteTupletIfRelevant (
           // append it to the current note notations elements
           appendToNoteNotations (
             tupletElement,
-            k_NoPlacement);
+            msrPlacementKind::k_NoPlacement);
         }
       }
       break;
@@ -5926,14 +5926,14 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersBeforeNote (
       bool doHandleSpanner = true;
 
       switch (spannerTypeKind) {
-        case kSpannerTypeStart:
+        case msrSpannerTypeKind::kSpannerTypeStart:
           break;
-        case kSpannerTypeStop:
+        case msrSpannerTypeKind::kSpannerTypeStop:
           doHandleSpanner = false;;
           break;
-        case kSpannerTypeContinue:
+        case msrSpannerTypeKind::kSpannerTypeContinue:
           break;
-        case k_NoSpannerType:
+        case msrSpannerTypeKind::k_NoSpannerType:
           // should not occur
           break;
       } // switch
@@ -6031,14 +6031,14 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersAfterNote (
       bool doHandleSpanner = true;
 
       switch (spannerTypeKind) {
-        case kSpannerTypeStart:
+        case msrSpannerTypeKind::kSpannerTypeStart:
           doHandleSpanner = false;;
           break;
-        case kSpannerTypeStop:
+        case msrSpannerTypeKind::kSpannerTypeStop:
           break;
-        case kSpannerTypeContinue:
+        case msrSpannerTypeKind::kSpannerTypeContinue:
           break;
-        case k_NoSpannerType:
+        case msrSpannerTypeKind::k_NoSpannerType:
           // should not occur
           break;
       } // switch
@@ -6179,21 +6179,21 @@ void msr2mxmlTreeTranslator::appendBeamsToNote (
       string beamString;
 
       switch (beamKind) {
-        case k_NoBeam:
+        case msrBeamKind::k_NoBeam:
           break;
-        case kBeamBegin:
+        case msrBeamKind::kBeamBegin:
           beamString = "begin";
           break;
-        case kBeamContinue:
+        case msrBeamKind::kBeamContinue:
           beamString = "continue";
           break;
-        case kBeamEnd:
+        case msrBeamKind::kBeamEnd:
           beamString = "end";
           break;
-        case kBeamForwardHook:
+        case msrBeamKind::kBeamForwardHook:
           beamString = "forward hook";
           break;
-        case kBeamBackwardHook:
+        case msrBeamKind::kBeamBackwardHook:
           beamString = "backward hook";
           break;
       } // switch
@@ -7966,16 +7966,16 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSyllable& elt)
           words =
             msrWords::create (
               inputLineNumber,
-              k_NoPlacement,                // default value
+              msrPlacementKind::k_NoPlacement,                // default value
               wordsValue,
-              kJustifyNone,                  // default value
-              kHorizontalAlignmentNone,      // default value
-              kVerticalAlignmentNone,        // default value
-              kFontStyleNone,                // default value
+              msrJustifyKind::kJustifyNone,                  // default value
+              msrHorizontalAlignmentKind::kHorizontalAlignmentNone,      // default value
+              msrVerticalAlignmentKind::kVerticalAlignmentNone,        // default value
+              msrFontStyleKind::kFontStyleNone,                // default value
               msrFontSize::create (
-                kFontSizeNone), // default value
-              kFontWeightNone,               // default value
-              kXMLLangIt,                    // default value
+                msrFontSizeKind::kFontSizeNone), // default value
+              msrFontWeightKind::kFontWeightNone,               // default value
+              msrXMLLangKind::kXMLLangIt,                    // default value
               elt->getSyllableNoteUpLink ()->getNoteStaffNumber ());
 
         // append it to the current non-grace note
@@ -8735,14 +8735,14 @@ void msr2mxmlTreeTranslator::visitStart (S_msrDynamics& elt)
     bool knownToLilyPondNatively = true;
 
     switch (elt->getDynamicsKind ()) {
-      case kDynamicsFFFFF:
-      case kDynamicsFFFFFF:
-      case kDynamicsPPPPP:
-      case kDynamicsPPPPPP:
-      case kDynamicsRF:
-      case kDynamicsSFPP:
-      case kDynamicsSFFZ:
-      case k_NoDynamics:
+      case msrDynamicsKind::kDynamicsFFFFF:
+      case msrDynamicsKind::kDynamicsFFFFFF:
+      case msrDynamicsKind::kDynamicsPPPPP:
+      case msrDynamicsKind::kDynamicsPPPPPP:
+      case msrDynamicsKind::kDynamicsRF:
+      case msrDynamicsKind::kDynamicsSFPP:
+      case msrDynamicsKind::kDynamicsSFFZ:
+      case msrDynamicsKind::k_NoDynamics:
         knownToLilyPondNatively = false;
 
       default:
@@ -10362,23 +10362,23 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
 
 /*
   if       (timeSymbol == "common") {
-    fCurrentTimeSymbolKind = kTimeSymbolCommon;
+    fCurrentTimeSymbolKind = msrTimeSymbolKind::kTimeSymbolCommon;
   }
   else  if (timeSymbol == "cut") {
-    fCurrentTimeSymbolKind = kTimeSymbolCut;
+    fCurrentTimeSymbolKind = msrTimeSymbolKind::kTimeSymbolCut;
   }
   else  if (timeSymbol == "note") {
-    fCurrentTimeSymbolKind = kTimeSymbolNote;
+    fCurrentTimeSymbolKind = msrTimeSymbolKind::kTimeSymbolNote;
   }
   else  if (timeSymbol == "dotted-note") {
-    fCurrentTimeSymbolKind = kTimeSymbolDottedNote;
+    fCurrentTimeSymbolKind = msrTimeSymbolKind::kTimeSymbolDottedNote;
   }
   else  if (timeSymbol == "single-number") {
-    fCurrentTimeSymbolKind = kTimeSymbolSingleNumber;
+    fCurrentTimeSymbolKind = msrTimeSymbolKind::kTimeSymbolSingleNumber;
   }
 
   // handle the time
-  if (timeSymbolKind == kTimeSymbolSenzaMisura) {
+  if (timeSymbolKind == msrTimeSymbolKind::kTimeSymbolSenzaMisura) {
     // senza misura time
 
     fVoiceIsCurrentlySenzaMisura = true;
@@ -10393,22 +10393,22 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
     if (timesItemsNumber) {
       // should there be a single number?
       switch (timeSymbolKind) {
-        case kTimeSymbolCommon:
+        case msrTimeSymbolKind::kTimeSymbolCommon:
           break;
-        case kTimeSymbolCut:
+        case msrTimeSymbolKind::kTimeSymbolCut:
           break;
-        case kTimeSymbolNote:
+        case msrTimeSymbolKind::kTimeSymbolNote:
           break;
-        case kTimeSymbolDottedNote:
+        case msrTimeSymbolKind::kTimeSymbolDottedNote:
           break;
-        case kTimeSymbolSingleNumber:
+        case msrTimeSymbolKind::kTimeSymbolSingleNumber:
           fOutputStream <<
             "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
             endl;
           break;
-        case kTimeSymbolSenzaMisura:
+        case msrTimeSymbolKind::kTimeSymbolSenzaMisura:
           break;
-        case kTimeSymbolNone:
+        case msrTimeSymbolKind::kTimeSymbolNone:
           break;
       } // switch
 
@@ -10429,7 +10429,7 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
 
         // should the time be numeric?
         if (
-          timeSymbolKind == kTimeSymbolNone
+          timeSymbolKind == msrTimeSymbolKind::kTimeSymbolNone
             ||
           gGlobalLilypondGenerationOahGroup->getNumericalTime ()) {
           fOutputStream <<
@@ -10501,7 +10501,7 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
 
     else {
       // there are no time items
-      if (timeSymbolKind != kTimeSymbolSenzaMisura) {
+      if (timeSymbolKind != msrTimeSymbolKind::kTimeSymbolSenzaMisura) {
         msrInternalError (
           gGlobalOahOahGroup->getInputSourceName (),
           elt->getInputLineNumber (),

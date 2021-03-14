@@ -650,6 +650,9 @@ xml2brlInsiderOahGroup::xml2brlInsiderOahGroup (
 R"(Options that are used by xml2brl are grouped here.)",
     oahElementVisibilityKind::kElementVisibilityWhole)
 {
+  fQuitAfterPass2a = false;
+  fQuitAfterPass2b = false;
+
   initializeXml2brlInsiderOahGroup ();
 }
 

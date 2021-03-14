@@ -103,7 +103,7 @@ EXP multiGeneratorOutputKind multiGeneratorOutputKindFromString (
 map<string, multiGeneratorOutputKind>
   gGlobalMultiGeneratorOutputKindsMap;
 
-void initializeGeneratorOutputKindsMap ()
+void initializeMultiGeneratorOutputKindsMap ()
 {
   gGlobalMultiGeneratorOutputKindsMap ["guido"]    =
     multiGeneratorOutputKind::kGuidoOutput;

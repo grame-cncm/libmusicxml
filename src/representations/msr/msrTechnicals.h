@@ -52,7 +52,7 @@ class EXP msrTechnical : public msrElement
 
 /* JMI
     enum msrTechnicalAccidentalMarkKind {
-      kNatural, kSharp, kFlat
+      msrAlterationKind::kAlterationNatural, msrAlterationKind::kAlterationSharp, msrAlterationKind::kAlterationFlat
     };
 
     static string technicalAccidentalMarkKindAsString (

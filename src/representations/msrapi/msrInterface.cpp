@@ -128,7 +128,7 @@ S_msrStaff msdlParser::createStaffInPart (
   S_msrStaff
     staff =
       msrStaff::create (
-        __LINE__, kStaffRegular, staffNumber, part);
+        __LINE__, msrStaffKind::kStaffRegular, staffNumber, part);
 
   // append it to the part
   part ->
@@ -172,7 +172,7 @@ S_msrMeasure msdlParser::createMeasureInVoice (
       createMeasureAndAppendItToVoice (
         inputLineNumber,
         measureNumber,
-        kMeasureImplicitKindNo);
+        msrMeasureImplicitKind::kMeasureImplicitKindNo);
 }
 
 /*
@@ -206,8 +206,8 @@ S_msrMeasure msdlParser::createMeasureInVoice (
       appendKeyToMeasure (
         msrKey::createTraditional (
           __LINE__,
-          kC_Natural_QTP,
-          kMajorMode,
+          msrQuarterTonesPitchKind::kQTP_C_Natural,
+          msrModeKind::kModeMajor,
           0)); // keyCancel JMI
 
     // append the time
@@ -225,7 +225,7 @@ S_msrMeasure msdlParser::createMeasureInVoice (
           msrNote::createRegularNote (
             __LINE__,
             measure1number,
-            kA_Natural_QTP,
+            msrQuarterTonesPitchKind::kQTP_A_Natural,
             msrOctaveKind::kOctave4,
             rational (1, 8), // soundingWholeNotes
             rational (1, 8), // displayWholeNotes
@@ -236,8 +236,8 @@ S_msrMeasure msdlParser::createMeasureInVoice (
         appendDynamicsToNote (
           msrDynamics::create (
             __LINE__,
-            kDynamicsPP,
-            kPlacementBelow));
+            msrDynamicsKind::kDynamicsPP,
+            msrPlacementKind::kPlacementBelow));
 
       // append the slur start to the note
       note1->
@@ -245,9 +245,9 @@ S_msrMeasure msdlParser::createMeasureInVoice (
           msrSlur::create (
             __LINE__,
             1, // slurNumber
-            kRegularSlurStart,
-            kLineTypeSolid,
-            kPlacementBelow));
+            msrSlurTypeKind::kSlurTypeRegularStart,
+            msrLineTypeKind::kLineTypeSolid,
+            msrPlacementKind::kPlacementBelow));
 
       // append the first beam begin to the note
       note1->
@@ -255,7 +255,7 @@ S_msrMeasure msdlParser::createMeasureInVoice (
           msrBeam::create (
             __LINE__,
             1, // beamNumber
-            kBeamBegin));
+            msrBeamKind::kBeamBegin));
 
       // append the note to the measure
       measure1->

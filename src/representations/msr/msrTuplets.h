@@ -114,10 +114,10 @@ class EXP msrTuplet : public msrTupletElement
 
     // tuplet kind
     void                  setTupletKind (
-                            msrTupletKind tupletKind)
+                            msrTupletInKind tupletKind)
                               { fTupletKind = tupletKind; }
 
-    msrTupletKind         getTupletKind () const
+    msrTupletInKind         getTupletKind () const
                               { return fTupletKind; }
 
     // measure upLink
@@ -250,7 +250,7 @@ class EXP msrTuplet : public msrTupletElement
     // private fields
     // ------------------------------------------------------
 
-    msrTupletKind         fTupletKind;
+    msrTupletInKind         fTupletKind;
 
     // measure upLink
     S_msrMeasure          fTupletDirectMeasureUpLink;

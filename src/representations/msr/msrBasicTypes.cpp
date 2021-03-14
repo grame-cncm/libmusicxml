@@ -49,20 +49,20 @@ msrXMLLangKind msrXMLLangKindFromString (
   string XMLLangString)
 {
   msrXMLLangKind
-    result = kXMLLangIt; // default value
+    result = msrXMLLangKind::kXMLLangIt; // default value
 
   if      (XMLLangString == "it")
-    result = kXMLLangIt;
+    result = msrXMLLangKind::kXMLLangIt;
   else if (XMLLangString == "en")
-    result = kXMLLangEn;
+    result = msrXMLLangKind::kXMLLangEn;
   else if (XMLLangString == "de")
-    result = kXMLLangDe;
+    result = msrXMLLangKind::kXMLLangDe;
   else if (XMLLangString == "fr")
-    result = kXMLLangFr;
+    result = msrXMLLangKind::kXMLLangFr;
   else if (XMLLangString == "ja")
-    result = kXMLLangJa;
+    result = msrXMLLangKind::kXMLLangJa;
   else if (XMLLangString == "la")
-    result = kXMLLangLa;
+    result = msrXMLLangKind::kXMLLangLa;
   else {
     if (XMLLangString.size ()) {
       stringstream s;
@@ -88,21 +88,21 @@ string msrXMLLangKindAsString (
   string result;
 
   switch (XMLLangKind) {
-    case kXMLLangIt:
+    case msrXMLLangKind::kXMLLangIt:
       result = "it";
       break;
-    case kXMLLangEn:
+    case msrXMLLangKind::kXMLLangEn:
       result = "en";
       break;
-    case kXMLLangDe:
+    case msrXMLLangKind::kXMLLangDe:
       result = "de";
       break;
-    case kXMLLangFr:
+    case msrXMLLangKind::kXMLLangFr:
       result = "fr";
-    case kXMLLangJa:
+    case msrXMLLangKind::kXMLLangJa:
       result = "ja";
       break;
-    case kXMLLangLa:
+    case msrXMLLangKind::kXMLLangLa:
       result = "la";
       break;
   } // switch
@@ -115,7 +115,7 @@ string msrXMLLangKindAsString (
 msrDottedDuration::msrDottedDuration ()
 {
   fDurationKind = msrDurationKind::k_NoDuration;
-  fDotsNumber   = -1;
+  fDotsNumber   = 0;
 }
 
 msrDottedDuration::msrDottedDuration (
@@ -138,6 +138,72 @@ rational msrDottedDuration::dottedDurationAsWholeNotes (
       msrDurationKindAsWholeNotes (
         fDurationKind);
 
+#ifdef TRACING_IS_ENABLED
+  if (false) { // JMI
+    print (gLogStream);
+
+    gLogStream <<
+      "=== dottedDurationAsWholeNotes()" <<
+      ", (int) fDurationKind: " << (int) fDurationKind <<
+      ", result: " << result <<
+      endl;
+  }
+#endif
+
+  // take dots into account if any
+  if (fDotsNumber > 0) {
+    rational
+      increment = result * rational (1,2);
+
+    int dots = fDotsNumber;
+
+    while (dots > 0) {
+      result += increment;
+      result.rationalise ();
+
+      increment *= rational (1,2);
+      increment.rationalise ();
+
+#ifdef TRACING_IS_ENABLED
+  if (false) { // JMI
+    gLogStream <<
+      "=== dottedDurationAsWholeNotes()" <<
+      ", dots: " << dots <<
+      ", result: " << result <<
+      ", increment: " << increment <<
+      endl;
+  }
+#endif
+
+      --dots;
+    } // while
+  }
+
+  return result;
+}
+
+rational msrDottedDuration::dottedDurationAsWholeNotes_FOR_TEMPO (
+  // used in lpsrBasicTypes, dottedDurationAsLilypondStringWithoutBackSlash(),
+  // called in lpsr2lilypondTranslator.cpp, visitStart (S_msrTempo& elt)
+  // JMI BUGGY, NEVER TESTED TEMP???
+  int inputLineNumber) const
+{
+  // convert duration into whole notes
+  rational
+    result =
+      msrDurationKindAsWholeNotes (
+        fDurationKind);
+
+#ifdef TRACING_IS_ENABLED
+  if (false) {
+    gLogStream <<
+      "=== dottedDurationAsWholeNotes_FOR_TEMPO()" <<
+      ", result: " << result <<
+      "\"" <<
+      endl;
+  }
+#endif
+
   // take dots into account if any
   if (fDotsNumber > 0) {
     int dots = fDotsNumber;
@@ -146,6 +212,17 @@ rational msrDottedDuration::dottedDurationAsWholeNotes (
       result *=
         rational (3, 2);
       result.rationalise ();
+
+#ifdef TRACING_IS_ENABLED
+  if (false) {
+    gLogStream <<
+      "=== dottedDurationAsWholeNotes_FOR_TEMPO()" <<
+      ", dots: " << dots <<
+      ", result: " << result <<
+      "\"" <<
+      endl;
+  }
+#endif
 
       --dots;
     } // while
@@ -510,6 +587,92 @@ string msrOctaveKindAsString (msrOctaveKind octaveKind)
   } // switch
 
   return result;
+}
+
+// octave entry kinds
+//______________________________________________________________________________
+
+map<string, msrOctaveEntryKind>
+  gGlobalMsrOctaveEntryKindsMap;
+
+string msrOctaveEntryKindAsString (
+  msrOctaveEntryKind octaveEntryKind)
+{
+  string result;
+
+  // no CamelCase here, these strings are used in the command line options
+
+  switch (octaveEntryKind) {
+    case msrOctaveEntryKind::kOctaveEntryRelative: // default value
+      result = "relative";
+      break;
+    case msrOctaveEntryKind::kOctaveEntryAbsolute:
+      result = "absolute";
+      break;
+    case msrOctaveEntryKind::kOctaveEntryFixed:
+      result = "fixed";
+      break;
+  } // switch
+
+  return result;
+}
+
+void initializeMsrOctaveEntryKindsMap ()
+{
+  // register the LilyPond score output kinds
+  // --------------------------------------
+
+  // no CamelCase here, these strings are used in the command line options
+
+  gGlobalMsrOctaveEntryKindsMap ["relative"] = msrOctaveEntryKind::kOctaveEntryRelative;
+  gGlobalMsrOctaveEntryKindsMap ["absolute"] = msrOctaveEntryKind::kOctaveEntryAbsolute;
+  gGlobalMsrOctaveEntryKindsMap ["fixed"] = msrOctaveEntryKind::kOctaveEntryFixed;
+}
+
+string existingMsrOctaveEntryKinds (unsigned int namesListMaxLength)
+{
+  stringstream s;
+
+  unsigned int
+    msrOctaveEntryKindsMapSize =
+      gGlobalMsrOctaveEntryKindsMap.size ();
+
+  if (msrOctaveEntryKindsMapSize) {
+    unsigned int
+      nextToLast =
+        msrOctaveEntryKindsMapSize - 1;
+
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
+
+    for (
+      map<string, msrOctaveEntryKind>::const_iterator i =
+        gGlobalMsrOctaveEntryKindsMap.begin ();
+      i != gGlobalMsrOctaveEntryKindsMap.end ();
+      ++i
+    ) {
+      string theString = (*i).first;
+
+      ++count;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= namesListMaxLength) {
+        s << "\n";
+        cumulatedLength = 0;
+      }
+
+      s << theString;
+
+      if (count == nextToLast) {
+        s << " and ";
+      }
+      else if (count != msrOctaveEntryKindsMapSize) {
+        s << ", ";
+      }
+    } // for
+  }
+
+  return s.str ();
 }
 
 // semitone pitches and absolute octave
@@ -1423,37 +1586,37 @@ string msrDurationKindAsString (msrDurationKind durationKind)
       break;
 
     case msrDurationKind::k1024th:
-      result = "1024";
+      result = "1024th";
       break;
     case msrDurationKind::k512th:
-      result = "512";
+      result = "512th";
       break;
     case msrDurationKind::k256th:
-      result = "256";
+      result = "256th";
       break;
     case msrDurationKind::k128th:
-      result = "128";
+      result = "128th";
       break;
     case msrDurationKind::k64th:
-      result = "64";
+      result = "64th";
       break;
     case msrDurationKind::k32nd:
-      result = "32";
+      result = "32nd";
       break;
     case msrDurationKind::k16th:
-      result = "16";
+      result = "16th";
       break;
     case msrDurationKind::kEighth:
-      result = "8";
+      result = "8th";
       break;
     case msrDurationKind::kQuarter:
-      result = "4";
+      result = "quarter";
       break;
     case msrDurationKind::kHalf:
-      result = "2";
+      result = "half";
       break;
     case msrDurationKind::kWhole:
-      result = "1";
+      result = "whole";
       break;
     case msrDurationKind::kBreve:
       result = "Breve";
@@ -3108,25 +3271,25 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind)
 {
-  msrSemiTonesPitchKind result = k_NoSemiTonesPitch_STP;
+  msrSemiTonesPitchKind result = msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch;
 
   switch (semiTonesPitchKind) {
-    case k_NoSemiTonesPitch_STP:
-      result = k_NoSemiTonesPitch_STP;
+    case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
+      result = msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch;
       break;
 
-    case kB_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_B_Sharp:
       switch (intervalKind) {
         case kDiminishedUnisson:
           switch (alterationPreferenceKind) {
-            case kPreferFlat:
-              result = kC_Sharp_STP;
+            case msrAlterationPreferenceKind::kAlterationPreferenceFlat:
+              result = msrSemiTonesPitchKind::kSTP_C_Sharp;
               break;
-            case kPreferNatural:
-              result = kC_Sharp_STP;
+            case msrAlterationPreferenceKind::kAlterationPreferenceNatural:
+              result = msrSemiTonesPitchKind::kSTP_C_Sharp;
               break;
-            case kPreferSharp:
-              result = kC_Sharp_STP;
+            case msrAlterationPreferenceKind::kAlterationPreferenceSharp:
+              result = msrSemiTonesPitchKind::kSTP_C_Sharp;
               break;
           } // switch
           break;
@@ -3235,80 +3398,80 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
       } // switch
       break;
 
-    case kC_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_C_Natural:
       break;
-    case kD_DoubleFlat_STP:
-      break;
-
-    case kC_Sharp_STP:
-      break;
-    case kB_DoubleSharp_STP:
-      break;
-    case kD_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_D_DoubleFlat:
       break;
 
-    case kD_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_C_Sharp:
       break;
-    case kC_DoubleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_B_DoubleSharp:
       break;
-    case kE_DoubleFlat_STP:
-      break;
-
-    case kD_Sharp_STP:
-      break;
-    case kE_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Flat:
       break;
 
-    case kE_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Natural:
       break;
-    case kD_DoubleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_C_DoubleSharp:
       break;
-    case kF_Flat_STP:
-      break;
-
-    case kF_Natural_STP:
-      break;
-    case kE_Sharp_STP:
-      break;
-    case kG_DoubleFlat_STP:
+    case msrSemiTonesPitchKind::kSTP_E_DoubleFlat:
       break;
 
-    case kF_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Sharp:
       break;
-    case kE_DoubleSharp_STP:
-      break;
-    case kG_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Flat:
       break;
 
-    case kG_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Natural:
       break;
-    case kF_DoubleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_D_DoubleSharp:
       break;
-    case kA_DoubleFlat_STP:
-      break;
-
-    case kG_Sharp_STP:
-      break;
-    case kA_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Flat:
       break;
 
-    case kA_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Natural:
       break;
-    case kG_DoubleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Sharp:
       break;
-    case kB_DoubleFlat_STP:
-      break;
-
-    case kA_Sharp_STP:
-      break;
-    case kB_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_G_DoubleFlat:
       break;
 
-    case kB_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Sharp:
       break;
-    case kA_DoubleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_E_DoubleSharp:
       break;
-    case kC_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_G_Flat:
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_G_Natural:
+      break;
+    case msrSemiTonesPitchKind::kSTP_F_DoubleSharp:
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_DoubleFlat:
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_G_Sharp:
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Flat:
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_A_Natural:
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_DoubleSharp:
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_DoubleFlat:
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_A_Sharp:
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Flat:
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_B_Natural:
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_DoubleSharp:
+      break;
+    case msrSemiTonesPitchKind::kSTP_C_Flat:
       break;
   } // switch
 
@@ -3321,3327 +3484,3327 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
   msrIntervalKind       intervalKind,
   msrSemiTonesPitchKind semiTonesPitchKind)
 {
-  msrSemiTonesPitchKind result = k_NoSemiTonesPitch_STP;
+  msrSemiTonesPitchKind result = msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch;
 
   switch (semiTonesPitchKind) {
-    case k_NoSemiTonesPitch_STP:
-      result = k_NoSemiTonesPitch_STP;
+    case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
+      result = msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch;
       break;
 
-    case kC_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_C_Flat:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kPerfectUnison:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kAugmentedUnison:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
 
         case kDiminishedSecond:
-          result = kD_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_TripleFlat;
           break;
         case kMinorSecond:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kMajorSecond:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kAugmentedSecond:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
         case kDiminishedThird:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMinorThird:
-          result = kE_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
         case kMajorThird:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedThird:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
         case kDiminishedFourth:
-          result = kF_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
         case kPerfectFourth:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kAugmentedFourth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kPerfectFifth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kAugmentedFifth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
         case kDiminishedSixth:
-          result = kA_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_TripleFlat;
           break;
         case kMinorSixth:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMajorSixth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kAugmentedSixth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
         case kDiminishedSeventh:
-          result = kB_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
         case kMinorSeventh:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMajorSeventh:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedSeventh:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
         case kDiminishedOctave:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kPerfectOctave:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kAugmentedOctave:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
 
         case kDiminishedNinth:
-          result = kD_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_TripleFlat;
           break;
         case kMinorNinth:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kMajorNinth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kAugmentedNinth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
         case kDiminishedTenth:
-          result = kE_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
         case kMinorTenth:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMajorTenth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedTenth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
         case kDiminishedEleventh:
-          result = kF_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
         case kPerfectEleventh:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kAugmentedEleventh:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kPerfectTwelfth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kAugmentedTwelfth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
         case kDiminishedThirteenth:
-          result = kA_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_TripleFlat;
           break;
         case kMinorThirteenth:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMajorThirteenth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kAugmentedThirteenth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
       } // switch
       break;
 
-    case kC_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_C_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kPerfectUnison:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedUnison:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMajorSecond:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedSecond:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMinorThird:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMajorThird:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedThird:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kPerfectFourth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kAugmentedFourth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
         case kDiminishedFifth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kPerfectFifth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedFifth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
         case kDiminishedSixth:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMajorSixth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedSixth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMajorSeventh:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kAugmentedSeventh:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kPerfectOctave:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedOctave:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMajorNinth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedNinth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMajorTenth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedTenth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kPerfectEleventh:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kAugmentedEleventh:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kPerfectTwelfth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedTwelfth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMinorThirteenth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMajorThirteenth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedThirteenth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
       } // switch
       break;
 
-    case kC_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_C_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kPerfectUnison:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedUnison:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMinorSecond:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kMajorSecond:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedSecond:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMinorThird:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kMajorThird:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedThird:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kPerfectFourth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedFourth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kPerfectFifth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedFifth:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMinorSixth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kMajorSixth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedSixth:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMinorSeventh:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kMajorSeventh:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kPerfectOctave:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedOctave:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMinorNinth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kMajorNinth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedNinth:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMinorTenth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kMajorTenth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedTenth:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kPerfectEleventh:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedEleventh:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kPerfectTwelfth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMinorThirteenth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kMajorThirteenth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kD_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Flat:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kPerfectUnison:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kAugmentedUnison:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
         case kDiminishedSecond:
-          result = kE_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
         case kMinorSecond:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMajorSecond:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedSecond:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
         case kDiminishedThird:
-          result = kF_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
         case kMinorThird:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMajorThird:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kAugmentedThird:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kPerfectFourth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kAugmentedFourth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kPerfectFifth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kAugmentedFifth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
         case kDiminishedSixth:
-          result = kB_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
         case kMinorSixth:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMajorSixth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedSixth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
         case kDiminishedSeventh:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMajorSeventh:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedSeventh:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kPerfectOctave:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kAugmentedOctave:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
         case kDiminishedNinth:
-          result = kE_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
         case kMinorNinth:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMajorNinth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedNinth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
         case kDiminishedTenth:
-          result = kF_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
         case kMinorTenth:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMajorTenth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kAugmentedTenth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kPerfectEleventh:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kAugmentedEleventh:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kPerfectTwelfth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kAugmentedTwelfth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
         case kDiminishedThirteenth:
-          result = kB_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
         case kMinorThirteenth:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMajorThirteenth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedThirteenth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
       } // switch
       break;
 
-    case kD_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kPerfectUnison:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedUnison:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMajorSecond:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedSecond:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMinorThird:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMajorThird:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedThird:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kPerfectFourth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedFourth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
         case kDiminishedFifth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kPerfectFifth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedFifth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
         case kDiminishedSixth:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMajorSixth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kAugmentedSixth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMinorSeventh:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMajorSeventh:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kPerfectOctave:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedOctave:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMajorNinth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedNinth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMinorTenth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMajorTenth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedTenth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kPerfectEleventh:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedEleventh:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kPerfectTwelfth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedTwelfth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMinorThirteenth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMajorThirteenth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kAugmentedThirteenth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
       } // switch
       break;
 
-    case kD_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kPerfectUnison:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedUnison:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMinorSecond:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kMajorSecond:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedSecond:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMinorThird:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMajorThird:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedThird:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kPerfectFourth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedFourth:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kPerfectFifth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedFifth:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMinorSixth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kMajorSixth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedSixth:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMinorSeventh:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kMajorSeventh:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
         case kAugmentedSeventh:
-          result = kC_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kPerfectOctave:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedOctave:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMinorNinth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kMajorNinth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedNinth:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMinorTenth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kMajorTenth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
         case kAugmentedTenth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kPerfectEleventh:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedEleventh:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kPerfectTwelfth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMinorThirteenth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kMajorThirteenth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kE_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Flat:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kPerfectUnison:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedUnison:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
         case kDiminishedSecond:
-          result = kF_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
         case kMinorSecond:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMajorSecond:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kAugmentedSecond:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kMinorThird:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMajorThird:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedThird:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kPerfectFourth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kAugmentedFourth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kPerfectFifth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedFifth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
         case kDiminishedSixth:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMajorSixth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedSixth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMajorSeventh:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedSeventh:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kPerfectOctave:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedOctave:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
         case kDiminishedNinth:
-          result = kF_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
         case kMinorNinth:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMajorNinth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kAugmentedNinth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMajorTenth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedTenth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kPerfectEleventh:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kAugmentedEleventh:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kPerfectTwelfth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedTwelfth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
         case kDiminishedThirteenth:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kMinorThirteenth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMajorThirteenth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedThirteenth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
       } // switch
       break;
 
-    case kE_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kPerfectUnison:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedUnison:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMinorSecond:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMajorSecond:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedSecond:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMinorThird:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kMajorThird:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedThird:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kPerfectFourth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedFourth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
         case kDiminishedFifth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kPerfectFifth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedFifth:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMinorSixth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMajorSixth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedSixth:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMinorSeventh:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kMajorSeventh:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kPerfectOctave:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedOctave:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMinorNinth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMajorNinth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedNinth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMinorTenth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kMajorTenth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedTenth:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kPerfectEleventh:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedEleventh:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kPerfectTwelfth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMinorThirteenth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMajorThirteenth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kE_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kPerfectUnison:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedUnison:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMinorSecond:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kMajorSecond:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
         case kAugmentedSecond:
-          result = kF_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
 
         case kDiminishedThird:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kMinorThird:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kMajorThird:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
         case kAugmentedThird:
-          result = kG_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_TripleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kPerfectFourth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedFourth:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kPerfectFifth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedFifth:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMinorSixth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kMajorSixth:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
         case kAugmentedSixth:
-          result = kC_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kMinorSeventh:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kMajorSeventh:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
         case kAugmentedSeventh:
-          result = kD_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_TripleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kPerfectOctave:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedOctave:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMinorNinth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kMajorNinth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
         case kAugmentedNinth:
-          result = kF_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kMinorTenth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kMajorTenth:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
         case kAugmentedTenth:
-          result = kG_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_TripleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kPerfectEleventh:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedEleventh:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kPerfectTwelfth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMinorThirteenth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kMajorThirteenth:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
         case kAugmentedThirteenth:
-          result = kC_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
       } // switch
       break;
 
-    case kF_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Flat:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kF_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
         case kPerfectUnison:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kAugmentedUnison:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
 
         case kDiminishedSecond:
-          result = kG_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_TripleFlat;
           break;
         case kMinorSecond:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kMajorSecond:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kAugmentedSecond:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
         case kDiminishedThird:
-          result = kA_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_TripleFlat;
           break;
         case kMinorThird:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMajorThird:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kAugmentedThird:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
         case kDiminishedFourth:
-          result = kB_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
         case kPerfectFourth:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kAugmentedFourth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
 
         case kDiminishedFifth:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kPerfectFifth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kAugmentedFifth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
 
         case kDiminishedSixth:
-          result = kD_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_TripleFlat;
           break;
         case kMinorSixth:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kMajorSixth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kAugmentedSixth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
         case kDiminishedSeventh:
-          result = kE_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
         case kMinorSeventh:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMajorSeventh:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedSeventh:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
         case kDiminishedOctave:
-          result = kF_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
         case kPerfectOctave:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kAugmentedOctave:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
 
         case kDiminishedNinth:
-          result = kG_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_TripleFlat;
           break;
         case kMinorNinth:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kMajorNinth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kAugmentedNinth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
         case kDiminishedTenth:
-          result = kA_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_TripleFlat;
           break;
         case kMinorTenth:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMajorTenth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kAugmentedTenth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
         case kDiminishedEleventh:
-          result = kB_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
         case kPerfectEleventh:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kAugmentedEleventh:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
 
         case kDiminishedTwelfth:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kPerfectTwelfth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kAugmentedTwelfth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
 
         case kDiminishedThirteenth:
-          result = kD_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_TripleFlat;
           break;
         case kMinorThirteenth:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kMajorThirteenth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kAugmentedThirteenth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
       } // switch
       break;
 
-    case kF_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kPerfectUnison:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kAugmentedUnison:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMajorSecond:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedSecond:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMinorThird:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMajorThird:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedThird:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kPerfectFourth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedFourth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kPerfectFifth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedFifth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
         case kDiminishedSixth:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMajorSixth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedSixth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMajorSeventh:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedSeventh:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kPerfectOctave:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kAugmentedOctave:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMajorNinth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedNinth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMajorTenth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedTenth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kPerfectEleventh:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedEleventh:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kPerfectTwelfth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedTwelfth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kMinorThirteenth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMajorThirteenth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedThirteenth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
       } // switch
       break;
 
-    case kF_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kPerfectUnison:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedUnison:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMinorSecond:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kMajorSecond:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedSecond:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMinorThird:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kMajorThird:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedThird:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kPerfectFourth:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
         case kAugmentedFourth:
-          result = kB_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_TripleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kPerfectFifth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedFifth:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMinorSixth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kMajorSixth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedSixth:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMinorSeventh:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kMajorSeventh:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kPerfectOctave:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedOctave:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMinorNinth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kMajorNinth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedNinth:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kMinorTenth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kMajorTenth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedTenth:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kPerfectEleventh:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
         case kAugmentedEleventh:
-          result = kB_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_TripleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kPerfectTwelfth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMinorThirteenth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kMajorThirteenth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kG_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_G_Flat:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kPerfectUnison:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kAugmentedUnison:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
         case kDiminishedSecond:
-          result = kA_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_TripleFlat;
           break;
         case kMinorSecond:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMajorSecond:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kAugmentedSecond:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
         case kDiminishedThird:
-          result = kB_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
         case kMinorThird:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMajorThird:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedThird:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
         case kDiminishedFourth:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kPerfectFourth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kAugmentedFourth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kPerfectFifth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kAugmentedFifth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
         case kDiminishedSixth:
-          result = kE_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
         case kMinorSixth:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMajorSixth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedSixth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
         case kDiminishedSeventh:
-          result = kF_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
         case kMinorSeventh:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMajorSeventh:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kAugmentedSeventh:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kPerfectOctave:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kAugmentedOctave:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
         case kDiminishedNinth:
-          result = kA_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_TripleFlat;
           break;
         case kMinorNinth:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMajorNinth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kAugmentedNinth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
         case kDiminishedTenth:
-          result = kB_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
         case kMinorTenth:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMajorTenth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedTenth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
         case kDiminishedEleventh:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kPerfectEleventh:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kAugmentedEleventh:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kPerfectTwelfth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kAugmentedTwelfth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
         case kDiminishedThirteenth:
-          result = kE_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
         case kMinorThirteenth:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMajorThirteenth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedThirteenth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
       } // switch
       break;
 
-    case kG_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_G_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kPerfectUnison:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedUnison:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMajorSecond:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedSecond:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMinorThird:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMajorThird:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kAugmentedThird:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kPerfectFourth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedFourth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
         case kDiminishedFifth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kPerfectFifth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedFifth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
         case kDiminishedSixth:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMajorSixth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedSixth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMinorSeventh:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMajorSeventh:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kPerfectOctave:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedOctave:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMajorNinth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedNinth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMajorTenth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kAugmentedTenth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kPerfectEleventh:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedEleventh:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kPerfectTwelfth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedTwelfth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kMinorThirteenth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMajorThirteenth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedThirteenth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
       } // switch
       break;
 
-    case kG_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_G_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kPerfectUnison:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedUnison:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMinorSecond:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kMajorSecond:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedSecond:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMinorThird:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kMajorThird:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedThird:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kPerfectFourth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedFourth:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kPerfectFifth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedFifth:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMinorSixth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kMajorSixth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedSixth:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMinorSeventh:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kMajorSeventh:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
         case kAugmentedSeventh:
-          result = kF_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kPerfectOctave:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedOctave:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMinorNinth:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kMajorNinth:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedNinth:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMinorTenth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kMajorTenth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedTenth:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kPerfectEleventh:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedEleventh:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kPerfectTwelfth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kMinorThirteenth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kMajorThirteenth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kA_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_A_Flat:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kPerfectUnison:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kAugmentedUnison:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
         case kDiminishedSecond:
-          result = kB_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
         case kMinorSecond:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMajorSecond:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedSecond:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
         case kDiminishedThird:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kMinorThird:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMajorThird:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedThird:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kPerfectFourth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kAugmentedFourth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kPerfectFifth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedFifth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
         case kDiminishedSixth:
-          result = kF_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
         case kMinorSixth:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMajorSixth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kAugmentedSixth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMajorSeventh:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedSeventh:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kPerfectOctave:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kAugmentedOctave:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
         case kDiminishedNinth:
-          result = kB_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
         case kMinorNinth:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMajorNinth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedNinth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
         case kDiminishedTenth:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMajorTenth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedTenth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kPerfectEleventh:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kAugmentedEleventh:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kPerfectTwelfth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedTwelfth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
         case kDiminishedThirteenth:
-          result = kF_TripleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_TripleFlat;
           break;
         case kMinorThirteenth:
-          result = kF_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
         case kMajorThirteenth:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kAugmentedThirteenth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
       } // switch
       break;
 
-    case kA_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_A_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kPerfectUnison:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedUnison:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMajorSecond:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kAugmentedSecond:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMinorThird:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMajorThird:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedThird:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kPerfectFourth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedFourth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
         case kDiminishedFifth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kPerfectFifth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedFifth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
         case kDiminishedSixth:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMinorSixth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMajorSixth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedSixth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMinorSeventh:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kMajorSeventh:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kPerfectOctave:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedOctave:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMajorNinth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kAugmentedNinth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMinorTenth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMajorTenth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedTenth:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kPerfectEleventh:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedEleventh:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kPerfectTwelfth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedTwelfth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kMinorThirteenth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMajorThirteenth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kA_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_A_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kPerfectUnison:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedUnison:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMinorSecond:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kMajorSecond:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedSecond:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMinorThird:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kMajorThird:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
         case kAugmentedThird:
-          result = kC_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kPerfectFourth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedFourth:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kPerfectFifth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedFifth:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMinorSixth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kMajorSixth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
         case kAugmentedSixth:
-          result = kF_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kMinorSeventh:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kMajorSeventh:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
         case kAugmentedSeventh:
-          result = kG_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_TripleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kPerfectOctave:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedOctave:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kMinorNinth:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kMajorNinth:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedNinth:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMinorTenth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kMajorTenth:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
         case kAugmentedTenth:
-          result = kC_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kPerfectEleventh:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedEleventh:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kPerfectTwelfth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kMinorThirteenth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kMajorThirteenth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
         case kAugmentedThirteenth:
-          result = kF_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
       } // switch
       break;
 
-    case kB_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_B_Flat:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kPerfectUnison:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedUnison:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
         case kDiminishedSecond:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMajorSecond:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedSecond:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kMinorThird:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMajorThird:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedThird:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kPerfectFourth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedFourth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kPerfectFifth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kAugmentedFifth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
         case kDiminishedSixth:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMajorSixth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedSixth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kA_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMajorSeventh:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kAugmentedSeventh:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kB_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
         case kPerfectOctave:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kAugmentedOctave:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
         case kDiminishedNinth:
-          result = kC_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMajorNinth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kAugmentedNinth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kD_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMajorTenth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kAugmentedTenth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kE_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
         case kPerfectEleventh:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kAugmentedEleventh:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kF_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
         case kPerfectTwelfth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kAugmentedTwelfth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kG_DoubleFlat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
         case kMinorThirteenth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMajorThirteenth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kAugmentedThirteenth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
       } // switch
       break;
 
-    case kB_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_B_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kPerfectUnison:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kAugmentedUnison:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMinorSecond:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMajorSecond:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedSecond:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMinorThird:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kMajorThird:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedThird:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kPerfectFourth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedFourth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
         case kDiminishedFifth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kPerfectFifth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedFifth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMinorSixth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kMajorSixth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedSixth:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kA_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
         case kMinorSeventh:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kMajorSeventh:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kB_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
         case kPerfectOctave:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kAugmentedOctave:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kC_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
         case kMinorNinth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMajorNinth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kAugmentedNinth:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kD_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
         case kMinorTenth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kMajorTenth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kAugmentedTenth:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kE_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
         case kPerfectEleventh:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kAugmentedEleventh:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kF_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
         case kPerfectTwelfth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kG_Flat_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
         case kMinorThirteenth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kMajorThirteenth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kB_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_B_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kPerfectUnison:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedUnison:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMinorSecond:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kMajorSecond:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
         case kAugmentedSecond:
-          result = kC_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
 
         case kDiminishedThird:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kMinorThird:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kMajorThird:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
         case kAugmentedThird:
-          result = kD_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_TripleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kPerfectFourth:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedFourth:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kPerfectFifth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
         case kAugmentedFifth:
-          result = kF_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kMinorSixth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kMajorSixth:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
         case kAugmentedSixth:
-          result = kG_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_TripleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kA_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
         case kMinorSeventh:
-          result = kA_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
         case kMajorSeventh:
-          result = kA_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
         case kAugmentedSeventh:
-          result = kA_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_A_TripleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kB_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
         case kPerfectOctave:
-          result = kB_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
         case kAugmentedOctave:
-          result = kB_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kC_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
         case kMinorNinth:
-          result = kC_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
         case kMajorNinth:
-          result = kC_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
         case kAugmentedNinth:
-          result = kC_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kD_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
         case kMinorTenth:
-          result = kD_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
         case kMajorTenth:
-          result = kD_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
         case kAugmentedTenth:
-          result = kD_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_D_TripleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kE_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
         case kPerfectEleventh:
-          result = kE_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
         case kAugmentedEleventh:
-          result = kE_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kF_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
         case kPerfectTwelfth:
-          result = kF_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
         case kAugmentedTwelfth:
-          result = kF_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kG_Natural_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
         case kMinorThirteenth:
-          result = kG_Sharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
         case kMajorThirteenth:
-          result = kG_DoubleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
         case kAugmentedThirteenth:
-          result = kG_TripleSharp_STP;
+          result = msrSemiTonesPitchKind::kSTP_G_TripleSharp;
           break;
       } // switch
       break;
@@ -6655,7 +6818,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         s <<
           "Sorry, computing intervals from semitones pitch '" <<
           msrSemiTonesPitchKindAsString (semiTonesPitchKind) <<
-          "(" << semiTonesPitchKind << ")" <<
+          "(" << msrSemiTonesPitchKindAsString (semiTonesPitchKind) << ")" <<
           "' is not supported"
           ", line = " << inputLineNumber;
 
@@ -6675,2862 +6838,2862 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
   msrIntervalKind          intervalKind,
   msrQuarterTonesPitchKind quarterTonesPitchKind)
 {
-  msrQuarterTonesPitchKind result = k_NoQuarterTonesPitch_QTP;
+  msrQuarterTonesPitchKind result = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
 
   switch (quarterTonesPitchKind) {
-    case k_NoQuarterTonesPitch_QTP:
-      result = k_NoQuarterTonesPitch_QTP;
+    case msrQuarterTonesPitchKind::k_NoQuarterTonesPitch:
+      result = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
       break;
 
-    case kC_Flat_QTP:
+    case msrQuarterTonesPitchKind::kQTP_C_Flat:
       break;
 
-    case kC_Natural_QTP:
+    case msrQuarterTonesPitchKind::kQTP_C_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kPerfectUnison:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedUnison:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMajorSecond:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedSecond:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kMinorThird:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMajorThird:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedThird:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kPerfectFourth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kAugmentedFourth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
         case kDiminishedFifth:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kPerfectFifth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedFifth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
         case kDiminishedSixth:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMajorSixth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedSixth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kMajorSeventh:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kAugmentedSeventh:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kPerfectOctave:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedOctave:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMajorNinth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedNinth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMajorTenth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedTenth:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kPerfectEleventh:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kAugmentedEleventh:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kPerfectTwelfth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedTwelfth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kMinorThirteenth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMajorThirteenth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedThirteenth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
       } // switch
       break;
 
-    case kC_Sharp_QTP:
+    case msrQuarterTonesPitchKind::kQTP_C_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kPerfectUnison:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedUnison:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMinorSecond:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kMajorSecond:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kAugmentedSecond:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMinorThird:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kMajorThird:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
         case kAugmentedThird:
-          result = kE_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kPerfectFourth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedFourth:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kPerfectFifth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedFifth:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMinorSixth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kMajorSixth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
         case kAugmentedSixth:
-          result = kA_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kMinorSeventh:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kMajorSeventh:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kPerfectOctave:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedOctave:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMinorNinth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kMajorNinth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kAugmentedNinth:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMinorTenth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kMajorTenth:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
         case kAugmentedTenth:
-          result = kE_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kPerfectEleventh:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedEleventh:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kPerfectTwelfth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMinorThirteenth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kMajorThirteenth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kA_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kD_Flat_QTP:
+    case msrQuarterTonesPitchKind::kQTP_D_Flat:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kPerfectUnison:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kAugmentedUnison:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
 
         case kDiminishedSecond:
-          result = kE_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_TripleFlat;
           break;
         case kMinorSecond:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kMajorSecond:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kAugmentedSecond:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
         case kDiminishedThird:
-          result = kF_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
         case kMinorThird:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMajorThird:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kAugmentedThird:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kG_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
         case kPerfectFourth:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kAugmentedFourth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kPerfectFifth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kAugmentedFifth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
         case kDiminishedSixth:
-          result = kB_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
         case kMinorSixth:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMajorSixth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kAugmentedSixth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
         case kDiminishedSeventh:
-          result = kC_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMajorSeventh:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedSeventh:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kPerfectOctave:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kAugmentedOctave:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
 
         case kDiminishedNinth:
-          result = kE_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_TripleFlat;
           break;
         case kMinorNinth:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kMajorNinth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kAugmentedNinth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
         case kDiminishedTenth:
-          result = kF_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMajorTenth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kAugmentedTenth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kG_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
         case kPerfectEleventh:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kAugmentedEleventh:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kPerfectTwelfth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kAugmentedTwelfth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
         case kDiminishedThirteenth:
-          result = kB_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
         case kMinorThirteenth:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMajorThirteenth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kAugmentedThirteenth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
       } // switch
       break;
 
-    case kD_Natural_QTP:
+    case msrQuarterTonesPitchKind::kQTP_D_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kPerfectUnison:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedUnison:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMajorSecond:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedSecond:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMinorThird:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kMajorThird:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedThird:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kPerfectFourth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedFourth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
         case kDiminishedFifth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kPerfectFifth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedFifth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
         case kDiminishedSixth:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kMajorSixth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kAugmentedSixth:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMinorSeventh:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kMajorSeventh:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kPerfectOctave:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedOctave:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMajorNinth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedNinth:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMinorTenth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kMajorTenth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedTenth:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kPerfectEleventh:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedEleventh:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kPerfectTwelfth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedTwelfth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMinorThirteenth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kMajorThirteenth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kAugmentedThirteenth:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
       } // switch
       break;
 
-    case kD_Sharp_QTP:
+    case msrQuarterTonesPitchKind::kQTP_D_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kPerfectUnison:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kAugmentedUnison:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMinorSecond:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kMajorSecond:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
         case kAugmentedSecond:
-          result = kE_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMinorThird:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kMajorThird:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedThird:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kPerfectFourth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedFourth:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kPerfectFifth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
         case kAugmentedFifth:
-          result = kA_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kMinorSixth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kMajorSixth:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kAugmentedSixth:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kMinorSeventh:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kMajorSeventh:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
         case kAugmentedSeventh:
-          result = kC_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_TripleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kPerfectOctave:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kAugmentedOctave:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMinorNinth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kMajorNinth:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
         case kAugmentedNinth:
-          result = kE_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kMinorTenth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kMajorTenth:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
         case kAugmentedTenth:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kPerfectEleventh:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedEleventh:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kPerfectTwelfth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kA_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kMinorThirteenth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kMajorThirteenth:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kE_Flat_QTP:
+    case msrQuarterTonesPitchKind::kQTP_E_Flat:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kPerfectUnison:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kAugmentedUnison:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
         case kDiminishedSecond:
-          result = kF_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMajorSecond:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kAugmentedSecond:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kG_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
         case kMinorThird:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMajorThird:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedThird:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kPerfectFourth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kAugmentedFourth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kPerfectFifth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kAugmentedFifth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
         case kDiminishedSixth:
-          result = kC_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMajorSixth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedSixth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMajorSeventh:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedSeventh:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kPerfectOctave:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kAugmentedOctave:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
         case kDiminishedNinth:
-          result = kF_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMajorNinth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kAugmentedNinth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kG_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMajorTenth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedTenth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kPerfectEleventh:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kAugmentedEleventh:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kPerfectTwelfth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kAugmentedTwelfth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
         case kDiminishedThirteenth:
-          result = kC_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
         case kMinorThirteenth:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMajorThirteenth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedThirteenth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
       } // switch
       break;
 
-    case kE_Natural_QTP:
+    case msrQuarterTonesPitchKind::kQTP_E_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kPerfectUnison:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedUnison:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMinorSecond:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kMajorSecond:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedSecond:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMinorThird:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kMajorThird:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedThird:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kPerfectFourth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedFourth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
         case kDiminishedFifth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kPerfectFifth:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kAugmentedFifth:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMinorSixth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kMajorSixth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedSixth:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMinorSeventh:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kMajorSeventh:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kPerfectOctave:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedOctave:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMinorNinth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kMajorNinth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedNinth:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMinorTenth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kMajorTenth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedTenth:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kPerfectEleventh:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedEleventh:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kPerfectTwelfth:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMinorThirteenth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kMajorThirteenth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kE_Sharp_QTP:
+    case msrQuarterTonesPitchKind::kQTP_E_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kPerfectUnison:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
         case kAugmentedUnison:
-          result = kE_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kMinorSecond:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kMajorSecond:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
         case kAugmentedSecond:
-          result = kF_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_TripleSharp;
           break;
 
         case kDiminishedThird:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kMinorThird:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kMajorThird:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
         case kAugmentedThird:
-          result = kG_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_TripleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kPerfectFourth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
         case kAugmentedFourth:
-          result = kA_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kPerfectFifth:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kAugmentedFifth:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kMinorSixth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kMajorSixth:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
         case kAugmentedSixth:
-          result = kC_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_TripleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kMinorSeventh:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kMajorSeventh:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
         case kAugmentedSeventh:
-          result = kD_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_TripleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kPerfectOctave:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
         case kAugmentedOctave:
-          result = kE_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kMinorNinth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kMajorNinth:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
         case kAugmentedNinth:
-          result = kF_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_TripleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kMinorTenth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kMajorTenth:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
         case kAugmentedTenth:
-          result = kG_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_TripleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kPerfectEleventh:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
         case kAugmentedEleventh:
-          result = kA_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kPerfectTwelfth:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kMinorThirteenth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kMajorThirteenth:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
         case kAugmentedThirteenth:
-          result = kC_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_TripleSharp;
           break;
       } // switch
       break;
 
-    case kF_Flat_QTP:
+    case msrQuarterTonesPitchKind::kQTP_F_Flat:
       break;
 
-    case kF_Natural_QTP:
+    case msrQuarterTonesPitchKind::kQTP_F_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kPerfectUnison:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kAugmentedUnison:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kG_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMajorSecond:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedSecond:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kMinorThird:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMajorThird:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedThird:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kPerfectFourth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kAugmentedFourth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kPerfectFifth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedFifth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
         case kDiminishedSixth:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMajorSixth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedSixth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMajorSeventh:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedSeventh:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kPerfectOctave:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kAugmentedOctave:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kG_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMajorNinth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedNinth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMajorTenth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedTenth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kPerfectEleventh:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kAugmentedEleventh:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kPerfectTwelfth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedTwelfth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kMinorThirteenth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMajorThirteenth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedThirteenth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
       } // switch
       break;
 
-    case kF_Sharp_QTP:
+    case msrQuarterTonesPitchKind::kQTP_F_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kPerfectUnison:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedUnison:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMinorSecond:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kMajorSecond:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedSecond:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMinorThird:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kMajorThird:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
         case kAugmentedThird:
-          result = kA_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kPerfectFourth:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
         case kAugmentedFourth:
-          result = kB_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_TripleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kPerfectFifth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedFifth:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMinorSixth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kMajorSixth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kAugmentedSixth:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMinorSeventh:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kMajorSeventh:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kE_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kPerfectOctave:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedOctave:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMinorNinth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kMajorNinth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedNinth:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kMinorTenth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kMajorTenth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
         case kAugmentedTenth:
-          result = kA_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kPerfectEleventh:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
         case kAugmentedEleventh:
-          result = kB_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_TripleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kPerfectTwelfth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMinorThirteenth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kMajorThirteenth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kG_Flat_QTP:
+    case msrQuarterTonesPitchKind::kQTP_G_Flat:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kG_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
         case kPerfectUnison:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kAugmentedUnison:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
 
         case kDiminishedSecond:
-          result = kA_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_TripleFlat;
           break;
         case kMinorSecond:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kMajorSecond:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kAugmentedSecond:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
         case kDiminishedThird:
-          result = kB_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
         case kMinorThird:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMajorThird:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kAugmentedThird:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
         case kDiminishedFourth:
-          result = kC_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
         case kPerfectFourth:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kAugmentedFourth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kPerfectFifth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kAugmentedFifth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
 
         case kDiminishedSixth:
-          result = kE_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_TripleFlat;
           break;
         case kMinorSixth:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kMajorSixth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kAugmentedSixth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
         case kDiminishedSeventh:
-          result = kF_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMajorSeventh:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kAugmentedSeventh:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kG_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
         case kPerfectOctave:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kAugmentedOctave:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
 
         case kDiminishedNinth:
-          result = kA_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_TripleFlat;
           break;
         case kMinorNinth:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kMajorNinth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kAugmentedNinth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
         case kDiminishedTenth:
-          result = kB_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
         case kMinorTenth:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMajorTenth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kAugmentedTenth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
         case kDiminishedEleventh:
-          result = kC_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
         case kPerfectEleventh:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kAugmentedEleventh:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kPerfectTwelfth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kAugmentedTwelfth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
 
         case kDiminishedThirteenth:
-          result = kE_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_TripleFlat;
           break;
         case kMinorThirteenth:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kMajorThirteenth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kAugmentedThirteenth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
       } // switch
       break;
 
-    case kG_Natural_QTP:
+    case msrQuarterTonesPitchKind::kQTP_G_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kPerfectUnison:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedUnison:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMajorSecond:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedSecond:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMinorThird:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kMajorThird:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kAugmentedThird:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kPerfectFourth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedFourth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
         case kDiminishedFifth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kPerfectFifth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedFifth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
         case kDiminishedSixth:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMajorSixth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedSixth:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMinorSeventh:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kMajorSeventh:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kPerfectOctave:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedOctave:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMajorNinth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedNinth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kMajorTenth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kAugmentedTenth:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kPerfectEleventh:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedEleventh:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kPerfectTwelfth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedTwelfth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kMinorThirteenth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMajorThirteenth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedThirteenth:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
       } // switch
       break;
 
-    case kG_Sharp_QTP:
+    case msrQuarterTonesPitchKind::kQTP_G_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kPerfectUnison:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedUnison:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMinorSecond:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kMajorSecond:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
         case kAugmentedSecond:
-          result = kA_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kMinorThird:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kMajorThird:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kAugmentedThird:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kPerfectFourth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedFourth:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kPerfectFifth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kAugmentedFifth:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMinorSixth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kMajorSixth:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
         case kAugmentedSixth:
-          result = kE_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kMinorSeventh:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kMajorSeventh:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
         case kAugmentedSeventh:
-          result = kF_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_TripleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kPerfectOctave:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedOctave:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMinorNinth:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kMajorNinth:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
         case kAugmentedNinth:
-          result = kA_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kMinorTenth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kMajorTenth:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kAugmentedTenth:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kPerfectEleventh:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedEleventh:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kPerfectTwelfth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kMinorThirteenth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kMajorThirteenth:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kE_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kA_Flat_QTP:
+    case msrQuarterTonesPitchKind::kQTP_A_Flat:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kPerfectUnison:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kAugmentedUnison:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
         case kDiminishedSecond:
-          result = kB_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
         case kMinorSecond:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMajorSecond:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kAugmentedSecond:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
         case kDiminishedThird:
-          result = kC_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
         case kMinorThird:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMajorThird:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedThird:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kPerfectFourth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kAugmentedFourth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kPerfectFifth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kAugmentedFifth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
         case kDiminishedSixth:
-          result = kF_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMajorSixth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kAugmentedSixth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kG_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMajorSeventh:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedSeventh:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kPerfectOctave:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kAugmentedOctave:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
         case kDiminishedNinth:
-          result = kB_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
         case kMinorNinth:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMajorNinth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kAugmentedNinth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
         case kDiminishedTenth:
-          result = kC_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMajorTenth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedTenth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kPerfectEleventh:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kAugmentedEleventh:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kPerfectTwelfth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kAugmentedTwelfth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
         case kDiminishedThirteenth:
-          result = kF_TripleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_TripleFlat;
           break;
         case kMinorThirteenth:
-          result = kF_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
         case kMajorThirteenth:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kAugmentedThirteenth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
       } // switch
       break;
 
-    case kA_Natural_QTP:
+    case msrQuarterTonesPitchKind::kQTP_A_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kPerfectUnison:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedUnison:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kMajorSecond:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kAugmentedSecond:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMinorThird:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kMajorThird:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedThird:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kPerfectFourth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedFourth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
         case kDiminishedFifth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kPerfectFifth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedFifth:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
         case kDiminishedSixth:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMinorSixth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kMajorSixth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedSixth:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMinorSeventh:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kMajorSeventh:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kPerfectOctave:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedOctave:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kMajorNinth:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kAugmentedNinth:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMinorTenth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kMajorTenth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedTenth:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kPerfectEleventh:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedEleventh:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kPerfectTwelfth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedTwelfth:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kMinorThirteenth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kMajorThirteenth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kA_Sharp_QTP:
+    case msrQuarterTonesPitchKind::kQTP_A_Sharp:
       break;
 
-    case kB_Flat_QTP:
+    case msrQuarterTonesPitchKind::kQTP_B_Flat:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kPerfectUnison:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kAugmentedUnison:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
         case kDiminishedSecond:
-          result = kC_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
         case kMinorSecond:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMajorSecond:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedSecond:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
         case kDiminishedThird:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kMinorThird:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMajorThird:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedThird:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
         case kDiminishedFourth:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kPerfectFourth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kAugmentedFourth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
         case kDiminishedFifth:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kPerfectFifth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kAugmentedFifth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
         case kDiminishedSixth:
-          result = kG_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
         case kMinorSixth:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMajorSixth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedSixth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
         case kDiminishedSeventh:
-          result = kA_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
         case kMinorSeventh:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMajorSeventh:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kAugmentedSeventh:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
         case kDiminishedOctave:
-          result = kB_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
         case kPerfectOctave:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kAugmentedOctave:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
         case kDiminishedNinth:
-          result = kC_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
         case kMinorNinth:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMajorNinth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kAugmentedNinth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
         case kDiminishedTenth:
-          result = kD_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
         case kMinorTenth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMajorTenth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kAugmentedTenth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
         case kDiminishedEleventh:
-          result = kE_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
         case kPerfectEleventh:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kAugmentedEleventh:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
         case kDiminishedTwelfth:
-          result = kF_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
         case kPerfectTwelfth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kAugmentedTwelfth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kG_DoubleFlat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
         case kMinorThirteenth:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMajorThirteenth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kAugmentedThirteenth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
       } // switch
       break;
 
-    case kB_Natural_QTP:
+    case msrQuarterTonesPitchKind::kQTP_B_Natural:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kPerfectUnison:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kAugmentedUnison:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
         case kDiminishedSecond:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMinorSecond:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kMajorSecond:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedSecond:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
         case kDiminishedThird:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMinorThird:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kMajorThird:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kAugmentedThird:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kPerfectFourth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedFourth:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
         case kDiminishedFifth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kPerfectFifth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedFifth:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMinorSixth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kMajorSixth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedSixth:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kA_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
         case kMinorSeventh:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kMajorSeventh:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
         case kAugmentedSeventh:
-          result = kA_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kB_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
         case kPerfectOctave:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kAugmentedOctave:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
         case kDiminishedNinth:
-          result = kC_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
         case kMinorNinth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kMajorNinth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kAugmentedNinth:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kD_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
         case kMinorTenth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kMajorTenth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kAugmentedTenth:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kE_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
         case kPerfectEleventh:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kAugmentedEleventh:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kF_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
         case kPerfectTwelfth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kAugmentedTwelfth:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kG_Flat_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
         case kMinorThirteenth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kMajorThirteenth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kAugmentedThirteenth:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
       } // switch
       break;
 
-    case kB_Sharp_QTP:
+    case msrQuarterTonesPitchKind::kQTP_B_Sharp:
       switch (intervalKind) {
         case k_NoIntervalKind:
           break;
 
         case kDiminishedUnisson:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kPerfectUnison:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kAugmentedUnison:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
         case kDiminishedSecond:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kMinorSecond:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kMajorSecond:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
         case kAugmentedSecond:
-          result = kC_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_TripleSharp;
           break;
 
         case kDiminishedThird:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kMinorThird:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kMajorThird:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
         case kAugmentedThird:
-          result = kD_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_TripleSharp;
           break;
 
         case kDiminishedFourth:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kPerfectFourth:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
         case kAugmentedFourth:
-          result = kE_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
         case kDiminishedFifth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kPerfectFifth:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
         case kAugmentedFifth:
-          result = kF_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_TripleSharp;
           break;
 
         case kDiminishedSixth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kMinorSixth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kMajorSixth:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
         case kAugmentedSixth:
-          result = kG_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_TripleSharp;
           break;
 
         case kDiminishedSeventh:
-          result = kA_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
         case kMinorSeventh:
-          result = kA_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
         case kMajorSeventh:
-          result = kA_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
         case kAugmentedSeventh:
-          result = kA_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_A_TripleSharp;
           break;
 
         case kDiminishedOctave:
-          result = kB_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
         case kPerfectOctave:
-          result = kB_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
         case kAugmentedOctave:
-          result = kB_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
         case kDiminishedNinth:
-          result = kC_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
         case kMinorNinth:
-          result = kC_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
         case kMajorNinth:
-          result = kC_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
         case kAugmentedNinth:
-          result = kC_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_C_TripleSharp;
           break;
 
         case kDiminishedTenth:
-          result = kD_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
         case kMinorTenth:
-          result = kD_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
         case kMajorTenth:
-          result = kD_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
         case kAugmentedTenth:
-          result = kD_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_D_TripleSharp;
           break;
 
         case kDiminishedEleventh:
-          result = kE_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
         case kPerfectEleventh:
-          result = kE_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
         case kAugmentedEleventh:
-          result = kE_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
         case kDiminishedTwelfth:
-          result = kF_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
         case kPerfectTwelfth:
-          result = kF_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
         case kAugmentedTwelfth:
-          result = kF_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_F_TripleSharp;
           break;
 
         case kDiminishedThirteenth:
-          result = kG_Natural_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
         case kMinorThirteenth:
-          result = kG_Sharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
         case kMajorThirteenth:
-          result = kG_DoubleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
         case kAugmentedThirteenth:
-          result = kG_TripleSharp_QTP;
+          result = msrQuarterTonesPitchKind::kQTP_G_TripleSharp;
           break;
       } // switch
       break;
@@ -9547,7 +9710,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
             quarterTonesPitchKind,
             gGlobalMsrOahGroup->
               getMsrQuarterTonesPitchesLanguageKind ()) <<
-          "(" << quarterTonesPitchKind << ")" <<
+          "(" << msrQuarterTonesPitchKindAsString (quarterTonesPitchKind) << ")" <<
           "' is not supported"
           ", line = " << inputLineNumber;
 
@@ -9584,12 +9747,12 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
   }
 
   switch (workSemiTonesPitch1) {
-    case k_NoSemiTonesPitch_STP:
+    case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
       break;
 
-    case kC_TripleFlat_STP:
+    case msrSemiTonesPitchKind::kSTP_C_TripleFlat:
       switch (workSemiTonesPitch2) {
-        case k_NoSemiTonesPitch_STP:
+        case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
           break;
 
  /*
@@ -9621,215 +9784,215 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
 
 */
 
-        case kC_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_C_TripleFlat:
           break;
-        case kC_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_C_DoubleFlat:
           break;
-        case kC_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_C_Flat:
           break;
-        case kC_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_C_Natural:
           break;
-        case kC_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_C_Sharp:
           break;
-        case kC_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_C_DoubleSharp:
           break;
-        case kC_TripleSharp_STP:
-          break;
-
-        case kD_TripleFlat_STP:
-          break;
-        case kD_DoubleFlat_STP:
-          break;
-        case kD_Flat_STP:
-          break;
-        case kD_Natural_STP:
-          break;
-        case kD_Sharp_STP:
-          break;
-        case kD_DoubleSharp_STP:
-          break;
-        case kD_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_C_TripleSharp:
           break;
 
-        case kE_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_D_TripleFlat:
           break;
-        case kE_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_D_DoubleFlat:
           break;
-        case kE_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_D_Flat:
           break;
-        case kE_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_D_Natural:
           break;
-        case kE_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_D_Sharp:
           break;
-        case kE_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_D_DoubleSharp:
           break;
-        case kE_TripleSharp_STP:
-          break;
-
-        case kF_TripleFlat_STP:
-          break;
-        case kF_DoubleFlat_STP:
-          break;
-        case kF_Flat_STP:
-          break;
-        case kF_Natural_STP:
-          break;
-        case kF_Sharp_STP:
-          break;
-        case kF_DoubleSharp_STP:
-          break;
-        case kF_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_D_TripleSharp:
           break;
 
-        case kG_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_E_TripleFlat:
           break;
-        case kG_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_E_DoubleFlat:
           break;
-        case kG_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_E_Flat:
           break;
-        case kG_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_E_Natural:
           break;
-        case kG_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_E_Sharp:
           break;
-        case kG_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_E_DoubleSharp:
           break;
-        case kG_TripleSharp_STP:
-          break;
-
-        case kA_TripleFlat_STP:
-          break;
-        case kA_DoubleFlat_STP:
-          break;
-        case kA_Flat_STP:
-          break;
-        case kA_Natural_STP:
-          break;
-        case kA_Sharp_STP:
-          break;
-        case kA_DoubleSharp_STP:
-          break;
-        case kA_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_E_TripleSharp:
           break;
 
-        case kB_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_F_TripleFlat:
           break;
-        case kB_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_F_DoubleleFlat:
           break;
-        case kB_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_F_Flat:
           break;
-        case kB_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_F_Natural:
           break;
-        case kB_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_F_Sharp:
           break;
-        case kB_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_F_DoubleSharp:
           break;
-        case kB_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_F_TripleSharp:
+          break;
+
+        case msrSemiTonesPitchKind::kSTP_G_TripleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_DoubleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_Flat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_Natural:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_Sharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_DoubleSharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_TripleSharp:
+          break;
+
+        case msrSemiTonesPitchKind::kSTP_A_TripleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_DoubleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_Flat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_Natural:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_Sharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_DoubleSharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_TripleSharp:
+          break;
+
+        case msrSemiTonesPitchKind::kSTP_B_TripleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_DoubleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_Flat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_Natural:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_Sharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_DoubleSharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_TripleSharp:
           break;
       } // switch
       break;
 
-    case kC_DoubleFlat_STP:
+    case msrSemiTonesPitchKind::kSTP_C_DoubleFlat:
       break;
-    case kC_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_C_Flat:
       break;
-    case kC_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_C_Natural:
       break;
-    case kC_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_C_Sharp:
       break;
-    case kC_DoubleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_C_DoubleSharp:
       break;
-    case kC_TripleSharp_STP:
-      break;
-
-    case kD_TripleFlat_STP:
-      break;
-    case kD_DoubleFlat_STP:
-      break;
-    case kD_Flat_STP:
-      break;
-    case kD_Natural_STP:
-      break;
-    case kD_Sharp_STP:
-      break;
-    case kD_DoubleSharp_STP:
-      break;
-    case kD_TripleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_C_TripleSharp:
       break;
 
-    case kE_TripleFlat_STP:
+    case msrSemiTonesPitchKind::kSTP_D_TripleFlat:
       break;
-    case kE_DoubleFlat_STP:
+    case msrSemiTonesPitchKind::kSTP_D_DoubleFlat:
       break;
-    case kE_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Flat:
       break;
-    case kE_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Natural:
       break;
-    case kE_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Sharp:
       break;
-    case kE_DoubleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_D_DoubleSharp:
       break;
-    case kE_TripleSharp_STP:
-      break;
-
-    case kF_TripleFlat_STP:
-      break;
-    case kF_DoubleFlat_STP:
-      break;
-    case kF_Flat_STP:
-      break;
-    case kF_Natural_STP:
-      break;
-    case kF_Sharp_STP:
-      break;
-    case kF_DoubleSharp_STP:
-      break;
-    case kF_TripleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_D_TripleSharp:
       break;
 
-    case kG_TripleFlat_STP:
+    case msrSemiTonesPitchKind::kSTP_E_TripleFlat:
       break;
-    case kG_DoubleFlat_STP:
+    case msrSemiTonesPitchKind::kSTP_E_DoubleFlat:
       break;
-    case kG_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Flat:
       break;
-    case kG_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Natural:
       break;
-    case kG_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Sharp:
       break;
-    case kG_DoubleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_E_DoubleSharp:
       break;
-    case kG_TripleSharp_STP:
-      break;
-
-    case kA_TripleFlat_STP:
-      break;
-    case kA_DoubleFlat_STP:
-      break;
-    case kA_Flat_STP:
-      break;
-    case kA_Natural_STP:
-      break;
-    case kA_Sharp_STP:
-      break;
-    case kA_DoubleSharp_STP:
-      break;
-    case kA_TripleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_E_TripleSharp:
       break;
 
-    case kB_TripleFlat_STP:
+    case msrSemiTonesPitchKind::kSTP_F_TripleFlat:
       break;
-    case kB_DoubleFlat_STP:
+    case msrSemiTonesPitchKind::kSTP_F_DoubleleFlat:
       break;
-    case kB_Flat_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Flat:
       break;
-    case kB_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Natural:
       break;
-    case kB_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Sharp:
+      break;
+    case msrSemiTonesPitchKind::kSTP_F_DoubleSharp:
+      break;
+    case msrSemiTonesPitchKind::kSTP_F_TripleSharp:
       break;
 
-    case kB_DoubleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_G_TripleFlat:
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_DoubleFlat:
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Flat:
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Natural:
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Sharp:
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_DoubleSharp:
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_TripleSharp:
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_A_TripleFlat:
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_DoubleFlat:
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Flat:
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Natural:
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Sharp:
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_DoubleSharp:
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_TripleSharp:
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_B_TripleFlat:
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_DoubleFlat:
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Flat:
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Natural:
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Sharp:
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_B_DoubleSharp:
       switch (workSemiTonesPitch2) {
-        case k_NoSemiTonesPitch_STP:
+        case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
           break;
 
  /*
@@ -9861,119 +10024,119 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
 
 */
 
-        case kC_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_C_TripleFlat:
           break;
-        case kC_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_C_DoubleFlat:
           break;
-        case kC_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_C_Flat:
           break;
-        case kC_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_C_Natural:
           break;
-        case kC_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_C_Sharp:
           break;
-        case kC_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_C_DoubleSharp:
           break;
-        case kC_TripleSharp_STP:
-          break;
-
-        case kD_TripleFlat_STP:
-          break;
-        case kD_DoubleFlat_STP:
-          break;
-        case kD_Flat_STP:
-          break;
-        case kD_Natural_STP:
-          break;
-        case kD_Sharp_STP:
-          break;
-        case kD_DoubleSharp_STP:
-          break;
-        case kD_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_C_TripleSharp:
           break;
 
-        case kE_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_D_TripleFlat:
           break;
-        case kE_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_D_DoubleFlat:
           break;
-        case kE_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_D_Flat:
           break;
-        case kE_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_D_Natural:
           break;
-        case kE_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_D_Sharp:
           break;
-        case kE_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_D_DoubleSharp:
           break;
-        case kE_TripleSharp_STP:
-          break;
-
-        case kF_TripleFlat_STP:
-          break;
-        case kF_DoubleFlat_STP:
-          break;
-        case kF_Flat_STP:
-          break;
-        case kF_Natural_STP:
-          break;
-        case kF_Sharp_STP:
-          break;
-        case kF_DoubleSharp_STP:
-          break;
-        case kF_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_D_TripleSharp:
           break;
 
-        case kG_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_E_TripleFlat:
           break;
-        case kG_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_E_DoubleFlat:
           break;
-        case kG_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_E_Flat:
           break;
-        case kG_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_E_Natural:
           break;
-        case kG_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_E_Sharp:
           break;
-        case kG_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_E_DoubleSharp:
           break;
-        case kG_TripleSharp_STP:
-          break;
-
-        case kA_TripleFlat_STP:
-          break;
-        case kA_DoubleFlat_STP:
-          break;
-        case kA_Flat_STP:
-          break;
-        case kA_Natural_STP:
-          break;
-        case kA_Sharp_STP:
-          break;
-        case kA_DoubleSharp_STP:
-          break;
-        case kA_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_E_TripleSharp:
           break;
 
-        case kB_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_F_TripleFlat:
           break;
-        case kB_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_F_DoubleleFlat:
           break;
-        case kB_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_F_Flat:
           break;
-        case kB_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_F_Natural:
           break;
-        case kB_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_F_Sharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_F_DoubleSharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_F_TripleSharp:
+          break;
+
+        case msrSemiTonesPitchKind::kSTP_G_TripleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_DoubleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_Flat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_Natural:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_Sharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_DoubleSharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_TripleSharp:
+          break;
+
+        case msrSemiTonesPitchKind::kSTP_A_TripleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_DoubleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_Flat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_Natural:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_Sharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_DoubleSharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_TripleSharp:
+          break;
+
+        case msrSemiTonesPitchKind::kSTP_B_TripleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_DoubleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_Flat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_Natural:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_Sharp:
           result = kAugmentedUnison;
           break;
-        case kB_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_B_DoubleSharp:
           result = kPerfectUnison;
           break;
-        case kB_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_B_TripleSharp:
           result = kPerfectUnison;
           break;
       } // switch
       break;
 
-    case kB_TripleSharp_STP:
+    case msrSemiTonesPitchKind::kSTP_B_TripleSharp:
       switch (workSemiTonesPitch2) {
-        case k_NoSemiTonesPitch_STP:
+        case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
           break;
 
  /*
@@ -10005,110 +10168,110 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
 
 */
 
-        case kC_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_C_TripleFlat:
           break;
-        case kC_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_C_DoubleFlat:
           break;
-        case kC_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_C_Flat:
           break;
-        case kC_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_C_Natural:
           break;
-        case kC_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_C_Sharp:
           break;
-        case kC_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_C_DoubleSharp:
           break;
-        case kC_TripleSharp_STP:
-          break;
-
-        case kD_TripleFlat_STP:
-          break;
-        case kD_DoubleFlat_STP:
-          break;
-        case kD_Flat_STP:
-          break;
-        case kD_Natural_STP:
-          break;
-        case kD_Sharp_STP:
-          break;
-        case kD_DoubleSharp_STP:
-          break;
-        case kD_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_C_TripleSharp:
           break;
 
-        case kE_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_D_TripleFlat:
           break;
-        case kE_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_D_DoubleFlat:
           break;
-        case kE_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_D_Flat:
           break;
-        case kE_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_D_Natural:
           break;
-        case kE_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_D_Sharp:
           break;
-        case kE_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_D_DoubleSharp:
           break;
-        case kE_TripleSharp_STP:
-          break;
-
-        case kF_TripleFlat_STP:
-          break;
-        case kF_DoubleFlat_STP:
-          break;
-        case kF_Flat_STP:
-          break;
-        case kF_Natural_STP:
-          break;
-        case kF_Sharp_STP:
-          break;
-        case kF_DoubleSharp_STP:
-          break;
-        case kF_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_D_TripleSharp:
           break;
 
-        case kG_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_E_TripleFlat:
           break;
-        case kG_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_E_DoubleFlat:
           break;
-        case kG_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_E_Flat:
           break;
-        case kG_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_E_Natural:
           break;
-        case kG_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_E_Sharp:
           break;
-        case kG_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_E_DoubleSharp:
           break;
-        case kG_TripleSharp_STP:
-          break;
-
-        case kA_TripleFlat_STP:
-          break;
-        case kA_DoubleFlat_STP:
-          break;
-        case kA_Flat_STP:
-          break;
-        case kA_Natural_STP:
-          break;
-        case kA_Sharp_STP:
-          break;
-        case kA_DoubleSharp_STP:
-          break;
-        case kA_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_E_TripleSharp:
           break;
 
-        case kB_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_F_TripleFlat:
           break;
-        case kB_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_F_DoubleleFlat:
           break;
-        case kB_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_F_Flat:
           break;
-        case kB_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_F_Natural:
           break;
-        case kB_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_F_Sharp:
           break;
-        case kB_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_F_DoubleSharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_F_TripleSharp:
+          break;
+
+        case msrSemiTonesPitchKind::kSTP_G_TripleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_DoubleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_Flat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_Natural:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_Sharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_DoubleSharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_G_TripleSharp:
+          break;
+
+        case msrSemiTonesPitchKind::kSTP_A_TripleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_DoubleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_Flat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_Natural:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_Sharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_DoubleSharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_A_TripleSharp:
+          break;
+
+        case msrSemiTonesPitchKind::kSTP_B_TripleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_DoubleFlat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_Flat:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_Natural:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_Sharp:
+          break;
+        case msrSemiTonesPitchKind::kSTP_B_DoubleSharp:
           result = kAugmentedUnison;
           break;
-        case kB_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_B_TripleSharp:
           result = kPerfectUnison;
           break;
       } // switch
@@ -10130,22 +10293,22 @@ string msrStaffKindAsString (
   string result;
 
   switch (staffKind) {
-    case kStaffRegular:
+    case msrStaffKind::kStaffRegular:
       result = "staffRegular";
       break;
-    case kStaffTablature:
+    case msrStaffKind::kStaffTablature:
       result = "staffTablature";
       break;
-    case kStaffHarmony:
+    case msrStaffKind::kStaffHarmony:
       result = "staffHarmony";
       break;
-    case kStaffFiguredBass:
+    case msrStaffKind::kStaffFiguredBass:
       result = "staffFiguredBass bass";
       break;
-    case kStaffDrum:
+    case msrStaffKind::kStaffDrum:
       result = "staffDrum";
       break;
-    case kStaffRythmic:
+    case msrStaffKind::kStaffRythmic:
       result = "staffRythmic";
       break;
   } // switch
@@ -10161,13 +10324,13 @@ string msrVoiceKindAsString (
   string result;
 
   switch (voiceKind) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       result = "voiceRegular";
       break;
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceHarmony:
       result = "voiceHarmony";
       break;
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
       result = "voiceFiguredBass";
       break;
   } // switch
@@ -10183,43 +10346,43 @@ string msrMeasureKindAsString (
   string result;
 
   switch (measureKind) {
-    case kMeasureKindUnknown:
+    case msrMeasureKind::kMeasureKindUnknown:
       result = "***measureKindUnknown***";
       break;
-    case kMeasureKindRegular:
+    case msrMeasureKind::kMeasureKindRegular:
       result = "measureKindRegular";
       break;
-    case kMeasureKindAnacrusis:
+    case msrMeasureKind::kMeasureKindAnacrusis:
       result = "measureKindAnacrusis";
       break;
-    case kMeasureKindIncompleteStandalone:
+    case msrMeasureKind::kMeasureKindIncompleteStandalone:
       result = "measureKindIncompleteStandalone";
       break;
-    case kMeasureKindIncompleteLastInRepeatCommonPart:
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatCommonPart:
       result = "measureKindIncompleteLastInRepeatCommonPart";
       break;
-    case kMeasureKindIncompleteLastInRepeatHookedEnding:
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatHookedEnding:
       result = "measureKindIncompleteLastInRepeatHookedEnding";
       break;
-    case kMeasureKindIncompleteLastInRepeatHooklessEnding:
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatHooklessEnding:
       result = "measureKindIncompleteLastInRepeatHooklessEnding";
       break;
-    case kMeasureKindIncompleteNextMeasureAfterCommonPart:
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterCommonPart:
       result = "measureKindIncompleteNextMeasureAfterCommonPart";
       break;
-    case kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
       result = "measureKindIncompleteNextMeasureAfterHookedEnding";
       break;
-    case kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
       result = "measureKindIncompleteNextMeasureAfterHooklessEnding";
       break;
-    case kMeasureKindOvercomplete:
+    case msrMeasureKind::kMeasureKindOvercomplete:
       result = "measureKindOvercomplete";
       break;
-    case kMeasureKindCadenza:
+    case msrMeasureKind::kMeasureKindCadenza:
       result = "measureKindCadenza";
       break;
-    case kMeasureKindMusicallyEmpty:
+    case msrMeasureKind::kMeasureKindMusicallyEmpty:
       result = "measureKindMusicallyEmpty";
       break;
   } // switch
@@ -10233,10 +10396,10 @@ string msrMeasureImplicitKindAsString (
   string result;
 
   switch (measureImplicitKind) {
-    case kMeasureImplicitKindYes:
+    case msrMeasureImplicitKind::kMeasureImplicitKindYes:
       result = "measureImplicitKindYes";
       break;
-    case kMeasureImplicitKindNo:
+    case msrMeasureImplicitKind::kMeasureImplicitKindNo:
       result = "measureImplicitKindNo";
       break;
   } // switch
@@ -10562,10 +10725,10 @@ string msrKeyKindAsString (
   string result;
 
   switch (keyKind) {
-    case kTraditionalKind:
+    case msrKeyKind::kKeyTraditional:
       result = "traditional";
       break;
-    case kHumdrumScotKind:
+    case msrKeyKind::kKeyHumdrumScot:
       result = "Humdrum/Scot";
       break;
   } // switch
@@ -10578,26 +10741,26 @@ msrModeKind modeKindFromString (
   string modeString)
 {
 
-  msrModeKind result = k_NoMode;
+  msrModeKind result = msrModeKind::k_NoMode;
 
   if      (modeString == "major")
-    result = kMajorMode;
+    result = msrModeKind::kModeMajor;
   else if (modeString == "minor")
-    result = kMinorMode;
+    result = msrModeKind::kModeMinor;
   else if (modeString == "ionian")
-    result = kIonianMode;
+    result = msrModeKind::kModeIonian;
   else if (modeString == "dorian")
-    result = kDorianMode;
+    result = msrModeKind::kModeDorian;
   else if (modeString == "phrygian")
-    result = kPhrygianMode;
+    result = msrModeKind::kModePhrygian;
   else if (modeString == "lydian")
-    result = kLydianMode;
+    result = msrModeKind::kModeLydian;
   else if (modeString == "mixolydian")
-    result = kMixolydianMode;
+    result = msrModeKind::kModeMixolydian;
   else if (modeString == "aeolian")
-    result = kAeolianMode;
+    result = msrModeKind::kModeAeolian;
   else if (modeString == "locrian")
-    result = kLocrianMode;
+    result = msrModeKind::kModeLocrian;
   else {
     stringstream s;
 
@@ -10623,34 +10786,34 @@ string msrModeKindAsString (
   string result;
 
   switch (modeKind) {
-    case k_NoMode:
+    case msrModeKind::k_NoMode:
       result = "*noKeyMode*";
       break;
-    case kMajorMode:
+    case msrModeKind::kModeMajor:
       result = "major";
       break;
-    case kMinorMode:
+    case msrModeKind::kModeMinor:
       result = "minor";
       break;
-    case kIonianMode:
+    case msrModeKind::kModeIonian:
       result = "ionian";
       break;
-    case kDorianMode:
+    case msrModeKind::kModeDorian:
       result = "dorian";
       break;
-    case kPhrygianMode:
+    case msrModeKind::kModePhrygian:
       result = "phrygian";
       break;
-    case kLydianMode:
+    case msrModeKind::kModeLydian:
       result = "lydian";
       break;
-    case kMixolydianMode:
+    case msrModeKind::kModeMixolydian:
       result = "mixolydian";
       break;
-    case kAeolianMode:
+    case msrModeKind::kModeAeolian:
       result = "aeolian";
       break;
-    case kLocrianMode:
+    case msrModeKind::kModeLocrian:
       result = "locrian";
       break;
   } // switch
@@ -10666,25 +10829,25 @@ string msrTimeSymbolKindAsString (
   string result;
 
   switch (timeSymbolKind) {
-    case kTimeSymbolCommon:
+    case msrTimeSymbolKind::kTimeSymbolCommon:
       result = "timeSymbolCommon";
       break;
-    case kTimeSymbolCut:
+    case msrTimeSymbolKind::kTimeSymbolCut:
       result = "timeSymbolCut";
       break;
-    case kTimeSymbolNote:
+    case msrTimeSymbolKind::kTimeSymbolNote:
       result = "timeSymbolNote";
       break;
-    case kTimeSymbolDottedNote:
+    case msrTimeSymbolKind::kTimeSymbolDottedNote:
       result = "timeSymbolDottedNote";
       break;
-    case kTimeSymbolSingleNumber:
+    case msrTimeSymbolKind::kTimeSymbolSingleNumber:
       result = "timeSymbolSingleNumber";
       break;
-    case kTimeSymbolSenzaMisura:
+    case msrTimeSymbolKind::kTimeSymbolSenzaMisura:
       result = "timeSymbolSenzaMisura";
       break;
-    case kTimeSymbolNone:
+    case msrTimeSymbolKind::kTimeSymbolNone:
       result = "timeSymbolNone";
       break;
   } // switch
@@ -10698,19 +10861,19 @@ string msrTimeSeparatorKindAsString (
   string result;
 
   switch (timeSeparatorKind) {
-    case kTimeSeparatorNone:
+    case msrTimeSeparatorKind::kTimeSeparatorNone:
       result = "timeSeparatorNone";
       break;
-    case kTimeSeparatorHorizontal:
+    case msrTimeSeparatorKind::kTimeSeparatorHorizontal:
       result = "timeSeparatorHorizontal";
       break;
-    case kTimeSeparatorDiagonal:
+    case msrTimeSeparatorKind::kTimeSeparatorDiagonal:
       result = "timeSeparatorDiagonal";
       break;
-    case kTimeSeparatorVertical:
+    case msrTimeSeparatorKind::kTimeSeparatorVertical:
       result = "timeSeparatorVertical";
       break;
-    case kTimeSeparatorAdjacent:
+    case msrTimeSeparatorKind::kTimeSeparatorAdjacent:
       result = "timeSeparatorAdjacent";
       break;
   } // switch
@@ -10724,25 +10887,25 @@ string msrTimeRelationKindAsString (
   string result;
 
   switch (timeRelationKind) {
-    case kTimeRelationNone:
+    case msrTimeRelationKind::kTimeRelationNone:
       result = "timeRelationNone";
       break;
-    case kTimeRelationParentheses:
+    case msrTimeRelationKind::kTimeRelationParentheses:
       result = "timeRelationParentheses";
       break;
-    case kTimeRelationBracket:
+    case msrTimeRelationKind::kTimeRelationBracket:
       result = "timeRelationBracket";
       break;
-    case kTimeRelationEquals:
+    case msrTimeRelationKind::kTimeRelationEquals:
       result = "timeRelationEquals";
       break;
-    case kTimeRelationSlash:
+    case msrTimeRelationKind::kTimeRelationSlash:
       result = "timeRelationSlash";
       break;
-    case kTimeRelationSpace:
+    case msrTimeRelationKind::kTimeRelationSpace:
       result = "timeRelationSpace";
       break;
-    case kTimeRelationHyphen:
+    case msrTimeRelationKind::kTimeRelationHyphen:
       result = "timeRelationHyphen";
       break;
   } // switch
@@ -10758,10 +10921,10 @@ string msrRepeatEndingKindAsString (
   string result;
 
   switch (repeatEndingKind) {
-    case kHookedEnding:
+    case msrRepeatEndingKind::kEndingHooked:
       result = "hooked";
       break;
-    case kHooklessEnding:
+    case msrRepeatEndingKind::kEndingHookless:
       result = "hookless";
       break;
   } // switch
@@ -11666,547 +11829,547 @@ void initializeQuarterTonesPitchesLanguageKinds ()
 void initializeNederlandsPitchNamesMap ()
 {
   // nederlands
-  gGlobalNederlandsPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalNederlandsPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalNederlandsPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalNederlandsPitchesNamesMap [kA_DoubleFlat_QTP]  = "aeses";
-  gGlobalNederlandsPitchesNamesMap [kA_SesquiFlat_QTP]  = "aeseh";
-  gGlobalNederlandsPitchesNamesMap [kA_Flat_QTP]        = "aes";
-  gGlobalNederlandsPitchesNamesMap [kA_SemiFlat_QTP]    = "aeh";
-  gGlobalNederlandsPitchesNamesMap [kA_Natural_QTP]     = "a";
-  gGlobalNederlandsPitchesNamesMap [kA_SemiSharp_QTP]   = "aih";
-  gGlobalNederlandsPitchesNamesMap [kA_Sharp_QTP]       = "ais";
-  gGlobalNederlandsPitchesNamesMap [kA_SesquiSharp_QTP] = "aisih";
-  gGlobalNederlandsPitchesNamesMap [kA_DoubleSharp_QTP] = "aisis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "aeses";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "aeseh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "aes";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "aeh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "a";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "aih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "ais";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "aisih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "aisis";
 
-  gGlobalNederlandsPitchesNamesMap [kB_DoubleFlat_QTP]  = "beses";
-  gGlobalNederlandsPitchesNamesMap [kB_SesquiFlat_QTP]  = "beseh";
-  gGlobalNederlandsPitchesNamesMap [kB_Flat_QTP]        = "bes";
-  gGlobalNederlandsPitchesNamesMap [kB_SemiFlat_QTP]    = "beh";
-  gGlobalNederlandsPitchesNamesMap [kB_Natural_QTP]     = "b";
-  gGlobalNederlandsPitchesNamesMap [kB_SemiSharp_QTP]   = "bih";
-  gGlobalNederlandsPitchesNamesMap [kB_Sharp_QTP]       = "bis";
-  gGlobalNederlandsPitchesNamesMap [kB_SesquiSharp_QTP] = "bisih";
-  gGlobalNederlandsPitchesNamesMap [kB_DoubleSharp_QTP] = "bisis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "beses";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "beseh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "bes";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "beh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "b";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "bih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "bis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "bisih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "bisis";
 
-  gGlobalNederlandsPitchesNamesMap [kC_DoubleFlat_QTP]  = "ceses";
-  gGlobalNederlandsPitchesNamesMap [kC_SesquiFlat_QTP]  = "ceseh";
-  gGlobalNederlandsPitchesNamesMap [kC_Flat_QTP]        = "ces";
-  gGlobalNederlandsPitchesNamesMap [kC_SemiFlat_QTP]    = "ceh";
-  gGlobalNederlandsPitchesNamesMap [kC_Natural_QTP]     = "c";
-  gGlobalNederlandsPitchesNamesMap [kC_SemiSharp_QTP]   = "cih";
-  gGlobalNederlandsPitchesNamesMap [kC_Sharp_QTP]       = "cis";
-  gGlobalNederlandsPitchesNamesMap [kC_SesquiSharp_QTP] = "cisih";
-  gGlobalNederlandsPitchesNamesMap [kC_DoubleSharp_QTP] = "cisis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "ceses";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "ceseh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "ces";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "ceh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "c";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "cih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "cis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "cisih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "cisis";
 
-  gGlobalNederlandsPitchesNamesMap [kD_DoubleFlat_QTP]  = "deses";
-  gGlobalNederlandsPitchesNamesMap [kD_SesquiFlat_QTP]  = "deseh";
-  gGlobalNederlandsPitchesNamesMap [kD_Flat_QTP]        = "des";
-  gGlobalNederlandsPitchesNamesMap [kD_SemiFlat_QTP]    = "deh";
-  gGlobalNederlandsPitchesNamesMap [kD_Natural_QTP]     = "d";
-  gGlobalNederlandsPitchesNamesMap [kD_SemiSharp_QTP]   = "dih";
-  gGlobalNederlandsPitchesNamesMap [kD_Sharp_QTP]       = "dis";
-  gGlobalNederlandsPitchesNamesMap [kD_SesquiSharp_QTP] = "disih";
-  gGlobalNederlandsPitchesNamesMap [kD_DoubleSharp_QTP] = "disis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "deses";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "deseh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "des";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "deh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "d";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "dih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "dis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "disih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "disis";
 
-  gGlobalNederlandsPitchesNamesMap [kE_DoubleFlat_QTP]  = "eeses";
-  gGlobalNederlandsPitchesNamesMap [kE_SesquiFlat_QTP]  = "eeseh";
-  gGlobalNederlandsPitchesNamesMap [kE_Flat_QTP]        = "ees";
-  gGlobalNederlandsPitchesNamesMap [kE_SemiFlat_QTP]    = "eeh";
-  gGlobalNederlandsPitchesNamesMap [kE_Natural_QTP]     = "e";
-  gGlobalNederlandsPitchesNamesMap [kE_SemiSharp_QTP]   = "eih";
-  gGlobalNederlandsPitchesNamesMap [kE_Sharp_QTP]       = "eis";
-  gGlobalNederlandsPitchesNamesMap [kE_SesquiSharp_QTP] = "eisih";
-  gGlobalNederlandsPitchesNamesMap [kE_DoubleSharp_QTP] = "eisis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "eeses";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "eeseh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "ees";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "eeh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "e";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "eih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "eis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "eisih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "eisis";
 
-  gGlobalNederlandsPitchesNamesMap [kF_DoubleFlat_QTP]  = "feses";
-  gGlobalNederlandsPitchesNamesMap [kF_SesquiFlat_QTP]  = "feseh";
-  gGlobalNederlandsPitchesNamesMap [kF_Flat_QTP]        = "fes";
-  gGlobalNederlandsPitchesNamesMap [kF_SemiFlat_QTP]    = "feh";
-  gGlobalNederlandsPitchesNamesMap [kF_Natural_QTP]     = "f";
-  gGlobalNederlandsPitchesNamesMap [kF_SemiSharp_QTP]   = "fih";
-  gGlobalNederlandsPitchesNamesMap [kF_Sharp_QTP]       = "fis";
-  gGlobalNederlandsPitchesNamesMap [kF_SesquiSharp_QTP] = "fisih";
-  gGlobalNederlandsPitchesNamesMap [kF_DoubleSharp_QTP] = "fisis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "feses";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "feseh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "fes";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "feh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "f";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "fih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "fisih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fisis";
 
-  gGlobalNederlandsPitchesNamesMap [kG_DoubleFlat_QTP]  = "geses";
-  gGlobalNederlandsPitchesNamesMap [kG_SesquiFlat_QTP]  = "geseh";
-  gGlobalNederlandsPitchesNamesMap [kG_Flat_QTP]        = "ges";
-  gGlobalNederlandsPitchesNamesMap [kG_SemiFlat_QTP]    = "geh";
-  gGlobalNederlandsPitchesNamesMap [kG_Natural_QTP]     = "g";
-  gGlobalNederlandsPitchesNamesMap [kG_SemiSharp_QTP]   = "gih";
-  gGlobalNederlandsPitchesNamesMap [kG_Sharp_QTP]       = "gis";
-  gGlobalNederlandsPitchesNamesMap [kG_SesquiSharp_QTP] = "gisih";
-  gGlobalNederlandsPitchesNamesMap [kG_DoubleSharp_QTP] = "gisis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "geses";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "geseh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "ges";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "geh";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "g";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "gih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "gis";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "gisih";
+  gGlobalNederlandsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "gisis";
 }
 
 void initializeCatalanPitchNamesMap ()
 {
   // catalan
-  gGlobalCatalanPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalCatalanPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalCatalanPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalCatalanPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gGlobalCatalanPitchesNamesMap [kA_SesquiFlat_QTP]  = "labSesquiFlat???";
-  gGlobalCatalanPitchesNamesMap [kA_Flat_QTP]        = "lab";
-  gGlobalCatalanPitchesNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
-  gGlobalCatalanPitchesNamesMap [kA_Natural_QTP]     = "la";
-  gGlobalCatalanPitchesNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
-  gGlobalCatalanPitchesNamesMap [kA_Sharp_QTP]       = "lad";
-  gGlobalCatalanPitchesNamesMap [kA_SesquiSharp_QTP] = "laSesquiSharp???";
-  gGlobalCatalanPitchesNamesMap [kA_DoubleSharp_QTP] = "ladd";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "labb";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "labSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "lab";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "aSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "la";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "aSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "lad";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "laSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "ladd";
 
-  gGlobalCatalanPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gGlobalCatalanPitchesNamesMap [kB_SesquiFlat_QTP]  = "sibSesquiFlat???";
-  gGlobalCatalanPitchesNamesMap [kB_Flat_QTP]        = "sib";
-  gGlobalCatalanPitchesNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
-  gGlobalCatalanPitchesNamesMap [kB_Natural_QTP]     = "b";
-  gGlobalCatalanPitchesNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
-  gGlobalCatalanPitchesNamesMap [kB_Sharp_QTP]       = "sid";
-  gGlobalCatalanPitchesNamesMap [kB_SesquiSharp_QTP] = "siSesquiSharp???";
-  gGlobalCatalanPitchesNamesMap [kB_DoubleSharp_QTP] = "sidd";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "sibb";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "sibSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "sib";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "bSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "b";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "bSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "sid";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "siSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "sidd";
 
-  gGlobalCatalanPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gGlobalCatalanPitchesNamesMap [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
-  gGlobalCatalanPitchesNamesMap [kC_Flat_QTP]        = "dob";
-  gGlobalCatalanPitchesNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
-  gGlobalCatalanPitchesNamesMap [kC_Natural_QTP]     = "do";
-  gGlobalCatalanPitchesNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
-  gGlobalCatalanPitchesNamesMap [kC_Sharp_QTP]       = "dod";
-  gGlobalCatalanPitchesNamesMap [kC_SesquiSharp_QTP] = "doSesquiSharp???";
-  gGlobalCatalanPitchesNamesMap [kC_DoubleSharp_QTP] = "dodd";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "dobb";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "doSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "dob";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "cSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "do";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "cSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "dod";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "doSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "dodd";
 
-  gGlobalCatalanPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gGlobalCatalanPitchesNamesMap [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
-  gGlobalCatalanPitchesNamesMap [kD_Flat_QTP]        = "reb";
-  gGlobalCatalanPitchesNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
-  gGlobalCatalanPitchesNamesMap [kD_Natural_QTP]     = "re";
-  gGlobalCatalanPitchesNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
-  gGlobalCatalanPitchesNamesMap [kD_Sharp_QTP]       = "red";
-  gGlobalCatalanPitchesNamesMap [kD_SesquiSharp_QTP] = "reSesquiSharp???";
-  gGlobalCatalanPitchesNamesMap [kD_DoubleSharp_QTP] = "redd";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "rebb";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "reSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "reb";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "dSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "re";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "dSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "red";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "reSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "redd";
 
-  gGlobalCatalanPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gGlobalCatalanPitchesNamesMap [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
-  gGlobalCatalanPitchesNamesMap [kE_Flat_QTP]        = "mib";
-  gGlobalCatalanPitchesNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
-  gGlobalCatalanPitchesNamesMap [kE_Natural_QTP]     = "mi";
-  gGlobalCatalanPitchesNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
-  gGlobalCatalanPitchesNamesMap [kE_Sharp_QTP]       = "mid";
-  gGlobalCatalanPitchesNamesMap [kE_SesquiSharp_QTP] = "miSesquiSharp???";
-  gGlobalCatalanPitchesNamesMap [kE_DoubleSharp_QTP] = "midd";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "mibb";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "miSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "mib";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "eSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "mi";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "eSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "mid";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "miSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "midd";
 
-  gGlobalCatalanPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gGlobalCatalanPitchesNamesMap [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
-  gGlobalCatalanPitchesNamesMap [kF_Flat_QTP]        = "fab";
-  gGlobalCatalanPitchesNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
-  gGlobalCatalanPitchesNamesMap [kF_Natural_QTP]     = "fa";
-  gGlobalCatalanPitchesNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
-  gGlobalCatalanPitchesNamesMap [kF_Sharp_QTP]       = "fad";
-  gGlobalCatalanPitchesNamesMap [kF_SesquiSharp_QTP] = "faSesquiSharp???";
-  gGlobalCatalanPitchesNamesMap [kF_DoubleSharp_QTP] = "fadd";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "fabb";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "faSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "fab";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "fSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "fa";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "fSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fad";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "faSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fadd";
 
-  gGlobalCatalanPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gGlobalCatalanPitchesNamesMap [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
-  gGlobalCatalanPitchesNamesMap [kG_Flat_QTP]        = "solb";
-  gGlobalCatalanPitchesNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
-  gGlobalCatalanPitchesNamesMap [kG_Natural_QTP]     = "sol";
-  gGlobalCatalanPitchesNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
-  gGlobalCatalanPitchesNamesMap [kG_Sharp_QTP]       = "sold";
-  gGlobalCatalanPitchesNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
-  gGlobalCatalanPitchesNamesMap [kG_DoubleSharp_QTP] = "soldd";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "solbb";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "solSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "solb";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "gSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "sol";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "gSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "sold";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "solSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "soldd";
 }
 
 void initializeDeutschPitchNamesMap ()
 {
   // deutsch
-  gGlobalDeutschPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalDeutschPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalDeutschPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalDeutschPitchesNamesMap [kA_DoubleFlat_QTP]  = "asas";
-  gGlobalDeutschPitchesNamesMap [kA_SesquiFlat_QTP]  = "asah";
-  gGlobalDeutschPitchesNamesMap [kA_Flat_QTP]        = "as";
-  gGlobalDeutschPitchesNamesMap [kA_SemiFlat_QTP]    = "ah";
-  gGlobalDeutschPitchesNamesMap [kA_Natural_QTP]     = "a";
-  gGlobalDeutschPitchesNamesMap [kA_SemiSharp_QTP]   = "aih";
-  gGlobalDeutschPitchesNamesMap [kA_Sharp_QTP]       = "ais";
-  gGlobalDeutschPitchesNamesMap [kA_SesquiSharp_QTP] = "aisih";
-  gGlobalDeutschPitchesNamesMap [kA_DoubleSharp_QTP] = "aisis";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "asas";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "asah";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "as";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "ah";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "a";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "aih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "ais";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "aisih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "aisis";
 
-  gGlobalDeutschPitchesNamesMap [kB_DoubleFlat_QTP]  = "heses";
-  gGlobalDeutschPitchesNamesMap [kB_SesquiFlat_QTP]  = "heseh";
-  gGlobalDeutschPitchesNamesMap [kB_Flat_QTP]        = "b";
-  gGlobalDeutschPitchesNamesMap [kB_SemiFlat_QTP]    = "beh";
-  gGlobalDeutschPitchesNamesMap [kB_Natural_QTP]     = "h";
-  gGlobalDeutschPitchesNamesMap [kB_SemiSharp_QTP]   = "hih";
-  gGlobalDeutschPitchesNamesMap [kB_Sharp_QTP]       = "his";
-  gGlobalDeutschPitchesNamesMap [kB_SesquiSharp_QTP] = "hisih";
-  gGlobalDeutschPitchesNamesMap [kB_DoubleSharp_QTP] = "hisis";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "heses";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "heseh";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "b";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "beh";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "h";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "hih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "his";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "hisih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "hisis";
 
-  gGlobalDeutschPitchesNamesMap [kC_DoubleFlat_QTP]  = "ceses";
-  gGlobalDeutschPitchesNamesMap [kC_SesquiFlat_QTP]  = "ceseh";
-  gGlobalDeutschPitchesNamesMap [kC_Flat_QTP]        = "ces";
-  gGlobalDeutschPitchesNamesMap [kC_SemiFlat_QTP]    = "ceh";
-  gGlobalDeutschPitchesNamesMap [kC_Natural_QTP]     = "c";
-  gGlobalDeutschPitchesNamesMap [kC_SemiSharp_QTP]   = "cih";
-  gGlobalDeutschPitchesNamesMap [kC_Sharp_QTP]       = "cis";
-  gGlobalDeutschPitchesNamesMap [kC_SesquiSharp_QTP] = "cisih";
-  gGlobalDeutschPitchesNamesMap [kC_DoubleSharp_QTP] = "cisis";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "ceses";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "ceseh";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "ces";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "ceh";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "c";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "cih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "cis";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "cisih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "cisis";
 
-  gGlobalDeutschPitchesNamesMap [kD_DoubleFlat_QTP]  = "deses";
-  gGlobalDeutschPitchesNamesMap [kD_SesquiFlat_QTP]  = "deseh";
-  gGlobalDeutschPitchesNamesMap [kD_Flat_QTP]        = "des";
-  gGlobalDeutschPitchesNamesMap [kD_SemiFlat_QTP]    = "deh";
-  gGlobalDeutschPitchesNamesMap [kD_Natural_QTP]     = "d";
-  gGlobalDeutschPitchesNamesMap [kD_SemiSharp_QTP]   = "dih";
-  gGlobalDeutschPitchesNamesMap [kD_Sharp_QTP]       = "dis";
-  gGlobalDeutschPitchesNamesMap [kD_SesquiSharp_QTP] = "disih";
-  gGlobalDeutschPitchesNamesMap [kD_DoubleSharp_QTP] = "disis";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "deses";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "deseh";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "des";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "deh";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "d";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "dih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "dis";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "disih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "disis";
 
-  gGlobalDeutschPitchesNamesMap [kE_DoubleFlat_QTP]  = "eses";
-  gGlobalDeutschPitchesNamesMap [kE_SesquiFlat_QTP]  = "esseh";
-  gGlobalDeutschPitchesNamesMap [kE_Flat_QTP]        = "es";
-  gGlobalDeutschPitchesNamesMap [kE_SemiFlat_QTP]    = "eh";
-  gGlobalDeutschPitchesNamesMap [kE_Natural_QTP]     = "e";
-  gGlobalDeutschPitchesNamesMap [kE_SemiSharp_QTP]   = "eih";
-  gGlobalDeutschPitchesNamesMap [kE_Sharp_QTP]       = "eis";
-  gGlobalDeutschPitchesNamesMap [kE_SesquiSharp_QTP] = "eisih";
-  gGlobalDeutschPitchesNamesMap [kE_DoubleSharp_QTP] = "eisis";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "eses";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "esseh";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "es";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "eh";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "e";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "eih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "eis";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "eisih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "eisis";
 
-  gGlobalDeutschPitchesNamesMap [kF_DoubleFlat_QTP]  = "feses";
-  gGlobalDeutschPitchesNamesMap [kF_SesquiFlat_QTP]  = "feseh";
-  gGlobalDeutschPitchesNamesMap [kF_Flat_QTP]        = "fes";
-  gGlobalDeutschPitchesNamesMap [kF_SemiFlat_QTP]    = "feh";
-  gGlobalDeutschPitchesNamesMap [kF_Natural_QTP]     = "f";
-  gGlobalDeutschPitchesNamesMap [kF_SemiSharp_QTP]   = "fih";
-  gGlobalDeutschPitchesNamesMap [kF_Sharp_QTP]       = "fis";
-  gGlobalDeutschPitchesNamesMap [kF_SesquiSharp_QTP] = "fisih";
-  gGlobalDeutschPitchesNamesMap [kF_DoubleSharp_QTP] = "fisis";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "feses";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "feseh";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "fes";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "feh";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "f";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "fih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fis";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "fisih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fisis";
 
-  gGlobalDeutschPitchesNamesMap [kG_DoubleFlat_QTP]  = "geses";
-  gGlobalDeutschPitchesNamesMap [kG_SesquiFlat_QTP]  = "geseh";
-  gGlobalDeutschPitchesNamesMap [kG_Flat_QTP]        = "ges";
-  gGlobalDeutschPitchesNamesMap [kG_SemiFlat_QTP]    = "geh";
-  gGlobalDeutschPitchesNamesMap [kG_Natural_QTP]     = "g";
-  gGlobalDeutschPitchesNamesMap [kG_SemiSharp_QTP]   = "gih";
-  gGlobalDeutschPitchesNamesMap [kG_Sharp_QTP]       = "gis";
-  gGlobalDeutschPitchesNamesMap [kG_SesquiSharp_QTP] = "gisih";
-  gGlobalDeutschPitchesNamesMap [kG_DoubleSharp_QTP] = "gisis";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "geses";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "geseh";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "ges";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "geh";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "g";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "gih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "gis";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "gisih";
+  gGlobalDeutschPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "gisis";
 }
 
 void initializeEnglishPitchNamesMap ()
 {
   // english
-  gGlobalEnglishPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalEnglishPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalEnglishPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalEnglishPitchesNamesMap [kA_DoubleFlat_QTP]  = "aff";
-  gGlobalEnglishPitchesNamesMap [kA_SesquiFlat_QTP]  = "atqf";
-  gGlobalEnglishPitchesNamesMap [kA_Flat_QTP]        = "af";
-  gGlobalEnglishPitchesNamesMap [kA_SemiFlat_QTP]    = "aqf";
-  gGlobalEnglishPitchesNamesMap [kA_Natural_QTP]     = "a";
-  gGlobalEnglishPitchesNamesMap [kA_SemiSharp_QTP]   = "aqs";
-  gGlobalEnglishPitchesNamesMap [kA_Sharp_QTP]       = "as";
-  gGlobalEnglishPitchesNamesMap [kA_SesquiSharp_QTP] = "atqs";
-  gGlobalEnglishPitchesNamesMap [kA_DoubleSharp_QTP] = "ax";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "aff";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "atqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "af";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "aqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "a";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "aqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "as";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "atqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "ax";
 
-  gGlobalEnglishPitchesNamesMap [kB_DoubleFlat_QTP]  = "bfqf";
-  gGlobalEnglishPitchesNamesMap [kB_SesquiFlat_QTP]  = "btqf";
-  gGlobalEnglishPitchesNamesMap [kB_Flat_QTP]        = "bf";
-  gGlobalEnglishPitchesNamesMap [kB_SemiFlat_QTP]    = "bqf";
-  gGlobalEnglishPitchesNamesMap [kB_Natural_QTP]     = "b";
-  gGlobalEnglishPitchesNamesMap [kB_SemiSharp_QTP]   = "bqs";
-  gGlobalEnglishPitchesNamesMap [kB_Sharp_QTP]       = "bs";
-  gGlobalEnglishPitchesNamesMap [kB_SesquiSharp_QTP] = "btqs";
-  gGlobalEnglishPitchesNamesMap [kB_DoubleSharp_QTP] = "bx";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "bfqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "btqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "bf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "bqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "b";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "bqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "bs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "btqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "bx";
 
-  gGlobalEnglishPitchesNamesMap [kC_DoubleFlat_QTP]  = "cff";
-  gGlobalEnglishPitchesNamesMap [kC_SesquiFlat_QTP]  = "ctqf";
-  gGlobalEnglishPitchesNamesMap [kC_Flat_QTP]        = "cf";
-  gGlobalEnglishPitchesNamesMap [kC_SemiFlat_QTP]    = "cqf";
-  gGlobalEnglishPitchesNamesMap [kC_Natural_QTP]     = "c";
-  gGlobalEnglishPitchesNamesMap [kC_SemiSharp_QTP]   = "cqs";
-  gGlobalEnglishPitchesNamesMap [kC_Sharp_QTP]       = "cs";
-  gGlobalEnglishPitchesNamesMap [kC_SesquiSharp_QTP] = "ctqs";
-  gGlobalEnglishPitchesNamesMap [kC_DoubleSharp_QTP] = "cx";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "cff";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "ctqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "cf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "cqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "c";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "cqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "cs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "ctqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "cx";
 
-  gGlobalEnglishPitchesNamesMap [kD_DoubleFlat_QTP]  = "dff";
-  gGlobalEnglishPitchesNamesMap [kD_SesquiFlat_QTP]  = "dtqf";
-  gGlobalEnglishPitchesNamesMap [kD_Flat_QTP]        = "df";
-  gGlobalEnglishPitchesNamesMap [kD_SemiFlat_QTP]    = "dqf";
-  gGlobalEnglishPitchesNamesMap [kD_Natural_QTP]     = "d";
-  gGlobalEnglishPitchesNamesMap [kD_SemiSharp_QTP]   = "dqs";
-  gGlobalEnglishPitchesNamesMap [kD_Sharp_QTP]       = "ds";
-  gGlobalEnglishPitchesNamesMap [kD_SesquiSharp_QTP] = "dtqs";
-  gGlobalEnglishPitchesNamesMap [kD_DoubleSharp_QTP] = "dx";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "dff";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "dtqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "df";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "dqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "d";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "dqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "ds";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "dtqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "dx";
 
-  gGlobalEnglishPitchesNamesMap [kE_DoubleFlat_QTP]  = "eff";
-  gGlobalEnglishPitchesNamesMap [kE_SesquiFlat_QTP]  = "etqf";
-  gGlobalEnglishPitchesNamesMap [kE_Flat_QTP]        = "ef";
-  gGlobalEnglishPitchesNamesMap [kE_SemiFlat_QTP]    = "eqf";
-  gGlobalEnglishPitchesNamesMap [kE_Natural_QTP]     = "e";
-  gGlobalEnglishPitchesNamesMap [kE_SemiSharp_QTP]   = "eqs";
-  gGlobalEnglishPitchesNamesMap [kE_Sharp_QTP]       = "es";
-  gGlobalEnglishPitchesNamesMap [kE_SesquiSharp_QTP] = "etqs";
-  gGlobalEnglishPitchesNamesMap [kE_DoubleSharp_QTP] = "ex";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "eff";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "etqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "ef";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "eqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "e";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "eqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "es";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "etqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "ex";
 
-  gGlobalEnglishPitchesNamesMap [kF_DoubleFlat_QTP]  = "fff";
-  gGlobalEnglishPitchesNamesMap [kF_SesquiFlat_QTP]  = "ftqf";
-  gGlobalEnglishPitchesNamesMap [kF_Flat_QTP]        = "ff";
-  gGlobalEnglishPitchesNamesMap [kF_SemiFlat_QTP]    = "fqf";
-  gGlobalEnglishPitchesNamesMap [kF_Natural_QTP]     = "f";
-  gGlobalEnglishPitchesNamesMap [kF_SemiSharp_QTP]   = "fqs";
-  gGlobalEnglishPitchesNamesMap [kF_Sharp_QTP]       = "fs";
-  gGlobalEnglishPitchesNamesMap [kF_SesquiSharp_QTP] = "ftqs";
-  gGlobalEnglishPitchesNamesMap [kF_DoubleSharp_QTP] = "fx";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "fff";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "ftqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "ff";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "fqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "f";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "fqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "ftqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fx";
 
-  gGlobalEnglishPitchesNamesMap [kG_DoubleFlat_QTP]  = "gff";
-  gGlobalEnglishPitchesNamesMap [kG_SesquiFlat_QTP]  = "gtqf";
-  gGlobalEnglishPitchesNamesMap [kG_Flat_QTP]        = "gf";
-  gGlobalEnglishPitchesNamesMap [kG_SemiFlat_QTP]    = "gqf";
-  gGlobalEnglishPitchesNamesMap [kG_Natural_QTP]     = "g";
-  gGlobalEnglishPitchesNamesMap [kG_SemiSharp_QTP]   = "gqs";
-  gGlobalEnglishPitchesNamesMap [kG_Sharp_QTP]       = "gs";
-  gGlobalEnglishPitchesNamesMap [kG_SesquiSharp_QTP] = "gtqs";
-  gGlobalEnglishPitchesNamesMap [kG_DoubleSharp_QTP] = "gx";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "gff";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "gtqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "gf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "gqf";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "g";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "gqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "gs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "gtqs";
+  gGlobalEnglishPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "gx";
 }
 
 void initializeEspanolPitchNamesMap ()
 {
   // espanol
-  gGlobalEspanolPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalEspanolPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalEspanolPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalEspanolPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gGlobalEspanolPitchesNamesMap [kA_SesquiFlat_QTP]  = "latcb";
-  gGlobalEspanolPitchesNamesMap [kA_Flat_QTP]        = "lab";
-  gGlobalEspanolPitchesNamesMap [kA_SemiFlat_QTP]    = "lacb";
-  gGlobalEspanolPitchesNamesMap [kA_Natural_QTP]     = "la";
-  gGlobalEspanolPitchesNamesMap [kA_SemiSharp_QTP]   = "lacs";
-  gGlobalEspanolPitchesNamesMap [kA_Sharp_QTP]       = "las";
-  gGlobalEspanolPitchesNamesMap [kA_SesquiSharp_QTP] = "latcs";
-  gGlobalEspanolPitchesNamesMap [kA_DoubleSharp_QTP] = "lax";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "labb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "latcb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "lab";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "lacb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "la";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "lacs";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "las";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "latcs";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "lax";
 
-  gGlobalEspanolPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gGlobalEspanolPitchesNamesMap [kB_SesquiFlat_QTP]  = "sitcb";
-  gGlobalEspanolPitchesNamesMap [kB_Flat_QTP]        = "sib";
-  gGlobalEspanolPitchesNamesMap [kB_SemiFlat_QTP]    = "sicb";
-  gGlobalEspanolPitchesNamesMap [kB_Natural_QTP]     = "si";
-  gGlobalEspanolPitchesNamesMap [kB_SemiSharp_QTP]   = "sics";
-  gGlobalEspanolPitchesNamesMap [kB_Sharp_QTP]       = "sis";
-  gGlobalEspanolPitchesNamesMap [kB_SesquiSharp_QTP] = "sitcs";
-  gGlobalEspanolPitchesNamesMap [kB_DoubleSharp_QTP] = "six";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "sibb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "sitcb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "sib";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "sicb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "si";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "sics";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "sis";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "sitcs";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "six";
 
-  gGlobalEspanolPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gGlobalEspanolPitchesNamesMap [kC_SesquiFlat_QTP]  = "dotcb";
-  gGlobalEspanolPitchesNamesMap [kC_Flat_QTP]        = "dob";
-  gGlobalEspanolPitchesNamesMap [kC_SemiFlat_QTP]    = "docb";
-  gGlobalEspanolPitchesNamesMap [kC_Natural_QTP]     = "do";
-  gGlobalEspanolPitchesNamesMap [kC_SemiSharp_QTP]   = "docs";
-  gGlobalEspanolPitchesNamesMap [kC_Sharp_QTP]       = "dos";
-  gGlobalEspanolPitchesNamesMap [kC_SesquiSharp_QTP] = "dotcs";
-  gGlobalEspanolPitchesNamesMap [kC_DoubleSharp_QTP] = "dox";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "dobb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "dotcb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "dob";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "docb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "do";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "docs";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "dos";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "dotcs";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "dox";
 
-  gGlobalEspanolPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gGlobalEspanolPitchesNamesMap [kD_SesquiFlat_QTP]  = "retcb";
-  gGlobalEspanolPitchesNamesMap [kD_Flat_QTP]        = "reb";
-  gGlobalEspanolPitchesNamesMap [kD_SemiFlat_QTP]    = "recb";
-  gGlobalEspanolPitchesNamesMap [kD_Natural_QTP]     = "re";
-  gGlobalEspanolPitchesNamesMap [kD_SemiSharp_QTP]   = "recs";
-  gGlobalEspanolPitchesNamesMap [kD_Sharp_QTP]       = "res";
-  gGlobalEspanolPitchesNamesMap [kD_SesquiSharp_QTP] = "retcs";
-  gGlobalEspanolPitchesNamesMap [kD_DoubleSharp_QTP] = "rex";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "rebb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "retcb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "reb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "recb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "re";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "recs";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "res";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "retcs";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "rex";
 
-  gGlobalEspanolPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gGlobalEspanolPitchesNamesMap [kE_SesquiFlat_QTP]  = "mitcb";
-  gGlobalEspanolPitchesNamesMap [kE_Flat_QTP]        = "mib";
-  gGlobalEspanolPitchesNamesMap [kE_SemiFlat_QTP]    = "micb";
-  gGlobalEspanolPitchesNamesMap [kE_Natural_QTP]     = "mi";
-  gGlobalEspanolPitchesNamesMap [kE_SemiSharp_QTP]   = "mics";
-  gGlobalEspanolPitchesNamesMap [kE_Sharp_QTP]       = "mis";
-  gGlobalEspanolPitchesNamesMap [kE_SesquiSharp_QTP] = "mitcs";
-  gGlobalEspanolPitchesNamesMap [kE_DoubleSharp_QTP] = "mix";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "mibb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "mitcb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "mib";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "micb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "mi";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "mics";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "mis";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "mitcs";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "mix";
 
-  gGlobalEspanolPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gGlobalEspanolPitchesNamesMap [kF_SesquiFlat_QTP]  = "fatcb";
-  gGlobalEspanolPitchesNamesMap [kF_Flat_QTP]        = "fab";
-  gGlobalEspanolPitchesNamesMap [kF_SemiFlat_QTP]    = "facb";
-  gGlobalEspanolPitchesNamesMap [kF_Natural_QTP]     = "fa";
-  gGlobalEspanolPitchesNamesMap [kF_SemiSharp_QTP]   = "facs";
-  gGlobalEspanolPitchesNamesMap [kF_Sharp_QTP]       = "fas";
-  gGlobalEspanolPitchesNamesMap [kF_SesquiSharp_QTP] = "fatcs";
-  gGlobalEspanolPitchesNamesMap [kF_DoubleSharp_QTP] = "fax";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "fabb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "fatcb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "fab";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "facb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "fa";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "facs";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fas";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "fatcs";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fax";
 
-  gGlobalEspanolPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gGlobalEspanolPitchesNamesMap [kG_SesquiFlat_QTP]  = "soltcb";
-  gGlobalEspanolPitchesNamesMap [kG_Flat_QTP]        = "solb";
-  gGlobalEspanolPitchesNamesMap [kG_SemiFlat_QTP]    = "solcb";
-  gGlobalEspanolPitchesNamesMap [kG_Natural_QTP]     = "sol";
-  gGlobalEspanolPitchesNamesMap [kG_SemiSharp_QTP]   = "solcs";
-  gGlobalEspanolPitchesNamesMap [kG_Sharp_QTP]       = "sols";
-  gGlobalEspanolPitchesNamesMap [kG_SesquiSharp_QTP] = "soltcs";
-  gGlobalEspanolPitchesNamesMap [kG_DoubleSharp_QTP] = "solx";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "solbb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "soltcb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "solb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "solcb";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "sol";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "solcs";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "sols";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "soltcs";
+  gGlobalEspanolPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "solx";
 }
 
 void initializeFrancaisPitchNamesMap ()
 {
   // francais
-  gGlobalFrancaisPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalFrancaisPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalFrancaisPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalFrancaisPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gGlobalFrancaisPitchesNamesMap [kA_SesquiFlat_QTP]  = "labtqt";
-  gGlobalFrancaisPitchesNamesMap [kA_Flat_QTP]        = "lab";
-  gGlobalFrancaisPitchesNamesMap [kA_SemiFlat_QTP]    = "labqt";
-  gGlobalFrancaisPitchesNamesMap [kA_Natural_QTP]     = "la";
-  gGlobalFrancaisPitchesNamesMap [kA_SemiSharp_QTP]   = "lasqt";
-  gGlobalFrancaisPitchesNamesMap [kA_Sharp_QTP]       = "lad";
-  gGlobalFrancaisPitchesNamesMap [kA_SesquiSharp_QTP] = "lastqt";
-  gGlobalFrancaisPitchesNamesMap [kA_DoubleSharp_QTP] = "lass";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "labb";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "labtqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "lab";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "labqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "la";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "lasqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "lad";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "lastqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "lass";
 
-  gGlobalFrancaisPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gGlobalFrancaisPitchesNamesMap [kB_SesquiFlat_QTP]  = "sibtqt";
-  gGlobalFrancaisPitchesNamesMap [kB_Flat_QTP]        = "sib";
-  gGlobalFrancaisPitchesNamesMap [kB_SemiFlat_QTP]    = "sibqt";
-  gGlobalFrancaisPitchesNamesMap [kB_Natural_QTP]     = "si";
-  gGlobalFrancaisPitchesNamesMap [kB_SemiSharp_QTP]   = "sisqt";
-  gGlobalFrancaisPitchesNamesMap [kB_Sharp_QTP]       = "sid";
-  gGlobalFrancaisPitchesNamesMap [kB_SesquiSharp_QTP] = "sistqt";
-  gGlobalFrancaisPitchesNamesMap [kB_DoubleSharp_QTP] = "siss";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "sibb";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "sibtqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "sib";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "sibqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "si";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "sisqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "sid";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "sistqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "siss";
 
-  gGlobalFrancaisPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gGlobalFrancaisPitchesNamesMap [kC_SesquiFlat_QTP]  = "dobtqt";
-  gGlobalFrancaisPitchesNamesMap [kC_Flat_QTP]        = "dob";
-  gGlobalFrancaisPitchesNamesMap [kC_SemiFlat_QTP]    = "dobqt";
-  gGlobalFrancaisPitchesNamesMap [kC_Natural_QTP]     = "do";
-  gGlobalFrancaisPitchesNamesMap [kC_SemiSharp_QTP]   = "dosqt";
-  gGlobalFrancaisPitchesNamesMap [kC_Sharp_QTP]       = "dod";
-  gGlobalFrancaisPitchesNamesMap [kC_SesquiSharp_QTP] = "dostqt";
-  gGlobalFrancaisPitchesNamesMap [kC_DoubleSharp_QTP] = "doss";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "dobb";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "dobtqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "dob";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "dobqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "do";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "dosqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "dod";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "dostqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "doss";
 
-  gGlobalFrancaisPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gGlobalFrancaisPitchesNamesMap [kD_SesquiFlat_QTP]  = "rebtqt";
-  gGlobalFrancaisPitchesNamesMap [kD_Flat_QTP]        = "reb";
-  gGlobalFrancaisPitchesNamesMap [kD_SemiFlat_QTP]    = "rebqt";
-  gGlobalFrancaisPitchesNamesMap [kD_Natural_QTP]     = "re";
-  gGlobalFrancaisPitchesNamesMap [kD_SemiSharp_QTP]   = "resqt";
-  gGlobalFrancaisPitchesNamesMap [kD_Sharp_QTP]       = "red";
-  gGlobalFrancaisPitchesNamesMap [kD_SesquiSharp_QTP] = "restqt";
-  gGlobalFrancaisPitchesNamesMap [kD_DoubleSharp_QTP] = "ress";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "rebb";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "rebtqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "reb";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "rebqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "re";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "resqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "red";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "restqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "ress";
 
-  gGlobalFrancaisPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gGlobalFrancaisPitchesNamesMap [kE_SesquiFlat_QTP]  = "mibtqt";
-  gGlobalFrancaisPitchesNamesMap [kE_Flat_QTP]        = "mib";
-  gGlobalFrancaisPitchesNamesMap [kE_SemiFlat_QTP]    = "mibqt";
-  gGlobalFrancaisPitchesNamesMap [kE_Natural_QTP]     = "mi";
-  gGlobalFrancaisPitchesNamesMap [kE_SemiSharp_QTP]   = "misqt";
-  gGlobalFrancaisPitchesNamesMap [kE_Sharp_QTP]       = "mid";
-  gGlobalFrancaisPitchesNamesMap [kE_SesquiSharp_QTP] = "mistqt";
-  gGlobalFrancaisPitchesNamesMap [kE_DoubleSharp_QTP] = "miss";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "mibb";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "mibtqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "mib";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "mibqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "mi";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "misqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "mid";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "mistqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "miss";
 
-  gGlobalFrancaisPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gGlobalFrancaisPitchesNamesMap [kF_SesquiFlat_QTP]  = "fabtqt";
-  gGlobalFrancaisPitchesNamesMap [kF_Flat_QTP]        = "fab";
-  gGlobalFrancaisPitchesNamesMap [kF_SemiFlat_QTP]    = "fabqt";
-  gGlobalFrancaisPitchesNamesMap [kF_Natural_QTP]     = "fa";
-  gGlobalFrancaisPitchesNamesMap [kF_SemiSharp_QTP]   = "fasqt";
-  gGlobalFrancaisPitchesNamesMap [kF_Sharp_QTP]       = "fad";
-  gGlobalFrancaisPitchesNamesMap [kF_SesquiSharp_QTP] = "fastqt";
-  gGlobalFrancaisPitchesNamesMap [kF_DoubleSharp_QTP] = "fass";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "fabb";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "fabtqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "fab";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "fabqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "fa";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "fasqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fad";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "fastqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fass";
 
-  gGlobalFrancaisPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gGlobalFrancaisPitchesNamesMap [kG_SesquiFlat_QTP]  = "solbtqt";
-  gGlobalFrancaisPitchesNamesMap [kG_Flat_QTP]        = "solb";
-  gGlobalFrancaisPitchesNamesMap [kG_SemiFlat_QTP]    = "solbqt";
-  gGlobalFrancaisPitchesNamesMap [kG_Natural_QTP]     = "sol";
-  gGlobalFrancaisPitchesNamesMap [kG_SemiSharp_QTP]   = "solsqt";
-  gGlobalFrancaisPitchesNamesMap [kG_Sharp_QTP]       = "sold";
-  gGlobalFrancaisPitchesNamesMap [kG_SesquiSharp_QTP] = "solstqt";
-  gGlobalFrancaisPitchesNamesMap [kG_DoubleSharp_QTP] = "solss";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "solbb";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "solbtqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "solb";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "solbqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "sol";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "solsqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "sold";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "solstqt";
+  gGlobalFrancaisPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "solss";
 }
 
 void initializeItalianoPitchNamesMap ()
 {
   // italiano
-  gGlobalItalianoPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalItalianoPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalItalianoPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalItalianoPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gGlobalItalianoPitchesNamesMap [kA_SesquiFlat_QTP]  = "labsb";
-  gGlobalItalianoPitchesNamesMap [kA_Flat_QTP]        = "lab";
-  gGlobalItalianoPitchesNamesMap [kA_SemiFlat_QTP]    = "lasb";
-  gGlobalItalianoPitchesNamesMap [kA_Natural_QTP]     = "la";
-  gGlobalItalianoPitchesNamesMap [kA_SemiSharp_QTP]   = "lasd";
-  gGlobalItalianoPitchesNamesMap [kA_Sharp_QTP]       = "lad";
-  gGlobalItalianoPitchesNamesMap [kA_SesquiSharp_QTP] = "ladsd";
-  gGlobalItalianoPitchesNamesMap [kA_DoubleSharp_QTP] = "ladd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "labb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "labsb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "lab";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "lasb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "la";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "lasd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "lad";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "ladsd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "ladd";
 
-  gGlobalItalianoPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gGlobalItalianoPitchesNamesMap [kB_SesquiFlat_QTP]  = "sibsb";
-  gGlobalItalianoPitchesNamesMap [kB_Flat_QTP]        = "sib";
-  gGlobalItalianoPitchesNamesMap [kB_SemiFlat_QTP]    = "sisb";
-  gGlobalItalianoPitchesNamesMap [kB_Natural_QTP]     = "si";
-  gGlobalItalianoPitchesNamesMap [kB_SemiSharp_QTP]   = "sisd";
-  gGlobalItalianoPitchesNamesMap [kB_Sharp_QTP]       = "sid";
-  gGlobalItalianoPitchesNamesMap [kB_SesquiSharp_QTP] = "sidsd";
-  gGlobalItalianoPitchesNamesMap [kB_DoubleSharp_QTP] = "sidd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "sibb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "sibsb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "sib";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "sisb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "si";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "sisd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "sid";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "sidsd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "sidd";
 
-  gGlobalItalianoPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gGlobalItalianoPitchesNamesMap [kC_SesquiFlat_QTP]  = "dobsb";
-  gGlobalItalianoPitchesNamesMap [kC_Flat_QTP]        = "dob";
-  gGlobalItalianoPitchesNamesMap [kC_SemiFlat_QTP]    = "dosb";
-  gGlobalItalianoPitchesNamesMap [kC_Natural_QTP]     = "do";
-  gGlobalItalianoPitchesNamesMap [kC_SemiSharp_QTP]   = "dosd";
-  gGlobalItalianoPitchesNamesMap [kC_Sharp_QTP]       = "dod";
-  gGlobalItalianoPitchesNamesMap [kC_SesquiSharp_QTP] = "dodsd";
-  gGlobalItalianoPitchesNamesMap [kC_DoubleSharp_QTP] = "dodd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "dobb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "dobsb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "dob";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "dosb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "do";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "dosd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "dod";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "dodsd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "dodd";
 
-  gGlobalItalianoPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gGlobalItalianoPitchesNamesMap [kD_SesquiFlat_QTP]  = "rebsb";
-  gGlobalItalianoPitchesNamesMap [kD_Flat_QTP]        = "reb";
-  gGlobalItalianoPitchesNamesMap [kD_SemiFlat_QTP]    = "resb";
-  gGlobalItalianoPitchesNamesMap [kD_Natural_QTP]     = "re";
-  gGlobalItalianoPitchesNamesMap [kD_SemiSharp_QTP]   = "resd";
-  gGlobalItalianoPitchesNamesMap [kD_Sharp_QTP]       = "red";
-  gGlobalItalianoPitchesNamesMap [kD_SesquiSharp_QTP] = "redsd";
-  gGlobalItalianoPitchesNamesMap [kD_DoubleSharp_QTP] = "redd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "rebb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "rebsb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "reb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "resb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "re";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "resd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "red";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "redsd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "redd";
 
-  gGlobalItalianoPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gGlobalItalianoPitchesNamesMap [kE_SesquiFlat_QTP]  = "mibsb";
-  gGlobalItalianoPitchesNamesMap [kE_Flat_QTP]        = "mib";
-  gGlobalItalianoPitchesNamesMap [kE_SemiFlat_QTP]    = "misb";
-  gGlobalItalianoPitchesNamesMap [kE_Natural_QTP]     = "mi";
-  gGlobalItalianoPitchesNamesMap [kE_SemiSharp_QTP]   = "misd";
-  gGlobalItalianoPitchesNamesMap [kE_Sharp_QTP]       = "mid";
-  gGlobalItalianoPitchesNamesMap [kE_SesquiSharp_QTP] = "midsd";
-  gGlobalItalianoPitchesNamesMap [kE_DoubleSharp_QTP] = "midd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "mibb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "mibsb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "mib";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "misb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "mi";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "misd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "mid";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "midsd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "midd";
 
-  gGlobalItalianoPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gGlobalItalianoPitchesNamesMap [kF_SesquiFlat_QTP]  = "fabsb";
-  gGlobalItalianoPitchesNamesMap [kF_Flat_QTP]        = "fab";
-  gGlobalItalianoPitchesNamesMap [kF_SemiFlat_QTP]    = "fasb";
-  gGlobalItalianoPitchesNamesMap [kF_Natural_QTP]     = "fa";
-  gGlobalItalianoPitchesNamesMap [kF_SemiSharp_QTP]   = "fasd";
-  gGlobalItalianoPitchesNamesMap [kF_Sharp_QTP]       = "fad";
-  gGlobalItalianoPitchesNamesMap [kF_SesquiSharp_QTP] = "fadsd";
-  gGlobalItalianoPitchesNamesMap [kF_DoubleSharp_QTP] = "fadd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "fabb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "fabsb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "fab";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "fasb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "fa";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "fasd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fad";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "fadsd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fadd";
 
-  gGlobalItalianoPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gGlobalItalianoPitchesNamesMap [kG_SesquiFlat_QTP]  = "solbsb";
-  gGlobalItalianoPitchesNamesMap [kG_Flat_QTP]        = "solb";
-  gGlobalItalianoPitchesNamesMap [kG_SemiFlat_QTP]    = "solsb";
-  gGlobalItalianoPitchesNamesMap [kG_Natural_QTP]     = "sol";
-  gGlobalItalianoPitchesNamesMap [kG_SemiSharp_QTP]   = "solsd";
-  gGlobalItalianoPitchesNamesMap [kG_Sharp_QTP]       = "sold";
-  gGlobalItalianoPitchesNamesMap [kG_SesquiSharp_QTP] = "soldsd";
-  gGlobalItalianoPitchesNamesMap [kG_DoubleSharp_QTP] = "soldd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "solbb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "solbsb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "solb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "solsb";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "sol";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "solsd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "sold";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "soldsd";
+  gGlobalItalianoPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "soldd";
 }
 
 void initializeNorskPitchNamesMap ()
@@ -12334,157 +12497,157 @@ void initializeNorskPitchNamesMap ()
 */
 
   // norsk
-  gGlobalNorskPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalNorskPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalNorskPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalNorskPitchesNamesMap [kA_DoubleFlat_QTP]  = "aeses";
-  gGlobalNorskPitchesNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
-  gGlobalNorskPitchesNamesMap [kA_Flat_QTP]        = "aes";
-  gGlobalNorskPitchesNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
-  gGlobalNorskPitchesNamesMap [kA_Natural_QTP]     = "a";
-  gGlobalNorskPitchesNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
-  gGlobalNorskPitchesNamesMap [kA_Sharp_QTP]       = "ais";
-  gGlobalNorskPitchesNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
-  gGlobalNorskPitchesNamesMap [kA_DoubleSharp_QTP] = "aisis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "aeses";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "aSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "aes";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "aSemiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "a";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "aSemiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "ais";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "aSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "aisis";
 
-  gGlobalNorskPitchesNamesMap [kB_DoubleFlat_QTP]  = "beses";
-  gGlobalNorskPitchesNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
-  gGlobalNorskPitchesNamesMap [kB_Flat_QTP]        = "bes";
-  gGlobalNorskPitchesNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
-  gGlobalNorskPitchesNamesMap [kB_Natural_QTP]     = "b";
-  gGlobalNorskPitchesNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
-  gGlobalNorskPitchesNamesMap [kB_Sharp_QTP]       = "bis";
-  gGlobalNorskPitchesNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
-  gGlobalNorskPitchesNamesMap [kB_DoubleSharp_QTP] = "bisis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "beses";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "bSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "bes";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "bSemiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "b";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "bSemiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "bis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "bSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "bisis";
 
-  gGlobalNorskPitchesNamesMap [kC_DoubleFlat_QTP]  = "ceses";
-  gGlobalNorskPitchesNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
-  gGlobalNorskPitchesNamesMap [kC_Flat_QTP]        = "ces";
-  gGlobalNorskPitchesNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
-  gGlobalNorskPitchesNamesMap [kC_Natural_QTP]     = "c";
-  gGlobalNorskPitchesNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
-  gGlobalNorskPitchesNamesMap [kC_Sharp_QTP]       = "cis";
-  gGlobalNorskPitchesNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
-  gGlobalNorskPitchesNamesMap [kC_DoubleSharp_QTP] = "cisis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "ceses";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "cSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "ces";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "cSemiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "c";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "cSemiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "cis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "cSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "cisis";
 
-  gGlobalNorskPitchesNamesMap [kD_DoubleFlat_QTP]  = "deses";
-  gGlobalNorskPitchesNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
-  gGlobalNorskPitchesNamesMap [kD_Flat_QTP]        = "des";
-  gGlobalNorskPitchesNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
-  gGlobalNorskPitchesNamesMap [kD_Natural_QTP]     = "d";
-  gGlobalNorskPitchesNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
-  gGlobalNorskPitchesNamesMap [kD_Sharp_QTP]       = "dis";
-  gGlobalNorskPitchesNamesMap [kD_SesquiSharp_QTP] = "dSesquiSharp???";
-  gGlobalNorskPitchesNamesMap [kD_DoubleSharp_QTP] = "disis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "deses";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "dSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "des";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "dSemiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "d";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "dSemiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "dis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "dSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "disis";
 
-  gGlobalNorskPitchesNamesMap [kE_DoubleFlat_QTP]  = "eeses";
-  gGlobalNorskPitchesNamesMap [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
-  gGlobalNorskPitchesNamesMap [kE_Flat_QTP]        = "ees";
-  gGlobalNorskPitchesNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
-  gGlobalNorskPitchesNamesMap [kE_Natural_QTP]     = "e";
-  gGlobalNorskPitchesNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
-  gGlobalNorskPitchesNamesMap [kE_Sharp_QTP]       = "eis";
-  gGlobalNorskPitchesNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
-  gGlobalNorskPitchesNamesMap [kE_DoubleSharp_QTP] = "eisis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "eeses";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "eSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "ees";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "eSemiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "e";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "eSemiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "eis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "eSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "eisis";
 
-  gGlobalNorskPitchesNamesMap [kF_DoubleFlat_QTP]  = "feses";
-  gGlobalNorskPitchesNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
-  gGlobalNorskPitchesNamesMap [kF_Flat_QTP]        = "fes";
-  gGlobalNorskPitchesNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
-  gGlobalNorskPitchesNamesMap [kF_Natural_QTP]     = "f";
-  gGlobalNorskPitchesNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
-  gGlobalNorskPitchesNamesMap [kF_Sharp_QTP]       = "fis";
-  gGlobalNorskPitchesNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
-  gGlobalNorskPitchesNamesMap [kF_DoubleSharp_QTP] = "fisis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "feses";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "fSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "fes";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "fSemiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "f";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "fSemiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "fSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fisis";
 
-  gGlobalNorskPitchesNamesMap [kG_DoubleFlat_QTP]  = "geses";
-  gGlobalNorskPitchesNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
-  gGlobalNorskPitchesNamesMap [kG_Flat_QTP]        = "ges";
-  gGlobalNorskPitchesNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
-  gGlobalNorskPitchesNamesMap [kG_Natural_QTP]     = "g";
-  gGlobalNorskPitchesNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
-  gGlobalNorskPitchesNamesMap [kG_Sharp_QTP]       = "gis";
-  gGlobalNorskPitchesNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
-  gGlobalNorskPitchesNamesMap [kG_DoubleSharp_QTP] = "gisis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "geses";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "gSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "ges";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "gSemiFlat???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "g";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "gSemiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "gis";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "gSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "gisis";
 }
 
 void initializePortuguesPitchNamesMap ()
 {
   // portugues
-  gGlobalPortuguesPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalPortuguesPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalPortuguesPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalPortuguesPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gGlobalPortuguesPitchesNamesMap [kA_SesquiFlat_QTP]  = "labtqt";
-  gGlobalPortuguesPitchesNamesMap [kA_Flat_QTP]        = "lab";
-  gGlobalPortuguesPitchesNamesMap [kA_SemiFlat_QTP]    = "lasb";
-  gGlobalPortuguesPitchesNamesMap [kA_Natural_QTP]     = "la";
-  gGlobalPortuguesPitchesNamesMap [kA_SemiSharp_QTP]   = "lasd";
-  gGlobalPortuguesPitchesNamesMap [kA_Sharp_QTP]       = "lad";
-  gGlobalPortuguesPitchesNamesMap [kA_SesquiSharp_QTP] = "ladsd";
-  gGlobalPortuguesPitchesNamesMap [kA_DoubleSharp_QTP] = "ladd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "labb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "labtqt";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "lab";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "lasb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "la";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "lasd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "lad";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "ladsd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "ladd";
 
-  gGlobalPortuguesPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gGlobalPortuguesPitchesNamesMap [kB_SesquiFlat_QTP]  = "sibtqt";
-  gGlobalPortuguesPitchesNamesMap [kB_Flat_QTP]        = "sib";
-  gGlobalPortuguesPitchesNamesMap [kB_SemiFlat_QTP]    = "sisb";
-  gGlobalPortuguesPitchesNamesMap [kB_Natural_QTP]     = "si";
-  gGlobalPortuguesPitchesNamesMap [kB_SemiSharp_QTP]   = "sisd";
-  gGlobalPortuguesPitchesNamesMap [kB_Sharp_QTP]       = "sid";
-  gGlobalPortuguesPitchesNamesMap [kB_SesquiSharp_QTP] = "sidsd";
-  gGlobalPortuguesPitchesNamesMap [kB_DoubleSharp_QTP] = "sidd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "sibb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "sibtqt";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "sib";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "sisb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "si";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "sisd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "sid";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "sidsd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "sidd";
 
-  gGlobalPortuguesPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gGlobalPortuguesPitchesNamesMap [kC_SesquiFlat_QTP]  = "dobtqt";
-  gGlobalPortuguesPitchesNamesMap [kC_Flat_QTP]        = "dob";
-  gGlobalPortuguesPitchesNamesMap [kC_SemiFlat_QTP]    = "dosb";
-  gGlobalPortuguesPitchesNamesMap [kC_Natural_QTP]     = "do";
-  gGlobalPortuguesPitchesNamesMap [kC_SemiSharp_QTP]   = "dosd";
-  gGlobalPortuguesPitchesNamesMap [kC_Sharp_QTP]       = "dod";
-  gGlobalPortuguesPitchesNamesMap [kC_SesquiSharp_QTP] = "dodsd";
-  gGlobalPortuguesPitchesNamesMap [kC_DoubleSharp_QTP] = "dodd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "dobb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "dobtqt";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "dob";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "dosb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "do";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "dosd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "dod";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "dodsd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "dodd";
 
-  gGlobalPortuguesPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gGlobalPortuguesPitchesNamesMap [kD_SesquiFlat_QTP]  = "rebtqt";
-  gGlobalPortuguesPitchesNamesMap [kD_Flat_QTP]        = "reb";
-  gGlobalPortuguesPitchesNamesMap [kD_SemiFlat_QTP]    = "resb";
-  gGlobalPortuguesPitchesNamesMap [kD_Natural_QTP]     = "re";
-  gGlobalPortuguesPitchesNamesMap [kD_SemiSharp_QTP]   = "resd";
-  gGlobalPortuguesPitchesNamesMap [kD_Sharp_QTP]       = "red";
-  gGlobalPortuguesPitchesNamesMap [kD_SesquiSharp_QTP] = "redsd";
-  gGlobalPortuguesPitchesNamesMap [kD_DoubleSharp_QTP] = "redd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "rebb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "rebtqt";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "reb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "resb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "re";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "resd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "red";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "redsd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "redd";
 
-  gGlobalPortuguesPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gGlobalPortuguesPitchesNamesMap [kE_SesquiFlat_QTP]  = "mibtqt";
-  gGlobalPortuguesPitchesNamesMap [kE_Flat_QTP]        = "mib";
-  gGlobalPortuguesPitchesNamesMap [kE_SemiFlat_QTP]    = "misb";
-  gGlobalPortuguesPitchesNamesMap [kE_Natural_QTP]     = "mi";
-  gGlobalPortuguesPitchesNamesMap [kE_SemiSharp_QTP]   = "misd";
-  gGlobalPortuguesPitchesNamesMap [kE_Sharp_QTP]       = "mid";
-  gGlobalPortuguesPitchesNamesMap [kE_SesquiSharp_QTP] = "midsd";
-  gGlobalPortuguesPitchesNamesMap [kE_DoubleSharp_QTP] = "midd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "mibb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "mibtqt";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "mib";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "misb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "mi";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "misd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "mid";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "midsd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "midd";
 
-  gGlobalPortuguesPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gGlobalPortuguesPitchesNamesMap [kF_SesquiFlat_QTP]  = "fabtqt";
-  gGlobalPortuguesPitchesNamesMap [kF_Flat_QTP]        = "fab";
-  gGlobalPortuguesPitchesNamesMap [kF_SemiFlat_QTP]    = "fasb";
-  gGlobalPortuguesPitchesNamesMap [kF_Natural_QTP]     = "fa";
-  gGlobalPortuguesPitchesNamesMap [kF_SemiSharp_QTP]   = "fasd";
-  gGlobalPortuguesPitchesNamesMap [kF_Sharp_QTP]       = "fad";
-  gGlobalPortuguesPitchesNamesMap [kF_SesquiSharp_QTP] = "fadsd";
-  gGlobalPortuguesPitchesNamesMap [kF_DoubleSharp_QTP] = "fadd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "fabb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "fabtqt";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "fab";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "fasb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "fa";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "fasd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fad";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "fadsd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fadd";
 
-  gGlobalPortuguesPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gGlobalPortuguesPitchesNamesMap [kG_SesquiFlat_QTP]  = "solbtqt";
-  gGlobalPortuguesPitchesNamesMap [kG_Flat_QTP]        = "solb";
-  gGlobalPortuguesPitchesNamesMap [kG_SemiFlat_QTP]    = "solsb";
-  gGlobalPortuguesPitchesNamesMap [kG_Natural_QTP]     = "sol";
-  gGlobalPortuguesPitchesNamesMap [kG_SemiSharp_QTP]   = "solsd";
-  gGlobalPortuguesPitchesNamesMap [kG_Sharp_QTP]       = "sold";
-  gGlobalPortuguesPitchesNamesMap [kG_SesquiSharp_QTP] = "soldsd";
-  gGlobalPortuguesPitchesNamesMap [kG_DoubleSharp_QTP] = "soldd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "solbb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "solbtqt";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "solb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "solsb";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "sol";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "solsd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "sold";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "soldsd";
+  gGlobalPortuguesPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "soldd";
 }
 
 void initializeSuomiPitchNamesMap ()
@@ -12567,79 +12730,79 @@ void initializeSuomiPitchNamesMap ()
               ))
 */
   // suomi
-  gGlobalSuomiPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalSuomiPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalSuomiPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalSuomiPitchesNamesMap [kA_DoubleFlat_QTP]  = "asas";
-  gGlobalSuomiPitchesNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
-  gGlobalSuomiPitchesNamesMap [kA_Flat_QTP]        = "as";
-  gGlobalSuomiPitchesNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
-  gGlobalSuomiPitchesNamesMap [kA_Natural_QTP]     = "a";
-  gGlobalSuomiPitchesNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
-  gGlobalSuomiPitchesNamesMap [kA_Sharp_QTP]       = "ais";
-  gGlobalSuomiPitchesNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
-  gGlobalSuomiPitchesNamesMap [kA_DoubleSharp_QTP] = "aisis";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "asas";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "aSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "as";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "aSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "a";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "aSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "ais";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "aSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "aisis";
 
-  gGlobalSuomiPitchesNamesMap [kB_DoubleFlat_QTP]  = "bes";
-  gGlobalSuomiPitchesNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
-  gGlobalSuomiPitchesNamesMap [kB_Flat_QTP]        = "b";
-  gGlobalSuomiPitchesNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
-  gGlobalSuomiPitchesNamesMap [kB_Natural_QTP]     = "h";
-  gGlobalSuomiPitchesNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
-  gGlobalSuomiPitchesNamesMap [kB_Sharp_QTP]       = "his";
-  gGlobalSuomiPitchesNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
-  gGlobalSuomiPitchesNamesMap [kB_DoubleSharp_QTP] = "hisis";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "bes";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "bSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "b";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "bSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "h";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "bSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "his";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "bSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "hisis";
 
-  gGlobalSuomiPitchesNamesMap [kC_DoubleFlat_QTP]  = "ceses";
-  gGlobalSuomiPitchesNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
-  gGlobalSuomiPitchesNamesMap [kC_Flat_QTP]        = "ces";
-  gGlobalSuomiPitchesNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
-  gGlobalSuomiPitchesNamesMap [kC_Natural_QTP]     = "c";
-  gGlobalSuomiPitchesNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
-  gGlobalSuomiPitchesNamesMap [kC_Sharp_QTP]       = "cis";
-  gGlobalSuomiPitchesNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
-  gGlobalSuomiPitchesNamesMap [kC_DoubleSharp_QTP] = "cisis";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "ceses";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "cSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "ces";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "cSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "c";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "cSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "cis";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "cSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "cisis";
 
-  gGlobalSuomiPitchesNamesMap [kD_DoubleFlat_QTP]  = "deses";
-  gGlobalSuomiPitchesNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
-  gGlobalSuomiPitchesNamesMap [kD_Flat_QTP]        = "des";
-  gGlobalSuomiPitchesNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
-  gGlobalSuomiPitchesNamesMap [kD_Natural_QTP]     = "d";
-  gGlobalSuomiPitchesNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
-  gGlobalSuomiPitchesNamesMap [kD_Sharp_QTP]       = "dis";
-  gGlobalSuomiPitchesNamesMap [kD_SesquiSharp_QTP] = "dSesquiSharp???";
-  gGlobalSuomiPitchesNamesMap [kD_DoubleSharp_QTP] = "disis";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "deses";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "dSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "des";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "dSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "d";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "dSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "dis";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "dSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "disis";
 
-  gGlobalSuomiPitchesNamesMap [kE_DoubleFlat_QTP]  = "eses";
-  gGlobalSuomiPitchesNamesMap [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
-  gGlobalSuomiPitchesNamesMap [kE_Flat_QTP]        = "es";
-  gGlobalSuomiPitchesNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
-  gGlobalSuomiPitchesNamesMap [kE_Natural_QTP]     = "e";
-  gGlobalSuomiPitchesNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
-  gGlobalSuomiPitchesNamesMap [kE_Sharp_QTP]       = "eis";
-  gGlobalSuomiPitchesNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
-  gGlobalSuomiPitchesNamesMap [kE_DoubleSharp_QTP] = "eisis";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "eses";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "eSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "es";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "eSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "e";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "eSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "eis";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "eSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "eisis";
 
-  gGlobalSuomiPitchesNamesMap [kF_DoubleFlat_QTP]  = "feses";
-  gGlobalSuomiPitchesNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
-  gGlobalSuomiPitchesNamesMap [kF_Flat_QTP]        = "fes";
-  gGlobalSuomiPitchesNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
-  gGlobalSuomiPitchesNamesMap [kF_Natural_QTP]     = "f";
-  gGlobalSuomiPitchesNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
-  gGlobalSuomiPitchesNamesMap [kF_Sharp_QTP]       = "fis";
-  gGlobalSuomiPitchesNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
-  gGlobalSuomiPitchesNamesMap [kF_DoubleSharp_QTP] = "fisis";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "feses";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "fSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "fes";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "fSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "f";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "fSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fis";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "fSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fisis";
 
-  gGlobalSuomiPitchesNamesMap [kG_DoubleFlat_QTP]  = "geses";
-  gGlobalSuomiPitchesNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
-  gGlobalSuomiPitchesNamesMap [kG_Flat_QTP]        = "ges";
-  gGlobalSuomiPitchesNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
-  gGlobalSuomiPitchesNamesMap [kG_Natural_QTP]     = "g";
-  gGlobalSuomiPitchesNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
-  gGlobalSuomiPitchesNamesMap [kG_Sharp_QTP]       = "gis";
-  gGlobalSuomiPitchesNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
-  gGlobalSuomiPitchesNamesMap [kG_DoubleSharp_QTP] = "gisis";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "geses";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "gSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "ges";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "gSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "g";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "gSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "gis";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "gSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "gisis";
 }
 
 void initializeSvenskaPitchNamesMap ()
@@ -12718,79 +12881,79 @@ void initializeSvenskaPitchNamesMap ()
                 ))
 */
   // svenska
-  gGlobalSvenskaPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalSvenskaPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalSvenskaPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalSvenskaPitchesNamesMap [kA_DoubleFlat_QTP]  = "assess";
-  gGlobalSvenskaPitchesNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kA_Flat_QTP]        = "ass";
-  gGlobalSvenskaPitchesNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kA_Natural_QTP]     = "a";
-  gGlobalSvenskaPitchesNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kA_Sharp_QTP]       = "aiss";
-  gGlobalSvenskaPitchesNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kA_DoubleSharp_QTP] = "aississ";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "assess";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "aSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "ass";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "aSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "a";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "aSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "aiss";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "aSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "aississ";
 
-  gGlobalSvenskaPitchesNamesMap [kB_DoubleFlat_QTP]  = "hessess";
-  gGlobalSvenskaPitchesNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kB_Flat_QTP]        = "b";
-  gGlobalSvenskaPitchesNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kB_Natural_QTP]     = "h";
-  gGlobalSvenskaPitchesNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kB_Sharp_QTP]       = "hiss";
-  gGlobalSvenskaPitchesNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kB_DoubleSharp_QTP] = "hississ";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "hessess";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "bSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "b";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "bSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "h";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "bSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "hiss";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "bSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "hississ";
 
-  gGlobalSvenskaPitchesNamesMap [kC_DoubleFlat_QTP]  = "cessess";
-  gGlobalSvenskaPitchesNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kC_Flat_QTP]        = "cess";
-  gGlobalSvenskaPitchesNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kC_Natural_QTP]     = "c";
-  gGlobalSvenskaPitchesNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kC_Sharp_QTP]       = "ciss";
-  gGlobalSvenskaPitchesNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kC_DoubleSharp_QTP] = "cississ";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "cessess";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "cSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "cess";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "cSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "c";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "cSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "ciss";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "cSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "cississ";
 
-  gGlobalSvenskaPitchesNamesMap [kD_DoubleFlat_QTP]  = "dessess";
-  gGlobalSvenskaPitchesNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kD_Flat_QTP]        = "dess";
-  gGlobalSvenskaPitchesNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kD_Natural_QTP]     = "d";
-  gGlobalSvenskaPitchesNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kD_Sharp_QTP]       = "diss";
-  gGlobalSvenskaPitchesNamesMap [kD_SesquiSharp_QTP] = "dSesquiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kD_DoubleSharp_QTP] = "dississ";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "dessess";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "dSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "dess";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "dSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "d";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "dSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "diss";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "dSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "dississ";
 
-  gGlobalSvenskaPitchesNamesMap [kE_DoubleFlat_QTP]  = "essess";
-  gGlobalSvenskaPitchesNamesMap [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kE_Flat_QTP]        = "ess";
-  gGlobalSvenskaPitchesNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kE_Natural_QTP]     = "e";
-  gGlobalSvenskaPitchesNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kE_Sharp_QTP]       = "eiss";
-  gGlobalSvenskaPitchesNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kE_DoubleSharp_QTP] = "eississ";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "essess";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "eSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "ess";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "eSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "e";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "eSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "eiss";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "eSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "eississ";
 
-  gGlobalSvenskaPitchesNamesMap [kF_DoubleFlat_QTP]  = "fessess";
-  gGlobalSvenskaPitchesNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kF_Flat_QTP]        = "fess";
-  gGlobalSvenskaPitchesNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kF_Natural_QTP]     = "f";
-  gGlobalSvenskaPitchesNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kF_Sharp_QTP]       = "fiss";
-  gGlobalSvenskaPitchesNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kF_DoubleSharp_QTP] = "fississ";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "fessess";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "fSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "fess";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "fSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "f";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "fSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fiss";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "fSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fississ";
 
-  gGlobalSvenskaPitchesNamesMap [kG_DoubleFlat_QTP]  = "gessess";
-  gGlobalSvenskaPitchesNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kG_Flat_QTP]        = "gess";
-  gGlobalSvenskaPitchesNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
-  gGlobalSvenskaPitchesNamesMap [kG_Natural_QTP]     = "g";
-  gGlobalSvenskaPitchesNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kG_Sharp_QTP]       = "giss";
-  gGlobalSvenskaPitchesNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
-  gGlobalSvenskaPitchesNamesMap [kG_DoubleSharp_QTP] = "gississ";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "gessess";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "gSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "gess";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "gSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "g";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "gSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "giss";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "gSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "gississ";
 }
 
 void initializeVlaamsPitchNamesMap ()
@@ -12869,79 +13032,79 @@ void initializeVlaamsPitchNamesMap ()
                ))
 */
   // vlaams
-  gGlobalVlaamsPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalVlaamsPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalVlaamsPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalVlaamsPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gGlobalVlaamsPitchesNamesMap [kA_SesquiFlat_QTP]  = "laSesquiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kA_Flat_QTP]        = "lab";
-  gGlobalVlaamsPitchesNamesMap [kA_SemiFlat_QTP]    = "laSemiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kA_Natural_QTP]     = "la";
-  gGlobalVlaamsPitchesNamesMap [kA_SemiSharp_QTP]   = "laSemiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kA_Sharp_QTP]       = "lak";
-  gGlobalVlaamsPitchesNamesMap [kA_SesquiSharp_QTP] = "laSesquiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kA_DoubleSharp_QTP] = "lakk";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "labb";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "laSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "lab";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "laSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "la";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "laSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "lak";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "laSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "lakk";
 
-  gGlobalVlaamsPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gGlobalVlaamsPitchesNamesMap [kB_SesquiFlat_QTP]  = "siSesquiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kB_Flat_QTP]        = "sib";
-  gGlobalVlaamsPitchesNamesMap [kB_SemiFlat_QTP]    = "siSemiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kB_Natural_QTP]     = "si";
-  gGlobalVlaamsPitchesNamesMap [kB_SemiSharp_QTP]   = "siSemiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kB_Sharp_QTP]       = "sik";
-  gGlobalVlaamsPitchesNamesMap [kB_SesquiSharp_QTP] = "siSesquiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kB_DoubleSharp_QTP] = "sikk";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "sibb";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "siSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "sib";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "siSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "si";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "siSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "sik";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "siSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "sikk";
 
-  gGlobalVlaamsPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gGlobalVlaamsPitchesNamesMap [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kC_Flat_QTP]        = "dob";
-  gGlobalVlaamsPitchesNamesMap [kC_SemiFlat_QTP]    = "doSemiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kC_Natural_QTP]     = "do";
-  gGlobalVlaamsPitchesNamesMap [kC_SemiSharp_QTP]   = "doSemiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kC_Sharp_QTP]       = "dok";
-  gGlobalVlaamsPitchesNamesMap [kC_SesquiSharp_QTP] = "doSesquiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kC_DoubleSharp_QTP] = "dokk";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "dobb";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "doSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "dob";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "doSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "do";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "doSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "dok";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "doSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "dokk";
 
-  gGlobalVlaamsPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gGlobalVlaamsPitchesNamesMap [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kD_Flat_QTP]        = "reb";
-  gGlobalVlaamsPitchesNamesMap [kD_SemiFlat_QTP]    = "reSemiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kD_Natural_QTP]     = "re";
-  gGlobalVlaamsPitchesNamesMap [kD_SemiSharp_QTP]   = "reSemiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kD_Sharp_QTP]       = "rek";
-  gGlobalVlaamsPitchesNamesMap [kD_SesquiSharp_QTP] = "reSesquiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kD_DoubleSharp_QTP] = "rekk";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "rebb";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "reSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "reb";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "reSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "re";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "reSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "rek";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "reSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "rekk";
 
-  gGlobalVlaamsPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gGlobalVlaamsPitchesNamesMap [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kE_Flat_QTP]        = "mib";
-  gGlobalVlaamsPitchesNamesMap [kE_SemiFlat_QTP]    = "miSemiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kE_Natural_QTP]     = "mi";
-  gGlobalVlaamsPitchesNamesMap [kE_SemiSharp_QTP]   = "miSemiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kE_Sharp_QTP]       = "mik";
-  gGlobalVlaamsPitchesNamesMap [kE_SesquiSharp_QTP] = "miSesquiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kE_DoubleSharp_QTP] = "mikk";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "mibb";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "miSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "mib";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "miSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "mi";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "miSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "mik";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "miSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "mikk";
 
-  gGlobalVlaamsPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gGlobalVlaamsPitchesNamesMap [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kF_Flat_QTP]        = "fab";
-  gGlobalVlaamsPitchesNamesMap [kF_SemiFlat_QTP]    = "faSemiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kF_Natural_QTP]     = "fa";
-  gGlobalVlaamsPitchesNamesMap [kF_SemiSharp_QTP]   = "faSemiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kF_Sharp_QTP]       = "fak";
-  gGlobalVlaamsPitchesNamesMap [kF_SesquiSharp_QTP] = "faSesquiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kF_DoubleSharp_QTP] = "fakk";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "fabb";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "faSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "fab";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "faSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "fa";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "faSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fak";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "faSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fakk";
 
-  gGlobalVlaamsPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gGlobalVlaamsPitchesNamesMap [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kG_Flat_QTP]        = "solb";
-  gGlobalVlaamsPitchesNamesMap [kG_SemiFlat_QTP]    = "solSemiFlat???";
-  gGlobalVlaamsPitchesNamesMap [kG_Natural_QTP]     = "sol";
-  gGlobalVlaamsPitchesNamesMap [kG_SemiSharp_QTP]   = "solSemiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kG_Sharp_QTP]       = "solk";
-  gGlobalVlaamsPitchesNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
-  gGlobalVlaamsPitchesNamesMap [kG_DoubleSharp_QTP] = "solkk";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "solbb";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "solSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "solb";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "solSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "sol";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "solSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "solk";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "solSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "solkk";
 }
 
 void initializeArabicPitchNamesMap ()
@@ -13039,79 +13202,79 @@ void initializeArabicPitchNamesMap ()
     ))
 */
   // arabic
-  gGlobalArabicPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gGlobalArabicPitchesNamesMap [k_Rest_QTP]                 = "r";
-  gGlobalArabicPitchesNamesMap [k_Skip_QTP]                 = "s";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::k_NoQuarterTonesPitch]  = "noQuarterTonePitch";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Rest]                 = "r";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_Skip]                 = "s";
 
-  gGlobalArabicPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gGlobalArabicPitchesNamesMap [kA_SesquiFlat_QTP]  = "laSesquiFlat???";
-  gGlobalArabicPitchesNamesMap [kA_Flat_QTP]        = "lab";
-  gGlobalArabicPitchesNamesMap [kA_SemiFlat_QTP]    = "laSemiFlat???";
-  gGlobalArabicPitchesNamesMap [kA_Natural_QTP]     = "la";
-  gGlobalArabicPitchesNamesMap [kA_SemiSharp_QTP]   = "laSemiSharp???";
-  gGlobalArabicPitchesNamesMap [kA_Sharp_QTP]       = "lak";
-  gGlobalArabicPitchesNamesMap [kA_SesquiSharp_QTP] = "laSesquiSharp???";
-  gGlobalArabicPitchesNamesMap [kA_DoubleSharp_QTP] = "lakk";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleFlat]  = "labb";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiFlat]  = "laSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Flat]        = "lab";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiFlat]    = "laSemiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Natural]     = "la";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SemiSharp]   = "laSemiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_Sharp]       = "lak";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_SesquiSharp] = "laSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_A_DoubleSharp] = "lakk";
 
-  gGlobalArabicPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gGlobalArabicPitchesNamesMap [kB_SesquiFlat_QTP]  = "siSesquiFlat???";
-  gGlobalArabicPitchesNamesMap [kB_Flat_QTP]        = "sib";
-  gGlobalArabicPitchesNamesMap [kB_SemiFlat_QTP]    = "siSemiFlat???";
-  gGlobalArabicPitchesNamesMap [kB_Natural_QTP]     = "si";
-  gGlobalArabicPitchesNamesMap [kB_SemiSharp_QTP]   = "siSemiSharp???";
-  gGlobalArabicPitchesNamesMap [kB_Sharp_QTP]       = "sik";
-  gGlobalArabicPitchesNamesMap [kB_SesquiSharp_QTP] = "siSesquiSharp???";
-  gGlobalArabicPitchesNamesMap [kB_DoubleSharp_QTP] = "sikk";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleFlat]  = "sibb";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiFlat]  = "siSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Flat]        = "sib";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiFlat]    = "siSemiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Natural]     = "si";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SemiSharp]   = "siSemiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_Sharp]       = "sik";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_SesquiSharp] = "siSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_B_DoubleSharp] = "sikk";
 
-  gGlobalArabicPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gGlobalArabicPitchesNamesMap [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
-  gGlobalArabicPitchesNamesMap [kC_Flat_QTP]        = "dob";
-  gGlobalArabicPitchesNamesMap [kC_SemiFlat_QTP]    = "doSemiFlat???";
-  gGlobalArabicPitchesNamesMap [kC_Natural_QTP]     = "do";
-  gGlobalArabicPitchesNamesMap [kC_SemiSharp_QTP]   = "doSemiSharp???";
-  gGlobalArabicPitchesNamesMap [kC_Sharp_QTP]       = "dok";
-  gGlobalArabicPitchesNamesMap [kC_SesquiSharp_QTP] = "doSesquiSharp???";
-  gGlobalArabicPitchesNamesMap [kC_DoubleSharp_QTP] = "dokk";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleFlat]  = "dobb";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiFlat]  = "doSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Flat]        = "dob";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiFlat]    = "doSemiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Natural]     = "do";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SemiSharp]   = "doSemiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_Sharp]       = "dok";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_SesquiSharp] = "doSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_C_DoubleSharp] = "dokk";
 
-  gGlobalArabicPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gGlobalArabicPitchesNamesMap [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
-  gGlobalArabicPitchesNamesMap [kD_Flat_QTP]        = "reb";
-  gGlobalArabicPitchesNamesMap [kD_SemiFlat_QTP]    = "reSemiFlat???";
-  gGlobalArabicPitchesNamesMap [kD_Natural_QTP]     = "re";
-  gGlobalArabicPitchesNamesMap [kD_SemiSharp_QTP]   = "reSemiSharp???";
-  gGlobalArabicPitchesNamesMap [kD_Sharp_QTP]       = "rek";
-  gGlobalArabicPitchesNamesMap [kD_SesquiSharp_QTP] = "reSesquiSharp???";
-  gGlobalArabicPitchesNamesMap [kD_DoubleSharp_QTP] = "rekk";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleFlat]  = "rebb";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiFlat]  = "reSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Flat]        = "reb";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiFlat]    = "reSemiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Natural]     = "re";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SemiSharp]   = "reSemiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_Sharp]       = "rek";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_SesquiSharp] = "reSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_D_DoubleSharp] = "rekk";
 
-  gGlobalArabicPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gGlobalArabicPitchesNamesMap [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
-  gGlobalArabicPitchesNamesMap [kE_Flat_QTP]        = "mib";
-  gGlobalArabicPitchesNamesMap [kE_SemiFlat_QTP]    = "miSemiFlat???";
-  gGlobalArabicPitchesNamesMap [kE_Natural_QTP]     = "mi";
-  gGlobalArabicPitchesNamesMap [kE_SemiSharp_QTP]   = "miSemiSharp???";
-  gGlobalArabicPitchesNamesMap [kE_Sharp_QTP]       = "mik";
-  gGlobalArabicPitchesNamesMap [kE_SesquiSharp_QTP] = "miSesquiSharp???";
-  gGlobalArabicPitchesNamesMap [kE_DoubleSharp_QTP] = "mikk";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleFlat]  = "mibb";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiFlat]  = "miSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Flat]        = "mib";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiFlat]    = "miSemiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Natural]     = "mi";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SemiSharp]   = "miSemiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_Sharp]       = "mik";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_SesquiSharp] = "miSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_E_DoubleSharp] = "mikk";
 
-  gGlobalArabicPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gGlobalArabicPitchesNamesMap [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
-  gGlobalArabicPitchesNamesMap [kF_Flat_QTP]        = "fab";
-  gGlobalArabicPitchesNamesMap [kF_SemiFlat_QTP]    = "faSemiFlat???";
-  gGlobalArabicPitchesNamesMap [kF_Natural_QTP]     = "fa";
-  gGlobalArabicPitchesNamesMap [kF_SemiSharp_QTP]   = "faSemiSharp???";
-  gGlobalArabicPitchesNamesMap [kF_Sharp_QTP]       = "fak";
-  gGlobalArabicPitchesNamesMap [kF_SesquiSharp_QTP] = "faSesquiSharp???";
-  gGlobalArabicPitchesNamesMap [kF_DoubleSharp_QTP] = "fakk";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleFlat]  = "fabb";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiFlat]  = "faSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Flat]        = "fab";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiFlat]    = "faSemiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Natural]     = "fa";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SemiSharp]   = "faSemiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_Sharp]       = "fak";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_SesquiSharp] = "faSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_F_DoubleSharp] = "fakk";
 
-  gGlobalArabicPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gGlobalArabicPitchesNamesMap [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
-  gGlobalArabicPitchesNamesMap [kG_Flat_QTP]        = "solb";
-  gGlobalArabicPitchesNamesMap [kG_SemiFlat_QTP]    = "solSemiFlat???";
-  gGlobalArabicPitchesNamesMap [kG_Natural_QTP]     = "sol";
-  gGlobalArabicPitchesNamesMap [kG_SemiSharp_QTP]   = "solSemiSharp???";
-  gGlobalArabicPitchesNamesMap [kG_Sharp_QTP]       = "solk";
-  gGlobalArabicPitchesNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
-  gGlobalArabicPitchesNamesMap [kG_DoubleSharp_QTP] = "solkk";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleFlat]  = "solbb";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiFlat]  = "solSesquiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Flat]        = "solb";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiFlat]    = "solSemiFlat???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Natural]     = "sol";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SemiSharp]   = "solSemiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_Sharp]       = "solk";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_SesquiSharp] = "solSesquiSharp???";
+  gGlobalArabicPitchesNamesMap [msrQuarterTonesPitchKind::kQTP_G_DoubleSharp] = "solkk";
 }
 
 msrQuarterTonesPitchesLanguageKind msrQuarterTonesPitchesLanguageKindFromString (
@@ -13158,29 +13321,29 @@ string msrDiatonicPitchKindAsString (
   string result;
 
   switch (diatonicPitchKind) {
-    case k_NoDiatonicPitch:
-      result = "k_NoDiatonicPitch";
+    case msrDiatonicPitchKind::k_NoDiatonicPitch:
+      result = "msrDiatonicPitchKind::k_NoDiatonicPitch";
       break;
 
-    case kDiatonicPitchA:
+    case msrDiatonicPitchKind::kDiatonicPitchA:
       result = "A";
       break;
-    case kDiatonicPitchB:
+    case msrDiatonicPitchKind::kDiatonicPitchB:
       result = "B";
       break;
-    case kDiatonicPitchC:
+    case msrDiatonicPitchKind::kDiatonicPitchC:
       result = "C";
       break;
-    case kDiatonicPitchD:
+    case msrDiatonicPitchKind::kDiatonicPitchD:
       result = "D";
       break;
-    case kDiatonicPitchE:
+    case msrDiatonicPitchKind::kDiatonicPitchE:
       result = "E";
       break;
-    case kDiatonicPitchF:
+    case msrDiatonicPitchKind::kDiatonicPitchF:
       result = "F";
       break;
-    case kDiatonicPitchG:
+    case msrDiatonicPitchKind::kDiatonicPitchG:
       result = "G";
       break;
   } // switch
@@ -13191,36 +13354,36 @@ string msrDiatonicPitchKindAsString (
 msrDiatonicPitchKind msrDiatonicPitchKindFromString (
   char diatonicNoteName)
 {
-  msrDiatonicPitchKind result = k_NoDiatonicPitch;
+  msrDiatonicPitchKind result = msrDiatonicPitchKind::k_NoDiatonicPitch;
 
   switch (diatonicNoteName) {
     case 'a':
     case 'A':
-      result = kDiatonicPitchA;
+      result = msrDiatonicPitchKind::kDiatonicPitchA;
        break;
     case 'b':
     case 'B':
-      result = kDiatonicPitchB;
+      result = msrDiatonicPitchKind::kDiatonicPitchB;
       break;
     case 'c':
     case 'C':
-      result = kDiatonicPitchC;
+      result = msrDiatonicPitchKind::kDiatonicPitchC;
       break;
     case 'd':
     case 'D':
-      result = kDiatonicPitchD;
+      result = msrDiatonicPitchKind::kDiatonicPitchD;
       break;
     case 'e':
     case 'E':
-      result = kDiatonicPitchE;
+      result = msrDiatonicPitchKind::kDiatonicPitchE;
       break;
     case 'f':
     case 'F':
-      result = kDiatonicPitchF;
+      result = msrDiatonicPitchKind::kDiatonicPitchF;
       break;
     case 'g':
     case 'G':
-      result = kDiatonicPitchG;
+      result = msrDiatonicPitchKind::kDiatonicPitchG;
       break;
     default: {}
   } // switch
@@ -13235,29 +13398,29 @@ string msrDiatonicPitchKindAsString (
   string result;
 
   switch (diatonicPitchKind) {
-    case k_NoDiatonicPitch:
-      result = "k_NoDiatonicPitch";
+    case msrDiatonicPitchKind::k_NoDiatonicPitch:
+      result = "msrDiatonicPitchKind::k_NoDiatonicPitch";
       break;
 
-    case kDiatonicPitchA:
+    case msrDiatonicPitchKind::kDiatonicPitchA:
       result = "a";
       break;
-    case kDiatonicPitchB:
+    case msrDiatonicPitchKind::kDiatonicPitchB:
       result = "b";
       break;
-    case kDiatonicPitchC:
+    case msrDiatonicPitchKind::kDiatonicPitchC:
       result = "c";
       break;
-    case kDiatonicPitchD:
+    case msrDiatonicPitchKind::kDiatonicPitchD:
       result = "d";
       break;
-    case kDiatonicPitchE:
+    case msrDiatonicPitchKind::kDiatonicPitchE:
       result = "e";
       break;
-    case kDiatonicPitchF:
+    case msrDiatonicPitchKind::kDiatonicPitchF:
       result = "f";
       break;
-    case kDiatonicPitchG:
+    case msrDiatonicPitchKind::kDiatonicPitchG:
       result = "g";
       break;
   } // switch
@@ -13330,50 +13493,50 @@ msrAlterationKind msrAlterationKindFromMusicXMLAlter (
       +0.5      -0.5        +1.5       -1.5         +2.0        -2.0
 */
 
-  msrAlterationKind result = k_NoAlteration;
+  msrAlterationKind result = msrAlterationKind::k_NoAlteration;
 
   if      (alter == 0 ) {
-    result = kNatural;
+    result = msrAlterationKind::kAlterationNatural;
   }
 
   else if (alter == -1 ) {
-    result = kFlat;
+    result = msrAlterationKind::kAlterationFlat;
   }
 
   else if (alter == 1 ) {
-    result = kSharp;
+    result = msrAlterationKind::kAlterationSharp;
   }
 
   else if (alter == -0.5 ) {
-    result = kSemiFlat;
+    result = msrAlterationKind::kAlterationSemiFlat;
   }
 
   else if (alter == +0.5 ) {
-    result = kSemiSharp;
+    result = msrAlterationKind::kAlterationSemiSharp;
   }
 
   else if (alter == -1.5 ) {
-    result = kSesquiFlat;
+    result = msrAlterationKind::kAlterationSesquiFlat;
   }
 
   else if (alter == +1.5 ) {
-    result = kSesquiSharp;
+    result = msrAlterationKind::kAlterationSesquiSharp;
   }
 
   else if (alter == -2 ) {
-    result = kDoubleFlat;
+    result = msrAlterationKind::kAlterationDoubleFlat;
   }
 
   else if (alter == +2 ) {
-    result = kDoubleSharp;
+    result = msrAlterationKind::kAlterationDoubleSharp;
   }
 
   else if (alter == -3 ) {
-    result = kTripleFlat;
+    result = msrAlterationKind::kAlterationTripleFlat;
   }
 
   else if (alter == +3 ) {
-    result = kTripleSharp;
+    result = msrAlterationKind::kAlterationTripleSharp;
   }
 
   return result;
@@ -13385,40 +13548,40 @@ float msrMusicXMLAlterFromAlterationKind (
   float result = -111.0;;
 
   switch (alterationKind) {
-    case k_NoAlteration:
+    case msrAlterationKind::k_NoAlteration:
       break;
 
-    case kTripleFlat:
+    case msrAlterationKind::kAlterationTripleFlat:
       result = -3;
       break;
-    case kDoubleFlat:
+    case msrAlterationKind::kAlterationDoubleFlat:
       result = -2;
       break;
-    case kSesquiFlat:
+    case msrAlterationKind::kAlterationSesquiFlat:
       result = -1.5;
       break;
-    case kFlat:
+    case msrAlterationKind::kAlterationFlat:
       result = -1;
       break;
-    case kSemiFlat:
+    case msrAlterationKind::kAlterationSemiFlat:
       result = -0.5;
       break;
-    case kNatural:
+    case msrAlterationKind::kAlterationNatural:
       result = 0;
       break;
-    case kSemiSharp:
+    case msrAlterationKind::kAlterationSemiSharp:
       result = +0.5;
       break;
-    case kSharp:
+    case msrAlterationKind::kAlterationSharp:
       result = 1;
       break;
-    case kSesquiSharp:
+    case msrAlterationKind::kAlterationSesquiSharp:
       result = +1.5;
       break;
-    case kDoubleSharp:
+    case msrAlterationKind::kAlterationDoubleSharp:
       result = +2;
       break;
-    case kTripleSharp:
+    case msrAlterationKind::kAlterationTripleSharp:
       result = +3;
       break;
   } // switch
@@ -13432,41 +13595,41 @@ string msrAlterationKindAsString (
   string result;
 
   switch (alterationKind) {
-    case k_NoAlteration:
+    case msrAlterationKind::k_NoAlteration:
       result = "noAlteration";
       break;
 
-    case kTripleFlat:
+    case msrAlterationKind::kAlterationTripleFlat:
       result = "tripleFlat";
       break;
-    case kDoubleFlat:
+    case msrAlterationKind::kAlterationDoubleFlat:
       result = "doubleFlat";
       break;
-    case kSesquiFlat:
+    case msrAlterationKind::kAlterationSesquiFlat:
       result = "sesquiFlat";
       break;
-    case kFlat:
+    case msrAlterationKind::kAlterationFlat:
       result = "flat";
       break;
-    case kSemiFlat:
+    case msrAlterationKind::kAlterationSemiFlat:
       result = "semiFlat";
       break;
-    case kNatural:
+    case msrAlterationKind::kAlterationNatural:
       result = "natural";
       break;
-    case kSemiSharp:
+    case msrAlterationKind::kAlterationSemiSharp:
       result = "semiSharp";
       break;
-    case kSharp:
+    case msrAlterationKind::kAlterationSharp:
       result = "sharp";
       break;
-    case kSesquiSharp:
+    case msrAlterationKind::kAlterationSesquiSharp:
       result = "sesquiSharp";
       break;
-    case kDoubleSharp:
+    case msrAlterationKind::kAlterationDoubleSharp:
       result = "doubleSharp";
       break;
-    case kTripleSharp:
+    case msrAlterationKind::kAlterationTripleSharp:
       result = "tripleSharp";
       break;
   } // switch
@@ -13482,115 +13645,115 @@ string msrAccidentalKindAsString (
   string result;
 
   switch (accidentalKind) {
-    case kAccidentalNone:
+    case msrAccidentalKind::kAccidentalNone:
       result = "accidentalNone";
       break;
 
-    case kAccidentalSharp:
+    case msrAccidentalKind::kAccidentalSharp:
       result = "accidentalSharp";
       break;
-    case kAccidentalNatural:
+    case msrAccidentalKind::kAccidentalNatural:
       result = "accidentalNatural";
       break;
-    case kAccidentalFlat:
+    case msrAccidentalKind::kAccidentalFlat:
       result = "accidentalFlat";
       break;
-    case kAccidentalDoubleSharp:
+    case msrAccidentalKind::kAccidentalDoubleSharp:
       result = "accidentalDoubleSharp";
       break;
-    case kAccidentalSharpSharp:
+    case msrAccidentalKind::kAccidentalSharpSharp:
       result = "accidentalSharpSharp";
       break;
-    case kAccidentalFlatFlat:
+    case msrAccidentalKind::kAccidentalFlatFlat:
       result = "accidentalFlatFlat";
       break;
-    case kAccidentalNaturalSharp:
+    case msrAccidentalKind::kAccidentalNaturalSharp:
       result = "accidentalNaturalSharp";
       break;
-    case kAccidentalNaturalFlat:
+    case msrAccidentalKind::kAccidentalNaturalFlat:
       result = "accidentalNaturalFlat";
       break;
-    case kAccidentalQuarterFlat:
+    case msrAccidentalKind::kAccidentalQuarterFlat:
       result = "accidentalQuarterFlat";
       break;
-    case kAccidentalQuarterSharp:
+    case msrAccidentalKind::kAccidentalQuarterSharp:
       result = "accidentalQuarterSharp";
       break;
-    case kAccidentalThreeQuartersFlat:
+    case msrAccidentalKind::kAccidentalThreeQuartersFlat:
       result = "accidentalThreeQuartersFlat";
       break;
-    case kAccidentalThreeQuartersSharp:
+    case msrAccidentalKind::kAccidentalThreeQuartersSharp:
       result = "accidentalThreeQuartersSharp";
       break;
 
-    case kAccidentalSharpDown:
+    case msrAccidentalKind::kAccidentalSharpDown:
       result = "accidentalSharpDown";
       break;
-    case kAccidentalSharpUp:
+    case msrAccidentalKind::kAccidentalSharpUp:
       result = "accidentalSharpUp";
       break;
-    case kAccidentalNaturalDown:
+    case msrAccidentalKind::kAccidentalNaturalDown:
       result = "accidentalNaturalDown";
       break;
-    case kAccidentalNaturalUp:
+    case msrAccidentalKind::kAccidentalNaturalUp:
       result = "accidentalNaturalUp";
       break;
-    case kAccidentalFlatDown:
+    case msrAccidentalKind::kAccidentalFlatDown:
       result = "accidentalFlatDown";
       break;
-    case kAccidentalFlatUp:
+    case msrAccidentalKind::kAccidentalFlatUp:
       result = "accidentalFlatUp";
       break;
-    case kAccidentalTripleSharp:
+    case msrAccidentalKind::kAccidentalTripleSharp:
       result = "accidentalTripleSharp";
       break;
-    case kAccidentalTripleFlat:
+    case msrAccidentalKind::kAccidentalTripleFlat:
       result = "accidentalTripleFlat";
       break;
-    case kAccidentalSlashQuarterSharp:
+    case msrAccidentalKind::kAccidentalSlashQuarterSharp:
       result = "accidentalSlashQuarterSharp";
       break;
-    case kAccidentalSlashSharp:
+    case msrAccidentalKind::kAccidentalSlashSharp:
       result = "accidentalSlashSharp";
       break;
-    case kAccidentalSlashFlat:
+    case msrAccidentalKind::kAccidentalSlashFlat:
       result = "accidentalSlashFlat";
       break;
-    case kAccidentalDoubleSlashFlat:
+    case msrAccidentalKind::kAccidentalDoubleSlashFlat:
       result = "accidentaldoubleSlashFlat";
       break;
-    case kAccidentalSharp_1:
+    case msrAccidentalKind::kAccidentalSharp_1:
       result = "accidentalSharp_1";
       break;
-    case kAccidentalSharp_2:
+    case msrAccidentalKind::kAccidentalSharp_2:
       result = "accidentalSharp_2";
       break;
-    case kAccidentalSharp_3:
+    case msrAccidentalKind::kAccidentalSharp_3:
       result = "accidentalSharp_3";
       break;
-    case kAccidentalSharp_5:
+    case msrAccidentalKind::kAccidentalSharp_5:
       result = "accidentalSharp_5";
       break;
-    case kAccidentalFlat_1:
+    case msrAccidentalKind::kAccidentalFlat_1:
       result = "accidentalFlat_1";
       break;
-    case kAccidentalFlat_2:
+    case msrAccidentalKind::kAccidentalFlat_2:
       result = "accidentalFlat_2";
       break;
-    case kAccidentalFlat_3:
+    case msrAccidentalKind::kAccidentalFlat_3:
       result = "accidentalFlat_3";
       break;
-    case kAccidentalFlat_4:
+    case msrAccidentalKind::kAccidentalFlat_4:
       result = "accidentalFlat_4";
       break;
-    case kAccidentalSori:
+    case msrAccidentalKind::kAccidentalSori:
       result = "accidentalSori";
       break;
-    case kAccidentalKoron:
+    case msrAccidentalKind::kAccidentalKoron:
       result = "accidentalKoron";
       break;
 
-    case kAccidentalOther:
+    case msrAccidentalKind::kAccidentalOther:
       result = "accidentalOther";
       break;
   } // switch
@@ -13604,114 +13767,114 @@ string msrAccidentalKindAsMusicXMLString (
   string result;
 
   switch (accidentalKind) {
-    case kAccidentalNone:
+    case msrAccidentalKind::kAccidentalNone:
       break;
 
-    case kAccidentalSharp:
+    case msrAccidentalKind::kAccidentalSharp:
       result = "sharp";
       break;
-    case kAccidentalNatural:
+    case msrAccidentalKind::kAccidentalNatural:
       result = "natural";
       break;
-    case kAccidentalFlat:
+    case msrAccidentalKind::kAccidentalFlat:
       result = "flat";
       break;
-    case kAccidentalDoubleSharp:
+    case msrAccidentalKind::kAccidentalDoubleSharp:
       result = "double-sharp";
       break;
-    case kAccidentalSharpSharp:
+    case msrAccidentalKind::kAccidentalSharpSharp:
       result = "sharp-sharp";
       break;
-    case kAccidentalFlatFlat:
+    case msrAccidentalKind::kAccidentalFlatFlat:
       result = "flat-flat";
       break;
-    case kAccidentalNaturalSharp:
+    case msrAccidentalKind::kAccidentalNaturalSharp:
       result = "natural-sharp";
       break;
-    case kAccidentalNaturalFlat:
+    case msrAccidentalKind::kAccidentalNaturalFlat:
       result = "natural-flat";
       break;
-    case kAccidentalQuarterFlat:
+    case msrAccidentalKind::kAccidentalQuarterFlat:
       result = "quarter-flat";
       break;
-    case kAccidentalQuarterSharp:
+    case msrAccidentalKind::kAccidentalQuarterSharp:
       result = "quarter-sharp";
       break;
-    case kAccidentalThreeQuartersFlat:
+    case msrAccidentalKind::kAccidentalThreeQuartersFlat:
       result = "three-quarters-flat";
       break;
-    case kAccidentalThreeQuartersSharp:
+    case msrAccidentalKind::kAccidentalThreeQuartersSharp:
       result = "three-quarters-sharp";
       break;
 
-    case kAccidentalSharpDown:
+    case msrAccidentalKind::kAccidentalSharpDown:
       result = "sharp-down";
       break;
-    case kAccidentalSharpUp:
+    case msrAccidentalKind::kAccidentalSharpUp:
       result = "sharp-up";
       break;
-    case kAccidentalNaturalDown:
+    case msrAccidentalKind::kAccidentalNaturalDown:
       result = "natural-down";
       break;
-    case kAccidentalNaturalUp:
+    case msrAccidentalKind::kAccidentalNaturalUp:
       result = "natural-up";
       break;
-    case kAccidentalFlatDown:
+    case msrAccidentalKind::kAccidentalFlatDown:
       result = "flat-down";
       break;
-    case kAccidentalFlatUp:
+    case msrAccidentalKind::kAccidentalFlatUp:
       result = "flat-up";
       break;
-    case kAccidentalTripleSharp:
+    case msrAccidentalKind::kAccidentalTripleSharp:
       result = "triple-sharp";
       break;
-    case kAccidentalTripleFlat:
+    case msrAccidentalKind::kAccidentalTripleFlat:
       result = "triple-flat";
       break;
-    case kAccidentalSlashQuarterSharp:
+    case msrAccidentalKind::kAccidentalSlashQuarterSharp:
       result = "slash-quarter-sharp";
       break;
-    case kAccidentalSlashSharp:
+    case msrAccidentalKind::kAccidentalSlashSharp:
       result = "slash-sharp";
       break;
-    case kAccidentalSlashFlat:
+    case msrAccidentalKind::kAccidentalSlashFlat:
       result = "slash-flat";
       break;
-    case kAccidentalDoubleSlashFlat:
+    case msrAccidentalKind::kAccidentalDoubleSlashFlat:
       result = "double-slash-flat";
       break;
-    case kAccidentalSharp_1:
+    case msrAccidentalKind::kAccidentalSharp_1:
       result = "sharp-1";
       break;
-    case kAccidentalSharp_2:
+    case msrAccidentalKind::kAccidentalSharp_2:
       result = "sharp-2";
       break;
-    case kAccidentalSharp_3:
+    case msrAccidentalKind::kAccidentalSharp_3:
       result = "sharp-3";
       break;
-    case kAccidentalSharp_5:
+    case msrAccidentalKind::kAccidentalSharp_5:
       result = "sharp-5";
       break;
-    case kAccidentalFlat_1:
+    case msrAccidentalKind::kAccidentalFlat_1:
       result = "flat-1";
       break;
-    case kAccidentalFlat_2:
+    case msrAccidentalKind::kAccidentalFlat_2:
       result = "flat-2";
       break;
-    case kAccidentalFlat_3:
+    case msrAccidentalKind::kAccidentalFlat_3:
       result = "flat-3";
       break;
-    case kAccidentalFlat_4:
+    case msrAccidentalKind::kAccidentalFlat_4:
       result = "flat-4";
       break;
-    case kAccidentalSori:
+    case msrAccidentalKind::kAccidentalSori:
       result = "sori";
       break;
-    case kAccidentalKoron:
+    case msrAccidentalKind::kAccidentalKoron:
       result = "koron";
       break;
 
-    case kAccidentalOther:
+    case msrAccidentalKind::kAccidentalOther:
       result = "other";
       break;
   } // switch
@@ -13728,10 +13891,10 @@ string msrEditorialAccidentalKindAsString (
   string result;
 
   switch (noteEditorialAccidentalKind) {
-    case kEditorialAccidentalYes:
+    case msrEditorialAccidentalKind::kEditorialAccidentalYes:
       result = "noteEditorialAccidentalYes";
       break;
-    case kEditorialAccidentalNo:
+    case msrEditorialAccidentalKind::kEditorialAccidentalNo:
       result = "noteEditorialAccidentalNo";
       break;
   } // switch
@@ -13748,10 +13911,10 @@ string msrCautionaryAccidentalKindAsString (
   string result;
 
   switch (noteCautionaryAccidentalKind) {
-    case kCautionaryAccidentalYes:
+    case msrCautionaryAccidentalKind::kCautionaryAccidentalYes:
       result = "noteCautionaryAccidentalYes";
       break;
-    case kCautionaryAccidentalNo:
+    case msrCautionaryAccidentalKind::kCautionaryAccidentalNo:
       result = "noteCautionaryAccidentalNo";
       break;
   } // switch
@@ -13766,329 +13929,329 @@ void setDiatonicPitchAndAlterationKind (
   msrAlterationKind&       alterationKind)
 {
   switch (quarterTonesPitchKind) {
-    case k_NoQuarterTonesPitch_QTP:
-      diatonicPitchKind = kDiatonicPitchA; // any value would fit
-      alterationKind    = k_NoAlteration;
+    case msrQuarterTonesPitchKind::k_NoQuarterTonesPitch:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA; // any value would fit
+      alterationKind    = msrAlterationKind::k_NoAlteration;
       break;
 
-    case kA_TripleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchA;
-      alterationKind    = kTripleFlat;
+    case msrQuarterTonesPitchKind::kQTP_A_TripleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA;
+      alterationKind    = msrAlterationKind::kAlterationTripleFlat;
       break;
-    case kA_DoubleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchA;
-      alterationKind    = kDoubleFlat;
+    case msrQuarterTonesPitchKind::kQTP_A_DoubleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA;
+      alterationKind    = msrAlterationKind::kAlterationDoubleFlat;
       break;
-    case kA_SesquiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchA;
-      alterationKind    = kSesquiFlat;
+    case msrQuarterTonesPitchKind::kQTP_A_SesquiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA;
+      alterationKind    = msrAlterationKind::kAlterationSesquiFlat;
       break;
-    case kA_Flat_QTP:
-      diatonicPitchKind = kDiatonicPitchA;
-      alterationKind    = kFlat;
+    case msrQuarterTonesPitchKind::kQTP_A_Flat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA;
+      alterationKind    = msrAlterationKind::kAlterationFlat;
       break;
-    case kA_SemiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchA;
-      alterationKind    = kSemiFlat;
+    case msrQuarterTonesPitchKind::kQTP_A_SemiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA;
+      alterationKind    = msrAlterationKind::kAlterationSemiFlat;
       break;
-    case kA_Natural_QTP:
-      diatonicPitchKind = kDiatonicPitchA;
-      alterationKind    = kNatural;
+    case msrQuarterTonesPitchKind::kQTP_A_Natural:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA;
+      alterationKind    = msrAlterationKind::kAlterationNatural;
       break;
-    case kA_SemiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchA;
-      alterationKind    = kSemiSharp;
+    case msrQuarterTonesPitchKind::kQTP_A_SemiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA;
+      alterationKind    = msrAlterationKind::kAlterationSemiSharp;
       break;
-    case kA_Sharp_QTP:
-      diatonicPitchKind = kDiatonicPitchA;
-      alterationKind    = kSharp;
+    case msrQuarterTonesPitchKind::kQTP_A_Sharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA;
+      alterationKind    = msrAlterationKind::kAlterationSharp;
       break;
-    case kA_SesquiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchA;
-      alterationKind    = kSesquiSharp;
+    case msrQuarterTonesPitchKind::kQTP_A_SesquiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA;
+      alterationKind    = msrAlterationKind::kAlterationSesquiSharp;
       break;
-    case kA_DoubleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchA;
-      alterationKind    = kDoubleSharp;
+    case msrQuarterTonesPitchKind::kQTP_A_DoubleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA;
+      alterationKind    = msrAlterationKind::kAlterationDoubleSharp;
       break;
-    case kA_TripleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchA;
-      alterationKind    = kTripleSharp;
-      break;
-
-    case kB_TripleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchB;
-      alterationKind    = kTripleFlat;
-      break;
-    case kB_DoubleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchB;
-      alterationKind    = kDoubleFlat;
-      break;
-    case kB_SesquiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchB;
-      alterationKind    = kSesquiFlat;
-      break;
-    case kB_Flat_QTP:
-      diatonicPitchKind = kDiatonicPitchB;
-      alterationKind    = kFlat;
-      break;
-    case kB_SemiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchB;
-      alterationKind    = kSemiFlat;
-      break;
-    case kB_Natural_QTP:
-      diatonicPitchKind = kDiatonicPitchB;
-      alterationKind    = kNatural;
-      break;
-    case kB_SemiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchB;
-      alterationKind    = kSemiSharp;
-      break;
-    case kB_Sharp_QTP:
-      diatonicPitchKind = kDiatonicPitchB;
-      alterationKind    = kSharp;
-      break;
-    case kB_SesquiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchB;
-      alterationKind    = kSesquiSharp;
-      break;
-    case kB_DoubleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchB;
-      alterationKind    = kDoubleSharp;
-      break;
-    case kB_TripleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchB;
-      alterationKind    = kTripleSharp;
+    case msrQuarterTonesPitchKind::kQTP_A_TripleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA;
+      alterationKind    = msrAlterationKind::kAlterationTripleSharp;
       break;
 
-    case kC_TripleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchC;
-      alterationKind    = kTripleFlat;
+    case msrQuarterTonesPitchKind::kQTP_B_TripleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchB;
+      alterationKind    = msrAlterationKind::kAlterationTripleFlat;
       break;
-    case kC_DoubleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchC;
-      alterationKind    = kDoubleFlat;
+    case msrQuarterTonesPitchKind::kQTP_B_DoubleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchB;
+      alterationKind    = msrAlterationKind::kAlterationDoubleFlat;
       break;
-    case kC_SesquiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchC;
-      alterationKind    = kSesquiFlat;
+    case msrQuarterTonesPitchKind::kQTP_B_SesquiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchB;
+      alterationKind    = msrAlterationKind::kAlterationSesquiFlat;
       break;
-    case kC_Flat_QTP:
-      diatonicPitchKind = kDiatonicPitchC;
-      alterationKind    = kFlat;
+    case msrQuarterTonesPitchKind::kQTP_B_Flat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchB;
+      alterationKind    = msrAlterationKind::kAlterationFlat;
       break;
-    case kC_SemiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchC;
-      alterationKind    = kSemiFlat;
+    case msrQuarterTonesPitchKind::kQTP_B_SemiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchB;
+      alterationKind    = msrAlterationKind::kAlterationSemiFlat;
       break;
-    case kC_Natural_QTP:
-      diatonicPitchKind = kDiatonicPitchC;
-      alterationKind    = kNatural;
+    case msrQuarterTonesPitchKind::kQTP_B_Natural:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchB;
+      alterationKind    = msrAlterationKind::kAlterationNatural;
       break;
-    case kC_SemiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchC;
-      alterationKind    = kSemiSharp;
+    case msrQuarterTonesPitchKind::kQTP_B_SemiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchB;
+      alterationKind    = msrAlterationKind::kAlterationSemiSharp;
       break;
-    case kC_Sharp_QTP:
-      diatonicPitchKind = kDiatonicPitchC;
-      alterationKind    = kSharp;
+    case msrQuarterTonesPitchKind::kQTP_B_Sharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchB;
+      alterationKind    = msrAlterationKind::kAlterationSharp;
       break;
-    case kC_SesquiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchC;
-      alterationKind    = kSesquiSharp;
+    case msrQuarterTonesPitchKind::kQTP_B_SesquiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchB;
+      alterationKind    = msrAlterationKind::kAlterationSesquiSharp;
       break;
-    case kC_DoubleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchC;
-      alterationKind    = kDoubleSharp;
+    case msrQuarterTonesPitchKind::kQTP_B_DoubleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchB;
+      alterationKind    = msrAlterationKind::kAlterationDoubleSharp;
       break;
-    case kC_TripleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchC;
-      alterationKind    = kTripleSharp;
-      break;
-
-    case kD_TripleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchD;
-      alterationKind    = kTripleFlat;
-      break;
-    case kD_DoubleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchD;
-      alterationKind    = kDoubleFlat;
-      break;
-    case kD_SesquiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchD;
-      alterationKind    = kSesquiFlat;
-      break;
-    case kD_Flat_QTP:
-      diatonicPitchKind = kDiatonicPitchD;
-      alterationKind    = kFlat;
-      break;
-    case kD_SemiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchD;
-      alterationKind    = kSemiFlat;
-      break;
-    case kD_Natural_QTP:
-      diatonicPitchKind = kDiatonicPitchD;
-      alterationKind    = kNatural;
-      break;
-    case kD_SemiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchD;
-      alterationKind    = kSemiSharp;
-      break;
-    case kD_Sharp_QTP:
-      diatonicPitchKind = kDiatonicPitchD;
-      alterationKind    = kSharp;
-      break;
-    case kD_SesquiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchD;
-      alterationKind    = kSesquiSharp;
-      break;
-    case kD_DoubleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchD;
-      alterationKind    = kDoubleSharp;
-      break;
-    case kD_TripleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchD;
-      alterationKind    = kTripleSharp;
+    case msrQuarterTonesPitchKind::kQTP_B_TripleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchB;
+      alterationKind    = msrAlterationKind::kAlterationTripleSharp;
       break;
 
-    case kE_TripleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchE;
-      alterationKind    = kTripleFlat;
+    case msrQuarterTonesPitchKind::kQTP_C_TripleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchC;
+      alterationKind    = msrAlterationKind::kAlterationTripleFlat;
       break;
-    case kE_DoubleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchE;
-      alterationKind    = kDoubleFlat;
+    case msrQuarterTonesPitchKind::kQTP_C_DoubleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchC;
+      alterationKind    = msrAlterationKind::kAlterationDoubleFlat;
       break;
-    case kE_SesquiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchE;
-      alterationKind    = kSesquiFlat;
+    case msrQuarterTonesPitchKind::kQTP_C_SesquiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchC;
+      alterationKind    = msrAlterationKind::kAlterationSesquiFlat;
       break;
-    case kE_Flat_QTP:
-      diatonicPitchKind = kDiatonicPitchE;
-      alterationKind    = kFlat;
+    case msrQuarterTonesPitchKind::kQTP_C_Flat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchC;
+      alterationKind    = msrAlterationKind::kAlterationFlat;
       break;
-    case kE_SemiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchE;
-      alterationKind    = kSemiFlat;
+    case msrQuarterTonesPitchKind::kQTP_C_SemiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchC;
+      alterationKind    = msrAlterationKind::kAlterationSemiFlat;
       break;
-    case kE_Natural_QTP:
-      diatonicPitchKind = kDiatonicPitchE;
-      alterationKind    = kNatural;
+    case msrQuarterTonesPitchKind::kQTP_C_Natural:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchC;
+      alterationKind    = msrAlterationKind::kAlterationNatural;
       break;
-    case kE_SemiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchE;
-      alterationKind    = kSemiSharp;
+    case msrQuarterTonesPitchKind::kQTP_C_SemiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchC;
+      alterationKind    = msrAlterationKind::kAlterationSemiSharp;
       break;
-    case kE_Sharp_QTP:
-      diatonicPitchKind = kDiatonicPitchE;
-      alterationKind    = kSharp;
+    case msrQuarterTonesPitchKind::kQTP_C_Sharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchC;
+      alterationKind    = msrAlterationKind::kAlterationSharp;
       break;
-    case kE_SesquiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchE;
-      alterationKind    = kSesquiSharp;
+    case msrQuarterTonesPitchKind::kQTP_C_SesquiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchC;
+      alterationKind    = msrAlterationKind::kAlterationSesquiSharp;
       break;
-    case kE_DoubleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchE;
-      alterationKind    = kDoubleSharp;
+    case msrQuarterTonesPitchKind::kQTP_C_DoubleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchC;
+      alterationKind    = msrAlterationKind::kAlterationDoubleSharp;
       break;
-    case kE_TripleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchE;
-      alterationKind    = kTripleSharp;
-      break;
-
-    case kF_TripleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchF;
-      alterationKind    = kTripleFlat;
-      break;
-    case kF_DoubleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchF;
-      alterationKind    = kDoubleFlat;
-      break;
-    case kF_SesquiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchF;
-      alterationKind    = kSesquiFlat;
-      break;
-    case kF_Flat_QTP:
-      diatonicPitchKind = kDiatonicPitchF;
-      alterationKind    = kFlat;
-      break;
-    case kF_SemiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchF;
-      alterationKind    = kSemiFlat;
-      break;
-    case kF_Natural_QTP:
-      diatonicPitchKind = kDiatonicPitchF;
-      alterationKind    = kNatural;
-      break;
-    case kF_SemiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchF;
-      alterationKind    = kSemiSharp;
-      break;
-    case kF_Sharp_QTP:
-      diatonicPitchKind = kDiatonicPitchF;
-      alterationKind    = kSharp;
-      break;
-    case kF_SesquiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchF;
-      alterationKind    = kSesquiSharp;
-      break;
-    case kF_DoubleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchF;
-      alterationKind    = kDoubleSharp;
-      break;
-    case kF_TripleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchF;
-      alterationKind    = kTripleSharp;
+    case msrQuarterTonesPitchKind::kQTP_C_TripleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchC;
+      alterationKind    = msrAlterationKind::kAlterationTripleSharp;
       break;
 
-    case kG_TripleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchG;
-      alterationKind    = kTripleFlat;
+    case msrQuarterTonesPitchKind::kQTP_D_TripleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchD;
+      alterationKind    = msrAlterationKind::kAlterationTripleFlat;
       break;
-    case kG_DoubleFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchG;
-      alterationKind    = kDoubleFlat;
+    case msrQuarterTonesPitchKind::kQTP_D_DoubleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchD;
+      alterationKind    = msrAlterationKind::kAlterationDoubleFlat;
       break;
-    case kG_SesquiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchG;
-      alterationKind    = kSesquiFlat;
+    case msrQuarterTonesPitchKind::kQTP_D_SesquiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchD;
+      alterationKind    = msrAlterationKind::kAlterationSesquiFlat;
       break;
-    case kG_Flat_QTP:
-      diatonicPitchKind = kDiatonicPitchG;
+    case msrQuarterTonesPitchKind::kQTP_D_Flat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchD;
+      alterationKind    = msrAlterationKind::kAlterationFlat;
       break;
-    case kG_SemiFlat_QTP:
-      diatonicPitchKind = kDiatonicPitchG;
-      alterationKind    = kSemiFlat;
+    case msrQuarterTonesPitchKind::kQTP_D_SemiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchD;
+      alterationKind    = msrAlterationKind::kAlterationSemiFlat;
       break;
-    case kG_Natural_QTP:
-      diatonicPitchKind = kDiatonicPitchG;
-      alterationKind    = kNatural;
+    case msrQuarterTonesPitchKind::kQTP_D_Natural:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchD;
+      alterationKind    = msrAlterationKind::kAlterationNatural;
       break;
-    case kG_SemiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchG;
-      alterationKind    = kSemiSharp;
+    case msrQuarterTonesPitchKind::kQTP_D_SemiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchD;
+      alterationKind    = msrAlterationKind::kAlterationSemiSharp;
       break;
-    case kG_Sharp_QTP:
-      diatonicPitchKind = kDiatonicPitchG;
-      alterationKind    = kSharp;
+    case msrQuarterTonesPitchKind::kQTP_D_Sharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchD;
+      alterationKind    = msrAlterationKind::kAlterationSharp;
       break;
-    case kG_SesquiSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchG;
-      alterationKind    = kSesquiSharp;
+    case msrQuarterTonesPitchKind::kQTP_D_SesquiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchD;
+      alterationKind    = msrAlterationKind::kAlterationSesquiSharp;
       break;
-    case kG_DoubleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchG;
-      alterationKind    = kDoubleSharp;
+    case msrQuarterTonesPitchKind::kQTP_D_DoubleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchD;
+      alterationKind    = msrAlterationKind::kAlterationDoubleSharp;
       break;
-    case kG_TripleSharp_QTP:
-      diatonicPitchKind = kDiatonicPitchG;
-      alterationKind    = kTripleSharp;
+    case msrQuarterTonesPitchKind::kQTP_D_TripleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchD;
+      alterationKind    = msrAlterationKind::kAlterationTripleSharp;
       break;
 
-    case k_Rest_QTP:
-    case k_Skip_QTP:
-      diatonicPitchKind = kDiatonicPitchA; // any value would fit JMI
-      alterationKind    = k_NoAlteration;
+    case msrQuarterTonesPitchKind::kQTP_E_TripleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchE;
+      alterationKind    = msrAlterationKind::kAlterationTripleFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_DoubleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchE;
+      alterationKind    = msrAlterationKind::kAlterationDoubleFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_SesquiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchE;
+      alterationKind    = msrAlterationKind::kAlterationSesquiFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_Flat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchE;
+      alterationKind    = msrAlterationKind::kAlterationFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_SemiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchE;
+      alterationKind    = msrAlterationKind::kAlterationSemiFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_Natural:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchE;
+      alterationKind    = msrAlterationKind::kAlterationNatural;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_SemiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchE;
+      alterationKind    = msrAlterationKind::kAlterationSemiSharp;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_Sharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchE;
+      alterationKind    = msrAlterationKind::kAlterationSharp;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_SesquiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchE;
+      alterationKind    = msrAlterationKind::kAlterationSesquiSharp;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_DoubleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchE;
+      alterationKind    = msrAlterationKind::kAlterationDoubleSharp;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_TripleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchE;
+      alterationKind    = msrAlterationKind::kAlterationTripleSharp;
+      break;
+
+    case msrQuarterTonesPitchKind::kQTP_F_TripleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchF;
+      alterationKind    = msrAlterationKind::kAlterationTripleFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_DoubleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchF;
+      alterationKind    = msrAlterationKind::kAlterationDoubleFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_SesquiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchF;
+      alterationKind    = msrAlterationKind::kAlterationSesquiFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_Flat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchF;
+      alterationKind    = msrAlterationKind::kAlterationFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_SemiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchF;
+      alterationKind    = msrAlterationKind::kAlterationSemiFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_Natural:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchF;
+      alterationKind    = msrAlterationKind::kAlterationNatural;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_SemiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchF;
+      alterationKind    = msrAlterationKind::kAlterationSemiSharp;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_Sharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchF;
+      alterationKind    = msrAlterationKind::kAlterationSharp;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_SesquiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchF;
+      alterationKind    = msrAlterationKind::kAlterationSesquiSharp;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_DoubleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchF;
+      alterationKind    = msrAlterationKind::kAlterationDoubleSharp;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_TripleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchF;
+      alterationKind    = msrAlterationKind::kAlterationTripleSharp;
+      break;
+
+    case msrQuarterTonesPitchKind::kQTP_G_TripleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchG;
+      alterationKind    = msrAlterationKind::kAlterationTripleFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_DoubleFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchG;
+      alterationKind    = msrAlterationKind::kAlterationDoubleFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_SesquiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchG;
+      alterationKind    = msrAlterationKind::kAlterationSesquiFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_Flat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchG;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_SemiFlat:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchG;
+      alterationKind    = msrAlterationKind::kAlterationSemiFlat;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_Natural:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchG;
+      alterationKind    = msrAlterationKind::kAlterationNatural;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_SemiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchG;
+      alterationKind    = msrAlterationKind::kAlterationSemiSharp;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_Sharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchG;
+      alterationKind    = msrAlterationKind::kAlterationSharp;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_SesquiSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchG;
+      alterationKind    = msrAlterationKind::kAlterationSesquiSharp;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_DoubleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchG;
+      alterationKind    = msrAlterationKind::kAlterationDoubleSharp;
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_TripleSharp:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchG;
+      alterationKind    = msrAlterationKind::kAlterationTripleSharp;
+      break;
+
+    case msrQuarterTonesPitchKind::kQTP_Rest:
+    case msrQuarterTonesPitchKind::kQTP_Skip:
+      diatonicPitchKind = msrDiatonicPitchKind::kDiatonicPitchA; // any value would fit JMI
+      alterationKind    = msrAlterationKind::k_NoAlteration;
 
       break;
   } // switch
@@ -14100,253 +14263,253 @@ string msrQuarterTonesPitchKindAsString (
   string result;
 
   switch (quarterTonesPitchKind) {
-    case k_NoQuarterTonesPitch_QTP:
-      result = "noQuarterTonesPitch_QTP";
+    case msrQuarterTonesPitchKind::k_NoQuarterTonesPitch:
+      result = "noQuarterTonesPitch";
       break;
 
-    case kA_TripleFlat_QTP:
-      result = "A_TripleFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_A_TripleFlat:
+      result = "A_TripleFlat";
       break;
-    case kA_DoubleFlat_QTP:
-      result = "A_DoubleFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_A_DoubleFlat:
+      result = "A_DoubleFlat";
       break;
-    case kA_SesquiFlat_QTP:
-      result = "A_SesquiFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_A_SesquiFlat:
+      result = "A_SesquiFlat";
       break;
-    case kA_Flat_QTP:
-      result = "A_Flat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_A_Flat:
+      result = "A_Flat";
       break;
-    case kA_SemiFlat_QTP:
-      result = "A_SemiFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_A_SemiFlat:
+      result = "A_SemiFlat";
       break;
-    case kA_Natural_QTP:
-      result = "A_Natural_QTP";
+    case msrQuarterTonesPitchKind::kQTP_A_Natural:
+      result = "A_Natural";
       break;
-    case kA_SemiSharp_QTP:
-      result = "A_SemiSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_A_SemiSharp:
+      result = "A_SemiSharp";
       break;
-    case kA_Sharp_QTP:
-      result = "A_Sharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_A_Sharp:
+      result = "A_Sharp";
       break;
-    case kA_SesquiSharp_QTP:
-      result = "A_SesquiSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_A_SesquiSharp:
+      result = "A_SesquiSharp";
       break;
-    case kA_DoubleSharp_QTP:
-      result = "A_DoubleSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_A_DoubleSharp:
+      result = "A_DoubleSharp";
       break;
-    case kA_TripleSharp_QTP:
-      result = "A_TripleSharp_QTP";
-      break;
-
-    case kB_TripleFlat_QTP:
-      result = "B_TripleFlat_QTP";
-      break;
-    case kB_DoubleFlat_QTP:
-      result = "B_DoubleFlat_QTP";
-      break;
-    case kB_SesquiFlat_QTP:
-      result = "B_SesquiFlat_QTP";
-      break;
-    case kB_Flat_QTP:
-      result = "B_Flat_QTP";
-      break;
-    case kB_SemiFlat_QTP:
-      result = "B_SemiFlat_QTP";
-      break;
-    case kB_Natural_QTP:
-      result = "B_Natural_QTP";
-      break;
-    case kB_SemiSharp_QTP:
-      result = "B_SemiSharp_QTP";
-      break;
-    case kB_Sharp_QTP:
-      result = "B_Sharp_QTP";
-      break;
-    case kB_SesquiSharp_QTP:
-      result = "B_SesquiSharp_QTP";
-      break;
-    case kB_DoubleSharp_QTP:
-      result = "B_DoubleSharp_QTP";
-      break;
-    case kB_TripleSharp_QTP:
-      result = "B_TripleSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_A_TripleSharp:
+      result = "A_TripleSharp";
       break;
 
-    case kC_TripleFlat_QTP:
-      result = "C_TripleFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_B_TripleFlat:
+      result = "B_TripleFlat";
       break;
-    case kC_DoubleFlat_QTP:
-      result = "C_DoubleFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_B_DoubleFlat:
+      result = "B_DoubleFlat";
       break;
-    case kC_SesquiFlat_QTP:
-      result = "C_SesquiFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_B_SesquiFlat:
+      result = "B_SesquiFlat";
       break;
-    case kC_Flat_QTP:
-      result = "C_Flat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_B_Flat:
+      result = "B_Flat";
       break;
-    case kC_SemiFlat_QTP:
-      result = "C_SemiFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_B_SemiFlat:
+      result = "B_SemiFlat";
       break;
-    case kC_Natural_QTP:
-      result = "C_Natural_QTP";
+    case msrQuarterTonesPitchKind::kQTP_B_Natural:
+      result = "B_Natural";
       break;
-    case kC_SemiSharp_QTP:
-      result = "C_SemiSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_B_SemiSharp:
+      result = "B_SemiSharp";
       break;
-    case kC_Sharp_QTP:
-      result = "C_Sharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_B_Sharp:
+      result = "B_Sharp";
       break;
-    case kC_SesquiSharp_QTP:
-      result = "C_SesquiSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_B_SesquiSharp:
+      result = "B_SesquiSharp";
       break;
-    case kC_DoubleSharp_QTP:
-      result = "C_DoubleSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_B_DoubleSharp:
+      result = "B_DoubleSharp";
       break;
-    case kC_TripleSharp_QTP:
-      result = "C_TripleSharp_QTP";
-      break;
-
-    case kD_TripleFlat_QTP:
-      result = "D_TripleFlat_QTP";
-      break;
-    case kD_DoubleFlat_QTP:
-      result = "D_DoubleFlat_QTP";
-      break;
-    case kD_SesquiFlat_QTP:
-      result = "D_SesquiFlat_QTP";
-      break;
-    case kD_Flat_QTP:
-      result = "D_Flat_QTP";
-      break;
-    case kD_SemiFlat_QTP:
-      result = "D_SemiFlat_QTP";
-      break;
-    case kD_Natural_QTP:
-      result = "D_Natural_QTP";
-      break;
-    case kD_SemiSharp_QTP:
-      result = "D_SemiSharp_QTP";
-      break;
-    case kD_Sharp_QTP:
-      result = "D_Sharp_QTP";
-      break;
-    case kD_SesquiSharp_QTP:
-      result = "D_SesquiSharp_QTP";
-      break;
-    case kD_DoubleSharp_QTP:
-      result = "D_DoubleSharp_QTP";
-      break;
-    case kD_TripleSharp_QTP:
-      result = "D_TripleSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_B_TripleSharp:
+      result = "B_TripleSharp";
       break;
 
-    case kE_TripleFlat_QTP:
-      result = "E_TripleFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_C_TripleFlat:
+      result = "C_TripleFlat";
       break;
-    case kE_DoubleFlat_QTP:
-      result = "E_DoubleFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_C_DoubleFlat:
+      result = "C_DoubleFlat";
       break;
-    case kE_SesquiFlat_QTP:
-      result = "E_SesquiFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_C_SesquiFlat:
+      result = "C_SesquiFlat";
       break;
-    case kE_Flat_QTP:
-      result = "E_Flat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_C_Flat:
+      result = "C_Flat";
       break;
-    case kE_SemiFlat_QTP:
-      result = "E_SemiFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_C_SemiFlat:
+      result = "C_SemiFlat";
       break;
-    case kE_Natural_QTP:
-      result = "E_Natural_QTP";
+    case msrQuarterTonesPitchKind::kQTP_C_Natural:
+      result = "C_Natural";
       break;
-    case kE_SemiSharp_QTP:
-      result = "E_SemiSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_C_SemiSharp:
+      result = "C_SemiSharp";
       break;
-    case kE_Sharp_QTP:
-      result = "E_Sharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_C_Sharp:
+      result = "C_Sharp";
       break;
-    case kE_SesquiSharp_QTP:
-      result = "E_SesquiSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_C_SesquiSharp:
+      result = "C_SesquiSharp";
       break;
-    case kE_DoubleSharp_QTP:
-      result = "E_DoubleSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_C_DoubleSharp:
+      result = "C_DoubleSharp";
       break;
-    case kE_TripleSharp_QTP:
-      result = "E_TripleSharp_QTP";
-      break;
-
-    case kF_TripleFlat_QTP:
-      result = "F_TripleFlat_QTP";
-      break;
-    case kF_DoubleFlat_QTP:
-      result = "F_DoubleFlat_QTP";
-      break;
-    case kF_SesquiFlat_QTP:
-      result = "F_SesquiFlat_QTP";
-      break;
-    case kF_Flat_QTP:
-      result = "F_Flat_QTP";
-      break;
-    case kF_SemiFlat_QTP:
-      result = "F_SemiFlat_QTP";
-      break;
-    case kF_Natural_QTP:
-      result = "F_Natural_QTP";
-      break;
-    case kF_SemiSharp_QTP:
-      result = "F_SemiSharp_QTP";
-      break;
-    case kF_Sharp_QTP:
-      result = "F_Sharp_QTP";
-      break;
-    case kF_SesquiSharp_QTP:
-      result = "F_SesquiSharp_QTP";
-      break;
-    case kF_DoubleSharp_QTP:
-      result = "F_DoubleSharp_QTP";
-      break;
-    case kF_TripleSharp_QTP:
-      result = "F_TripleSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_C_TripleSharp:
+      result = "C_TripleSharp";
       break;
 
-    case kG_TripleFlat_QTP:
-      result = "G_TripleFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_D_TripleFlat:
+      result = "D_TripleFlat";
       break;
-    case kG_DoubleFlat_QTP:
-      result = "G_DoubleFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_D_DoubleFlat:
+      result = "D_DoubleFlat";
       break;
-    case kG_SesquiFlat_QTP:
-      result = "G_SesquiFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_D_SesquiFlat:
+      result = "D_SesquiFlat";
       break;
-    case kG_Flat_QTP:
-      result = "G_Flat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_D_Flat:
+      result = "D_Flat";
       break;
-    case kG_SemiFlat_QTP:
-      result = "G_SemiFlat_QTP";
+    case msrQuarterTonesPitchKind::kQTP_D_SemiFlat:
+      result = "D_SemiFlat";
       break;
-    case kG_Natural_QTP:
-      result = "G_Natural_QTP";
+    case msrQuarterTonesPitchKind::kQTP_D_Natural:
+      result = "D_Natural";
       break;
-    case kG_SemiSharp_QTP:
-      result = "G_SemiSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_D_SemiSharp:
+      result = "D_SemiSharp";
       break;
-    case kG_Sharp_QTP:
-      result = "G_Sharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_D_Sharp:
+      result = "D_Sharp";
       break;
-    case kG_SesquiSharp_QTP:
-      result = "G_SesquiSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_D_SesquiSharp:
+      result = "D_SesquiSharp";
       break;
-    case kG_DoubleSharp_QTP:
-      result = "G_DoubleSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_D_DoubleSharp:
+      result = "D_DoubleSharp";
       break;
-    case kG_TripleSharp_QTP:
-      result = "G_TripleSharp_QTP";
+    case msrQuarterTonesPitchKind::kQTP_D_TripleSharp:
+      result = "D_TripleSharp";
       break;
 
-    case k_Rest_QTP:
-      result = "Rest_QTP";
+    case msrQuarterTonesPitchKind::kQTP_E_TripleFlat:
+      result = "E_TripleFlat";
       break;
-    case k_Skip_QTP:
-      result = "Rest_QTP";
+    case msrQuarterTonesPitchKind::kQTP_E_DoubleFlat:
+      result = "E_DoubleFlat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_SesquiFlat:
+      result = "E_SesquiFlat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_Flat:
+      result = "E_Flat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_SemiFlat:
+      result = "E_SemiFlat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_Natural:
+      result = "E_Natural";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_SemiSharp:
+      result = "E_SemiSharp";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_Sharp:
+      result = "E_Sharp";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_SesquiSharp:
+      result = "E_SesquiSharp";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_DoubleSharp:
+      result = "E_DoubleSharp";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_E_TripleSharp:
+      result = "E_TripleSharp";
+      break;
+
+    case msrQuarterTonesPitchKind::kQTP_F_TripleFlat:
+      result = "F_TripleFlat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_DoubleFlat:
+      result = "F_DoubleFlat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_SesquiFlat:
+      result = "F_SesquiFlat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_Flat:
+      result = "F_Flat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_SemiFlat:
+      result = "F_SemiFlat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_Natural:
+      result = "F_Natural";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_SemiSharp:
+      result = "F_SemiSharp";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_Sharp:
+      result = "F_Sharp";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_SesquiSharp:
+      result = "F_SesquiSharp";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_DoubleSharp:
+      result = "F_DoubleSharp";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_F_TripleSharp:
+      result = "F_TripleSharp";
+      break;
+
+    case msrQuarterTonesPitchKind::kQTP_G_TripleFlat:
+      result = "G_TripleFlat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_DoubleFlat:
+      result = "G_DoubleFlat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_SesquiFlat:
+      result = "G_SesquiFlat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_Flat:
+      result = "G_Flat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_SemiFlat:
+      result = "G_SemiFlat";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_Natural:
+      result = "G_Natural";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_SemiSharp:
+      result = "G_SemiSharp";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_Sharp:
+      result = "G_Sharp";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_SesquiSharp:
+      result = "G_SesquiSharp";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_DoubleSharp:
+      result = "G_DoubleSharp";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_G_TripleSharp:
+      result = "G_TripleSharp";
+      break;
+
+    case msrQuarterTonesPitchKind::kQTP_Rest:
+      result = "Rest";
+      break;
+    case msrQuarterTonesPitchKind::kQTP_Skip:
+      result = "Rest";
   } // switch
 
   return result;
@@ -14376,17 +14539,17 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
 {
   msrQuarterTonesPitchKind
     result =
-      k_NoQuarterTonesPitch_QTP;
+      msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
 
   switch (diatonicPitchKind) {
-    case k_NoDiatonicPitch:
+    case msrDiatonicPitchKind::k_NoDiatonicPitch:
       {
-        result = k_NoQuarterTonesPitch_QTP;
+        result = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
         /* JMI
         stringstream s;
 
         s <<
-          "cannot convert k_NoDiatonicPitch to a quarter tones pitch"
+          "cannot convert msrDiatonicPitchKind::k_NoDiatonicPitch to a quarter tones pitch"
           ", line = " << inputLineNumber;
 
         msrInternalError (
@@ -14398,42 +14561,42 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       }
       break;
 
-    case kDiatonicPitchA:
+    case msrDiatonicPitchKind::kDiatonicPitchA:
       switch (alterationKind) {
-        case kTripleFlat:
-          result = kA_TripleFlat_QTP;
+        case msrAlterationKind::kAlterationTripleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_A_TripleFlat;
           break;
-        case kDoubleFlat:
-          result = kA_DoubleFlat_QTP;
+        case msrAlterationKind::kAlterationDoubleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kSesquiFlat:
-          result = kA_SesquiFlat_QTP;
+        case msrAlterationKind::kAlterationSesquiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_A_SesquiFlat;
           break;
-        case kFlat:
-          result = kA_Flat_QTP;
+        case msrAlterationKind::kAlterationFlat:
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kSemiFlat:
-          result = kA_SemiFlat_QTP;
+        case msrAlterationKind::kAlterationSemiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_A_SemiFlat;
           break;
-        case kNatural:
-          result = kA_Natural_QTP;
+        case msrAlterationKind::kAlterationNatural:
+          result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kSemiSharp:
-          result = kA_SemiSharp_QTP;
+        case msrAlterationKind::kAlterationSemiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_A_SemiSharp;
           break;
-        case kSharp:
-          result = kA_Sharp_QTP;
+        case msrAlterationKind::kAlterationSharp:
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kSesquiSharp:
-          result = kA_SesquiSharp_QTP;
+        case msrAlterationKind::kAlterationSesquiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_A_SesquiSharp;
           break;
-        case kDoubleSharp:
-          result = kA_DoubleSharp_QTP;
+        case msrAlterationKind::kAlterationDoubleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
-        case kTripleSharp:
-          result = kA_TripleSharp_QTP;
+        case msrAlterationKind::kAlterationTripleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_A_TripleSharp;
           break;
-        case k_NoAlteration:
+        case msrAlterationKind::k_NoAlteration:
           {
             stringstream s;
 
@@ -14451,42 +14614,42 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       } // switch
       break;
 
-    case kDiatonicPitchB:
+    case msrDiatonicPitchKind::kDiatonicPitchB:
       switch (alterationKind) {
-        case kTripleFlat:
-          result = kB_TripleFlat_QTP;
+        case msrAlterationKind::kAlterationTripleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
-        case kDoubleFlat:
-          result = kB_DoubleFlat_QTP;
+        case msrAlterationKind::kAlterationDoubleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kSesquiFlat:
-          result = kB_SesquiFlat_QTP;
+        case msrAlterationKind::kAlterationSesquiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_B_SesquiFlat;
           break;
-        case kFlat:
-          result = kB_Flat_QTP;
+        case msrAlterationKind::kAlterationFlat:
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kSemiFlat:
-          result = kB_SemiFlat_QTP;
+        case msrAlterationKind::kAlterationSemiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_B_SemiFlat;
           break;
-        case kNatural:
-          result = kB_Natural_QTP;
+        case msrAlterationKind::kAlterationNatural:
+          result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kSemiSharp:
-          result = kB_SemiSharp_QTP;
+        case msrAlterationKind::kAlterationSemiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_B_SemiSharp;
           break;
-        case kSharp:
-          result = kB_Sharp_QTP;
+        case msrAlterationKind::kAlterationSharp:
+          result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kSesquiSharp:
-          result = kB_SesquiSharp_QTP;
+        case msrAlterationKind::kAlterationSesquiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_B_SesquiSharp;
           break;
-        case kDoubleSharp:
-          result = kB_DoubleSharp_QTP;
+        case msrAlterationKind::kAlterationDoubleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
-        case kTripleSharp:
-          result = kB_TripleSharp_QTP;
+        case msrAlterationKind::kAlterationTripleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_B_TripleSharp;
           break;
-        case k_NoAlteration:
+        case msrAlterationKind::k_NoAlteration:
           {
             stringstream s;
 
@@ -14506,42 +14669,42 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
 
       break;
 
-    case kDiatonicPitchC:
+    case msrDiatonicPitchKind::kDiatonicPitchC:
       switch (alterationKind) {
-        case kTripleFlat:
-          result = kC_TripleFlat_QTP;
+        case msrAlterationKind::kAlterationTripleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_C_TripleFlat;
           break;
-        case kDoubleFlat:
-          result = kC_DoubleFlat_QTP;
+        case msrAlterationKind::kAlterationDoubleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
-        case kSesquiFlat:
-          result = kC_SesquiFlat_QTP;
+        case msrAlterationKind::kAlterationSesquiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_C_SesquiFlat;
           break;
-        case kFlat:
-          result = kC_Flat_QTP;
+        case msrAlterationKind::kAlterationFlat:
+          result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kSemiFlat:
-          result = kC_SemiFlat_QTP;
+        case msrAlterationKind::kAlterationSemiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_C_SemiFlat;
           break;
-        case kNatural:
-          result = kC_Natural_QTP;
+        case msrAlterationKind::kAlterationNatural:
+          result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kSemiSharp:
-          result = kC_SemiSharp_QTP;
+        case msrAlterationKind::kAlterationSemiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_C_SemiSharp;
           break;
-        case kSharp:
-          result = kC_Sharp_QTP;
+        case msrAlterationKind::kAlterationSharp:
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kSesquiSharp:
-          result = kC_SesquiSharp_QTP;
+        case msrAlterationKind::kAlterationSesquiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_C_SesquiSharp;
           break;
-        case kDoubleSharp:
-          result = kC_DoubleSharp_QTP;
+        case msrAlterationKind::kAlterationDoubleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
-        case kTripleSharp:
-          result = kC_TripleSharp_QTP;
+        case msrAlterationKind::kAlterationTripleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_C_TripleSharp;
           break;
-        case k_NoAlteration:
+        case msrAlterationKind::k_NoAlteration:
           {
             stringstream s;
 
@@ -14559,42 +14722,42 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       } // switch
       break;
 
-    case kDiatonicPitchD:
+    case msrDiatonicPitchKind::kDiatonicPitchD:
       switch (alterationKind) {
-        case kTripleFlat:
-          result = kD_TripleFlat_QTP;
+        case msrAlterationKind::kAlterationTripleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_D_TripleFlat;
           break;
-        case kDoubleFlat:
-          result = kD_DoubleFlat_QTP;
+        case msrAlterationKind::kAlterationDoubleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kSesquiFlat:
-          result = kD_SesquiFlat_QTP;
+        case msrAlterationKind::kAlterationSesquiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_D_SesquiFlat;
           break;
-        case kFlat:
-          result = kD_Flat_QTP;
+        case msrAlterationKind::kAlterationFlat:
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kSemiFlat:
-          result = kD_SemiFlat_QTP;
+        case msrAlterationKind::kAlterationSemiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_D_SemiFlat;
           break;
-        case kNatural:
-          result = kD_Natural_QTP;
+        case msrAlterationKind::kAlterationNatural:
+          result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kSemiSharp:
-          result = kD_SemiSharp_QTP;
+        case msrAlterationKind::kAlterationSemiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_D_SemiSharp;
           break;
-        case kSharp:
-          result = kD_Sharp_QTP;
+        case msrAlterationKind::kAlterationSharp:
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kSesquiSharp:
-          result = kD_SesquiSharp_QTP;
+        case msrAlterationKind::kAlterationSesquiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_D_SesquiSharp;
           break;
-        case kDoubleSharp:
-          result = kD_DoubleSharp_QTP;
+        case msrAlterationKind::kAlterationDoubleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
-        case kTripleSharp:
-          result = kD_TripleSharp_QTP;
+        case msrAlterationKind::kAlterationTripleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_D_TripleSharp;
           break;
-        case k_NoAlteration:
+        case msrAlterationKind::k_NoAlteration:
           {
             stringstream s;
 
@@ -14612,42 +14775,42 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       } // switch
       break;
 
-    case kDiatonicPitchE:
+    case msrDiatonicPitchKind::kDiatonicPitchE:
       switch (alterationKind) {
-        case kTripleFlat:
-          result = kE_TripleFlat_QTP;
+        case msrAlterationKind::kAlterationTripleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_E_TripleFlat;
           break;
-        case kDoubleFlat:
-          result = kE_DoubleFlat_QTP;
+        case msrAlterationKind::kAlterationDoubleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kSesquiFlat:
-          result = kE_SesquiFlat_QTP;
+        case msrAlterationKind::kAlterationSesquiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_E_SesquiFlat;
           break;
-        case kFlat:
-          result = kE_Flat_QTP;
+        case msrAlterationKind::kAlterationFlat:
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kSemiFlat:
-          result = kE_SemiFlat_QTP;
+        case msrAlterationKind::kAlterationSemiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_E_SemiFlat;
           break;
-        case kNatural:
-          result = kE_Natural_QTP;
+        case msrAlterationKind::kAlterationNatural:
+          result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kSemiSharp:
-          result = kE_SemiSharp_QTP;
+        case msrAlterationKind::kAlterationSemiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_E_SemiSharp;
           break;
-        case kSharp:
-          result = kE_Sharp_QTP;
+        case msrAlterationKind::kAlterationSharp:
+          result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
-        case kSesquiSharp:
-          result = kE_SesquiSharp_QTP;
+        case msrAlterationKind::kAlterationSesquiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_E_SesquiSharp;
           break;
-        case kDoubleSharp:
-          result = kE_DoubleSharp_QTP;
+        case msrAlterationKind::kAlterationDoubleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
-        case kTripleSharp:
-          result = kE_TripleSharp_QTP;
+        case msrAlterationKind::kAlterationTripleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_E_TripleSharp;
           break;
-        case k_NoAlteration:
+        case msrAlterationKind::k_NoAlteration:
           {
             stringstream s;
 
@@ -14665,42 +14828,42 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       } // switch
       break;
 
-    case kDiatonicPitchF:
+    case msrDiatonicPitchKind::kDiatonicPitchF:
       switch (alterationKind) {
-        case kTripleFlat:
-          result = kF_TripleFlat_QTP;
+        case msrAlterationKind::kAlterationTripleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_F_TripleFlat;
           break;
-        case kDoubleFlat:
-          result = kF_DoubleFlat_QTP;
+        case msrAlterationKind::kAlterationDoubleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
-        case kSesquiFlat:
-          result = kF_SesquiFlat_QTP;
+        case msrAlterationKind::kAlterationSesquiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_F_SesquiFlat;
           break;
-        case kFlat:
-          result = kF_Flat_QTP;
+        case msrAlterationKind::kAlterationFlat:
+          result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kSemiFlat:
-          result = kF_SemiFlat_QTP;
+        case msrAlterationKind::kAlterationSemiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_F_SemiFlat;
           break;
-        case kNatural:
-          result = kF_Natural_QTP;
+        case msrAlterationKind::kAlterationNatural:
+          result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kSemiSharp:
-          result = kF_SemiSharp_QTP;
+        case msrAlterationKind::kAlterationSemiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_F_SemiSharp;
           break;
-        case kSharp:
-          result = kF_Sharp_QTP;
+        case msrAlterationKind::kAlterationSharp:
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kSesquiSharp:
-          result = kF_SesquiSharp_QTP;
+        case msrAlterationKind::kAlterationSesquiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_F_SesquiSharp;
           break;
-        case kDoubleSharp:
-          result = kF_DoubleSharp_QTP;
+        case msrAlterationKind::kAlterationDoubleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
-        case kTripleSharp:
-          result = kF_TripleSharp_QTP;
+        case msrAlterationKind::kAlterationTripleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_F_TripleSharp;
           break;
-        case k_NoAlteration:
+        case msrAlterationKind::k_NoAlteration:
           {
             stringstream s;
 
@@ -14718,42 +14881,42 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       } // switch
       break;
 
-    case kDiatonicPitchG:
+    case msrDiatonicPitchKind::kDiatonicPitchG:
       switch (alterationKind) {
-        case kTripleFlat:
-          result = kG_TripleFlat_QTP;
+        case msrAlterationKind::kAlterationTripleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_G_TripleFlat;
           break;
-        case kDoubleFlat:
-          result = kG_DoubleFlat_QTP;
+        case msrAlterationKind::kAlterationDoubleFlat:
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
-        case kSesquiFlat:
-          result = kG_SesquiFlat_QTP;
+        case msrAlterationKind::kAlterationSesquiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_G_SesquiFlat;
           break;
-        case kFlat:
-          result = kG_Flat_QTP;
+        case msrAlterationKind::kAlterationFlat:
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kSemiFlat:
-          result = kG_SemiFlat_QTP;
+        case msrAlterationKind::kAlterationSemiFlat:
+          result = msrQuarterTonesPitchKind::kQTP_G_SemiFlat;
           break;
-        case kNatural:
-          result = kG_Natural_QTP;
+        case msrAlterationKind::kAlterationNatural:
+          result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kSemiSharp:
-          result = kG_SemiSharp_QTP;
+        case msrAlterationKind::kAlterationSemiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_G_SemiSharp;
           break;
-        case kSharp:
-          result = kG_Sharp_QTP;
+        case msrAlterationKind::kAlterationSharp:
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kSesquiSharp:
-          result = kG_SesquiSharp_QTP;
+        case msrAlterationKind::kAlterationSesquiSharp:
+          result = msrQuarterTonesPitchKind::kQTP_G_SesquiSharp;
           break;
-        case kDoubleSharp:
-          result = kG_DoubleSharp_QTP;
+        case msrAlterationKind::kAlterationDoubleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
-        case kTripleSharp:
-          result = kG_TripleSharp_QTP;
+        case msrAlterationKind::kAlterationTripleSharp:
+          result = msrQuarterTonesPitchKind::kQTP_G_TripleSharp;
           break;
-        case k_NoAlteration:
+        case msrAlterationKind::k_NoAlteration:
           {
             stringstream s;
 
@@ -14779,108 +14942,108 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
   int                      inputLineNumber,
   msrQuarterTonesPitchKind quarterTonesPitchKind)
 {
-  msrDiatonicPitchKind result = k_NoDiatonicPitch;
+  msrDiatonicPitchKind result = msrDiatonicPitchKind::k_NoDiatonicPitch;
 
   switch (quarterTonesPitchKind) {
-    case kA_TripleFlat_QTP:
-    case kA_DoubleFlat_QTP:
-    case kA_SesquiFlat_QTP:
-    case kA_Flat_QTP:
-    case kA_SemiFlat_QTP:
-    case kA_Natural_QTP:
-    case kA_SemiSharp_QTP:
-    case kA_Sharp_QTP:
-    case kA_SesquiSharp_QTP:
-    case kA_DoubleSharp_QTP:
-    case kA_TripleSharp_QTP:
-      result = kDiatonicPitchA;
+    case msrQuarterTonesPitchKind::kQTP_A_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_A_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_A_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_A_Flat:
+    case msrQuarterTonesPitchKind::kQTP_A_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_A_Natural:
+    case msrQuarterTonesPitchKind::kQTP_A_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_A_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_A_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_A_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_A_TripleSharp:
+      result = msrDiatonicPitchKind::kDiatonicPitchA;
       break;
 
-    case kB_TripleFlat_QTP:
-    case kB_DoubleFlat_QTP:
-    case kB_SesquiFlat_QTP:
-    case kB_Flat_QTP:
-    case kB_SemiFlat_QTP:
-    case kB_Natural_QTP:
-    case kB_SemiSharp_QTP:
-    case kB_Sharp_QTP:
-    case kB_SesquiSharp_QTP:
-    case kB_DoubleSharp_QTP:
-    case kB_TripleSharp_QTP:
-      result = kDiatonicPitchB;
+    case msrQuarterTonesPitchKind::kQTP_B_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_B_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_B_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_B_Flat:
+    case msrQuarterTonesPitchKind::kQTP_B_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_B_Natural:
+    case msrQuarterTonesPitchKind::kQTP_B_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_B_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_B_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_B_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_B_TripleSharp:
+      result = msrDiatonicPitchKind::kDiatonicPitchB;
       break;
 
-    case kC_TripleFlat_QTP:
-    case kC_DoubleFlat_QTP:
-    case kC_SesquiFlat_QTP:
-    case kC_Flat_QTP:
-    case kC_SemiFlat_QTP:
-    case kC_Natural_QTP:
-    case kC_SemiSharp_QTP:
-    case kC_Sharp_QTP:
-    case kC_SesquiSharp_QTP:
-    case kC_DoubleSharp_QTP:
-    case kC_TripleSharp_QTP:
-      result = kDiatonicPitchC;
+    case msrQuarterTonesPitchKind::kQTP_C_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_C_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_C_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_C_Flat:
+    case msrQuarterTonesPitchKind::kQTP_C_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_C_Natural:
+    case msrQuarterTonesPitchKind::kQTP_C_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_C_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_C_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_C_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_C_TripleSharp:
+      result = msrDiatonicPitchKind::kDiatonicPitchC;
       break;
 
-    case kD_TripleFlat_QTP:
-    case kD_DoubleFlat_QTP:
-    case kD_SesquiFlat_QTP:
-    case kD_Flat_QTP:
-    case kD_SemiFlat_QTP:
-    case kD_Natural_QTP:
-    case kD_SemiSharp_QTP:
-    case kD_Sharp_QTP:
-    case kD_SesquiSharp_QTP:
-    case kD_DoubleSharp_QTP:
-    case kD_TripleSharp_QTP:
-      result = kDiatonicPitchD;
+    case msrQuarterTonesPitchKind::kQTP_D_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_D_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_D_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_D_Flat:
+    case msrQuarterTonesPitchKind::kQTP_D_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_D_Natural:
+    case msrQuarterTonesPitchKind::kQTP_D_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_D_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_D_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_D_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_D_TripleSharp:
+      result = msrDiatonicPitchKind::kDiatonicPitchD;
       break;
 
-    case kE_TripleFlat_QTP:
-    case kE_DoubleFlat_QTP:
-    case kE_SesquiFlat_QTP:
-    case kE_Flat_QTP:
-    case kE_SemiFlat_QTP:
-    case kE_Natural_QTP:
-    case kE_SemiSharp_QTP:
-    case kE_Sharp_QTP:
-    case kE_SesquiSharp_QTP:
-    case kE_DoubleSharp_QTP:
-    case kE_TripleSharp_QTP:
-      result = kDiatonicPitchE;
+    case msrQuarterTonesPitchKind::kQTP_E_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_E_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_E_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_E_Flat:
+    case msrQuarterTonesPitchKind::kQTP_E_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_E_Natural:
+    case msrQuarterTonesPitchKind::kQTP_E_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_E_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_E_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_E_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_E_TripleSharp:
+      result = msrDiatonicPitchKind::kDiatonicPitchE;
       break;
 
-    case kF_TripleFlat_QTP:
-    case kF_DoubleFlat_QTP:
-    case kF_SesquiFlat_QTP:
-    case kF_Flat_QTP:
-    case kF_SemiFlat_QTP:
-    case kF_Natural_QTP:
-    case kF_SemiSharp_QTP:
-    case kF_Sharp_QTP:
-    case kF_SesquiSharp_QTP:
-    case kF_DoubleSharp_QTP:
-    case kF_TripleSharp_QTP:
-      result = kDiatonicPitchF;
+    case msrQuarterTonesPitchKind::kQTP_F_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_F_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_F_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_F_Flat:
+    case msrQuarterTonesPitchKind::kQTP_F_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_F_Natural:
+    case msrQuarterTonesPitchKind::kQTP_F_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_F_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_F_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_F_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_F_TripleSharp:
+      result = msrDiatonicPitchKind::kDiatonicPitchF;
       break;
 
-    case kG_TripleFlat_QTP:
-    case kG_DoubleFlat_QTP:
-    case kG_SesquiFlat_QTP:
-    case kG_Flat_QTP:
-    case kG_SemiFlat_QTP:
-    case kG_Natural_QTP:
-    case kG_SemiSharp_QTP:
-    case kG_Sharp_QTP:
-    case kG_SesquiSharp_QTP:
-    case kG_DoubleSharp_QTP:
-    case kG_TripleSharp_QTP:
-      result = kDiatonicPitchG;
+    case msrQuarterTonesPitchKind::kQTP_G_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_G_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_G_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_G_Flat:
+    case msrQuarterTonesPitchKind::kQTP_G_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_G_Natural:
+    case msrQuarterTonesPitchKind::kQTP_G_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_G_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_G_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_G_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_G_TripleSharp:
+      result = msrDiatonicPitchKind::kDiatonicPitchG;
       break;
 
-    case k_Rest_QTP:
+    case msrQuarterTonesPitchKind::kQTP_Rest:
       {
         stringstream s;
 
@@ -14895,7 +15058,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           s.str ());
       }
 
-    case k_Skip_QTP:
+    case msrQuarterTonesPitchKind::kQTP_Skip:
       {
         stringstream s;
 
@@ -14910,15 +15073,15 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           s.str ());
       }
 
-    case k_NoQuarterTonesPitch_QTP:
+    case msrQuarterTonesPitchKind::k_NoQuarterTonesPitch:
       {
-        result = k_NoDiatonicPitch;
+        result = msrDiatonicPitchKind::k_NoDiatonicPitch;
 
         /* JMI
         stringstream s;
 
         s <<
-          "cannot get the diatonic pitch of a k_NoQuarterTonesPitch_QTP"
+          "cannot get the diatonic pitch of a msrQuarterTonesPitchKind::k_NoQuarterTonesPitch"
           ", line = " << inputLineNumber;
 
         msrInternalError (
@@ -14937,120 +15100,120 @@ msrAlterationKind alterationKindFromQuarterTonesPitchKind (
   int                      inputLineNumber,
   msrQuarterTonesPitchKind quarterTonesPitchKind)
 {
-  msrAlterationKind result = k_NoAlteration;
+  msrAlterationKind result = msrAlterationKind::k_NoAlteration;
 
   switch (quarterTonesPitchKind) {
-    case kA_TripleFlat_QTP:
-    case kB_TripleFlat_QTP:
-    case kC_TripleFlat_QTP:
-    case kD_TripleFlat_QTP:
-    case kE_TripleFlat_QTP:
-    case kF_TripleFlat_QTP:
-    case kG_TripleFlat_QTP:
-      result = kTripleFlat;
+    case msrQuarterTonesPitchKind::kQTP_A_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_B_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_C_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_D_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_E_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_F_TripleFlat:
+    case msrQuarterTonesPitchKind::kQTP_G_TripleFlat:
+      result = msrAlterationKind::kAlterationTripleFlat;
       break;
 
-    case kA_DoubleFlat_QTP:
-    case kB_DoubleFlat_QTP:
-    case kC_DoubleFlat_QTP:
-    case kD_DoubleFlat_QTP:
-    case kE_DoubleFlat_QTP:
-    case kF_DoubleFlat_QTP:
-    case kG_DoubleFlat_QTP:
-      result = kDoubleFlat;
+    case msrQuarterTonesPitchKind::kQTP_A_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_B_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_C_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_D_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_E_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_F_DoubleFlat:
+    case msrQuarterTonesPitchKind::kQTP_G_DoubleFlat:
+      result = msrAlterationKind::kAlterationDoubleFlat;
       break;
 
-    case kA_SesquiFlat_QTP:
-    case kB_SesquiFlat_QTP:
-    case kC_SesquiFlat_QTP:
-    case kD_SesquiFlat_QTP:
-    case kE_SesquiFlat_QTP:
-    case kF_SesquiFlat_QTP:
-    case kG_SesquiFlat_QTP:
-      result = kSesquiFlat;
+    case msrQuarterTonesPitchKind::kQTP_A_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_B_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_C_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_D_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_E_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_F_SesquiFlat:
+    case msrQuarterTonesPitchKind::kQTP_G_SesquiFlat:
+      result = msrAlterationKind::kAlterationSesquiFlat;
       break;
 
-    case kA_Flat_QTP:
-    case kB_Flat_QTP:
-    case kC_Flat_QTP:
-    case kD_Flat_QTP:
-    case kE_Flat_QTP:
-    case kF_Flat_QTP:
-    case kG_Flat_QTP:
-      result = kFlat;
+    case msrQuarterTonesPitchKind::kQTP_A_Flat:
+    case msrQuarterTonesPitchKind::kQTP_B_Flat:
+    case msrQuarterTonesPitchKind::kQTP_C_Flat:
+    case msrQuarterTonesPitchKind::kQTP_D_Flat:
+    case msrQuarterTonesPitchKind::kQTP_E_Flat:
+    case msrQuarterTonesPitchKind::kQTP_F_Flat:
+    case msrQuarterTonesPitchKind::kQTP_G_Flat:
+      result = msrAlterationKind::kAlterationFlat;
       break;
 
-    case kA_SemiFlat_QTP:
-    case kB_SemiFlat_QTP:
-    case kC_SemiFlat_QTP:
-    case kD_SemiFlat_QTP:
-    case kE_SemiFlat_QTP:
-    case kF_SemiFlat_QTP:
-    case kG_SemiFlat_QTP:
-      result = kSemiFlat;
+    case msrQuarterTonesPitchKind::kQTP_A_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_B_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_C_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_D_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_E_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_F_SemiFlat:
+    case msrQuarterTonesPitchKind::kQTP_G_SemiFlat:
+      result = msrAlterationKind::kAlterationSemiFlat;
       break;
 
-    case kA_Natural_QTP:
-    case kB_Natural_QTP:
-    case kC_Natural_QTP:
-    case kD_Natural_QTP:
-    case kE_Natural_QTP:
-    case kF_Natural_QTP:
-    case kG_Natural_QTP:
-      result = kNatural;
+    case msrQuarterTonesPitchKind::kQTP_A_Natural:
+    case msrQuarterTonesPitchKind::kQTP_B_Natural:
+    case msrQuarterTonesPitchKind::kQTP_C_Natural:
+    case msrQuarterTonesPitchKind::kQTP_D_Natural:
+    case msrQuarterTonesPitchKind::kQTP_E_Natural:
+    case msrQuarterTonesPitchKind::kQTP_F_Natural:
+    case msrQuarterTonesPitchKind::kQTP_G_Natural:
+      result = msrAlterationKind::kAlterationNatural;
       break;
 
-    case kA_SemiSharp_QTP:
-    case kB_SemiSharp_QTP:
-    case kC_SemiSharp_QTP:
-    case kD_SemiSharp_QTP:
-    case kE_SemiSharp_QTP:
-    case kF_SemiSharp_QTP:
-    case kG_SemiSharp_QTP:
-      result = kSemiSharp;
+    case msrQuarterTonesPitchKind::kQTP_A_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_B_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_C_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_D_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_E_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_F_SemiSharp:
+    case msrQuarterTonesPitchKind::kQTP_G_SemiSharp:
+      result = msrAlterationKind::kAlterationSemiSharp;
       break;
 
-    case kA_Sharp_QTP:
-    case kB_Sharp_QTP:
-    case kC_Sharp_QTP:
-    case kD_Sharp_QTP:
-    case kE_Sharp_QTP:
-    case kF_Sharp_QTP:
-    case kG_Sharp_QTP:
-      result = kSharp;
+    case msrQuarterTonesPitchKind::kQTP_A_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_B_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_C_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_D_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_E_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_F_Sharp:
+    case msrQuarterTonesPitchKind::kQTP_G_Sharp:
+      result = msrAlterationKind::kAlterationSharp;
       break;
 
-    case kA_SesquiSharp_QTP:
-    case kB_SesquiSharp_QTP:
-    case kC_SesquiSharp_QTP:
-    case kD_SesquiSharp_QTP:
-    case kE_SesquiSharp_QTP:
-    case kF_SesquiSharp_QTP:
-    case kG_SesquiSharp_QTP:
-      result = kSesquiSharp;
+    case msrQuarterTonesPitchKind::kQTP_A_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_B_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_C_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_D_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_E_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_F_SesquiSharp:
+    case msrQuarterTonesPitchKind::kQTP_G_SesquiSharp:
+      result = msrAlterationKind::kAlterationSesquiSharp;
       break;
 
-    case kA_DoubleSharp_QTP:
-    case kB_DoubleSharp_QTP:
-    case kC_DoubleSharp_QTP:
-    case kD_DoubleSharp_QTP:
-    case kE_DoubleSharp_QTP:
-    case kF_DoubleSharp_QTP:
-    case kG_DoubleSharp_QTP:
-      result = kDoubleSharp;
+    case msrQuarterTonesPitchKind::kQTP_A_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_B_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_C_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_D_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_E_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_F_DoubleSharp:
+    case msrQuarterTonesPitchKind::kQTP_G_DoubleSharp:
+      result = msrAlterationKind::kAlterationDoubleSharp;
       break;
 
-    case kA_TripleSharp_QTP:
-    case kB_TripleSharp_QTP:
-    case kC_TripleSharp_QTP:
-    case kD_TripleSharp_QTP:
-    case kE_TripleSharp_QTP:
-    case kF_TripleSharp_QTP:
-    case kG_TripleSharp_QTP:
-      result = kTripleSharp;
+    case msrQuarterTonesPitchKind::kQTP_A_TripleSharp:
+    case msrQuarterTonesPitchKind::kQTP_B_TripleSharp:
+    case msrQuarterTonesPitchKind::kQTP_C_TripleSharp:
+    case msrQuarterTonesPitchKind::kQTP_D_TripleSharp:
+    case msrQuarterTonesPitchKind::kQTP_E_TripleSharp:
+    case msrQuarterTonesPitchKind::kQTP_F_TripleSharp:
+    case msrQuarterTonesPitchKind::kQTP_G_TripleSharp:
+      result = msrAlterationKind::kAlterationTripleSharp;
       break;
 
-    case k_Rest_QTP:
+    case msrQuarterTonesPitchKind::kQTP_Rest:
       {
         stringstream s;
 
@@ -15065,7 +15228,7 @@ msrAlterationKind alterationKindFromQuarterTonesPitchKind (
           s.str ());
       }
 
-    case k_Skip_QTP:
+    case msrQuarterTonesPitchKind::kQTP_Skip:
       {
         stringstream s;
 
@@ -15080,15 +15243,15 @@ msrAlterationKind alterationKindFromQuarterTonesPitchKind (
           s.str ());
       }
 
-    case k_NoQuarterTonesPitch_QTP:
+    case msrQuarterTonesPitchKind::k_NoQuarterTonesPitch:
       {
-        result = k_NoAlteration;
+        result = msrAlterationKind::k_NoAlteration;
 
         /* JMI
         stringstream s;
 
         s <<
-          "cannot get the diatonic pitch of a k_NoQuarterTonesPitch_QTP"
+          "cannot get the diatonic pitch of a msrQuarterTonesPitchKind::k_NoQuarterTonesPitch"
           ", line = " << inputLineNumber;
 
         msrInternalError (
@@ -15106,164 +15269,164 @@ msrAlterationKind alterationKindFromQuarterTonesPitchKind (
 msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
   msrSemiTonesPitchKind semiTonesPitchKind)
 {
-  msrQuarterTonesPitchKind result = k_NoQuarterTonesPitch_QTP;
+  msrQuarterTonesPitchKind result = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
 
   switch (semiTonesPitchKind) {
-    case k_NoSemiTonesPitch_STP:
+    case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
       break;
 
-    case kC_TripleFlat_STP:
-      result = kC_TripleFlat_QTP;
+    case msrSemiTonesPitchKind::kSTP_C_TripleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_C_TripleFlat;
       break;
-    case kC_DoubleFlat_STP:
-      result = kC_DoubleFlat_QTP;
+    case msrSemiTonesPitchKind::kSTP_C_DoubleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
       break;
-    case kC_Flat_STP:
-      result = kC_Flat_QTP;
+    case msrSemiTonesPitchKind::kSTP_C_Flat:
+      result = msrQuarterTonesPitchKind::kQTP_C_Flat;
       break;
-    case kC_Natural_STP:
-      result = kC_Natural_QTP;
+    case msrSemiTonesPitchKind::kSTP_C_Natural:
+      result = msrQuarterTonesPitchKind::kQTP_C_Natural;
       break;
-    case kC_Sharp_STP:
-      result = kC_Sharp_QTP;
+    case msrSemiTonesPitchKind::kSTP_C_Sharp:
+      result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
       break;
-    case kC_DoubleSharp_STP:
-      result = kC_DoubleSharp_QTP;
+    case msrSemiTonesPitchKind::kSTP_C_DoubleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
       break;
-    case kC_TripleSharp_STP:
-      result = kC_TripleSharp_QTP;
-      break;
-
-    case kD_TripleFlat_STP:
-      result = kD_TripleFlat_QTP;
-      break;
-    case kD_DoubleFlat_STP:
-      result = kD_DoubleFlat_QTP;
-      break;
-    case kD_Flat_STP:
-      result = kD_Flat_QTP;
-      break;
-    case kD_Natural_STP:
-      result = kD_Natural_QTP;
-      break;
-    case kD_Sharp_STP:
-      result = kD_Sharp_QTP;
-      break;
-    case kD_DoubleSharp_STP:
-      result = kD_DoubleSharp_QTP;
-      break;
-    case kD_TripleSharp_STP:
-      result = kD_TripleSharp_QTP;
+    case msrSemiTonesPitchKind::kSTP_C_TripleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_C_TripleSharp;
       break;
 
-    case kE_TripleFlat_STP:
-      result = kE_TripleFlat_QTP;
+    case msrSemiTonesPitchKind::kSTP_D_TripleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_D_TripleFlat;
       break;
-    case kE_DoubleFlat_STP:
-      result = kE_DoubleFlat_QTP;
+    case msrSemiTonesPitchKind::kSTP_D_DoubleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
       break;
-    case kE_Flat_STP:
-      result = kE_Flat_QTP;
+    case msrSemiTonesPitchKind::kSTP_D_Flat:
+      result = msrQuarterTonesPitchKind::kQTP_D_Flat;
       break;
-    case kE_Natural_STP:
-      result = kE_Natural_QTP;
+    case msrSemiTonesPitchKind::kSTP_D_Natural:
+      result = msrQuarterTonesPitchKind::kQTP_D_Natural;
       break;
-    case kE_Sharp_STP:
-      result = kE_Sharp_QTP;
+    case msrSemiTonesPitchKind::kSTP_D_Sharp:
+      result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
       break;
-    case kE_DoubleSharp_STP:
-      result = kE_DoubleSharp_QTP;
+    case msrSemiTonesPitchKind::kSTP_D_DoubleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
       break;
-    case kE_TripleSharp_STP:
-      result = kE_TripleSharp_QTP;
-      break;
-
-    case kF_TripleFlat_STP:
-      result = kF_TripleFlat_QTP;
-      break;
-    case kF_DoubleFlat_STP:
-      result = kF_DoubleFlat_QTP;
-      break;
-    case kF_Flat_STP:
-      result = kF_Flat_QTP;
-      break;
-    case kF_Natural_STP:
-      result = kF_Natural_QTP;
-      break;
-    case kF_Sharp_STP:
-      result = kF_Sharp_QTP;
-      break;
-    case kF_DoubleSharp_STP:
-      result = kF_DoubleSharp_QTP;
-      break;
-    case kF_TripleSharp_STP:
-      result = kF_TripleSharp_QTP;
+    case msrSemiTonesPitchKind::kSTP_D_TripleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_D_TripleSharp;
       break;
 
-    case kG_TripleFlat_STP:
-      result = kG_TripleFlat_QTP;
+    case msrSemiTonesPitchKind::kSTP_E_TripleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_E_TripleFlat;
       break;
-    case kG_DoubleFlat_STP:
-      result = kG_DoubleFlat_QTP;
+    case msrSemiTonesPitchKind::kSTP_E_DoubleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
       break;
-    case kG_Flat_STP:
-      result = kG_Flat_QTP;
+    case msrSemiTonesPitchKind::kSTP_E_Flat:
+      result = msrQuarterTonesPitchKind::kQTP_E_Flat;
       break;
-    case kG_Natural_STP:
-      result = kG_Natural_QTP;
+    case msrSemiTonesPitchKind::kSTP_E_Natural:
+      result = msrQuarterTonesPitchKind::kQTP_E_Natural;
       break;
-    case kG_Sharp_STP:
-      result = kG_Sharp_QTP;
+    case msrSemiTonesPitchKind::kSTP_E_Sharp:
+      result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
       break;
-    case kG_DoubleSharp_STP:
-      result = kG_DoubleSharp_QTP;
+    case msrSemiTonesPitchKind::kSTP_E_DoubleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
       break;
-    case kG_TripleSharp_STP:
-      result = kG_TripleSharp_QTP;
-      break;
-
-    case kA_TripleFlat_STP:
-      result = kA_TripleFlat_QTP;
-      break;
-    case kA_DoubleFlat_STP:
-      result = kA_DoubleFlat_QTP;
-      break;
-    case kA_Flat_STP:
-      result = kA_Flat_QTP;
-      break;
-    case kA_Natural_STP:
-      result = kA_Natural_QTP;
-      break;
-    case kA_Sharp_STP:
-      result = kA_Sharp_QTP;
-      break;
-    case kA_DoubleSharp_STP:
-      result = kA_DoubleSharp_QTP;
-      break;
-    case kA_TripleSharp_STP:
-      result = kA_TripleSharp_QTP;
+    case msrSemiTonesPitchKind::kSTP_E_TripleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_E_TripleSharp;
       break;
 
-    case kB_TripleFlat_STP:
-      result = kB_TripleFlat_QTP;
+    case msrSemiTonesPitchKind::kSTP_F_TripleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_F_TripleFlat;
       break;
-    case kB_DoubleFlat_STP:
-      result = kB_DoubleFlat_QTP;
+    case msrSemiTonesPitchKind::kSTP_F_DoubleleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
       break;
-    case kB_Flat_STP:
-      result = kB_Flat_QTP;
+    case msrSemiTonesPitchKind::kSTP_F_Flat:
+      result = msrQuarterTonesPitchKind::kQTP_F_Flat;
       break;
-    case kB_Natural_STP:
-      result = kB_Natural_QTP;
+    case msrSemiTonesPitchKind::kSTP_F_Natural:
+      result = msrQuarterTonesPitchKind::kQTP_F_Natural;
       break;
-    case kB_Sharp_STP:
-      result = kB_Sharp_QTP;
+    case msrSemiTonesPitchKind::kSTP_F_Sharp:
+      result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
       break;
-    case kB_DoubleSharp_STP:
-      result = kB_DoubleSharp_QTP;
+    case msrSemiTonesPitchKind::kSTP_F_DoubleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
       break;
-    case kB_TripleSharp_STP:
-      result = kB_TripleSharp_QTP;
+    case msrSemiTonesPitchKind::kSTP_F_TripleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_F_TripleSharp;
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_G_TripleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_G_TripleFlat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_DoubleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Flat:
+      result = msrQuarterTonesPitchKind::kQTP_G_Flat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Natural:
+      result = msrQuarterTonesPitchKind::kQTP_G_Natural;
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Sharp:
+      result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_DoubleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_TripleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_G_TripleSharp;
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_A_TripleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_A_TripleFlat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_DoubleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Flat:
+      result = msrQuarterTonesPitchKind::kQTP_A_Flat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Natural:
+      result = msrQuarterTonesPitchKind::kQTP_A_Natural;
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Sharp:
+      result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_DoubleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_TripleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_A_TripleSharp;
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_B_TripleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_DoubleFlat:
+      result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Flat:
+      result = msrQuarterTonesPitchKind::kQTP_B_Flat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Natural:
+      result = msrQuarterTonesPitchKind::kQTP_B_Natural;
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Sharp:
+      result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_DoubleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_TripleSharp:
+      result = msrQuarterTonesPitchKind::kQTP_B_TripleSharp;
       break;
   } // switch
 
@@ -15273,84 +15436,84 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
 msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
   msrQuarterTonesPitchKind quarterTonesPitchKind)
 {
-  msrSemiTonesPitchKind result = k_NoSemiTonesPitch_STP;
+  msrSemiTonesPitchKind result = msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch;
 
     switch (quarterTonesPitchKind) {
-      case k_NoQuarterTonesPitch_QTP:
+      case msrQuarterTonesPitchKind::k_NoQuarterTonesPitch:
         break;
 
-      case k_Rest_QTP:
-      case k_Skip_QTP:
+      case msrQuarterTonesPitchKind::kQTP_Rest:
+      case msrQuarterTonesPitchKind::kQTP_Skip:
         break;
 
-      case kA_Flat_QTP:
-        result = kA_Flat_STP;
+      case msrQuarterTonesPitchKind::kQTP_A_Flat:
+        result = msrSemiTonesPitchKind::kSTP_A_Flat;
         break;
-      case kA_Natural_QTP:
-        result = kA_Natural_STP;
+      case msrQuarterTonesPitchKind::kQTP_A_Natural:
+        result = msrSemiTonesPitchKind::kSTP_A_Natural;
         break;
-      case kA_Sharp_QTP:
-        result = kA_Sharp_STP;
-        break;
-
-      case kB_Flat_QTP:
-        result = kB_Flat_STP;
-        break;
-      case kB_Natural_QTP:
-        result = kB_Natural_STP;
-        break;
-      case kB_Sharp_QTP:
-        result = kB_Sharp_STP;
+      case msrQuarterTonesPitchKind::kQTP_A_Sharp:
+        result = msrSemiTonesPitchKind::kSTP_A_Sharp;
         break;
 
-      case kC_Flat_QTP:
-        result = kC_Flat_STP;
+      case msrQuarterTonesPitchKind::kQTP_B_Flat:
+        result = msrSemiTonesPitchKind::kSTP_B_Flat;
         break;
-      case kC_Natural_QTP:
-        result = kC_Natural_STP;
+      case msrQuarterTonesPitchKind::kQTP_B_Natural:
+        result = msrSemiTonesPitchKind::kSTP_B_Natural;
         break;
-      case kC_Sharp_QTP:
-        result = kC_Sharp_STP;
-        break;
-
-      case kD_Flat_QTP:
-        result = kD_Flat_STP;
-        break;
-      case kD_Natural_QTP:
-        result = kD_Natural_STP;
-        break;
-      case kD_Sharp_QTP:
-        result = kD_Sharp_STP;
+      case msrQuarterTonesPitchKind::kQTP_B_Sharp:
+        result = msrSemiTonesPitchKind::kSTP_B_Sharp;
         break;
 
-      case kE_Flat_QTP:
-        result = kE_Flat_STP;
+      case msrQuarterTonesPitchKind::kQTP_C_Flat:
+        result = msrSemiTonesPitchKind::kSTP_C_Flat;
         break;
-      case kE_Natural_QTP:
-        result = kE_Natural_STP;
+      case msrQuarterTonesPitchKind::kQTP_C_Natural:
+        result = msrSemiTonesPitchKind::kSTP_C_Natural;
         break;
-      case kE_Sharp_QTP:
-        result = kE_Sharp_STP;
-        break;
-
-      case kF_Flat_QTP:
-        result = kF_Flat_STP;
-        break;
-      case kF_Natural_QTP:
-        result = kF_Natural_STP;
-        break;
-      case kF_Sharp_QTP:
-        result = kF_Sharp_STP;
+      case msrQuarterTonesPitchKind::kQTP_C_Sharp:
+        result = msrSemiTonesPitchKind::kSTP_C_Sharp;
         break;
 
-      case kG_Flat_QTP:
-        result = kG_Flat_STP;
+      case msrQuarterTonesPitchKind::kQTP_D_Flat:
+        result = msrSemiTonesPitchKind::kSTP_D_Flat;
         break;
-      case kG_Natural_QTP:
-        result = kG_Natural_STP;
+      case msrQuarterTonesPitchKind::kQTP_D_Natural:
+        result = msrSemiTonesPitchKind::kSTP_D_Natural;
         break;
-      case kG_Sharp_QTP:
-        result = kG_Sharp_STP;
+      case msrQuarterTonesPitchKind::kQTP_D_Sharp:
+        result = msrSemiTonesPitchKind::kSTP_D_Sharp;
+        break;
+
+      case msrQuarterTonesPitchKind::kQTP_E_Flat:
+        result = msrSemiTonesPitchKind::kSTP_E_Flat;
+        break;
+      case msrQuarterTonesPitchKind::kQTP_E_Natural:
+        result = msrSemiTonesPitchKind::kSTP_E_Natural;
+        break;
+      case msrQuarterTonesPitchKind::kQTP_E_Sharp:
+        result = msrSemiTonesPitchKind::kSTP_E_Sharp;
+        break;
+
+      case msrQuarterTonesPitchKind::kQTP_F_Flat:
+        result = msrSemiTonesPitchKind::kSTP_F_Flat;
+        break;
+      case msrQuarterTonesPitchKind::kQTP_F_Natural:
+        result = msrSemiTonesPitchKind::kSTP_F_Natural;
+        break;
+      case msrQuarterTonesPitchKind::kQTP_F_Sharp:
+        result = msrSemiTonesPitchKind::kSTP_F_Sharp;
+        break;
+
+      case msrQuarterTonesPitchKind::kQTP_G_Flat:
+        result = msrSemiTonesPitchKind::kSTP_G_Flat;
+        break;
+      case msrQuarterTonesPitchKind::kQTP_G_Natural:
+        result = msrSemiTonesPitchKind::kSTP_G_Natural;
+        break;
+      case msrQuarterTonesPitchKind::kQTP_G_Sharp:
+        result = msrSemiTonesPitchKind::kSTP_G_Sharp;
         break;
 
       default:
@@ -15415,7 +15578,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   string                             quarterTonesPitchName)
 {
-  msrQuarterTonesPitchKind result = k_NoQuarterTonesPitch_QTP;
+  msrQuarterTonesPitchKind result = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
 
   map<msrQuarterTonesPitchKind, string> *pitchNamesMapPTR;
 
@@ -15557,162 +15720,162 @@ string msrSemiTonesPitchKindAsString (
   string result;
 
   switch (semiTonesPitchKind) {
-    case k_NoSemiTonesPitch_STP:
-      result = "k_NoSemiTonesPitch_STP";
+    case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
+      result = "msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch";
       break;
 
-    case kC_TripleFlat_STP:
-      result = "C_TripleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_C_TripleFlat:
+      result = "C_TripleFlat";
       break;
-    case kC_DoubleFlat_STP:
-      result = "C_DoubleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_C_DoubleFlat:
+      result = "C_DoubleFlat";
       break;
-    case kC_Flat_STP:
-      result = "C_Flat_STP";
+    case msrSemiTonesPitchKind::kSTP_C_Flat:
+      result = "C_Flat";
       break;
-    case kC_Natural_STP:
-      result = "C_Natural_STP";
+    case msrSemiTonesPitchKind::kSTP_C_Natural:
+      result = "C_Natural";
       break;
-    case kC_Sharp_STP:
-      result = "C_Sharp_STP";
+    case msrSemiTonesPitchKind::kSTP_C_Sharp:
+      result = "C_Sharp";
       break;
-    case kC_DoubleSharp_STP:
-      result = "C_DoubleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_C_DoubleSharp:
+      result = "C_DoubleSharp";
       break;
-    case kC_TripleSharp_STP:
-      result = "C_TripleSharp_STP";
-      break;
-
-    case kD_TripleFlat_STP:
-      result = "D_TripleFlat_STP";
-      break;
-    case kD_DoubleFlat_STP:
-      result = "D_DoubleFlat_STP";
-      break;
-    case kD_Flat_STP:
-      result = "D_Flat_STP";
-      break;
-    case kD_Natural_STP:
-      result = "D_Natural_STP";
-      break;
-    case kD_Sharp_STP:
-      result = "D_Sharp_STP";
-      break;
-    case kD_DoubleSharp_STP:
-      result = "D_DoubleSharp_STP";
-      break;
-    case kD_TripleSharp_STP:
-      result = "D_TripleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_C_TripleSharp:
+      result = "C_TripleSharp";
       break;
 
-    case kE_TripleFlat_STP:
-      result = "E_TripleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_D_TripleFlat:
+      result = "D_TripleFlat";
       break;
-    case kE_DoubleFlat_STP:
-      result = "E_DoubleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_D_DoubleFlat:
+      result = "D_DoubleFlat";
       break;
-    case kE_Flat_STP:
-      result = "E_Flat_STP";
+    case msrSemiTonesPitchKind::kSTP_D_Flat:
+      result = "D_Flat";
       break;
-    case kE_Natural_STP:
-      result = "E_Natural_STP";
+    case msrSemiTonesPitchKind::kSTP_D_Natural:
+      result = "D_Natural";
       break;
-    case kE_Sharp_STP:
-      result = "E_Sharp_STP";
+    case msrSemiTonesPitchKind::kSTP_D_Sharp:
+      result = "D_Sharp";
       break;
-    case kE_DoubleSharp_STP:
-      result = "E_DoubleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_D_DoubleSharp:
+      result = "D_DoubleSharp";
       break;
-    case kE_TripleSharp_STP:
-      result = "E_TripleSharp_STP";
-      break;
-
-    case kF_TripleFlat_STP:
-      result = "F_TripleFlat_STP";
-      break;
-    case kF_DoubleFlat_STP:
-      result = "F_DoubleFlat_STP";
-      break;
-    case kF_Flat_STP:
-      result = "F_Flat_STP";
-      break;
-    case kF_Natural_STP:
-      result = "F_Natural_STP";
-      break;
-    case kF_Sharp_STP:
-      result = "F_Sharp_STP";
-      break;
-    case kF_DoubleSharp_STP:
-      result = "F_DoubleSharp_STP";
-      break;
-    case kF_TripleSharp_STP:
-      result = "F_TripleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_D_TripleSharp:
+      result = "D_TripleSharp";
       break;
 
-    case kG_TripleFlat_STP:
-      result = "G_TripleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_E_TripleFlat:
+      result = "E_TripleFlat";
       break;
-    case kG_DoubleFlat_STP:
-      result = "G_DoubleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_E_DoubleFlat:
+      result = "E_DoubleFlat";
       break;
-    case kG_Flat_STP:
-      result = "G_Flat_STP";
+    case msrSemiTonesPitchKind::kSTP_E_Flat:
+      result = "E_Flat";
       break;
-    case kG_Natural_STP:
-      result = "G_Natural_STP";
+    case msrSemiTonesPitchKind::kSTP_E_Natural:
+      result = "E_Natural";
       break;
-    case kG_Sharp_STP:
-      result = "G_Sharp_STP";
+    case msrSemiTonesPitchKind::kSTP_E_Sharp:
+      result = "E_Sharp";
       break;
-    case kG_DoubleSharp_STP:
-      result = "G_DoubleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_E_DoubleSharp:
+      result = "E_DoubleSharp";
       break;
-    case kG_TripleSharp_STP:
-      result = "G_TripleSharp_STP";
-      break;
-
-    case kA_TripleFlat_STP:
-      result = "A_TripleFlat_STP";
-      break;
-    case kA_DoubleFlat_STP:
-      result = "A_DoubleFlat_STP";
-      break;
-    case kA_Flat_STP:
-      result = "A_Flat_STP";
-      break;
-    case kA_Natural_STP:
-      result = "A_Natural_STP";
-      break;
-    case kA_Sharp_STP:
-      result = "A_Sharp_STP";
-      break;
-    case kA_DoubleSharp_STP:
-      result = "A_DoubleSharp_STP";
-      break;
-    case kA_TripleSharp_STP:
-      result = "A_TripleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_E_TripleSharp:
+      result = "E_TripleSharp";
       break;
 
-    case kB_TripleFlat_STP:
-      result = "B_TripleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_F_TripleFlat:
+      result = "F_TripleFlat";
       break;
-    case kB_DoubleFlat_STP:
-      result = "B_DoubleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_F_DoubleleFlat:
+      result = "F_DoubleFlat";
       break;
-    case kB_Flat_STP:
-      result = "B_Flat_STP";
+    case msrSemiTonesPitchKind::kSTP_F_Flat:
+      result = "F_Flat";
       break;
-    case kB_Natural_STP:
-      result = "B_Natural_STP";
+    case msrSemiTonesPitchKind::kSTP_F_Natural:
+      result = "F_Natural";
       break;
-    case kB_Sharp_STP:
-      result = "B_Sharp_STP";
+    case msrSemiTonesPitchKind::kSTP_F_Sharp:
+      result = "F_Sharp";
       break;
-    case kB_DoubleSharp_STP:
-      result = "B_DoubleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_F_DoubleSharp:
+      result = "F_DoubleSharp";
       break;
-    case kB_TripleSharp_STP:
-      result = "B_TripleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_F_TripleSharp:
+      result = "F_TripleSharp";
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_G_TripleFlat:
+      result = "G_TripleFlat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_DoubleFlat:
+      result = "G_DoubleFlat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Flat:
+      result = "G_Flat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Natural:
+      result = "G_Natural";
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Sharp:
+      result = "G_Sharp";
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_DoubleSharp:
+      result = "G_DoubleSharp";
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_TripleSharp:
+      result = "G_TripleSharp";
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_A_TripleFlat:
+      result = "A_TripleFlat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_DoubleFlat:
+      result = "A_DoubleFlat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Flat:
+      result = "A_Flat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Natural:
+      result = "A_Natural";
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Sharp:
+      result = "A_Sharp";
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_DoubleSharp:
+      result = "A_DoubleSharp";
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_TripleSharp:
+      result = "A_TripleSharp";
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_B_TripleFlat:
+      result = "B_TripleFlat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_DoubleFlat:
+      result = "B_DoubleFlat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Flat:
+      result = "B_Flat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Natural:
+      result = "B_Natural";
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Sharp:
+      result = "B_Sharp";
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_DoubleSharp:
+      result = "B_DoubleSharp";
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_TripleSharp:
+      result = "B_TripleSharp";
       break;
   } // switch
 
@@ -15734,162 +15897,162 @@ string semiTonesPitchKindAsFlatsAndSharps (
         */
 
   switch (semiTonesPitchKind) {
-    case k_NoSemiTonesPitch_STP:
-      result = "k_NoSemiTonesPitch_STP";
+    case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
+      result = "msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch";
       break;
 
-    case kC_TripleFlat_STP:
-      result = "C_TripleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_C_TripleFlat:
+      result = "C_TripleFlat";
       break;
-    case kC_DoubleFlat_STP:
-      result = "C_DoubleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_C_DoubleFlat:
+      result = "C_DoubleFlat";
       break;
-    case kC_Flat_STP:
-      result = "C_Flat_STP";
+    case msrSemiTonesPitchKind::kSTP_C_Flat:
+      result = "C_Flat";
       break;
-    case kC_Natural_STP:
-      result = "C_Natural_STP";
+    case msrSemiTonesPitchKind::kSTP_C_Natural:
+      result = "C_Natural";
       break;
-    case kC_Sharp_STP:
-      result = "C_Sharp_STP";
+    case msrSemiTonesPitchKind::kSTP_C_Sharp:
+      result = "C_Sharp";
       break;
-    case kC_DoubleSharp_STP:
-      result = "C_DoubleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_C_DoubleSharp:
+      result = "C_DoubleSharp";
       break;
-    case kC_TripleSharp_STP:
-      result = "C_TripleSharp_STP";
-      break;
-
-    case kD_TripleFlat_STP:
-      result = "D_TripleFlat_STP";
-      break;
-    case kD_DoubleFlat_STP:
-      result = "D_DoubleFlat_STP";
-      break;
-    case kD_Flat_STP:
-      result = "D_Flat_STP";
-      break;
-    case kD_Natural_STP:
-      result = "D_Natural_STP";
-      break;
-    case kD_Sharp_STP:
-      result = "D_Sharp_STP";
-      break;
-    case kD_DoubleSharp_STP:
-      result = "D_DoubleSharp_STP";
-      break;
-    case kD_TripleSharp_STP:
-      result = "D_TripleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_C_TripleSharp:
+      result = "C_TripleSharp";
       break;
 
-    case kE_TripleFlat_STP:
-      result = "E_TripleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_D_TripleFlat:
+      result = "D_TripleFlat";
       break;
-    case kE_DoubleFlat_STP:
-      result = "E_DoubleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_D_DoubleFlat:
+      result = "D_DoubleFlat";
       break;
-    case kE_Flat_STP:
-      result = "E_Flat_STP";
+    case msrSemiTonesPitchKind::kSTP_D_Flat:
+      result = "D_Flat";
       break;
-    case kE_Natural_STP:
-      result = "E_Natural_STP";
+    case msrSemiTonesPitchKind::kSTP_D_Natural:
+      result = "D_Natural";
       break;
-    case kE_Sharp_STP:
-      result = "E_Sharp_STP";
+    case msrSemiTonesPitchKind::kSTP_D_Sharp:
+      result = "D_Sharp";
       break;
-    case kE_DoubleSharp_STP:
-      result = "E_DoubleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_D_DoubleSharp:
+      result = "D_DoubleSharp";
       break;
-    case kE_TripleSharp_STP:
-      result = "E_TripleSharp_STP";
-      break;
-
-    case kF_TripleFlat_STP:
-      result = "F_TripleFlat_STP";
-      break;
-    case kF_DoubleFlat_STP:
-      result = "F_DoubleFlat_STP";
-      break;
-    case kF_Flat_STP:
-      result = "F_Flat_STP";
-      break;
-    case kF_Natural_STP:
-      result = "F_Natural_STP";
-      break;
-    case kF_Sharp_STP:
-      result = "F_Sharp_STP";
-      break;
-    case kF_DoubleSharp_STP:
-      result = "F_DoubleSharp_STP";
-      break;
-    case kF_TripleSharp_STP:
-      result = "F_TripleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_D_TripleSharp:
+      result = "D_TripleSharp";
       break;
 
-    case kG_TripleFlat_STP:
-      result = "G_TripleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_E_TripleFlat:
+      result = "E_TripleFlat";
       break;
-    case kG_DoubleFlat_STP:
-      result = "G_DoubleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_E_DoubleFlat:
+      result = "E_DoubleFlat";
       break;
-    case kG_Flat_STP:
-      result = "G_Flat_STP";
+    case msrSemiTonesPitchKind::kSTP_E_Flat:
+      result = "E_Flat";
       break;
-    case kG_Natural_STP:
-      result = "G_Natural_STP";
+    case msrSemiTonesPitchKind::kSTP_E_Natural:
+      result = "E_Natural";
       break;
-    case kG_Sharp_STP:
-      result = "G_Sharp_STP";
+    case msrSemiTonesPitchKind::kSTP_E_Sharp:
+      result = "E_Sharp";
       break;
-    case kG_DoubleSharp_STP:
-      result = "G_DoubleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_E_DoubleSharp:
+      result = "E_DoubleSharp";
       break;
-    case kG_TripleSharp_STP:
-      result = "G_TripleSharp_STP";
-      break;
-
-    case kA_TripleFlat_STP:
-      result = "A_TripleFlat_STP";
-      break;
-    case kA_DoubleFlat_STP:
-      result = "A_DoubleFlat_STP";
-      break;
-    case kA_Flat_STP:
-      result = "A_Flat_STP";
-      break;
-    case kA_Natural_STP:
-      result = "A_Natural_STP";
-      break;
-    case kA_Sharp_STP:
-      result = "A_Sharp_STP";
-      break;
-    case kA_DoubleSharp_STP:
-      result = "A_DoubleSharp_STP";
-      break;
-    case kA_TripleSharp_STP:
-      result = "A_TripleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_E_TripleSharp:
+      result = "E_TripleSharp";
       break;
 
-    case kB_TripleFlat_STP:
-      result = "B_TripleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_F_TripleFlat:
+      result = "F_TripleFlat";
       break;
-    case kB_DoubleFlat_STP:
-      result = "B_DoubleFlat_STP";
+    case msrSemiTonesPitchKind::kSTP_F_DoubleleFlat:
+      result = "F_DoubleFlat";
       break;
-    case kB_Flat_STP:
-      result = "B_Flat_STP";
+    case msrSemiTonesPitchKind::kSTP_F_Flat:
+      result = "F_Flat";
       break;
-    case kB_Natural_STP:
-      result = "B_Natural_STP";
+    case msrSemiTonesPitchKind::kSTP_F_Natural:
+      result = "F_Natural";
       break;
-    case kB_Sharp_STP:
-      result = "B_Sharp_STP";
+    case msrSemiTonesPitchKind::kSTP_F_Sharp:
+      result = "F_Sharp";
       break;
-    case kB_DoubleSharp_STP:
-      result = "B_DoubleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_F_DoubleSharp:
+      result = "F_DoubleSharp";
       break;
-    case kB_TripleSharp_STP:
-      result = "B_TripleSharp_STP";
+    case msrSemiTonesPitchKind::kSTP_F_TripleSharp:
+      result = "F_TripleSharp";
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_G_TripleFlat:
+      result = "G_TripleFlat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_DoubleFlat:
+      result = "G_DoubleFlat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Flat:
+      result = "G_Flat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Natural:
+      result = "G_Natural";
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Sharp:
+      result = "G_Sharp";
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_DoubleSharp:
+      result = "G_DoubleSharp";
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_TripleSharp:
+      result = "G_TripleSharp";
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_A_TripleFlat:
+      result = "A_TripleFlat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_DoubleFlat:
+      result = "A_DoubleFlat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Flat:
+      result = "A_Flat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Natural:
+      result = "A_Natural";
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Sharp:
+      result = "A_Sharp";
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_DoubleSharp:
+      result = "A_DoubleSharp";
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_TripleSharp:
+      result = "A_TripleSharp";
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_B_TripleFlat:
+      result = "B_TripleFlat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_DoubleFlat:
+      result = "B_DoubleFlat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Flat:
+      result = "B_Flat";
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Natural:
+      result = "B_Natural";
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Sharp:
+      result = "B_Sharp";
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_DoubleSharp:
+      result = "B_DoubleSharp";
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_TripleSharp:
+      result = "B_TripleSharp";
       break;
   } // switch
 
@@ -15900,94 +16063,94 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind)
 {
-  msrQuarterTonesPitchKind result = k_NoQuarterTonesPitch_QTP;
+  msrQuarterTonesPitchKind result = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
 
   /* JMI
   switch (semiTonesPitchKind) {
-    case k_NoSemiTonesPitch_STP:
-      result = k_NoQuarterTonesPitch_QTP;
+    case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
+      result = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
       break;
 
-    case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
+    case msrSemiTonesPitchKind::kSTP_C_Natural: // msrSemiTonesPitchKind::kSTP_B_Sharp, msrSemiTonesPitchKind::kSTP_D_DoubleFlat
       result = kC_Natural;
       break;
 
-    case kC_Sharp_STP: // kB_DoubleSharp_STP, kD_Flat_STP
+    case msrSemiTonesPitchKind::kSTP_C_Sharp: // msrSemiTonesPitchKind::kSTP_B_DoubleSharp, msrSemiTonesPitchKind::kSTP_D_Flat
       switch (alterationPreferenceKind) {
-        case kPreferSharp:
+        case msrAlterationPreferenceKind::kAlterationPreferenceSharp:
           result = kC_Sharp;
           break;
-        case kPreferFlat:
+        case msrAlterationPreferenceKind::kAlterationPreferenceFlat:
           result = kD_Flat;
           break;
       } // switch
       break;
 
-    case kD_Natural_STP: // kC_DoubleSharp_STP, kE_DoubleFlat_STP
+    case msrSemiTonesPitchKind::kSTP_D_Natural: // msrSemiTonesPitchKind::kSTP_C_DoubleSharp, msrSemiTonesPitchKind::kSTP_E_DoubleFlat
       result = kD_Natural;
       break;
 
-    case kD_Sharp_STP: // kE_Flat_STP
+    case msrSemiTonesPitchKind::kSTP_D_Sharp: // msrSemiTonesPitchKind::kSTP_E_Flat
       switch (alterationPreferenceKind) {
-        case kPreferSharp:
+        case msrAlterationPreferenceKind::kAlterationPreferenceSharp:
           result = kD_Sharp;
           break;
-        case kPreferFlat:
+        case msrAlterationPreferenceKind::kAlterationPreferenceFlat:
           result = kE_Flat;
           break;
       } // switch
       break;
 
-    case kE_Natural_STP: // kD_DoubleSharp_STP, kF_Flat_STP
+    case msrSemiTonesPitchKind::kSTP_E_Natural: // msrSemiTonesPitchKind::kSTP_D_DoubleSharp, msrSemiTonesPitchKind::kSTP_F_Flat
       result = kE_Natural;
       break;
 
-    case kF_Natural_STP: // kE_Sharp_STP, kG_DoubleFlat_STP
+    case msrSemiTonesPitchKind::kSTP_F_Natural: // msrSemiTonesPitchKind::kSTP_E_Sharp, msrSemiTonesPitchKind::kSTP_G_DoubleFlat
       result = kF_Natural;
       break;
 
-    case kF_Sharp_STP: // kE_DoubleSharp_STP, kG_Flat_STP
+    case msrSemiTonesPitchKind::kSTP_F_Sharp: // msrSemiTonesPitchKind::kSTP_E_DoubleSharp, msrSemiTonesPitchKind::kSTP_G_Flat
       switch (alterationPreferenceKind) {
-        case kPreferSharp:
+        case msrAlterationPreferenceKind::kAlterationPreferenceSharp:
           result = kF_Sharp;
           break;
-        case kPreferFlat:
+        case msrAlterationPreferenceKind::kAlterationPreferenceFlat:
           result = kG_Flat;
           break;
       } // switch
       break;
 
-    case kG_Natural_STP: // kF_DoubleSharp_STP, kA_DoubleFlat_STP
+    case msrSemiTonesPitchKind::kSTP_G_Natural: // msrSemiTonesPitchKind::kSTP_F_DoubleSharp, msrSemiTonesPitchKind::kSTP_A_DoubleFlat
       result = kG_Natural;
       break;
 
-    case kG_Sharp_STP: // kA_Flat_STP
+    case msrSemiTonesPitchKind::kSTP_G_Sharp: // msrSemiTonesPitchKind::kSTP_A_Flat
       switch (alterationPreferenceKind) {
-        case kPreferSharp:
+        case msrAlterationPreferenceKind::kAlterationPreferenceSharp:
           result = kG_Sharp;
           break;
-        case kPreferFlat:
-          result = kA_Flat;
+        case msrAlterationPreferenceKind::kAlterationPreferenceFlat:
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
       } // switch
       break;
 
-    case kA_Natural_STP: // kG_DoubleSharp_STP, kB_DoubleFlat_STP
-      result = kA_Natural;
+    case msrSemiTonesPitchKind::kSTP_A_Natural: // msrSemiTonesPitchKind::kSTP_G_DoubleSharp, msrSemiTonesPitchKind::kSTP_B_DoubleFlat
+      result = msrQuarterTonesPitchKind::kQTP_A_Natural;
       break;
 
-    case kA_Sharp_STP: // kB_Flat_STP
+    case msrSemiTonesPitchKind::kSTP_A_Sharp: // msrSemiTonesPitchKind::kSTP_B_Flat
       switch (alterationPreferenceKind) {
-        case kPreferSharp:
-          result = kA_Sharp;
+        case msrAlterationPreferenceKind::kAlterationPreferenceSharp:
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kPreferFlat:
+        case msrAlterationPreferenceKind::kAlterationPreferenceFlat:
           result = kB_Flat;
           break;
       } // switch
       break;
 
-    case kB_Natural_STP: // kA_DoubleSharp_STP, kC_Flat_STP
+    case msrSemiTonesPitchKind::kSTP_B_Natural: // msrSemiTonesPitchKind::kSTP_A_DoubleSharp, msrSemiTonesPitchKind::kSTP_C_Flat
       result = kB_Natural;
       break;
   } // switch
@@ -15996,91 +16159,91 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
 
   /* JMI
   switch (semiTonesPitchKind) {
-    case k_NoSemiTonesPitch_STP:
-      result = k_NoQuarterTonesPitch_QTP;
+    case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
+      result = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
       break;
 
-    case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
-      result = kC_Natural_QTP;
+    case msrSemiTonesPitchKind::kSTP_C_Natural: // msrSemiTonesPitchKind::kSTP_B_Sharp, msrSemiTonesPitchKind::kSTP_D_DoubleFlat
+      result = msrQuarterTonesPitchKind::kQTP_C_Natural;
       break;
 
-    case kC_Sharp_STP: // kB_DoubleSharp_STP, kD_Flat_STP
+    case msrSemiTonesPitchKind::kSTP_C_Sharp: // msrSemiTonesPitchKind::kSTP_B_DoubleSharp, msrSemiTonesPitchKind::kSTP_D_Flat
       switch (alterationPreferenceKind) {
-        case kPreferFlat:
-          result = kD_Flat_QTP;
+        case msrAlterationPreferenceKind::kAlterationPreferenceFlat:
+          result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kPreferSharp:
-          result = kC_Sharp_QTP;
+        case msrAlterationPreferenceKind::kAlterationPreferenceSharp:
+          result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
       } // switch
       break;
 
-    case kD_Natural_STP: // kC_DoubleSharp_STP, kE_DoubleFlat_STP
-      result = kD_Natural_QTP;
+    case msrSemiTonesPitchKind::kSTP_D_Natural: // msrSemiTonesPitchKind::kSTP_C_DoubleSharp, msrSemiTonesPitchKind::kSTP_E_DoubleFlat
+      result = msrQuarterTonesPitchKind::kQTP_D_Natural;
       break;
 
-    case kD_Sharp_STP: // kE_Flat_STP
+    case msrSemiTonesPitchKind::kSTP_D_Sharp: // msrSemiTonesPitchKind::kSTP_E_Flat
       switch (alterationPreferenceKind) {
-        case kPreferFlat:
-          result = kE_Flat_QTP;
+        case msrAlterationPreferenceKind::kAlterationPreferenceFlat:
+          result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kPreferSharp:
-          result = kD_Sharp_QTP;
+        case msrAlterationPreferenceKind::kAlterationPreferenceSharp:
+          result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
       } // switch
       break;
 
-    case kE_Natural_STP: // kD_DoubleSharp_STP, kF_Flat_STP
-      result = kE_Natural_QTP;
+    case msrSemiTonesPitchKind::kSTP_E_Natural: // msrSemiTonesPitchKind::kSTP_D_DoubleSharp, msrSemiTonesPitchKind::kSTP_F_Flat
+      result = msrQuarterTonesPitchKind::kQTP_E_Natural;
       break;
 
-    case kF_Natural_STP: // kE_Sharp_STP, kG_DoubleFlat_STP
-      result = kF_Natural_QTP;
+    case msrSemiTonesPitchKind::kSTP_F_Natural: // msrSemiTonesPitchKind::kSTP_E_Sharp, msrSemiTonesPitchKind::kSTP_G_DoubleFlat
+      result = msrQuarterTonesPitchKind::kQTP_F_Natural;
       break;
 
-    case kF_Sharp_STP: // kE_DoubleSharp_STP, kG_Flat_STP
+    case msrSemiTonesPitchKind::kSTP_F_Sharp: // msrSemiTonesPitchKind::kSTP_E_DoubleSharp, msrSemiTonesPitchKind::kSTP_G_Flat
       switch (alterationPreferenceKind) {
-        case kPreferFlat:
-          result = kG_Flat_QTP;
+        case msrAlterationPreferenceKind::kAlterationPreferenceFlat:
+          result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kPreferSharp:
-          result = kF_Sharp_QTP;
+        case msrAlterationPreferenceKind::kAlterationPreferenceSharp:
+          result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
       } // switch
       break;
 
-    case kG_Natural_STP: // kF_DoubleSharp_STP, kA_DoubleFlat_STP
-      result = kG_Natural_QTP;
+    case msrSemiTonesPitchKind::kSTP_G_Natural: // msrSemiTonesPitchKind::kSTP_F_DoubleSharp, msrSemiTonesPitchKind::kSTP_A_DoubleFlat
+      result = msrQuarterTonesPitchKind::kQTP_G_Natural;
       break;
 
-    case kG_Sharp_STP: // kA_Flat_STP
+    case msrSemiTonesPitchKind::kSTP_G_Sharp: // msrSemiTonesPitchKind::kSTP_A_Flat
       switch (alterationPreferenceKind) {
-        case kPreferFlat:
-          result = kA_Flat_QTP;
+        case msrAlterationPreferenceKind::kAlterationPreferenceFlat:
+          result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kPreferSharp:
-          result = kG_Sharp_QTP;
+        case msrAlterationPreferenceKind::kAlterationPreferenceSharp:
+          result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
       } // switch
       break;
 
-    case kA_Natural_STP: // kG_DoubleSharp_STP, kB_DoubleFlat_STP
-      result = kA_Natural_QTP;
+    case msrSemiTonesPitchKind::kSTP_A_Natural: // msrSemiTonesPitchKind::kSTP_G_DoubleSharp, msrSemiTonesPitchKind::kSTP_B_DoubleFlat
+      result = msrQuarterTonesPitchKind::kQTP_A_Natural;
       break;
 
-    case kA_Sharp_STP: // kB_Flat_STP
+    case msrSemiTonesPitchKind::kSTP_A_Sharp: // msrSemiTonesPitchKind::kSTP_B_Flat
       switch (alterationPreferenceKind) {
-        case kPreferFlat:
-          result = kB_Flat_QTP;
+        case msrAlterationPreferenceKind::kAlterationPreferenceFlat:
+          result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kPreferSharp:
-          result = kA_Sharp_QTP;
+        case msrAlterationPreferenceKind::kAlterationPreferenceSharp:
+          result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
       } // switch
       break;
 
-    case kB_Natural_STP: // kA_DoubleSharp_STP, kC_Flat_STP
-      result = kB_Natural_QTP;
+    case msrSemiTonesPitchKind::kSTP_B_Natural: // msrSemiTonesPitchKind::kSTP_A_DoubleSharp, msrSemiTonesPitchKind::kSTP_C_Flat
+      result = msrQuarterTonesPitchKind::kQTP_B_Natural;
       break;
   } // switch
   */
@@ -16211,21 +16374,21 @@ string noteKindAsString (
 //______________________________________________________________________________
 
 string chordKindAsString (
-  msrChordKind chordKind)
+  msrChordInKind chordKind)
 {
   string result;
 
   switch (chordKind) {
-    case k_NoChord:
+    case msrChordInKind::k_NoChordIn:
       result = "*NoChord*";
       break;
-    case kChordInMeasure:
+    case msrChordInKind::kChordInMeasure:
       result = "chordInMeasure";
       break;
-    case kChordInTuplet:
+    case msrChordInKind::kChordInTuplet:
       result = "chordInTuplet";
       break;
-    case kChordInGraceNotesGroup:
+    case msrChordInKind::kChordInGraceNotesGroup:
       result = "chordInGraceNotesGroup";
       break;
   } // switch
@@ -16237,18 +16400,18 @@ string chordKindAsString (
 //______________________________________________________________________________
 
 EXP string tupletKindAsString (
-  msrTupletKind tupletKind)
+  msrTupletInKind tupletKind)
 {
   string result;
 
   switch (tupletKind) {
-    case k_NoTuplet:
+    case msrTupletInKind::k_NoTupletIn:
       result = "*NoTuplet*";
       break;
-    case kTupletInMeasure:
+    case msrTupletInKind::kTupletInMeasure:
       result = "tupletInMeasure";
       break;
-    case kTupletInTuplet:
+    case msrTupletInKind::kTupletInTuplet:
       result = "tupletInTuplet";
       break;
   } // switch
@@ -16264,22 +16427,22 @@ string msrBeamKindAsString (
   string result;
 
   switch (beamKind) {
-    case k_NoBeam:
+    case msrBeamKind::k_NoBeam:
       result = "*NoBeam*";
       break;
-    case kBeamBegin:
+    case msrBeamKind::kBeamBegin:
       result = "beamBegin";
       break;
-    case kBeamContinue:
+    case msrBeamKind::kBeamContinue:
       result = "beamContinue";
       break;
-    case kBeamEnd:
+    case msrBeamKind::kBeamEnd:
       result = "beamEnd";
       break;
-    case kBeamForwardHook:
+    case msrBeamKind::kBeamForwardHook:
       result = "beamForwardHook";
       break;
-    case kBeamBackwardHook:
+    case msrBeamKind::kBeamBackwardHook:
       result = "beamBackwardHook";
       break;
   } // switch
@@ -16294,16 +16457,16 @@ string msrTieKindAsString (msrTieKind tieKind)
   stringstream s;
 
   switch (tieKind) {
-    case kTieNone:
+    case msrTieKind::kTieNone:
       s << "tieNone";
       break;
-    case kTieStart:
+    case msrTieKind::kTieStart:
       s << "tieStart";
       break;
-    case kTieContinue:
+    case msrTieKind::kTieContinue:
       s << "tieContinue";
       break;
-    case kTieStop:
+    case msrTieKind::kTieStop:
       s << "tieStop";
       break;
   } // switch
@@ -16319,22 +16482,22 @@ string msrSlurTypeKindAsString (
   stringstream s;
 
   switch (slurTypeKind) {
-    case k_NoSlur:
+    case msrSlurTypeKind::k_NoSlur:
       s << "*NoSlur*";
       break;
-    case kRegularSlurStart:
+    case msrSlurTypeKind::kSlurTypeRegularStart:
       s << "regularSlurStart";
       break;
-    case kPhrasingSlurStart:
+    case msrSlurTypeKind::kSlurTypePhrasingStart:
       s << "phrasingSlurStart";
       break;
-    case kSlurContinue:
+    case msrSlurTypeKind::kSlurTypeContinue:
       s << "slurContinue";
       break;
-    case kRegularSlurStop:
+    case msrSlurTypeKind::kSlurTypeRegularStop:
       s << "regularSlurStop";
       break;
-    case kPhrasingSlurStop:
+    case msrSlurTypeKind::kSlurTypePhrasingStop:
       s << "phrasingSlurStop";
       break;
   } // switch
@@ -16351,68 +16514,68 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
   msrSemiTonesPitchKind result = semiTonesPitchKind;
 
   switch (semiTonesPitchKind) {
-    case kC_Flat_STP:
-      result = kB_Natural_STP;
+    case msrSemiTonesPitchKind::kSTP_C_Flat:
+      result = msrSemiTonesPitchKind::kSTP_B_Natural;
       break;
 
-    case kC_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_C_Natural:
       break;
 
-    case kC_Sharp_STP:
-      result = kD_Flat_STP;
+    case msrSemiTonesPitchKind::kSTP_C_Sharp:
+      result = msrSemiTonesPitchKind::kSTP_D_Flat;
       break;
-    case kD_Flat_STP:
-      result = kC_Sharp_STP;
-      break;
-
-    case kD_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Flat:
+      result = msrSemiTonesPitchKind::kSTP_C_Sharp;
       break;
 
-    case kD_Sharp_STP:
-      result = kE_Flat_STP;
-      break;
-    case kE_Flat_STP:
-      result = kD_Sharp_STP;
+    case msrSemiTonesPitchKind::kSTP_D_Natural:
       break;
 
-    case kE_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Sharp:
+      result = msrSemiTonesPitchKind::kSTP_E_Flat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_E_Flat:
+      result = msrSemiTonesPitchKind::kSTP_D_Sharp;
       break;
 
-    case kF_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Natural:
       break;
 
-    case kF_Sharp_STP:
-      result = kG_Flat_STP;
-      break;
-    case kG_Flat_STP:
-      result = kF_Sharp_STP;
+    case msrSemiTonesPitchKind::kSTP_F_Natural:
       break;
 
-    case kG_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Sharp:
+      result = msrSemiTonesPitchKind::kSTP_G_Flat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_G_Flat:
+      result = msrSemiTonesPitchKind::kSTP_F_Sharp;
       break;
 
-    case kG_Sharp_STP:
-      result = kA_Flat_STP;
-      break;
-    case kA_Flat_STP:
-      result = kG_Sharp_STP;
+    case msrSemiTonesPitchKind::kSTP_G_Natural:
       break;
 
-    case kA_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_G_Sharp:
+      result = msrSemiTonesPitchKind::kSTP_A_Flat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_A_Flat:
+      result = msrSemiTonesPitchKind::kSTP_G_Sharp;
       break;
 
-    case kA_Sharp_STP:
-      result = kB_Flat_STP;
-      break;
-    case kB_Flat_STP:
-      result = kA_Sharp_STP;
+    case msrSemiTonesPitchKind::kSTP_A_Natural:
       break;
 
-    case kB_Natural_STP:
+    case msrSemiTonesPitchKind::kSTP_A_Sharp:
+      result = msrSemiTonesPitchKind::kSTP_B_Flat;
+      break;
+    case msrSemiTonesPitchKind::kSTP_B_Flat:
+      result = msrSemiTonesPitchKind::kSTP_A_Sharp;
       break;
 
-    case kB_Sharp_STP:
-      result = kC_Natural_STP;
+    case msrSemiTonesPitchKind::kSTP_B_Natural:
+      break;
+
+    case msrSemiTonesPitchKind::kSTP_B_Sharp:
+      result = msrSemiTonesPitchKind::kSTP_C_Natural;
       break;
 
     default:
@@ -16436,13 +16599,13 @@ string msrLengthUnitKindAsString (
   // no CamelCase here, these strings are used in the command line options
 
   switch (lengthUnitKind) {
-    case kInchUnit:
+    case msrLengthUnitKind::kUnitInch:
       result = "in";
       break;
-    case kCentimeterUnit:
+    case msrLengthUnitKind::kUnitCentimeter:
       result = "cm";
       break;
-    case kMillimeterUnit: // default value
+    case msrLengthUnitKind::kUnitMillimeter: // default value
       result = "mm";
       break;
   } // switch
@@ -16457,9 +16620,9 @@ void initializeMsrLengthUnitKindsMap ()
 
   // no CamelCase here, these strings are used in the command line options
 
-  gGlobalMsrLengthUnitKindsMap ["in"] = kInchUnit;
-  gGlobalMsrLengthUnitKindsMap ["cm"] = kCentimeterUnit;
-  gGlobalMsrLengthUnitKindsMap ["mm"] = kMillimeterUnit;
+  gGlobalMsrLengthUnitKindsMap ["in"] = msrLengthUnitKind::kUnitInch;
+  gGlobalMsrLengthUnitKindsMap ["cm"] = msrLengthUnitKind::kUnitCentimeter;
+  gGlobalMsrLengthUnitKindsMap ["mm"] = msrLengthUnitKind::kUnitMillimeter;
 }
 
 string existingMsrLengthUnitKinds (unsigned int namesListMaxLength)
@@ -16531,7 +16694,7 @@ msrLength::msrLength (
 
 msrLength::msrLength ()
 {
-  fLengthUnitKind = kMillimeterUnit;
+  fLengthUnitKind = msrLengthUnitKind::kUnitMillimeter;
   fLengthValue    = 0.0;
 }
 
@@ -16543,41 +16706,41 @@ void msrLength::convertToLengthUnit (
 {
   if (fLengthUnitKind != lengthUnitKind) {
     switch (lengthUnitKind) {
-      case kInchUnit:
+      case msrLengthUnitKind::kUnitInch:
         switch (fLengthUnitKind) {
-          case kInchUnit:
+          case msrLengthUnitKind::kUnitInch:
             break;
-          case kCentimeterUnit:
+          case msrLengthUnitKind::kUnitCentimeter:
             fLengthValue /= 2.54f;
             break;
-          case kMillimeterUnit:
+          case msrLengthUnitKind::kUnitMillimeter:
             fLengthValue /= 25.4f;
             break;
         } // switch
         break;
 
-      case kCentimeterUnit:
+      case msrLengthUnitKind::kUnitCentimeter:
         switch (fLengthUnitKind) {
-          case kInchUnit:
+          case msrLengthUnitKind::kUnitInch:
             fLengthValue *= 2.54f;
             break;
-          case kCentimeterUnit:
+          case msrLengthUnitKind::kUnitCentimeter:
             break;
-          case kMillimeterUnit:
+          case msrLengthUnitKind::kUnitMillimeter:
             fLengthValue /= 10;
             break;
         } // switch
         break;
 
-      case kMillimeterUnit:
+      case msrLengthUnitKind::kUnitMillimeter:
         switch (fLengthUnitKind) {
-          case kInchUnit:
+          case msrLengthUnitKind::kUnitInch:
             fLengthValue *= 25.4f;
             break;
-          case kCentimeterUnit:
+          case msrLengthUnitKind::kUnitCentimeter:
             fLengthValue *= 10;
             break;
-          case kMillimeterUnit:
+          case msrLengthUnitKind::kUnitMillimeter:
             break;
         } // switch
         break;
@@ -16634,13 +16797,13 @@ string msrMarginTypeKindAsString (
   // no CamelCase here, these strings are used in the command line options
 
   switch (marginTypeKind) {
-    case kOddMargin:
+    case msrMarginTypeKind::kMarginOdd:
       result = "odd";
       break;
-    case kEvenMargin:
+    case msrMarginTypeKind::kMarginEven:
       result = "even";
       break;
-    case kBothMargins: // default value
+    case msrMarginTypeKind::kMarginBoth: // default value
       result = "both";
       break;
   } // switch
@@ -16655,9 +16818,9 @@ void initializeMsrMarginTypeKindsMap ()
 
   // no CamelCase here, these strings are used in the command line options
 
-  gGlobalMsrMarginTypeKindsMap ["odd"] = kOddMargin;
-  gGlobalMsrMarginTypeKindsMap ["even"] = kEvenMargin;
-  gGlobalMsrMarginTypeKindsMap ["both"] = kBothMargins;
+  gGlobalMsrMarginTypeKindsMap ["odd"] = msrMarginTypeKind::kMarginOdd;
+  gGlobalMsrMarginTypeKindsMap ["even"] = msrMarginTypeKind::kMarginEven;
+  gGlobalMsrMarginTypeKindsMap ["both"] = msrMarginTypeKind::kMarginBoth;
 }
 
 string existingMsrMarginTypeKinds (unsigned int namesListMaxLength)
@@ -17027,31 +17190,31 @@ string msrFontSizeKindAsString (
   string result;
 
   switch (fontSizeKind) {
-    case kFontSizeNone:
+    case msrFontSizeKind::kFontSizeNone:
       result = "fontSizeNone";
       break;
-    case kFontSizeXXSmall:
+    case msrFontSizeKind::kFontSizeXXSmall:
       result = "fontSizeXXSmall";
       break;
-    case kFontSizeXSmall:
+    case msrFontSizeKind::kFontSizeXSmall:
       result = "fontSizeXSmall";
       break;
-    case kFontSizeSmall:
+    case msrFontSizeKind::kFontSizeSmall:
       result = "fontSizeSmall";
       break;
-    case kFontSizeMedium:
+    case msrFontSizeKind::kFontSizeMedium:
       result = "fontSizeMedium";
       break;
-    case kFontSizeLarge:
+    case msrFontSizeKind::kFontSizeLarge:
       result = "fontSizeLarge";
       break;
-    case kFontSizeXLarge:
+    case msrFontSizeKind::kFontSizeXLarge:
       result = "fontSizeXLarge";
       break;
-    case kFontSizeXXLarge:
+    case msrFontSizeKind::kFontSizeXXLarge:
       result = "fontSizeXXLarge";
       break;
-    case kFontSizeNumeric:
+    case msrFontSizeKind::kFontSizeNumeric:
       result = "fontSizeNumeric";
       break;
     } // switch
@@ -17090,7 +17253,7 @@ msrFontSize::msrFontSize (
 msrFontSize::msrFontSize (
   float fontNumericSize)
 {
-  fFontSizeKind    = kFontSizeNumeric;
+  fFontSizeKind    = msrFontSizeKind::kFontSizeNumeric;
   fFontNumericSize = fontNumericSize;
 }
 
@@ -17102,18 +17265,18 @@ string msrFontSize::fontSizeAsString () const
   string result;
 
   switch (fFontSizeKind) {
-    case kFontSizeNone:
-    case kFontSizeXXSmall:
-    case kFontSizeXSmall:
-    case kFontSizeSmall:
-    case kFontSizeMedium:
-    case kFontSizeLarge:
-    case kFontSizeXLarge:
-    case kFontSizeXXLarge:
+    case msrFontSizeKind::kFontSizeNone:
+    case msrFontSizeKind::kFontSizeXXSmall:
+    case msrFontSizeKind::kFontSizeXSmall:
+    case msrFontSizeKind::kFontSizeSmall:
+    case msrFontSizeKind::kFontSizeMedium:
+    case msrFontSizeKind::kFontSizeLarge:
+    case msrFontSizeKind::kFontSizeXLarge:
+    case msrFontSizeKind::kFontSizeXXLarge:
       result = msrFontSizeKindAsString (fFontSizeKind);
       break;
 
-    case kFontSizeNumeric:
+    case msrFontSizeKind::kFontSizeNumeric:
       result =
         to_string (fFontNumericSize);
       break;
@@ -17127,14 +17290,14 @@ float msrFontSize::getFontNumericSize () const
   float result = 12; // JMI
 
   switch (fFontSizeKind) {
-    case kFontSizeNone:
-    case kFontSizeXXSmall:
-    case kFontSizeXSmall:
-    case kFontSizeSmall:
-    case kFontSizeMedium:
-    case kFontSizeLarge:
-    case kFontSizeXLarge:
-    case kFontSizeXXLarge:
+    case msrFontSizeKind::kFontSizeNone:
+    case msrFontSizeKind::kFontSizeXXSmall:
+    case msrFontSizeKind::kFontSizeXSmall:
+    case msrFontSizeKind::kFontSizeSmall:
+    case msrFontSizeKind::kFontSizeMedium:
+    case msrFontSizeKind::kFontSizeLarge:
+    case msrFontSizeKind::kFontSizeXLarge:
+    case msrFontSizeKind::kFontSizeXXLarge:
       {
         stringstream s;
 
@@ -17150,7 +17313,7 @@ float msrFontSize::getFontNumericSize () const
       }
       break;
 
-    case kFontSizeNumeric:
+    case msrFontSizeKind::kFontSizeNumeric:
       result = fFontNumericSize;
       break;
     } // switch
@@ -17161,19 +17324,19 @@ float msrFontSize::getFontNumericSize () const
 void msrFontSize::print (ostream& os) const
 {
   switch (fFontSizeKind) {
-    case kFontSizeNone:
-    case kFontSizeXXSmall:
-    case kFontSizeXSmall:
-    case kFontSizeSmall:
-    case kFontSizeMedium:
-    case kFontSizeLarge:
-    case kFontSizeXLarge:
-    case kFontSizeXXLarge:
+    case msrFontSizeKind::kFontSizeNone:
+    case msrFontSizeKind::kFontSizeXXSmall:
+    case msrFontSizeKind::kFontSizeXSmall:
+    case msrFontSizeKind::kFontSizeSmall:
+    case msrFontSizeKind::kFontSizeMedium:
+    case msrFontSizeKind::kFontSizeLarge:
+    case msrFontSizeKind::kFontSizeXLarge:
+    case msrFontSizeKind::kFontSizeXXLarge:
       os <<
         msrFontSizeKindAsString (fFontSizeKind);
       break;
 
-    case kFontSizeNumeric:
+    case msrFontSizeKind::kFontSizeNumeric:
       os <<
         fFontNumericSize;
       break;
@@ -17186,12 +17349,12 @@ msrFontStyleKind msrFontStyleKindFromString (
   int    inputLineNumber,
   string fontStyleString)
 {
-  msrFontStyleKind result = kFontStyleNone; // default value
+  msrFontStyleKind result = msrFontStyleKind::kFontStyleNone; // default value
 
   if      (fontStyleString == "normal")
-    result = kFontStyleNormal;
+    result = msrFontStyleKind::kFontStyleNormal;
   else if (fontStyleString == "italic")
-    result = KFontStyleItalic;
+    result = msrFontStyleKind::KFontStyleItalic;
   else {
     if (fontStyleString.size ()) {
       stringstream s;
@@ -17217,13 +17380,13 @@ string msrFontStyleKindAsString (
   string result;
 
   switch (fontStyleKind) {
-    case kFontStyleNone:
+    case msrFontStyleKind::kFontStyleNone:
       result = "fontStyleNone";
       break;
-    case kFontStyleNormal:
+    case msrFontStyleKind::kFontStyleNormal:
       result = "fontStyleNormal";
       break;
-    case KFontStyleItalic:
+    case msrFontStyleKind::KFontStyleItalic:
       result = "fontStyleItalic";
       break;
     } // switch
@@ -17237,12 +17400,12 @@ msrFontWeightKind msrFontWeightKindFromString (
   int    inputLineNumber,
   string fontWeightString)
 {
-  msrFontWeightKind result = kFontWeightNone; // default value
+  msrFontWeightKind result = msrFontWeightKind::kFontWeightNone; // default value
 
   if      (fontWeightString == "normal")
-    result = kFontWeightNormal;
+    result = msrFontWeightKind::kFontWeightNormal;
   else if (fontWeightString == "bold")
-    result = kFontWeightBold;
+    result = msrFontWeightKind::kFontWeightBold;
   else {
     if (fontWeightString.size ()) {
       stringstream s;
@@ -17268,13 +17431,13 @@ string msrFontWeightKindAsString (
   string result;
 
   switch (fontWeightKind) {
-    case kFontWeightNone:
+    case msrFontWeightKind::kFontWeightNone:
       result = "fontWeightNone";
       break;
-    case kFontWeightNormal:
+    case msrFontWeightKind::kFontWeightNormal:
       result = "fontWeightNormal";
       break;
-    case kFontWeightBold:
+    case msrFontWeightKind::kFontWeightBold:
       result = "fontWeightBold";
       break;
     } // switch
@@ -17288,14 +17451,14 @@ msrJustifyKind msrJustifyKindFromString (
   int    inputLineNumber,
   string justifyString)
 {
-  msrJustifyKind result = kJustifyNone; // default value
+  msrJustifyKind result = msrJustifyKind::kJustifyNone; // default value
 
   if      (justifyString == "left")
-    result = kJustifyLeft;
+    result = msrJustifyKind::kJustifyLeft;
   else if (justifyString == "center")
-    result = kJustifyCenter;
+    result = msrJustifyKind::kJustifyCenter;
   else if (justifyString == "right")
-    result = kJustifyRight;
+    result = msrJustifyKind::kJustifyRight;
   else {
     if (justifyString.size ()) {
       stringstream s;
@@ -17321,16 +17484,16 @@ string msrJustifyKindAsString (
   string result;
 
   switch (justifyKind) {
-    case kJustifyNone:
+    case msrJustifyKind::kJustifyNone:
       result = "justifyNone";
       break;
-    case kJustifyLeft:
+    case msrJustifyKind::kJustifyLeft:
       result = "justifyLeft";
       break;
-    case kJustifyCenter:
+    case msrJustifyKind::kJustifyCenter:
       result = "justifyCenter";
       break;
-    case kJustifyRight:
+    case msrJustifyKind::kJustifyRight:
       result = "justifyRight";
       break;
     } // switch
@@ -17343,14 +17506,14 @@ msrHorizontalAlignmentKind msrHorizontalAlignmentKindFromString (
   string horizontalAlignmentString)
 {
   msrHorizontalAlignmentKind
-    result = kHorizontalAlignmentNone; // default value
+    result = msrHorizontalAlignmentKind::kHorizontalAlignmentNone; // default value
 
   if      (horizontalAlignmentString == "left")
-    result = kHorizontalAlignmentLeft;
+    result = msrHorizontalAlignmentKind::kHorizontalAlignmentLeft;
   else if (horizontalAlignmentString == "center")
-    result = kHorizontalAlignmentCenter;
+    result = msrHorizontalAlignmentKind::kHorizontalAlignmentCenter;
   else if (horizontalAlignmentString == "right")
-    result = kHorizontalAlignmentRight;
+    result = msrHorizontalAlignmentKind::kHorizontalAlignmentRight;
   else {
     if (horizontalAlignmentString.size ()) {
       stringstream s;
@@ -17376,16 +17539,16 @@ string msrHorizontalAlignmentKindAsString (
   string result;
 
   switch (horizontalAlignmentKind) {
-    case kHorizontalAlignmentNone:
+    case msrHorizontalAlignmentKind::kHorizontalAlignmentNone:
       result = "horizontalAlignmentNone";
       break;
-    case kHorizontalAlignmentLeft:
+    case msrHorizontalAlignmentKind::kHorizontalAlignmentLeft:
       result = "horizontalAlignmentLeft";
       break;
-    case kHorizontalAlignmentCenter:
+    case msrHorizontalAlignmentKind::kHorizontalAlignmentCenter:
       result = "horizontalAlignmentCenter";
       break;
-    case kHorizontalAlignmentRight:
+    case msrHorizontalAlignmentKind::kHorizontalAlignmentRight:
       result = "horizontalAlignmentRight";
       break;
     } // switch
@@ -17398,14 +17561,14 @@ msrVerticalAlignmentKind msrVerticalAlignmentKindFromString (
   string verticalAlignmentString)
 {
   msrVerticalAlignmentKind
-    result = kVerticalAlignmentNone; // default value
+    result = msrVerticalAlignmentKind::kVerticalAlignmentNone; // default value
 
   if      (verticalAlignmentString == "top")
-    result = kVerticalAlignmentTop;
+    result = msrVerticalAlignmentKind::kVerticalAlignmentTop;
   else if (verticalAlignmentString == "middle")
-    result = kVerticalAlignmentMiddle;
+    result = msrVerticalAlignmentKind::kVerticalAlignmentMiddle;
   else if (verticalAlignmentString == "bottom")
-    result = kVerticalAlignmentBottom;
+    result = msrVerticalAlignmentKind::kVerticalAlignmentBottom;
   else {
     if (verticalAlignmentString.size ()) {
       stringstream s;
@@ -17431,16 +17594,16 @@ string msrVerticalAlignmentKindAsString (
   string result;
 
   switch (verticalAlignmentKind) {
-    case kVerticalAlignmentNone:
+    case msrVerticalAlignmentKind::kVerticalAlignmentNone:
       result = "verticalAlignmentNone";
       break;
-    case kVerticalAlignmentTop:
+    case msrVerticalAlignmentKind::kVerticalAlignmentTop:
       result = "verticalAlignmentTop";
       break;
-    case kVerticalAlignmentMiddle:
+    case msrVerticalAlignmentKind::kVerticalAlignmentMiddle:
       result = "verticalAlignmentMiddle";
       break;
-    case kVerticalAlignmentBottom:
+    case msrVerticalAlignmentKind::kVerticalAlignmentBottom:
       result = "verticalAlignmentBottom";
       break;
     } // switch
@@ -17456,14 +17619,14 @@ string msrDirectionKindAsString (
   string result;
 
   switch (directionKind) {
-    case kDirectionNone:
+    case msrDirectionKind::kDirectionNone:
       result = "directionNone";
       break;
 
-    case kDirectionUp:
+    case msrDirectionKind::kDirectionUp:
       result = "directionUp";
       break;
-    case kDirectionDown:
+    case msrDirectionKind::kDirectionDown:
       result = "directionDown";
       break;
     } // switch
@@ -17478,12 +17641,12 @@ msrPrintObjectKind msrPrintObjectKindFromString (
   int    inputLineNumber,
   string printObjectString)
 {
-  msrPrintObjectKind result = kPrintObjectNone; // default value KAKA JMI
+  msrPrintObjectKind result = msrPrintObjectKind::kPrintObjectNone; // default value KAKA JMI
 
   if      (printObjectString == "yes")
-    result = kPrintObjectYes;
+    result = msrPrintObjectKind::kPrintObjectYes;
   else if (printObjectString == "no")
-    result = kPrintObjectNo;
+    result = msrPrintObjectKind::kPrintObjectNo;
   else {
     if (printObjectString.size ()) {
       stringstream s;
@@ -17529,12 +17692,12 @@ msrPlacementKind msrPlacementKindFromString (
   int    inputLineNumber,
   string placementString)
 {
-  msrPlacementKind result = k_NoPlacement; // default value
+  msrPlacementKind result = msrPlacementKind::k_NoPlacement; // default value
 
   if      (placementString == "above")
-    result = kPlacementAbove;
+    result = msrPlacementKind::kPlacementAbove;
   else if (placementString == "below")
-    result = kPlacementBelow;
+    result = msrPlacementKind::kPlacementBelow;
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -17561,7 +17724,7 @@ string msrPlacementKindAsString (
 
   switch (placementKind) {
     case msrPlacementKind::k_NoPlacement:
-      result = "*k_NoPlacement*";
+      result = "*msrPlacementKind::k_NoPlacement*";
       break;
     case msrPlacementKind::kPlacementAbove:
       result = "placementAbove";
@@ -17578,79 +17741,79 @@ string msrPlacementKindAsString (
 //______________________________________________________________________________
 msrDynamicsKind dynamicsFromString (string theString)
 {
-  msrDynamicsKind result = k_NoDynamics;
+  msrDynamicsKind result = msrDynamicsKind::k_NoDynamics;
 
   if (theString == "f") {
-    result = kDynamicsF;
+    result = msrDynamicsKind::kDynamicsF;
   }
   else if (theString == "f") {
-    result = kDynamicsF;
+    result = msrDynamicsKind::kDynamicsF;
   }
   else if (theString == "fff") {
-    result = kDynamicsFFF;
+    result = msrDynamicsKind::kDynamicsFFF;
   }
   else if (theString == "ffff") {
-    result = kDynamicsFFFF;
+    result = msrDynamicsKind::kDynamicsFFFF;
   }
   else if (theString == "fffff") {
-    result = kDynamicsFFFFF;
+    result = msrDynamicsKind::kDynamicsFFFFF;
   }
   else if (theString == "ffffff") {
-    result = kDynamicsFFFFFF;
+    result = msrDynamicsKind::kDynamicsFFFFFF;
   }
 
   else if (theString == "p") {
-    result = kDynamicsP;
+    result = msrDynamicsKind::kDynamicsP;
   }
   else if (theString == "pp") {
-    result = kDynamicsPP;
+    result = msrDynamicsKind::kDynamicsPP;
   }
   else if (theString == "ppp") {
-    result = kDynamicsPPP;
+    result = msrDynamicsKind::kDynamicsPPP;
   }
   else if (theString == "pppp") {
-    result = kDynamicsPPPP;
+    result = msrDynamicsKind::kDynamicsPPPP;
   }
   else if (theString == "ppppp") {
-    result = kDynamicsPPPPP;
+    result = msrDynamicsKind::kDynamicsPPPPP;
   }
   else if (theString == "pppppp") {
-    result = kDynamicsPPPPPP;
+    result = msrDynamicsKind::kDynamicsPPPPPP;
   }
 
   else if (theString == "mf") {
-    result = kDynamicsMF;
+    result = msrDynamicsKind::kDynamicsMF;
   }
   else if (theString == "mp") {
-    result = kDynamicsMP;
+    result = msrDynamicsKind::kDynamicsMP;
   }
   else if (theString == "fp") {
-    result = kDynamicsFP;
+    result = msrDynamicsKind::kDynamicsFP;
   }
   else if (theString == "fz") {
-    result = kDynamicsFZ;
+    result = msrDynamicsKind::kDynamicsFZ;
   }
   else if (theString == "rf") {
-    result = kDynamicsRF;
+    result = msrDynamicsKind::kDynamicsRF;
   }
   else if (theString == "sf") {
-    result = kDynamicsSF;
+    result = msrDynamicsKind::kDynamicsSF;
   }
 
   else if (theString == "rfz") {
-    result = kDynamicsRFZ;
+    result = msrDynamicsKind::kDynamicsRFZ;
   }
   else if (theString == "sfz") {
-    result = kDynamicsSFZ;
+    result = msrDynamicsKind::kDynamicsSFZ;
   }
   else if (theString == "sfp") {
-    result = kDynamicsSFP;
+    result = msrDynamicsKind::kDynamicsSFP;
   }
   else if (theString == "sfpp") {
-    result = kDynamicsSFPP;
+    result = msrDynamicsKind::kDynamicsSFPP;
   }
   else if (theString == "sffz") {
-    result = kDynamicsSFFZ;
+    result = msrDynamicsKind::kDynamicsSFFZ;
   }
 
   return result;
@@ -17662,80 +17825,80 @@ string msrDynamicsKindAsString (
   string result;
 
   switch (dynamicsKind) {
-    case k_NoDynamics:
-      result = "*k_NoDynamics*";
+    case msrDynamicsKind::k_NoDynamics:
+      result = "*msrDynamicsKind::k_NoDynamics*";
       break;
 
-    case kDynamicsF:
+    case msrDynamicsKind::kDynamicsF:
       result = "f";
       break;
-    case kDynamicsFF:
+    case msrDynamicsKind::kDynamicsFF:
       result = "ff";
       break;
-    case kDynamicsFFF:
+    case msrDynamicsKind::kDynamicsFFF:
       result = "fff";
       break;
-    case kDynamicsFFFF:
+    case msrDynamicsKind::kDynamicsFFFF:
       result = "ffff";
       break;
-    case kDynamicsFFFFF:
+    case msrDynamicsKind::kDynamicsFFFFF:
       result = "fffff";
       break;
-    case kDynamicsFFFFFF:
+    case msrDynamicsKind::kDynamicsFFFFFF:
       result = "ffffff";
       break;
 
-    case kDynamicsP:
+    case msrDynamicsKind::kDynamicsP:
       result = "p";
       break;
-    case kDynamicsPP:
+    case msrDynamicsKind::kDynamicsPP:
       result = "pp";
       break;
-    case kDynamicsPPP:
+    case msrDynamicsKind::kDynamicsPPP:
       result = "ppp";
       break;
-    case kDynamicsPPPP:
+    case msrDynamicsKind::kDynamicsPPPP:
       result = "pppp";
       break;
-    case kDynamicsPPPPP:
+    case msrDynamicsKind::kDynamicsPPPPP:
       result = "ppppp";
       break;
-    case kDynamicsPPPPPP:
+    case msrDynamicsKind::kDynamicsPPPPPP:
       result = "pppppp";
       break;
 
-    case kDynamicsMF:
+    case msrDynamicsKind::kDynamicsMF:
       result = "mf";
       break;
-    case kDynamicsMP:
+    case msrDynamicsKind::kDynamicsMP:
       result = "mp";
       break;
-    case kDynamicsFP:
+    case msrDynamicsKind::kDynamicsFP:
       result = "fp";
       break;
-    case kDynamicsFZ:
+    case msrDynamicsKind::kDynamicsFZ:
       result = "fz";
       break;
-    case kDynamicsRF:
+    case msrDynamicsKind::kDynamicsRF:
       result = "rf";
       break;
-    case kDynamicsSF:
+    case msrDynamicsKind::kDynamicsSF:
       result = "sf";
       break;
 
-    case kDynamicsRFZ:
+    case msrDynamicsKind::kDynamicsRFZ:
       result = "rfz";
       break;
-    case kDynamicsSFZ:
+    case msrDynamicsKind::kDynamicsSFZ:
       result = "sfz";
       break;
-    case kDynamicsSFP:
+    case msrDynamicsKind::kDynamicsSFP:
       result = "sfp";
       break;
-    case kDynamicsSFPP:
+    case msrDynamicsKind::kDynamicsSFPP:
       result = "sfpp";
       break;
-    case kDynamicsSFFZ:
+    case msrDynamicsKind::kDynamicsSFFZ:
       result = "sffz";
       break;
   } // switch
@@ -17749,12 +17912,12 @@ msrUseDotsKind msrUseDotsFromString (
   int    inputLineNumber,
   string useDotsString)
 {
-  msrUseDotsKind result = kUseDotsNo; // default value
+  msrUseDotsKind result = msrUseDotsKind::kUseDotsNo; // default value
 
   if      (useDotsString == "yes")
-    result = kUseDotsYes;
+    result = msrUseDotsKind::kUseDotsYes;
   else if (useDotsString == "no")
-    result = kUseDotsNo;
+    result = msrUseDotsKind::kUseDotsNo;
   else {
     if (useDotsString.size ()) {
       stringstream s;
@@ -17780,13 +17943,13 @@ string msrSlashTypeKindAsString (
   string result;
 
   switch (slashTypeKind) {
-    case k_NoSlashType:
+    case msrSlashTypeKind::k_NoSlashType:
       result = "noSlashType";
       break;
-    case kSlashTypeStart:
+    case msrSlashTypeKind::kSlashTypeStart:
       result = "slashTypeStart";
       break;
-    case kSlashTypeStop:
+    case msrSlashTypeKind::kSlashTypeStop:
       result = "slashTypeStop";
       break;
   } // switch
@@ -17800,13 +17963,13 @@ string msrUseDotsKindAsString (
   string result;
 
   switch (useDotsKind) {
-    case k_NoUseDots:
+    case msrUseDotsKind::k_NoUseDots:
       result = "noUseDots";
       break;
-    case kUseDotsYes:
+    case msrUseDotsKind::kUseDotsYes:
       result = "useDotsYes";
       break;
-    case kUseDotsNo:
+    case msrUseDotsKind::kUseDotsNo:
       result = "useDotsNo";
       break;
   } // switch
@@ -17820,13 +17983,13 @@ string msrSlashUseStemsKindAsString (
   string result;
 
   switch (slashUseStemsKind) {
-    case k_NoSlashUseStems:
+    case msrSlashUseStemsKind::k_NoSlashUseStems:
       result = "noSlashUseStems";
       break;
-    case kSlashUseStemsYes:
+    case msrSlashUseStemsKind::kSlashUseStemsYes:
       result = "slashUseStemsYes";
       break;
-    case kSlashUseStemsNo:
+    case msrSlashUseStemsKind::kSlashUseStemsNo:
       result = "slashUseStemsNo";
       break;
   } // switch
@@ -17841,16 +18004,16 @@ string msrLineTypeKindAsString (
   string result;
 
   switch (lineTypeKind) {
-    case kLineTypeSolid:
+    case msrLineTypeKind::kLineTypeSolid:
       result = "lineTypeSolid";
       break;
-    case kLineTypeDashed:
+    case msrLineTypeKind::kLineTypeDashed:
       result = "lineTypeDashed";
       break;
-    case kLineTypeDotted:
+    case msrLineTypeKind::kLineTypeDotted:
       result = "lineTypeDotted";
       break;
-    case kLineTypeWavy:
+    case msrLineTypeKind::kLineTypeWavy:
       result = "lineTypeWavy";
       break;
   } // switch
@@ -17865,16 +18028,16 @@ string msrTremoloTypeKindAsString (
   string result;
 
   switch (tremoloTypeKind) {
-    case k_NoTremoloType:
+    case msrTremoloTypeKind::k_NoTremoloType:
       result = "noTremoloType";
       break;
-    case kTremoloTypeSingle:
+    case msrTremoloTypeKind::kTremoloTypeSingle:
       result = "tremoloTypeSingle";
       break;
-    case kTremoloTypeStart:
+    case msrTremoloTypeKind::kTremoloTypeStart:
       result = "tremoloTypeStart";
       break;
-    case kTremoloTypeStop:
+    case msrTremoloTypeKind::kTremoloTypeStop:
       result = "tremoloTypeStop";
       break;
   } // switch
@@ -17889,13 +18052,13 @@ string msrTechnicalTypeKindAsString (
   string result;
 
   switch (technicalTypeKind) {
-    case kTechnicalTypeStart:
+    case msrTechnicalTypeKind::kTechnicalTypeStart:
       result = "technicalTypeStart";
       break;
-    case kTechnicalTypeStop:
+    case msrTechnicalTypeKind::kTechnicalTypeStop:
       result = "technicalTypeStop";
       break;
-    case k_NoTechnicalType:
+    case msrTechnicalTypeKind::k_NoTechnicalType:
       result = "noTechnicalType";
       break;
   } // switch
@@ -17910,16 +18073,16 @@ string msrSpannerTypeKindAsString (
   string result;
 
   switch (spannerTypeKind) {
-    case k_NoSpannerType:
+    case msrSpannerTypeKind::k_NoSpannerType:
       result = "noSpannerType";
       break;
-    case kSpannerTypeStart:
+    case msrSpannerTypeKind::kSpannerTypeStart:
       result = "spannerTypeStart";
       break;
-    case kSpannerTypeStop:
+    case msrSpannerTypeKind::kSpannerTypeStop:
       result = "spannerTypeStop";
       break;
-    case kSpannerTypeContinue:
+    case msrSpannerTypeKind::kSpannerTypeContinue:
       result = "spannerTypeContinue";
       break;
   } // switch
@@ -23112,11 +23275,11 @@ string msrScoreNotationKindAsString (
   string result;
 
   switch (lilypondScoreNotationKind) {
-    case kScoreNotationWestern:
+    case msrScoreNotationKind::kScoreNotationWestern:
       result = "scoreNotationWestern";
-    case kScoreNotationJianpu:
+    case msrScoreNotationKind::kScoreNotationJianpu:
       result = "scoreNotationJianpu";
-    case kScoreNotationDiatonicAccordion:
+    case msrScoreNotationKind::kScoreNotationDiatonicAccordion:
       result = "scoreNotationDiatonicAccordion";
       break;
   } // switch

@@ -169,13 +169,13 @@ void msrNote::initializeNote ()
   // ------------------------------------------------------
 
   fNoteAccidentalKind =
-    kAccidentalNone; // default value
+    msrAccidentalKind::kAccidentalNone; // default value
 
   fNoteEditorialAccidentalKind =
-    kEditorialAccidentalNo; // default value
+    msrEditorialAccidentalKind::kEditorialAccidentalNo; // default value
 
   fNoteCautionaryAccidentalKind =
-    kCautionaryAccidentalNo; // default value
+    msrCautionaryAccidentalKind::kCautionaryAccidentalNo; // default value
 
   // note context
   // ------------------------------------------------------
@@ -1452,7 +1452,7 @@ S_msrNote msrNote::createRestNote (
 
       kNoteRestInMeasure, // noteKind
 
-      k_NoQuarterTonesPitch_QTP,
+      msrQuarterTonesPitchKind::k_NoQuarterTonesPitch,
       msrOctaveKind::k_NoOctave, // noteOctave,
 
       soundingWholeNotes,
@@ -1462,12 +1462,12 @@ S_msrNote msrNote::createRestNote (
 
       msrDurationKind::k_NoDuration, // noteGraphicDuration
 
-      k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
+      msrQuarterTonesPitchKind::k_NoQuarterTonesPitch, // noteDisplayQuarterTonesPitch
       msrOctaveKind::k_NoOctave, // noteDisplayOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
-      kPrintObjectYes, // JMI
+      msrPrintObjectKind::kPrintObjectYes, // JMI
 
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
@@ -1501,7 +1501,7 @@ S_msrNote msrNote::createSkipNote (
 
       kNoteSkipInMeasure, // noteKind
 
-      k_NoQuarterTonesPitch_QTP,
+      msrQuarterTonesPitchKind::k_NoQuarterTonesPitch,
       msrOctaveKind::k_NoOctave, // noteOctave,
 
       soundingWholeNotes,
@@ -1511,12 +1511,12 @@ S_msrNote msrNote::createSkipNote (
 
       msrDurationKind::k_NoDuration, // noteGraphicDuration
 
-      k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
+      msrQuarterTonesPitchKind::k_NoQuarterTonesPitch, // noteDisplayQuarterTonesPitch
       msrOctaveKind::k_NoOctave, // noteDisplayOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
-      kPrintObjectYes, // JMI
+      msrPrintObjectKind::kPrintObjectYes, // JMI
 
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
@@ -1550,7 +1550,7 @@ S_msrNote msrNote::createGraceSkipNote (
 
       kNoteSkipInGraceNotesGroup, // noteKind
 
-      k_NoQuarterTonesPitch_QTP,
+      msrQuarterTonesPitchKind::k_NoQuarterTonesPitch,
       msrOctaveKind::k_NoOctave, // noteOctave,
 
       soundingWholeNotes,
@@ -1560,12 +1560,12 @@ S_msrNote msrNote::createGraceSkipNote (
 
       msrDurationKind::k_NoDuration, // noteGraphicDuration
 
-      k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
+      msrQuarterTonesPitchKind::k_NoQuarterTonesPitch, // noteDisplayQuarterTonesPitch
       msrOctaveKind::k_NoOctave, // noteDisplayOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
-      kPrintObjectYes, // JMI
+      msrPrintObjectKind::kPrintObjectYes, // JMI
 
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
@@ -1601,7 +1601,7 @@ S_msrNote msrNote::createRestNoteWithOctave (
 
       kNoteRestInMeasure, // noteKind
 
-      k_Rest_QTP,
+      msrQuarterTonesPitchKind::kQTP_Rest,
       noteOctave,
 
       soundingWholeNotes,
@@ -1611,12 +1611,12 @@ S_msrNote msrNote::createRestNoteWithOctave (
 
       msrDurationKind::k_NoDuration, // noteGraphicDuration
 
-      k_Rest_QTP,  // noteQuarterTonesDisplayPitchKind
+      msrQuarterTonesPitchKind::kQTP_Rest,  // noteQuarterTonesDisplayPitchKind
       msrOctaveKind::k_NoOctave,  // noteDisplayOctaveKind
 
       msrNote::kNoteIsACueNoteNo,
 
-      kPrintObjectYes, // JMI
+      msrPrintObjectKind::kPrintObjectYes, // JMI
 
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
@@ -1652,7 +1652,7 @@ S_msrNote msrNote::createSkipNoteWithOctave (
 
       kNoteSkipInMeasure, // noteKind
 
-      k_Skip_QTP,
+      msrQuarterTonesPitchKind::kQTP_Skip,
       noteOctave,
 
       soundingWholeNotes,
@@ -1662,12 +1662,12 @@ S_msrNote msrNote::createSkipNoteWithOctave (
 
       msrDurationKind::k_NoDuration, // noteGraphicDuration JMI ???
 
-      k_Skip_QTP,  // noteQuarterTonesDisplayPitchKind
+      msrQuarterTonesPitchKind::kQTP_Skip,  // noteQuarterTonesDisplayPitchKind
       noteOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
-      kPrintObjectYes, // JMI
+      msrPrintObjectKind::kPrintObjectYes, // JMI
 
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
@@ -1719,7 +1719,7 @@ S_msrNote msrNote::createRegularNote (
 
       msrNote::kNoteIsACueNoteNo,
 
-      kPrintObjectYes, // JMI
+      msrPrintObjectKind::kPrintObjectYes, // JMI
 
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
@@ -2185,7 +2185,7 @@ S_msrNote msrNote::createNoteFromString (
     msrNote::createRegularNote (
       inputLineNumber,
       noteMeasureNumber,
-      quarterTonesPitchKind, // kD_Natural_QTP
+      quarterTonesPitchKind, // msrQuarterTonesPitchKind::kQTP_D_Natural
       octaveKind, // msrOctaveKind::kOctave3
       durationKindFromMslpString, // soundingWholeNotes
       durationKindFromMslpString, // displayWholeNotes
@@ -2225,12 +2225,12 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
 
       msrDurationKind::k_NoDuration, // noteGraphicDuration
 
-      k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
+      msrQuarterTonesPitchKind::k_NoQuarterTonesPitch, // noteDisplayQuarterTonesPitch
       msrOctaveKind::k_NoOctave, // noteDisplayOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
-      kPrintObjectNo, // JMI
+      msrPrintObjectKind::kPrintObjectNo, // JMI
 
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
@@ -2714,15 +2714,15 @@ void msrNote::appendSpannerToNote (S_msrSpanner spanner)
 
     case msrSpanner::kSpannerWavyLine:
       switch (spanner->getSpannerTypeKind ()) {
-        case kSpannerTypeStart:
+        case msrSpannerTypeKind::kSpannerTypeStart:
           fNoteWavyLineSpannerStart = spanner;
           break;
-        case kSpannerTypeStop:
+        case msrSpannerTypeKind::kSpannerTypeStop:
           fNoteWavyLineSpannerStop = spanner;
           break;
-        case kSpannerTypeContinue:
+        case msrSpannerTypeKind::kSpannerTypeContinue:
           break;
-        case k_NoSpannerType:
+        case msrSpannerTypeKind::k_NoSpannerType:
           // JMI ???
           break;
       } // switch

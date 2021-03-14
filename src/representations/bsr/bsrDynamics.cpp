@@ -61,148 +61,148 @@ S_bsrCellsList bsrDynamics::buildCellsList () const
         fInputLineNumber, kCellWordSign);
 
   switch (fDynamicsKind) {
-    case kDynamicsF:
+    case msrDynamicsKind::kDynamicsF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF));
       break;
-    case kDynamicsFF:
+    case msrDynamicsKind::kDynamicsFF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellF));
       break;
-    case kDynamicsFFF:
+    case msrDynamicsKind::kDynamicsFFF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellF, kCellF));
       break;
-    case kDynamicsFFFF:
+    case msrDynamicsKind::kDynamicsFFFF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellF, kCellF, kCellF));
       break;
-    case kDynamicsFFFFF:
+    case msrDynamicsKind::kDynamicsFFFFF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellF, kCellF, kCellF, kCellF));
       break;
-    case kDynamicsFFFFFF:
+    case msrDynamicsKind::kDynamicsFFFFFF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellF, kCellF, kCellF, kCellF, kCellF));
       break;
 
-    case kDynamicsP:
+    case msrDynamicsKind::kDynamicsP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellP));
       break;
-    case kDynamicsPP:
+    case msrDynamicsKind::kDynamicsPP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellP, kCellP));
       break;
-    case kDynamicsPPP:
+    case msrDynamicsKind::kDynamicsPPP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellP, kCellP, kCellP));
       break;
-    case kDynamicsPPPP:
+    case msrDynamicsKind::kDynamicsPPPP:
       result->
         appendCellsListToCellsList (
          bsrCellsList::create (
             fInputLineNumber, kCellP, kCellP, kCellP, kCellP));
       break;
-    case kDynamicsPPPPP:
+    case msrDynamicsKind::kDynamicsPPPPP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellP, kCellP, kCellP, kCellP, kCellP));
       break;
-    case kDynamicsPPPPPP:
+    case msrDynamicsKind::kDynamicsPPPPPP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellP, kCellP, kCellP, kCellP, kCellP, kCellP));
       break;
 
-    case kDynamicsMF:
+    case msrDynamicsKind::kDynamicsMF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellM, kCellF));
       break;
-    case kDynamicsMP:
+    case msrDynamicsKind::kDynamicsMP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellM, kCellP));
       break;
-    case kDynamicsFP:
+    case msrDynamicsKind::kDynamicsFP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellM, kCellF));
       break;
-    case kDynamicsFZ:
+    case msrDynamicsKind::kDynamicsFZ:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellZ));
       break;
-    case kDynamicsRF:
+    case msrDynamicsKind::kDynamicsRF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellR, kCellF));
       break;
-    case kDynamicsSF:
+    case msrDynamicsKind::kDynamicsSF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellS, kCellF));
       break;
 
-    case kDynamicsRFZ:
+    case msrDynamicsKind::kDynamicsRFZ:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellR, kCellF, kCellZ));
       break;
-    case kDynamicsSFZ:
+    case msrDynamicsKind::kDynamicsSFZ:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellS, kCellF, kCellZ));
       break;
-    case kDynamicsSFP:
+    case msrDynamicsKind::kDynamicsSFP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellS, kCellF, kCellP));
       break;
-    case kDynamicsSFPP:
+    case msrDynamicsKind::kDynamicsSFPP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellS, kCellF, kCellP, kCellP));
       break;
-    case kDynamicsSFFZ:
+    case msrDynamicsKind::kDynamicsSFFZ:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellS, kCellF, kCellF, kCellZ));
       break;
-    case k_NoDynamics:
+    case msrDynamicsKind::k_NoDynamics:
       result =
         bsrCellsList::create (fInputLineNumber);
   } // switch

@@ -344,7 +344,7 @@ S_Mikrokosmos3WanderingOahGroup createGlobalMikrokosmos3WanderingOahGroup ()
     // initialize the generated output kinds map
     // ------------------------------------------------------
 
-    initializeGeneratorOutputKindsMap ();
+    initializeMultiGeneratorOutputKindsMap ();
 
     // create the Mikrokosmos3Wandering options
     // ------------------------------------------------------

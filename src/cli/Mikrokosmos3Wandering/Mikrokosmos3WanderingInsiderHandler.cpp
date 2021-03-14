@@ -63,6 +63,7 @@
 
 #include "version.h"
 
+#include "Mikrokosmos3WanderingOah.h"
 #include "Mikrokosmos3WanderingInsiderHandler.h"
 
 
@@ -209,19 +210,37 @@ string Mikrokosmos3WanderingInsiderHandler::Mikrokosmos3WanderingAboutInformatio
       break;
   } // switch
 
-  stringstream commonHeadPartStream;
+  string headPart;
 
-  commonHeadPartStream <<
-R"(What Mikrokosmos3Wandering does:
+  switch (generatorOutputKind) {
+    case multiGeneratorOutputKind::k_NoOutput:
+      // should only occur if the run is a pure help one
+      headPart =
+R"(What msdlCompiler does:
 
-    This multi-pass generator basically performs )" <<
-    passesNumber <<
-    " passes when generating " <<
-    multiGeneratorOutputKindAsString (generatorOutputKind) <<
-    " output:" <<
-    endl <<
+    This multi-pass generator performs various passes depending on the output generated)";
+      break;
+
+    default:
+      {
+        stringstream headPartStream;
+
+        headPartStream <<
+R"(What msdlCompiler does:
+
+    This multi-pass compiler basically performs )" <<
+          passesNumber <<
+          " passes when generating " <<
+          multiGeneratorOutputKindAsString (generatorOutputKind) <<
+          " output:" <<
+          endl <<
 R"(
-        Pass 1:  create an MSR from the MSDL input)";
+        Pass 1:  generate an MSR from the MSDL input)";
+
+        headPart = headPartStream.str ();
+      }
+  } // switch
+
 
   string specificPart;
 
@@ -242,25 +261,27 @@ R"(
     case multiGeneratorOutputKind::kLilyPondOutput:
       specificPart =
 R"(
-        Pass 2:  converts the MSR into a
+        Pass 2:  converts the MSR into a second MSR;
+        Pass 3:  converts the second MSR into a
                  LilyPond Score Representation (LPSR);
-        Pass 3:  converts the LPSR to LilyPond code
+        Pass 4:  converts the LPSR to LilyPond code
                  and writes it to standard output.)";
       break;
 
     case multiGeneratorOutputKind::kBrailleOutput:
       specificPart =
 R"(
-        Pass 2a: converts the MSR into a
+        Pass 2:  converts the MSR into a second MSR;
+        Pass 3a: converts the second MSR into a
                  Braille Score Representation (BSR)
                  containing one Braille page per MusicXML page;
-        Pass 2b: converts the BSRinto another BSR
+        Pass 3b: converts the BSRinto another BSR
                  with as many Braille pages as needed
                  to fit the line and page lengthes;
-        Pass 3:  converts the BSR to braille music text
+        Pass 4:  converts the BSR to braille music text
                  and writes it to standard output.)
 
-    In this preliminary version, pass 2b merely clones the BSR it receives.)";
+    In this preliminary version, pass 3b merely clones the BSR it receives.)";
       break;
 
     case multiGeneratorOutputKind::kMusicXMLOutput:
@@ -285,7 +306,7 @@ R"(
     The activity log and warning/error messages go to standard error.)";
 
  return
-   commonHeadPartStream.str () + specificPart + commonTailPart;
+   headPart + specificPart + commonTailPart;
 }
 
 //______________________________________________________________________________
@@ -357,6 +378,14 @@ void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingOptionGr
   // create the MSR OAH group
   appendGroupToHandler (
     createGlobalMsrOahGroup ());
+
+  // create the Mikrokosmos3Wandering OAH group
+  appendGroupToHandler (
+    createGlobalMikrokosmos3WanderingOahGroup ());
+
+  // create the Mikrokosmos3Wandering insider OAH group
+  appendGroupToHandler (
+    createGlobalMikrokosmos3WanderingInsiderOahGroup ());
 
   // create the groups needed according to the generated output kind
   /*
@@ -444,10 +473,6 @@ void Mikrokosmos3WanderingInsiderHandler::createTheMikrokosmos3WanderingOptionGr
   // create the multi generator OAH group
   appendGroupToHandler (
     createGlobalMultiGeneratorOahGroup ());
-
-  // create the Mikrokosmos3Wandering OAH group
-  appendGroupToHandler (
-    createGlobalMikrokosmos3WanderingInsiderOahGroup ());
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group

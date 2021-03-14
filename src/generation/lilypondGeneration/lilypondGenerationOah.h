@@ -315,7 +315,7 @@ class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomStoringAValueInAVariab
                             string               longName,
                             string               description,
                             string               variableName,
-                            lpsrOctaveEntryKind& lpsrOctaveEntryKindVariable);
+                            msrOctaveEntryKind& msrOctaveEntryKindVariable);
 
   protected:
 
@@ -327,7 +327,7 @@ class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomStoringAValueInAVariab
                             string               longName,
                             string               description,
                             string               variableName,
-                            lpsrOctaveEntryKind& lpsrOctaveEntryKindVariable);
+                            msrOctaveEntryKind& msrOctaveEntryKindVariable);
 
     virtual               ~lilypondAbsoluteOctaveEntryAtom ();
 
@@ -374,7 +374,7 @@ class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomStoringAValueInAVariab
     // private fields
     // ------------------------------------------------------
 
-    lpsrOctaveEntryKind&  fLpsrOctaveEntryKindVariable;
+    msrOctaveEntryKind&  fMsrOctaveEntryKindVariable;
 };
 typedef SMARTP<lilypondAbsoluteOctaveEntryAtom> S_lilypondAbsoluteOctaveEntryAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondAbsoluteOctaveEntryAtom& elt);
@@ -393,7 +393,7 @@ class EXP lilypondRelativeOctaveEntryAtom : public oahAtomStoringAValueInAVariab
                             string                        description,
                             string                        valueSpecification,
                             string                        variableName,
-                            lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+                            msrOctaveEntryKind&          msrOctaveEntryKindVariable,
                             S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable);
 
   protected:
@@ -407,7 +407,7 @@ class EXP lilypondRelativeOctaveEntryAtom : public oahAtomStoringAValueInAVariab
                             string                        description,
                             string                        valueSpecification,
                             string                        variableName,
-                            lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+                            msrOctaveEntryKind&          msrOctaveEntryKindVariable,
                             S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable);
 
     virtual               ~lilypondRelativeOctaveEntryAtom ();
@@ -461,7 +461,7 @@ class EXP lilypondRelativeOctaveEntryAtom : public oahAtomStoringAValueInAVariab
     // private fields
     // ------------------------------------------------------
 
-    lpsrOctaveEntryKind&  fLpsrOctaveEntryKindVariable;
+    msrOctaveEntryKind&  fMsrOctaveEntryKindVariable;
 
     S_msrSemiTonesPitchAndOctave&
                           fSemiTonesPitchAndOctaveVariable;
@@ -483,7 +483,7 @@ class EXP lilypondFixedOctaveEntryAtom : public oahAtomStoringAValueInAVariable
                             string                        description,
                             string                        valueSpecification,
                             string                        variableName,
-                            lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+                            msrOctaveEntryKind&          msrOctaveEntryKindVariable,
                             S_msrSemiTonesPitchAndOctave& lilypondFixedOctaveEntryVariable);
 
   protected:
@@ -497,7 +497,7 @@ class EXP lilypondFixedOctaveEntryAtom : public oahAtomStoringAValueInAVariable
                             string                        description,
                             string                        valueSpecification,
                             string                        variableName,
-                            lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+                            msrOctaveEntryKind&          msrOctaveEntryKindVariable,
                             S_msrSemiTonesPitchAndOctave& lilypondFixedOctaveEntryVariable);
 
     virtual               ~lilypondFixedOctaveEntryAtom ();
@@ -552,7 +552,7 @@ class EXP lilypondFixedOctaveEntryAtom : public oahAtomStoringAValueInAVariable
     // private fields
     // ------------------------------------------------------
 
-    lpsrOctaveEntryKind&  fLpsrOctaveEntryKindVariable;
+    msrOctaveEntryKind&  fMsrOctaveEntryKindVariable;
 
     S_msrSemiTonesPitchAndOctave&
                           fSemiTonesPitchAndOctaveVariable;
@@ -1051,7 +1051,7 @@ class EXP lilypondGenerationOahGroup : public oahGroup
     // notes
     // --------------------------------------
 
-    lpsrOctaveEntryKind   getOctaveEntryKind () const
+    msrOctaveEntryKind   getOctaveEntryKind () const
                               { return fOctaveEntryKind; }
 
     // this is relevant only for relative octave entry kinds
@@ -1401,7 +1401,7 @@ class EXP lilypondGenerationOahGroup : public oahGroup
     void                  setOctaveEntryKindToAbsolute () // JMI ???
                               {
                                 fOctaveEntryKind =
-                                  kOctaveEntryAbsolute;
+                                  msrOctaveEntryKind::kOctaveEntryAbsolute;
                               }
 
     // quiet mode
@@ -1626,7 +1626,7 @@ class EXP lilypondGenerationOahGroup : public oahGroup
     // notes
     // --------------------------------------
 
-    lpsrOctaveEntryKind   fOctaveEntryKind;
+    msrOctaveEntryKind   fOctaveEntryKind;
 
     // this is relevant only for relative octave entry kinds
     S_msrSemiTonesPitchAndOctave

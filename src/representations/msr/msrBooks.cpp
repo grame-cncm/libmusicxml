@@ -249,10 +249,10 @@ void msrBook::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
                 getCreditWordsContents ();
 
           switch (creditWords->getCreditWordsVerticalAlignmentKind ()) {
-            case kVerticalAlignmentNone:
+            case msrVerticalAlignmentKind::kVerticalAlignmentNone:
               break;
 
-            case kVerticalAlignmentTop:
+            case msrVerticalAlignmentKind::kVerticalAlignmentTop:
               ++topCreditsCounter;
 
               switch (topCreditsCounter) {
@@ -295,10 +295,10 @@ void msrBook::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
               } // switch
               break;
 
-            case kVerticalAlignmentMiddle:
+            case msrVerticalAlignmentKind::kVerticalAlignmentMiddle:
               break;
 
-            case kVerticalAlignmentBottom:
+            case msrVerticalAlignmentKind::kVerticalAlignmentBottom:
               ++bottomCreditsCounter;
 
               switch (bottomCreditsCounter) {

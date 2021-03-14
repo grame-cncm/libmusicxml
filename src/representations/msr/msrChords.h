@@ -121,10 +121,10 @@ class EXP msrChord : public msrTupletElement
 
     // chord kind
     void                  setChordKind (
-                            msrChordKind chordKind)
+                            msrChordInKind chordKind)
                               { fChordKind = chordKind; }
 
-    msrChordKind          getChordKind () const
+    msrChordInKind          getChordKind () const
                               { return fChordKind; }
 
      // whole notes
@@ -504,7 +504,7 @@ class EXP msrChord : public msrTupletElement
     // grace notes group uplink
     S_msrGraceNotesGroup  fChordDirectGraceNotesGroupUpLink;
 
-    msrChordKind          fChordKind;
+    msrChordInKind          fChordKind;
 
     // sounding whole notes
     // no need for 'rational fChordSoundingWholeNotes;',

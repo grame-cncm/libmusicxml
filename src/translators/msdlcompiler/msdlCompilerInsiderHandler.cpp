@@ -223,19 +223,42 @@ string msdlCompilerInsiderHandler::msdlCompilerAboutInformation (
       break;
   } // switch
 
-  stringstream commonHeadPartStream;
+  string headPart;
 
-  commonHeadPartStream <<
+  switch (generatorOutputKind) {
+    case multiGeneratorOutputKind::k_NoOutput:
+      // should only occur if the run is a pure help one
+      {
+        stringstream headPartStream;
+
+        headPartStream <<
 R"(What msdlCompiler does:
 
-    This multi-pass generator basically performs )" <<
-    passesNumber <<
-    " passes when generating " <<
-    multiGeneratorOutputKindAsString (generatorOutputKind) <<
-    " output:" <<
-    endl <<
+    This multi-pass compiler performs various passes depending on the output generated)";
+
+        headPart = headPartStream.str ();
+      }
+      break;
+
+    default:
+      {
+        stringstream headPartStream;
+
+        headPartStream <<
+R"(What msdlCompiler does:
+
+    This multi-pass compiler basically performs )" <<
+          passesNumber <<
+          " passes when generating " <<
+          multiGeneratorOutputKindAsString (generatorOutputKind) <<
+          " output:" <<
+          endl <<
 R"(
-        Pass 1:  generate and MSR programmatically)";
+        Pass 1:  generate an MSR from the MSDL input)";
+
+        headPart = headPartStream.str ();
+      }
+  } // switch
 
   string specificPart;
 
@@ -299,7 +322,7 @@ R"(
     The activity log and warning/error messages go to standard error.)";
 
  return
-   commonHeadPartStream.str () + specificPart + commonTailPart;
+   headPart + specificPart + commonTailPart;
 }
 
 //______________________________________________________________________________
@@ -375,6 +398,18 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
     createGlobalMsdlInputOahGroup (
       executableName));
 
+  // create the multi generator OAH group
+  appendGroupToHandler (
+    createGlobalMultiGeneratorOahGroup ());
+
+  // create the msdlCompiler OAH group
+  appendGroupToHandler (
+    createGlobalMsdlCompilerOahGroup ());
+
+  // create the msdlCompiler insider OAH group
+  appendGroupToHandler (
+    createGlobalmsdlCompilerInsiderOahGroup ());
+
   // create the msdl2msr OAH group
   appendGroupToHandler (
     createGlobalMsdl2msrOahGroup ());
@@ -413,13 +448,13 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
       appendGroupToHandler (
         createGlobalXml2gmnOahGroup ());
 
-      // create the msdl2xml OAH group
-      appendGroupToHandler (
-        createGlobalMsdl2xmlOahGroup ());
-
       // create the Guido generators OAH group
       appendGroupToHandler (
         createGlobalGuidoGenerationOahGroup ());
+
+      // create the msdl2gmn OAH group
+      appendGroupToHandler (
+        createGlobalMsdl2gmnInsiderOahGroup ());
       break;
 
     case multiGeneratorOutputKind::kLilyPondOutput:
@@ -488,17 +523,6 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
     case multiGeneratorOutputKind::kMidiOutput:
       break;
   } // switch
-
-  // create the multi generator OAH group
-  appendGroupToHandler (
-    createGlobalMultiGeneratorOahGroup ());
-
-  // create the msdlCompiler OAH group
-  appendGroupToHandler (
-    createGlobalMsdlCompilerOahGroup ());
-
-  appendGroupToHandler (
-    createGlobalmsdlCompilerInsiderOahGroup ());
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group

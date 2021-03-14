@@ -62,7 +62,7 @@ S_msdrVoice msdrVoice::createRegularVoice (
   return
     msdrVoice::create (
       inputLineNumber,
-      kVoiceRegular,
+      msrVoiceKind::kVoiceRegular,
       voiceNumber,
       msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
         // the initial last segment is ready to receive music
@@ -77,7 +77,7 @@ S_msdrVoice msdrVoice::createHarmonyVoice (
   return
     msdrVoice::create (
       inputLineNumber,
-      kVoiceHarmony,
+      msrVoiceKind::kVoiceHarmony,
       voiceNumber,
       msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
         // the initial last segment is ready to receive music
@@ -92,7 +92,7 @@ S_msdrVoice msdrVoice::createFiguredBassVoice (
   return
     msdrVoice::create (
       inputLineNumber,
-      kVoiceFiguredBass,
+      msrVoiceKind::kVoiceFiguredBass,
       voiceNumber,
       msrVoiceCreateInitialLastSegmentKind::kCreateInitialLastSegmentYes,
         // the initial last segment is ready to receive music

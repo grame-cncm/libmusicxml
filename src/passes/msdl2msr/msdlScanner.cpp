@@ -892,6 +892,12 @@ void msdlScanner::handleSlash ()
 
 void msdlScanner::acceptAName ()
 {
+/*
+  pitches such as c2 prevent identifiers from being tokens in MSDL
+  as is usual in programming languages,
+  so we handle actual identifiers such ar part1 at the syntax level
+*/
+
   // accept all alphanumeric characters, the first character is available
 
   unsigned int
@@ -922,16 +928,6 @@ void msdlScanner::acceptAName ()
         nonNameCharacterFound = true;
         break;
 
-      case '0':
-      case '1':
-      case '2':
-      case '3':
-      case '4':
-      case '5':
-      case '6':
-      case '7':
-      case '8':
-      case '9':
       case '_':
         break;
 
@@ -1061,178 +1057,6 @@ void msdlScanner::acceptAName ()
   if (fTraceTokensDetails) {
     gLogStream <<
       "Accepting a name, found: \"" << nameString << "\"" <<
-      endl;
-  }
-#endif
-}
-
-// --------------------------------------------------------------------------
-//  msdlScanner::acceptAnIdentifier
-// --------------------------------------------------------------------------
-
-void msdlScanner::acceptAnIdentifier ()
-{
-  // accept all alphanumeric characters, digits and '_', the first character is available
-
-  unsigned int
-    identifierStartPositionInInput =
-      fCurrentTokenPositionInInput;
-
-#ifdef TRACING_IS_ENABLED
-  if (fTraceTokensDetails) {
-    gLogStream << left <<
-      "Accepting an identifier" <<
-      ", identifierStartPositionInInput: " <<
-      identifierStartPositionInInput <<
-      endl;
-  }
-#endif
-
-  ++gIndenter;
-
-  // an identifier can be a keyword JMI ???
-
-  bool nonIdentifierCharacterFound = false;
-
-  while (! nonIdentifierCharacterFound) {
-    char character = fetchNextCharacter ();
-
-    switch (character) {
-      case EOF:
-        nonIdentifierCharacterFound = true;
-        break;
-
-/*
-      case '_': // JMI ???
-        break;
-*/
-
-      default:
-        nonIdentifierCharacterFound = ! isalpha (fCurrentCharacter);
-    } // switch
-  } // while
-
-  // the end of the identifier has been overtaken
-  fNextCharacterIsAvailable = true;
-
-  string identifierString =
-    fInputString.substr (
-      identifierStartPositionInInput,
-      fCurrentPositionInInput - identifierStartPositionInInput);
-
-#ifdef TRACING_IS_ENABLED
-  if (fTraceTokensDetails) {
-    gLogStream <<
-      "--- acceptAnIdentifier()" <<
-      ", identifierString: \"" << identifierString << "\"" <<
-      endl;
-  }
-#endif
-  // is identifierString the name of a keyword? JMI ???
-  msdlKeywordKind
-    keyWordKind =
-      msdlKeywordKindFromString (
-        fKeywordsInputLanguageKind,
-        identifierString);
-
-#ifdef TRACING_IS_ENABLED
-  if (fTraceTokensDetails) {
-    gLogStream <<
-      "--- acceptAnIdentifier()" <<
-      ", identifierString: \"" << identifierString << "\"" <<
-      ", keyWordKind: \"" << msdlKeywordKindAsString (keyWordKind) << "\"" <<
-      endl;
-  }
-#endif
-
-  switch (keyWordKind) {
-    case msdlKeywordKind::k_NoKeywordKind: // no, it is an identifier
-      fCurrentTokenKind = msdlTokenKind::kTokenIdentifier;
-      fCurrentTokenDescription.setString (identifierString);
-      break;
-
-      // language-dependent keywords
-      // ------------------------------------
-
-    case msdlKeywordKind::kKeywordTitle:
-      fCurrentTokenKind = msdlTokenKind::kTokenTitle;
-      break;
-    case msdlKeywordKind::kKeywordComposer:
-      fCurrentTokenKind = msdlTokenKind::kTokenComposer;
-      break;
-    case msdlKeywordKind::kKeywordOpus:
-      fCurrentTokenKind = msdlTokenKind::kTokenOpus;
-      break;
-
-    case msdlKeywordKind::kKeywordPitches:
-      fCurrentTokenKind = msdlTokenKind::kTokenPitches;
-      break;
-
-    case msdlKeywordKind::kKeywordAnacrusis:
-      fCurrentTokenKind = msdlTokenKind::kTokenAnacrusis;
-      break;
-
-    case msdlKeywordKind::kKeywordBook:
-      fCurrentTokenKind = msdlTokenKind::kTokenBook;
-      break;
-    case msdlKeywordKind::kKeywordScore:
-      fCurrentTokenKind = msdlTokenKind::kTokenScore;
-      break;
-    case msdlKeywordKind::kKeywordPartGroup:
-      fCurrentTokenKind = msdlTokenKind::kTokenPartGroup;
-      break;
-    case msdlKeywordKind::kKeywordPart:
-      fCurrentTokenKind = msdlTokenKind::kTokenPart;
-      break;
-    case msdlKeywordKind::kKeywordMusic:
-      fCurrentTokenKind = msdlTokenKind::kTokenMusic;
-      break;
-    case msdlKeywordKind::kKeywordFragment:
-      fCurrentTokenKind = msdlTokenKind::kTokenFragment;
-      break;
-
-    case msdlKeywordKind::kKeywordClef:
-      fCurrentTokenKind = msdlTokenKind::kTokenClef;
-      break;
-    case msdlKeywordKind::kKeywordTreble:
-      fCurrentTokenKind = msdlTokenKind::kTokenTreble;
-      break;
-    case msdlKeywordKind::kKeywordSoprano:
-      fCurrentTokenKind = msdlTokenKind::kTokenSoprano;
-      break;
-    case msdlKeywordKind::kKeywordAlto:
-      fCurrentTokenKind = msdlTokenKind::kTokenAlto;
-      break;
-    case msdlKeywordKind::kKeywordTenor:
-      fCurrentTokenKind = msdlTokenKind::kTokenTenor;
-      break;
-    case msdlKeywordKind::kKeywordBaryton:
-      fCurrentTokenKind = msdlTokenKind::kTokenBaryton;
-      break;
-    case msdlKeywordKind::kKeywordBass:
-      fCurrentTokenKind = msdlTokenKind::kTokenBass;
-      break;
-
-    case msdlKeywordKind::kKeywordKey:
-      fCurrentTokenKind = msdlTokenKind::kTokenKey;
-      break;
-
-    case msdlKeywordKind::kKeywordTime:
-      fCurrentTokenKind = msdlTokenKind::kTokenTime;
-      break;
-  } // switch
-
-  // set the token description keyword kind if relevant
-  if (fCurrentTokenKind != msdlTokenKind::kTokenIdentifier) {
-    fCurrentTokenDescription.setKeywordKind (keyWordKind);
-  }
-
-  --gIndenter;
-
-#ifdef TRACING_IS_ENABLED
-  if (fTraceTokensDetails) {
-    gLogStream <<
-      "Accepting an identifier, found: \"" << identifierString << "\"" <<
       endl;
   }
 #endif

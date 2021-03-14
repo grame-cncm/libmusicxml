@@ -166,7 +166,7 @@ class EXP bsrNote : public bsrLineContentsElement
     static string noteOctaveIsNeededAsString (
       bsrNoteOctaveIsNeeded noteOctaveIsNeeded);
 
-    enum bsrAccidentalKind {
+    enum class bsrAccidentalKind {
       kAccidentalNone,
       kAccidentalSharp, kAccidentalNatural, kAccidentalFlat,
       kAccidentalDoubleFlat, kAccidentalDoubleSharp,

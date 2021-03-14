@@ -60,7 +60,7 @@ S_msrSlur msrSlur::create (
       slurNumber,
       slurTypeKind,
       slurLineTypeKind,
-      k_NoPlacement);
+      msrPlacementKind::k_NoPlacement);
 }
 
 msrSlur::msrSlur (

@@ -1171,9 +1171,9 @@ void msdl2gmnRegularHandler::createOutputRegularGroup ()
 
   // atoms
 
-  registerAtomInRegularSubgroup ("generate-comments", subGroup);
-  registerAtomInRegularSubgroup ("generate-stem", subGroup);
-  registerAtomInRegularSubgroup ("generate-bars", subGroup);
+  registerAtomInRegularSubgroup ("generate-guido-comments", subGroup);
+  registerAtomInRegularSubgroup ("generate-guido-stem", subGroup);
+  registerAtomInRegularSubgroup ("generate-guido-bars", subGroup);
 }
 
 //______________________________________________________________________________

@@ -613,6 +613,9 @@ xml2lyInsiderOahGroup::xml2lyInsiderOahGroup ()
 R"(Options that are used by xml2ly are grouped here.)",
     oahElementVisibilityKind::kElementVisibilityWhole)
 {
+  fQuitAfterPass2a = false;
+  fQuitAfterPass2b = false;
+
   initializeXml2lyInsiderOahGroup ();
 }
 

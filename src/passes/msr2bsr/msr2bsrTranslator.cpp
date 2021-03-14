@@ -931,458 +931,458 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
   int                numberOfAlterations = 0;
 
   switch (theMsrKeyKind) {
-    case kTraditionalKind:
+    case msrKeyKind::kKeyTraditional:
 
       // traditional keys
       switch (mSemiTonesPitchKind) {
-        case k_NoSemiTonesPitch_STP:
+        case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
           break;
 
-        case kC_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_C_TripleFlat:
           break;
-        case kC_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_C_DoubleFlat:
           break;
-        case kC_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_C_Flat:
           break;
-        case kC_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_C_Natural:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindNaturals;
               numberOfAlterations = 0;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 3;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kC_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_C_Sharp:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 7;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 4;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kC_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_C_DoubleSharp:
           break;
-        case kC_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_C_TripleSharp:
           break;
 
-        case kD_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_D_TripleFlat:
           break;
-        case kD_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_D_DoubleFlat:
           break;
-        case kD_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_D_Flat:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 5;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 8;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kD_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_D_Natural:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 2;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 1;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kD_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_D_Sharp:
           break;
-        case kD_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_D_DoubleSharp:
           break;
-        case kD_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_D_TripleSharp:
           break;
 
-        case kE_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_E_TripleFlat:
           break;
-        case kE_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_E_DoubleFlat:
           break;
-        case kE_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_E_Flat:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 3;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 6;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kE_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_E_Natural:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 4;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 1;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kE_Sharp_STP:
-        case kE_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_E_Sharp:
+        case msrSemiTonesPitchKind::kSTP_E_DoubleSharp:
           break;
-        case kE_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_E_TripleSharp:
           break;
 
-        case kF_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_F_TripleFlat:
           break;
-        case kF_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_F_DoubleleFlat:
           break;
-        case kF_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_F_Flat:
           break;
-        case kF_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_F_Natural:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 1;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 4;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kF_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_F_Sharp:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 6;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 3;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kF_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_F_DoubleSharp:
           break;
-        case kF_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_F_TripleSharp:
           break;
 
-        case kG_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_G_TripleFlat:
           break;
-        case kG_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_G_DoubleFlat:
           break;
-        case kG_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_G_Flat:
           break;
-        case kG_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_G_Natural:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 1;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 2;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kG_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_G_Sharp:
           break;
-        case kG_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_G_DoubleSharp:
           break;
-        case kG_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_G_TripleSharp:
           break;
 
-        case kA_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_A_TripleFlat:
           break;
-        case kA_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_A_DoubleFlat:
           break;
-        case kA_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_A_Flat:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 4;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 7;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kA_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_A_Natural:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 3;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindNaturals;
               numberOfAlterations = 0;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kA_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_A_Sharp:
           break;
-        case kA_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_A_DoubleSharp:
           break;
-        case kA_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_A_TripleSharp:
           break;
 
-        case kB_TripleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_B_TripleFlat:
           break;
-        case kB_DoubleFlat_STP:
+        case msrSemiTonesPitchKind::kSTP_B_DoubleFlat:
           break;
-        case kB_Flat_STP:
+        case msrSemiTonesPitchKind::kSTP_B_Flat:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 2;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 5;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kB_Natural_STP:
+        case msrSemiTonesPitchKind::kSTP_B_Natural:
           switch (mModeKind) {
-            case k_NoMode:
+            case msrModeKind::k_NoMode:
               break;
-            case kMajorMode:
+            case msrModeKind::kModeMajor:
               theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 5;
               break;
-            case kMinorMode:
+            case msrModeKind::kModeMinor:
               theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 2;
               break;
-            case kIonianMode:
+            case msrModeKind::kModeIonian:
               break;
-            case kDorianMode:
+            case msrModeKind::kModeDorian:
               break;
-            case kPhrygianMode:
+            case msrModeKind::kModePhrygian:
               break;
-            case kLydianMode:
+            case msrModeKind::kModeLydian:
               break;
-            case kMixolydianMode:
+            case msrModeKind::kModeMixolydian:
               break;
-            case kAeolianMode:
+            case msrModeKind::kModeAeolian:
               break;
-            case kLocrianMode:
+            case msrModeKind::kModeLocrian:
               break;
           } // switch
           break;
-        case kB_Sharp_STP:
+        case msrSemiTonesPitchKind::kSTP_B_Sharp:
           break;
-        case kB_DoubleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_B_DoubleSharp:
           break;
-        case kB_TripleSharp_STP:
+        case msrSemiTonesPitchKind::kSTP_B_TripleSharp:
           break;
       } // switch
       break;
 
-    case kHumdrumScotKind:
+    case msrKeyKind::kKeyHumdrumScot:
       // JMI
       break;
   } // switch
@@ -1470,28 +1470,28 @@ void msr2bsrTranslator::visitStart (S_msrTime& elt)
   bsrTime::bsrTimeKind bTimeKind = bsrTime::kTimeNone;
 
   switch (mTimeSymbolKind) {
-    case kTimeSymbolNone:
+    case msrTimeSymbolKind::kTimeSymbolNone:
       bTimeKind = bsrTime::kTimeNone;
 
-    case kTimeSymbolCommon:
+    case msrTimeSymbolKind::kTimeSymbolCommon:
       bTimeKind = bsrTime::kTimeCommon;
       break;
-    case kTimeSymbolCut:
+    case msrTimeSymbolKind::kTimeSymbolCut:
       bTimeKind = bsrTime::kTimeCut;
       break;
 
-    case kTimeSymbolNote:
+    case msrTimeSymbolKind::kTimeSymbolNote:
       bTimeKind = bsrTime::kTimeNote;
       break;
-    case kTimeSymbolDottedNote:
+    case msrTimeSymbolKind::kTimeSymbolDottedNote:
       bTimeKind = bsrTime::kTimeDottedNote;
       break;
 
-    case kTimeSymbolSingleNumber:
+    case msrTimeSymbolKind::kTimeSymbolSingleNumber:
       bTimeKind = bsrTime::kTimeSingleNumber;
       break;
 
-    case kTimeSymbolSenzaMisura:
+    case msrTimeSymbolKind::kTimeSymbolSenzaMisura:
       bTimeKind = bsrTime::kTimeSenzaMisura;
       break;
     break;
@@ -1682,12 +1682,12 @@ bsrNote::bsrNoteOctaveIsNeeded msr2bsrTranslator::brailleOctaveMarkInNeeded (
     noteAboluteDiatonicOrdinal =
       (int) noteAbsoluteOctaveKind * 7
         +
-      noteDiatonicPitchKind - kDiatonicPitchC,
+      (int) noteDiatonicPitchKind - (int) msrDiatonicPitchKind::kDiatonicPitchC,
 
     referenceAboluteDiatonicOrdinal =
       (int) referenceAbsoluteOctaveKind * 7
         +
-      referenceDiatonicPitchKind - kDiatonicPitchC;
+      (int) referenceDiatonicPitchKind - (int) msrDiatonicPitchKind::kDiatonicPitchC;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotesDetails ()) {
@@ -1855,50 +1855,50 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
 
         {
           switch (wordsPlacementKind) {
-            case k_NoPlacement:
+            case msrPlacementKind::k_NoPlacement:
               break;
-            case kPlacementAbove:
+            case msrPlacementKind::kPlacementAbove:
               break;
-            case kPlacementBelow:
+            case msrPlacementKind::kPlacementBelow:
               break;
           } // switch
 
           switch (wordsFontStyleKind) {
-            case kFontStyleNone:
+            case msrFontStyleKind::kFontStyleNone:
               break;
-            case kFontStyleNormal:
+            case msrFontStyleKind::kFontStyleNormal:
               break;
-            case KFontStyleItalic:
+            case msrFontStyleKind::KFontStyleItalic:
               break;
           } // switch
 
           switch (wordsFontWeightKind) {
-            case kFontWeightNone:
+            case msrFontWeightKind::kFontWeightNone:
               break;
-            case kFontWeightNormal:
+            case msrFontWeightKind::kFontWeightNormal:
               break;
-            case kFontWeightBold:
+            case msrFontWeightKind::kFontWeightBold:
               break;
           } // switch
 
           switch (wordsFontSize->getFontSizeKind ()) {
-            case kFontSizeNone:
+            case msrFontSizeKind::kFontSizeNone:
               break;
-            case kFontSizeXXSmall:
+            case msrFontSizeKind::kFontSizeXXSmall:
               break;
-            case kFontSizeXSmall:
+            case msrFontSizeKind::kFontSizeXSmall:
               break;
-            case kFontSizeSmall:
+            case msrFontSizeKind::kFontSizeSmall:
               break;
-            case kFontSizeMedium:
+            case msrFontSizeKind::kFontSizeMedium:
               break;
-            case kFontSizeLarge:
+            case msrFontSizeKind::kFontSizeLarge:
               break;
-            case kFontSizeXLarge:
+            case msrFontSizeKind::kFontSizeXLarge:
               break;
-            case kFontSizeXXLarge:
+            case msrFontSizeKind::kFontSizeXXLarge:
               break;
-            case kFontSizeNumeric:
+            case msrFontSizeKind::kFontSizeNumeric:
               break;
           } // switch
 
@@ -1989,10 +1989,10 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
 
   else {
     switch (noteDiatonicPitchKind) {
-      case k_NoDiatonicPitch:
+      case msrDiatonicPitchKind::k_NoDiatonicPitch:
         break;
 
-      case kDiatonicPitchA:
+      case msrDiatonicPitchKind::kDiatonicPitchA:
         switch (noteGraphicDurationKind) {
           case msrDurationKind::k_NoDuration:
             break;
@@ -2038,7 +2038,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
         } // switch
         break;
 
-      case kDiatonicPitchB:
+      case msrDiatonicPitchKind::kDiatonicPitchB:
         switch (noteGraphicDurationKind) {
           case msrDurationKind::k_NoDuration:
             break;
@@ -2084,7 +2084,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
         } // switch
         break;
 
-      case kDiatonicPitchC:
+      case msrDiatonicPitchKind::kDiatonicPitchC:
         switch (noteGraphicDurationKind) {
           case msrDurationKind::k_NoDuration:
             break;
@@ -2130,7 +2130,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
         } // switch
         break;
 
-      case kDiatonicPitchD:
+      case msrDiatonicPitchKind::kDiatonicPitchD:
         switch (noteGraphicDurationKind) {
           case msrDurationKind::k_NoDuration:
             break;
@@ -2176,7 +2176,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
         } // switch
         break;
 
-      case kDiatonicPitchE:
+      case msrDiatonicPitchKind::kDiatonicPitchE:
         switch (noteGraphicDurationKind) {
           case msrDurationKind::k_NoDuration:
             break;
@@ -2222,7 +2222,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
         } // switch
         break;
 
-      case kDiatonicPitchF:
+      case msrDiatonicPitchKind::kDiatonicPitchF:
         switch (noteGraphicDurationKind) {
           case msrDurationKind::k_NoDuration:
             break;
@@ -2268,7 +2268,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
         } // switch
         break;
 
-      case kDiatonicPitchG:
+      case msrDiatonicPitchKind::kDiatonicPitchG:
         switch (noteGraphicDurationKind) {
           case msrDurationKind::k_NoDuration:
             break;
@@ -2346,96 +2346,96 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
   // is there an accidental attached to the note?
   bsrNote::bsrAccidentalKind
     bAccidentalKind =
-      bsrNote::kAccidentalNone;
+      bsrNote::bsrAccidentalKind::kAccidentalNone;
 
   switch (mAccidentalKind) {
-    case kAccidentalNone:
+    case msrAccidentalKind::kAccidentalNone:
       break;
 
-    case kAccidentalSharp:
-      bAccidentalKind = bsrNote::kAccidentalSharp;
+    case msrAccidentalKind::kAccidentalSharp:
+      bAccidentalKind = bsrNote::bsrAccidentalKind::kAccidentalSharp;
       break;
-    case kAccidentalNatural:
-      bAccidentalKind = bsrNote::kAccidentalNatural;
+    case msrAccidentalKind::kAccidentalNatural:
+      bAccidentalKind = bsrNote::bsrAccidentalKind::kAccidentalNatural;
       break;
-    case kAccidentalFlat:
-      bAccidentalKind = bsrNote::kAccidentalFlat;
-      break;
-
-    case kAccidentalDoubleSharp:
-      bAccidentalKind = bsrNote::kAccidentalDoubleSharp;
-      break;
-    case kAccidentalSharpSharp:
+    case msrAccidentalKind::kAccidentalFlat:
+      bAccidentalKind = bsrNote::bsrAccidentalKind::kAccidentalFlat;
       break;
 
-    case kAccidentalFlatFlat:
-      bAccidentalKind = bsrNote::kAccidentalDoubleFlat;
+    case msrAccidentalKind::kAccidentalDoubleSharp:
+      bAccidentalKind = bsrNote::bsrAccidentalKind::kAccidentalDoubleSharp;
       break;
-    case kAccidentalNaturalSharp:
-      break;
-    case kAccidentalNaturalFlat:
+    case msrAccidentalKind::kAccidentalSharpSharp:
       break;
 
-    case kAccidentalQuarterFlat:
-      bAccidentalKind = bsrNote::kAccidentalDoubleFlat;
+    case msrAccidentalKind::kAccidentalFlatFlat:
+      bAccidentalKind = bsrNote::bsrAccidentalKind::kAccidentalDoubleFlat;
       break;
-    case kAccidentalQuarterSharp:
-      bAccidentalKind = bsrNote::kAccidentalQuarterSharp;
+    case msrAccidentalKind::kAccidentalNaturalSharp:
       break;
-
-    case kAccidentalThreeQuartersFlat:
-      bAccidentalKind = bsrNote::kAccidentalThreeQuarterFlat;
-      break;
-    case kAccidentalThreeQuartersSharp:
-      bAccidentalKind = bsrNote::kAccidentalThreeQuarterSharp;
+    case msrAccidentalKind::kAccidentalNaturalFlat:
       break;
 
-    case kAccidentalSharpDown:
+    case msrAccidentalKind::kAccidentalQuarterFlat:
+      bAccidentalKind = bsrNote::bsrAccidentalKind::kAccidentalDoubleFlat;
       break;
-    case kAccidentalSharpUp:
+    case msrAccidentalKind::kAccidentalQuarterSharp:
+      bAccidentalKind = bsrNote::bsrAccidentalKind::kAccidentalQuarterSharp;
       break;
-    case kAccidentalNaturalDown:
+
+    case msrAccidentalKind::kAccidentalThreeQuartersFlat:
+      bAccidentalKind = bsrNote::bsrAccidentalKind::kAccidentalThreeQuarterFlat;
       break;
-    case kAccidentalNaturalUp:
+    case msrAccidentalKind::kAccidentalThreeQuartersSharp:
+      bAccidentalKind = bsrNote::bsrAccidentalKind::kAccidentalThreeQuarterSharp;
       break;
-    case kAccidentalFlatDown:
+
+    case msrAccidentalKind::kAccidentalSharpDown:
       break;
-    case kAccidentalFlatUp:
+    case msrAccidentalKind::kAccidentalSharpUp:
       break;
-    case kAccidentalTripleSharp:
+    case msrAccidentalKind::kAccidentalNaturalDown:
       break;
-    case kAccidentalTripleFlat:
+    case msrAccidentalKind::kAccidentalNaturalUp:
       break;
-    case kAccidentalSlashQuarterSharp:
+    case msrAccidentalKind::kAccidentalFlatDown:
       break;
-    case kAccidentalSlashSharp:
+    case msrAccidentalKind::kAccidentalFlatUp:
       break;
-    case kAccidentalSlashFlat:
+    case msrAccidentalKind::kAccidentalTripleSharp:
       break;
-    case kAccidentalDoubleSlashFlat:
+    case msrAccidentalKind::kAccidentalTripleFlat:
       break;
-    case kAccidentalSharp_1:
+    case msrAccidentalKind::kAccidentalSlashQuarterSharp:
       break;
-    case kAccidentalSharp_2:
+    case msrAccidentalKind::kAccidentalSlashSharp:
       break;
-    case kAccidentalSharp_3:
+    case msrAccidentalKind::kAccidentalSlashFlat:
       break;
-    case kAccidentalSharp_5:
+    case msrAccidentalKind::kAccidentalDoubleSlashFlat:
       break;
-    case kAccidentalFlat_1:
+    case msrAccidentalKind::kAccidentalSharp_1:
       break;
-    case kAccidentalFlat_2:
+    case msrAccidentalKind::kAccidentalSharp_2:
       break;
-    case kAccidentalFlat_3:
+    case msrAccidentalKind::kAccidentalSharp_3:
       break;
-    case kAccidentalFlat_4:
+    case msrAccidentalKind::kAccidentalSharp_5:
       break;
-    case kAccidentalSori:
+    case msrAccidentalKind::kAccidentalFlat_1:
       break;
-    case kAccidentalKoron:
+    case msrAccidentalKind::kAccidentalFlat_2:
+      break;
+    case msrAccidentalKind::kAccidentalFlat_3:
+      break;
+    case msrAccidentalKind::kAccidentalFlat_4:
+      break;
+    case msrAccidentalKind::kAccidentalSori:
+      break;
+    case msrAccidentalKind::kAccidentalKoron:
 
       break;
-    case kAccidentalOther:
+    case msrAccidentalKind::kAccidentalOther:
       break;
   } // switch
 
@@ -3100,7 +3100,7 @@ void msr2bsrTranslator::visitEnd (S_msrMeasure& elt)
 
   switch (elt->getMeasureKind ()) {
 
-    case kMeasureKindUnknown:
+    case msrMeasureKind::kMeasureKindUnknown:
       {
         stringstream s;
 
@@ -3121,33 +3121,33 @@ void msr2bsrTranslator::visitEnd (S_msrMeasure& elt)
       }
       break;
 
-    case kMeasureKindRegular:
+    case msrMeasureKind::kMeasureKindRegular:
       doCreateABarCheck = true;
       break;
 
-    case kMeasureKindAnacrusis:
+    case msrMeasureKind::kMeasureKindAnacrusis:
       doCreateABarCheck = true;
       break;
 
-    case kMeasureKindIncompleteStandalone:
+    case msrMeasureKind::kMeasureKindIncompleteStandalone:
       doCreateABarCheck = true;
       break;
-    case kMeasureKindIncompleteLastInRepeat:
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeat:
       doCreateABarCheck = true;
       break;
-    case kMeasureKindIncompleteAfterRepeat:
-      doCreateABarCheck = true;
-      break;
-
-    case kMeasureKindOvercomplete:
+    case msrMeasureKind::kMeasureKindIncompleteAfterRepeat:
       doCreateABarCheck = true;
       break;
 
-    case kMeasureKindCadenza:
+    case msrMeasureKind::kMeasureKindOvercomplete:
       doCreateABarCheck = true;
       break;
 
-    case kMeasureKindEmpty:
+    case msrMeasureKind::kMeasureKindCadenza:
+      doCreateABarCheck = true;
+      break;
+
+    case msrMeasureKind::kMeasureKindEmpty:
       // JMI
       break;
   } // switch
@@ -3300,14 +3300,14 @@ void msr2bsrTranslator::visitStart (S_msrSyllable& elt)
           words =
             msrWords::create (
               inputLineNumber,
-              k_NoPlacement,                // default value
+              msrPlacementKind::k_NoPlacement,                // default value
               wordsValue,
-              kJustifyNone,                  // default value
-              kVerticalAlignmentNone,        // default value
-              kFontStyleNone,                // default value
+              msrJustifyKind::kJustifyNone,                  // default value
+              msrVerticalAlignmentKind::kVerticalAlignmentNone,        // default value
+              msrFontStyleKind::kFontStyleNone,                // default value
               msrFontSize::create (
-                kFontSizeNone), // default value
-              kFontWeightNone,               // default value
+                msrFontSizeKind::kFontSizeNone), // default value
+              msrFontWeightKind::kFontWeightNone,               // default value
               msrWords::kItLang);            // default value
 
         // append it to the current non-grace note
@@ -3793,13 +3793,13 @@ void msr2bsrTranslator::visitStart (S_msrSpanner& elt)
 #endif
 
   switch (elt->getSpannerTypeKind ()) {
-    case kSpannerTypeStart:
+    case msrSpannerTypeKind::kSpannerTypeStart:
       break;
-    case kSpannerTypeStop:
+    case msrSpannerTypeKind::kSpannerTypeStop:
       break;
-    case kSpannerTypeContinue:
+    case msrSpannerTypeKind::kSpannerTypeContinue:
       break;
-    case k_NoSpannerType:
+    case msrSpannerTypeKind::k_NoSpannerType:
       break;
   } // switch
 
@@ -5044,20 +5044,20 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
 
   // handle editorial accidentals
   switch (fCurrentNonGraceNoteClone->getEditorialAccidentalKind ()) {
-    case msrNote::kEditorialAccidentalYes:
+    case msrNote::msrEditorialAccidentalKind::kEditorialAccidentalYes:
       fResultingBsrScore->
         // this score needs the 'editorial accidental' Scheme function
         setEditorialAccidentalSchemeFunctionIsNeeded ();
       break;
-    case msrNote::kEditorialAccidentalNo:
+    case msrNote::msrEditorialAccidentalKind::kEditorialAccidentalNo:
       break;
   } // switch
 
   // handle cautionary accidentals
   switch (fCurrentNonGraceNoteClone->getCautionaryAccidentalKind ()) {
-    case msrNote::kCautionaryAccidentalYes:
+    case msrNote::msrCautionaryAccidentalKind::kCautionaryAccidentalYes:
       break;
-    case msrNote::kCautionaryAccidentalNo:
+    case msrNote::msrCautionaryAccidentalKind::kCautionaryAccidentalNo:
       break;
   } // switch
 

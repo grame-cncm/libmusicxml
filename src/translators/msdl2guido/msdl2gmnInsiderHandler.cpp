@@ -448,7 +448,7 @@ S_msdl2gmnInsiderOahGroup msdl2gmnInsiderOahGroup::create ()
 msdl2gmnInsiderOahGroup::msdl2gmnInsiderOahGroup ()
   : oahGroup (
     "msdl2gmn",
-    "hx2g", "help-msdl2gmn",
+    "hmsdl2g", "help-msdl2gmn",
 R"(Options that are used by msdl2gmn are grouped here.)",
     oahElementVisibilityKind::kElementVisibilityWhole)
 {

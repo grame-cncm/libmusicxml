@@ -37,7 +37,7 @@ namespace MusicXML2
 
 // XMLLang
 //______________________________________________________________________________
-enum msrXMLLangKind {
+enum class msrXMLLangKind {
   kXMLLangIt, kXMLLangEn, kXMLLangDe, kXMLLangFr, kXMLLangJa, kXMLLangLa
 };
 
@@ -50,7 +50,7 @@ string msrXMLLangKindAsString (
 
 // diatonic pitches
 //______________________________________________________________________________
-enum msrDiatonicPitchKind {
+enum class msrDiatonicPitchKind {
   k_NoDiatonicPitch,
 
   // starting at C for LilyPond relative octave calculations
@@ -67,12 +67,14 @@ string msrDiatonicPitchKindAsString (
 
 // alterations
 //______________________________________________________________________________
-enum msrAlterationKind {
+enum class msrAlterationKind {
   k_NoAlteration,
 
-  kTripleFlat, kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
-  kNatural,
-  kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp, kTripleSharp
+  kAlterationTripleFlat, kAlterationDoubleFlat, kAlterationSesquiFlat,
+  kAlterationFlat, kAlterationSemiFlat,
+  kAlterationNatural,
+  kAlterationSemiSharp, kAlterationSharp, kAlterationSesquiSharp,
+  kAlterationDoubleSharp, kAlterationTripleSharp
 };
 
 EXP msrAlterationKind msrAlterationKindFromMusicXMLAlter (
@@ -86,7 +88,7 @@ string msrAlterationKindAsString (
 
 // accidentals
 //______________________________________________________________________________
-enum msrAccidentalKind {
+enum class msrAccidentalKind {
   kAccidentalNone,
 
   kAccidentalSharp, kAccidentalNatural,
@@ -102,7 +104,7 @@ enum msrAccidentalKind {
   kAccidentalFlatDown, kAccidentalFlatUp,
   kAccidentalTripleSharp, kAccidentalTripleFlat,
   kAccidentalSlashQuarterSharp, kAccidentalSlashSharp,
-  kAccidentalSlashFlat,kAccidentalDoubleSlashFlat,
+  kAccidentalSlashFlat, kAccidentalDoubleSlashFlat,
   kAccidentalSharp_1, kAccidentalSharp_2,
   kAccidentalSharp_3,  kAccidentalSharp_5,
   kAccidentalFlat_1, kAccidentalFlat_2,
@@ -121,7 +123,7 @@ string msrAccidentalKindAsMusicXMLString (
 // editorial accidentals
 //______________________________________________________________________________
 
-enum msrEditorialAccidentalKind {
+enum class msrEditorialAccidentalKind {
   kEditorialAccidentalYes, kEditorialAccidentalNo
 };
 
@@ -131,7 +133,7 @@ string msrEditorialAccidentalKindAsString (
 // cautionary accidentals
 //______________________________________________________________________________
 
-enum msrCautionaryAccidentalKind {
+enum class msrCautionaryAccidentalKind {
   kCautionaryAccidentalYes, kCautionaryAccidentalNo
 };
 
@@ -140,50 +142,50 @@ string msrCautionaryAccidentalKindAsString (
 
 // semi tones pitches
 //______________________________________________________________________________
-enum msrSemiTonesPitchKind {
-  k_NoSemiTonesPitch_STP,
+enum class msrSemiTonesPitchKind {
+  kSTP_NoSemiTonesPitch,
 
-  kC_TripleFlat_STP,
-  kC_DoubleFlat_STP, kC_Flat_STP,
-  kC_Natural_STP,
-  kC_Sharp_STP, kC_DoubleSharp_STP,
-  kC_TripleSharp_STP,
+  kSTP_C_TripleFlat,
+  kSTP_C_DoubleFlat, kSTP_C_Flat,
+  kSTP_C_Natural,
+  kSTP_C_Sharp, kSTP_C_DoubleSharp,
+  kSTP_C_TripleSharp,
 
-  kD_TripleFlat_STP,
-  kD_DoubleFlat_STP, kD_Flat_STP,
-  kD_Natural_STP,
-  kD_Sharp_STP, kD_DoubleSharp_STP,
-  kD_TripleSharp_STP,
+  kSTP_D_TripleFlat,
+  kSTP_D_DoubleFlat, kSTP_D_Flat,
+  kSTP_D_Natural,
+  kSTP_D_Sharp, kSTP_D_DoubleSharp,
+  kSTP_D_TripleSharp,
 
-  kE_TripleFlat_STP,
-  kE_DoubleFlat_STP, kE_Flat_STP,
-  kE_Natural_STP,
-  kE_Sharp_STP, kE_DoubleSharp_STP,
-  kE_TripleSharp_STP,
+  kSTP_E_TripleFlat,
+  kSTP_E_DoubleFlat, kSTP_E_Flat,
+  kSTP_E_Natural,
+  kSTP_E_Sharp, kSTP_E_DoubleSharp,
+  kSTP_E_TripleSharp,
 
-  kF_TripleFlat_STP,
-  kF_DoubleFlat_STP, kF_Flat_STP,
-  kF_Natural_STP,
-  kF_Sharp_STP, kF_DoubleSharp_STP,
-  kF_TripleSharp_STP,
+  kSTP_F_TripleFlat,
+  kSTP_F_DoubleleFlat, kSTP_F_Flat,
+  kSTP_F_Natural,
+  kSTP_F_Sharp, kSTP_F_DoubleSharp,
+  kSTP_F_TripleSharp,
 
-  kG_TripleFlat_STP,
-  kG_DoubleFlat_STP, kG_Flat_STP,
-  kG_Natural_STP,
-  kG_Sharp_STP, kG_DoubleSharp_STP,
-  kG_TripleSharp_STP,
+  kSTP_G_TripleFlat,
+  kSTP_G_DoubleFlat, kSTP_G_Flat,
+  kSTP_G_Natural,
+  kSTP_G_Sharp, kSTP_G_DoubleSharp,
+  kSTP_G_TripleSharp,
 
-  kA_TripleFlat_STP,
-  kA_DoubleFlat_STP, kA_Flat_STP,
-  kA_Natural_STP,
-  kA_Sharp_STP, kA_DoubleSharp_STP,
-  kA_TripleSharp_STP,
+  kSTP_A_TripleFlat,
+  kSTP_A_DoubleFlat, kSTP_A_Flat,
+  kSTP_A_Natural,
+  kSTP_A_Sharp, kSTP_A_DoubleSharp,
+  kSTP_A_TripleSharp,
 
-  kB_TripleFlat_STP,
-  kB_DoubleFlat_STP, kB_Flat_STP,
-  kB_Natural_STP,
-  kB_Sharp_STP, kB_DoubleSharp_STP,
-  kB_TripleSharp_STP
+  kSTP_B_TripleFlat,
+  kSTP_B_DoubleFlat, kSTP_B_Flat,
+  kSTP_B_Natural,
+  kSTP_B_Sharp, kSTP_B_DoubleSharp,
+  kSTP_B_TripleSharp
 };
 
 string msrSemiTonesPitchKindAsString (
@@ -191,52 +193,52 @@ string msrSemiTonesPitchKindAsString (
 
 // quarter tones pitches
 //______________________________________________________________________________
-enum msrQuarterTonesPitchKind {
-  k_NoQuarterTonesPitch_QTP,
+enum class msrQuarterTonesPitchKind {
+  k_NoQuarterTonesPitch,
 
-  k_Rest_QTP, k_Skip_QTP,
+  kQTP_Rest, kQTP_Skip,
 
-  kA_TripleFlat_QTP,
-  kA_DoubleFlat_QTP, kA_SesquiFlat_QTP, kA_Flat_QTP, kA_SemiFlat_QTP,
-  kA_Natural_QTP,
-  kA_SemiSharp_QTP, kA_Sharp_QTP, kA_SesquiSharp_QTP, kA_DoubleSharp_QTP,
-  kA_TripleSharp_QTP,
+  kQTP_A_TripleFlat,
+  kQTP_A_DoubleFlat, kQTP_A_SesquiFlat, kQTP_A_Flat, kQTP_A_SemiFlat,
+  kQTP_A_Natural,
+  kQTP_A_SemiSharp, kQTP_A_Sharp, kQTP_A_SesquiSharp, kQTP_A_DoubleSharp,
+  kQTP_A_TripleSharp,
 
-  kB_TripleFlat_QTP,
-  kB_DoubleFlat_QTP, kB_SesquiFlat_QTP, kB_Flat_QTP, kB_SemiFlat_QTP,
-  kB_Natural_QTP,
-  kB_SemiSharp_QTP, kB_Sharp_QTP, kB_SesquiSharp_QTP, kB_DoubleSharp_QTP,
-  kB_TripleSharp_QTP,
+  kQTP_B_TripleFlat,
+  kQTP_B_DoubleFlat, kQTP_B_SesquiFlat, kQTP_B_Flat, kQTP_B_SemiFlat,
+  kQTP_B_Natural,
+  kQTP_B_SemiSharp, kQTP_B_Sharp, kQTP_B_SesquiSharp, kQTP_B_DoubleSharp,
+  kQTP_B_TripleSharp,
 
-  kC_TripleFlat_QTP,
-  kC_DoubleFlat_QTP, kC_SesquiFlat_QTP, kC_Flat_QTP, kC_SemiFlat_QTP,
-  kC_Natural_QTP,
-  kC_SemiSharp_QTP, kC_Sharp_QTP, kC_SesquiSharp_QTP, kC_DoubleSharp_QTP,
-  kC_TripleSharp_QTP,
+  kQTP_C_TripleFlat,
+  kQTP_C_DoubleFlat, kQTP_C_SesquiFlat, kQTP_C_Flat, kQTP_C_SemiFlat,
+  kQTP_C_Natural,
+  kQTP_C_SemiSharp, kQTP_C_Sharp, kQTP_C_SesquiSharp, kQTP_C_DoubleSharp,
+  kQTP_C_TripleSharp,
 
-  kD_TripleFlat_QTP,
-  kD_DoubleFlat_QTP, kD_SesquiFlat_QTP, kD_Flat_QTP, kD_SemiFlat_QTP,
-  kD_Natural_QTP,
-  kD_SemiSharp_QTP, kD_Sharp_QTP, kD_SesquiSharp_QTP, kD_DoubleSharp_QTP,
-  kD_TripleSharp_QTP,
+  kQTP_D_TripleFlat,
+  kQTP_D_DoubleFlat, kQTP_D_SesquiFlat, kQTP_D_Flat, kQTP_D_SemiFlat,
+  kQTP_D_Natural,
+  kQTP_D_SemiSharp, kQTP_D_Sharp, kQTP_D_SesquiSharp, kQTP_D_DoubleSharp,
+  kQTP_D_TripleSharp,
 
-  kE_TripleFlat_QTP,
-  kE_DoubleFlat_QTP, kE_SesquiFlat_QTP, kE_Flat_QTP, kE_SemiFlat_QTP,
-  kE_Natural_QTP,
-  kE_SemiSharp_QTP, kE_Sharp_QTP, kE_SesquiSharp_QTP, kE_DoubleSharp_QTP,
-  kE_TripleSharp_QTP,
+  kQTP_E_TripleFlat,
+  kQTP_E_DoubleFlat, kQTP_E_SesquiFlat, kQTP_E_Flat, kQTP_E_SemiFlat,
+  kQTP_E_Natural,
+  kQTP_E_SemiSharp, kQTP_E_Sharp, kQTP_E_SesquiSharp, kQTP_E_DoubleSharp,
+  kQTP_E_TripleSharp,
 
-  kF_TripleFlat_QTP,
-  kF_DoubleFlat_QTP, kF_SesquiFlat_QTP, kF_Flat_QTP, kF_SemiFlat_QTP,
-  kF_Natural_QTP,
-  kF_SemiSharp_QTP, kF_Sharp_QTP, kF_SesquiSharp_QTP, kF_DoubleSharp_QTP,
-  kF_TripleSharp_QTP,
+  kQTP_F_TripleFlat,
+  kQTP_F_DoubleFlat, kQTP_F_SesquiFlat, kQTP_F_Flat, kQTP_F_SemiFlat,
+  kQTP_F_Natural,
+  kQTP_F_SemiSharp, kQTP_F_Sharp, kQTP_F_SesquiSharp, kQTP_F_DoubleSharp,
+  kQTP_F_TripleSharp,
 
-  kG_TripleFlat_QTP,
-  kG_DoubleFlat_QTP, kG_SesquiFlat_QTP, kG_Flat_QTP, kG_SemiFlat_QTP,
-  kG_Natural_QTP,
-  kG_SemiSharp_QTP, kG_Sharp_QTP, kG_SesquiSharp_QTP, kG_DoubleSharp_QTP,
-  kG_TripleSharp_QTP
+  kQTP_G_TripleFlat,
+  kQTP_G_DoubleFlat, kQTP_G_SesquiFlat, kQTP_G_Flat, kQTP_G_SemiFlat,
+  kQTP_G_Natural,
+  kQTP_G_SemiSharp, kQTP_G_Sharp, kQTP_G_SesquiSharp, kQTP_G_DoubleSharp,
+  kQTP_G_TripleSharp
 };
 
 EXP string msrQuarterTonesPitchKindAsString (
@@ -272,8 +274,8 @@ EXP msrSemiTonesPitchKind semiTonesPitchKindFromString (
 
 // alterations preferences
 //______________________________________________________________________________
-enum msrAlterationPreferenceKind {
-  kPreferFlat, kPreferNatural, kPreferSharp
+enum class msrAlterationPreferenceKind {
+  kAlterationPreferenceFlat, kAlterationPreferenceNatural, kAlterationPreferenceSharp
 };
 
 EXP msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
@@ -350,8 +352,8 @@ EXP string noteKindAsString (
 // chords
 //______________________________________________________________________________
 
-enum msrChordKind {
-  k_NoChord,
+enum class msrChordInKind {
+  k_NoChordIn,
 
   kChordInMeasure,
   kChordInTuplet,
@@ -359,20 +361,20 @@ enum msrChordKind {
 };
 
 EXP string chordKindAsString (
-  msrChordKind chordKind);
+  msrChordInKind chordKind);
 
 // tuplets
 //______________________________________________________________________________
 
-enum msrTupletKind {
-  k_NoTuplet,
+enum class msrTupletInKind {
+  k_NoTupletIn,
 
   kTupletInMeasure,
   kTupletInTuplet
 };
 
 EXP string tupletKindAsString (
-  msrTupletKind tupletKind);
+  msrTupletInKind tupletKind);
 
 // beams
 //______________________________________________________________________________
@@ -397,7 +399,7 @@ EXP string tupletKindAsString (
     If not, you would use "begin" followed by "end".
 */
 
-enum msrBeamKind {
+enum class msrBeamKind {
   k_NoBeam,
 
   kBeamBegin, kBeamContinue, kBeamEnd,
@@ -410,7 +412,7 @@ EXP string msrBeamKindAsString (
 // ties
 // ------------------------------------------------------
 
-enum msrTieKind {
+enum class msrTieKind {
   kTieNone,
   kTieStart, kTieContinue, kTieStop
 };
@@ -421,12 +423,12 @@ string msrTieKindAsString (
 // slurs
 // ------------------------------------------------------
 
-enum msrSlurTypeKind {
+enum class msrSlurTypeKind {
   k_NoSlur,
 
-  kRegularSlurStart, kPhrasingSlurStart,
-  kSlurContinue,
-  kRegularSlurStop, kPhrasingSlurStop
+  kSlurTypeRegularStart, kSlurTypePhrasingStart,
+  kSlurTypeContinue,
+  kSlurTypeRegularStop, kSlurTypePhrasingStop
 };
 
 string msrSlurTypeKindAsString (
@@ -506,7 +508,7 @@ EXP msrIntervalKind intervalBetweenSemiTonesPitches (
 // staves
 // ------------------------------------------------------
 
-enum msrStaffKind {
+enum class msrStaffKind {
   kStaffRegular,
   kStaffTablature,
   kStaffHarmony,
@@ -520,7 +522,7 @@ string msrStaffKindAsString (
 
 // voices
 //______________________________________________________________________________
-enum msrVoiceKind {
+enum class msrVoiceKind {
   kVoiceRegular,
   kVoiceHarmony,    // for MusicXML <harmony/>, LilyPond ChordNames
   kVoiceFiguredBass // for MusicXML <figured-bass/>, LilyPond FiguredBass
@@ -531,7 +533,7 @@ string msrVoiceKindAsString (
 
 // measures
 //______________________________________________________________________________
-enum msrMeasureKind {
+enum class msrMeasureKind {
   kMeasureKindUnknown,
   kMeasureKindRegular,
   kMeasureKindAnacrusis,
@@ -550,7 +552,7 @@ enum msrMeasureKind {
 string msrMeasureKindAsString (
   msrMeasureKind measureKind);
 
-enum msrMeasureImplicitKind {
+enum class msrMeasureImplicitKind {
   kMeasureImplicitKindYes,
   kMeasureImplicitKindNo
 };
@@ -601,19 +603,19 @@ void initializeClefKinds ();
 // keys
 //______________________________________________________________________________
 
-enum msrKeyKind {
-  kTraditionalKind, kHumdrumScotKind
+enum class msrKeyKind {
+  kKeyTraditional, kKeyHumdrumScot
 };
 
 string msrKeyKindAsString (
   msrKeyKind keyKind);
 
-enum msrModeKind {
+enum class msrModeKind {
   k_NoMode,
 
-  kMajorMode, kMinorMode,
-  kIonianMode, kDorianMode, kPhrygianMode, kLydianMode,
-  kMixolydianMode, kAeolianMode, kLocrianMode
+  kModeMajor, kModeMinor,
+  kModeIonian, kModeDorian, kModePhrygian, kModeLydian,
+  kModeMixolydian, kModeAeolian, kModeLocrian
 };
 
 string msrModeKindAsString (
@@ -625,7 +627,7 @@ msrModeKind modeKindFromString (
 
 // times
 //______________________________________________________________________________
-enum msrTimeSymbolKind {
+enum class msrTimeSymbolKind {
   kTimeSymbolNone,
   kTimeSymbolCommon,
   kTimeSymbolCut,
@@ -638,7 +640,7 @@ enum msrTimeSymbolKind {
 string msrTimeSymbolKindAsString (
   msrTimeSymbolKind timeSymbolKind);
 
-enum msrTimeSeparatorKind {
+enum class msrTimeSeparatorKind {
   kTimeSeparatorNone,
   kTimeSeparatorHorizontal,
   kTimeSeparatorDiagonal,
@@ -649,7 +651,7 @@ enum msrTimeSeparatorKind {
 string msrTimeSeparatorKindAsString (
   msrTimeSeparatorKind timeSeparatorKind);
 
-enum msrTimeRelationKind {
+enum class msrTimeRelationKind {
   kTimeRelationNone,
   kTimeRelationParentheses,
   kTimeRelationBracket,
@@ -664,9 +666,9 @@ string msrTimeRelationKindAsString (
 
 // repeats
 //______________________________________________________________________________
-enum msrRepeatEndingKind {
-  kHookedEnding,
-  kHooklessEnding
+enum class msrRepeatEndingKind {
+  kEndingHooked,
+  kEndingHookless
 };
 
 string msrRepeatEndingKindAsString (
@@ -840,6 +842,24 @@ EXP msrOctaveKind msrOctaveKindFromCommasOrQuotes (
 
 string msrOctaveKindAsString (msrOctaveKind octaveKind);
 
+// octave entry
+//______________________________________________________________________________
+enum class msrOctaveEntryKind {
+  kOctaveEntryRelative,
+  kOctaveEntryAbsolute,
+  kOctaveEntryFixed
+};
+
+string msrOctaveEntryKindAsString (
+  msrOctaveEntryKind octaveEntryKind);
+
+extern map<string, msrOctaveEntryKind>
+  gGlobalMsrOctaveEntryKindsMap;
+
+string existingMsrOctaveEntryKinds (unsigned int namesListMaxLength);
+
+void initializeMsrOctaveEntryKindsMap ();
+
 // durations
 //______________________________________________________________________________
 enum class msrDurationKind {
@@ -910,8 +930,14 @@ class EXP msrDottedDuration
     // set and get
     // ------------------------------------------------------
 
+    void                  setDurationKind (msrDurationKind durationKind)
+                              { fDurationKind = durationKind; }
+
     msrDurationKind       getDurationKind () const
                               { return fDurationKind; }
+
+    void                  setDotsNumber (int dotsNumber)
+                              { fDotsNumber = dotsNumber; }
 
     int                   getDotsNumber () const
                               { return fDotsNumber; }
@@ -923,6 +949,9 @@ class EXP msrDottedDuration
 
     void                  incrDotsNumber ()
                               { ++fDotsNumber; }
+
+    rational              dottedDurationAsWholeNotes_FOR_TEMPO (
+                            int inputLineNumber) const;
 
     rational              dottedDurationAsWholeNotes (
                             int inputLineNumber) const;
@@ -1108,8 +1137,8 @@ EXP ostream& operator<< (ostream& os, const S_msrQuarterTonesPitchAndOctave& elt
 // length units
 //______________________________________________________________________________
 
-enum msrLengthUnitKind {
-  kInchUnit, kCentimeterUnit, kMillimeterUnit
+enum class msrLengthUnitKind {
+  kUnitInch, kUnitCentimeter, kUnitMillimeter
 };
 
 string msrLengthUnitKindAsString (
@@ -1211,8 +1240,8 @@ EXP ostream& operator<< (ostream& os, const S_msrLength& elt);
 // margins types
 //______________________________________________________________________________
 
-enum msrMarginTypeKind {
-  kOddMargin, kEvenMargin, kBothMargins
+enum class msrMarginTypeKind {
+  kMarginOdd, kMarginEven, kMarginBoth
 };
 
 string msrMarginTypeKindAsString (
@@ -1419,7 +1448,7 @@ EXP ostream& operator<< (ostream& os, const S_msrMarginsGroup& elt);
 // data types
 // ------------------------------------------------------
 
-enum msrFontSizeKind {
+enum class msrFontSizeKind {
   kFontSizeNone,
   kFontSizeXXSmall, kFontSizeXSmall, kFontSizeSmall,
   kFontSizeMedium,
@@ -1493,7 +1522,7 @@ class EXP msrFontSize : public smartable
 typedef SMARTP<msrFontSize> S_msrFontSize;
 EXP ostream& operator<< (ostream& os, const S_msrFontSize& elt);
 
-enum msrFontStyleKind {
+enum class msrFontStyleKind {
   kFontStyleNone,
   kFontStyleNormal, KFontStyleItalic
 };
@@ -1505,7 +1534,7 @@ msrFontStyleKind msrFontStyleKindFromString (
 string msrFontStyleKindAsString (
   msrFontStyleKind fontStyleKind);
 
-enum msrFontWeightKind {
+enum class msrFontWeightKind {
   kFontWeightNone,
   kFontWeightNormal, kFontWeightBold
 };
@@ -1527,7 +1556,7 @@ string msrFontWeightKindAsString (
   indicates horizontal alignment as well as justification.
 */
 
-enum msrJustifyKind {
+enum class msrJustifyKind {
   kJustifyNone,
   kJustifyLeft, kJustifyCenter, kJustifyRight
 };
@@ -1539,7 +1568,7 @@ msrJustifyKind msrJustifyKindFromString (
 string msrJustifyKindAsString (
   msrJustifyKind justifyKind);
 
-enum msrHorizontalAlignmentKind {
+enum class msrHorizontalAlignmentKind {
   kHorizontalAlignmentNone,
   kHorizontalAlignmentLeft, kHorizontalAlignmentCenter, kHorizontalAlignmentRight
 };
@@ -1551,7 +1580,7 @@ msrHorizontalAlignmentKind msrHorizontalAlignmentKindFromString (
 string msrHorizontalAlignmentKindAsString (
   msrHorizontalAlignmentKind horizontalAlignmentKind);
 
-enum msrVerticalAlignmentKind {
+enum class msrVerticalAlignmentKind {
   kVerticalAlignmentNone,
   kVerticalAlignmentTop, kVerticalAlignmentMiddle, kVerticalAlignmentBottom
 };
@@ -1565,7 +1594,7 @@ string msrVerticalAlignmentKindAsString (
 
 // direction
 //______________________________________________________________________________
-enum msrDirectionKind {
+enum class msrDirectionKind {
   kDirectionNone,
   kDirectionUp, kDirectionDown
 };
@@ -1575,7 +1604,7 @@ string msrDirectionKindAsString (
 
 // print object
 //______________________________________________________________________________
-enum msrPrintObjectKind {
+enum class msrPrintObjectKind {
   kPrintObjectNone,
   kPrintObjectYes,
   kPrintObjectNo
@@ -1590,7 +1619,7 @@ string msrPrintObjectKindAsString (
 
 // placement
 //______________________________________________________________________________
-enum msrPlacementKind {
+enum class msrPlacementKind {
   k_NoPlacement,
 
   kPlacementAbove, kPlacementBelow
@@ -1606,7 +1635,7 @@ string msrPlacementKindAsString (
 // dynamics
 // ------------------------------------------------------
 
-enum msrDynamicsKind {
+enum class msrDynamicsKind {
   k_NoDynamics,
 
   kDynamicsF, kDynamicsFF, kDynamicsFFF,
@@ -1627,7 +1656,7 @@ msrDynamicsKind dynamicsFromString (string theString);
 
 // measure style
 //______________________________________________________________________________
-enum msrSlashTypeKind {
+enum class msrSlashTypeKind {
   k_NoSlashType,
 
   kSlashTypeStart, kSlashTypeStop
@@ -1636,7 +1665,7 @@ enum msrSlashTypeKind {
 string msrSlashTypeKindAsString (
   msrSlashTypeKind slashTypeKind);
 
-enum msrUseDotsKind {
+enum class msrUseDotsKind {
   k_NoUseDots,
 
   kUseDotsYes, kUseDotsNo
@@ -1649,7 +1678,7 @@ msrUseDotsKind msrUseDotsFromString (
 string msrUseDotsKindAsString (
   msrUseDotsKind useDotsKind);
 
-enum msrSlashUseStemsKind {
+enum class msrSlashUseStemsKind {
   k_NoSlashUseStems,
 
   kSlashUseStemsYes, kSlashUseStemsNo
@@ -1660,7 +1689,7 @@ string msrSlashUseStemsKindAsString (
 
 // line types
 //______________________________________________________________________________
-enum msrLineTypeKind {
+enum class msrLineTypeKind {
   kLineTypeSolid, kLineTypeDashed,
   kLineTypeDotted, kLineTypeWavy
 };
@@ -1670,7 +1699,7 @@ string msrLineTypeKindAsString (
 
 // tremolo types
 //______________________________________________________________________________
-enum msrTremoloTypeKind {
+enum class msrTremoloTypeKind {
   k_NoTremoloType,
 
   kTremoloTypeSingle, kTremoloTypeStart, kTremoloTypeStop
@@ -1681,7 +1710,7 @@ string msrTremoloTypeKindAsString (
 
 // technical types
 //______________________________________________________________________________
-enum msrTechnicalTypeKind { // JMI ???
+enum class msrTechnicalTypeKind { // JMI ???
   k_NoTechnicalType,
 
   kTechnicalTypeStart, kTechnicalTypeStop
@@ -1692,7 +1721,7 @@ string msrTechnicalTypeKindAsString (
 
 // spanner types
 //______________________________________________________________________________
-enum msrSpannerTypeKind {
+enum class msrSpannerTypeKind {
   k_NoSpannerType,
 
   kSpannerTypeStart, kSpannerTypeContinue, kSpannerTypeStop
@@ -2307,7 +2336,7 @@ EXP ostream& operator<< (ostream& os, const msrAlphaRGBColor& elt);
 
 // score notation kinds
 //______________________________________________________________________________
-enum msrScoreNotationKind {
+enum class msrScoreNotationKind {
   kScoreNotationWestern,
   kScoreNotationJianpu,
   kScoreNotationDiatonicAccordion

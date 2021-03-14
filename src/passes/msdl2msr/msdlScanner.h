@@ -123,7 +123,6 @@ class msdlScanner : public smartable
     void                  acceptAString ();
 
     void                  acceptAName ();
-    void                  acceptAnIdentifier ();
 
     void                  acceptAnInteger ();
 

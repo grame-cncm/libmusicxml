@@ -68,7 +68,7 @@ msrChord::msrChord (
   msrDurationKind chordGraphicDurationKind)
     : msrTupletElement (inputLineNumber)
 {
-  fChordKind = k_NoChord;
+  fChordKind = msrChordInKind::k_NoChordIn;
 
 // JMI  fChordSoundingWholeNotes = chordSoundingWholeNotes;
   fMeasureElementSoundingWholeNotes = chordSoundingWholeNotes;
@@ -135,14 +135,14 @@ S_msrMeasure msrChord::fetchChordMeasureUpLink () const
   S_msrMeasure result;
 
   switch (fChordKind) {
-    case k_NoChord:
+    case msrChordInKind::k_NoChordIn:
       break;
 
-    case kChordInMeasure:
+    case msrChordInKind::kChordInMeasure:
       result = fChordDirectMeasureUpLink;
       break;
 
-    case kChordInTuplet:
+    case msrChordInKind::kChordInTuplet:
       if (fChordDirectTupletUpLink) {
         result =
           fChordDirectTupletUpLink->
@@ -150,7 +150,7 @@ S_msrMeasure msrChord::fetchChordMeasureUpLink () const
       }
       break;
 
-    case kChordInGraceNotesGroup:
+    case msrChordInKind::kChordInGraceNotesGroup:
       if (fChordDirectGraceNotesGroupUpLink) {
         result =
           fChordDirectGraceNotesGroupUpLink->
@@ -169,17 +169,17 @@ S_msrTuplet msrChord::fetchChordTupletUpLink () const
   S_msrTuplet result;
 
   switch (fChordKind) {
-    case k_NoChord:
+    case msrChordInKind::k_NoChordIn:
       break;
 
-    case kChordInMeasure:
+    case msrChordInKind::kChordInMeasure:
       break;
 
-    case kChordInTuplet:
+    case msrChordInKind::kChordInTuplet:
       result = fChordDirectTupletUpLink;
       break;
 
-    case kChordInGraceNotesGroup:
+    case msrChordInKind::kChordInGraceNotesGroup:
       if (fChordDirectGraceNotesGroupUpLink) {
         result =
           fChordDirectGraceNotesGroupUpLink->
@@ -198,13 +198,13 @@ S_msrGraceNotesGroup msrChord::fetchChordGraceNotesGroupUpLink () const
   S_msrGraceNotesGroup result;
 
   switch (fChordKind) {
-    case k_NoChord:
+    case msrChordInKind::k_NoChordIn:
       break;
-    case kChordInMeasure:
+    case msrChordInKind::kChordInMeasure:
       break;
-    case kChordInTuplet:
+    case msrChordInKind::kChordInTuplet:
       break;
-    case kChordInGraceNotesGroup:
+    case msrChordInKind::kChordInGraceNotesGroup:
       result = fChordDirectGraceNotesGroupUpLink; // JMI
       break;
   } // switch

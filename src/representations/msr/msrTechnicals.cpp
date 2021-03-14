@@ -125,13 +125,13 @@ string msrTechnical::technicalAccidentalMarkKindAsString () const
   string result;
 
   switch (fTechnicalAccidentalMarkKind) {
-    case msrTechnical::kNatural:
+    case msrTechnical::msrAlterationKind::kAlterationNatural:
       result = "natural";
       break;
-    case msrTechnical::kSharp:
+    case msrTechnical::msrAlterationKind::kAlterationSharp:
       result = "sharp";
       break;
-    case msrTechnical::kFlat:
+    case msrTechnical::msrAlterationKind::kAlterationFlat:
       result = "flat";
       break;
   } // switch

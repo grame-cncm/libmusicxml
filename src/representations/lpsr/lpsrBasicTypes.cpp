@@ -584,7 +584,7 @@ string dottedDurationAsLilypondString (
   return
     wholeNotesAsLilypondString (
       inputLineNumber,
-      dottedDuration.dottedDurationAsWholeNotes (
+      dottedDuration.dottedDurationAsWholeNotes_FOR_TEMPO (
         inputLineNumber));
 }
 
@@ -595,7 +595,7 @@ string dottedDurationAsLilypondStringWithoutBackSlash (
   string result =
     wholeNotesAsLilypondString (
       inputLineNumber,
-      dottedDuration.dottedDurationAsWholeNotes (
+      dottedDuration.dottedDurationAsWholeNotes_FOR_TEMPO (
         inputLineNumber));
 
   if (result [0] == '\\') {
@@ -757,92 +757,6 @@ string existingLpsrScoreOutputKinds (unsigned int namesListMaxLength)
         s << " and ";
       }
       else if (count != lpsrScoreOutputKindsMapSize) {
-        s << ", ";
-      }
-    } // for
-  }
-
-  return s.str ();
-}
-
-// octave entry kinds
-//______________________________________________________________________________
-
-map<string, lpsrOctaveEntryKind>
-  gGlobalLpsrOctaveEntryKindsMap;
-
-string lpsrOctaveEntryKindAsString (
-  lpsrOctaveEntryKind octaveEntryKind)
-{
-  string result;
-
-  // no CamelCase here, these strings are used in the command line options
-
-  switch (octaveEntryKind) {
-    case kOctaveEntryRelative: // default value
-      result = "relative";
-      break;
-    case kOctaveEntryAbsolute:
-      result = "absolute";
-      break;
-    case kOctaveEntryFixed:
-      result = "fixed";
-      break;
-  } // switch
-
-  return result;
-}
-
-void initializeLpsrOctaveEntryKindsMap ()
-{
-  // register the LilyPond score output kinds
-  // --------------------------------------
-
-  // no CamelCase here, these strings are used in the command line options
-
-  gGlobalLpsrOctaveEntryKindsMap ["relative"] = kOctaveEntryRelative;
-  gGlobalLpsrOctaveEntryKindsMap ["absolute"] = kOctaveEntryAbsolute;
-  gGlobalLpsrOctaveEntryKindsMap ["fixed"] = kOctaveEntryFixed;
-}
-
-string existingLpsrOctaveEntryKinds (unsigned int namesListMaxLength)
-{
-  stringstream s;
-
-  unsigned int
-    lpsrOctaveEntryKindsMapSize =
-      gGlobalLpsrOctaveEntryKindsMap.size ();
-
-  if (lpsrOctaveEntryKindsMapSize) {
-    unsigned int
-      nextToLast =
-        lpsrOctaveEntryKindsMapSize - 1;
-
-    unsigned int count = 0;
-    unsigned int cumulatedLength = 0;
-
-    for (
-      map<string, lpsrOctaveEntryKind>::const_iterator i =
-        gGlobalLpsrOctaveEntryKindsMap.begin ();
-      i != gGlobalLpsrOctaveEntryKindsMap.end ();
-      ++i
-    ) {
-      string theString = (*i).first;
-
-      ++count;
-
-      cumulatedLength += theString.size ();
-      if (cumulatedLength >= namesListMaxLength) {
-        s << "\n";
-        cumulatedLength = 0;
-      }
-
-      s << theString;
-
-      if (count == nextToLast) {
-        s << " and ";
-      }
-      else if (count != lpsrOctaveEntryKindsMapSize) {
         s << ", ";
       }
     } // for
@@ -1376,7 +1290,7 @@ void initializeLPSRBasicTypes ()
     // LPSR octave entry handling
     // ------------------------------------------------------
 
-    initializeLpsrOctaveEntryKindsMap ();
+    initializeMsrOctaveEntryKindsMap ();
 
     // LPSR accidental styles handling
     // ------------------------------------------------------

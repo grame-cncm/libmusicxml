@@ -45,7 +45,7 @@ msrOrnament::msrOrnament (
 
   fOrnamentPlacementKind = ornamentPlacementKind;
 
-  fOrnamentAccidentalKind = kAccidentalNone;
+  fOrnamentAccidentalKind = msrAccidentalKind::kAccidentalNone;
 }
 
 msrOrnament::~msrOrnament ()

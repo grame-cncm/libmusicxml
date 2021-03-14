@@ -19,7 +19,7 @@
   #include "traceOah.h"
 #endif
 
-#include "version.h"
+#include "versions.h"
 
 #include "generalOah.h"
 
@@ -75,6 +75,10 @@ msdlParser::msdlParser (
     gGlobalMsdl2msrOahGroup->getTraceSyntaxErrorRecoveryDetails ();
 #endif
 
+  // software
+  fSoftware =
+    string ("MSDL compiler ") + versions::msdlVersionStr ();
+
   // user language
   fUserLanguageKind =
     gGlobalMsdl2msrOahGroup->
@@ -89,6 +93,10 @@ msdlParser::msdlParser (
   fPitchesLanguageKind =
     gGlobalMsrOahGroup->
       getMsrQuarterTonesPitchesLanguageKind ();
+
+  // pitches octaves
+  fPitchesOctaveEntryKind =
+    msrOctaveEntryKind::kOctaveEntryRelative; // default value
 
   // input source name
   fInputSourceName = inputSourceName;
@@ -124,6 +132,9 @@ msdlParser::msdlParser (
   // the MSR being built
   fAnacrusis = false;
 
+  fCurrentScoreNumber = 0;
+  fCurrentPartGroupNumber = 0;
+  fCurrentPartNumber = 0;
   fCurrentStaffNumber = 0;
   fCurrentVoiceNumber = 0;
   fCurrentMeasureNumber = 0;
@@ -792,7 +803,7 @@ void msdlParser::createMeasureNumber (
       createMeasureAndAppendItToVoice (
         inputLineNumber,
         s.str (),
-        kMeasureImplicitKindNo);
+        msrMeasureImplicitKind::kMeasureImplicitKindNo);
 }
 
 void msdlParser::createVoiceIfNeeded (int inputLineNumber)
@@ -824,7 +835,7 @@ void msdlParser::createStaffIfNeeded (int inputLineNumber)
     fCurrentStaff =
       msrStaff::create (
         __LINE__,
-        kStaffRegular,
+        msrStaffKind::kStaffRegular,
         ++fCurrentStaffNumber,
         fCurrentPart);
 
@@ -841,10 +852,15 @@ void msdlParser::createPartIfNeeded (int inputLineNumber)
     createPartGroupIfNeeded (inputLineNumber);
 
     // create the part
+    ++fCurrentPartNumber;
+
+    string partName =
+      "Part_" + int2EnglishWord (fCurrentPartNumber);
+
     fCurrentPart =
       msrPart::create (
         inputLineNumber,
-        "Part???",
+        partName,
         fCurrentPartGroup);
 
     // append it to the part group
@@ -877,64 +893,44 @@ void msdlParser::createPartGroupIfNeeded (int inputLineNumber)
 void msdlParser::createScoreIfNeeded (int inputLineNumber)
 {
   if (! fCurrentScore) {
-    // create the score
+    // create the book if needed
     createBookIfNeeded (inputLineNumber);
 
     // create the score
     fCurrentScore =
       msrScore::create (inputLineNumber);
 
-    if (! fMsrIdentification) {
-      // create the identification
-      fMsrIdentification =
-        msrIdentification::create (
-          inputLineNumber);
+    // create the identification if needed
+    createIdentificationIfNeeded (inputLineNumber);
 
-      // register it in the score
-      fCurrentScore->
-        setIdentification (
-          fMsrIdentification);
-
-      // set the identification's software
-      fMsrIdentification->
-        appendSoftware (
-          inputLineNumber,
-          "MSDL compiler");
-    }
-
-    // add the score to the book
-    fCurrentBook->
-      addBookElementToBook (fCurrentScore);
+    // register it in the score
+    fCurrentScore->
+      setIdentification (
+        fMsrIdentification);
   }
+
+  // add the score to the book
+  fCurrentBook->
+    addBookElementToBook (fCurrentScore);
 }
 
 void msdlParser::createIdentificationIfNeeded (int inputLineNumber)
 {
-  // did we handle the Identification already?
   if (! fMsrIdentification) {
 /* JMI
     fParserWaeHandler->
       multipleIdentifications ();
 */
 
-    int inputLineNumber =
-      fScanner.getCurrentLineNumber ();
-
     // create the MSR identification
     fMsrIdentification =
       msrIdentification::create (inputLineNumber);
 
     // append the MSDL compiler as software to it
-    string
-      software =
-        "MSDL compiler"
-          +
-        currentVersionNumber ();
-
     fMsrIdentification->
       msrIdentification::appendSoftware (
         inputLineNumber,
-        software);
+        fSoftware);
 
     // set the encoding date in it
     string
@@ -964,6 +960,332 @@ void msdlParser::createBookIfNeeded (int inputLineNumber)
       msrBook::create (inputLineNumber);
   }
 }
+
+//________________________________________________________________________
+void msdlParser::setCurrentOctaveEntryReference ()
+{
+/*
+
+  switch (gGlobalLilypondGenerationOahGroup->getOctaveEntryKind ()) {
+    case msrOctaveEntryKind::kOctaveEntryRelative:
+      setCurrentOctaveEntryReferenceFromTheLilypondOah ();
+      break;
+
+    case msrOctaveEntryKind::kOctaveEntryAbsolute:
+      fCurrentOctaveEntryReference = nullptr;
+      break;
+
+    case msrOctaveEntryKind::kOctaveEntryFixed:
+      // sanity check
+      msgAssert (
+        __FILE__, __LINE__,
+        gGlobalLilypondGenerationOahGroup->
+        getFixedOctaveEntrySemiTonesPitchAndOctave () != nullptr,
+       "gGlobalLilypondGenerationOahGroup->getFixedOctaveEntrySemiTonesPitchAndOctave () is null");
+
+      fCurrentOctaveEntryReference =
+        msrNote::createNoteFromSemiTonesPitchAndOctave (
+          K_NO_INPUT_LINE_NUMBER,
+          gGlobalLilypondGenerationOahGroup->getFixedOctaveEntrySemiTonesPitchAndOctave ());
+      break;
+  } // switch
+
+
+
+  if (
+    gGlobalLilypondGenerationOahGroup->
+      getRelativeOctaveEntrySemiTonesPitchAndOctave ()
+  ) {
+    // option '-rel, -relative' has been used:
+    fCurrentOctaveEntryReference =
+      msrNote::createNoteFromSemiTonesPitchAndOctave (
+        K_NO_INPUT_LINE_NUMBER,
+        gGlobalLilypondGenerationOahGroup->
+          getRelativeOctaveEntrySemiTonesPitchAndOctave ());
+  }
+  else {
+    fCurrentOctaveEntryReference = nullptr;
+    // the first note in the voice will become the initial reference
+  }
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotesOctaveEntry ()) {
+    gLogStream <<
+      "setCurrentOctaveEntryReferenceFromTheLilypondOah()" <<
+      ", octaveEntryKind is" <<
+      msrOctaveEntryKindAsString (gGlobalLilypondGenerationOahGroup->getOctaveEntryKind ()) <<
+      endl <<
+      "Initial fCurrentOctaveEntryReference is ";
+
+    if (fCurrentOctaveEntryReference) {
+      gLogStream <<
+        "'" <<
+        fCurrentOctaveEntryReference->asString () <<
+        "'";
+    }
+    else {
+      gLogStream << "none";
+    }
+    gLogStream << endl;
+  }
+#endif
+*/
+}
+
+// --------------------------------------------------------------------------
+//  msdlParser::lilypondOctaveInRelativeEntryMode
+// --------------------------------------------------------------------------
+
+string msdlParser::lilypondOctaveInRelativeEntryMode (
+  S_msrNote note)
+{
+/*
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+  // generate LilyPond octave relative to fCurrentOctaveEntryReference
+
+  // in MusicXML, octave number is 4 for the octave starting with middle C
+  msrOctaveKind
+    noteAbsoluteOctave =
+      note->getNoteOctaveKind ();
+
+  msrDiatonicPitchKind
+    noteDiatonicPitchKind =
+      note->
+        noteDiatonicPitchKind (
+          inputLineNumber);
+
+  msrDiatonicPitchKind
+    referenceDiatonicPitchKind =
+      fCurrentOctaveEntryReference->
+        noteDiatonicPitchKind (
+          inputLineNumber);
+
+  string
+    referenceDiatonicPitchKindAsString =
+      fCurrentOctaveEntryReference->
+        noteDiatonicPitchKindAsString (
+          inputLineNumber);
+
+  msrOctaveKind
+    referenceAbsoluteOctave =
+      fCurrentOctaveEntryReference->
+        getNoteOctaveKind ();
+
+  / *
+    If no octave changing mark is used on a pitch, its octave is calculated
+    so that the interval with the previous note is less than a fifth.
+    This interval is determined without considering accidentals.
+  * /
+
+  int
+    noteAboluteDiatonicOrdinal =
+      (int) noteAbsoluteOctave * 7 // JMI FOO
+        +
+      noteDiatonicPitchKind - msrDiatonicPitchKind::kDiatonicPitchC,
+
+    referenceAboluteDiatonicOrdinal =
+      (int) referenceAbsoluteOctave * 7 // JMI FOO
+        +
+      referenceDiatonicPitchKind - msrDiatonicPitchKind::kDiatonicPitchC;
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotesOctaveEntry ()) {
+    const unsigned int fieldWidth = 28;
+
+    gLogStream << left <<
+      "lilypondOctaveInRelativeEntryMode() 1" <<
+      endl <<
+
+      setw (fieldWidth) <<
+      "% noteAboluteDiatonicOrdinal" <<
+      " = " <<
+      noteAboluteDiatonicOrdinal <<
+      endl <<
+
+      setw (fieldWidth) <<
+      "% referenceDiatonicPitchAsString" <<
+      " = " <<
+      referenceDiatonicPitchKindAsString <<
+      endl <<
+      setw (fieldWidth) <<
+      "% referenceAbsoluteOctave" <<
+       " = " <<
+      msrOctaveKindAsString (referenceAbsoluteOctave) <<
+      endl <<
+      setw (fieldWidth) <<
+      "% referenceAboluteDiatonicOrdinal" <<
+      " = " <<
+      referenceAboluteDiatonicOrdinal <<
+      endl << endl;
+  }
+#endif
+
+  stringstream s;
+
+  // generate the octaves as needed
+  if (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
+    noteAboluteDiatonicOrdinal -= 4;
+    while (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
+      s << "'";
+      noteAboluteDiatonicOrdinal -= 7;
+    } // while
+  }
+
+  else {
+    noteAboluteDiatonicOrdinal += 4;
+    while (noteAboluteDiatonicOrdinal <= referenceAboluteDiatonicOrdinal) {
+      s << ",";
+      noteAboluteDiatonicOrdinal += 7;
+    } // while
+  }
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotesOctaveEntry ()) {
+    gLogStream <<
+      "lilypondOctaveInRelativeEntryMode() 2" <<
+      ", result = " << s.str () <<
+      endl << endl;
+  }
+#endif
+  return s.str ();
+*/
+
+  return string ("");
+}
+
+// --------------------------------------------------------------------------
+//  msdlParser::lilypondOctaveInFixedEntryMode
+// --------------------------------------------------------------------------
+
+string msdlParser::lilypondOctaveInFixedEntryMode (
+  S_msrNote note)
+{
+/*
+  // generate LilyPond octave relative to fCurrentOctaveEntryReference
+
+  // in MusicXML, octave number is 4 for the octave starting with middle C
+
+  / *
+    Pitches in fixed octave entry mode only need commas or quotes
+    when they are above or below fCurrentOctaveEntryReference,
+    hence when their octave is different that the latter's.
+  * /
+
+  msrOctaveKind
+    noteAbsoluteOctave =
+      note->getNoteOctaveKind ();
+
+  msrOctaveKind
+    referenceAbsoluteOctave =
+      fCurrentOctaveEntryReference->
+        getNoteOctaveKind ();
+
+  int absoluteOctavesDifference =
+    (int) noteAbsoluteOctave - (int) referenceAbsoluteOctave;
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotesOctaveEntry ()) {
+    gLogStream << left <<
+      "% noteAbsoluteOctave = " <<
+      msrOctaveKindAsString (noteAbsoluteOctave) <<
+      ", referenceAbsoluteOctave = " <<
+      msrOctaveKindAsString (referenceAbsoluteOctave) <<
+      ", referenceAbsoluteOctave = " <<
+      absoluteOctavesDifference <<
+      endl;
+  }
+#endif
+
+  stringstream s;
+
+  // generate the octaves as needed
+  switch (absoluteOctavesDifference) {
+    case -12:
+      s << ",,,,,,,,,,,,";
+      break;
+    case -11:
+      s << ",,,,,,,,,,,";
+      break;
+    case -10:
+      s << ",,,,,,,,,,";
+      break;
+    case -9:
+      s << ",,,,,,,,,";
+      break;
+    case -8:
+      s << ",,,,,,,,";
+      break;
+    case -7:
+      s << ",,,,,,,";
+      break;
+    case -6:
+      s << ",,,,,,";
+      break;
+    case -5:
+      s << ",,,,,";
+      break;
+    case -4:
+      s << ",,,,";
+      break;
+    case -3:
+      s << ",,,";
+      break;
+    case -2:
+      s << ",,";
+      break;
+    case -1:
+      s << ",";
+      break;
+    case 0:
+      break;
+    case 1:
+      s << "'";
+      break;
+    case 2:
+      s << "''";
+      break;
+    case 3:
+      s << "'''";
+      break;
+    case 4:
+      s << "''''";
+      break;
+    case 5:
+      s << "'''''";
+      break;
+    case 6:
+      s << "''''''";
+      break;
+    case 7:
+      s << "'''''''";
+      break;
+    case 8:
+      s << "''''''''";
+      break;
+    case 9:
+      s << "'''''''''";
+      break;
+    case 10:
+      s << "''''''''''";
+      break;
+    case 11:
+      s << "'''''''''''";
+      break;
+    case 12:
+      s << "''''''''''''";
+      break;
+    default:
+      s << "!!!";
+  } // switch
+
+  return s.str ();
+  */
+
+  return string ("");
+}
+
 
 // --------------------------------------------------------------------------
 //  msdlParser::parse
@@ -1104,7 +1426,7 @@ void msdlParser::Specification (S_msdlTokenKindsSet stopperTokensSet)
       msdlTokenKind::kTokenPitches,
       "Specification")
   ) {
-	  PitchesLanguage (
+	  Pitches (
       fStructureFIRST
         +
       msdlTokenKindsSet::create ({
@@ -1255,7 +1577,7 @@ void msdlParser::Title (S_msdlTokenKindsSet stopperTokensSet)
 #ifdef TRACING_IS_ENABLED
   if (fTraceSyntax) {
     gLogStream <<
-      "=== parse()" <<
+      "=== Title()" <<
       ", title: \"" << title << "\"" <<
       endl;
   }
@@ -1333,7 +1655,7 @@ void msdlParser::Composer (S_msdlTokenKindsSet stopperTokensSet)
 #ifdef TRACING_IS_ENABLED
   if (fTraceSyntax) {
     gLogStream <<
-      "=== parse()" <<
+      "=== Composer()" <<
       ", composer: \"" << composer << "\"" <<
       endl;
   }
@@ -1410,7 +1732,7 @@ void msdlParser::Opus (S_msdlTokenKindsSet stopperTokensSet)
 #ifdef TRACING_IS_ENABLED
   if (fTraceSyntax) {
     gLogStream <<
-      "=== parse()" <<
+      "=== Opus()" <<
       ", opus: \"" << opus << "\"" <<
       endl;
   }
@@ -1447,6 +1769,157 @@ void msdlParser::Opus (S_msdlTokenKindsSet stopperTokensSet)
 }
 
 // --------------------------------------------------------------------------
+//  msdlParser::Identifier
+// --------------------------------------------------------------------------
+
+void msdlParser::Identifier (S_msdlTokenKindsSet stopperTokensSet)
+{
+/*
+  pitches such as c2 prevent identifiers from being tokens in MSDL
+  as is usual in programming languages,
+  so we handle actual identifiers such ar part1 at the syntax level
+*/
+
+  // accept a sequence of contiguous names and integers,
+
+  if (stopperTokensSet->getTokenKindsSetSize ()) {
+    fMsdlTokensSetsStack.push_front (stopperTokensSet);
+  }
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      endl <<
+      "=================================================================" <<
+      endl <<
+      "--> Identifier()" <<
+      ", fCurrentToken: " << currentTokenAsString () <<
+      endl;
+  }
+
+  ++gIndenter;
+
+  if (fTraceSyntaxErrorRecovery) {
+    displayTokenKindsSetsStack ("Identifier");
+  }
+#endif
+
+
+
+  --gIndenter;
+
+  if (stopperTokensSet->getTokenKindsSetSize ()) {
+    fMsdlTokensSetsStack.pop_front ();
+  }
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      endl <<
+      "<-- Identifier()" <<
+      ", fCurrentToken: " << currentTokenAsString () <<
+      endl <<
+      "=================================================================" <<
+      endl;
+  }
+#endif
+}
+
+// --------------------------------------------------------------------------
+//  msdlParser::Pitches
+// --------------------------------------------------------------------------
+
+void msdlParser::Pitches (S_msdlTokenKindsSet stopperTokensSet)
+{
+  if (stopperTokensSet->getTokenKindsSetSize ()) {
+    fMsdlTokensSetsStack.push_front (stopperTokensSet);
+  }
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      endl <<
+      "=================================================================" <<
+      endl <<
+      "--> Pitches()" <<
+      ", fCurrentToken: " << currentTokenAsString () <<
+      endl;
+  }
+
+  ++gIndenter;
+
+  if (fTraceSyntaxErrorRecovery) {
+    displayTokenKindsSetsStack ("Pitches");
+  }
+#endif
+
+  if (
+    checkOptionalTokenKind (
+      __FILE__, __LINE__,
+      msdlTokenKind::kTokenPitches,
+      "Pitches")
+  ) {
+//  if (fCurrentTokenKind == msdlTokenKind::kTokenPitches) {
+    // consume the pitches token
+    fetchNextToken ();
+
+    if (checkMandatoryTokenKind (
+      __FILE__, __LINE__,
+      msdlTokenKind::kTokenName,
+      "Pitches")
+    ) {
+      // get the pitches language name
+      string pitchesLanguageName = fCurrentToken.getTokenDescription ().getString ();
+
+#ifdef TRACING_IS_ENABLED
+      if (fTraceSyntax) {
+        gLogStream <<
+          "=== Pitches()" <<
+          ", pitchesLanguageName: \"" << pitchesLanguageName << "\"" <<
+          endl;
+      }
+#endif
+
+      // set the pitches language name // also in the MSR identification ??? JMI
+      fPitchesLanguageKind =
+        msrQuarterTonesPitchesLanguageKindFromString (
+          pitchesLanguageName);
+
+#ifdef TRACING_IS_ENABLED
+      if (fTraceSyntax) {
+        gLogStream <<
+          "=== Pitches()" <<
+          ", fPitchesLanguageKind: \"" <<
+          msrQuarterTonesPitchesLanguageKindAsString (fPitchesLanguageKind) <<
+          "\"" <<
+          endl;
+      }
+#endif
+
+      fetchNextToken ();
+    }
+  }
+
+  --gIndenter;
+
+  if (stopperTokensSet->getTokenKindsSetSize ()) {
+    fMsdlTokensSetsStack.pop_front ();
+  }
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      endl <<
+      "<-- Pitches()" <<
+      ", fCurrentToken: " << currentTokenAsString () <<
+      endl <<
+      "=================================================================" <<
+      endl;
+  }
+#endif
+}
+
+// --------------------------------------------------------------------------
 //  msdlParser::PitchesLanguage
 // --------------------------------------------------------------------------
 
@@ -1474,52 +1947,7 @@ void msdlParser::PitchesLanguage (S_msdlTokenKindsSet stopperTokensSet)
   }
 #endif
 
-  if (
-    checkOptionalTokenKind (
-      __FILE__, __LINE__,
-      msdlTokenKind::kTokenPitches,
-      "PitchesLanguage")
-  ) {
-//  if (fCurrentTokenKind == msdlTokenKind::kTokenPitches) {
-    // consume the pitches token
-    fetchNextToken ();
 
-    if (checkMandatoryTokenKind (
-      __FILE__, __LINE__,
-      msdlTokenKind::kTokenName,
-      "PitchesLanguage")
-    ) {
-      // get the pitches language name
-      string pitchesLanguageName = fCurrentToken.getTokenDescription ().getString ();
-
-#ifdef TRACING_IS_ENABLED
-      if (fTraceSyntax) {
-        gLogStream <<
-          "=== parse()" <<
-          ", pitchesLanguageName: \"" << pitchesLanguageName << "\"" <<
-          endl;
-      }
-#endif
-
-      // set the pitches language name // also in the MSR identification ??? JMI
-      fPitchesLanguageKind =
-        msrQuarterTonesPitchesLanguageKindFromString (
-          pitchesLanguageName);
-
-#ifdef TRACING_IS_ENABLED
-      if (fTraceSyntax) {
-        gLogStream <<
-          "=== parse()" <<
-          ", fPitchesLanguageKind: \"" <<
-          msrQuarterTonesPitchesLanguageKindAsString (fPitchesLanguageKind) <<
-          "\"" <<
-          endl;
-      }
-#endif
-
-      fetchNextToken ();
-    }
-  }
 
   --gIndenter;
 
@@ -1532,6 +1960,55 @@ void msdlParser::PitchesLanguage (S_msdlTokenKindsSet stopperTokensSet)
     gLogStream <<
       endl <<
       "<-- PitchesLanguage()" <<
+      ", fCurrentToken: " << currentTokenAsString () <<
+      endl <<
+      "=================================================================" <<
+      endl;
+  }
+#endif
+}
+
+// --------------------------------------------------------------------------
+//  msdlParser::PitchesOctaveEntry
+// --------------------------------------------------------------------------
+
+void msdlParser::PitchesOctaveEntry (S_msdlTokenKindsSet stopperTokensSet)
+{
+  if (stopperTokensSet->getTokenKindsSetSize ()) {
+    fMsdlTokensSetsStack.push_front (stopperTokensSet);
+  }
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      endl <<
+      "=================================================================" <<
+      endl <<
+      "--> PitchesOctaveEntry()" <<
+      ", fCurrentToken: " << currentTokenAsString () <<
+      endl;
+  }
+
+  ++gIndenter;
+
+  if (fTraceSyntaxErrorRecovery) {
+    displayTokenKindsSetsStack ("PitchesOctaveEntry");
+  }
+#endif
+
+
+
+  --gIndenter;
+
+  if (stopperTokensSet->getTokenKindsSetSize ()) {
+    fMsdlTokensSetsStack.pop_front ();
+  }
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      endl <<
+      "<-- PitchesOctaveEntry()" <<
       ", fCurrentToken: " << currentTokenAsString () <<
       endl <<
       "=================================================================" <<
@@ -1578,7 +2055,7 @@ void msdlParser::Anacrusis (S_msdlTokenKindsSet stopperTokensSet)
 #ifdef TRACING_IS_ENABLED
     if (fTraceSyntax) {
       gLogStream <<
-        "=== parse()" <<
+        "=== Anacrusis()" <<
         ", anacrusis: present" <<
         endl;
     }
@@ -2017,8 +2494,8 @@ void msdlParser::Music (S_msdlTokenKindsSet stopperTokensSet)
 #ifdef TRACING_IS_ENABLED
     if (fTraceSyntax) {
       gLogStream <<
-        "=== parse()" <<
-        ", Music: \"" << musicName << "\"" <<
+        "=== Music()" <<
+        ", musicName: \"" << musicName << "\"" <<
         endl;
     }
 #endif
@@ -2132,7 +2609,7 @@ void msdlParser::Fragment (S_msdlTokenKindsSet stopperTokensSet)
 #ifdef TRACING_IS_ENABLED
       if (fTraceSyntax) {
         gLogStream <<
-          "=== parse()" <<
+          "=== Fragment()" <<
           ", Fragment: \"" << fragmentName << "\"" <<
           endl;
       }
@@ -2353,7 +2830,7 @@ void msdlParser::MeasureNumber (S_msdlTokenKindsSet stopperTokensSet)
 #ifdef TRACING_IS_ENABLED
     if (fTraceSyntax) {
       gLogStream <<
-        "=== parse()" <<
+        "=== MeasureNumber()" <<
         ", measureNumber: \"" << measureNumber << "\"" <<
         endl;
     }
@@ -2564,7 +3041,7 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
 
   // there should be a pitch name
   msrQuarterTonesPitchKind
-    noteQuarterTonesPitchKind = k_NoQuarterTonesPitch_QTP;
+    noteQuarterTonesPitchKind = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
 
   if (checkMandatoryTokenKind (
     __FILE__, __LINE__,
@@ -2577,24 +3054,22 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
 #ifdef TRACING_IS_ENABLED
     if (fTraceSyntax) {
       gLogStream <<
-        "=== parse()" <<
-        ", pitch name: \"" << pitchName << "\"" <<
+        "=== Note()" <<
+        ", pitchName: \"" << pitchName << "\"" <<
         endl;
     }
 #endif
 
-/* JMI
     noteQuarterTonesPitchKind =
       quarterTonesPitchKindFromString (
         fPitchesLanguageKind,
         pitchName);
-*/
 
 #ifdef TRACING_IS_ENABLED
     if (fTraceSyntax) {
       gLogStream <<
-        "=== parse()" <<
-        ", note quarter tones pitch kind: \"" <<
+        "=== Note()" <<
+        ", noteQuarterTonesPitchKind: \"" <<
         msrQuarterTonesPitchKindAsString (noteQuarterTonesPitchKind) <<
         "\"" <<
         endl;
@@ -2609,6 +3084,18 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
   msrOctaveKind
     noteOctaveKind = msrOctaveKind::k_NoOctave;
 
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      endl <<
+      "=================================================================" <<
+      endl <<
+      "------------------->>>>>>>>>>>>>>>> Note()" <<
+      ", fCurrentToken: " << currentTokenAsString () <<
+      endl;
+  }
+#endif
+
   if (
     checkOptionalTokenKindsSet (
       __FILE__, __LINE__,
@@ -2620,9 +3107,20 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
         stopperTokensSet);
   }
 
-  // are there dots?
+  // is there a note duration?
   msrDottedDuration noteDottedDuration;
-  int               dotsNumber = 0;
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      endl <<
+      "=================================================================" <<
+      endl <<
+      "----------->>>>>>>>> Note()" <<
+      ", fCurrentToken: " << currentTokenAsString () <<
+      endl;
+  }
+#endif
 
   if (
     checkOptionalTokenKindsSet (
@@ -2632,9 +3130,19 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
   ) {
     NoteDuration (
       noteDottedDuration,
-      dotsNumber,
       stopperTokensSet);
   }
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      "=== Note()" <<
+      ", noteDottedDuration: \"" <<
+      noteDottedDuration.asString () <<
+      "\"" <<
+      endl;
+  }
+#endif
 
   // create the note
   stringstream s;
@@ -2648,8 +3156,22 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
       noteDottedDuration.dottedDurationAsWholeNotes (
         inputLineNumber),
     noteDisplayWholeNotes =
-      noteDottedDuration.dottedDurationAsWholeNotes (
-        inputLineNumber);
+      noteSoundingWholeNotes; // TEMP NOT if in a tuplet... JMI
+
+  int
+    dotsNumber =
+      noteDottedDuration.getDotsNumber ();;
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      "=== Note()" <<
+      ", noteSoundingWholeNotes: " << noteSoundingWholeNotes <<
+      ", noteDisplayWholeNotes: \"" << noteDisplayWholeNotes <<
+      ", dotsNumber: " << dotsNumber <<
+      endl;
+  }
+#endif
 
   S_msrNote
     note =
@@ -2661,6 +3183,15 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
         noteSoundingWholeNotes, // soundingWholeNotes
         noteDisplayWholeNotes , // displayWholeNotes
         dotsNumber);
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      "=== Note()" <<
+      ", note: " << note->asString () <<
+      endl;
+  }
+#endif
 
   // append it to the current measure
   fCurrentMeasure->
@@ -2724,8 +3255,8 @@ void msdlParser::Pitch (S_msdlTokenKindsSet stopperTokensSet)
 #ifdef TRACING_IS_ENABLED
     if (fTraceSyntax) {
       gLogStream <<
-        "=== parse()" <<
-        ", pitch name: \"" << pitchName << "\"" <<
+        "=== Pitch()" <<
+        ", pitchName: \"" << pitchName << "\"" <<
         endl;
     }
 #endif
@@ -2811,7 +3342,7 @@ msrOctaveKind msdlParser::OctaveIndication (S_msdlTokenKindsSet stopperTokensSet
 #ifdef TRACING_IS_ENABLED
     if (fTraceSyntax) {
       gLogStream <<
-        "=== parse()" <<
+        "=== OctaveIndication()" <<
         ", commasCounter: " << commasCounter <<
         ", quotesCounter: " << quotesCounter <<
         endl;
@@ -2828,12 +3359,12 @@ msrOctaveKind msdlParser::OctaveIndication (S_msdlTokenKindsSet stopperTokensSet
   if (commasCounter > 0) {
     result =
       msrOctaveKind (
-        (int) msrOctaveKind::kOctave3 + commasCounter);
+        (int) msrOctaveKind::kOctave3 - commasCounter);
   }
   else if (quotesCounter > 0) {
     result =
       msrOctaveKind (
-        (int) msrOctaveKind::kOctave3 - quotesCounter);
+        (int) msrOctaveKind::kOctave3 + quotesCounter);
   }
   else {
     result = msrOctaveKind::kOctave3;
@@ -2842,7 +3373,7 @@ msrOctaveKind msdlParser::OctaveIndication (S_msdlTokenKindsSet stopperTokensSet
 #ifdef TRACING_IS_ENABLED
     if (fTraceSyntax) {
       gLogStream <<
-        "=== parse()" <<
+        "=== OctaveIndication()" <<
         ", result: " << msrOctaveKindAsString (result) <<
         endl;
     }
@@ -2874,7 +3405,6 @@ msrOctaveKind msdlParser::OctaveIndication (S_msdlTokenKindsSet stopperTokensSet
 
 void msdlParser::NoteDuration (
   msrDottedDuration&  dottedDuration,
-  int                 dotsNumber,
   S_msdlTokenKindsSet stopperTokensSet)
 {
   if (stopperTokensSet->getTokenKindsSetSize ()) {
@@ -2920,7 +3450,7 @@ void msdlParser::NoteDuration (
 #ifdef TRACING_IS_ENABLED
       if (fTraceSyntax) {
         gLogStream <<
-          "=== parse()" <<
+          "=== NoteDuration()" <<
           ", durationInteger: \"" << durationInteger << "\"" <<
           ", durationKind: \"" << msrDurationKindAsString (durationKind) << "\"" <<
           endl;
@@ -2944,7 +3474,7 @@ void msdlParser::NoteDuration (
 #ifdef TRACING_IS_ENABLED
       if (fTraceSyntax) {
         gLogStream <<
-          "=== parse()" <<
+          "=== NoteDuration()" <<
           ", durationName: \"" << durationName << "\"" <<
           ", durationKind: \"" << msrDurationKindAsString (durationKind) << "\"" <<
           endl;
@@ -2966,8 +3496,8 @@ void msdlParser::NoteDuration (
     fetchNextToken ();
   } // while
 
-  // there can be dots
-  dotsNumber = 0;
+  // are there dots?
+  int dotsNumber = 0;
 
   while (
     checkOptionalTokenKind (
@@ -2983,22 +3513,20 @@ void msdlParser::NoteDuration (
 #ifdef TRACING_IS_ENABLED
   if (fTraceSyntax) {
     gLogStream <<
-      "=== parse()" <<
-      ", dotsNumber: \"" << dotsNumber << "\"" <<
+      "=== NoteDuration()" <<
+      ", dotsNumber: " << dotsNumber <<
       endl;
   }
 #endif
 
-  // compute the dotted duration
-  dottedDuration =
-    msrDottedDuration (
-      durationKind,
-      dotsNumber);
+  // populate the dotted duration
+  dottedDuration.setDurationKind (durationKind);
+  dottedDuration.setDotsNumber   (dotsNumber);
 
 #ifdef TRACING_IS_ENABLED
     if (fTraceSyntax) {
       gLogStream <<
-        "=== parse()" <<
+        "=== NoteDuration()" <<
         ", dottedDuration: " << dottedDuration.asString () <<
         endl;
     }

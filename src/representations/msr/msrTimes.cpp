@@ -322,7 +322,7 @@ S_msrTime msrTime::createTwoEightsTime (
     time =
       msrTime::create (
         inputLineNumber,
-        kTimeSymbolNone);
+        msrTimeSymbolKind::kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -351,7 +351,7 @@ S_msrTime msrTime::createThreeEightsTime (
     time =
       msrTime::create (
         inputLineNumber,
-        kTimeSymbolNone);
+        msrTimeSymbolKind::kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -380,7 +380,7 @@ S_msrTime msrTime::createSixEightsTime (
     time =
       msrTime::create (
         inputLineNumber,
-        kTimeSymbolNone);
+        msrTimeSymbolKind::kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -409,7 +409,7 @@ S_msrTime msrTime::createTwoQuartersTime (
     time =
       msrTime::create (
         inputLineNumber,
-        kTimeSymbolNone);
+        msrTimeSymbolKind::kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -438,7 +438,7 @@ S_msrTime msrTime::createThreeQuartersTime (
     time =
       msrTime::create (
         inputLineNumber,
-        kTimeSymbolNone);
+        msrTimeSymbolKind::kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -467,7 +467,7 @@ S_msrTime msrTime::createFourQuartersTime (
     time =
       msrTime::create (
         inputLineNumber,
-        kTimeSymbolNone);
+        msrTimeSymbolKind::kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -496,7 +496,7 @@ S_msrTime msrTime::createFiveQuartersTime (
     time =
       msrTime::create (
         inputLineNumber,
-        kTimeSymbolNone);
+        msrTimeSymbolKind::kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -525,7 +525,7 @@ S_msrTime msrTime::createTwoHalvesTime (
     time =
       msrTime::create (
         inputLineNumber,
-        kTimeSymbolNone);
+        msrTimeSymbolKind::kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -554,7 +554,7 @@ S_msrTime msrTime::createThreeHalvesTime (
     time =
       msrTime::create (
         inputLineNumber,
-        kTimeSymbolNone);
+        msrTimeSymbolKind::kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -583,7 +583,7 @@ S_msrTime msrTime::createFourHalvesTime (
     time =
       msrTime::create (
         inputLineNumber,
-        kTimeSymbolNone);
+        msrTimeSymbolKind::kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -734,7 +734,7 @@ S_msrTime msrTime::createTimeFromString (
   result =
     msrTime::create (
       inputLineNumber,
-      kTimeSymbolNone);
+      msrTimeSymbolKind::kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -934,7 +934,7 @@ string msrTime::asString () const
     } // for
   }
   else {
-    if (fTimeSymbolKind != kTimeSymbolSenzaMisura) {
+    if (fTimeSymbolKind != msrTimeSymbolKind::kTimeSymbolSenzaMisura) {
       msrInternalError (
         gGlobalOahOahGroup->getInputSourceName (),
         fInputLineNumber,

@@ -1451,10 +1451,10 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
   ++gIndenter;
 
   switch (elt->getStaffKind ()) {
-    case kStaffRegular:
-    case kStaffTablature:
-    case kStaffDrum:
-    case kStaffRythmic:
+    case msrStaffKind::kStaffRegular:
+    case msrStaffKind::kStaffTablature:
+    case msrStaffKind::kStaffDrum:
+    case msrStaffKind::kStaffRythmic:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -1535,7 +1535,7 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
       }
       break;
 
-    case kStaffHarmony:
+    case msrStaffKind::kStaffHarmony:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -1551,7 +1551,7 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
       }
       break;
 
-    case kStaffFiguredBass:
+    case msrStaffKind::kStaffFiguredBass:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -1588,23 +1588,23 @@ void msr2lpsrTranslator::visitEnd (S_msrStaff& elt)
 #endif
 
   switch (elt->getStaffKind ()) {
-    case kStaffRegular:
-    case kStaffDrum:
-    case kStaffRythmic:
+    case msrStaffKind::kStaffRegular:
+    case msrStaffKind::kStaffDrum:
+    case msrStaffKind::kStaffRythmic:
       {
         fOnGoingStaff = false;
       }
       break;
 
-    case kStaffTablature:
+    case msrStaffKind::kStaffTablature:
       // JMI
       break;
 
-    case kStaffHarmony:
+    case msrStaffKind::kStaffHarmony:
       // JMI
       break;
 
-    case kStaffFiguredBass:
+    case msrStaffKind::kStaffFiguredBass:
       // JMI
       break;
   } // switch
@@ -1632,7 +1632,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
 
   switch (fCurrentVoiceOriginal->getVoiceKind ()) {
 
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       // create a voice clone
       fCurrentVoiceClone =
         fCurrentVoiceOriginal->
@@ -1656,7 +1656,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
           fCurrentVoiceClone);
       break;
 
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceHarmony:
       {
         /* JMI
         // create the harmony staff and voice if not yet done
@@ -1737,7 +1737,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
       }
       break;
 
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
       {
         // create a voice clone
         fCurrentVoiceClone =
@@ -1831,15 +1831,15 @@ void msr2lpsrTranslator::visitEnd (S_msrVoice& elt)
 #endif
 
   switch (elt->getVoiceKind ()) {
-    case kVoiceRegular:
+    case msrVoiceKind::kVoiceRegular:
       // JMI
       break;
 
-    case kVoiceHarmony:
+    case msrVoiceKind::kVoiceHarmony:
       fOnGoingHarmonyVoice = false;
       break;
 
-    case kVoiceFiguredBass:
+    case msrVoiceKind::kVoiceFiguredBass:
       fOnGoingFiguredBassVoice = false;
       break;
   } // switch
@@ -2353,7 +2353,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasure& elt)
   bool doCreateABarCheck = false;
 
   switch (elt->getMeasureKind ()) {
-    case kMeasureKindUnknown:
+    case msrMeasureKind::kMeasureKindUnknown:
       {
         stringstream s;
 
@@ -2374,21 +2374,21 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasure& elt)
       }
       break;
 
-    case kMeasureKindRegular:
+    case msrMeasureKind::kMeasureKindRegular:
       doCreateABarCheck = true;
       break;
 
-    case kMeasureKindAnacrusis:
+    case msrMeasureKind::kMeasureKindAnacrusis:
       doCreateABarCheck = true;
       break;
 
-    case kMeasureKindIncompleteStandalone:
-    case kMeasureKindIncompleteLastInRepeatCommonPart:
-    case kMeasureKindIncompleteLastInRepeatHookedEnding:
-    case kMeasureKindIncompleteLastInRepeatHooklessEnding:
-    case kMeasureKindIncompleteNextMeasureAfterCommonPart:
-    case kMeasureKindIncompleteNextMeasureAfterHookedEnding:
-    case kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+    case msrMeasureKind::kMeasureKindIncompleteStandalone:
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatCommonPart:
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatHookedEnding:
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
       // generate a bar check if relevant
       switch (elt-> getMeasureEndRegularKind ()) {
         case msrMeasure::kMeasureEndRegularKindUnknown:
@@ -2401,15 +2401,15 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasure& elt)
       } // switch
       break;
 
-    case kMeasureKindOvercomplete:
+    case msrMeasureKind::kMeasureKindOvercomplete:
       doCreateABarCheck = true;
       break;
 
-    case kMeasureKindCadenza:
+    case msrMeasureKind::kMeasureKindCadenza:
       doCreateABarCheck = true;
       break;
 
-    case kMeasureKindMusicallyEmpty:
+    case msrMeasureKind::kMeasureKindMusicallyEmpty:
       // JMI
       break;
   } // switch
@@ -2614,16 +2614,16 @@ void msr2lpsrTranslator::visitStart (S_msrSyllable& elt)
           words =
             msrWords::create (
               inputLineNumber,
-              k_NoPlacement,                // default value
+              msrPlacementKind::k_NoPlacement,                // default value
               wordsValue,
-              kJustifyNone,                  // default value
-              kHorizontalAlignmentNone,      // default value
-              kVerticalAlignmentNone,        // default value
-              kFontStyleNone,                // default value
+              msrJustifyKind::kJustifyNone,                  // default value
+              msrHorizontalAlignmentKind::kHorizontalAlignmentNone,      // default value
+              msrVerticalAlignmentKind::kVerticalAlignmentNone,        // default value
+              msrFontStyleKind::kFontStyleNone,                // default value
               msrFontSize::create (
-                kFontSizeNone), // default value
-              kFontWeightNone,               // default value
-              kXMLLangIt,                    // default value
+                msrFontSizeKind::kFontSizeNone), // default value
+              msrFontWeightKind::kFontWeightNone,               // default value
+              msrXMLLangKind::kXMLLangIt,                    // default value
               elt->
                 getSyllableNoteUpLink ()->
                   fetchNoteStaffUpLink ()->
@@ -3421,13 +3421,13 @@ void msr2lpsrTranslator::visitStart (S_msrSpanner& elt)
 #endif
 
   switch (elt->getSpannerTypeKind ()) {
-    case kSpannerTypeStart:
+    case msrSpannerTypeKind::kSpannerTypeStart:
       break;
-    case kSpannerTypeStop:
+    case msrSpannerTypeKind::kSpannerTypeStop:
       break;
-    case kSpannerTypeContinue:
+    case msrSpannerTypeKind::kSpannerTypeContinue:
       break;
-    case k_NoSpannerType:
+    case msrSpannerTypeKind::k_NoSpannerType:
       break;
   } // switch
 
@@ -3692,14 +3692,14 @@ void msr2lpsrTranslator::visitStart (S_msrDynamics& elt)
     bool knownToLilyPondNatively = true;
 
     switch (elt->getDynamicsKind ()) {
-      case kDynamicsFFFFF:
-      case kDynamicsFFFFFF:
-      case kDynamicsPPPPP:
-      case kDynamicsPPPPPP:
-      case kDynamicsRF:
-      case kDynamicsSFPP:
-      case kDynamicsSFFZ:
-      case k_NoDynamics:
+      case msrDynamicsKind::kDynamicsFFFFF:
+      case msrDynamicsKind::kDynamicsFFFFFF:
+      case msrDynamicsKind::kDynamicsPPPPP:
+      case msrDynamicsKind::kDynamicsPPPPPP:
+      case msrDynamicsKind::kDynamicsRF:
+      case msrDynamicsKind::kDynamicsSFPP:
+      case msrDynamicsKind::kDynamicsSFFZ:
+      case msrDynamicsKind::k_NoDynamics:
         knownToLilyPondNatively = false;
 
       default:
@@ -5121,20 +5121,20 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
   if (fCurrentNonGraceNoteClone) { // JMI
     // handle editorial accidentals
     switch (fCurrentNonGraceNoteClone->getNoteEditorialAccidentalKind ()) {
-      case kEditorialAccidentalYes:
+      case msrEditorialAccidentalKind::kEditorialAccidentalYes:
         fResultingLpsrScore->
           // this score needs the 'editorial accidental' Scheme function
           setEditorialAccidentalSchemeFunctionIsNeeded ();
         break;
-      case kEditorialAccidentalNo:
+      case msrEditorialAccidentalKind::kEditorialAccidentalNo:
         break;
     } // switch
 
     // handle cautionary accidentals // JMI ???
     switch (fCurrentNonGraceNoteClone->getNoteCautionaryAccidentalKind ()) {
-      case kCautionaryAccidentalYes:
+      case msrCautionaryAccidentalKind::kCautionaryAccidentalYes:
         break;
-      case kCautionaryAccidentalNo:
+      case msrCautionaryAccidentalKind::kCautionaryAccidentalNo:
         break;
     } // switch
   }

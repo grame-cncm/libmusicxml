@@ -269,7 +269,7 @@ void extraShowAllHarmoniesContentsAtom::applyAtomWithValue (
         theString);
 
   switch (semiTonesPitchKind) {
-    case k_NoSemiTonesPitch_STP:
+    case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
       {
         stringstream s;
 
@@ -287,33 +287,33 @@ void extraShowAllHarmoniesContentsAtom::applyAtomWithValue (
       }
       break;
 
-    case kA_Flat_STP:
-    case kA_Natural_STP:
-    case kA_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_A_Flat:
+    case msrSemiTonesPitchKind::kSTP_A_Natural:
+    case msrSemiTonesPitchKind::kSTP_A_Sharp:
 
-    case kB_Flat_STP:
-    case kB_Natural_STP:
-    case kB_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_B_Flat:
+    case msrSemiTonesPitchKind::kSTP_B_Natural:
+    case msrSemiTonesPitchKind::kSTP_B_Sharp:
 
-    case kC_Flat_STP:
-    case kC_Natural_STP:
-    case kC_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_C_Flat:
+    case msrSemiTonesPitchKind::kSTP_C_Natural:
+    case msrSemiTonesPitchKind::kSTP_C_Sharp:
 
-    case kD_Flat_STP:
-    case kD_Natural_STP:
-    case kD_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Flat:
+    case msrSemiTonesPitchKind::kSTP_D_Natural:
+    case msrSemiTonesPitchKind::kSTP_D_Sharp:
 
-    case kE_Flat_STP:
-    case kE_Natural_STP:
-    case kE_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Flat:
+    case msrSemiTonesPitchKind::kSTP_E_Natural:
+    case msrSemiTonesPitchKind::kSTP_E_Sharp:
 
-    case kF_Flat_STP:
-    case kF_Natural_STP:
-    case kF_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Flat:
+    case msrSemiTonesPitchKind::kSTP_F_Natural:
+    case msrSemiTonesPitchKind::kSTP_F_Sharp:
 
-    case kG_Flat_STP:
-    case kG_Natural_STP:
-    case kG_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_G_Flat:
+    case msrSemiTonesPitchKind::kSTP_G_Natural:
+    case msrSemiTonesPitchKind::kSTP_G_Sharp:
       break;
 
     default:
@@ -573,7 +573,7 @@ void extraShowHarmonyDetailsAtom::applyAtomWithValue (
         rootName);
 
   switch (semiTonesPitchKind) {
-    case k_NoSemiTonesPitch_STP:
+    case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
       {
         stringstream s;
 
@@ -591,33 +591,33 @@ void extraShowHarmonyDetailsAtom::applyAtomWithValue (
       }
       break;
 
-    case kA_Flat_STP:
-    case kA_Natural_STP:
-    case kA_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_A_Flat:
+    case msrSemiTonesPitchKind::kSTP_A_Natural:
+    case msrSemiTonesPitchKind::kSTP_A_Sharp:
 
-    case kB_Flat_STP:
-    case kB_Natural_STP:
-    case kB_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_B_Flat:
+    case msrSemiTonesPitchKind::kSTP_B_Natural:
+    case msrSemiTonesPitchKind::kSTP_B_Sharp:
 
-    case kC_Flat_STP:
-    case kC_Natural_STP:
-    case kC_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_C_Flat:
+    case msrSemiTonesPitchKind::kSTP_C_Natural:
+    case msrSemiTonesPitchKind::kSTP_C_Sharp:
 
-    case kD_Flat_STP:
-    case kD_Natural_STP:
-    case kD_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Flat:
+    case msrSemiTonesPitchKind::kSTP_D_Natural:
+    case msrSemiTonesPitchKind::kSTP_D_Sharp:
 
-    case kE_Flat_STP:
-    case kE_Natural_STP:
-    case kE_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Flat:
+    case msrSemiTonesPitchKind::kSTP_E_Natural:
+    case msrSemiTonesPitchKind::kSTP_E_Sharp:
 
-    case kF_Flat_STP:
-    case kF_Natural_STP:
-    case kF_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Flat:
+    case msrSemiTonesPitchKind::kSTP_F_Natural:
+    case msrSemiTonesPitchKind::kSTP_F_Sharp:
 
-    case kG_Flat_STP:
-    case kG_Natural_STP:
-    case kG_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_G_Flat:
+    case msrSemiTonesPitchKind::kSTP_G_Natural:
+    case msrSemiTonesPitchKind::kSTP_G_Sharp:
       break;
 
     default:
@@ -890,7 +890,7 @@ void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
         rootName);
 
   switch (semiTonesPitchKind) {
-    case k_NoSemiTonesPitch_STP:
+    case msrSemiTonesPitchKind::kSTP_NoSemiTonesPitch:
       {
         stringstream s;
 
@@ -908,33 +908,33 @@ void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
       }
       break;
 
-    case kA_Flat_STP:
-    case kA_Natural_STP:
-    case kA_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_A_Flat:
+    case msrSemiTonesPitchKind::kSTP_A_Natural:
+    case msrSemiTonesPitchKind::kSTP_A_Sharp:
 
-    case kB_Flat_STP:
-    case kB_Natural_STP:
-    case kB_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_B_Flat:
+    case msrSemiTonesPitchKind::kSTP_B_Natural:
+    case msrSemiTonesPitchKind::kSTP_B_Sharp:
 
-    case kC_Flat_STP:
-    case kC_Natural_STP:
-    case kC_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_C_Flat:
+    case msrSemiTonesPitchKind::kSTP_C_Natural:
+    case msrSemiTonesPitchKind::kSTP_C_Sharp:
 
-    case kD_Flat_STP:
-    case kD_Natural_STP:
-    case kD_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_D_Flat:
+    case msrSemiTonesPitchKind::kSTP_D_Natural:
+    case msrSemiTonesPitchKind::kSTP_D_Sharp:
 
-    case kE_Flat_STP:
-    case kE_Natural_STP:
-    case kE_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_E_Flat:
+    case msrSemiTonesPitchKind::kSTP_E_Natural:
+    case msrSemiTonesPitchKind::kSTP_E_Sharp:
 
-    case kF_Flat_STP:
-    case kF_Natural_STP:
-    case kF_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_F_Flat:
+    case msrSemiTonesPitchKind::kSTP_F_Natural:
+    case msrSemiTonesPitchKind::kSTP_F_Sharp:
 
-    case kG_Flat_STP:
-    case kG_Natural_STP:
-    case kG_Sharp_STP:
+    case msrSemiTonesPitchKind::kSTP_G_Flat:
+    case msrSemiTonesPitchKind::kSTP_G_Natural:
+    case msrSemiTonesPitchKind::kSTP_G_Sharp:
       break;
 
     default:

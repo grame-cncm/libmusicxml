@@ -1042,7 +1042,7 @@ void msrRepeat::addRepeatEndingToRepeat (
 
   // consistency check
   switch (repeatEndingKind) {
-    case kHookedEnding:
+    case msrRepeatEndingKind::kEndingHooked:
       switch (fCurrentRepeatBuildPhaseKind) {
         case msrRepeat::kRepeatBuildPhaseJustCreated:
           {
@@ -1086,7 +1086,7 @@ void msrRepeat::addRepeatEndingToRepeat (
       } // switch
       break;
 
-    case kHooklessEnding:
+    case msrRepeatEndingKind::kEndingHookless:
       switch (fCurrentRepeatBuildPhaseKind) {
         case msrRepeat::kRepeatBuildPhaseJustCreated:
           {

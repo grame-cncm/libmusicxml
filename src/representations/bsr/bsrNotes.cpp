@@ -770,43 +770,43 @@ S_bsrCellsList bsrNote::accidentalKindAsCellsList (
       bsrCellsList::create (inputLineNumber);
 
   switch (accidentalKind) {
-    case bsrNote::kAccidentalNone:
+    case bsrNote::bsrAccidentalKind::kAccidentalNone:
       break;
 
-    case bsrNote::kAccidentalSharp:
+    case bsrNote::bsrAccidentalKind::kAccidentalSharp:
       result->appendCellKindToCellsList (kCellSharp);
       break;
-    case bsrNote::kAccidentalNatural:
+    case bsrNote::bsrAccidentalKind::kAccidentalNatural:
       result->appendCellKindToCellsList (kCellNatural);
       break;
-    case bsrNote::kAccidentalFlat:
+    case bsrNote::bsrAccidentalKind::kAccidentalFlat:
       result->appendCellKindToCellsList (kCellFlat);
       break;
 
-    case bsrNote::kAccidentalDoubleFlat:
+    case bsrNote::bsrAccidentalKind::kAccidentalDoubleFlat:
       result->appendCellKindToCellsList (kCellFlat);
       result->appendCellKindToCellsList (kCellFlat);
       break;
-    case bsrNote::kAccidentalDoubleSharp:
+    case bsrNote::bsrAccidentalKind::kAccidentalDoubleSharp:
       result->appendCellKindToCellsList (kCellSharp);
       result->appendCellKindToCellsList (kCellSharp);
       break;
 
-    case bsrNote::kAccidentalQuarterSharp:
+    case bsrNote::bsrAccidentalKind::kAccidentalQuarterSharp:
       result->appendCellKindToCellsList (kDots4);
       result->appendCellKindToCellsList (kCellSharp);
       break;
-    case bsrNote::kAccidentalQuarterFlat:
+    case bsrNote::bsrAccidentalKind::kAccidentalQuarterFlat:
       result->appendCellKindToCellsList (kDots4);
       result->appendCellKindToCellsList (kCellFlat);
       break;
 
-    case bsrNote::kAccidentalThreeQuarterSharp:
+    case bsrNote::bsrAccidentalKind::kAccidentalThreeQuarterSharp:
       result->appendCellKindToCellsList (kDots456);
       result->appendCellKindToCellsList (kCellSharp);
       break;
 
-    case bsrNote::kAccidentalThreeQuarterFlat:
+    case bsrNote::bsrAccidentalKind::kAccidentalThreeQuarterFlat:
       result->appendCellKindToCellsList (kDots456);
       result->appendCellKindToCellsList (kCellFlat);
       break;
@@ -1167,39 +1167,39 @@ string bsrNote::msrAccidentalKindAsString (
   string result;
 
   switch (accidentalKind) {
-    case bsrNote::kAccidentalNone:
+    case bsrNote::bsrAccidentalKind::kAccidentalNone:
       result = "accidentalNone";
       break;
 
-    case bsrNote::kAccidentalSharp:
+    case bsrNote::bsrAccidentalKind::kAccidentalSharp:
       result = "accidentalSharp";
       break;
-    case bsrNote::kAccidentalNatural:
+    case bsrNote::bsrAccidentalKind::kAccidentalNatural:
       result = "accidentalNatural";
       break;
-    case bsrNote::kAccidentalFlat:
+    case bsrNote::bsrAccidentalKind::kAccidentalFlat:
       result = "accidentalFlat";
       break;
 
-    case bsrNote::kAccidentalDoubleFlat:
+    case bsrNote::bsrAccidentalKind::kAccidentalDoubleFlat:
       result = "accidentalDoubleFlat";
       break;
-    case bsrNote::kAccidentalDoubleSharp:
+    case bsrNote::bsrAccidentalKind::kAccidentalDoubleSharp:
       result = "accidentalDoubleSharp";
       break;
 
-    case bsrNote::kAccidentalQuarterSharp:
+    case bsrNote::bsrAccidentalKind::kAccidentalQuarterSharp:
       result = "accidentalQuarterSharp";
       break;
-    case bsrNote::kAccidentalQuarterFlat:
+    case bsrNote::bsrAccidentalKind::kAccidentalQuarterFlat:
       result = "accidentalQuarterFlat";
       break;
 
-    case bsrNote::kAccidentalThreeQuarterSharp:
+    case bsrNote::bsrAccidentalKind::kAccidentalThreeQuarterSharp:
       result = "accidentalThreeQuarterSharp";
       break;
 
-    case bsrNote::kAccidentalThreeQuarterFlat:
+    case bsrNote::bsrAccidentalKind::kAccidentalThreeQuarterFlat:
       result = "accidentalThreeQuarterFlat";
       break;
   } // switch
@@ -1213,39 +1213,39 @@ string bsrNote::accidentalKindAsDebugString (
   string result;
 
   switch (accidentalKind) {
-    case bsrNote::kAccidentalNone:
+    case bsrNote::bsrAccidentalKind::kAccidentalNone:
       result = "";
       break;
 
-    case bsrNote::kAccidentalSharp:
+    case bsrNote::bsrAccidentalKind::kAccidentalSharp:
       result = "#";
       break;
-    case bsrNote::kAccidentalNatural:
+    case bsrNote::bsrAccidentalKind::kAccidentalNatural:
       result = "_";
       break;
-    case bsrNote::kAccidentalFlat:
+    case bsrNote::bsrAccidentalKind::kAccidentalFlat:
       result = "b";
       break;
 
-    case bsrNote::kAccidentalDoubleFlat:
+    case bsrNote::bsrAccidentalKind::kAccidentalDoubleFlat:
       result = "bb";
       break;
-    case bsrNote::kAccidentalDoubleSharp:
+    case bsrNote::bsrAccidentalKind::kAccidentalDoubleSharp:
       result = "##";
       break;
 
-    case bsrNote::kAccidentalQuarterSharp:
+    case bsrNote::bsrAccidentalKind::kAccidentalQuarterSharp:
       result = "q#";
       break;
-    case bsrNote::kAccidentalQuarterFlat:
+    case bsrNote::bsrAccidentalKind::kAccidentalQuarterFlat:
       result = "qb";
       break;
 
-    case bsrNote::kAccidentalThreeQuarterSharp:
+    case bsrNote::bsrAccidentalKind::kAccidentalThreeQuarterSharp:
       result = "3q#";
       break;
 
-    case bsrNote::kAccidentalThreeQuarterFlat:
+    case bsrNote::bsrAccidentalKind::kAccidentalThreeQuarterFlat:
       result = "3qb";
       break;
   } // switch
