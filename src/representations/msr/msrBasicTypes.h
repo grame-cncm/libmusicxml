@@ -883,6 +883,10 @@ EXP msrDurationKind msrDurationKindFromString (
   int    inputLineNumber,
   string durationString);
 
+EXP rational rationalFromDurationKindAndDotsNumber (
+  msrDurationKind durationKind,
+  int             dotsNumber);
+
 EXP rational msrDurationKindAsWholeNotes (
   msrDurationKind durationKind);
 

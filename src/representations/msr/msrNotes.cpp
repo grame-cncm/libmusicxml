@@ -430,86 +430,6 @@ S_msrMeasure msrNote::fetchNoteMeasureUpLink () const
   return result;
 }
 
-/* JMI
-// tuplet upLink
-S_msrTuplet msrNote::fetchNoteTupletUpLink () const
-{
-  S_msrTuplet result;
-
-  switch (fNoteKind) {
-    case msrNoteKind::k_NoNote:
-      break;
-
-    case msrNoteKind::kNoteRegularInMeasure:
-    case msrNoteKind::kNoteRestInMeasure:
-    case msrNoteKind::kNoteSkipInMeasure:
-    case msrNoteKind::kNoteUnpitchedInMeasure:
-      result = fNoteDirectTupletUpLink;
-      break;
-
-    case msrNoteKind::kNoteRegularInChord:
-      if (fNoteDirectChordUpLink) {
-        result =
-          fNoteDirectChordUpLink->
-            fetchChordTupletUpLink ();
-      }
-      break;
-
-    case msrNoteKind::kNoteRegularInTuplet:
-    case msrNoteKind::kNoteRestInTuplet:
-      if (fNoteDirectTupletUpLink) {
-        result =
-          fNoteDirectTupletUpLink->
-            fetchTupletTupletUpLink ();
-      }
-      break;
-
-    case msrNoteKind::kNoteInDoubleTremolo:
-      break;
-
-    case msrNoteKind::kNoteRegularInGraceNotesGroup:
-    case msrNoteKind::kNoteSkipInGraceNotesGroup:
-    / * JMi
-      if (fNoteDirectGraceNotesGroupUpLink) {
-        result =
-          fNoteDirectGraceNotesGroupUpLink->
-            getGraceNotesGroupVoiceUpLink ();
-              / * JMI
-              getGraceNotesGroupNoteUpLink ()->
-              fetchNoteVoiceUpLink ();
-              * /
-      }
-    * /
-      break;
-
-    case msrNoteKind::kNoteInChordInGraceNotesGroup:
-      if (fNoteDirectChordUpLink) {
-        result =
-          fNoteDirectChordUpLink->
-            getChordDirectGraceNotesGroupUpLink ()->
-              fetchGraceNoteGroupTupletUpLink ();
-      }
-      break;
-
-    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
-      / * cannot happen ??? JMI
-      if (fNoteDirectTupletUpLink) {
-        result =
-          fNoteDirectTupletUpLink->
-            getTupletDirectTupletUpLink ()->
-              fetchTupletVoiceUpLink ();
-      }
-      * /
-      break;
-
-    case msrNoteKind::kNoteUnpitchedInTuplet:
-      break;
-  } // switch
-
-  return result;
-}
-*/
-
 // grace notes group upLink
 S_msrGraceNotesGroup msrNote::fetchNoteGraceNotesGroupUpLink () const
 {
@@ -3966,7 +3886,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNoteKind::kNoteRestInMeasure:
       s <<
-        "Rest note" <<
+        "noteRestInMeasure" <<
         " [" <<
         msrOctaveKindAsString (fNoteOctaveKind) <<
         ":" <<
@@ -3983,7 +3903,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNoteKind::kNoteSkipInMeasure:
       s <<
-        "Skip note" <<
+        "noteSkipInMeasure" <<
         ":" <<
         ", whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
@@ -3999,7 +3919,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNoteKind::kNoteUnpitchedInMeasure:
       s <<
         notePitchAsString () <<
-        "Unpitched note" <<
+        "noteUnpitchedInMeasure" <<
         ":" <<
         ", whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
@@ -4014,9 +3934,8 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNoteKind::kNoteRegularInMeasure:
       s <<
-        "Standalone note '" <<
+        "noteRegularInMeasure" <<
         notePitchAsString () <<
-        "' " <<
         msrOctaveKindAsString (fNoteOctaveKind) <<
         ":" <<
         ", whole notes: " <<
@@ -4032,9 +3951,8 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNoteKind::kNoteInDoubleTremolo:
       s <<
-        "DoubleTremoloMember note '" <<
+        "noteInDoubleTremolo" <<
         notePitchAsString () <<
-        "' " <<
         msrOctaveKindAsString (fNoteOctaveKind) <<
         ":" <<
         " whole notes: " <<
@@ -4046,9 +3964,8 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNoteKind::kNoteRegularInGraceNotesGroup:
       s <<
-        "Grace note '" <<
+        "noteRegularInGraceNotesGroup" <<
         notePitchAsString () <<
-        "' " <<
         noteGraphicDurationAsMsrString () <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
@@ -4059,7 +3976,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNoteKind::kNoteSkipInGraceNotesGroup:
       s <<
-        "Grace skip note '" <<
+        "noteSkipInGraceNotesGroup" <<
         ":" <<
         ", whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
@@ -4074,9 +3991,8 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNoteKind::kNoteInChordInGraceNotesGroup:
       s <<
-        "GraceChordMember note '" <<
+        "noteInChordInGraceNotesGroup" <<
         notePitchAsString () <<
-        "' " <<
         noteGraphicDurationAsMsrString () <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
@@ -4087,9 +4003,8 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNoteKind::kNoteRegularInChord:
       s <<
-        "ChordMember note '" <<
+        "noteRegularInChord" <<
         notePitchAsString () <<
-        "' " <<
         msrOctaveKindAsString (fNoteOctaveKind) <<
         ", whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
@@ -4104,9 +4019,8 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNoteKind::kNoteRegularInTuplet:
       s <<
-        "TupletMember note '" <<
+        "noteRegularInTuplet" <<
         notePitchAsString () <<
-        "' " <<
         noteGraphicDurationAsMsrString () <<
         msrOctaveKindAsString (fNoteOctaveKind) <<
         ", whole notes: " <<
@@ -4125,9 +4039,8 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNoteKind::kNoteRestInTuplet:
       s <<
-        "TupletMember note '" <<
+        "noteRestInTuplet" <<
         notePitchAsString () <<
-        "' " <<
         noteGraphicDurationAsMsrString () <<
         ", whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
@@ -4145,9 +4058,8 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNoteKind::kNoteInTupletInGraceNotesGroup:
       s <<
-        "GraceTupletMember note '" <<
+        "noteInTupletInGraceNotesGroup" <<
         notePitchAsString () <<
-        "' " <<
         noteGraphicDurationAsMsrString ();
 
       if (! getNoteIsARest ()) {
@@ -4172,7 +4084,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNoteKind::kNoteUnpitchedInTuplet:
       s <<
-        "TupletMemberUnpitched note " <<
+        "noteUnpitchedInTuplet " <<
         noteGraphicDurationAsMsrString () <<
         ", whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
@@ -4212,7 +4124,7 @@ string msrNote::asShortString () const
 
     case msrNoteKind::kNoteRestInMeasure:
       s <<
-        "RestNote" <<
+        "noteRestInMeasure" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
 
@@ -4223,7 +4135,7 @@ string msrNote::asShortString () const
 
     case msrNoteKind::kNoteSkipInMeasure:
       s <<
-        "SkipNote" <<
+        "noteSkipInMeasure" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
 
@@ -4234,7 +4146,7 @@ string msrNote::asShortString () const
 
     case msrNoteKind::kNoteUnpitchedInMeasure:
       s <<
-        "UnpitchedNote" <<
+        "noteUnpitchedInMeasure" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
 
@@ -4246,9 +4158,8 @@ string msrNote::asShortString () const
     case msrNoteKind::kNoteRegularInMeasure:
       {
         s <<
-          "RegularNote '" <<
+          "noteRegularInMeasure '" <<
           notePitchAsString () <<
-          ", " <<
           noteSoundingWholeNotesAsMsrString ();
 
         for (int i = 0; i < fNoteDotsNumber; ++i) {
@@ -4296,10 +4207,9 @@ string msrNote::asShortString () const
 
     case msrNoteKind::kNoteInDoubleTremolo:
       s <<
-        "DoubleTremoloMemberNote '" <<
+        "noteInDoubleTremolo '" <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
-        ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; ++i) {
@@ -4309,10 +4219,9 @@ string msrNote::asShortString () const
 
     case msrNoteKind::kNoteRegularInGraceNotesGroup:
       s <<
-        "GraceNote '" <<
+        "noteRegularInGraceNotesGroup '" <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
-        ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; ++i) {
@@ -4322,7 +4231,7 @@ string msrNote::asShortString () const
 
     case msrNoteKind::kNoteSkipInGraceNotesGroup:
       s <<
-        "GraceSkipNote" <<
+        "noteSkipInGraceNotesGroup" <<
         " " <<
         noteSoundingWholeNotesAsMsrString ();
 
@@ -4333,10 +4242,9 @@ string msrNote::asShortString () const
 
    case msrNoteKind::kNoteInChordInGraceNotesGroup:
       s <<
-        "NoteInChordInGraceNotesGroup '" <<
+        "noteInChordInGraceNotesGroup '" <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
-        ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; ++i) {
@@ -4346,10 +4254,9 @@ string msrNote::asShortString () const
 
     case msrNoteKind::kNoteRegularInChord:
       s <<
-        "ChordMemberNote '" <<
+        "noteRegularInChord '" <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
-        ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; ++i) {
@@ -4359,7 +4266,7 @@ string msrNote::asShortString () const
 
     case msrNoteKind::kNoteRegularInTuplet:
       s <<
-        "TupletMemberNote" <<
+        "noteRegularInTuplet" <<
         ":" <<
         notePitchAsString () <<
         ", whole notes: " <<
@@ -4376,7 +4283,6 @@ string msrNote::asShortString () const
             fNoteDirectTupletUpLink->getTupletNormalNotes ());
             */
         msrOctaveKindAsString (fNoteOctaveKind) <<
-        ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; ++i) {
@@ -4389,7 +4295,7 @@ string msrNote::asShortString () const
 
     case msrNoteKind::kNoteRestInTuplet:
       s <<
-        "tupletRestMemberNote" <<
+        "noteRestInTuplet" <<
         ":" <<
         notePitchAsString () <<
         ", whole notes: " <<
@@ -4416,7 +4322,7 @@ string msrNote::asShortString () const
 
     case msrNoteKind::kNoteInTupletInGraceNotesGroup:
       s <<
-        "GraceTupletMemberNote" <<
+        "noteInTupletInGraceNotesGroup" <<
         ":" <<
         notePitchAsString () <<
         ", whole notes: " <<
@@ -4436,7 +4342,6 @@ string msrNote::asShortString () const
       if (! getNoteIsARest ()) {
         s <<
         msrOctaveKindAsString (fNoteOctaveKind) <<
-        ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
       }
 
@@ -4450,7 +4355,7 @@ string msrNote::asShortString () const
 
     case msrNoteKind::kNoteUnpitchedInTuplet:
       s <<
-        "TupletUnpitchedMemberNote" <<
+        "noteUnpitchedInTuplet" <<
         ", whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
@@ -4481,24 +4386,9 @@ string msrNote::asShortString () const
   return s.str ();
 }
 
-string msrNote::commonNoteEssentialsAsString () const
+string msrNote::noteComplementsAsString () const
 {
   stringstream s;
-
-  for (int i = 0; i < fNoteDotsNumber; ++i) {
-    s << ".";
-  } // for
-
-  /* JMI
-  "', " <<
-  noteDiatonicPitchKindAsString (
-    noteDiatonicPitchKind (fInputLineNumber)) <<
-  "', " <<
-  */
-
-  s <<
-    ", " <<
-    msrOctaveKindAsString (fNoteOctaveKind);
 
   S_msrVoice
     voice =
@@ -4563,8 +4453,19 @@ string msrNote::soundingNoteEssentialsAsString () const
 
   s <<
     notePitchAsString () <<
-    noteSoundingWholeNotesAsMsrString () <<
-    commonNoteEssentialsAsString ();
+    noteSoundingWholeNotesAsMsrString ();
+
+  for (int i = 0; i < fNoteDotsNumber; ++i) {
+    s << ".";
+  } // for
+
+  s <<
+    " (" <<
+    msrOctaveKindAsString (fNoteOctaveKind) <<
+    ")";
+
+  s <<
+    noteComplementsAsString ();
 
   return s.str ();
 }
@@ -4575,8 +4476,19 @@ string msrNote::nonSoundingNoteEssentialsAsString () const
 
   s <<
     notePitchAsString () <<
-    noteDisplayWholeNotesAsMsrString () <<
-    commonNoteEssentialsAsString ();
+    noteDisplayWholeNotesAsMsrString ();
+
+  for (int i = 0; i < fNoteDotsNumber; ++i) {
+    s << ".";
+  } // for
+
+  s <<
+    " (" <<
+    msrOctaveKindAsString (fNoteOctaveKind) <<
+    ")";
+
+  s <<
+    noteComplementsAsString ();
 
   return s.str ();
 }
@@ -4587,10 +4499,6 @@ string msrNote::asString () const
 
   s <<
     "[=== ";
-
-  if (true) { // JMI
-    s << "*** fNoteDotsNumber: " << fNoteDotsNumber << " ***" << endl;
-  }
 
   switch (fNoteKind) {
     case msrNoteKind::k_NoNote:
@@ -6347,8 +6255,7 @@ void msrNote::print (ostream& os) const
   /* JMI
         os <<
           syllable->syllableKindAsString () <<
-          ", " <<
-          syllable->syllableExtendKindAsString () <<
+            syllable->syllableExtendKindAsString () <<
           " : ";
 
         msrSyllable::writeTextsList (
@@ -7978,8 +7885,7 @@ void msrNote::printShort (ostream& os) const
   /* JMI
         os <<
           syllable->syllableKindAsString () <<
-          ", " <<
-          syllable->syllableExtendKindAsString () <<
+            syllable->syllableExtendKindAsString () <<
           " : ";
 
         msrSyllable::writeTextsList (
@@ -8043,3 +7949,84 @@ ostream& operator<< (ostream& os, const S_msrNote& elt)
 
 
 }
+
+/* JMI
+// tuplet upLink
+S_msrTuplet msrNote::fetchNoteTupletUpLink () const
+{
+  S_msrTuplet result;
+
+  switch (fNoteKind) {
+    case msrNoteKind::k_NoNote:
+      break;
+
+    case msrNoteKind::kNoteRegularInMeasure:
+    case msrNoteKind::kNoteRestInMeasure:
+    case msrNoteKind::kNoteSkipInMeasure:
+    case msrNoteKind::kNoteUnpitchedInMeasure:
+      result = fNoteDirectTupletUpLink;
+      break;
+
+    case msrNoteKind::kNoteRegularInChord:
+      if (fNoteDirectChordUpLink) {
+        result =
+          fNoteDirectChordUpLink->
+            fetchChordTupletUpLink ();
+      }
+      break;
+
+    case msrNoteKind::kNoteRegularInTuplet:
+    case msrNoteKind::kNoteRestInTuplet:
+      if (fNoteDirectTupletUpLink) {
+        result =
+          fNoteDirectTupletUpLink->
+            fetchTupletTupletUpLink ();
+      }
+      break;
+
+    case msrNoteKind::kNoteInDoubleTremolo:
+      break;
+
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
+    / * JMi
+      if (fNoteDirectGraceNotesGroupUpLink) {
+        result =
+          fNoteDirectGraceNotesGroupUpLink->
+            getGraceNotesGroupVoiceUpLink ();
+              / * JMI
+              getGraceNotesGroupNoteUpLink ()->
+              fetchNoteVoiceUpLink ();
+              * /
+      }
+    * /
+      break;
+
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
+      if (fNoteDirectChordUpLink) {
+        result =
+          fNoteDirectChordUpLink->
+            getChordDirectGraceNotesGroupUpLink ()->
+              fetchGraceNoteGroupTupletUpLink ();
+      }
+      break;
+
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
+      / * cannot happen ??? JMI
+      if (fNoteDirectTupletUpLink) {
+        result =
+          fNoteDirectTupletUpLink->
+            getTupletDirectTupletUpLink ()->
+              fetchTupletVoiceUpLink ();
+      }
+      * /
+      break;
+
+    case msrNoteKind::kNoteUnpitchedInTuplet:
+      break;
+  } // switch
+
+  return result;
+}
+*/
+

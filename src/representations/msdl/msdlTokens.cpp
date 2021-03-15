@@ -768,7 +768,7 @@ string msdlTokenKindsSet::asString () const
         /*
         .asMsdlString (
           fUserLanguageKind,
-          kCommentsTypePercent);
+          msdlCommentsTypeKind::kCommentsTypePercent);
 */
 
       if (++i == iEnd) break;
@@ -799,7 +799,7 @@ void msdlTokenKindsSet::print (ostream& os) const
         /*
         .asMsdlString (
           fUserLanguageKind,
-          kCommentsTypePercent);
+          msdlCommentsTypeKind::kCommentsTypePercent);
 */
 
       if (++i == iEnd) break;
@@ -1623,10 +1623,10 @@ string msdlToken::asMsdlString (
 
     case msdlTokenKind::kTokenParenthesizedComment:
       switch (commentsTypeKind) {
-        case kCommentsTypePercent:
+        case msdlCommentsTypeKind::kCommentsTypePercent:
           s << "%{" << fTokenDescription.getString () << "%}";
           break;
-        case kCommentsTypeStar:
+        case msdlCommentsTypeKind::kCommentsTypeStar:
           s << "/*" << fTokenDescription.getString () << "*/";
           break;
       } // switch
@@ -1634,10 +1634,10 @@ string msdlToken::asMsdlString (
 
     case msdlTokenKind::kTokenCommentToEndOfLine:
       switch (commentsTypeKind) {
-        case kCommentsTypePercent:
+        case msdlCommentsTypeKind::kCommentsTypePercent:
           s << "%" << fTokenDescription.getString ();
           break;
-        case kCommentsTypeStar:
+        case msdlCommentsTypeKind::kCommentsTypeStar:
           s << "//" << fTokenDescription.getString ();
           break;
       } // switch

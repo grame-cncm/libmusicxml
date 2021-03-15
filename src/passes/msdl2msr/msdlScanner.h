@@ -27,7 +27,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-enum msdlIgnoreSeparatorTokensKind {
+enum class msdlIgnoreSeparatorTokensKind {
   kIgnoreSeparatorTokensNo,
   kIgnoreSeparatorTokensYes
 };

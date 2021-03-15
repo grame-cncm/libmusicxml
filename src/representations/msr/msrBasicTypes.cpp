@@ -1401,6 +1401,58 @@ msrDurationKind msrDurationKindFromString (
   return result;
 }
 
+EXP rational rationalFromDurationKindAndDotsNumber (
+  msrDurationKind durationKind,
+  int             dotsNumber)
+{
+  // convert duration into whole notes
+  rational
+    result =
+      msrDurationKindAsWholeNotes (
+        durationKind);
+
+#ifdef TRACING_IS_ENABLED
+  if (true) { // JMI
+    gLogStream <<
+      "=== rationalFromDurationKindAndDotsNumber()" <<
+      ", (int) durationKind: " << (int) durationKind <<
+      ", result: " << result <<
+      endl;
+  }
+#endif
+
+  // take dots into account if any
+  if (dotsNumber > 0) {
+    rational
+      increment = result * rational (1,2);
+
+    int dots = dotsNumber;
+
+    while (dots > 0) {
+      result += increment;
+      result.rationalise ();
+
+      increment *= rational (1,2);
+      increment.rationalise ();
+
+#ifdef TRACING_IS_ENABLED
+  if (true) { // JMI
+    gLogStream <<
+      "=== rationalFromDurationKindAndDotsNumber()" <<
+      ", dots: " << dots <<
+      ", result: " << result <<
+      ", increment: " << increment <<
+      endl;
+  }
+#endif
+
+      --dots;
+    } // while
+  }
+
+  return result;
+}
+
 rational msrDurationKindAsWholeNotes (msrDurationKind durationKind)
 {
   rational result;

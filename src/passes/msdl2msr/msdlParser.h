@@ -225,6 +225,11 @@ class msdlParser : public smartable
     string                lilypondOctaveInFixedEntryMode (
                             S_msrNote note);
 
+    // note
+    rational              fCurrentNoteSoundingWholeNotes;
+    rational              fCurrentNoteDisplayWholeNotes;
+    int                   fCurrentNoteDotsNumber;
+
     // private score building methods
     // ------------------------------------------------------
 
@@ -382,9 +387,7 @@ class msdlParser : public smartable
 
     msrOctaveKind           OctaveIndication (S_msdlTokenKindsSet stopperTokensSet);
 
-    void                    NoteDuration (
-                              msrDottedDuration&  dottedDuration,
-                              S_msdlTokenKindsSet stopperTokensSet);
+    void                    NoteDuration (S_msdlTokenKindsSet stopperTokensSet);
 };
 typedef SMARTP<msdlParser> S_msdlParser;
 EXP ostream& operator<< (ostream& os, const msdlParser& elt);

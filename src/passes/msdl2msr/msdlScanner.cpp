@@ -57,10 +57,10 @@ string msdlIgnoreSeparatorTokensKindAsString (
   string result;
 
   switch (ignoreSeparatorTokensKind) {
-    case kIgnoreSeparatorTokensNo:
+    case msdlIgnoreSeparatorTokensKind::kIgnoreSeparatorTokensNo:
       result = "ignoreSeparatorTokensNo";
       break;
-    case kIgnoreSeparatorTokensYes:
+    case msdlIgnoreSeparatorTokensKind::kIgnoreSeparatorTokensYes:
       result = "ignoreSeparatorTokensYes";
       break;
   } // switch
@@ -143,22 +143,22 @@ msdlScanner::msdlScanner (
 
   // warnings and errors
   switch (fUserLanguageKind) {
-    case kUserLanguageEnglish:
+    case msdlUserLanguageKind::kUserLanguageEnglish:
       fScannerWaeHandler = msdlScannerEnglishWaeHandler::create ();
       break;
-    case kUserLanguageFrench:
+    case msdlUserLanguageKind::kUserLanguageFrench:
       fScannerWaeHandler = msdlScannerFrenchWaeHandler::create ();
       break;
-    case kUserLanguageItalian:
+    case msdlUserLanguageKind::kUserLanguageItalian:
       fScannerWaeHandler = msdlScannerItalianWaeHandler::create ();
       break;
-    case kUserLanguageGerman:
+    case msdlUserLanguageKind::kUserLanguageGerman:
       fScannerWaeHandler = msdlScannerGermanWaeHandler::create ();
       break;
-    case kUserLanguageSpanish:
+    case msdlUserLanguageKind::kUserLanguageSpanish:
       fScannerWaeHandler = msdlScannerSpanishWaeHandler::create ();
       break;
-    case kUserLanguageDutch:
+    case msdlUserLanguageKind::kUserLanguageDutch:
       fScannerWaeHandler = msdlScannerDutchWaeHandler::create ();
       break;
   } // switch
@@ -625,7 +625,7 @@ msdlTokenKind msdlScanner::fetchNextToken (
       case msdlTokenKind::kTokenEndOfLine:
       case msdlTokenKind::kTokenParenthesizedComment:
       case msdlTokenKind::kTokenCommentToEndOfLine:
-        onceMore = ignoreSeparatorTokens == kIgnoreSeparatorTokensYes;
+        onceMore = ignoreSeparatorTokens == msdlIgnoreSeparatorTokensKind::kIgnoreSeparatorTokensYes;
         break;
 
       default:
@@ -1570,7 +1570,7 @@ void msdlScanner::translateAllTheInputToKeywordsLanguage (
 
     do { // loop till end of stream
       // fetch the next token
-      tokenKind = fetchNextToken (kIgnoreSeparatorTokensNo);
+      tokenKind = fetchNextToken (msdlIgnoreSeparatorTokensKind::kIgnoreSeparatorTokensNo);
       ++numberOfTokens;
 
 #ifdef TRACING_IS_ENABLED
@@ -1679,8 +1679,8 @@ void msdlScanner::scanWholeInputAtOnce ()
   msdlIgnoreSeparatorTokensKind
     ignoreSeparatorTokensKind =
       ignoreSeparatorTokens
-        ? kIgnoreSeparatorTokensYes
-        : kIgnoreSeparatorTokensNo;
+        ? msdlIgnoreSeparatorTokensKind::kIgnoreSeparatorTokensYes
+        : msdlIgnoreSeparatorTokensKind::kIgnoreSeparatorTokensNo;
 
   // should we translate the keywords?
   msdlKeywordsLanguageKind

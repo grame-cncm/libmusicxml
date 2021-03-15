@@ -103,22 +103,22 @@ msdlParser::msdlParser (
 
   // warnings and errors
   switch (gGlobalMsdl2msrOahGroup->getMsdlUserLanguageKind ()) {
-    case kUserLanguageEnglish:
+    case msdlUserLanguageKind::kUserLanguageEnglish:
       fParserWaeHandler = msdlParserEnglishWaeHandler::create ();
       break;
-    case kUserLanguageFrench:
+    case msdlUserLanguageKind::kUserLanguageFrench:
       fParserWaeHandler = msdlParserFrenchWaeHandler::create ();
       break;
-    case kUserLanguageItalian:
+    case msdlUserLanguageKind::kUserLanguageItalian:
       fParserWaeHandler = msdlParserItalianWaeHandler::create ();
       break;
-    case kUserLanguageGerman:
+    case msdlUserLanguageKind::kUserLanguageGerman:
       fParserWaeHandler = msdlParserGermanWaeHandler::create ();
       break;
-    case kUserLanguageSpanish:
+    case msdlUserLanguageKind::kUserLanguageSpanish:
       fParserWaeHandler = msdlParserSpanishWaeHandler::create ();
       break;
-    case kUserLanguageDutch:
+    case msdlUserLanguageKind::kUserLanguageDutch:
       fParserWaeHandler = msdlParserDutchWaeHandler::create ();
       break;
   } // switch
@@ -142,7 +142,7 @@ msdlParser::msdlParser (
 
 void msdlParser::initializeTokensHandling ()
 {
-  fIgnoreSeparatorTokensKind = kIgnoreSeparatorTokensNo; // just to initialize it
+  fIgnoreSeparatorTokensKind = msdlIgnoreSeparatorTokensKind::kIgnoreSeparatorTokensNo; // just to initialize it
 
   // the empty token kinds set
   fEmptyTokenKindsSet =
@@ -322,7 +322,7 @@ string msdlParser::currentTokenAsMsdlString () const
   return
     fCurrentToken.asMsdlString (
       fKeywordsInputLanguageKind,
-      kCommentsTypePercent);
+      msdlCommentsTypeKind::kCommentsTypePercent);
 }
 
 //________________________________________________________________________
@@ -1294,7 +1294,7 @@ string msdlParser::lilypondOctaveInFixedEntryMode (
 void msdlParser::parse ()
 {
   // ignore separator tokens
-  fIgnoreSeparatorTokensKind = kIgnoreSeparatorTokensYes;
+  fIgnoreSeparatorTokensKind = msdlIgnoreSeparatorTokensKind::kIgnoreSeparatorTokensYes;
 
   gGlobalMsdl2msrOahGroup->
     setIgnoreSeparatorTokens (true); // JMI ???
@@ -3036,6 +3036,7 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
 
   ++gIndenter;
 
+  // get the note pitch input line number
   int inputLineNumber =
     fCurrentToken.getTokenLineNumber ();
 
@@ -3066,7 +3067,7 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
         pitchName);
 
 #ifdef TRACING_IS_ENABLED
-    if (fTraceSyntax) {
+  if (false) { // JMI
       gLogStream <<
         "=== Note()" <<
         ", noteQuarterTonesPitchKind: \"" <<
@@ -3081,11 +3082,8 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
   }
 
   // is there an octave indication?
-  msrOctaveKind
-    noteOctaveKind = msrOctaveKind::k_NoOctave;
-
 #ifdef TRACING_IS_ENABLED
-  if (fTraceSyntax) {
+  if (false) { // JMI
     gLogStream <<
       endl <<
       "=================================================================" <<
@@ -3096,22 +3094,17 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
   }
 #endif
 
-  if (
-    checkOptionalTokenKindsSet (
-      __FILE__, __LINE__,
-      fOctaveIndicationFIRST,
-      "Note")
-  ) {
+  // an octave indication is a sequence of commas or quotes, respectively,
+  // or empty, in which case octave 3 (one below Midlle C) is implicit
+  // we thus call OctaveIndication() unconditionally
+  msrOctaveKind
     noteOctaveKind =
       OctaveIndication (
         stopperTokensSet);
-  }
 
-  // is there a note duration?
-  msrDottedDuration noteDottedDuration;
-
+  // fetch the note duration?
 #ifdef TRACING_IS_ENABLED
-  if (fTraceSyntax) {
+  if (false) { // JMI
     gLogStream <<
       endl <<
       "=================================================================" <<
@@ -3129,20 +3122,8 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
       "Note")
   ) {
     NoteDuration (
-      noteDottedDuration,
       stopperTokensSet);
   }
-
-#ifdef TRACING_IS_ENABLED
-  if (fTraceSyntax) {
-    gLogStream <<
-      "=== Note()" <<
-      ", noteDottedDuration: \"" <<
-      noteDottedDuration.asString () <<
-      "\"" <<
-      endl;
-  }
-#endif
 
   // create the note
   stringstream s;
@@ -3151,38 +3132,16 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
 
   string currentMeasureNumberAsString = s.str ();
 
-  rational
-    noteSoundingWholeNotes =
-      noteDottedDuration.dottedDurationAsWholeNotes (
-        inputLineNumber),
-    noteDisplayWholeNotes =
-      noteSoundingWholeNotes; // TEMP NOT if in a tuplet... JMI
-
-  int
-    dotsNumber =
-      noteDottedDuration.getDotsNumber ();;
-
-#ifdef TRACING_IS_ENABLED
-  if (fTraceSyntax) {
-    gLogStream <<
-      "=== Note()" <<
-      ", noteSoundingWholeNotes: " << noteSoundingWholeNotes <<
-      ", noteDisplayWholeNotes: " << noteDisplayWholeNotes <<
-      ", dotsNumber: " << dotsNumber <<
-      endl;
-  }
-#endif
-
   S_msrNote
     note =
       msrNote::createRegularNote (
-        __LINE__,
+        inputLineNumber,
         currentMeasureNumberAsString,
         noteQuarterTonesPitchKind,
         noteOctaveKind,
-        noteSoundingWholeNotes, // soundingWholeNotes
-        noteDisplayWholeNotes , // displayWholeNotes
-        dotsNumber);
+        fCurrentNoteSoundingWholeNotes,
+        fCurrentNoteDisplayWholeNotes,
+        fCurrentNoteDotsNumber);
 
 #ifdef TRACING_IS_ENABLED
   if (fTraceSyntax) {
@@ -3403,9 +3362,7 @@ msrOctaveKind msdlParser::OctaveIndication (S_msdlTokenKindsSet stopperTokensSet
 //  msdlParser::NoteDuration
 // --------------------------------------------------------------------------
 
-void msdlParser::NoteDuration (
-  msrDottedDuration&  dottedDuration,
-  S_msdlTokenKindsSet stopperTokensSet)
+void msdlParser::NoteDuration (S_msdlTokenKindsSet stopperTokensSet)
 {
   if (stopperTokensSet->getTokenKindsSetSize ()) {
     fMsdlTokensSetsStack.push_front (stopperTokensSet);
@@ -3497,7 +3454,7 @@ void msdlParser::NoteDuration (
   } // while
 
   // are there dots?
-  int dotsNumber = 0;
+  fCurrentNoteDotsNumber = 0;
 
   while (
     checkOptionalTokenKind (
@@ -3505,33 +3462,20 @@ void msdlParser::NoteDuration (
       msdlTokenKind::kTokenDot,
       "NoteDuration")
   ) {
-    ++dotsNumber;
+    ++fCurrentNoteDotsNumber;
 
     // consume the dot
     fetchNextToken ();
   } // while
 
-#ifdef TRACING_IS_ENABLED
-  if (fTraceSyntax) {
-    gLogStream <<
-      "=== NoteDuration()" <<
-      ", dotsNumber: " << dotsNumber <<
-      endl;
-  }
-#endif
+  fCurrentNoteSoundingWholeNotes =
+    rationalFromDurationKindAndDotsNumber (
+      durationKind,
+      fCurrentNoteDotsNumber);
 
-  // populate the dotted duration
-  dottedDuration.setDurationKind (durationKind);
-  dottedDuration.setDotsNumber   (dotsNumber);
-
-#ifdef TRACING_IS_ENABLED
-    if (fTraceSyntax) {
-      gLogStream <<
-        "=== NoteDuration()" <<
-        ", dottedDuration: " << dottedDuration.asString () <<
-        endl;
-    }
-#endif
+  fCurrentNoteDisplayWholeNotes =
+    msrDurationKindAsWholeNotes (
+      durationKind);
 
   --gIndenter;
 
@@ -3543,7 +3487,9 @@ void msdlParser::NoteDuration (
   if (fTraceSyntax) {
     gLogStream <<
       "<-- NoteDuration()" <<
-      ", dottedDuration: " << dottedDuration.asString () <<
+      ", fCurrentNoteSoundingWholeNotes: " << fCurrentNoteSoundingWholeNotes <<
+      ", fCurrentNoteDisplayWholeNotes: " << fCurrentNoteDisplayWholeNotes <<
+      ", fCurrentNoteDotsNumber: " << fCurrentNoteDotsNumber <<
       endl;
   }
 #endif

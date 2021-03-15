@@ -46,11 +46,11 @@ map<string, msdlUserLanguageKind>
 
 void initializeMsdlUserLanguageKindsMap ()
 {
-  gGlobalMsdlUserLanguageKindsMap ["english"]  = kUserLanguageEnglish; // default
-  gGlobalMsdlUserLanguageKindsMap ["francais"] = kUserLanguageFrench;
-  gGlobalMsdlUserLanguageKindsMap ["italiano"] = kUserLanguageItalian;
-  gGlobalMsdlUserLanguageKindsMap ["deutsch"]  = kUserLanguageGerman;
-  gGlobalMsdlUserLanguageKindsMap ["espanol"]  = kUserLanguageSpanish;
+  gGlobalMsdlUserLanguageKindsMap ["english"]  = msdlUserLanguageKind::kUserLanguageEnglish; // default
+  gGlobalMsdlUserLanguageKindsMap ["francais"] = msdlUserLanguageKind::kUserLanguageFrench;
+  gGlobalMsdlUserLanguageKindsMap ["italiano"] = msdlUserLanguageKind::kUserLanguageItalian;
+  gGlobalMsdlUserLanguageKindsMap ["deutsch"]  = msdlUserLanguageKind::kUserLanguageGerman;
+  gGlobalMsdlUserLanguageKindsMap ["espanol"]  = msdlUserLanguageKind::kUserLanguageSpanish;
 }
 
 string msdlUserLanguageKindAsString (
@@ -59,22 +59,22 @@ string msdlUserLanguageKindAsString (
   string result;
 
   switch (languageKind) {
-    case kUserLanguageEnglish: // default value
+    case msdlUserLanguageKind::kUserLanguageEnglish: // default value
       result = "userLanguageEnglish";
       break;
-    case kUserLanguageFrench:
+    case msdlUserLanguageKind::kUserLanguageFrench:
       result = "userLanguageFrench";
       break;
-    case kUserLanguageItalian:
+    case msdlUserLanguageKind::kUserLanguageItalian:
       result = "userLanguageItalian";
       break;
-    case kUserLanguageGerman:
+    case msdlUserLanguageKind::kUserLanguageGerman:
       result = "userLanguageGerman";
       break;
-    case kUserLanguageSpanish:
+    case msdlUserLanguageKind::kUserLanguageSpanish:
       result = "userLanguageSpanish";
       break;
-    case kUserLanguageDutch:
+    case msdlUserLanguageKind::kUserLanguageDutch:
       result = "userLanguageDutch";
       break;
   } // switch
@@ -84,7 +84,7 @@ string msdlUserLanguageKindAsString (
 
 msdlUserLanguageKind msdlUserLanguageKindFromString (std::string theString)
 {
-  msdlUserLanguageKind result = kUserLanguageEnglish; // MSDL default
+  msdlUserLanguageKind result = msdlUserLanguageKind::kUserLanguageEnglish; // MSDL default
 
   map<string, msdlUserLanguageKind>::const_iterator
     it =
@@ -171,7 +171,7 @@ map<string, msdlCommentsTypeKind>
 
 msdlCommentsTypeKind msdlCommentsTypeKindFromString (std::string theString)
 {
-  msdlCommentsTypeKind result = kCommentsTypePercent; // MSDL default
+  msdlCommentsTypeKind result = msdlCommentsTypeKind::kCommentsTypePercent; // MSDL default
 
   map<string, msdlCommentsTypeKind>::const_iterator
     it =
@@ -212,8 +212,8 @@ void initializeMsdlCommentsTypeKindsMap ()
   static bool pThisMethodHasBeenRun = false;
 
   if (! pThisMethodHasBeenRun) {
-    gGlobalMsdlCommentsTypeKindsMap ["percent"] = kCommentsTypePercent;
-    gGlobalMsdlCommentsTypeKindsMap ["star"]    = kCommentsTypeStar;
+    gGlobalMsdlCommentsTypeKindsMap ["percent"] = msdlCommentsTypeKind::kCommentsTypePercent;
+    gGlobalMsdlCommentsTypeKindsMap ["star"]    = msdlCommentsTypeKind::kCommentsTypeStar;
 
     pThisMethodHasBeenRun = true;
   }
@@ -225,10 +225,10 @@ string msdlCommentsTypeKindAsString (
   string result;
 
   switch (languageKind) {
-    case kCommentsTypePercent: // MSDL default
+    case msdlCommentsTypeKind::kCommentsTypePercent: // MSDL default
       result = "commentsTypePercent";
       break;
-    case kCommentsTypeStar:
+    case msdlCommentsTypeKind::kCommentsTypeStar:
       result = "commentsTypePercent";
       break;
   } // switch
@@ -279,132 +279,6 @@ string existingMsdlCommentsTypeKinds (unsigned int namesListMaxLength)
 
   return s.str ();
 }
-
-// pitches languages
-//______________________________________________________________________________
-/* JMI
-map<string, msdlPitchesLanguageKind>
-  gGlobalMsdlPitchesLanguageKindsMap;
-
-void initializeMsdlPitchesLanguageKindsMap ()
-{
-  gGlobalMsdlPitchesLanguageKindsMap ["english"]  = kPitchesLanguageEnglish; // default
-  gGlobalMsdlPitchesLanguageKindsMap ["francais"] = kPitchesLanguageFrench;
-  gGlobalMsdlPitchesLanguageKindsMap ["italiano"] = kPitchesLanguageItalian;
-  gGlobalMsdlPitchesLanguageKindsMap ["deutsch"]  = kPitchesLanguageGerman;
-  gGlobalMsdlPitchesLanguageKindsMap ["espanol"]  = kPitchesLanguageSpanish;
-}
-
-string msdlPitchesLanguageKindAsString (
-  msdlPitchesLanguageKind languageKind)
-{
-  string result;
-
-  switch (languageKind) {
-    case kPitchesLanguageEnglish: // default value
-      result = "pitchesEnglish";
-      break;
-    case kPitchesLanguageFrench:
-      result = "pitchesFrench";
-      break;
-    case kPitchesLanguageItalian:
-      result = "pitchesItalian";
-      break;
-    case kPitchesLanguageGerman:
-      result = "pitchesGerman";
-      break;
-    case kPitchesLanguageSpanish:
-      result = "pitchesEspanol";
-      break;
-    case kPitchesLanguageDutch:
-      result = "pitchesDutch";
-      break;
-  } // switch
-
-  return result;
-}
-
-msdlPitchesLanguageKind msdlPitchesLanguageKindFromString (std::string theString)
-{
-  msdlPitchesLanguageKind result = kPitchesLanguageEnglish; // MSDL default
-
-  map<string, msdlPitchesLanguageKind>::const_iterator
-    it =
-      gGlobalMsdlPitchesLanguageKindsMap.find (
-        theString);
-
-  if (it == gGlobalMsdlPitchesLanguageKindsMap.end ()) {
-    // no, Pitches language kind is unknown in the map
-    stringstream s;
-
-    s <<
-      "MSDL language kind '" << theString <<
-      "' is unknown" <<
-      endl <<
-      "The " <<
-      gGlobalMsdlPitchesLanguageKindsMap.size () - 1 <<
-      " known MSDL language kinds are:" <<
-      endl;
-
-    ++gIndenter;
-
-    s <<
-      existingMsdlPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
-
-    --gIndenter;
-
-// JMI    oahError (s.str ());
-  }
-
-  result = (*it).second;
-
-  return result;
-}
-
-string existingMsdlPitchesLanguageKinds (unsigned int namesListMaxLength)
-{
-  stringstream s;
-
-  unsigned int
-    msdlPitchesLanguageKindsMapSize =
-      gGlobalMsdlPitchesLanguageKindsMap.size ();
-
-  if (msdlPitchesLanguageKindsMapSize) {
-    unsigned int nextToLast =
-      msdlPitchesLanguageKindsMapSize - 1;
-
-    unsigned int count = 0;
-    unsigned int cumulatedLength = 0;
-
-    for (
-      map<string, msdlPitchesLanguageKind>::const_iterator i =
-        gGlobalMsdlPitchesLanguageKindsMap.begin ();
-      i != gGlobalMsdlPitchesLanguageKindsMap.end ();
-      ++i
-    ) {
-      string theString = (*i).first;
-
-      cumulatedLength += theString.size ();
-      if (cumulatedLength >= namesListMaxLength) {
-        s << "\n";
-        cumulatedLength = 0;
-        break;
-      }
-
-      s << theString;
-
-      if (count == nextToLast) {
-        s << " and ";
-      }
-      else if (count != msdlPitchesLanguageKindsMapSize) {
-        s << ", ";
-      }
-    } // for
-  }
-
-  return s.str ();
-}
-*/
 
 //______________________________________________________________________________
 void initializeMSDLBasicTypes ()

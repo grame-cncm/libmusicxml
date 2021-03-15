@@ -192,7 +192,7 @@ R"()",
 
   const msdlUserLanguageKind
     msdlUserLanguageKindDefaultValue =
-      kUserLanguageEnglish; // MSDL default
+      msdlUserLanguageKind::kUserLanguageEnglish; // MSDL default
 
   fMsdlUserLanguageKind =
     msdlUserLanguageKindDefaultValue;
@@ -353,7 +353,7 @@ The default is not to translate the keywords.)",
 
   const msdlCommentsTypeKind
     msdlCommentsTypeKindDefaultValue =
-      kCommentsTypePercent; // MSDL default
+      msdlCommentsTypeKind::kCommentsTypePercent; // MSDL default
 
   fMsdlCommentsTypeTranslationKind =
     msdlCommentsTypeKindDefaultValue;

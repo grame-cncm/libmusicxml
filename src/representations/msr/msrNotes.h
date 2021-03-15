@@ -926,7 +926,8 @@ class EXP msrNote : public msrTupletElement
 
     string                soundingNoteEssentialsAsString () const;
     string                nonSoundingNoteEssentialsAsString () const;
-    string                commonNoteEssentialsAsString () const;
+
+    string                noteComplementsAsString () const;
 
     string                asString () const override;
 
