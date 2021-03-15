@@ -1661,8 +1661,8 @@ string msrGlyph::glyphTypeKindAsString (
     case msrGlyph::kFClefGlyph:
       result = "kFClefGlyph";
       break;
-    case msrGlyph::kPercussionClefGlyph:
-      result = "kPercussionClefGlyph";
+    case msrGlyph::kClefPercussionGlyph:
+      result = "msrClefKind::kClefPercussionGlyph";
       break;
     case msrGlyph::kOctaveShiftUp8Glyph:
       result = "kOctaveShiftUp8Glyph";

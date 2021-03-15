@@ -136,8 +136,13 @@ class EXP xml2lyInsiderOahGroup : public oahGroup
     // ------------------------------------------------------
 
     // quit after some passes
+    void                  setQuitAfterPass2a ()
+                              { fQuitAfterPass2a = true; }
     bool                  getQuitAfterPass2a () const
                               { return fQuitAfterPass2a; }
+
+    void                  setQuitAfterPass2b ()
+                              { fQuitAfterPass2b = true; }
     bool                  getQuitAfterPass2b () const
                               { return fQuitAfterPass2b; }
 

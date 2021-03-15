@@ -371,7 +371,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
       appendClefToMeasure (
         msrClef::create (
           __LINE__,
-          kTrebleClef,
+          msrClefKind::kClefTreble,
           1));
 
     // append the key
@@ -1362,7 +1362,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
       appendClefToMeasure (
         msrClef::create (
           __LINE__,
-          kBassClef,
+          msrClefKind::kClefBass,
           2));
 
     // append the key
@@ -2140,7 +2140,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
       appendClefToMeasure (
         msrClef::create (
           __LINE__,
-          kBassClef,
+          msrClefKind::kClefBass,
           2));
 
     // append the key

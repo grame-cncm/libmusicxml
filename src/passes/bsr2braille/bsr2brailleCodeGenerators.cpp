@@ -87,7 +87,7 @@ ostream& operator<< (ostream& os, const bsrCellKind cell)
     unsigned char chars [2];
   } conversion;
 
-  conversion.cellar = cell;
+  conversion.cellar = wchar_t (cell);
 
   // write in reverse order!
   os << conversion.chars [0] << conversion.chars [1];
@@ -208,7 +208,7 @@ void bsrAsciiBrailleGenerator::generateCodeForBrailleCell (
   string stringForCell;
 
   switch (cellKind) {
-    case kCellUnknown:
+    case bsrCellKind::kCellUnknown:
       {
         stringstream s;
 
@@ -224,77 +224,77 @@ void bsrAsciiBrailleGenerator::generateCodeForBrailleCell (
       }
       break;
 
-    case kCellEOL:    stringForCell = "\x0a"; break;
-    case kCellEOP:    stringForCell = "\x0c"; break;
+    case bsrCellKind::kCellEOL:    stringForCell = "\x0a"; break;
+    case bsrCellKind::kCellEOP:    stringForCell = "\x0c"; break;
 
-    case kDotsNone:   stringForCell = "\x20"; break;
+    case bsrCellKind::kDotsNone:   stringForCell = "\x20"; break;
 
-    case kDots1:      stringForCell = "\x41"; break;
-    case kDots2:      stringForCell = "\x31"; break;
-    case kDots12:     stringForCell = "\x42"; break;
-    case kDots3:      stringForCell = "\x27"; break;
-    case kDots13:     stringForCell = "\x4b"; break;
-    case kDots23:     stringForCell = "\x32"; break;
-    case kDots123:    stringForCell = "\x4c"; break;
-    case kDots4:      stringForCell = "\x40"; break;
-    case kDots14:     stringForCell = "\x43"; break;
-    case kDots24:     stringForCell = "\x49"; break;
-    case kDots124:    stringForCell = "\x46"; break;
-    case kDots34:     stringForCell = "\x2f"; break;
-    case kDots134:    stringForCell = "\x4d"; break;
-    case kDots234:    stringForCell = "\x53"; break;
-    case kDots1234:   stringForCell = "\x50"; break;
+    case bsrCellKind::kDots1:      stringForCell = "\x41"; break;
+    case bsrCellKind::kDots2:      stringForCell = "\x31"; break;
+    case bsrCellKind::kDots12:     stringForCell = "\x42"; break;
+    case bsrCellKind::kDots3:      stringForCell = "\x27"; break;
+    case bsrCellKind::kDots13:     stringForCell = "\x4b"; break;
+    case bsrCellKind::kDots23:     stringForCell = "\x32"; break;
+    case bsrCellKind::kDots123:    stringForCell = "\x4c"; break;
+    case bsrCellKind::kDots4:      stringForCell = "\x40"; break;
+    case bsrCellKind::kDots14:     stringForCell = "\x43"; break;
+    case bsrCellKind::kDots24:     stringForCell = "\x49"; break;
+    case bsrCellKind::kDots124:    stringForCell = "\x46"; break;
+    case bsrCellKind::kDots34:     stringForCell = "\x2f"; break;
+    case bsrCellKind::kDots134:    stringForCell = "\x4d"; break;
+    case bsrCellKind::kDots234:    stringForCell = "\x53"; break;
+    case bsrCellKind::kDots1234:   stringForCell = "\x50"; break;
 
-    case kDots5:      stringForCell = "\x22"; break;
-    case kDots15:     stringForCell = "\x45"; break;
-    case kDots25:     stringForCell = "\x33"; break;
-    case kDots125:    stringForCell = "\x48"; break;
-    case kDots35:     stringForCell = "\x39"; break;
-    case kDots135:    stringForCell = "\x4f"; break;
-    case kDots235:    stringForCell = "\x37"; break;
-    case kDots1235:   stringForCell = "\x52"; break;
-    case kDots45:     stringForCell = "\x5e"; break;
-    case kDots145:    stringForCell = "\x44"; break;
-    case kDots245:    stringForCell = "\x4a"; break;
-    case kDots1245:   stringForCell = "\x47"; break;
-    case kDots345:    stringForCell = "\x3e"; break;
-    case kDots1345:   stringForCell = "\x4e"; break;
-    case kDots2345:   stringForCell = "\x54"; break;
-    case kDots12345:  stringForCell = "\x51"; break;
+    case bsrCellKind::kDots5:      stringForCell = "\x22"; break;
+    case bsrCellKind::kDots15:     stringForCell = "\x45"; break;
+    case bsrCellKind::kDots25:     stringForCell = "\x33"; break;
+    case bsrCellKind::kDots125:    stringForCell = "\x48"; break;
+    case bsrCellKind::kDots35:     stringForCell = "\x39"; break;
+    case bsrCellKind::kDots135:    stringForCell = "\x4f"; break;
+    case bsrCellKind::kDots235:    stringForCell = "\x37"; break;
+    case bsrCellKind::kDots1235:   stringForCell = "\x52"; break;
+    case bsrCellKind::kDots45:     stringForCell = "\x5e"; break;
+    case bsrCellKind::kDots145:    stringForCell = "\x44"; break;
+    case bsrCellKind::kDots245:    stringForCell = "\x4a"; break;
+    case bsrCellKind::kDots1245:   stringForCell = "\x47"; break;
+    case bsrCellKind::kDots345:    stringForCell = "\x3e"; break;
+    case bsrCellKind::kDots1345:   stringForCell = "\x4e"; break;
+    case bsrCellKind::kDots2345:   stringForCell = "\x54"; break;
+    case bsrCellKind::kDots12345:  stringForCell = "\x51"; break;
 
-    case kDots6:      stringForCell = "\x2c"; break;
-    case kDots16:     stringForCell = "\x2a"; break;
-    case kDots26:     stringForCell = "\x35"; break;
-    case kDots126:    stringForCell = "\x3c"; break;
-    case kDots36:     stringForCell = "\x2d"; break;
-    case kDots136:    stringForCell = "\x55"; break;
-    case kDots236:    stringForCell = "\x38"; break;
-    case kDots1236:   stringForCell = "\x56"; break;
-    case kDots46:     stringForCell = "\x2e"; break;
-    case kDots146:    stringForCell = "\x25"; break;
-    case kDots246:    stringForCell = "\x5b"; break;
-    case kDots1246:   stringForCell = "\x24"; break;
-    case kDots346:    stringForCell = "\x2b"; break;
-    case kDots1346:   stringForCell = "\x58"; break;
-    case kDots2346:   stringForCell = "\x21"; break;
-    case kDots12346:  stringForCell = "\x26"; break;
+    case bsrCellKind::kDots6:      stringForCell = "\x2c"; break;
+    case bsrCellKind::kDots16:     stringForCell = "\x2a"; break;
+    case bsrCellKind::kDots26:     stringForCell = "\x35"; break;
+    case bsrCellKind::kDots126:    stringForCell = "\x3c"; break;
+    case bsrCellKind::kDots36:     stringForCell = "\x2d"; break;
+    case bsrCellKind::kDots136:    stringForCell = "\x55"; break;
+    case bsrCellKind::kDots236:    stringForCell = "\x38"; break;
+    case bsrCellKind::kDots1236:   stringForCell = "\x56"; break;
+    case bsrCellKind::kDots46:     stringForCell = "\x2e"; break;
+    case bsrCellKind::kDots146:    stringForCell = "\x25"; break;
+    case bsrCellKind::kDots246:    stringForCell = "\x5b"; break;
+    case bsrCellKind::kDots1246:   stringForCell = "\x24"; break;
+    case bsrCellKind::kDots346:    stringForCell = "\x2b"; break;
+    case bsrCellKind::kDots1346:   stringForCell = "\x58"; break;
+    case bsrCellKind::kDots2346:   stringForCell = "\x21"; break;
+    case bsrCellKind::kDots12346:  stringForCell = "\x26"; break;
 
-    case kDots56:     stringForCell = "\x3b"; break;
-    case kDots156:    stringForCell = "\x3a"; break;
-    case kDots256:    stringForCell = "\x34"; break;
-    case kDots1256:   stringForCell = "\x5c"; break;
-    case kDots356:    stringForCell = "\x30"; break;
-    case kDots1356:   stringForCell = "\x5a"; break;
-    case kDots2356:   stringForCell = "\x37"; break;
-    case kDots12356:  stringForCell = "\x28"; break;
-    case kDots456:    stringForCell = "\x5f"; break;
-    case kDots1456:   stringForCell = "\x3f"; break;
-    case kDots2456:   stringForCell = "\x57"; break;
-    case kDots12456:  stringForCell = "\x5d"; break;
-    case kDots3456:   stringForCell = "\x23"; break;
-    case kDots13456:  stringForCell = "\x59"; break;
-    case kDots23456:  stringForCell = "\x29"; break;
-    case kDots123456: stringForCell = "\x3d"; break;
+    case bsrCellKind::kDots56:     stringForCell = "\x3b"; break;
+    case bsrCellKind::kDots156:    stringForCell = "\x3a"; break;
+    case bsrCellKind::kDots256:    stringForCell = "\x34"; break;
+    case bsrCellKind::kDots1256:   stringForCell = "\x5c"; break;
+    case bsrCellKind::kDots356:    stringForCell = "\x30"; break;
+    case bsrCellKind::kDots1356:   stringForCell = "\x5a"; break;
+    case bsrCellKind::kDots2356:   stringForCell = "\x37"; break;
+    case bsrCellKind::kDots12356:  stringForCell = "\x28"; break;
+    case bsrCellKind::kDots456:    stringForCell = "\x5f"; break;
+    case bsrCellKind::kDots1456:   stringForCell = "\x3f"; break;
+    case bsrCellKind::kDots2456:   stringForCell = "\x57"; break;
+    case bsrCellKind::kDots12456:  stringForCell = "\x5d"; break;
+    case bsrCellKind::kDots3456:   stringForCell = "\x23"; break;
+    case bsrCellKind::kDots13456:  stringForCell = "\x59"; break;
+    case bsrCellKind::kDots23456:  stringForCell = "\x29"; break;
+    case bsrCellKind::kDots123456: stringForCell = "\x3d"; break;
   } // switch
 
   fBrailleOutputStream <<
@@ -390,7 +390,7 @@ void bsrUTF8BrailleGenerator::generateCodeForBrailleCell (
   string stringForCell;
 
   switch (cellKind) {
-    case kCellUnknown:
+    case bsrCellKind::kCellUnknown:
       {
         stringstream s;
 
@@ -406,77 +406,77 @@ void bsrUTF8BrailleGenerator::generateCodeForBrailleCell (
       }
       break;
 
-    case kCellEOL:    stringForCell = "\x0a"; break; // U+000A
-    case kCellEOP:    stringForCell = "\x0c"; break; // U+000C
+    case bsrCellKind::kCellEOL:    stringForCell = "\x0a"; break; // U+000A
+    case bsrCellKind::kCellEOP:    stringForCell = "\x0c"; break; // U+000C
 
-    case kDotsNone:   stringForCell = "\xe2\xa0\x80"; break; // U+2800 ⠀ e2 a0 80 BLANK
+    case bsrCellKind::kDotsNone:   stringForCell = "\xe2\xa0\x80"; break; // U+2800 ⠀ e2 a0 80 BLANK
 
-    case kDots1:      stringForCell = "\xe2\xa0\x81"; break; // U+2801 ⠀ e2 a0 81 DOTS-1
-    case kDots2:      stringForCell = "\xe2\xa0\x82"; break; // U+2802 ⠀ e2 a0 82 DOTS-2
-    case kDots12:     stringForCell = "\xe2\xa0\x83"; break; // U+2803 ⠀ e2 a0 83 DOTS-12
-    case kDots3:      stringForCell = "\xe2\xa0\x84"; break; // U+2804  ⠄ e2 a0 84 DOTS-3
-    case kDots13:     stringForCell = "\xe2\xa0\x85"; break; // U+2805  ⠅ e2 a0 85 DOTS-13
-    case kDots23:     stringForCell = "\xe2\xa0\x86"; break; // U+2806  ⠆ e2 a0 86 DOTS-23
-    case kDots123:    stringForCell = "\xe2\xa0\x87"; break; // U+2807  ⠇ e2 a0 87 DOTS-123
-    case kDots4:      stringForCell = "\xe2\xa0\x88"; break; // U+2808  ⠈ e2 a0 88 DOTS-4
-    case kDots14:     stringForCell = "\xe2\xa0\x89"; break; // U+2809  ⠉ e2 a0 89 DOTS-14
-    case kDots24:     stringForCell = "\xe2\xa0\x8a"; break; // U+280A  ⠊ e2 a0 8a DOTS-24
-    case kDots124:    stringForCell = "\xe2\xa0\x8b"; break; // U+280B  ⠋ e2 a0 8b DOTS-124
-    case kDots34:     stringForCell = "\xe2\xa0\x8c"; break; // U+280C  ⠌ e2 a0 8c DOTS-34
-    case kDots134:    stringForCell = "\xe2\xa0\x8d"; break; // U+280D  ⠍ e2 a0 8d DOTS-134
-    case kDots234:    stringForCell = "\xe2\xa0\x8e"; break; // U+280E  ⠎ e2 a0 8e DOTS-234
-    case kDots1234:   stringForCell = "\xe2\xa0\x8f"; break; // U+280F  ⠏ e2 a0 8f DOTS-1234
+    case bsrCellKind::kDots1:      stringForCell = "\xe2\xa0\x81"; break; // U+2801 ⠀ e2 a0 81 DOTS-1
+    case bsrCellKind::kDots2:      stringForCell = "\xe2\xa0\x82"; break; // U+2802 ⠀ e2 a0 82 DOTS-2
+    case bsrCellKind::kDots12:     stringForCell = "\xe2\xa0\x83"; break; // U+2803 ⠀ e2 a0 83 DOTS-12
+    case bsrCellKind::kDots3:      stringForCell = "\xe2\xa0\x84"; break; // U+2804  ⠄ e2 a0 84 DOTS-3
+    case bsrCellKind::kDots13:     stringForCell = "\xe2\xa0\x85"; break; // U+2805  ⠅ e2 a0 85 DOTS-13
+    case bsrCellKind::kDots23:     stringForCell = "\xe2\xa0\x86"; break; // U+2806  ⠆ e2 a0 86 DOTS-23
+    case bsrCellKind::kDots123:    stringForCell = "\xe2\xa0\x87"; break; // U+2807  ⠇ e2 a0 87 DOTS-123
+    case bsrCellKind::kDots4:      stringForCell = "\xe2\xa0\x88"; break; // U+2808  ⠈ e2 a0 88 DOTS-4
+    case bsrCellKind::kDots14:     stringForCell = "\xe2\xa0\x89"; break; // U+2809  ⠉ e2 a0 89 DOTS-14
+    case bsrCellKind::kDots24:     stringForCell = "\xe2\xa0\x8a"; break; // U+280A  ⠊ e2 a0 8a DOTS-24
+    case bsrCellKind::kDots124:    stringForCell = "\xe2\xa0\x8b"; break; // U+280B  ⠋ e2 a0 8b DOTS-124
+    case bsrCellKind::kDots34:     stringForCell = "\xe2\xa0\x8c"; break; // U+280C  ⠌ e2 a0 8c DOTS-34
+    case bsrCellKind::kDots134:    stringForCell = "\xe2\xa0\x8d"; break; // U+280D  ⠍ e2 a0 8d DOTS-134
+    case bsrCellKind::kDots234:    stringForCell = "\xe2\xa0\x8e"; break; // U+280E  ⠎ e2 a0 8e DOTS-234
+    case bsrCellKind::kDots1234:   stringForCell = "\xe2\xa0\x8f"; break; // U+280F  ⠏ e2 a0 8f DOTS-1234
 
-    case kDots5:      stringForCell = "\xe2\xa0\x90"; break; // U+2810  ⠐ e2 a0 90 DOTS-5
-    case kDots15:     stringForCell = "\xe2\xa0\x91"; break; // U+2811  ⠑ e2 a0 91 DOTS-15
-    case kDots25:     stringForCell = "\xe2\xa0\x92"; break; // U+2812  ⠒ e2 a0 92 DOTS-25
-    case kDots125:    stringForCell = "\xe2\xa0\x93"; break; // U+2813  ⠓ e2 a0 93 DOTS-125
-    case kDots35:     stringForCell = "\xe2\xa0\x94"; break; // U+2814  ⠔ e2 a0 94 DOTS-35
-    case kDots135:    stringForCell = "\xe2\xa0\x95"; break; // U+2815  ⠕ e2 a0 95 DOTS-135
-    case kDots235:    stringForCell = "\xe2\xa0\x96"; break; // U+2816  ⠖ e2 a0 96 DOTS-235
-    case kDots1235:   stringForCell = "\xe2\xa0\x97"; break; // U+2817  ⠗ e2 a0 97 DOTS-1235
-    case kDots45:     stringForCell = "\xe2\xa0\x98"; break; // U+2818  ⠘ e2 a0 98 DOTS-45
-    case kDots145:    stringForCell = "\xe2\xa0\x99"; break; // U+2819  ⠙ e2 a0 99 DOTS-145
-    case kDots245:    stringForCell = "\xe2\xa0\x9a"; break; // U+281A  ⠚ e2 a0 9a DOTS-245
-    case kDots1245:   stringForCell = "\xe2\xa0\x9b"; break; // U+281B  ⠛ e2 a0 9b DOTS-1245
-    case kDots345:    stringForCell = "\xe2\xa0\x9c"; break; // U+281C  ⠜ e2 a0 9c DOTS-345
-    case kDots1345:   stringForCell = "\xe2\xa0\x9d"; break; // U+281D  ⠝ e2 a0 9d DOTS-1345
-    case kDots2345:   stringForCell = "\xe2\xa0\x9e"; break; // U+281E  ⠞ e2 a0 9e DOTS-2345
-    case kDots12345:  stringForCell = "\xe2\xa0\x9f"; break; // U+281F  ⠟ e2 a0 9f DOTS-12345
+    case bsrCellKind::kDots5:      stringForCell = "\xe2\xa0\x90"; break; // U+2810  ⠐ e2 a0 90 DOTS-5
+    case bsrCellKind::kDots15:     stringForCell = "\xe2\xa0\x91"; break; // U+2811  ⠑ e2 a0 91 DOTS-15
+    case bsrCellKind::kDots25:     stringForCell = "\xe2\xa0\x92"; break; // U+2812  ⠒ e2 a0 92 DOTS-25
+    case bsrCellKind::kDots125:    stringForCell = "\xe2\xa0\x93"; break; // U+2813  ⠓ e2 a0 93 DOTS-125
+    case bsrCellKind::kDots35:     stringForCell = "\xe2\xa0\x94"; break; // U+2814  ⠔ e2 a0 94 DOTS-35
+    case bsrCellKind::kDots135:    stringForCell = "\xe2\xa0\x95"; break; // U+2815  ⠕ e2 a0 95 DOTS-135
+    case bsrCellKind::kDots235:    stringForCell = "\xe2\xa0\x96"; break; // U+2816  ⠖ e2 a0 96 DOTS-235
+    case bsrCellKind::kDots1235:   stringForCell = "\xe2\xa0\x97"; break; // U+2817  ⠗ e2 a0 97 DOTS-1235
+    case bsrCellKind::kDots45:     stringForCell = "\xe2\xa0\x98"; break; // U+2818  ⠘ e2 a0 98 DOTS-45
+    case bsrCellKind::kDots145:    stringForCell = "\xe2\xa0\x99"; break; // U+2819  ⠙ e2 a0 99 DOTS-145
+    case bsrCellKind::kDots245:    stringForCell = "\xe2\xa0\x9a"; break; // U+281A  ⠚ e2 a0 9a DOTS-245
+    case bsrCellKind::kDots1245:   stringForCell = "\xe2\xa0\x9b"; break; // U+281B  ⠛ e2 a0 9b DOTS-1245
+    case bsrCellKind::kDots345:    stringForCell = "\xe2\xa0\x9c"; break; // U+281C  ⠜ e2 a0 9c DOTS-345
+    case bsrCellKind::kDots1345:   stringForCell = "\xe2\xa0\x9d"; break; // U+281D  ⠝ e2 a0 9d DOTS-1345
+    case bsrCellKind::kDots2345:   stringForCell = "\xe2\xa0\x9e"; break; // U+281E  ⠞ e2 a0 9e DOTS-2345
+    case bsrCellKind::kDots12345:  stringForCell = "\xe2\xa0\x9f"; break; // U+281F  ⠟ e2 a0 9f DOTS-12345
 
-    case kDots6:      stringForCell = "\xe2\xa0\xa0"; break; // U+2820  ⠠ e2 a0 a0 DOTS-6
-    case kDots16:     stringForCell = "\xe2\xa0\xa1"; break; // U+2821  ⠡ e2 a0 a1 DOTS-16
-    case kDots26:     stringForCell = "\xe2\xa0\xa2"; break; // U+2822  ⠢ e2 a0 a2 DOTS-26
-    case kDots126:    stringForCell = "\xe2\xa0\xa3"; break; // U+2823  ⠣ e2 a0 a3 DOTS-126
-    case kDots36:     stringForCell = "\xe2\xa0\xa4"; break; // U+2824  ⠤ e2 a0 a4 DOTS-36
-    case kDots136:    stringForCell = "\xe2\xa0\xa5"; break; // U+2825  ⠥ e2 a0 a5 DOTS-136
-    case kDots236:    stringForCell = "\xe2\xa0\xa6"; break; // U+2826  ⠦ e2 a0 a6 DOTS-236
-    case kDots1236:   stringForCell = "\xe2\xa0\xa7"; break; // U+2827  ⠧ e2 a0 a7 DOTS-1236
-    case kDots46:     stringForCell = "\xe2\xa0\xa8"; break; // U+2828  ⠨ e2 a0 a8 DOTS-46
-    case kDots146:    stringForCell = "\xe2\xa0\xa9"; break; // U+2829  ⠩ e2 a0 a9 DOTS-146
-    case kDots246:    stringForCell = "\xe2\xa0\xaa"; break; // U+282A  ⠪ e2 a0 aa DOTS-246
-    case kDots1246:   stringForCell = "\xe2\xa0\xab"; break; // U+282b  ⠫ e2 a0 ab DOTS-1246
-    case kDots346:    stringForCell = "\xe2\xa0\xac"; break; // U+282C  ⠬ e2 a0 ac DOTS-346
-    case kDots1346:   stringForCell = "\xe2\xa0\xad"; break; // U+282D  ⠭ e2 a0 ad DOTS-1346
-    case kDots2346:   stringForCell = "\xe2\xa0\xae"; break; // U+282E  ⠮ e2 a0 ae DOTS-2346
-    case kDots12346:  stringForCell = "\xe2\xa0\xaf"; break; // U+282F  ⠯ e2 a0 af DOTS-12346
+    case bsrCellKind::kDots6:      stringForCell = "\xe2\xa0\xa0"; break; // U+2820  ⠠ e2 a0 a0 DOTS-6
+    case bsrCellKind::kDots16:     stringForCell = "\xe2\xa0\xa1"; break; // U+2821  ⠡ e2 a0 a1 DOTS-16
+    case bsrCellKind::kDots26:     stringForCell = "\xe2\xa0\xa2"; break; // U+2822  ⠢ e2 a0 a2 DOTS-26
+    case bsrCellKind::kDots126:    stringForCell = "\xe2\xa0\xa3"; break; // U+2823  ⠣ e2 a0 a3 DOTS-126
+    case bsrCellKind::kDots36:     stringForCell = "\xe2\xa0\xa4"; break; // U+2824  ⠤ e2 a0 a4 DOTS-36
+    case bsrCellKind::kDots136:    stringForCell = "\xe2\xa0\xa5"; break; // U+2825  ⠥ e2 a0 a5 DOTS-136
+    case bsrCellKind::kDots236:    stringForCell = "\xe2\xa0\xa6"; break; // U+2826  ⠦ e2 a0 a6 DOTS-236
+    case bsrCellKind::kDots1236:   stringForCell = "\xe2\xa0\xa7"; break; // U+2827  ⠧ e2 a0 a7 DOTS-1236
+    case bsrCellKind::kDots46:     stringForCell = "\xe2\xa0\xa8"; break; // U+2828  ⠨ e2 a0 a8 DOTS-46
+    case bsrCellKind::kDots146:    stringForCell = "\xe2\xa0\xa9"; break; // U+2829  ⠩ e2 a0 a9 DOTS-146
+    case bsrCellKind::kDots246:    stringForCell = "\xe2\xa0\xaa"; break; // U+282A  ⠪ e2 a0 aa DOTS-246
+    case bsrCellKind::kDots1246:   stringForCell = "\xe2\xa0\xab"; break; // U+282b  ⠫ e2 a0 ab DOTS-1246
+    case bsrCellKind::kDots346:    stringForCell = "\xe2\xa0\xac"; break; // U+282C  ⠬ e2 a0 ac DOTS-346
+    case bsrCellKind::kDots1346:   stringForCell = "\xe2\xa0\xad"; break; // U+282D  ⠭ e2 a0 ad DOTS-1346
+    case bsrCellKind::kDots2346:   stringForCell = "\xe2\xa0\xae"; break; // U+282E  ⠮ e2 a0 ae DOTS-2346
+    case bsrCellKind::kDots12346:  stringForCell = "\xe2\xa0\xaf"; break; // U+282F  ⠯ e2 a0 af DOTS-12346
 
-    case kDots56:     stringForCell = "\xe2\xa0\xb0"; break; // U+2830  ⠰ e2 a0 b0 DOTS-56
-    case kDots156:    stringForCell = "\xe2\xa0\xb1"; break; // U+2831  ⠱ e2 a0 b1 DOTS-156
-    case kDots256:    stringForCell = "\xe2\xa0\xb2"; break; // U+2832  ⠲ e2 a0 b2 DOTS-256
-    case kDots1256:   stringForCell = "\xe2\xa0\xb3"; break; // U+2833  ⠳ e2 a0 b3 DOTS-1256
-    case kDots356:    stringForCell = "\xe2\xa0\xb4"; break; // U+2834  ⠴ e2 a0 b4 DOTS-356
-    case kDots1356:   stringForCell = "\xe2\xa0\xb5"; break; // U+2835  ⠵ e2 a0 b5 DOTS-1356
-    case kDots2356:   stringForCell = "\xe2\xa0\xb6"; break; // U+2836  ⠶ e2 a0 b6 DOTS-2356
-    case kDots12356:  stringForCell = "\xe2\xa0\xb7"; break; // U+2837  ⠷ e2 a0 b7 DOTS-12356
-    case kDots456:    stringForCell = "\xe2\xa0\xb8"; break; // U+2838  ⠸ e2 a0 b8 DOTS-456
-    case kDots1456:   stringForCell = "\xe2\xa0\xb9"; break; // U+2839  ⠹ e2 a0 b9 DOTS-1456
-    case kDots2456:   stringForCell = "\xe2\xa0\xba"; break; // U+283A  ⠺ e2 a0 ba DOTS-2456
-    case kDots12456:  stringForCell = "\xe2\xa0\xbb"; break; // U+283B  ⠻ e2 a0 bb DOTS-12456
-    case kDots3456:   stringForCell = "\xe2\xa0\xbc"; break; // U+283C  ⠼ e2 a0 bc DOTS-3456
-    case kDots13456:  stringForCell = "\xe2\xa0\xbd"; break; // U+283D  ⠽ e2 a0 bd DOTS-13456
-    case kDots23456:  stringForCell = "\xe2\xa0\xbe"; break; // U+283E  ⠾ e2 a0 be DOTS-23456
-    case kDots123456: stringForCell = "\xe2\xa0\xbf"; break; // U+283F ⠿ e2 a0 bf DOTS-123456
+    case bsrCellKind::kDots56:     stringForCell = "\xe2\xa0\xb0"; break; // U+2830  ⠰ e2 a0 b0 DOTS-56
+    case bsrCellKind::kDots156:    stringForCell = "\xe2\xa0\xb1"; break; // U+2831  ⠱ e2 a0 b1 DOTS-156
+    case bsrCellKind::kDots256:    stringForCell = "\xe2\xa0\xb2"; break; // U+2832  ⠲ e2 a0 b2 DOTS-256
+    case bsrCellKind::kDots1256:   stringForCell = "\xe2\xa0\xb3"; break; // U+2833  ⠳ e2 a0 b3 DOTS-1256
+    case bsrCellKind::kDots356:    stringForCell = "\xe2\xa0\xb4"; break; // U+2834  ⠴ e2 a0 b4 DOTS-356
+    case bsrCellKind::kDots1356:   stringForCell = "\xe2\xa0\xb5"; break; // U+2835  ⠵ e2 a0 b5 DOTS-1356
+    case bsrCellKind::kDots2356:   stringForCell = "\xe2\xa0\xb6"; break; // U+2836  ⠶ e2 a0 b6 DOTS-2356
+    case bsrCellKind::kDots12356:  stringForCell = "\xe2\xa0\xb7"; break; // U+2837  ⠷ e2 a0 b7 DOTS-12356
+    case bsrCellKind::kDots456:    stringForCell = "\xe2\xa0\xb8"; break; // U+2838  ⠸ e2 a0 b8 DOTS-456
+    case bsrCellKind::kDots1456:   stringForCell = "\xe2\xa0\xb9"; break; // U+2839  ⠹ e2 a0 b9 DOTS-1456
+    case bsrCellKind::kDots2456:   stringForCell = "\xe2\xa0\xba"; break; // U+283A  ⠺ e2 a0 ba DOTS-2456
+    case bsrCellKind::kDots12456:  stringForCell = "\xe2\xa0\xbb"; break; // U+283B  ⠻ e2 a0 bb DOTS-12456
+    case bsrCellKind::kDots3456:   stringForCell = "\xe2\xa0\xbc"; break; // U+283C  ⠼ e2 a0 bc DOTS-3456
+    case bsrCellKind::kDots13456:  stringForCell = "\xe2\xa0\xbd"; break; // U+283D  ⠽ e2 a0 bd DOTS-13456
+    case bsrCellKind::kDots23456:  stringForCell = "\xe2\xa0\xbe"; break; // U+283E  ⠾ e2 a0 be DOTS-23456
+    case bsrCellKind::kDots123456: stringForCell = "\xe2\xa0\xbf"; break; // U+283F ⠿ e2 a0 bf DOTS-123456
   } // switch
 
   fBrailleOutputStream <<
@@ -493,22 +493,22 @@ void bsrUTF8BrailleGenerator::writeTestData (ostream& os)
   for (wchar_t wch = L'\u2800'; wch <= L'\u280f'; ++wch) {
     os << wch;
   } // for
-  os << kCellEOL;
+  os << bsrCellKind::kCellEOL;
   for (wchar_t wch = L'\u2810'; wch <= L'\u281f'; ++wch) {
     os << wch;
   } // for
-  os << kCellEOL;
-  os << kCellEOP;
+  os << bsrCellKind::kCellEOL;
+  os << bsrCellKind::kCellEOP;
 
   for (wchar_t wch = L'\u2820'; wch <= L'\u282f'; ++wch) {
     os << wch;
   } // for
-  os << kCellEOL;
+  os << bsrCellKind::kCellEOL;
   for (wchar_t wch = L'\u2830'; wch <= L'\u283f'; ++wch) {
     os << wch;
   } // for
-  os << kCellEOL;
-  os << kCellEOP;
+  os << bsrCellKind::kCellEOL;
+  os << bsrCellKind::kCellEOP;
   os << endl;
 }
 
@@ -602,7 +602,7 @@ void bsrUTF8DebugBrailleGenerator::generateCodeForMusicHeading (
 
   this->
     generateCodeForBrailleCell (
-      kCellEOL);
+      bsrCellKind::kCellEOL);
 
   fBrailleOutputStream <<
     musicHeading->
@@ -610,7 +610,7 @@ void bsrUTF8DebugBrailleGenerator::generateCodeForMusicHeading (
 
   this->
     generateCodeForBrailleCell (
-      kCellEOL);
+      bsrCellKind::kCellEOL);
 }
 
 void bsrUTF8DebugBrailleGenerator::generateCodeForLineContents (
@@ -624,11 +624,11 @@ void bsrUTF8DebugBrailleGenerator::generateCodeForLineContents (
 if (true) // JMI TESTS
   this->
     generateCodeForBrailleCell (
-      kCellEOL);
+      bsrCellKind::kCellEOL);
 
   this->
     generateCodeForBrailleCell (
-      kCellEOL);
+      bsrCellKind::kCellEOL);
 
   fBrailleOutputStream <<
     lineContents->
@@ -637,11 +637,11 @@ if (true) // JMI TESTS
 if (true) // JMI TESTS
   this->
     generateCodeForBrailleCell (
-      kCellEOL);
+      bsrCellKind::kCellEOL);
 
   this->
     generateCodeForBrailleCell (
-      kCellEOL);
+      bsrCellKind::kCellEOL);
 }
 
 void bsrUTF8DebugBrailleGenerator::print (ostream& os) const
@@ -726,7 +726,7 @@ Octal Escape Sequence	\342\240\203*/
   string stringForCell;
 
   switch (cellKind) {
-    case kCellUnknown:
+    case bsrCellKind::kCellUnknown:
       {
         stringstream s;
 
@@ -742,77 +742,77 @@ Octal Escape Sequence	\342\240\203*/
       }
       break;
 
-    case kCellEOL:    stringForCell = "\x0a"; break; // U+000A
-    case kCellEOP:    stringForCell = "\x0c"; break; // U+000C
+    case bsrCellKind::kCellEOL:    stringForCell = "\x0a"; break; // U+000A
+    case bsrCellKind::kCellEOP:    stringForCell = "\x0c"; break; // U+000C
 
-    case kDotsNone:   stringForCell = "\xe2\xa0\x80"; break; // U+2800 ⠀ e2 a0 80 BLANK
+    case bsrCellKind::kDotsNone:   stringForCell = "\xe2\xa0\x80"; break; // U+2800 ⠀ e2 a0 80 BLANK
 
-    case kDots1:      stringForCell = "\xe2\xa0\x81"; break; // U+2801 ⠀ e2 a0 81 DOTS-1
-    case kDots2:      stringForCell = "\xe2\xa0\x82"; break; // U+2802 ⠀ e2 a0 82 DOTS-2
-    case kDots12:     stringForCell = "\xe2\xa0\x83"; break; // U+2803 ⠀ e2 a0 83 DOTS-12
-    case kDots3:      stringForCell = "\xe2\xa0\x84"; break; // U+2804  ⠄ e2 a0 84 DOTS-3
-    case kDots13:     stringForCell = "\xe2\xa0\x85"; break; // U+2805  ⠅ e2 a0 85 DOTS-13
-    case kDots23:     stringForCell = "\xe2\xa0\x86"; break; // U+2806  ⠆ e2 a0 86 DOTS-23
-    case kDots123:    stringForCell = "\xe2\xa0\x87"; break; // U+2807  ⠇ e2 a0 87 DOTS-123
-    case kDots4:      stringForCell = "\xe2\xa0\x88"; break; // U+2808  ⠈ e2 a0 88 DOTS-4
-    case kDots14:     stringForCell = "\xe2\xa0\x89"; break; // U+2809  ⠉ e2 a0 89 DOTS-14
-    case kDots24:     stringForCell = "\xe2\xa0\x8a"; break; // U+280A  ⠊ e2 a0 8a DOTS-24
-    case kDots124:    stringForCell = "\xe2\xa0\x8b"; break; // U+280B  ⠋ e2 a0 8b DOTS-124
-    case kDots34:     stringForCell = "\xe2\xa0\x8c"; break; // U+280C  ⠌ e2 a0 8c DOTS-34
-    case kDots134:    stringForCell = "\xe2\xa0\x8d"; break; // U+280D  ⠍ e2 a0 8d DOTS-134
-    case kDots234:    stringForCell = "\xe2\xa0\x8e"; break; // U+280E  ⠎ e2 a0 8e DOTS-234
-    case kDots1234:   stringForCell = "\xe2\xa0\x8f"; break; // U+280F  ⠏ e2 a0 8f DOTS-1234
+    case bsrCellKind::kDots1:      stringForCell = "\xe2\xa0\x81"; break; // U+2801 ⠀ e2 a0 81 DOTS-1
+    case bsrCellKind::kDots2:      stringForCell = "\xe2\xa0\x82"; break; // U+2802 ⠀ e2 a0 82 DOTS-2
+    case bsrCellKind::kDots12:     stringForCell = "\xe2\xa0\x83"; break; // U+2803 ⠀ e2 a0 83 DOTS-12
+    case bsrCellKind::kDots3:      stringForCell = "\xe2\xa0\x84"; break; // U+2804  ⠄ e2 a0 84 DOTS-3
+    case bsrCellKind::kDots13:     stringForCell = "\xe2\xa0\x85"; break; // U+2805  ⠅ e2 a0 85 DOTS-13
+    case bsrCellKind::kDots23:     stringForCell = "\xe2\xa0\x86"; break; // U+2806  ⠆ e2 a0 86 DOTS-23
+    case bsrCellKind::kDots123:    stringForCell = "\xe2\xa0\x87"; break; // U+2807  ⠇ e2 a0 87 DOTS-123
+    case bsrCellKind::kDots4:      stringForCell = "\xe2\xa0\x88"; break; // U+2808  ⠈ e2 a0 88 DOTS-4
+    case bsrCellKind::kDots14:     stringForCell = "\xe2\xa0\x89"; break; // U+2809  ⠉ e2 a0 89 DOTS-14
+    case bsrCellKind::kDots24:     stringForCell = "\xe2\xa0\x8a"; break; // U+280A  ⠊ e2 a0 8a DOTS-24
+    case bsrCellKind::kDots124:    stringForCell = "\xe2\xa0\x8b"; break; // U+280B  ⠋ e2 a0 8b DOTS-124
+    case bsrCellKind::kDots34:     stringForCell = "\xe2\xa0\x8c"; break; // U+280C  ⠌ e2 a0 8c DOTS-34
+    case bsrCellKind::kDots134:    stringForCell = "\xe2\xa0\x8d"; break; // U+280D  ⠍ e2 a0 8d DOTS-134
+    case bsrCellKind::kDots234:    stringForCell = "\xe2\xa0\x8e"; break; // U+280E  ⠎ e2 a0 8e DOTS-234
+    case bsrCellKind::kDots1234:   stringForCell = "\xe2\xa0\x8f"; break; // U+280F  ⠏ e2 a0 8f DOTS-1234
 
-    case kDots5:      stringForCell = "\xe2\xa0\x90"; break; // U+2810  ⠐ e2 a0 90 DOTS-5
-    case kDots15:     stringForCell = "\xe2\xa0\x91"; break; // U+2811  ⠑ e2 a0 91 DOTS-15
-    case kDots25:     stringForCell = "\xe2\xa0\x92"; break; // U+2812  ⠒ e2 a0 92 DOTS-25
-    case kDots125:    stringForCell = "\xe2\xa0\x93"; break; // U+2813  ⠓ e2 a0 93 DOTS-125
-    case kDots35:     stringForCell = "\xe2\xa0\x94"; break; // U+2814  ⠔ e2 a0 94 DOTS-35
-    case kDots135:    stringForCell = "\xe2\xa0\x95"; break; // U+2815  ⠕ e2 a0 95 DOTS-135
-    case kDots235:    stringForCell = "\xe2\xa0\x96"; break; // U+2816  ⠖ e2 a0 96 DOTS-235
-    case kDots1235:   stringForCell = "\xe2\xa0\x97"; break; // U+2817  ⠗ e2 a0 97 DOTS-1235
-    case kDots45:     stringForCell = "\xe2\xa0\x98"; break; // U+2818  ⠘ e2 a0 98 DOTS-45
-    case kDots145:    stringForCell = "\xe2\xa0\x99"; break; // U+2819  ⠙ e2 a0 99 DOTS-145
-    case kDots245:    stringForCell = "\xe2\xa0\x9a"; break; // U+281A  ⠚ e2 a0 9a DOTS-245
-    case kDots1245:   stringForCell = "\xe2\xa0\x9b"; break; // U+281B  ⠛ e2 a0 9b DOTS-1245
-    case kDots345:    stringForCell = "\xe2\xa0\x9c"; break; // U+281C  ⠜ e2 a0 9c DOTS-345
-    case kDots1345:   stringForCell = "\xe2\xa0\x9d"; break; // U+281D  ⠝ e2 a0 9d DOTS-1345
-    case kDots2345:   stringForCell = "\xe2\xa0\x9e"; break; // U+281E  ⠞ e2 a0 9e DOTS-2345
-    case kDots12345:  stringForCell = "\xe2\xa0\x9f"; break; // U+281F  ⠟ e2 a0 9f DOTS-12345
+    case bsrCellKind::kDots5:      stringForCell = "\xe2\xa0\x90"; break; // U+2810  ⠐ e2 a0 90 DOTS-5
+    case bsrCellKind::kDots15:     stringForCell = "\xe2\xa0\x91"; break; // U+2811  ⠑ e2 a0 91 DOTS-15
+    case bsrCellKind::kDots25:     stringForCell = "\xe2\xa0\x92"; break; // U+2812  ⠒ e2 a0 92 DOTS-25
+    case bsrCellKind::kDots125:    stringForCell = "\xe2\xa0\x93"; break; // U+2813  ⠓ e2 a0 93 DOTS-125
+    case bsrCellKind::kDots35:     stringForCell = "\xe2\xa0\x94"; break; // U+2814  ⠔ e2 a0 94 DOTS-35
+    case bsrCellKind::kDots135:    stringForCell = "\xe2\xa0\x95"; break; // U+2815  ⠕ e2 a0 95 DOTS-135
+    case bsrCellKind::kDots235:    stringForCell = "\xe2\xa0\x96"; break; // U+2816  ⠖ e2 a0 96 DOTS-235
+    case bsrCellKind::kDots1235:   stringForCell = "\xe2\xa0\x97"; break; // U+2817  ⠗ e2 a0 97 DOTS-1235
+    case bsrCellKind::kDots45:     stringForCell = "\xe2\xa0\x98"; break; // U+2818  ⠘ e2 a0 98 DOTS-45
+    case bsrCellKind::kDots145:    stringForCell = "\xe2\xa0\x99"; break; // U+2819  ⠙ e2 a0 99 DOTS-145
+    case bsrCellKind::kDots245:    stringForCell = "\xe2\xa0\x9a"; break; // U+281A  ⠚ e2 a0 9a DOTS-245
+    case bsrCellKind::kDots1245:   stringForCell = "\xe2\xa0\x9b"; break; // U+281B  ⠛ e2 a0 9b DOTS-1245
+    case bsrCellKind::kDots345:    stringForCell = "\xe2\xa0\x9c"; break; // U+281C  ⠜ e2 a0 9c DOTS-345
+    case bsrCellKind::kDots1345:   stringForCell = "\xe2\xa0\x9d"; break; // U+281D  ⠝ e2 a0 9d DOTS-1345
+    case bsrCellKind::kDots2345:   stringForCell = "\xe2\xa0\x9e"; break; // U+281E  ⠞ e2 a0 9e DOTS-2345
+    case bsrCellKind::kDots12345:  stringForCell = "\xe2\xa0\x9f"; break; // U+281F  ⠟ e2 a0 9f DOTS-12345
 
-    case kDots6:      stringForCell = "\xe2\xa0\xa0"; break; // U+2820  ⠠ e2 a0 a0 DOTS-6
-    case kDots16:     stringForCell = "\xe2\xa0\xa1"; break; // U+2821  ⠡ e2 a0 a1 DOTS-16
-    case kDots26:     stringForCell = "\xe2\xa0\xa2"; break; // U+2822  ⠢ e2 a0 a2 DOTS-26
-    case kDots126:    stringForCell = "\xe2\xa0\xa3"; break; // U+2823  ⠣ e2 a0 a3 DOTS-126
-    case kDots36:     stringForCell = "\xe2\xa0\xa4"; break; // U+2824  ⠤ e2 a0 a4 DOTS-36
-    case kDots136:    stringForCell = "\xe2\xa0\xa5"; break; // U+2825  ⠥ e2 a0 a5 DOTS-136
-    case kDots236:    stringForCell = "\xe2\xa0\xa6"; break; // U+2826  ⠦ e2 a0 a6 DOTS-236
-    case kDots1236:   stringForCell = "\xe2\xa0\xa7"; break; // U+2827  ⠧ e2 a0 a7 DOTS-1236
-    case kDots46:     stringForCell = "\xe2\xa0\xa8"; break; // U+2828  ⠨ e2 a0 a8 DOTS-46
-    case kDots146:    stringForCell = "\xe2\xa0\xa9"; break; // U+2829  ⠩ e2 a0 a9 DOTS-146
-    case kDots246:    stringForCell = "\xe2\xa0\xaa"; break; // U+282A  ⠪ e2 a0 aa DOTS-246
-    case kDots1246:   stringForCell = "\xe2\xa0\xab"; break; // U+282b  ⠫ e2 a0 ab DOTS-1246
-    case kDots346:    stringForCell = "\xe2\xa0\xac"; break; // U+282C  ⠬ e2 a0 ac DOTS-346
-    case kDots1346:   stringForCell = "\xe2\xa0\xad"; break; // U+282D  ⠭ e2 a0 ad DOTS-1346
-    case kDots2346:   stringForCell = "\xe2\xa0\xae"; break; // U+282E  ⠮ e2 a0 ae DOTS-2346
-    case kDots12346:  stringForCell = "\xe2\xa0\xaf"; break; // U+282F  ⠯ e2 a0 af DOTS-12346
+    case bsrCellKind::kDots6:      stringForCell = "\xe2\xa0\xa0"; break; // U+2820  ⠠ e2 a0 a0 DOTS-6
+    case bsrCellKind::kDots16:     stringForCell = "\xe2\xa0\xa1"; break; // U+2821  ⠡ e2 a0 a1 DOTS-16
+    case bsrCellKind::kDots26:     stringForCell = "\xe2\xa0\xa2"; break; // U+2822  ⠢ e2 a0 a2 DOTS-26
+    case bsrCellKind::kDots126:    stringForCell = "\xe2\xa0\xa3"; break; // U+2823  ⠣ e2 a0 a3 DOTS-126
+    case bsrCellKind::kDots36:     stringForCell = "\xe2\xa0\xa4"; break; // U+2824  ⠤ e2 a0 a4 DOTS-36
+    case bsrCellKind::kDots136:    stringForCell = "\xe2\xa0\xa5"; break; // U+2825  ⠥ e2 a0 a5 DOTS-136
+    case bsrCellKind::kDots236:    stringForCell = "\xe2\xa0\xa6"; break; // U+2826  ⠦ e2 a0 a6 DOTS-236
+    case bsrCellKind::kDots1236:   stringForCell = "\xe2\xa0\xa7"; break; // U+2827  ⠧ e2 a0 a7 DOTS-1236
+    case bsrCellKind::kDots46:     stringForCell = "\xe2\xa0\xa8"; break; // U+2828  ⠨ e2 a0 a8 DOTS-46
+    case bsrCellKind::kDots146:    stringForCell = "\xe2\xa0\xa9"; break; // U+2829  ⠩ e2 a0 a9 DOTS-146
+    case bsrCellKind::kDots246:    stringForCell = "\xe2\xa0\xaa"; break; // U+282A  ⠪ e2 a0 aa DOTS-246
+    case bsrCellKind::kDots1246:   stringForCell = "\xe2\xa0\xab"; break; // U+282b  ⠫ e2 a0 ab DOTS-1246
+    case bsrCellKind::kDots346:    stringForCell = "\xe2\xa0\xac"; break; // U+282C  ⠬ e2 a0 ac DOTS-346
+    case bsrCellKind::kDots1346:   stringForCell = "\xe2\xa0\xad"; break; // U+282D  ⠭ e2 a0 ad DOTS-1346
+    case bsrCellKind::kDots2346:   stringForCell = "\xe2\xa0\xae"; break; // U+282E  ⠮ e2 a0 ae DOTS-2346
+    case bsrCellKind::kDots12346:  stringForCell = "\xe2\xa0\xaf"; break; // U+282F  ⠯ e2 a0 af DOTS-12346
 
-    case kDots56:     stringForCell = "\xe2\xa0\xb0"; break; // U+2830  ⠰ e2 a0 b0 DOTS-56
-    case kDots156:    stringForCell = "\xe2\xa0\xb1"; break; // U+2831  ⠱ e2 a0 b1 DOTS-156
-    case kDots256:    stringForCell = "\xe2\xa0\xb2"; break; // U+2832  ⠲ e2 a0 b2 DOTS-256
-    case kDots1256:   stringForCell = "\xe2\xa0\xb3"; break; // U+2833  ⠳ e2 a0 b3 DOTS-1256
-    case kDots356:    stringForCell = "\xe2\xa0\xb4"; break; // U+2834  ⠴ e2 a0 b4 DOTS-356
-    case kDots1356:   stringForCell = "\xe2\xa0\xb5"; break; // U+2835  ⠵ e2 a0 b5 DOTS-1356
-    case kDots2356:   stringForCell = "\xe2\xa0\xb6"; break; // U+2836  ⠶ e2 a0 b6 DOTS-2356
-    case kDots12356:  stringForCell = "\xe2\xa0\xb7"; break; // U+2837  ⠷ e2 a0 b7 DOTS-12356
-    case kDots456:    stringForCell = "\xe2\xa0\xb8"; break; // U+2838  ⠸ e2 a0 b8 DOTS-456
-    case kDots1456:   stringForCell = "\xe2\xa0\xb9"; break; // U+2839  ⠹ e2 a0 b9 DOTS-1456
-    case kDots2456:   stringForCell = "\xe2\xa0\xba"; break; // U+283A  ⠺ e2 a0 ba DOTS-2456
-    case kDots12456:  stringForCell = "\xe2\xa0\xbb"; break; // U+283B  ⠻ e2 a0 bb DOTS-12456
-    case kDots3456:   stringForCell = "\xe2\xa0\xbc"; break; // U+283C  ⠼ e2 a0 bc DOTS-3456
-    case kDots13456:  stringForCell = "\xe2\xa0\xbd"; break; // U+283D  ⠽ e2 a0 bd DOTS-13456
-    case kDots23456:  stringForCell = "\xe2\xa0\xbe"; break; // U+283E  ⠾ e2 a0 be DOTS-23456
-    case kDots123456: stringForCell = "\xe2\xa0\xbf"; break; // U+283F ⠿ e2 a0 bf DOTS-123456
+    case bsrCellKind::kDots56:     stringForCell = "\xe2\xa0\xb0"; break; // U+2830  ⠰ e2 a0 b0 DOTS-56
+    case bsrCellKind::kDots156:    stringForCell = "\xe2\xa0\xb1"; break; // U+2831  ⠱ e2 a0 b1 DOTS-156
+    case bsrCellKind::kDots256:    stringForCell = "\xe2\xa0\xb2"; break; // U+2832  ⠲ e2 a0 b2 DOTS-256
+    case bsrCellKind::kDots1256:   stringForCell = "\xe2\xa0\xb3"; break; // U+2833  ⠳ e2 a0 b3 DOTS-1256
+    case bsrCellKind::kDots356:    stringForCell = "\xe2\xa0\xb4"; break; // U+2834  ⠴ e2 a0 b4 DOTS-356
+    case bsrCellKind::kDots1356:   stringForCell = "\xe2\xa0\xb5"; break; // U+2835  ⠵ e2 a0 b5 DOTS-1356
+    case bsrCellKind::kDots2356:   stringForCell = "\xe2\xa0\xb6"; break; // U+2836  ⠶ e2 a0 b6 DOTS-2356
+    case bsrCellKind::kDots12356:  stringForCell = "\xe2\xa0\xb7"; break; // U+2837  ⠷ e2 a0 b7 DOTS-12356
+    case bsrCellKind::kDots456:    stringForCell = "\xe2\xa0\xb8"; break; // U+2838  ⠸ e2 a0 b8 DOTS-456
+    case bsrCellKind::kDots1456:   stringForCell = "\xe2\xa0\xb9"; break; // U+2839  ⠹ e2 a0 b9 DOTS-1456
+    case bsrCellKind::kDots2456:   stringForCell = "\xe2\xa0\xba"; break; // U+283A  ⠺ e2 a0 ba DOTS-2456
+    case bsrCellKind::kDots12456:  stringForCell = "\xe2\xa0\xbb"; break; // U+283B  ⠻ e2 a0 bb DOTS-12456
+    case bsrCellKind::kDots3456:   stringForCell = "\xe2\xa0\xbc"; break; // U+283C  ⠼ e2 a0 bc DOTS-3456
+    case bsrCellKind::kDots13456:  stringForCell = "\xe2\xa0\xbd"; break; // U+283D  ⠽ e2 a0 bd DOTS-13456
+    case bsrCellKind::kDots23456:  stringForCell = "\xe2\xa0\xbe"; break; // U+283E  ⠾ e2 a0 be DOTS-23456
+    case bsrCellKind::kDots123456: stringForCell = "\xe2\xa0\xbf"; break; // U+283F ⠿ e2 a0 bf DOTS-123456
   } // switch
 
   fBrailleOutputStream <<
@@ -829,22 +829,22 @@ void bsrUTF16BigEndianBrailleGenerator::writeTestData (ostream& os)
   for (wchar_t wch = L'\u2800'; wch <= L'\u280f'; ++wch) {
     os << wch;
   } // for
-  os << kCellEOL;
+  os << bsrCellKind::kCellEOL;
   for (wchar_t wch = L'\u2810'; wch <= L'\u281f'; ++wch) {
     os << wch;
   } // for
-  os << kCellEOL;
-  os << kCellEOP;
+  os << bsrCellKind::kCellEOL;
+  os << bsrCellKind::kCellEOP;
 
   for (wchar_t wch = L'\u2820'; wch <= L'\u282f'; ++wch) {
     os << wch;
   } // for
-  os << kCellEOL;
+  os << bsrCellKind::kCellEOL;
   for (wchar_t wch = L'\u2830'; wch <= L'\u283f'; ++wch) {
     os << wch;
   } // for
-  os << kCellEOL;
-  os << kCellEOP;
+  os << bsrCellKind::kCellEOL;
+  os << bsrCellKind::kCellEOP;
   os << endl;
 }
 
@@ -945,7 +945,7 @@ Octal Escape Sequence	\342\240\203
   string stringForCell;
 
   switch (cellKind) {
-    case kCellUnknown:
+    case bsrCellKind::kCellUnknown:
       {
         stringstream s;
 
@@ -961,77 +961,77 @@ Octal Escape Sequence	\342\240\203
       }
       break;
 
-    case kCellEOL:    stringForCell = "\x0a"; break; // U+000A
-    case kCellEOP:    stringForCell = "\x0c"; break; // U+000C
+    case bsrCellKind::kCellEOL:    stringForCell = "\x0a"; break; // U+000A
+    case bsrCellKind::kCellEOP:    stringForCell = "\x0c"; break; // U+000C
 
-    case kDotsNone:   stringForCell = "\xe2\xa0\x80"; break; // U+2800 ⠀ e2 a0 80 BLANK
+    case bsrCellKind::kDotsNone:   stringForCell = "\xe2\xa0\x80"; break; // U+2800 ⠀ e2 a0 80 BLANK
 
-    case kDots1:      stringForCell = "\xe2\xa0\x81"; break; // U+2801 ⠀ e2 a0 81 DOTS-1
-    case kDots2:      stringForCell = "\xe2\xa0\x82"; break; // U+2802 ⠀ e2 a0 82 DOTS-2
-    case kDots12:     stringForCell = "\xe2\xa0\x83"; break; // U+2803 ⠀ e2 a0 83 DOTS-12
-    case kDots3:      stringForCell = "\xe2\xa0\x84"; break; // U+2804  ⠄ e2 a0 84 DOTS-3
-    case kDots13:     stringForCell = "\xe2\xa0\x85"; break; // U+2805  ⠅ e2 a0 85 DOTS-13
-    case kDots23:     stringForCell = "\xe2\xa0\x86"; break; // U+2806  ⠆ e2 a0 86 DOTS-23
-    case kDots123:    stringForCell = "\xe2\xa0\x87"; break; // U+2807  ⠇ e2 a0 87 DOTS-123
-    case kDots4:      stringForCell = "\xe2\xa0\x88"; break; // U+2808  ⠈ e2 a0 88 DOTS-4
-    case kDots14:     stringForCell = "\xe2\xa0\x89"; break; // U+2809  ⠉ e2 a0 89 DOTS-14
-    case kDots24:     stringForCell = "\xe2\xa0\x8a"; break; // U+280A  ⠊ e2 a0 8a DOTS-24
-    case kDots124:    stringForCell = "\xe2\xa0\x8b"; break; // U+280B  ⠋ e2 a0 8b DOTS-124
-    case kDots34:     stringForCell = "\xe2\xa0\x8c"; break; // U+280C  ⠌ e2 a0 8c DOTS-34
-    case kDots134:    stringForCell = "\xe2\xa0\x8d"; break; // U+280D  ⠍ e2 a0 8d DOTS-134
-    case kDots234:    stringForCell = "\xe2\xa0\x8e"; break; // U+280E  ⠎ e2 a0 8e DOTS-234
-    case kDots1234:   stringForCell = "\xe2\xa0\x8f"; break; // U+280F  ⠏ e2 a0 8f DOTS-1234
+    case bsrCellKind::kDots1:      stringForCell = "\xe2\xa0\x81"; break; // U+2801 ⠀ e2 a0 81 DOTS-1
+    case bsrCellKind::kDots2:      stringForCell = "\xe2\xa0\x82"; break; // U+2802 ⠀ e2 a0 82 DOTS-2
+    case bsrCellKind::kDots12:     stringForCell = "\xe2\xa0\x83"; break; // U+2803 ⠀ e2 a0 83 DOTS-12
+    case bsrCellKind::kDots3:      stringForCell = "\xe2\xa0\x84"; break; // U+2804  ⠄ e2 a0 84 DOTS-3
+    case bsrCellKind::kDots13:     stringForCell = "\xe2\xa0\x85"; break; // U+2805  ⠅ e2 a0 85 DOTS-13
+    case bsrCellKind::kDots23:     stringForCell = "\xe2\xa0\x86"; break; // U+2806  ⠆ e2 a0 86 DOTS-23
+    case bsrCellKind::kDots123:    stringForCell = "\xe2\xa0\x87"; break; // U+2807  ⠇ e2 a0 87 DOTS-123
+    case bsrCellKind::kDots4:      stringForCell = "\xe2\xa0\x88"; break; // U+2808  ⠈ e2 a0 88 DOTS-4
+    case bsrCellKind::kDots14:     stringForCell = "\xe2\xa0\x89"; break; // U+2809  ⠉ e2 a0 89 DOTS-14
+    case bsrCellKind::kDots24:     stringForCell = "\xe2\xa0\x8a"; break; // U+280A  ⠊ e2 a0 8a DOTS-24
+    case bsrCellKind::kDots124:    stringForCell = "\xe2\xa0\x8b"; break; // U+280B  ⠋ e2 a0 8b DOTS-124
+    case bsrCellKind::kDots34:     stringForCell = "\xe2\xa0\x8c"; break; // U+280C  ⠌ e2 a0 8c DOTS-34
+    case bsrCellKind::kDots134:    stringForCell = "\xe2\xa0\x8d"; break; // U+280D  ⠍ e2 a0 8d DOTS-134
+    case bsrCellKind::kDots234:    stringForCell = "\xe2\xa0\x8e"; break; // U+280E  ⠎ e2 a0 8e DOTS-234
+    case bsrCellKind::kDots1234:   stringForCell = "\xe2\xa0\x8f"; break; // U+280F  ⠏ e2 a0 8f DOTS-1234
 
-    case kDots5:      stringForCell = "\xe2\xa0\x90"; break; // U+2810  ⠐ e2 a0 90 DOTS-5
-    case kDots15:     stringForCell = "\xe2\xa0\x91"; break; // U+2811  ⠑ e2 a0 91 DOTS-15
-    case kDots25:     stringForCell = "\xe2\xa0\x92"; break; // U+2812  ⠒ e2 a0 92 DOTS-25
-    case kDots125:    stringForCell = "\xe2\xa0\x93"; break; // U+2813  ⠓ e2 a0 93 DOTS-125
-    case kDots35:     stringForCell = "\xe2\xa0\x94"; break; // U+2814  ⠔ e2 a0 94 DOTS-35
-    case kDots135:    stringForCell = "\xe2\xa0\x95"; break; // U+2815  ⠕ e2 a0 95 DOTS-135
-    case kDots235:    stringForCell = "\xe2\xa0\x96"; break; // U+2816  ⠖ e2 a0 96 DOTS-235
-    case kDots1235:   stringForCell = "\xe2\xa0\x97"; break; // U+2817  ⠗ e2 a0 97 DOTS-1235
-    case kDots45:     stringForCell = "\xe2\xa0\x98"; break; // U+2818  ⠘ e2 a0 98 DOTS-45
-    case kDots145:    stringForCell = "\xe2\xa0\x99"; break; // U+2819  ⠙ e2 a0 99 DOTS-145
-    case kDots245:    stringForCell = "\xe2\xa0\x9a"; break; // U+281A  ⠚ e2 a0 9a DOTS-245
-    case kDots1245:   stringForCell = "\xe2\xa0\x9b"; break; // U+281B  ⠛ e2 a0 9b DOTS-1245
-    case kDots345:    stringForCell = "\xe2\xa0\x9c"; break; // U+281C  ⠜ e2 a0 9c DOTS-345
-    case kDots1345:   stringForCell = "\xe2\xa0\x9d"; break; // U+281D  ⠝ e2 a0 9d DOTS-1345
-    case kDots2345:   stringForCell = "\xe2\xa0\x9e"; break; // U+281E  ⠞ e2 a0 9e DOTS-2345
-    case kDots12345:  stringForCell = "\xe2\xa0\x9f"; break; // U+281F  ⠟ e2 a0 9f DOTS-12345
+    case bsrCellKind::kDots5:      stringForCell = "\xe2\xa0\x90"; break; // U+2810  ⠐ e2 a0 90 DOTS-5
+    case bsrCellKind::kDots15:     stringForCell = "\xe2\xa0\x91"; break; // U+2811  ⠑ e2 a0 91 DOTS-15
+    case bsrCellKind::kDots25:     stringForCell = "\xe2\xa0\x92"; break; // U+2812  ⠒ e2 a0 92 DOTS-25
+    case bsrCellKind::kDots125:    stringForCell = "\xe2\xa0\x93"; break; // U+2813  ⠓ e2 a0 93 DOTS-125
+    case bsrCellKind::kDots35:     stringForCell = "\xe2\xa0\x94"; break; // U+2814  ⠔ e2 a0 94 DOTS-35
+    case bsrCellKind::kDots135:    stringForCell = "\xe2\xa0\x95"; break; // U+2815  ⠕ e2 a0 95 DOTS-135
+    case bsrCellKind::kDots235:    stringForCell = "\xe2\xa0\x96"; break; // U+2816  ⠖ e2 a0 96 DOTS-235
+    case bsrCellKind::kDots1235:   stringForCell = "\xe2\xa0\x97"; break; // U+2817  ⠗ e2 a0 97 DOTS-1235
+    case bsrCellKind::kDots45:     stringForCell = "\xe2\xa0\x98"; break; // U+2818  ⠘ e2 a0 98 DOTS-45
+    case bsrCellKind::kDots145:    stringForCell = "\xe2\xa0\x99"; break; // U+2819  ⠙ e2 a0 99 DOTS-145
+    case bsrCellKind::kDots245:    stringForCell = "\xe2\xa0\x9a"; break; // U+281A  ⠚ e2 a0 9a DOTS-245
+    case bsrCellKind::kDots1245:   stringForCell = "\xe2\xa0\x9b"; break; // U+281B  ⠛ e2 a0 9b DOTS-1245
+    case bsrCellKind::kDots345:    stringForCell = "\xe2\xa0\x9c"; break; // U+281C  ⠜ e2 a0 9c DOTS-345
+    case bsrCellKind::kDots1345:   stringForCell = "\xe2\xa0\x9d"; break; // U+281D  ⠝ e2 a0 9d DOTS-1345
+    case bsrCellKind::kDots2345:   stringForCell = "\xe2\xa0\x9e"; break; // U+281E  ⠞ e2 a0 9e DOTS-2345
+    case bsrCellKind::kDots12345:  stringForCell = "\xe2\xa0\x9f"; break; // U+281F  ⠟ e2 a0 9f DOTS-12345
 
-    case kDots6:      stringForCell = "\xe2\xa0\xa0"; break; // U+2820  ⠠ e2 a0 a0 DOTS-6
-    case kDots16:     stringForCell = "\xe2\xa0\xa1"; break; // U+2821  ⠡ e2 a0 a1 DOTS-16
-    case kDots26:     stringForCell = "\xe2\xa0\xa2"; break; // U+2822  ⠢ e2 a0 a2 DOTS-26
-    case kDots126:    stringForCell = "\xe2\xa0\xa3"; break; // U+2823  ⠣ e2 a0 a3 DOTS-126
-    case kDots36:     stringForCell = "\xe2\xa0\xa4"; break; // U+2824  ⠤ e2 a0 a4 DOTS-36
-    case kDots136:    stringForCell = "\xe2\xa0\xa5"; break; // U+2825  ⠥ e2 a0 a5 DOTS-136
-    case kDots236:    stringForCell = "\xe2\xa0\xa6"; break; // U+2826  ⠦ e2 a0 a6 DOTS-236
-    case kDots1236:   stringForCell = "\xe2\xa0\xa7"; break; // U+2827  ⠧ e2 a0 a7 DOTS-1236
-    case kDots46:     stringForCell = "\xe2\xa0\xa8"; break; // U+2828  ⠨ e2 a0 a8 DOTS-46
-    case kDots146:    stringForCell = "\xe2\xa0\xa9"; break; // U+2829  ⠩ e2 a0 a9 DOTS-146
-    case kDots246:    stringForCell = "\xe2\xa0\xaa"; break; // U+282A  ⠪ e2 a0 aa DOTS-246
-    case kDots1246:   stringForCell = "\xe2\xa0\xab"; break; // U+282b  ⠫ e2 a0 ab DOTS-1246
-    case kDots346:    stringForCell = "\xe2\xa0\xac"; break; // U+282C  ⠬ e2 a0 ac DOTS-346
-    case kDots1346:   stringForCell = "\xe2\xa0\xad"; break; // U+282D  ⠭ e2 a0 ad DOTS-1346
-    case kDots2346:   stringForCell = "\xe2\xa0\xae"; break; // U+282E  ⠮ e2 a0 ae DOTS-2346
-    case kDots12346:  stringForCell = "\xe2\xa0\xaf"; break; // U+282F  ⠯ e2 a0 af DOTS-12346
+    case bsrCellKind::kDots6:      stringForCell = "\xe2\xa0\xa0"; break; // U+2820  ⠠ e2 a0 a0 DOTS-6
+    case bsrCellKind::kDots16:     stringForCell = "\xe2\xa0\xa1"; break; // U+2821  ⠡ e2 a0 a1 DOTS-16
+    case bsrCellKind::kDots26:     stringForCell = "\xe2\xa0\xa2"; break; // U+2822  ⠢ e2 a0 a2 DOTS-26
+    case bsrCellKind::kDots126:    stringForCell = "\xe2\xa0\xa3"; break; // U+2823  ⠣ e2 a0 a3 DOTS-126
+    case bsrCellKind::kDots36:     stringForCell = "\xe2\xa0\xa4"; break; // U+2824  ⠤ e2 a0 a4 DOTS-36
+    case bsrCellKind::kDots136:    stringForCell = "\xe2\xa0\xa5"; break; // U+2825  ⠥ e2 a0 a5 DOTS-136
+    case bsrCellKind::kDots236:    stringForCell = "\xe2\xa0\xa6"; break; // U+2826  ⠦ e2 a0 a6 DOTS-236
+    case bsrCellKind::kDots1236:   stringForCell = "\xe2\xa0\xa7"; break; // U+2827  ⠧ e2 a0 a7 DOTS-1236
+    case bsrCellKind::kDots46:     stringForCell = "\xe2\xa0\xa8"; break; // U+2828  ⠨ e2 a0 a8 DOTS-46
+    case bsrCellKind::kDots146:    stringForCell = "\xe2\xa0\xa9"; break; // U+2829  ⠩ e2 a0 a9 DOTS-146
+    case bsrCellKind::kDots246:    stringForCell = "\xe2\xa0\xaa"; break; // U+282A  ⠪ e2 a0 aa DOTS-246
+    case bsrCellKind::kDots1246:   stringForCell = "\xe2\xa0\xab"; break; // U+282b  ⠫ e2 a0 ab DOTS-1246
+    case bsrCellKind::kDots346:    stringForCell = "\xe2\xa0\xac"; break; // U+282C  ⠬ e2 a0 ac DOTS-346
+    case bsrCellKind::kDots1346:   stringForCell = "\xe2\xa0\xad"; break; // U+282D  ⠭ e2 a0 ad DOTS-1346
+    case bsrCellKind::kDots2346:   stringForCell = "\xe2\xa0\xae"; break; // U+282E  ⠮ e2 a0 ae DOTS-2346
+    case bsrCellKind::kDots12346:  stringForCell = "\xe2\xa0\xaf"; break; // U+282F  ⠯ e2 a0 af DOTS-12346
 
-    case kDots56:     stringForCell = "\xe2\xa0\xb0"; break; // U+2830  ⠰ e2 a0 b0 DOTS-56
-    case kDots156:    stringForCell = "\xe2\xa0\xb1"; break; // U+2831  ⠱ e2 a0 b1 DOTS-156
-    case kDots256:    stringForCell = "\xe2\xa0\xb2"; break; // U+2832  ⠲ e2 a0 b2 DOTS-256
-    case kDots1256:   stringForCell = "\xe2\xa0\xb3"; break; // U+2833  ⠳ e2 a0 b3 DOTS-1256
-    case kDots356:    stringForCell = "\xe2\xa0\xb4"; break; // U+2834  ⠴ e2 a0 b4 DOTS-356
-    case kDots1356:   stringForCell = "\xe2\xa0\xb5"; break; // U+2835  ⠵ e2 a0 b5 DOTS-1356
-    case kDots2356:   stringForCell = "\xe2\xa0\xb6"; break; // U+2836  ⠶ e2 a0 b6 DOTS-2356
-    case kDots12356:  stringForCell = "\xe2\xa0\xb7"; break; // U+2837  ⠷ e2 a0 b7 DOTS-12356
-    case kDots456:    stringForCell = "\xe2\xa0\xb8"; break; // U+2838  ⠸ e2 a0 b8 DOTS-456
-    case kDots1456:   stringForCell = "\xe2\xa0\xb9"; break; // U+2839  ⠹ e2 a0 b9 DOTS-1456
-    case kDots2456:   stringForCell = "\xe2\xa0\xba"; break; // U+283A  ⠺ e2 a0 ba DOTS-2456
-    case kDots12456:  stringForCell = "\xe2\xa0\xbb"; break; // U+283B  ⠻ e2 a0 bb DOTS-12456
-    case kDots3456:   stringForCell = "\xe2\xa0\xbc"; break; // U+283C  ⠼ e2 a0 bc DOTS-3456
-    case kDots13456:  stringForCell = "\xe2\xa0\xbd"; break; // U+283D  ⠽ e2 a0 bd DOTS-13456
-    case kDots23456:  stringForCell = "\xe2\xa0\xbe"; break; // U+283E  ⠾ e2 a0 be DOTS-23456
-    case kDots123456: stringForCell = "\xe2\xa0\xbf"; break; // U+283F ⠿ e2 a0 bf DOTS-123456
+    case bsrCellKind::kDots56:     stringForCell = "\xe2\xa0\xb0"; break; // U+2830  ⠰ e2 a0 b0 DOTS-56
+    case bsrCellKind::kDots156:    stringForCell = "\xe2\xa0\xb1"; break; // U+2831  ⠱ e2 a0 b1 DOTS-156
+    case bsrCellKind::kDots256:    stringForCell = "\xe2\xa0\xb2"; break; // U+2832  ⠲ e2 a0 b2 DOTS-256
+    case bsrCellKind::kDots1256:   stringForCell = "\xe2\xa0\xb3"; break; // U+2833  ⠳ e2 a0 b3 DOTS-1256
+    case bsrCellKind::kDots356:    stringForCell = "\xe2\xa0\xb4"; break; // U+2834  ⠴ e2 a0 b4 DOTS-356
+    case bsrCellKind::kDots1356:   stringForCell = "\xe2\xa0\xb5"; break; // U+2835  ⠵ e2 a0 b5 DOTS-1356
+    case bsrCellKind::kDots2356:   stringForCell = "\xe2\xa0\xb6"; break; // U+2836  ⠶ e2 a0 b6 DOTS-2356
+    case bsrCellKind::kDots12356:  stringForCell = "\xe2\xa0\xb7"; break; // U+2837  ⠷ e2 a0 b7 DOTS-12356
+    case bsrCellKind::kDots456:    stringForCell = "\xe2\xa0\xb8"; break; // U+2838  ⠸ e2 a0 b8 DOTS-456
+    case bsrCellKind::kDots1456:   stringForCell = "\xe2\xa0\xb9"; break; // U+2839  ⠹ e2 a0 b9 DOTS-1456
+    case bsrCellKind::kDots2456:   stringForCell = "\xe2\xa0\xba"; break; // U+283A  ⠺ e2 a0 ba DOTS-2456
+    case bsrCellKind::kDots12456:  stringForCell = "\xe2\xa0\xbb"; break; // U+283B  ⠻ e2 a0 bb DOTS-12456
+    case bsrCellKind::kDots3456:   stringForCell = "\xe2\xa0\xbc"; break; // U+283C  ⠼ e2 a0 bc DOTS-3456
+    case bsrCellKind::kDots13456:  stringForCell = "\xe2\xa0\xbd"; break; // U+283D  ⠽ e2 a0 bd DOTS-13456
+    case bsrCellKind::kDots23456:  stringForCell = "\xe2\xa0\xbe"; break; // U+283E  ⠾ e2 a0 be DOTS-23456
+    case bsrCellKind::kDots123456: stringForCell = "\xe2\xa0\xbf"; break; // U+283F ⠿ e2 a0 bf DOTS-123456
   } // switch
 
   fBrailleOutputStream <<
@@ -1048,22 +1048,22 @@ void bsrUTF16SmallEndianBrailleGenerator::writeTestData (ostream& os)
   for (wchar_t wch = L'\u2800'; wch <= L'\u280f'; ++wch) {
     os << wch;
   } // for
-  os << kCellEOL;
+  os << bsrCellKind::kCellEOL;
   for (wchar_t wch = L'\u2810'; wch <= L'\u281f'; ++wch) {
     os << wch;
   } // for
-  os << kCellEOL;
-  os << kCellEOP;
+  os << bsrCellKind::kCellEOL;
+  os << bsrCellKind::kCellEOP;
 
   for (wchar_t wch = L'\u2820'; wch <= L'\u282f'; ++wch) {
     os << wch;
   } // for
-  os << kCellEOL;
+  os << bsrCellKind::kCellEOL;
   for (wchar_t wch = L'\u2830'; wch <= L'\u283f'; ++wch) {
     os << wch;
   } // for
-  os << kCellEOL;
-  os << kCellEOP;
+  os << bsrCellKind::kCellEOL;
+  os << bsrCellKind::kCellEOP;
   os << endl;
 }
 

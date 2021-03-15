@@ -232,7 +232,7 @@ void enforceSomeOptions (
 
 /*
       gGlobalBrailleGenerationOahGroup->
-        setBrailleOutputKind (kBrailleOutputUTF8Debug);
+        setBrailleOutputKind (bsrBrailleOutputKind::kBrailleOutputUTF8Debug);
 */
       break;
 

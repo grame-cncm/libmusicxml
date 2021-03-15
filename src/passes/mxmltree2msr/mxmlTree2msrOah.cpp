@@ -568,7 +568,10 @@ string msrReplaceClefAtom::asShortNamedOptionString () const
       iEnd   = fClefKindToClefKindMapVariable.end (),
       i      = iBegin;
     for ( ; ; ) {
-      s << (*i).first << "=" << (*i).second;
+      s <<
+        msrClefKindAsString ((*i).first) <<
+        "=" <<
+        msrClefKindAsString ((*i).second);
       if (++i == iEnd) break;
       s << ",";
     } // for
@@ -593,7 +596,10 @@ string msrReplaceClefAtom::asActualLongNamedOptionString () const
       iEnd   = fClefKindToClefKindMapVariable.end (),
       i      = iBegin;
     for ( ; ; ) {
-      s << (*i).first << "=" << (*i).second;
+      s <<
+        msrClefKindAsString ((*i).first) <<
+        "=" <<
+        msrClefKindAsString ((*i).second);
       if (++i == iEnd) break;
       s << ",";
     } // for

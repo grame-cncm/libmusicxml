@@ -795,64 +795,64 @@ void msr2bsrTranslator::visitStart (S_msrClef& elt)
     msrClefKind mClefKind = elt->getClefKind ();
 
     switch (mClefKind) {
-      case k_NoClef:
+      case msrClefKind::k_NoClef:
         bClefKind = bsrClef::kClefKindNone;
         break;
-      case kTrebleClef:
+      case msrClefKind::kClefTreble:
         bClefKind = bsrClef::kClefKindGTreble;
         break;
-      case kSopranoClef:
+      case msrClefKind::kClefSoprano:
         bClefKind = bsrClef::kClefKindGSoprano;
         break;
-      case kMezzoSopranoClef:
+      case msrClefKind::kClefMezzoSoprano:
         bClefKind = bsrClef::kClefKindGSoprano; // JMI ???
         break;
-      case kAltoClef:
+      case msrClefKind::kClefAlto:
         bClefKind = bsrClef::kClefKindCAlto;
         break;
-      case kTenorClef:
+      case msrClefKind::kClefTenor:
         bClefKind = bsrClef::kClefKindCTenor;
         break;
-      case kBaritoneClef:
+      case msrClefKind::kClefBaritone:
         bClefKind = bsrClef::kClefKindCBaritone;
         break;
-      case kBassClef:
+      case msrClefKind::kClefBass:
         bClefKind = bsrClef::kClefKindFBass;
         break;
-      case kTrebleLine1Clef:
+      case msrClefKind::kClefTrebleLine1:
         bClefKind = bsrClef::kClefKindGSoprano;
         break;
-      case kTrebleMinus15Clef:
+      case msrClefKind::kClefTrebleMinus15:
         break;
-      case kTrebleMinus8Clef:
+      case msrClefKind::kClefTrebleMinus8:
         bClefKind = bsrClef::kClefKindGOttavaBassa; // JMI permute???
         break;
-      case kTreblePlus8Clef:
+      case msrClefKind::kClefTreblePlus8:
         bClefKind = bsrClef::kClefKindGOttavaAlta; // JMI permute???
         break;
-      case kTreblePlus15Clef:
+      case msrClefKind::kClefTreblePlus15:
         break;
-      case kBassMinus15Clef:
+      case msrClefKind::kClefBassMinus15:
         break;
-      case kBassMinus8Clef:
+      case msrClefKind::kClefBassMinus8:
         break;
-      case kBassPlus8Clef:
+      case msrClefKind::kClefBassPlus8:
         break;
-      case kBassPlus15Clef:
+      case msrClefKind::kClefBassPlus15:
         break;
-      case kVarbaritoneClef:
+      case msrClefKind::kClefVarbaritone:
         break;
-      case kTablature4Clef:
+      case msrClefKind::kClefTablature4:
         break;
-      case kTablature5Clef:
+      case msrClefKind::kClefTablature5:
         break;
-      case kTablature6Clef:
+      case msrClefKind::kClefTablature6:
         break;
-      case kTablature7Clef:
+      case msrClefKind::kClefTablature7:
         break;
-      case kPercussionClef:
+      case msrClefKind::kClefPercussion:
         break;
-      case kJianpuClef:
+      case msrClefKind::kClefJianpu:
         break;
     } // switch
 
@@ -4071,7 +4071,7 @@ void msr2bsrTranslator::visitStart (S_msrSlur& elt)
   if (fOnGoingNote) {
     // don't add slurs to chord member notes except the first one
     switch (fCurrentNonGraceNoteClone->getNoteKind ()) {
-      case kNoteRegularInChord:
+      case msrNoteKind::kNoteRegularInChord:
         if (fCurrentNonGraceNoteClone->getNoteIsAChordsFirstMemberNote ()) {
           fCurrentNonGraceNoteClone->
             appendSlurToNote (elt);
@@ -4628,10 +4628,10 @@ void msr2bsrTranslator::visitStart (S_msrNote& elt)
 
   switch (elt->getNoteKind ()) {
 
-    case kNoteRegularInGraceNotesGroup:
-    case kNoteSkipInGraceNotesGroup:
-    case kNoteInChordInGraceNotesGroup:
-    case kNoteInTupletInGraceNotesGroup:
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
       fCurrentGraceNoteClone = noteClone;
       break;
 
@@ -4737,10 +4737,10 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
 
   switch (elt->getNoteKind ()) {
 
-    case k_NoNote:
+    case msrNoteKind::k_NoNote:
       break;
 
-    case kNoteRestInMeasure:
+    case msrNoteKind::kNoteRestInMeasure:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4756,7 +4756,7 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteSkipInMeasure: // JMI
+    case msrNoteKind::kNoteSkipInMeasure: // JMI
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4772,7 +4772,7 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteUnpitchedInMeasure:
+    case msrNoteKind::kNoteUnpitchedInMeasure:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4788,7 +4788,7 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteRegularInMeasure:
+    case msrNoteKind::kNoteRegularInMeasure:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4804,7 +4804,7 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteInDoubleTremolo:
+    case msrNoteKind::kNoteInDoubleTremolo:
       if (fOnGoingDoubleTremolo) {
 
         if (fCurrentNonGraceNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
@@ -4877,8 +4877,8 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
       }
       break;
 
-    case kNoteRegularInGraceNotesGroup:
-    case kNoteSkipInGraceNotesGroup:
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
     / * JMI
       gLogStream <<
         "fOnGoingGraceNotesGroup = " <<
@@ -4973,7 +4973,7 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
       * /
       break;
 
-    case kNoteRegularInChord:
+    case msrNoteKind::kNoteRegularInChord:
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
@@ -4997,7 +4997,7 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
         }
       break;
 
-    case kNoteInChordInGraceNotesGroup:
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
@@ -5021,10 +5021,10 @@ void msr2bsrTranslator::visitEnd (S_msrNote& elt)
         }
       break;
 
-    case kNoteRegularInTuplet:
-    case kNoteRestInTuplet:
-    case kNoteInTupletInGraceNotesGroup:
-    case kNoteUnpitchedInTuplet:
+    case msrNoteKind::kNoteRegularInTuplet:
+    case msrNoteKind::kNoteRestInTuplet:
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
+    case msrNoteKind::kNoteUnpitchedInTuplet:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<

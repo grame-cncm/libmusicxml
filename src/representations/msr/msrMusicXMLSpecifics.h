@@ -963,7 +963,7 @@ class EXP msrGlyph : public msrElement
       kQuarterRestGlyph,
       kGClefOttavaBassaGlyph,
       kCClefGlyph, kFClefGlyph,
-      kPercussionClefGlyph,
+      kClefPercussionGlyph,
       kOctaveShiftUp8Glyph, kOctaveShiftDown8Glyph,
       kOctaveShiftContinue8Glyph, kOctaveShiftDown15Glyph,
       kOctaveShiftUp15Glyph, kOctaveShiftContinue15Glyph,

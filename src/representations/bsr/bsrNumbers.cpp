@@ -87,7 +87,7 @@ S_bsrCellsList bsrNumber::numberValueAsCellsList () const
       endl;
 */
 
-    bsrCellKind cellKind = kCellUnknown; // SEE TICINO
+    bsrCellKind cellKind = bsrCellKind::kCellUnknown; // SEE TICINO
 
     switch (mod) {
       case 1: cellKind = kCell1; break;

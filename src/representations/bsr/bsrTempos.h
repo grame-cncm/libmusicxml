@@ -16,8 +16,8 @@ string tempoKindAsDebugString (
 
 //______________________________________________________________________________
 const bsrCellKind
-  kCellTempoEquals = kDots2356,
-  kCellTempoHyphen = kDots36;
+  kCellTempoEquals = bsrCellKind::kDots2356,
+  kCellTempoHyphen = bsrCellKind::kDots36;
 
 class EXP bsrTempo : public bsrLineContentsElement
 {

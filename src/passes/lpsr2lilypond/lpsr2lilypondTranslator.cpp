@@ -1640,66 +1640,66 @@ void lpsr2lilypondTranslator::generateCodeForNote (
 
   switch (note->getNoteKind ()) {
 
-    case k_NoNote:
+    case msrNoteKind::k_NoNote:
       break;
 
     // in measures
-    case kNoteRegularInMeasure:
+    case msrNoteKind::kNoteRegularInMeasure:
       generateCodeForNoteRegularInMeasure (note);
       break;
 
-    case kNoteRestInMeasure:
+    case msrNoteKind::kNoteRestInMeasure:
       generateCodeForNoteRestInMeasure (note);
       break;
 
-    case kNoteSkipInMeasure:
+    case msrNoteKind::kNoteSkipInMeasure:
       generateCodeForNoteSkipInMeasure (note);
       break;
 
-    case kNoteUnpitchedInMeasure:
+    case msrNoteKind::kNoteUnpitchedInMeasure:
       generateCodeForNoteUnpitchedInMeasure (note);
       break;
 
     // in chords
-    case kNoteRegularInChord:
+    case msrNoteKind::kNoteRegularInChord:
       generateCodeForNoteRegularInChord (note);
       {}
       break;
 
     // in tuplets
-    case kNoteRegularInTuplet:
+    case msrNoteKind::kNoteRegularInTuplet:
       generateCodeForNoteRegularInTuplet (note);
       break;
 
-    case kNoteRestInTuplet:
+    case msrNoteKind::kNoteRestInTuplet:
       generateCodeForNoteRestInTuplet (note);
       break;
 
-    case kNoteUnpitchedInTuplet:
+    case msrNoteKind::kNoteUnpitchedInTuplet:
       generateCodeForNoteUnpitchedInTuplet (note);
       break;
 
     // in grace notes groups
-    case kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
       generateCodeForNoteRegularInGraceNotesGroup (note);
       break;
 
-    case kNoteSkipInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
       generateCodeForNoteSkipInGraceNotesGroup (note);
       break;
 
     // in chords in grace notes groups
-    case kNoteInChordInGraceNotesGroup:
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
       generateCodeForNoteInChordInGraceNotesGroup (note);
       break;
 
     // in tuplets in grace notes groups
-    case kNoteInTupletInGraceNotesGroup:
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
       generateCodeForNoteInTupletInGraceNotesGroup (note);
       break;
 
     // in double-tremolos
-    case kNoteInDoubleTremolo:
+    case msrNoteKind::kNoteInDoubleTremolo:
       generateCodeForNoteInDoubleTremolo (note);
       break;
   } // switch
@@ -1766,7 +1766,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteRegularInMeasure (
 
     if (noteTie) {
       if (noteTie->getTieKind () == msrTieKind::kTieStart) {
-//        fLilypondCodeStream << " ~ %{kNoteRegularInMeasure%}"; // JMI
+//        fLilypondCodeStream << " ~ %{msrNoteKind::kNoteRegularInMeasure%}"; // JMI
       }
     }
   }
@@ -2403,7 +2403,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteInChordInGraceNotesGroup (S_msr
       if (noteTie->getTieKind () == msrTieKind::kTieStart) {
         fLilypondCodeStream <<
           "%{line " << inputLineNumber << "%}" <<
-          "~  %{kNoteInChordInGraceNotesGroup%}";
+          "~  %{msrNoteKind::kNoteInChordInGraceNotesGroup%}";
       }
     }
   }
@@ -8036,14 +8036,14 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       endl;
 
     switch (gGlobalLilypondGenerationOahGroup->getLyricsDurationsKind ()) {
-      case kLyricsDurationsImplicit:
+      case lpsrLyricsDurationsKind::kLyricsDurationsImplicit:
         fLilypondCodeStream <<
           "\\lyricsto \"" << elt->getVoice ()->getVoiceName () << "\" {" <<
           "\\" << stanza->getStanzaName () <<
           "}" <<
           endl;
         break;
-      case kLyricsDurationsExplicit:
+      case lpsrLyricsDurationsKind::kLyricsDurationsExplicit:
         // no \lyricsto in that case
         fLilypondCodeStream <<
           "\\" << stanza->getStanzaName () <<
@@ -8975,7 +8975,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
 
   // chords language?
   if (! gGlobalLilypondGenerationOahGroup->getUseLilypondDefaultLanguages ()) { // JMI HasBeenSet???
-    if (gGlobalLpsrOahGroup->getLpsrChordsLanguageKind () != kChordsIgnatzek) {
+    if (gGlobalLpsrOahGroup->getLpsrChordsLanguageKind () != lpsrChordsLanguageKind::kChordsIgnatzek) {
       fLilypondCodeStream <<
         "\\" <<
         lpsrChordsLanguageKindAsString (
@@ -9038,7 +9038,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
   }
 */
 
-  if (gGlobalLilypondGenerationOahGroup->getAccidentalStyleKind () != kDefault) {
+  if (gGlobalLilypondGenerationOahGroup->getAccidentalStyleKind () != lpsrAccidentalStyleKind::kAccidentalStyleDefault) {
     fLilypondCodeStream <<
       "\\accidentalStyle Score." <<
       lpsrAccidentalStyleKindAsString (
@@ -10385,10 +10385,10 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
             fLilypondCodeStream);
 
           switch (gGlobalLilypondGenerationOahGroup->getLyricsDurationsKind ()) {
-            case kLyricsDurationsImplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsImplicit:
               // don't generate a duration for automatic lyrics durations
               break;
-            case kLyricsDurationsExplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsExplicit:
               fLilypondCodeStream <<
                 elt->syllableWholeNotesAsMsrString ();
               break;
@@ -10411,10 +10411,10 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
             fLilypondCodeStream);
 
           switch (gGlobalLilypondGenerationOahGroup->getLyricsDurationsKind ()) {
-            case kLyricsDurationsImplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsImplicit:
               // don't generate a duration for automatic lyrics durations
               break;
-            case kLyricsDurationsExplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsExplicit:
               fLilypondCodeStream <<
                 elt->syllableWholeNotesAsMsrString ();
               break;
@@ -10437,10 +10437,10 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
             fLilypondCodeStream);
 
           switch (gGlobalLilypondGenerationOahGroup->getLyricsDurationsKind ()) {
-            case kLyricsDurationsImplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsImplicit:
               // don't generate a duration for automatic lyrics durations
               break;
-            case kLyricsDurationsExplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsExplicit:
               fLilypondCodeStream <<
                 elt->syllableWholeNotesAsMsrString ();
               break;
@@ -10463,10 +10463,10 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
             fLilypondCodeStream);
 
           switch (gGlobalLilypondGenerationOahGroup->getLyricsDurationsKind ()) {
-            case kLyricsDurationsImplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsImplicit:
               // don't generate a duration for automatic lyrics durations
               break;
-            case kLyricsDurationsExplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsExplicit:
               fLilypondCodeStream <<
                 elt->syllableWholeNotesAsMsrString ();
               break;
@@ -10501,7 +10501,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
 
         case msrSyllable::kSyllableSkipRestNote:
           switch (gGlobalLilypondGenerationOahGroup->getLyricsDurationsKind ()) {
-            case kLyricsDurationsImplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsImplicit:
               // LilyPond ignores the skip durations when \lyricsto is used
 #ifdef TRACING_IS_ENABLED
               if (gGlobalTraceOahGroup->getTraceLyrics ()) {
@@ -10512,7 +10512,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
               }
 #endif
               break;
-            case kLyricsDurationsExplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsExplicit:
               fLilypondCodeStream <<
                 "\\skip" <<
                 elt->syllableWholeNotesAsMsrString () <<
@@ -10520,7 +10520,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACING_IS_ENABLED
               if (gGlobalTraceOahGroup->getTraceLyrics ()) {
                 fLilypondCodeStream <<
-                " %{ kLyricsDurationsExplicit %} ";
+                " %{ lpsrLyricsDurationsKind::kLyricsDurationsExplicit %} ";
               }
 #endif
               break;
@@ -10529,7 +10529,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
 
         case msrSyllable::kSyllableSkipNonRestNote:
           switch (gGlobalLilypondGenerationOahGroup->getLyricsDurationsKind ()) {
-            case kLyricsDurationsImplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsImplicit:
               // LilyPond ignores the skip durations when \lyricsto is used
               fLilypondCodeStream <<
                 "\\skip" <<
@@ -10542,7 +10542,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
               }
 #endif
               break;
-            case kLyricsDurationsExplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsExplicit:
               fLilypondCodeStream <<
                 "\\skip" <<
                 elt->syllableWholeNotesAsMsrString () <<
@@ -10612,12 +10612,12 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
 
         case msrSyllable::kSyllableExtendSingle:
           switch (gGlobalLilypondGenerationOahGroup->getLyricsDurationsKind ()) {
-            case kLyricsDurationsImplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsImplicit:
               // generate a lyric extender, i.e. a melisma, after this syllable
               fLilypondCodeStream <<
                 "__ ";
               break;
-            case kLyricsDurationsExplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsExplicit:
               // generate a lyric extender, i.e. a melisma, after this syllable ??? JMI
               fLilypondCodeStream <<
                 "__ ";
@@ -10633,12 +10633,12 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
 
         case msrSyllable::kSyllableExtendStart:
           switch (gGlobalLilypondGenerationOahGroup->getLyricsDurationsKind ()) {
-            case kLyricsDurationsImplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsImplicit:
               // generate a lyric extender, i.e. a melisma, after this syllable
               fLilypondCodeStream <<
                 "__ ";
               break;
-            case kLyricsDurationsExplicit:
+            case lpsrLyricsDurationsKind::kLyricsDurationsExplicit:
               // generate a lyric extender, i.e. a melisma, after this syllable ??? JMI
               fLilypondCodeStream <<
                 "__ ";
@@ -10731,7 +10731,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrClef& elt)
   if (! fCurrentVoiceClef) {
     // this is the first clef in this voice
     if (
-      clefKind == kTrebleClef
+      clefKind == msrClefKind::kClefTreble
         &&
       gGlobalLilypondGenerationOahGroup->getNoInitialTrebleClef ()
     ) {
@@ -10771,69 +10771,69 @@ void lpsr2lilypondTranslator::visitStart (S_msrClef& elt)
       }
     }
 
-    if (clefKind != k_NoClef) {
+    if (clefKind != msrClefKind::k_NoClef) {
       fLilypondCodeStream <<
         "\\clef ";
 
       switch (clefKind) {
-        case k_NoClef:
+        case msrClefKind::k_NoClef:
           break;
-        case kTrebleClef:
+        case msrClefKind::kClefTreble:
           fLilypondCodeStream << "\"treble\"";
           break;
-        case kSopranoClef:
+        case msrClefKind::kClefSoprano:
           fLilypondCodeStream << "\"soprano\"";
           break;
-        case kMezzoSopranoClef:
+        case msrClefKind::kClefMezzoSoprano:
           fLilypondCodeStream << "\"mezzosoprano\"";
           break;
-        case kAltoClef:
+        case msrClefKind::kClefAlto:
           fLilypondCodeStream << "\"alto\"";
           break;
-        case kTenorClef:
+        case msrClefKind::kClefTenor:
           fLilypondCodeStream << "\"tenor\"";
           break;
-        case kBaritoneClef:
+        case msrClefKind::kClefBaritone:
           fLilypondCodeStream << "\"baritone\"";
           break;
-        case kBassClef:
+        case msrClefKind::kClefBass:
           fLilypondCodeStream << "\"bass\"";
           break;
-        case kTrebleLine1Clef:
+        case msrClefKind::kClefTrebleLine1:
           fLilypondCodeStream << "\"french\"";
           break;
-        case kTrebleMinus15Clef:
+        case msrClefKind::kClefTrebleMinus15:
           fLilypondCodeStream << "\"treble_15\"";
           break;
-        case kTrebleMinus8Clef:
+        case msrClefKind::kClefTrebleMinus8:
           fLilypondCodeStream << "\"treble_8\"";
           break;
-        case kTreblePlus8Clef:
+        case msrClefKind::kClefTreblePlus8:
           fLilypondCodeStream << "\"treble^8\"";
           break;
-        case kTreblePlus15Clef:
+        case msrClefKind::kClefTreblePlus15:
           fLilypondCodeStream << "\"treble^15\"";
           break;
-        case kBassMinus15Clef:
+        case msrClefKind::kClefBassMinus15:
           fLilypondCodeStream << "\"bass_15\"";
           break;
-        case kBassMinus8Clef:
+        case msrClefKind::kClefBassMinus8:
           fLilypondCodeStream << "\"bass_8\"";
           break;
-        case kBassPlus8Clef:
+        case msrClefKind::kClefBassPlus8:
           fLilypondCodeStream << "\"bass^8\"";
           break;
-        case kBassPlus15Clef:
+        case msrClefKind::kClefBassPlus15:
           fLilypondCodeStream << "\"bass^15\"";
           break;
-        case kVarbaritoneClef:
+        case msrClefKind::kClefVarbaritone:
           fLilypondCodeStream << "\"varbaritone\"";
           break;
 
-        case kTablature4Clef:
-        case kTablature5Clef:
-        case kTablature6Clef:
-        case kTablature7Clef:
+        case msrClefKind::kClefTablature4:
+        case msrClefKind::kClefTablature5:
+        case msrClefKind::kClefTablature6:
+        case msrClefKind::kClefTablature7:
           if (gGlobalLilypondGenerationOahGroup->getModernTab ()) {
             fLilypondCodeStream <<
               "\"moderntab\"" <<
@@ -10851,10 +10851,10 @@ void lpsr2lilypondTranslator::visitStart (S_msrClef& elt)
           }
           break;
 
-        case kPercussionClef:
+        case msrClefKind::kClefPercussion:
           fLilypondCodeStream << "\"percussion\"";
           break;
-        case kJianpuClef:
+        case msrClefKind::kClefJianpu:
           fLilypondCodeStream << "\"%{jianpuClef???%}\"";
           break;
       } // switch
@@ -13947,34 +13947,34 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     }
     else {
       switch (elt->getNoteKind ()) {
-        case k_NoNote:
+        case msrNoteKind::k_NoNote:
           break;
 
         // in measures
-        case kNoteRegularInMeasure:
+        case msrNoteKind::kNoteRegularInMeasure:
           break;
-        case kNoteRestInMeasure:
+        case msrNoteKind::kNoteRestInMeasure:
           break;
-        case kNoteSkipInMeasure:
+        case msrNoteKind::kNoteSkipInMeasure:
           break;
-        case kNoteUnpitchedInMeasure:
+        case msrNoteKind::kNoteUnpitchedInMeasure:
           break;
 
         // in chords
-        case kNoteRegularInChord:
+        case msrNoteKind::kNoteRegularInChord:
           break;
 
         // in tuplets
-        case kNoteRegularInTuplet:
+        case msrNoteKind::kNoteRegularInTuplet:
           break;
-        case kNoteRestInTuplet:
+        case msrNoteKind::kNoteRestInTuplet:
           break;
-        case kNoteUnpitchedInTuplet:
+        case msrNoteKind::kNoteUnpitchedInTuplet:
           break;
 
         // in grace notes groups
-        case kNoteRegularInGraceNotesGroup:
-        case kNoteSkipInGraceNotesGroup:
+        case msrNoteKind::kNoteRegularInGraceNotesGroup:
+        case msrNoteKind::kNoteSkipInGraceNotesGroup:
           {
           // don't generate code for the grace notes here, that's done thru
           // the note's noteGraceNotesGroupBefore and noteGraceNotesGroupAfter  fields
@@ -13999,7 +13999,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           break;
 
         // in chords in grace notes groups
-        case kNoteInChordInGraceNotesGroup:
+        case msrNoteKind::kNoteInChordInGraceNotesGroup:
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -14025,11 +14025,11 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           break;
 
        // in tuplets in grace notes groups
-       case kNoteInTupletInGraceNotesGroup:
+       case msrNoteKind::kNoteInTupletInGraceNotesGroup:
           break;
 
         // in double-tremolos
-        case kNoteInDoubleTremolo:
+        case msrNoteKind::kNoteInDoubleTremolo:
           break;
 
       } // switch
@@ -14038,7 +14038,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
 
   if (fOnGoingRestMeasures) {
     switch (elt->getNoteKind ()) {
-      case kNoteRestInMeasure:
+      case msrNoteKind::kNoteRestInMeasure:
         // don't handle rest measures, that's done in visitEnd (S_msrRestMeasures&)
           /*
           if (elt->getNoteOccupiesAFullMeasure ()) {
@@ -14086,7 +14086,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           noteIsToBeIgnored = true;
         break;
 
-      case kNoteSkipInMeasure:
+      case msrNoteKind::kNoteSkipInMeasure:
         if (elt->getNoteDirectGraceNotesGroupUpLink ()) {
 #ifdef TRACING_IS_ENABLED
           if (
@@ -14105,8 +14105,8 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
         }
         break;
 
-      case kNoteRegularInGraceNotesGroup:
-      case kNoteSkipInGraceNotesGroup:
+      case msrNoteKind::kNoteRegularInGraceNotesGroup:
+      case msrNoteKind::kNoteSkipInGraceNotesGroup:
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -14123,7 +14123,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           noteIsToBeIgnored = true;
         break;
 
-      case kNoteInChordInGraceNotesGroup:
+      case msrNoteKind::kNoteInChordInGraceNotesGroup:
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -15010,7 +15010,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
 
   if (fOnGoingRestMeasures) {
     switch (elt->getNoteKind ()) {
-      case kNoteRestInMeasure:
+      case msrNoteKind::kNoteRestInMeasure:
         // don't handle rest measuress, that's done in visitEnd (S_msrRestMeasures&)
           if (elt->getNoteOccupiesAFullMeasure ()) {
             bool inhibitRestMeasuresBrowsing =
@@ -15044,7 +15044,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
           }
         break;
 
-      case kNoteSkipInMeasure:
+      case msrNoteKind::kNoteSkipInMeasure:
         if (elt->getNoteDirectGraceNotesGroupUpLink ()) {
 #ifdef TRACING_IS_ENABLED
           if (
@@ -15062,8 +15062,8 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
         }
         break;
 
-      case kNoteRegularInGraceNotesGroup:
-      case kNoteSkipInGraceNotesGroup:
+      case msrNoteKind::kNoteRegularInGraceNotesGroup:
+      case msrNoteKind::kNoteSkipInGraceNotesGroup:
 #ifdef TRACING_IS_ENABLED
           if (
             gGlobalMsrOahGroup->getTraceMsrVisitors ()
@@ -15377,7 +15377,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
   // but not for chord member notes strings:
   // they should appear after the chord itself
   switch (elt->getNoteKind ()) {
-    case kNoteRegularInChord:
+    case msrNoteKind::kNoteRegularInChord:
        break;
 
     default:
@@ -15422,7 +15422,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
   // but not for chord member notes strings:
   // they should appear after the chord itself
   switch (elt->getNoteKind ()) {
-    case kNoteRegularInChord:
+    case msrNoteKind::kNoteRegularInChord:
        break;
 
     default:

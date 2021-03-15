@@ -587,11 +587,11 @@ string Mikrokosmos3WanderingInsiderHandler::fetchOutputFileNameFromTheOptions ()
 
           if (gGlobalBrailleGenerationOahGroup->getUseEncodingInFileName ()) {
             switch (brailleOutputKind) {
-              case kBrailleOutputAscii:
+              case bsrBrailleOutputKind::kBrailleOutputAscii:
                 outputFileName += "_ASCII";
                 break;
 
-              case kBrailleOutputUTF8:
+              case bsrBrailleOutputKind::kBrailleOutputUTF8:
                 outputFileName += "_UTF8";
                   /* JMI
                 switch (gGlobalBrailleGenerationOahGroup->getByteOrderingKind ()) {
@@ -607,11 +607,11 @@ string Mikrokosmos3WanderingInsiderHandler::fetchOutputFileNameFromTheOptions ()
                 */
                 break;
 
-              case kBrailleOutputUTF8Debug:
+              case bsrBrailleOutputKind::kBrailleOutputUTF8Debug:
                 outputFileName += "_UTF8Debug";
                 break;
 
-              case kBrailleOutputUTF16:
+              case bsrBrailleOutputKind::kBrailleOutputUTF16:
                 outputFileName += "_UTF16";
                 switch (gGlobalBrailleGenerationOahGroup->getByteOrderingKind ()) {
                   case kByteOrderingNone:
@@ -882,16 +882,12 @@ R"(Options that are used by Mikrokosmos3Wandering are grouped here.)",
 
   fGeneratorOutputKind = multiGeneratorOutputKind::k_NoOutput;
 
-  fQuitAfterPass2a = false;
-  fQuitAfterPass2b = false;
-
   initializeMikrokosmos3WanderingInsiderOahGroup ();
 }
 
 Mikrokosmos3WanderingInsiderOahGroup::~Mikrokosmos3WanderingInsiderOahGroup ()
 {}
 
-//_______________________________________________________________________________
 void Mikrokosmos3WanderingInsiderOahGroup::initializeMikrokosmos3WanderingInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
@@ -904,72 +900,9 @@ void Mikrokosmos3WanderingInsiderOahGroup::initializeMikrokosmos3WanderingInside
   }
 #endif
 
-  // quit after some passes
-  // --------------------------------------
-
-  createInsiderQuitSubGroup ();
+  // JMI ???
 }
 
-//_______________________________________________________________________________
-void Mikrokosmos3WanderingInsiderOahGroup::createInsiderQuitSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-  if (getTraceOah ()) {
-    gLogStream << left <<
-      "Creating insider quit subgroup in \"" <<
-      fGroupHeader <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  S_oahSubGroup
-    quitAfterSomePassesSubGroup =
-      oahSubGroup::create (
-        "Quit after some passes",
-        "hm2xquit", "help-msr2gmn-quit",
-R"()",
-      oahElementVisibilityKind::kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (quitAfterSomePassesSubGroup);
-
-  // quit after pass 2a
-
-  fQuitAfterPass2a = false;
-
-  S_oahBooleanAtom
-    quit2aOahBooleanAtom =
-      oahBooleanAtom::create (
-        "qap2a", "quitAfterPass-after-pass2a",
-R"(Quit after pass 2a, i.e. after conversion
-of the MusicXML tree to an MSR skeleton.)",
-        "quitAfterPass2a",
-        fQuitAfterPass2a);
-
-  quitAfterSomePassesSubGroup->
-    appendAtomToSubGroup (
-      quit2aOahBooleanAtom);
-
-  // quit after pass 2b
-
-  fQuitAfterPass2b = false;
-
-  S_oahBooleanAtom
-    quit2bOahBooleanAtom =
-      oahBooleanAtom::create (
-        "qap2b", "quitAfterPass-after-pass2b",
-R"(Quit after pass 2b, i.e. after conversion
-of the MusicXML tree to MSR.)",
-        "quitAfterPass2b",
-        fQuitAfterPass2b);
-
-  quitAfterSomePassesSubGroup->
-    appendAtomToSubGroup (
-      quit2bOahBooleanAtom);
-}
-
-//______________________________________________________________________________
 void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahGroupValues (unsigned int fieldWidth)
 {
   gLogStream <<
@@ -1008,25 +941,6 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
     setw (fieldWidth) <<
     "multiGeneratorOutputKind" << " : " <<
     multiGeneratorOutputKindAsString (fGeneratorOutputKind) <<
-    endl;
-
-  --gIndenter;
-
-  // quit after some passes
-  // --------------------------------------
-
-  gLogStream <<
-    "Quit after some passes:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "quitAfterPass2a" << " : " <<
-    booleanAsString (fQuitAfterPass2a) <<
-    endl <<
-    setw (fieldWidth) << "quitAfterPass2b" << " : " <<
-    booleanAsString (fQuitAfterPass2b) <<
     endl;
 
   --gIndenter;

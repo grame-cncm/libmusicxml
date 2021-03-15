@@ -87,64 +87,64 @@ S_bsrCellsList bsrClef::buildCellsList () const
       result =
         bsrCellsList::create (
           fInputLineNumber,
-          kDots345, kDots34, kDots123);
+          bsrCellKind::kDots345, bsrCellKind::kDots34, bsrCellKind::kDots123);
       break;
     case kClefKindFBass:
       result =
         bsrCellsList::create (
           fInputLineNumber,
-          kDots345, kDots3456, kDots123);
+          bsrCellKind::kDots345, bsrCellKind::kDots3456, bsrCellKind::kDots123);
       break;
     case kClefKindCAlto:
       result =
         bsrCellsList::create (
           fInputLineNumber,
-          kDots345, kDots346, kDots123);
+          bsrCellKind::kDots345, bsrCellKind::kDots346, bsrCellKind::kDots123);
       break;
 
     case kClefKindGSoprano:
       result =
         bsrCellsList::create (
           fInputLineNumber,
-          kDots345, kDots34, kDots4, kDots123);
+          bsrCellKind::kDots345, bsrCellKind::kDots34, bsrCellKind::kDots4, bsrCellKind::kDots123);
       break;
     case kClefKindCBaritone:
       result =
         bsrCellsList::create (
           fInputLineNumber,
-          kDots345, kDots3456, kDots456, kDots123);
+          bsrCellKind::kDots345, bsrCellKind::kDots3456, bsrCellKind::kDots456, bsrCellKind::kDots123);
       break;
     case kClefKindCTenor:
       result =
         bsrCellsList::create (
           fInputLineNumber,
-          kDots345, kDots346, kDots5, kDots123);
+          bsrCellKind::kDots345, bsrCellKind::kDots346, bsrCellKind::kDots5, bsrCellKind::kDots123);
       break;
 
     case kClefKindGOttavaAlta:
       result =
         bsrCellsList::create (
           fInputLineNumber,
-          kDots345, kDots34, kDots123, kDots3456, kDots125);
+          bsrCellKind::kDots345, bsrCellKind::kDots34, bsrCellKind::kDots123, bsrCellKind::kDots3456, bsrCellKind::kDots125);
       break;
     case kClefKindGOttavaBassa:
       result =
         bsrCellsList::create (
           fInputLineNumber,
-          kDots345, kDots34, kDots123, kDots3456, kDots236);
+          bsrCellKind::kDots345, bsrCellKind::kDots34, bsrCellKind::kDots123, bsrCellKind::kDots3456, bsrCellKind::kDots236);
       break;
 
     case kClefKindModifiedBassForRightHandPart:
       result =
         bsrCellsList::create (
           fInputLineNumber,
-          kDots345, kDots3456, kDots13);
+          bsrCellKind::kDots345, bsrCellKind::kDots3456, bsrCellKind::kDots13);
       break;
     case kClefKindModifiedTrebleForLeftHandPart:
       result =
         bsrCellsList::create (
           fInputLineNumber,
-          kDots345, kDots34, kDots13);
+          bsrCellKind::kDots345, bsrCellKind::kDots34, bsrCellKind::kDots13);
       break;
   } // switch
 

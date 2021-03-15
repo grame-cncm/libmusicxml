@@ -28,14 +28,14 @@ namespace MusicXML2
 
 // score output kinds
 //______________________________________________________________________________
-enum lpsrScoreOutputKind {
-  kScoreOnly, // default value
-  kScoreAndParts,
-  kPartsAndScore,
-  kPartsOnly,
-  kScoreAndPartsOneFile,
-  kPartsAndScoreOneFile,
-  kPartsOnlyOneFile
+enum class lpsrScoreOutputKind {
+  kScoreOutputScoreOnly, // default value
+  kScoreOutputScoreAndParts,
+  kScoreOutputPartsAndScore,
+  kScoreOutputPartsOnly,
+  kScoreOutputScoreAndPartsOneFile,
+  kScoreOutputPartsAndScoreOneFile,
+  kScoreOutputPartsOnlyOneFile
 };
 
 string lpsrScoreOutputKindAsString (
@@ -50,16 +50,26 @@ void initializeLpsrScoreOutputKindsMap ();
 
 // accidental styles
 //______________________________________________________________________________
-enum lpsrAccidentalStyleKind {
-  kDefault,
+enum class lpsrAccidentalStyleKind {
+// JMI there are new ones in LilyPond 2.22
+  kAccidentalStyleDefault,
   kVoice,
-  kModern,
-  kModernCautionary, kModernVoice, kModernVoiceCautionary,
-  kPiano, kPianoCautionary,
-  kNeoModern,
-  kNeoModernCautionary, kNeoModernVoice, kNeoModernVoiceCautionary,
-  kDodecaphonic, kDodecaphonicNoRepeat,
-  kDodecaphonicFirst, kTeaching, kNoReset, kForget
+  kAccidentalStyleModern,
+  kAccidentalStyleModernCautionary,
+  kAccidentalStyleModernVoice,
+  kAccidentalStyleModernVoiceCautionary,
+  kAccidentalStylePiano,
+  kAccidentalStylePianoCautionary,
+  kAccidentalStyleNeoModern,
+  kAccidentalStyleNeoModernCautionary,
+  kAccidentalStyleNeoModernVoice,
+  kAccidentalStyleNeoModernVoiceCautionary,
+  kAccidentalStyleDodecaphonic,
+  kAccidentalStyleDodecaphonicNoRepeat,
+  kAccidentalStyleDodecaphonicFirst,
+  kAccidentalStyleTeaching,
+  kAccidentalStyleNoReset,
+  kAccidentalStyleForget
 };
 
 string lpsrAccidentalStyleKindAsString (
@@ -77,7 +87,7 @@ void initializeLpsrAccidentalStyleKindsMap ();
 
 // chords languages
 //______________________________________________________________________________
-enum lpsrChordsLanguageKind {
+enum class lpsrChordsLanguageKind {
   kChordsIgnatzek, // LilyPond default
   kChordsGerman,
   kChordsSemiGerman,
@@ -141,7 +151,7 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
 
 // lyrics durations
 //______________________________________________________________________________
-enum lpsrLyricsDurationsKind {
+enum class lpsrLyricsDurationsKind {
   kLyricsDurationsImplicit, // default value
   kLyricsDurationsExplicit
 };

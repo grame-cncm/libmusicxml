@@ -315,7 +315,7 @@ EXP msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   we thus use enum types and uplinks to handles the variants.
 */
 
-enum msrNoteKind {
+enum class msrNoteKind {
   k_NoNote,
 
   // in measures
@@ -563,23 +563,23 @@ string msrMeasureImplicitKindAsString (
 // clefs
 //______________________________________________________________________________
 
-enum msrClefKind {
+enum class msrClefKind {
   k_NoClef,
 
-  kTrebleClef,
-  kSopranoClef, kMezzoSopranoClef, kAltoClef, kTenorClef, kBaritoneClef, kBassClef,
-  kTrebleLine1Clef,
-  kTrebleMinus15Clef, kTrebleMinus8Clef, kTreblePlus8Clef, kTreblePlus15Clef,
+  kClefTreble,
+  kClefSoprano, kClefMezzoSoprano, kClefAlto, kClefTenor, kClefBaritone, kClefBass,
+  kClefTrebleLine1,
+  kClefTrebleMinus15, kClefTrebleMinus8, kClefTreblePlus8, kClefTreblePlus15,
 
-  kBassMinus15Clef, kBassMinus8Clef, kBassPlus8Clef, kBassPlus15Clef,
+  kClefBassMinus15, kClefBassMinus8, kClefBassPlus8, kClefBassPlus15,
 
-  kVarbaritoneClef,
+  kClefVarbaritone,
 
-  kTablature4Clef, kTablature5Clef, kTablature6Clef, kTablature7Clef,
+  kClefTablature4, kClefTablature5, kClefTablature6, kClefTablature7,
 
-  kPercussionClef,
+  kClefPercussion,
 
-  kJianpuClef
+  kClefJianpu
 };
 
 string msrClefKindAsString (

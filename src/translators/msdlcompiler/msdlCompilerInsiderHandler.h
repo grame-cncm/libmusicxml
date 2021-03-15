@@ -163,17 +163,6 @@ class EXP msdlCompilerInsiderOahGroup : public oahGroup
     multiGeneratorOutputKind   getGeneratorOutputKind () const
                               { return fGeneratorOutputKind; }
 
-    // quit after some passes
-    void                  setQuitAfterPass2a ()
-                              { fQuitAfterPass2a = true; }
-    bool                  getQuitAfterPass2a () const
-                              { return fQuitAfterPass2a; }
-
-    void                  setQuitAfterPass2b ()
-                              { fQuitAfterPass2b = true; }
-    bool                  getQuitAfterPass2b () const
-                              { return fQuitAfterPass2b; }
-
   public:
 
     // public services
@@ -212,8 +201,6 @@ class EXP msdlCompilerInsiderOahGroup : public oahGroup
 
     void                  createInsiderLilypondSubGroup ();
 
-    void                  createInsiderQuitSubGroup ();
-
   private:
 
     // private fields
@@ -222,10 +209,6 @@ class EXP msdlCompilerInsiderOahGroup : public oahGroup
     // generated output kind
     multiGeneratorOutputKind
                           fGeneratorOutputKind;
-
-    // quit after some passes
-    bool                  fQuitAfterPass2a;
-    bool                  fQuitAfterPass2b;
 };
 typedef SMARTP<msdlCompilerInsiderOahGroup> S_msdlCompilerInsiderOahGroup;
 EXP ostream& operator<< (ostream& os, const S_msdlCompilerInsiderOahGroup& elt);

@@ -784,35 +784,35 @@ void msr2summaryVisitor::visitStart (S_msrNote& elt)
   }
 
   switch (elt->getNoteKind ()) {
-    case k_NoNote:
+    case msrNoteKind::k_NoNote:
       break;
-    case kNoteRestInMeasure:
+    case msrNoteKind::kNoteRestInMeasure:
       ++fScoreRestNotesCounter;
       break;
-    case kNoteSkipInMeasure:
+    case msrNoteKind::kNoteSkipInMeasure:
       ++fScoreSkipNotesCounter;
       break;
-    case kNoteUnpitchedInMeasure:
+    case msrNoteKind::kNoteUnpitchedInMeasure:
       ++fScoreUnpitchedNotesCounter;
       break;
-    case kNoteRegularInMeasure:
+    case msrNoteKind::kNoteRegularInMeasure:
       ++fScoreRegularNotesCounter;
       break;
-    case kNoteInDoubleTremolo:
+    case msrNoteKind::kNoteInDoubleTremolo:
       ++fScoreRegularNotesCounter;
       break;
-    case kNoteRegularInGraceNotesGroup:
-    case kNoteSkipInGraceNotesGroup:
-    case kNoteInChordInGraceNotesGroup:
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
       ++fScoreGraceNotesGroupCounter;
       break;
-    case kNoteRegularInChord:
+    case msrNoteKind::kNoteRegularInChord:
       ++fScoreChordNotesCounter;
       break;
-    case kNoteRegularInTuplet:
-    case kNoteRestInTuplet:
-    case kNoteInTupletInGraceNotesGroup:
-    case kNoteUnpitchedInTuplet:
+    case msrNoteKind::kNoteRegularInTuplet:
+    case msrNoteKind::kNoteRestInTuplet:
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
+    case msrNoteKind::kNoteUnpitchedInTuplet:
       ++fScoreTupletNotesCounter;
       break;
   } // switch
@@ -830,28 +830,28 @@ void msr2summaryVisitor::visitEnd (S_msrNote& elt)
   }
 
   switch (elt->getNoteKind ()) { // JMI
-    case k_NoNote:
+    case msrNoteKind::k_NoNote:
       break;
-    case kNoteRestInMeasure:
+    case msrNoteKind::kNoteRestInMeasure:
       break;
-    case kNoteSkipInMeasure:
+    case msrNoteKind::kNoteSkipInMeasure:
       break;
-    case kNoteUnpitchedInMeasure:
+    case msrNoteKind::kNoteUnpitchedInMeasure:
       break;
-    case kNoteRegularInMeasure:
+    case msrNoteKind::kNoteRegularInMeasure:
       break;
-    case kNoteInDoubleTremolo:
+    case msrNoteKind::kNoteInDoubleTremolo:
       break;
-    case kNoteRegularInGraceNotesGroup:
-    case kNoteSkipInGraceNotesGroup:
-    case kNoteInChordInGraceNotesGroup:
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
       break;
-    case kNoteRegularInChord:
+    case msrNoteKind::kNoteRegularInChord:
       break;
-    case kNoteRegularInTuplet:
-    case kNoteRestInTuplet:
-    case kNoteInTupletInGraceNotesGroup:
-    case kNoteUnpitchedInTuplet:
+    case msrNoteKind::kNoteRegularInTuplet:
+    case msrNoteKind::kNoteRestInTuplet:
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
+    case msrNoteKind::kNoteUnpitchedInTuplet:
       break;
   } // switch
 }

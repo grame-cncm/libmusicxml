@@ -83,33 +83,33 @@ S_bsrCellsList noteOctaveKindAsCellsList (
     case bsrNoteOctaveKind::kNoteOctaveNone:
       break;
     case bsrNoteOctaveKind::kNoteOctaveBelow1:
-      result->appendCellKindToCellsList (kDots4);
-      result->appendCellKindToCellsList (kDots4);
+      result->appendCellKindToCellsList (bsrCellKind::kDots4);
+      result->appendCellKindToCellsList (bsrCellKind::kDots4);
       break;
     case bsrNoteOctaveKind::kNoteOctave1:
-      result->appendCellKindToCellsList (kDots4);
+      result->appendCellKindToCellsList (bsrCellKind::kDots4);
       break;
     case bsrNoteOctaveKind::kNoteOctave2:
-      result->appendCellKindToCellsList (kDots45);
+      result->appendCellKindToCellsList (bsrCellKind::kDots45);
       break;
     case bsrNoteOctaveKind::kNoteOctave3:
-      result->appendCellKindToCellsList (kDots456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots456);
       break;
     case bsrNoteOctaveKind::kNoteOctave4:
-      result->appendCellKindToCellsList (kDots5);
+      result->appendCellKindToCellsList (bsrCellKind::kDots5);
       break;
     case bsrNoteOctaveKind::kNoteOctave5:
-      result->appendCellKindToCellsList (kDots46);
+      result->appendCellKindToCellsList (bsrCellKind::kDots46);
       break;
     case bsrNoteOctaveKind::kNoteOctave6:
-      result->appendCellKindToCellsList (kDots56);
+      result->appendCellKindToCellsList (bsrCellKind::kDots56);
       break;
     case bsrNoteOctaveKind::kNoteOctave7:
-      result->appendCellKindToCellsList (kDots6);
+      result->appendCellKindToCellsList (bsrCellKind::kDots6);
       break;
     case bsrNoteOctaveKind::kNoteOctaveAbove7:
-      result->appendCellKindToCellsList (kDots6);
-      result->appendCellKindToCellsList (kDots6);
+      result->appendCellKindToCellsList (bsrCellKind::kDots6);
+      result->appendCellKindToCellsList (bsrCellKind::kDots6);
       break;
   } // switch
 
@@ -173,283 +173,283 @@ S_bsrCellsList bsrNote::noteValueKindAsCellsList (
       break;
 
     case kNoteValueRestBreve:
-      result->appendCellKindToCellsList (kDots134);
-      result->appendCellKindToCellsList (kDots13);
+      result->appendCellKindToCellsList (bsrCellKind::kDots134);
+      result->appendCellKindToCellsList (bsrCellKind::kDots13);
       break;
     case kNoteValueRestWhole:
-      result->appendCellKindToCellsList (kDots134);
+      result->appendCellKindToCellsList (bsrCellKind::kDots134);
       break;
     case kNoteValueRestHalf:
-      result->appendCellKindToCellsList (kDots136);
+      result->appendCellKindToCellsList (bsrCellKind::kDots136);
       break;
     case kNoteValueRestQuarter:
-      result->appendCellKindToCellsList (kDots1236);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1236);
       break;
     case kNoteValueRest8th:
-      result->appendCellKindToCellsList (kDots1346);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1346);
       break;
     case kNoteValueRest16th:
-      result->appendCellKindToCellsList (kDots134);
+      result->appendCellKindToCellsList (bsrCellKind::kDots134);
       break;
     case kNoteValueRest32nd:
-      result->appendCellKindToCellsList (kDots136);
+      result->appendCellKindToCellsList (bsrCellKind::kDots136);
       break;
     case kNoteValueRest64th:
-      result->appendCellKindToCellsList (kDots1236);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1236);
       break;
     case kNoteValueRest128th:
-      result->appendCellKindToCellsList (kDots1346);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1346);
       break;
     case kNoteValueRest256th:
-      result->appendCellKindToCellsList (kDots56);
-      result->appendCellKindToCellsList (kDots126);
-      result->appendCellKindToCellsList (kDots2);
-      result->appendCellKindToCellsList (kDots134);
+      result->appendCellKindToCellsList (bsrCellKind::kDots56);
+      result->appendCellKindToCellsList (bsrCellKind::kDots126);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2);
+      result->appendCellKindToCellsList (bsrCellKind::kDots134);
       break;
 
     case kNoteValueCBreve:
-      result->appendCellKindToCellsList (kDots13456);
-      result->appendCellKindToCellsList (kDots13);
+      result->appendCellKindToCellsList (bsrCellKind::kDots13456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots13);
       break;
     case kNoteValueCWhole:
-      result->appendCellKindToCellsList (kDots13456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots13456);
       break;
     case kNoteValueCHalf:
-      result->appendCellKindToCellsList (kDots1345);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1345);
       break;
     case kNoteValueCQuarter:
-      result->appendCellKindToCellsList (kDots1456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1456);
       break;
     case kNoteValueC8th:
-      result->appendCellKindToCellsList (kDots145);
+      result->appendCellKindToCellsList (bsrCellKind::kDots145);
       break;
     case kNoteValueC16th:
-      result->appendCellKindToCellsList (kDots13456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots13456);
       break;
     case kNoteValueC32nd:
-      result->appendCellKindToCellsList (kDots1345);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1345);
       break;
     case kNoteValueC64th:
-      result->appendCellKindToCellsList (kDots1456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1456);
       break;
     case kNoteValueC128th:
-      result->appendCellKindToCellsList (kDots145);
+      result->appendCellKindToCellsList (bsrCellKind::kDots145);
       break;
     case kNoteValueC256th:
-      result->appendCellKindToCellsList (kDots56);
-      result->appendCellKindToCellsList (kDots126);
-      result->appendCellKindToCellsList (kDots2);
-      result->appendCellKindToCellsList (kDots13456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots56);
+      result->appendCellKindToCellsList (bsrCellKind::kDots126);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2);
+      result->appendCellKindToCellsList (bsrCellKind::kDots13456);
       break;
 
     case kNoteValueDBreve:
-      result->appendCellKindToCellsList (kDots1356);
-      result->appendCellKindToCellsList (kDots13);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1356);
+      result->appendCellKindToCellsList (bsrCellKind::kDots13);
       break;
     case kNoteValueDWhole:
-      result->appendCellKindToCellsList (kDots1356);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1356);
       break;
     case kNoteValueDHalf:
-      result->appendCellKindToCellsList (kDots135);
+      result->appendCellKindToCellsList (bsrCellKind::kDots135);
       break;
     case kNoteValueDQuarter:
-      result->appendCellKindToCellsList (kDots156);
+      result->appendCellKindToCellsList (bsrCellKind::kDots156);
       break;
     case kNoteValueD8th:
-      result->appendCellKindToCellsList (kDots15);
+      result->appendCellKindToCellsList (bsrCellKind::kDots15);
       break;
     case kNoteValueD16th:
-      result->appendCellKindToCellsList (kDots1356);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1356);
       break;
     case kNoteValueD32nd:
-      result->appendCellKindToCellsList (kDots135);
+      result->appendCellKindToCellsList (bsrCellKind::kDots135);
       break;
     case kNoteValueD64th:
-      result->appendCellKindToCellsList (kDots156);
+      result->appendCellKindToCellsList (bsrCellKind::kDots156);
       break;
     case kNoteValueD128th:
-      result->appendCellKindToCellsList (kDots15);
+      result->appendCellKindToCellsList (bsrCellKind::kDots15);
       break;
     case kNoteValueD256th:
-      result->appendCellKindToCellsList (kDots56);
-      result->appendCellKindToCellsList (kDots126);
-      result->appendCellKindToCellsList (kDots2);
-      result->appendCellKindToCellsList (kDots1356);
+      result->appendCellKindToCellsList (bsrCellKind::kDots56);
+      result->appendCellKindToCellsList (bsrCellKind::kDots126);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1356);
       break;
 
     case kNoteValueEBreve:
-      result->appendCellKindToCellsList (kDots12346);
-      result->appendCellKindToCellsList (kDots13);
+      result->appendCellKindToCellsList (bsrCellKind::kDots12346);
+      result->appendCellKindToCellsList (bsrCellKind::kDots13);
       break;
     case kNoteValueEWhole:
-      result->appendCellKindToCellsList (kDots12346);
+      result->appendCellKindToCellsList (bsrCellKind::kDots12346);
       break;
     case kNoteValueEHalf:
-      result->appendCellKindToCellsList (kDots1234);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1234);
       break;
     case kNoteValueEQuarter:
-      result->appendCellKindToCellsList (kDots1246);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1246);
       break;
     case kNoteValueE8th:
-      result->appendCellKindToCellsList (kDots124);
+      result->appendCellKindToCellsList (bsrCellKind::kDots124);
       break;
     case kNoteValueE16th:
-      result->appendCellKindToCellsList (kDots12346);
+      result->appendCellKindToCellsList (bsrCellKind::kDots12346);
       break;
     case kNoteValueE32nd:
-      result->appendCellKindToCellsList (kDots1234);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1234);
       break;
     case kNoteValueE64th:
-      result->appendCellKindToCellsList (kDots1246);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1246);
       break;
     case kNoteValueE128th:
-      result->appendCellKindToCellsList (kDots124);
+      result->appendCellKindToCellsList (bsrCellKind::kDots124);
       break;
     case kNoteValueE256th:
-      result->appendCellKindToCellsList (kDots56);
-      result->appendCellKindToCellsList (kDots126);
-      result->appendCellKindToCellsList (kDots2);
-      result->appendCellKindToCellsList (kDots12346);
+      result->appendCellKindToCellsList (bsrCellKind::kDots56);
+      result->appendCellKindToCellsList (bsrCellKind::kDots126);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2);
+      result->appendCellKindToCellsList (bsrCellKind::kDots12346);
       break;
 
     case kNoteValueFBreve:
-      result->appendCellKindToCellsList (kDots123456);
-      result->appendCellKindToCellsList (kDots13);
+      result->appendCellKindToCellsList (bsrCellKind::kDots123456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots13);
       break;
     case kNoteValueFWhole:
-      result->appendCellKindToCellsList (kDots123456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots123456);
       break;
     case kNoteValueFHalf:
-      result->appendCellKindToCellsList (kDots12345);
+      result->appendCellKindToCellsList (bsrCellKind::kDots12345);
       break;
     case kNoteValueFQuarter:
-      result->appendCellKindToCellsList (kDots12456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots12456);
       break;
     case kNoteValueF8th:
-      result->appendCellKindToCellsList (kDots1245);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1245);
       break;
     case kNoteValueF16th:
-      result->appendCellKindToCellsList (kDots123456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots123456);
       break;
     case kNoteValueF32nd:
-      result->appendCellKindToCellsList (kDots12345);
+      result->appendCellKindToCellsList (bsrCellKind::kDots12345);
       break;
     case kNoteValueF64th:
-      result->appendCellKindToCellsList (kDots12456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots12456);
       break;
     case kNoteValueF128th:
-      result->appendCellKindToCellsList (kDots1245);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1245);
       break;
     case kNoteValueF256th:
-      result->appendCellKindToCellsList (kDots56);
-      result->appendCellKindToCellsList (kDots126);
-      result->appendCellKindToCellsList (kDots2);
-      result->appendCellKindToCellsList (kDots123456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots56);
+      result->appendCellKindToCellsList (bsrCellKind::kDots126);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2);
+      result->appendCellKindToCellsList (bsrCellKind::kDots123456);
       break;
 
     case kNoteValueGBreve:
-      result->appendCellKindToCellsList (kDots12356);
-      result->appendCellKindToCellsList (kDots13);
+      result->appendCellKindToCellsList (bsrCellKind::kDots12356);
+      result->appendCellKindToCellsList (bsrCellKind::kDots13);
       break;
     case kNoteValueGWhole:
-      result->appendCellKindToCellsList (kDots12356);
+      result->appendCellKindToCellsList (bsrCellKind::kDots12356);
       break;
     case kNoteValueGHalf:
-      result->appendCellKindToCellsList (kDots1235);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1235);
       break;
     case kNoteValueGQuarter:
-      result->appendCellKindToCellsList (kDots1256);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1256);
       break;
     case kNoteValueG8th:
-      result->appendCellKindToCellsList (kDots125);
+      result->appendCellKindToCellsList (bsrCellKind::kDots125);
       break;
     case kNoteValueG16th:
-      result->appendCellKindToCellsList (kDots12356);
+      result->appendCellKindToCellsList (bsrCellKind::kDots12356);
       break;
     case kNoteValueG32nd:
-      result->appendCellKindToCellsList (kDots1235);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1235);
       break;
     case kNoteValueG64th:
-      result->appendCellKindToCellsList (kDots1256);
+      result->appendCellKindToCellsList (bsrCellKind::kDots1256);
       break;
     case kNoteValueG128th:
-      result->appendCellKindToCellsList (kDots125);
+      result->appendCellKindToCellsList (bsrCellKind::kDots125);
       break;
     case kNoteValueG256th:
-      result->appendCellKindToCellsList (kDots56);
-      result->appendCellKindToCellsList (kDots126);
-      result->appendCellKindToCellsList (kDots2);
-      result->appendCellKindToCellsList (kDots12356);
+      result->appendCellKindToCellsList (bsrCellKind::kDots56);
+      result->appendCellKindToCellsList (bsrCellKind::kDots126);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2);
+      result->appendCellKindToCellsList (bsrCellKind::kDots12356);
       break;
 
     case kNoteValueABreve:
-      result->appendCellKindToCellsList (kDots2346);
-      result->appendCellKindToCellsList (kDots13);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2346);
+      result->appendCellKindToCellsList (bsrCellKind::kDots13);
       break;
     case kNoteValueAWhole:
-      result->appendCellKindToCellsList (kDots2346);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2346);
       break;
     case kNoteValueAHalf:
-      result->appendCellKindToCellsList (kDots234);
+      result->appendCellKindToCellsList (bsrCellKind::kDots234);
       break;
     case kNoteValueAQuarter:
-      result->appendCellKindToCellsList (kDots246);
+      result->appendCellKindToCellsList (bsrCellKind::kDots246);
       break;
     case kNoteValueA8th:
-      result->appendCellKindToCellsList (kDots24);
+      result->appendCellKindToCellsList (bsrCellKind::kDots24);
       break;
     case kNoteValueA16th:
-      result->appendCellKindToCellsList (kDots2346);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2346);
       break;
     case kNoteValueA32nd:
-      result->appendCellKindToCellsList (kDots234);
+      result->appendCellKindToCellsList (bsrCellKind::kDots234);
       break;
     case kNoteValueA64th:
-      result->appendCellKindToCellsList (kDots246);
+      result->appendCellKindToCellsList (bsrCellKind::kDots246);
       break;
     case kNoteValueA128th:
-      result->appendCellKindToCellsList (kDots24);
+      result->appendCellKindToCellsList (bsrCellKind::kDots24);
       break;
     case kNoteValueA256th:
-      result->appendCellKindToCellsList (kDots56);
-      result->appendCellKindToCellsList (kDots126);
-      result->appendCellKindToCellsList (kDots2);
-      result->appendCellKindToCellsList (kDots2346);
+      result->appendCellKindToCellsList (bsrCellKind::kDots56);
+      result->appendCellKindToCellsList (bsrCellKind::kDots126);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2346);
       break;
 
     case kNoteValueBBreve:
-      result->appendCellKindToCellsList (kDots23456);
-      result->appendCellKindToCellsList (kDots13);
+      result->appendCellKindToCellsList (bsrCellKind::kDots23456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots13);
       break;
     case kNoteValueBWhole:
-      result->appendCellKindToCellsList (kDots23456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots23456);
       break;
     case kNoteValueBHalf:
-      result->appendCellKindToCellsList (kDots2345);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2345);
       break;
     case kNoteValueBQuarter:
-      result->appendCellKindToCellsList (kDots2456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2456);
       break;
     case kNoteValueB8th:
-      result->appendCellKindToCellsList (kDots245);
+      result->appendCellKindToCellsList (bsrCellKind::kDots245);
       break;
     case kNoteValueB16th:
-      result->appendCellKindToCellsList (kDots23456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots23456);
       break;
     case kNoteValueB32nd:
-      result->appendCellKindToCellsList (kDots2345);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2345);
       break;
     case kNoteValueB64th:
-      result->appendCellKindToCellsList (kDots2456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2456);
       break;
     case kNoteValueB128th:
-      result->appendCellKindToCellsList (kDots245);
+      result->appendCellKindToCellsList (bsrCellKind::kDots245);
       break;
     case kNoteValueB256th:
-      result->appendCellKindToCellsList (kDots56);
-      result->appendCellKindToCellsList (kDots126);
-      result->appendCellKindToCellsList (kDots2);
-      result->appendCellKindToCellsList (kDots23456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots56);
+      result->appendCellKindToCellsList (bsrCellKind::kDots126);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2);
+      result->appendCellKindToCellsList (bsrCellKind::kDots23456);
       break;
   } // switch
 
@@ -747,14 +747,14 @@ S_bsrCellsList bsrNote::noteValueSizeKindAsCellsList (
     case bsrNote::kNoteValueSizeNone:
       break;
     case bsrNote::kNoteValueSizeLarger:
-      result->appendCellKindToCellsList (kDots45);
-      result->appendCellKindToCellsList (kDots126);
-      result->appendCellKindToCellsList (kDots2);
+      result->appendCellKindToCellsList (bsrCellKind::kDots45);
+      result->appendCellKindToCellsList (bsrCellKind::kDots126);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2);
       break;
     case bsrNote::kNoteValueSizeSmaller:
-      result->appendCellKindToCellsList (kDots6);
-      result->appendCellKindToCellsList (kDots126);
-      result->appendCellKindToCellsList (kDots2);
+      result->appendCellKindToCellsList (bsrCellKind::kDots6);
+      result->appendCellKindToCellsList (bsrCellKind::kDots126);
+      result->appendCellKindToCellsList (bsrCellKind::kDots2);
       break;
   } // switch
 
@@ -793,21 +793,21 @@ S_bsrCellsList bsrNote::accidentalKindAsCellsList (
       break;
 
     case bsrNote::bsrAccidentalKind::kAccidentalQuarterSharp:
-      result->appendCellKindToCellsList (kDots4);
+      result->appendCellKindToCellsList (bsrCellKind::kDots4);
       result->appendCellKindToCellsList (kCellSharp);
       break;
     case bsrNote::bsrAccidentalKind::kAccidentalQuarterFlat:
-      result->appendCellKindToCellsList (kDots4);
+      result->appendCellKindToCellsList (bsrCellKind::kDots4);
       result->appendCellKindToCellsList (kCellFlat);
       break;
 
     case bsrNote::bsrAccidentalKind::kAccidentalThreeQuarterSharp:
-      result->appendCellKindToCellsList (kDots456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots456);
       result->appendCellKindToCellsList (kCellSharp);
       break;
 
     case bsrNote::bsrAccidentalKind::kAccidentalThreeQuarterFlat:
-      result->appendCellKindToCellsList (kDots456);
+      result->appendCellKindToCellsList (bsrCellKind::kDots456);
       result->appendCellKindToCellsList (kCellFlat);
       break;
   } // switch

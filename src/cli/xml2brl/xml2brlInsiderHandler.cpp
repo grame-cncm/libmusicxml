@@ -369,11 +369,11 @@ string xml2brlInsiderHandler::fetchOutputFileNameFromTheOptions () const
 
       if (gGlobalBrailleGenerationOahGroup->getUseEncodingInFileName ()) {
         switch (brailleOutputKind) {
-          case kBrailleOutputAscii:
+          case bsrBrailleOutputKind::kBrailleOutputAscii:
             outputFileName += "_ASCII";
             break;
 
-          case kBrailleOutputUTF8:
+          case bsrBrailleOutputKind::kBrailleOutputUTF8:
             outputFileName += "_UTF8";
               /* JMI
             switch (gGlobalBrailleGenerationOahGroup->getByteOrderingKind ()) {
@@ -389,11 +389,11 @@ string xml2brlInsiderHandler::fetchOutputFileNameFromTheOptions () const
             */
             break;
 
-          case kBrailleOutputUTF8Debug:
+          case bsrBrailleOutputKind::kBrailleOutputUTF8Debug:
             outputFileName += "_UTF8Debug";
             break;
 
-          case kBrailleOutputUTF16:
+          case bsrBrailleOutputKind::kBrailleOutputUTF16:
             outputFileName += "_UTF16";
             switch (gGlobalBrailleGenerationOahGroup->getByteOrderingKind ()) {
               case kByteOrderingNone:
@@ -423,16 +423,16 @@ string xml2brlInsiderHandler::fetchOutputFileNameFromTheOptions () const
 
       // append the file extension to the output file name
       switch (brailleOutputKind) {
-        case kBrailleOutputAscii:
+        case bsrBrailleOutputKind::kBrailleOutputAscii:
          outputFileName += ".brf";
           break;
 
-        case kBrailleOutputUTF8:
-        case kBrailleOutputUTF16:
+        case bsrBrailleOutputKind::kBrailleOutputUTF8:
+        case bsrBrailleOutputKind::kBrailleOutputUTF16:
           outputFileName += ".brf";
           break;
 
-        case kBrailleOutputUTF8Debug:
+        case bsrBrailleOutputKind::kBrailleOutputUTF8Debug:
           outputFileName += ".brf"; // since braille cells and regular text are present
           break;
       } // switch

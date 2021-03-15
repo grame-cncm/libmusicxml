@@ -229,7 +229,7 @@ void enforceSomeOptions (
 
 /*
       gGlobalBrailleGenerationOahGroup->
-        setBrailleOutputKind (kBrailleOutputUTF8Debug);
+        setBrailleOutputKind (bsrBrailleOutputKind::kBrailleOutputUTF8Debug);
 */
       break;
 
@@ -797,59 +797,6 @@ int main (int argc, char * argv[])
   // ------------------------------------------------------
 
   xmlErr err = kNoErr;
-
-/*
-  try {
-    if (inputSourceName == MSDR_STANDARD_INPUT_NAME) {
-      // MSDL data comes from standard input
-#ifdef TRACING_IS_ENABLED
-      if (getTraceOah ()) {
-        cerr << "Reading standard input" << endl;
-      }
-#endif
-
-      err =
-        msdlStream2lilypondWithHandler (
-          "stdin", cin, handler, cout, cerr);
-    }
-
-    else {
-      // MSDL data comes from a file
-#ifdef TRACING_IS_ENABLED
-      if (getTraceOah ()) {
-        cerr << "Reading file \"" << inputSourceName << "\"" << endl;
-      }
-#endif
-
-      err =
-        msdlFile2lilypondWithHandler (
-          inputSourceName, handler, cout, cerr);
-    }
-*/
-
-/* JMI
-#ifdef TRACING_IS_ENABLED
-    if (getTraceOah ()) {
-      if (err != 0) {
-        cerr <<
-          executableName << ", " <<
-          multiGeneratorOutputKindAsString (theGeneratorOutputKind) <<
-          ", err = " <<
-          err <<
-          endl;
-      }
-    }
-#endif
-  }
-  catch (msgException& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-  catch (std::exception& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-*/
 
   // generate code
   try {

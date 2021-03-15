@@ -318,7 +318,7 @@ R"()",
 
   const lpsrScoreOutputKind
     lpsrScoreOutputKindDefaultValue =
-      kScoreOnly; // default value
+      lpsrScoreOutputKind::kScoreOutputScoreOnly; // default value
 
   fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
 

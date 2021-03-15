@@ -170,17 +170,6 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
     multiGeneratorOutputKind   getGeneratorOutputKind () const
                               { return fGeneratorOutputKind; }
 
-    // quit after some passes
-    void                  setQuitAfterPass2a ()
-                              { fQuitAfterPass2a = true; }
-    bool                  getQuitAfterPass2a () const
-                              { return fQuitAfterPass2a; }
-
-    void                  setQuitAfterPass2b ()
-                              { fQuitAfterPass2b = true; }
-    bool                  getQuitAfterPass2b () const
-                              { return fQuitAfterPass2b; }
-
   public:
 
     // public services
@@ -219,8 +208,6 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
 
     void                  initializeGenerateCodeOptions ();
 
-    void                  createInsiderQuitSubGroup ();
-
   private:
 
     // private fields
@@ -234,10 +221,6 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
                           fGeneratorOutputKind;
     S_multiGeneratorOutputKindAtom
                           fGeneratorOutputKindAtom;
-
-    // quit after some passes
-    bool                  fQuitAfterPass2a;
-    bool                  fQuitAfterPass2b;
 };
 typedef SMARTP<Mikrokosmos3WanderingInsiderOahGroup> S_Mikrokosmos3WanderingInsiderOahGroup;
 EXP ostream& operator<< (ostream& os, const S_Mikrokosmos3WanderingInsiderOahGroup& elt);

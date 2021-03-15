@@ -128,11 +128,11 @@ S_lpsrScore msr2lpsrTranslator::buildLpsrScoreFromMsrScore ()
 
   // create the current score block if relevant
   switch (gGlobalMsr2lpsrOahGroup->getScoreOutputKind ()) {
-    case kScoreOnly:
-    case kScoreAndParts:
-    case kPartsAndScore:
-    case kScoreAndPartsOneFile:
-    case kPartsAndScoreOneFile:
+    case lpsrScoreOutputKind::kScoreOutputScoreOnly:
+    case lpsrScoreOutputKind::kScoreOutputScoreAndParts:
+    case lpsrScoreOutputKind::kScoreOutputPartsAndScore:
+    case lpsrScoreOutputKind::kScoreOutputScoreAndPartsOneFile:
+    case lpsrScoreOutputKind::kScoreOutputPartsAndScoreOneFile:
       {
         // create the current score block
         fCurrentScoreBlock =
@@ -145,8 +145,8 @@ S_lpsrScore msr2lpsrTranslator::buildLpsrScoreFromMsrScore ()
             fCurrentScoreBlock);
       }
       break;
-    case kPartsOnly:
-    case kPartsOnlyOneFile:
+    case lpsrScoreOutputKind::kScoreOutputPartsOnly:
+    case lpsrScoreOutputKind::kScoreOutputPartsOnlyOneFile:
       break;
   } // switch
 
@@ -1094,11 +1094,11 @@ void msr2lpsrTranslator::visitEnd (S_msrPartGroup& elt)
 
     // append the current partgroup block to the current score block if relevant
     switch (gGlobalMsr2lpsrOahGroup->getScoreOutputKind ()) {
-      case kScoreOnly:
-      case kScoreAndParts:
-      case kPartsAndScore:
-      case kScoreAndPartsOneFile:
-      case kPartsAndScoreOneFile:
+      case lpsrScoreOutputKind::kScoreOutputScoreOnly:
+      case lpsrScoreOutputKind::kScoreOutputScoreAndParts:
+      case lpsrScoreOutputKind::kScoreOutputPartsAndScore:
+      case lpsrScoreOutputKind::kScoreOutputScoreAndPartsOneFile:
+      case lpsrScoreOutputKind::kScoreOutputPartsAndScoreOneFile:
         {
           // sanity check
           msgAssert (
@@ -1127,21 +1127,21 @@ void msr2lpsrTranslator::visitEnd (S_msrPartGroup& elt)
               fPartGroupBlocksStack.top ());
         }
         break;
-      case kPartsOnly:
-      case kPartsOnlyOneFile:
+      case lpsrScoreOutputKind::kScoreOutputPartsOnly:
+      case lpsrScoreOutputKind::kScoreOutputPartsOnlyOneFile:
         break;
     } // switch
 
     // append the current partgroup block to the current bookpart block if relevant
     switch (gGlobalMsr2lpsrOahGroup->getScoreOutputKind ()) {
-      case kScoreOnly:
+      case lpsrScoreOutputKind::kScoreOutputScoreOnly:
         break;
-      case kScoreAndParts:
-      case kPartsAndScore:
-      case kScoreAndPartsOneFile:
-      case kPartsAndScoreOneFile:
-      case kPartsOnly:
-      case kPartsOnlyOneFile:
+      case lpsrScoreOutputKind::kScoreOutputScoreAndParts:
+      case lpsrScoreOutputKind::kScoreOutputPartsAndScore:
+      case lpsrScoreOutputKind::kScoreOutputScoreAndPartsOneFile:
+      case lpsrScoreOutputKind::kScoreOutputPartsAndScoreOneFile:
+      case lpsrScoreOutputKind::kScoreOutputPartsOnly:
+      case lpsrScoreOutputKind::kScoreOutputPartsOnlyOneFile:
         {
           // sanity check
           msgAssert (
@@ -1276,14 +1276,14 @@ void msr2lpsrTranslator::visitStart (S_msrPart& elt)
 
   // create a bookpart block if relevant
   switch (gGlobalMsr2lpsrOahGroup->getScoreOutputKind ()) {
-    case kScoreOnly:
+    case lpsrScoreOutputKind::kScoreOutputScoreOnly:
       break;
-    case kScoreAndParts:
-    case kPartsAndScore:
-    case kScoreAndPartsOneFile:
-    case kPartsAndScoreOneFile:
-    case kPartsOnly:
-    case kPartsOnlyOneFile:
+    case lpsrScoreOutputKind::kScoreOutputScoreAndParts:
+    case lpsrScoreOutputKind::kScoreOutputPartsAndScore:
+    case lpsrScoreOutputKind::kScoreOutputScoreAndPartsOneFile:
+    case lpsrScoreOutputKind::kScoreOutputPartsAndScoreOneFile:
+    case lpsrScoreOutputKind::kScoreOutputPartsOnly:
+    case lpsrScoreOutputKind::kScoreOutputPartsOnlyOneFile:
       {
         // create the current score block
         fCurrentBookPartBlock =
@@ -1506,12 +1506,12 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
 
         // handle the current staff block
         switch (gGlobalMsr2lpsrOahGroup->getScoreOutputKind ()) {
-          case kScoreOnly: // default value
+          case lpsrScoreOutputKind::kScoreOutputScoreOnly: // default value
             break;
-          case kScoreAndParts:
-          case kPartsAndScore:
-          case kScoreAndPartsOneFile:
-          case kPartsAndScoreOneFile:
+          case lpsrScoreOutputKind::kScoreOutputScoreAndParts:
+          case lpsrScoreOutputKind::kScoreOutputPartsAndScore:
+          case lpsrScoreOutputKind::kScoreOutputScoreAndPartsOneFile:
+          case lpsrScoreOutputKind::kScoreOutputPartsAndScoreOneFile:
             {
             /* JMI
               // create the current score block
@@ -1526,8 +1526,8 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
                 */
             }
             break;
-          case kPartsOnly:
-          case kPartsOnlyOneFile:
+          case lpsrScoreOutputKind::kScoreOutputPartsOnly:
+          case lpsrScoreOutputKind::kScoreOutputPartsOnlyOneFile:
             break;
         } // switch
 
@@ -4697,10 +4697,10 @@ void msr2lpsrTranslator::visitStart (S_msrNote& elt)
 */
 
   switch (elt->getNoteKind ()) {
-    case kNoteRegularInGraceNotesGroup:
-    case kNoteSkipInGraceNotesGroup:
-    case kNoteInChordInGraceNotesGroup:
-    case kNoteInTupletInGraceNotesGroup:
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
       fCurrentGraceNoteClone = noteClone;
       break;
 
@@ -4813,10 +4813,10 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
 
   switch (noteKind) {
 
-    case k_NoNote:
+    case msrNoteKind::k_NoNote:
       break;
 
-    case kNoteRestInMeasure:
+    case msrNoteKind::kNoteRestInMeasure:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4832,7 +4832,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteSkipInMeasure: // JMI
+    case msrNoteKind::kNoteSkipInMeasure: // JMI
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4848,7 +4848,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteUnpitchedInMeasure:
+    case msrNoteKind::kNoteUnpitchedInMeasure:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4864,7 +4864,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteRegularInMeasure:
+    case msrNoteKind::kNoteRegularInMeasure:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4880,7 +4880,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteInDoubleTremolo:
+    case msrNoteKind::kNoteInDoubleTremolo:
       if (fOnGoingDoubleTremolo) {
 
         if (fCurrentNonGraceNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
@@ -4953,8 +4953,8 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
       }
       break;
 
-    case kNoteRegularInGraceNotesGroup:
-    case kNoteSkipInGraceNotesGroup:
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
     /* JMI
       gLogStream <<
         "fOnGoingGraceNotesGroup = " <<
@@ -5049,7 +5049,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
       */
       break;
 
-    case kNoteRegularInChord:
+    case msrNoteKind::kNoteRegularInChord:
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
@@ -5073,7 +5073,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
         }
       break;
 
-    case kNoteInChordInGraceNotesGroup:
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
@@ -5097,10 +5097,10 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
         }
       break;
 
-    case kNoteRegularInTuplet:
-    case kNoteRestInTuplet:
-    case kNoteInTupletInGraceNotesGroup:
-    case kNoteUnpitchedInTuplet:
+    case msrNoteKind::kNoteRegularInTuplet:
+    case msrNoteKind::kNoteRestInTuplet:
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
+    case msrNoteKind::kNoteUnpitchedInTuplet:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -5178,10 +5178,10 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
 */
 
   switch (noteKind) {
-    case kNoteRegularInGraceNotesGroup:
-    case kNoteSkipInGraceNotesGroup:
-    case kNoteInChordInGraceNotesGroup:
-    case kNoteInTupletInGraceNotesGroup:
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
       break;
 
     default:

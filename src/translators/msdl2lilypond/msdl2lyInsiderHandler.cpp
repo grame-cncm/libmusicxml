@@ -108,7 +108,6 @@ Usage: msdl2ly [option]* [MSDLFile] [option]*
 msdl2lyInsiderHandler::~msdl2lyInsiderHandler ()
 {}
 
-//_______________________________________________________________________________
 string msdl2lyInsiderHandler::handlerExecutableAboutInformation () const
 {
   return
@@ -132,7 +131,6 @@ R"(What msdl2ly does:
     The activity log and warning/error messages go to standard error.)";
 }
 
-//______________________________________________________________________________
 string msdl2lyInsiderHandler::usageFromUsedThruKind (
    oahHandlerUsedThruKind handlerUsedThruKind) const
 {
@@ -164,7 +162,6 @@ string msdl2lyInsiderHandler::usageFromUsedThruKind (
   return result;
 }
 
-//______________________________________________________________________________
 void msdl2lyInsiderHandler::createTheMsdl2lyPrefixes ()
 {
 #ifdef TRACING_IS_ENABLED
@@ -178,7 +175,6 @@ void msdl2lyInsiderHandler::createTheMsdl2lyPrefixes ()
   createTheCommonPrefixes ();
 }
 
-//______________________________________________________________________________
 void msdl2lyInsiderHandler::createTheMsdl2lyOptionGroups (
   string executableName)
 {
@@ -288,7 +284,6 @@ if (gGlobalTraceOahGroup->getTraceOahDetails ()) {
 #endif
 }
 
-//______________________________________________________________________________
 void msdl2lyInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
 {
 #ifdef TRACING_IS_ENABLED
@@ -304,17 +299,14 @@ void msdl2lyInsiderHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
   checkSingleInputSourceInArgumentsVector ();
 }
 
-//______________________________________________________________________________
 string msdl2lyInsiderHandler::fetchOutputFileNameFromTheOptions () const
 {
   return ""; // JMI
 }
 
-//______________________________________________________________________________
 void msdl2lyInsiderHandler::checkHandlerOptionsConsistency ()
 {}
 
-//______________________________________________________________________________
 void msdl2lyInsiderHandler::enforceHandlerQuietness ()
 {
 #ifdef TRACING_IS_ENABLED
@@ -346,15 +338,12 @@ void msdl2lyInsiderHandler::enforceHandlerQuietness ()
 #endif
 }
 
-//______________________________________________________________________________
 void msdl2lyInsiderOahGroup::enforceGroupQuietness ()
 {}
 
-//______________________________________________________________________________
 void msdl2lyInsiderOahGroup::checkGroupOptionsConsistency ()
 {}
 
-//______________________________________________________________________________
 void msdl2lyInsiderOahGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
@@ -420,7 +409,6 @@ void msdl2lyInsiderOahGroup::browseData (basevisitor* v)
   oahGroup::browseData (v);
 }
 
-//______________________________________________________________________________
 void msdl2lyInsiderHandler::print (ostream& os) const
 {
   const unsigned int fieldWidth = 27;
@@ -490,13 +478,15 @@ msdl2lyInsiderOahGroup::msdl2lyInsiderOahGroup ()
 R"(Options that are used by msdl2ly are grouped here.)",
     oahElementVisibilityKind::kElementVisibilityWhole)
 {
+  fQuitAfterPass2a = false;
+  fQuitAfterPass2b = false;
+
   initializeMsdl2lyInsiderOahGroup ();
 }
 
 msdl2lyInsiderOahGroup::~msdl2lyInsiderOahGroup ()
 {}
 
-//_______________________________________________________________________________
 void msdl2lyInsiderOahGroup::initializeMsdl2lyInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
@@ -508,9 +498,71 @@ void msdl2lyInsiderOahGroup::initializeMsdl2lyInsiderOahGroup ()
       endl;
   }
 #endif
+
+  // quit after some passes
+  // --------------------------------------
+
+  createInsiderQuitSubGroup ();
 }
 
-//______________________________________________________________________________
+void msdl2lyInsiderOahGroup::createInsiderQuitSubGroup ()
+{
+#ifdef TRACING_IS_ENABLED
+  if (getTraceOah ()) {
+  gLogStream << left <<
+    "Creating insider quit subgroup in \"" <<
+    fGroupHeader <<
+    "\"" <<
+    endl;
+  }
+#endif
+
+  S_oahSubGroup
+    quitAfterSomePassesSubGroup =
+      oahSubGroup::create (
+        "Quit after some passes",
+        "hm2lquit", "help-msr2ly-quit",
+R"()",
+      oahElementVisibilityKind::kElementVisibilityWhole,
+      this);
+
+  appendSubGroupToGroup (quitAfterSomePassesSubGroup);
+
+  // quit after pass 2a
+
+  fQuitAfterPass2a = false;
+
+  S_oahBooleanAtom
+    quit2aOahBooleanAtom =
+      oahBooleanAtom::create (
+        "q2a", "quitAfterPass-2a",
+R"(Quit after pass 2a, i.e. after conversion
+of the MusicXML tree to an MSR skeleton.)",
+        "quitAfterPass2a",
+        fQuitAfterPass2a);
+
+  quitAfterSomePassesSubGroup->
+    appendAtomToSubGroup (
+      quit2aOahBooleanAtom);
+
+  // quit after pass 2b
+
+  fQuitAfterPass2b = false;
+
+  S_oahBooleanAtom
+    quit2bOahBooleanAtom =
+      oahBooleanAtom::create (
+        "q2b", "quitAfterPass-2b",
+R"(Quit after pass 2b, i.e. after conversion
+of the MusicXML tree to MSR.)",
+        "quitAfterPass2b",
+        fQuitAfterPass2b);
+
+  quitAfterSomePassesSubGroup->
+    appendAtomToSubGroup (
+      quit2bOahBooleanAtom);
+}
+
 void msdl2lyInsiderOahGroup::printMsdl2lyInsiderOahGroupValues (
   unsigned int fieldWidth)
 {

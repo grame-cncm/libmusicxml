@@ -3955,10 +3955,10 @@ void msr2msrTranslator::visitStart (S_msrNote& elt)
 */
 
   switch (elt->getNoteKind ()) {
-    case kNoteRegularInGraceNotesGroup:
-    case kNoteSkipInGraceNotesGroup:
-    case kNoteInChordInGraceNotesGroup:
-    case kNoteInTupletInGraceNotesGroup:
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
       fCurrentGraceNoteClone = noteClone;
       break;
 
@@ -4071,10 +4071,10 @@ void msr2msrTranslator::visitEnd (S_msrNote& elt)
 
   switch (noteKind) {
 
-    case k_NoNote:
+    case msrNoteKind::k_NoNote:
       break;
 
-    case kNoteRestInMeasure:
+    case msrNoteKind::kNoteRestInMeasure:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4090,7 +4090,7 @@ void msr2msrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteSkipInMeasure: // JMI
+    case msrNoteKind::kNoteSkipInMeasure: // JMI
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4106,7 +4106,7 @@ void msr2msrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteUnpitchedInMeasure:
+    case msrNoteKind::kNoteUnpitchedInMeasure:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4122,7 +4122,7 @@ void msr2msrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteRegularInMeasure:
+    case msrNoteKind::kNoteRegularInMeasure:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4138,7 +4138,7 @@ void msr2msrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case kNoteInDoubleTremolo:
+    case msrNoteKind::kNoteInDoubleTremolo:
       if (fOnGoingDoubleTremolo) {
 
         if (fCurrentNonGraceNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
@@ -4211,8 +4211,8 @@ void msr2msrTranslator::visitEnd (S_msrNote& elt)
       }
       break;
 
-    case kNoteRegularInGraceNotesGroup:
-    case kNoteSkipInGraceNotesGroup:
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
     /* JMI
       gLogStream <<
         "fOnGoingGraceNotesGroup = " <<
@@ -4307,7 +4307,7 @@ void msr2msrTranslator::visitEnd (S_msrNote& elt)
       */
       break;
 
-    case kNoteRegularInChord:
+    case msrNoteKind::kNoteRegularInChord:
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
@@ -4331,7 +4331,7 @@ void msr2msrTranslator::visitEnd (S_msrNote& elt)
         }
       break;
 
-    case kNoteInChordInGraceNotesGroup:
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
@@ -4355,10 +4355,10 @@ void msr2msrTranslator::visitEnd (S_msrNote& elt)
         }
       break;
 
-    case kNoteRegularInTuplet:
-    case kNoteRestInTuplet:
-    case kNoteInTupletInGraceNotesGroup:
-    case kNoteUnpitchedInTuplet:
+    case msrNoteKind::kNoteRegularInTuplet:
+    case msrNoteKind::kNoteRestInTuplet:
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
+    case msrNoteKind::kNoteUnpitchedInTuplet:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceNotes ()) {
         gLogStream <<
@@ -4415,10 +4415,10 @@ void msr2msrTranslator::visitEnd (S_msrNote& elt)
 */
 
   switch (noteKind) {
-    case kNoteRegularInGraceNotesGroup:
-    case kNoteSkipInGraceNotesGroup:
-    case kNoteInChordInGraceNotesGroup:
-    case kNoteInTupletInGraceNotesGroup:
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
       break;
 
     default:

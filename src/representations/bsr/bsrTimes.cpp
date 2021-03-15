@@ -411,7 +411,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                   musicCodeIndicator =
                     bsrCellsList::create (
                       fInputLineNumber,
-                      kDots6, kDots3);
+                      bsrCellKind::kDots6, bsrCellKind::kDots3);
 
                 // append it to result
                 result->appendCellsListToCellsList (

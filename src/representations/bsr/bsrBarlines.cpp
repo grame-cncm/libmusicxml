@@ -83,26 +83,26 @@ S_bsrCellsList bsrBarline::buildCellsList () const
     case bsrBarline::kBarlineKindSpecial:
       result->
         appendCellKindToCellsList (
-          kDots13);
+          bsrCellKind::kDots13);
       break;
     case bsrBarline::kBarlineKindUnusual:
       result->
         appendCellKindToCellsList (
-          kDots123);
+          bsrCellKind::kDots123);
       break;
     case bsrBarline::kBarlineKindFinalDouble:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber,
-            kDots126, kDots13));
+            bsrCellKind::kDots126, bsrCellKind::kDots13));
       break;
     case bsrBarline::kBarlineKindSectionalDouble:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber,
-            kDots126, kDots13, kDots3));
+            bsrCellKind::kDots126, bsrCellKind::kDots13, bsrCellKind::kDots3));
       break;
   } // switch
 

@@ -171,10 +171,10 @@ S_msrClef msrClef::createClefFromString (
 bool msrClef::clefIsATablatureClef () const
 {
   switch (fClefKind) {
-    case kTablature4Clef:
-    case kTablature5Clef:
-    case kTablature6Clef:
-    case kTablature7Clef:
+    case msrClefKind::kClefTablature4:
+    case msrClefKind::kClefTablature5:
+    case msrClefKind::kClefTablature6:
+    case msrClefKind::kClefTablature7:
       return true;
       break;
     default:
@@ -185,7 +185,7 @@ bool msrClef::clefIsATablatureClef () const
 bool msrClef::clefIsAPercussionClef () const
 {
   switch (fClefKind) {
-    case kPercussionClef:
+    case msrClefKind::kClefPercussion:
       return true;
       break;
     default:

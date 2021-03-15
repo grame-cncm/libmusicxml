@@ -3175,7 +3175,7 @@ to prevent LilyPond from using open strings.)",
 
   const lpsrAccidentalStyleKind
     lpsrAccidentalStyleKindDefaultValue =
-      kDefault; // default value
+      lpsrAccidentalStyleKind::kAccidentalStyleDefault; // default value
 
   fAccidentalStyleKind = lpsrAccidentalStyleKindDefaultValue;
 
@@ -3873,7 +3873,7 @@ R"(Add stanzas numbers to lyrics.)",
 
   const lpsrLyricsDurationsKind
     lpsrLyricsDurationsKindDefaultValue =
-      kLyricsDurationsExplicit; // default value
+      lpsrLyricsDurationsKind::kLyricsDurationsExplicit; // default value
 
   fLyricsDurationsKind = lpsrLyricsDurationsKindDefaultValue;
 
@@ -5032,7 +5032,7 @@ void lilypondGenerationOahGroup::printAtomWithVariableOptionsValues (
       endl <<
 
     setw (valueFieldWidth) << "accidentalStyleKind" << " : " <<
-      fAccidentalStyleKind <<
+      lpsrAccidentalStyleKindAsString (fAccidentalStyleKind) <<
       endl <<
 
     setw (valueFieldWidth) << "lyricsDurationsKind" << " : " <<
@@ -5647,7 +5647,7 @@ void lilypondGenerationOahGroup::printLilypondGenerationOahValues (unsigned int 
       endl <<
 
     setw (fieldWidth) << "accidentalStyleKind" << " : " <<
-      fAccidentalStyleKind <<
+      lpsrAccidentalStyleKindAsString (fAccidentalStyleKind) <<
       endl <<
 
     setw (fieldWidth) << "lyricsDurationsKind" << " : " <<

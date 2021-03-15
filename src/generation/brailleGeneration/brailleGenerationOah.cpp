@@ -717,7 +717,7 @@ brailleGenerationOahGroup::brailleGenerationOahGroup ()
 R"(These options control the way BSR data is translated to braille music.)",
     oahElementVisibilityKind::kElementVisibilityWhole)
 {
-  fBrailleOutputKind = kBrailleOutputAscii; // default value
+  fBrailleOutputKind = bsrBrailleOutputKind::kBrailleOutputAscii; // default value
 
   fUTFKind = kUTF8; // default value
 
@@ -745,7 +745,7 @@ R"()",
 
   const bsrBrailleOutputKind
     bsrBrailleOutputKindDefaultValue =
-      kBrailleOutputAscii; // default value
+      bsrBrailleOutputKind::kBrailleOutputAscii; // default value
 
   fBrailleOutputKindAtom =
       brailleOutputKindAtom::create (

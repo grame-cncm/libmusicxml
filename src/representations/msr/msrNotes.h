@@ -410,9 +410,9 @@ class EXP msrNote : public msrTupletElement
                             // shortcut for efficiency
                               {
                                 return
-                                  fNoteKind == kNoteRestInMeasure
+                                  fNoteKind == msrNoteKind::kNoteRestInMeasure
                                     ||
-                                  fNoteKind == kNoteRestInTuplet;
+                                  fNoteKind == msrNoteKind::kNoteRestInTuplet;
                               }
 
     // unpitched?
@@ -420,10 +420,10 @@ class EXP msrNote : public msrTupletElement
                               {
                                 return
                                   fNoteKind ==
-                                    kNoteUnpitchedInMeasure
+                                    msrNoteKind::kNoteUnpitchedInMeasure
                                     ||
                                   fNoteKind ==
-                                    kNoteUnpitchedInTuplet;
+                                    msrNoteKind::kNoteUnpitchedInTuplet;
                               }
 
     // cue note?
@@ -455,13 +455,13 @@ class EXP msrNote : public msrTupletElement
     bool                  getNoteIsAGraceNote () const
                               {
                                 return
-                                  fNoteKind == kNoteRegularInGraceNotesGroup
+                                  fNoteKind == msrNoteKind::kNoteRegularInGraceNotesGroup
                                     ||
-                                  fNoteKind == kNoteSkipInGraceNotesGroup
+                                  fNoteKind == msrNoteKind::kNoteSkipInGraceNotesGroup
                                     ||
-                                  fNoteKind == kNoteInChordInGraceNotesGroup
+                                  fNoteKind == msrNoteKind::kNoteInChordInGraceNotesGroup
                                     ||
-                                  fNoteKind == kNoteInTupletInGraceNotesGroup;
+                                  fNoteKind == msrNoteKind::kNoteInTupletInGraceNotesGroup;
                               }
 
     // harmonies

@@ -197,7 +197,7 @@ S_msrMeasure msdlParser::createMeasureInVoice (
       appendClefToMeasure (
         msrClef::create (
           __LINE__,
-          kTrebleClef,
+          msrClefKind::kClefTreble,
           1));
 
     // append the key

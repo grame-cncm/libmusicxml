@@ -3167,7 +3167,7 @@ void msdlParser::Note (S_msdlTokenKindsSet stopperTokensSet)
     gLogStream <<
       "=== Note()" <<
       ", noteSoundingWholeNotes: " << noteSoundingWholeNotes <<
-      ", noteDisplayWholeNotes: \"" << noteDisplayWholeNotes <<
+      ", noteDisplayWholeNotes: " << noteDisplayWholeNotes <<
       ", dotsNumber: " << dotsNumber <<
       endl;
   }
@@ -3506,6 +3506,7 @@ void msdlParser::NoteDuration (
       "NoteDuration")
   ) {
     ++dotsNumber;
+
     // consume the dot
     fetchNextToken ();
   } // while

@@ -397,7 +397,7 @@ void mxmlTree2msrTranslator::initializeNoteData ()
 {
   // basic note description
 
-// JMI  fCurrentNoteKind = k_NoNote;
+// JMI  fCurrentNoteKind = msrNoteKind::k_NoNote;
 
   fCurrentNoteQuarterTonesPitchKind = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
 
@@ -2063,7 +2063,7 @@ void mxmlTree2msrTranslator::visitStart ( S_glyph& elt )
       else if (glyphTypeString == "f-clef")
         glyphTypeKind = msrGlyph::kFClefGlyph;
       else if (glyphTypeString == "percussion-clef")
-        glyphTypeKind = msrGlyph::kPercussionClefGlyph;
+        glyphTypeKind = msrGlyph::kClefPercussionGlyph;
       else if (glyphTypeString == "octave-shift-up-8")
         glyphTypeKind = msrGlyph::kOctaveShiftUp8Glyph;
       else if (glyphTypeString == "octave-shift-down-8")
@@ -2619,26 +2619,26 @@ void mxmlTree2msrTranslator::visitEnd ( S_clef& elt )
   // convert clef to upper case for analysis
   string currentClefSignToUpperCase = stringToUpperCase (fCurrentClefSign);
 
-  msrClefKind clefKind = k_NoClef;
+  msrClefKind clefKind = msrClefKind::k_NoClef;
 
   if (currentClefSignToUpperCase == "G") {
 
     if      (fCurrentClefLine == 2) {
       switch (fCurrentClefOctaveChange) {
         case -2:
-          clefKind = kTrebleMinus15Clef;
+          clefKind = msrClefKind::kClefTrebleMinus15;
           break;
         case -1:
-          clefKind = kTrebleMinus8Clef;
+          clefKind = msrClefKind::kClefTrebleMinus8;
           break;
         case 0:
-          clefKind = kTrebleClef;
+          clefKind = msrClefKind::kClefTreble;
           break;
         case +1:
-          clefKind = kTreblePlus8Clef;
+          clefKind = msrClefKind::kClefTreblePlus8;
           break;
         case +2:
-          clefKind = kTreblePlus15Clef;
+          clefKind = msrClefKind::kClefTreblePlus15;
           break;
         default:
           {
@@ -2648,7 +2648,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_clef& elt )
     }
 
     else if (fCurrentClefLine == 1)
-      clefKind = kTrebleLine1Clef;
+      clefKind = msrClefKind::kClefTrebleLine1;
 
     else {
       stringstream s;
@@ -2670,19 +2670,19 @@ void mxmlTree2msrTranslator::visitEnd ( S_clef& elt )
     if ( fCurrentClefLine == 4 ) {
       switch (fCurrentClefOctaveChange) {
         case -2:
-          clefKind = kBassMinus15Clef;
+          clefKind = msrClefKind::kClefBassMinus15;
           break;
         case -1:
-          clefKind = kBassMinus8Clef;
+          clefKind = msrClefKind::kClefBassMinus8;
           break;
         case 0:
-          clefKind = kBassClef;
+          clefKind = msrClefKind::kClefBass;
           break;
         case +1:
-          clefKind = kBassPlus8Clef;
+          clefKind = msrClefKind::kClefBassPlus8;
           break;
         case +2:
-          clefKind = kBassPlus15Clef;
+          clefKind = msrClefKind::kClefBassPlus15;
           break;
         default:
           {
@@ -2692,23 +2692,23 @@ void mxmlTree2msrTranslator::visitEnd ( S_clef& elt )
     }
 
     else if ( fCurrentClefLine == 3 ) {
-      clefKind = kVarbaritoneClef;
+      clefKind = msrClefKind::kClefVarbaritone;
       /* JMI
       switch (fCurrentClefOctaveChange) {
         case -2:
-          clefKind = kBassMinus15Clef;
+          clefKind = msrClefKind::kClefBassMinus15;
           break;
         case -1:
-          clefKind = kBassMinus8Clef;
+          clefKind = msrClefKind::kClefBassMinus8;
           break;
         case 0:
-          clefKind = kBassClef;
+          clefKind = msrClefKind::kClefBass;
           break;
         case +1:
-          clefKind = kBassPlus8Clef;
+          clefKind = msrClefKind::kClefBassPlus8;
           break;
         case +2:
-          clefKind = kBassPlus15Clef;
+          clefKind = msrClefKind::kClefBassPlus15;
           break;
         default:
           {
@@ -2737,19 +2737,19 @@ void mxmlTree2msrTranslator::visitEnd ( S_clef& elt )
 
     switch (fCurrentClefLine) {
       case 1:
-        clefKind = kSopranoClef;
+        clefKind = msrClefKind::kClefSoprano;
         break;
       case 2:
-        clefKind = kMezzoSopranoClef;
+        clefKind = msrClefKind::kClefMezzoSoprano;
         break;
       case 3:
-        clefKind = kAltoClef;
+        clefKind = msrClefKind::kClefAlto;
         break;
       case 4:
-        clefKind = kTenorClef;
+        clefKind = msrClefKind::kClefTenor;
         break;
       case 5:
-        clefKind = kBaritoneClef;
+        clefKind = msrClefKind::kClefBaritone;
         break;
       default:
         {
@@ -2772,16 +2772,16 @@ void mxmlTree2msrTranslator::visitEnd ( S_clef& elt )
 
     switch (fCurrentClefLine) {
       case 4:
-        clefKind = kTablature4Clef;
+        clefKind = msrClefKind::kClefTablature4;
         break;
       case 5:
-        clefKind = kTablature5Clef;
+        clefKind = msrClefKind::kClefTablature5;
         break;
       case 6:
-        clefKind = kTablature6Clef;
+        clefKind = msrClefKind::kClefTablature6;
         break;
       case 7:
-        clefKind = kTablature7Clef;
+        clefKind = msrClefKind::kClefTablature7;
         break;
       default:
         {
@@ -2801,15 +2801,15 @@ void mxmlTree2msrTranslator::visitEnd ( S_clef& elt )
   }
 
   else if (currentClefSignToUpperCase == "PERCUSSION") {
-    clefKind = kPercussionClef;
+    clefKind = msrClefKind::kClefPercussion;
   }
 
   else if (currentClefSignToUpperCase == "JIANPU") {
-    clefKind = kJianpuClef;
+    clefKind = msrClefKind::kClefJianpu;
   }
 
   else if (currentClefSignToUpperCase == "NONE") {
-    clefKind = k_NoClef;
+    clefKind = msrClefKind::k_NoClef;
   }
 
   else {
@@ -19861,7 +19861,7 @@ S_msrNote mxmlTree2msrTranslator::createNote (
         inputLineNumber,
         fCurrentMeasureNumber,
 
-        k_NoNote,
+        msrNoteKind::k_NoNote,
           // will be set by 'setNoteKind()' when it becomes known later
 
         fCurrentNoteQuarterTonesPitchKind,
@@ -19943,20 +19943,20 @@ void mxmlTree2msrTranslator::populateNote (
     ! fCurrentNoteHasATimeModification
   ) {
     switch (newNote->getNoteKind ()) {
-      case k_NoNote:
+      case msrNoteKind::k_NoNote:
         break;
 
-      case kNoteRegularInTuplet:
-      case kNoteRestInTuplet:
-      case kNoteInTupletInGraceNotesGroup:
-      case kNoteUnpitchedInTuplet:
+      case msrNoteKind::kNoteRegularInTuplet:
+      case msrNoteKind::kNoteRestInTuplet:
+      case msrNoteKind::kNoteInTupletInGraceNotesGroup:
+      case msrNoteKind::kNoteUnpitchedInTuplet:
   // JMI      break;
 
-      case kNoteRestInMeasure:
-      case kNoteSkipInMeasure:
-      case kNoteUnpitchedInMeasure:
-      case kNoteRegularInMeasure:
-      case kNoteRegularInChord:
+      case msrNoteKind::kNoteRestInMeasure:
+      case msrNoteKind::kNoteSkipInMeasure:
+      case msrNoteKind::kNoteUnpitchedInMeasure:
+      case msrNoteKind::kNoteRegularInMeasure:
+      case msrNoteKind::kNoteRegularInChord:
         if (! fCurrentNoteIsAGraceNote) {
           stringstream s;
 
@@ -19978,10 +19978,10 @@ void mxmlTree2msrTranslator::populateNote (
             fCurrentNoteDisplayWholeNotesFromType);
         break;
 
-      case kNoteRegularInGraceNotesGroup:
-      case kNoteSkipInGraceNotesGroup:
-      case kNoteInChordInGraceNotesGroup:
-      case kNoteInDoubleTremolo:
+      case msrNoteKind::kNoteRegularInGraceNotesGroup:
+      case msrNoteKind::kNoteSkipInGraceNotesGroup:
+      case msrNoteKind::kNoteInChordInGraceNotesGroup:
+      case msrNoteKind::kNoteInDoubleTremolo:
         break;
     } // switch
   }
@@ -20817,7 +20817,7 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     // gracenote
     newNote->
       setNoteKind (
-        kNoteRegularInGraceNotesGroup);
+        msrNoteKind::kNoteRegularInGraceNotesGroup);
   }
 
   else if (
@@ -20828,7 +20828,7 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     // double tremolo note
     newNote->
       setNoteKind (
-        kNoteInDoubleTremolo);
+        msrNoteKind::kNoteInDoubleTremolo);
   }
 
   else {
@@ -20838,10 +20838,10 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         noteKind;
 
       if (fCurrentRestMeasure) { // JMI ???
-        noteKind = kNoteRestInMeasure          ; // JMI ??? myfile_utf8.xml
+        noteKind = msrNoteKind::kNoteRestInMeasure          ; // JMI ??? myfile_utf8.xml
       }
       else {
-        noteKind = kNoteRestInMeasure          ;
+        noteKind = msrNoteKind::kNoteRestInMeasure          ;
       }
 
       newNote->
@@ -20851,12 +20851,12 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     else if (fCurrentNoteIsUnpitched) {
       newNote->
         setNoteKind (
-          kNoteUnpitchedInMeasure);
+          msrNoteKind::kNoteUnpitchedInMeasure);
     }
     else {
       newNote->
         setNoteKind (
-          kNoteRegularInMeasure);
+          msrNoteKind::kNoteRegularInMeasure);
     }
   }
 
@@ -21391,7 +21391,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
   // set newChordNote kind as a chord member
   newChordNote->
     setNoteKind (
-      kNoteRegularInChord);
+      msrNoteKind::kNoteRegularInChord);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceChords ()) {
@@ -21583,7 +21583,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
 #endif
 
     // fetch chord first note's kind before createChordFromItsFirstNote(),
-    // because the latter will change it to kChordMemberNote or kNoteInChordInGraceNotesGroup
+    // because the latter will change it to kChordMemberNote or msrNoteKind::kNoteInChordInGraceNotesGroup
     msrNoteKind
       savedChordFirstNoteKind =
         chordFirstNote->getNoteKind ();
@@ -21612,20 +21612,20 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
         inputLineNumber,
         currentVoice,
         chordFirstNote,
-        kNoteRegularInChord);
+        msrNoteKind::kNoteRegularInChord);
 
     fPreviousMeasureElement = fCurrentChord;
 
     // handle chord's first note
     switch (savedChordFirstNoteKind) {
-      case kNoteRestInMeasure:
+      case msrNoteKind::kNoteRestInMeasure:
         break;
 
-      case kNoteSkipInMeasure:
+      case msrNoteKind::kNoteSkipInMeasure:
         break;
 
-      case kNoteUnpitchedInMeasure:
-      case kNoteRegularInMeasure:
+      case msrNoteKind::kNoteUnpitchedInMeasure:
+      case msrNoteKind::kNoteRegularInMeasure:
         // remove last handled (previous current) note from the current voice
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceChords ()) {
@@ -21687,7 +21687,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
             fCurrentChord);
         break;
 
-      case kNoteInDoubleTremolo:
+      case msrNoteKind::kNoteInDoubleTremolo:
         {
           /* JMI
           // fetch chordFirstNote's sounding divisions
@@ -21747,9 +21747,9 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
         }
         break;
 
-      case kNoteRegularInGraceNotesGroup:
-      case kNoteSkipInGraceNotesGroup:
-      case kNoteInChordInGraceNotesGroup:
+      case msrNoteKind::kNoteRegularInGraceNotesGroup:
+      case msrNoteKind::kNoteSkipInGraceNotesGroup:
+      case msrNoteKind::kNoteInChordInGraceNotesGroup:
       /* JMI
         // remove last handled (previous current) note from the current voice
 #ifdef TRACING_IS_ENABLED
@@ -21771,17 +21771,17 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
 */
         break;
 
-      case kNoteRegularInChord:
+      case msrNoteKind::kNoteRegularInChord:
         // error? JMI
         break;
 
-      case kNoteRegularInTuplet:
-      case kNoteRestInTuplet:
-      case kNoteInTupletInGraceNotesGroup:
-      case kNoteUnpitchedInTuplet:
+      case msrNoteKind::kNoteRegularInTuplet:
+      case msrNoteKind::kNoteRestInTuplet:
+      case msrNoteKind::kNoteInTupletInGraceNotesGroup:
+      case msrNoteKind::kNoteUnpitchedInTuplet:
         break;
 
-      case k_NoNote:
+      case msrNoteKind::k_NoNote:
         break;
     } // switch
 
@@ -21873,15 +21873,15 @@ void mxmlTree2msrTranslator::handleNoteBelongingToATuplet (
  // register note as a tuplet member
  if (fCurrentNoteIsUnpitched) {
     note->
-      setNoteKind (kNoteUnpitchedInTuplet);
+      setNoteKind (msrNoteKind::kNoteUnpitchedInTuplet);
   }
   else if (fCurrentNoteIsARest) {
     note->
-      setNoteKind (kNoteRestInTuplet);
+      setNoteKind (msrNoteKind::kNoteRestInTuplet);
   }
   else {
     note->
-      setNoteKind (kNoteRegularInTuplet);
+      setNoteKind (msrNoteKind::kNoteRegularInTuplet);
   }
 
   if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
@@ -22295,7 +22295,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChordInATuplet (
   // set new note kind as a chord or grace chord member JMI ???
   newChordNote->
     setNoteKind (
-      kNoteRegularInChord);
+      msrNoteKind::kNoteRegularInChord);
 
   // apply tuplet sounding factor to note
   if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
@@ -22405,7 +22405,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChordInATuplet (
         inputLineNumber,
         currentVoice,
         tupletLastNote,
-        kNoteRegularInChord);
+        msrNoteKind::kNoteRegularInChord);
 
     if (false) { // JMI
       gLogStream <<
@@ -22493,7 +22493,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
   // set new note kind as a grace chord member
   newChordNote->
     setNoteKind (
-      kNoteInChordInGraceNotesGroup);
+      msrNoteKind::kNoteInChordInGraceNotesGroup);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceChords () || gGlobalTraceOahGroup->getTraceGraceNotes ()) {
@@ -22577,7 +22577,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
     // set the first note's kind as grace chord member
     chordFirstNote->
       setNoteKind (
-        kNoteInChordInGraceNotesGroup);
+        msrNoteKind::kNoteInChordInGraceNotesGroup);
 
     // create the current chord from its first note
     fCurrentChord =
@@ -22585,7 +22585,7 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
         inputLineNumber,
         currentVoice,
         chordFirstNote,
-        kNoteInChordInGraceNotesGroup);
+        msrNoteKind::kNoteInChordInGraceNotesGroup);
 
     if (false) {
       gLogStream <<

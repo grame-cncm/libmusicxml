@@ -10421,76 +10421,76 @@ string msrClefKindAsString (
   string result;
 
   switch (clefKind) {
-    case k_NoClef:
+    case msrClefKind::k_NoClef:
       result = "none";
       break;
-    case kTrebleClef:
+    case msrClefKind::kClefTreble:
       result = "treble";
       break;
-    case kSopranoClef:
+    case msrClefKind::kClefSoprano:
       result = "soprano";
       break;
-    case kMezzoSopranoClef:
+    case msrClefKind::kClefMezzoSoprano:
       result = "mezzo soprano";
       break;
-    case kAltoClef:
+    case msrClefKind::kClefAlto:
       result = "alto";
       break;
-    case kTenorClef:
+    case msrClefKind::kClefTenor:
       result = "tenor";
       break;
-    case kBaritoneClef:
+    case msrClefKind::kClefBaritone:
       result = "baritone";
       break;
-    case kBassClef:
+    case msrClefKind::kClefBass:
       result = "bass";
       break;
-    case kTrebleLine1Clef:
+    case msrClefKind::kClefTrebleLine1:
       result = "treble line 1";
       break;
-    case kTrebleMinus15Clef:
+    case msrClefKind::kClefTrebleMinus15:
       result = "treble -15";
       break;
-    case kTrebleMinus8Clef:
+    case msrClefKind::kClefTrebleMinus8:
       result = "treble -8";
       break;
-    case kTreblePlus8Clef:
+    case msrClefKind::kClefTreblePlus8:
       result = "treble +8";
       break;
-    case kTreblePlus15Clef:
+    case msrClefKind::kClefTreblePlus15:
       result = "treble +15";
       break;
-    case kBassMinus15Clef:
+    case msrClefKind::kClefBassMinus15:
       result = "bass -15";
       break;
-    case kBassMinus8Clef:
+    case msrClefKind::kClefBassMinus8:
       result = "bass -8";
       break;
-    case kBassPlus8Clef:
+    case msrClefKind::kClefBassPlus8:
       result = "bass +8";
       break;
-    case kBassPlus15Clef:
+    case msrClefKind::kClefBassPlus15:
       result = "bass +15";
       break;
-    case kVarbaritoneClef:
+    case msrClefKind::kClefVarbaritone:
       result = "varbaritone";
       break;
-    case kTablature4Clef:
+    case msrClefKind::kClefTablature4:
       result = "tablature 4 lines";
       break;
-    case kTablature5Clef:
+    case msrClefKind::kClefTablature5:
       result = "tablature 5 lines";
       break;
-    case kTablature6Clef:
+    case msrClefKind::kClefTablature6:
       result = "tablature 6 lines";
       break;
-    case kTablature7Clef:
+    case msrClefKind::kClefTablature7:
       result = "tablature 7 lines";
       break;
-    case kPercussionClef:
+    case msrClefKind::kClefPercussion:
       result = "percussion";
       break;
-    case kJianpuClef:
+    case msrClefKind::kClefJianpu:
       result = "jiǎnpǔ";
       break;
   } // switch
@@ -10502,54 +10502,54 @@ msrClefKind clefKindFromString (
   int    inputLineNumber,
   string clefString)
 {
-  msrClefKind result = k_NoClef;
+  msrClefKind result = msrClefKind::k_NoClef;
 
   if      (clefString == "treble")
-    result = kTrebleClef;
+    result = msrClefKind::kClefTreble;
   else if (clefString == "soprano")
-    result = kSopranoClef;
+    result = msrClefKind::kClefSoprano;
   else if (clefString == "mezzosoprano")
-    result = kMezzoSopranoClef;
+    result = msrClefKind::kClefMezzoSoprano;
   else if (clefString == "alto")
-    result = kAltoClef;
+    result = msrClefKind::kClefAlto;
   else if (clefString == "tenor")
-    result = kTenorClef;
+    result = msrClefKind::kClefTenor;
   else if (clefString == "baritone")
-    result = kBaritoneClef;
+    result = msrClefKind::kClefBaritone;
   else if (clefString == "bass")
-    result = kBassClef;
+    result = msrClefKind::kClefBass;
   else if (clefString == "treble1")
-    result = kTrebleLine1Clef;
+    result = msrClefKind::kClefTrebleLine1;
   else if (clefString == "treble-15")
-    result = kTrebleMinus15Clef;
+    result = msrClefKind::kClefTrebleMinus15;
   else if (clefString == "treble-8")
-    result = kTrebleMinus8Clef;
+    result = msrClefKind::kClefTrebleMinus8;
   else if (clefString == "treble+8")
-    result = kTreblePlus8Clef;
+    result = msrClefKind::kClefTreblePlus8;
   else if (clefString == "treble+15")
-    result = kTreblePlus15Clef;
+    result = msrClefKind::kClefTreblePlus15;
   else if (clefString == "bass-15")
-    result = kBassMinus15Clef;
+    result = msrClefKind::kClefBassMinus15;
   else if (clefString == "bass-8")
-    result = kBassMinus8Clef;
+    result = msrClefKind::kClefBassMinus8;
   else if (clefString == "bass+8")
-    result = kBassPlus8Clef;
+    result = msrClefKind::kClefBassPlus8;
   else if (clefString == "bass+15")
-    result = kBassPlus15Clef;
+    result = msrClefKind::kClefBassPlus15;
   else if (clefString == "varbaritone")
-    result = kVarbaritoneClef;
+    result = msrClefKind::kClefVarbaritone;
   else if (clefString == "tab4")
-    result = kTablature4Clef;
+    result = msrClefKind::kClefTablature4;
   else if (clefString == "tab5")
-    result = kTablature5Clef;
+    result = msrClefKind::kClefTablature5;
   else if (clefString == "tab6")
-    result = kTablature6Clef;
+    result = msrClefKind::kClefTablature6;
   else if (clefString == "tab7")
-    result = kTablature7Clef;
+    result = msrClefKind::kClefTablature7;
   else if (clefString == "percussion")
-    result = kPercussionClef;
+    result = msrClefKind::kClefPercussion;
   else if (clefString == "jianpu")
-    result = kJianpuClef;
+    result = msrClefKind::kClefJianpu;
   else {
     stringstream s;
 
@@ -10578,51 +10578,51 @@ void initializeClefKinds ()
   //  gGlobalClefKindsMap [gClefKindsNamesList.back ()] = kMajorClef;
 
     gClefKindsNamesList.push_back ("treble");
-    gGlobalClefKindsMap ["treble"] = kTrebleClef;
+    gGlobalClefKindsMap ["treble"] = msrClefKind::kClefTreble;
     gClefKindsNamesList.push_back ("soprano");
-    gGlobalClefKindsMap ["soprano"] = kSopranoClef;
+    gGlobalClefKindsMap ["soprano"] = msrClefKind::kClefSoprano;
     gClefKindsNamesList.push_back ("mezzosoprano");
-    gGlobalClefKindsMap ["mezzosoprano"] = kMezzoSopranoClef;
+    gGlobalClefKindsMap ["mezzosoprano"] = msrClefKind::kClefMezzoSoprano;
     gClefKindsNamesList.push_back ("alto");
-    gGlobalClefKindsMap ["alto"] = kAltoClef;
+    gGlobalClefKindsMap ["alto"] = msrClefKind::kClefAlto;
     gClefKindsNamesList.push_back ("tenor");
-    gGlobalClefKindsMap ["tenor"] = kTenorClef;
+    gGlobalClefKindsMap ["tenor"] = msrClefKind::kClefTenor;
     gClefKindsNamesList.push_back ("baritone");
-    gGlobalClefKindsMap ["baritone"] = kBaritoneClef;
+    gGlobalClefKindsMap ["baritone"] = msrClefKind::kClefBaritone;
     gClefKindsNamesList.push_back ("bass");
-    gGlobalClefKindsMap ["bass"] = kBassClef;
+    gGlobalClefKindsMap ["bass"] = msrClefKind::kClefBass;
     gClefKindsNamesList.push_back ("treble1");
-    gGlobalClefKindsMap ["treble1"] = kTrebleLine1Clef;
+    gGlobalClefKindsMap ["treble1"] = msrClefKind::kClefTrebleLine1;
     gClefKindsNamesList.push_back ("treble-15");
-    gGlobalClefKindsMap ["treble-15"] = kTrebleMinus15Clef;
+    gGlobalClefKindsMap ["treble-15"] = msrClefKind::kClefTrebleMinus15;
     gClefKindsNamesList.push_back ("treble-8");
-    gGlobalClefKindsMap ["treble-8"] = kTrebleMinus8Clef;
+    gGlobalClefKindsMap ["treble-8"] = msrClefKind::kClefTrebleMinus8;
     gClefKindsNamesList.push_back ("treble+8");
-    gGlobalClefKindsMap ["treble+8"] = kTreblePlus8Clef;
+    gGlobalClefKindsMap ["treble+8"] = msrClefKind::kClefTreblePlus8;
     gClefKindsNamesList.push_back ("treble+15");
-    gGlobalClefKindsMap ["treble+15"] = kTreblePlus15Clef;
+    gGlobalClefKindsMap ["treble+15"] = msrClefKind::kClefTreblePlus15;
     gClefKindsNamesList.push_back ("bass-15");
-    gGlobalClefKindsMap ["bass-15"] = kBassMinus15Clef;
+    gGlobalClefKindsMap ["bass-15"] = msrClefKind::kClefBassMinus15;
     gClefKindsNamesList.push_back ("bass-8");
-    gGlobalClefKindsMap ["bass-8"] = kBassMinus8Clef;
+    gGlobalClefKindsMap ["bass-8"] = msrClefKind::kClefBassMinus8;
     gClefKindsNamesList.push_back ("bass+8");
-    gGlobalClefKindsMap ["bass+8"] = kBassPlus8Clef;
+    gGlobalClefKindsMap ["bass+8"] = msrClefKind::kClefBassPlus8;
     gClefKindsNamesList.push_back ("bass+15");
-    gGlobalClefKindsMap ["bass+15"] = kBassPlus15Clef;
+    gGlobalClefKindsMap ["bass+15"] = msrClefKind::kClefBassPlus15;
     gClefKindsNamesList.push_back ("varbaritone");
-    gGlobalClefKindsMap ["varbaritone"] = kVarbaritoneClef;
+    gGlobalClefKindsMap ["varbaritone"] = msrClefKind::kClefVarbaritone;
     gClefKindsNamesList.push_back ("tab4");
-    gGlobalClefKindsMap ["tab4"] = kTablature4Clef;
+    gGlobalClefKindsMap ["tab4"] = msrClefKind::kClefTablature4;
     gClefKindsNamesList.push_back ("tab5");
-    gGlobalClefKindsMap ["tab5"] = kTablature5Clef;
+    gGlobalClefKindsMap ["tab5"] = msrClefKind::kClefTablature5;
     gClefKindsNamesList.push_back ("tab6");
-    gGlobalClefKindsMap ["tab6"] = kTablature6Clef;
+    gGlobalClefKindsMap ["tab6"] = msrClefKind::kClefTablature6;
     gClefKindsNamesList.push_back ("tab7");
-    gGlobalClefKindsMap ["tab7"] = kTablature7Clef;
+    gGlobalClefKindsMap ["tab7"] = msrClefKind::kClefTablature7;
     gClefKindsNamesList.push_back ("percussion");
-    gGlobalClefKindsMap ["percussion"] = kPercussionClef;
+    gGlobalClefKindsMap ["percussion"] = msrClefKind::kClefPercussion;
     gClefKindsNamesList.push_back ("jianpu");
-    gGlobalClefKindsMap ["jianpu"] = kJianpuClef;
+    gGlobalClefKindsMap ["jianpu"] = msrClefKind::kClefJianpu;
 
     pThisMethodHasBeenRun = true;
   }
@@ -16304,65 +16304,65 @@ string noteKindAsString (
   string result;
 
   switch (noteKind) {
-    case k_NoNote:
+    case msrNoteKind::k_NoNote:
       result = "*noNote*";
       break;
 
     // in measures
-    case kNoteRegularInMeasure:
+    case msrNoteKind::kNoteRegularInMeasure:
       result = "noteRegularInMeasure";
       break;
 
-    case kNoteRestInMeasure:
+    case msrNoteKind::kNoteRestInMeasure:
       result = "noteRestInMeasure";
       break;
 
-    case kNoteSkipInMeasure:
+    case msrNoteKind::kNoteSkipInMeasure:
       result = "noteSkipInMeasure";
       break;
 
-    case kNoteUnpitchedInMeasure:
+    case msrNoteKind::kNoteUnpitchedInMeasure:
       result = "noteUnpitchedInMeasure";
       break;
 
     // in chords
-    case kNoteRegularInChord:
+    case msrNoteKind::kNoteRegularInChord:
       result = "noteRegularInChord";
       break;
 
     // in tuplets
-    case kNoteRegularInTuplet:
+    case msrNoteKind::kNoteRegularInTuplet:
       result = "noteRegularInTuplet";
       break;
 
-    case kNoteRestInTuplet:
+    case msrNoteKind::kNoteRestInTuplet:
       result = "noteRestInTuplet";
       break;
 
-    case kNoteUnpitchedInTuplet:
+    case msrNoteKind::kNoteUnpitchedInTuplet:
       result = "noteUnpitchedInTuplet";
       break;
 
     // in grace notes groups
-    case kNoteRegularInGraceNotesGroup:
+    case msrNoteKind::kNoteRegularInGraceNotesGroup:
       result = "noteRegularInGraceNotesGroup";
       break;
-    case kNoteSkipInGraceNotesGroup:
+    case msrNoteKind::kNoteSkipInGraceNotesGroup:
       result = "noteSkipInGraceNotesGroup";
       break;
 
     // in chords in grace notes groups
-    case kNoteInChordInGraceNotesGroup:
+    case msrNoteKind::kNoteInChordInGraceNotesGroup:
       result = "noteInChordInGraceNotesGroup";
       break;
 
     // in tuplets in grace notes groups
-    case kNoteInTupletInGraceNotesGroup:
+    case msrNoteKind::kNoteInTupletInGraceNotesGroup:
       result = "noteInTupletInGraceNotesGroup";
       break;
 
     // in double-tremolos
-    case kNoteInDoubleTremolo:
+    case msrNoteKind::kNoteInDoubleTremolo:
       result = "noteInDoubleTremolo";
       break;
   } // switch

@@ -677,25 +677,25 @@ string lpsrScoreOutputKindAsString (
   // no CamelCase here, these strings are used in the command line options
 
   switch (scoreOutputKind) {
-    case kScoreOnly: // default value
+    case lpsrScoreOutputKind::kScoreOutputScoreOnly: // default value
       result = "score-only";
       break;
-    case kScoreAndParts:
+    case lpsrScoreOutputKind::kScoreOutputScoreAndParts:
       result = "score-and-parts";
       break;
-    case kPartsAndScore:
+    case lpsrScoreOutputKind::kScoreOutputPartsAndScore:
       result = "parts-and-score";
       break;
-    case kPartsOnly:
+    case lpsrScoreOutputKind::kScoreOutputPartsOnly:
       result = "parts-only";
       break;
-    case kScoreAndPartsOneFile:
+    case lpsrScoreOutputKind::kScoreOutputScoreAndPartsOneFile:
       result = "score-and-parts-one-file";
       break;
-    case kPartsAndScoreOneFile:
+    case lpsrScoreOutputKind::kScoreOutputPartsAndScoreOneFile:
       result = "parts-and-score-one-file";
       break;
-    case kPartsOnlyOneFile:
+    case lpsrScoreOutputKind::kScoreOutputPartsOnlyOneFile:
       result = "parts-only-one-file";
       break;
   } // switch
@@ -710,13 +710,13 @@ void initializeLpsrScoreOutputKindsMap ()
 
   // no CamelCase here, these strings are used in the command line options
 
-  gGlobalLpsrScoreOutputKindsMap ["score-only"] = kScoreOnly;
-  gGlobalLpsrScoreOutputKindsMap ["score-and-parts"] = kScoreAndParts;
-  gGlobalLpsrScoreOutputKindsMap ["parts-and-score"] = kPartsAndScore;
-  gGlobalLpsrScoreOutputKindsMap ["parts-only"] = kPartsOnly;
-  gGlobalLpsrScoreOutputKindsMap ["score-and-parts-one-file"] = kScoreAndPartsOneFile;
-  gGlobalLpsrScoreOutputKindsMap ["parts-and-score-one-file"] = kPartsAndScoreOneFile;
-  gGlobalLpsrScoreOutputKindsMap ["parts-only-one-file"] = kPartsOnlyOneFile;
+  gGlobalLpsrScoreOutputKindsMap ["score-only"] = lpsrScoreOutputKind::kScoreOutputScoreOnly;
+  gGlobalLpsrScoreOutputKindsMap ["score-and-parts"] = lpsrScoreOutputKind::kScoreOutputScoreAndParts;
+  gGlobalLpsrScoreOutputKindsMap ["parts-and-score"] = lpsrScoreOutputKind::kScoreOutputPartsAndScore;
+  gGlobalLpsrScoreOutputKindsMap ["parts-only"] = lpsrScoreOutputKind::kScoreOutputPartsOnly;
+  gGlobalLpsrScoreOutputKindsMap ["score-and-parts-one-file"] = lpsrScoreOutputKind::kScoreOutputScoreAndPartsOneFile;
+  gGlobalLpsrScoreOutputKindsMap ["parts-and-score-one-file"] = lpsrScoreOutputKind::kScoreOutputPartsAndScoreOneFile;
+  gGlobalLpsrScoreOutputKindsMap ["parts-only-one-file"] = lpsrScoreOutputKind::kScoreOutputPartsOnlyOneFile;
 }
 
 string existingLpsrScoreOutputKinds (unsigned int namesListMaxLength)
@@ -777,58 +777,58 @@ string lpsrAccidentalStyleKindAsString (
   string result;
 
   switch (accidentalStyleKind) {
-    case kDefault: // default value
+    case lpsrAccidentalStyleKind::kAccidentalStyleDefault: // default value
       result = "default";
       break;
-    case kVoice:
+    case lpsrAccidentalStyleKind::kVoice:
       result = "voice";
       break;
-    case kModern:
+    case lpsrAccidentalStyleKind::kAccidentalStyleModern:
       result = "modern";
       break;
-    case kModernCautionary:
+    case lpsrAccidentalStyleKind::kAccidentalStyleModernCautionary:
       result = "modernCautionary";
       break;
-    case kModernVoice:
+    case lpsrAccidentalStyleKind::kAccidentalStyleModernVoice:
       result = "modernVoice";
       break;
-    case kModernVoiceCautionary:
+    case lpsrAccidentalStyleKind::kAccidentalStyleModernVoiceCautionary:
       result = "modernVoiceCautionary";
       break;
-    case kPiano:
+    case lpsrAccidentalStyleKind::kAccidentalStylePiano:
       result = "piano";
       break;
-    case kPianoCautionary:
+    case lpsrAccidentalStyleKind::kAccidentalStylePianoCautionary:
       result = "pianoCautionary";
       break;
-    case kNeoModern:
+    case lpsrAccidentalStyleKind::kAccidentalStyleNeoModern:
       result = "neoModern";
       break;
-    case kNeoModernCautionary:
+    case lpsrAccidentalStyleKind::kAccidentalStyleNeoModernCautionary:
       result = "neoModernCautionary";
       break;
-    case kNeoModernVoice:
+    case lpsrAccidentalStyleKind::kAccidentalStyleNeoModernVoice:
       result = "neoModernVoice";
       break;
-    case kNeoModernVoiceCautionary:
+    case lpsrAccidentalStyleKind::kAccidentalStyleNeoModernVoiceCautionary:
       result = "neoModernVoiceCautionary";
       break;
-    case kDodecaphonic:
+    case lpsrAccidentalStyleKind::kAccidentalStyleDodecaphonic:
       result = "dodecaphonic";
       break;
-    case kDodecaphonicNoRepeat:
+    case lpsrAccidentalStyleKind::kAccidentalStyleDodecaphonicNoRepeat:
       result = "dodecaphonicNoRepeat";
       break;
-    case kDodecaphonicFirst:
+    case lpsrAccidentalStyleKind::kAccidentalStyleDodecaphonicFirst:
       result = "dodecaphonicFirst";
       break;
-    case kTeaching:
+    case lpsrAccidentalStyleKind::kAccidentalStyleTeaching:
       result = "teaching";
       break;
-    case kNoReset:
+    case lpsrAccidentalStyleKind::kAccidentalStyleNoReset:
       result = "noReset";
       break;
-    case kForget:
+    case lpsrAccidentalStyleKind::kAccidentalStyleForget:
       result = "Forget";
       break;
   } // switch
@@ -842,58 +842,58 @@ string lpsrAccidentalStyleKindAsLilypondString (
   string result;
 
   switch (accidentalStyleKind) {
-    case kDefault: // default value
+    case lpsrAccidentalStyleKind::kAccidentalStyleDefault: // default value
       result = "default";
       break;
-    case kVoice:
+    case lpsrAccidentalStyleKind::kVoice:
       result = "voice";
       break;
-    case kModern:
+    case lpsrAccidentalStyleKind::kAccidentalStyleModern:
       result = "modern";
       break;
-    case kModernCautionary:
+    case lpsrAccidentalStyleKind::kAccidentalStyleModernCautionary:
       result = "modern-cautionary";
       break;
-    case kModernVoice:
+    case lpsrAccidentalStyleKind::kAccidentalStyleModernVoice:
       result = "modern-voice";
       break;
-    case kModernVoiceCautionary:
+    case lpsrAccidentalStyleKind::kAccidentalStyleModernVoiceCautionary:
       result = "modern-voice-cautionary";
       break;
-    case kPiano:
+    case lpsrAccidentalStyleKind::kAccidentalStylePiano:
       result = "piano";
       break;
-    case kPianoCautionary:
+    case lpsrAccidentalStyleKind::kAccidentalStylePianoCautionary:
       result = "piano-cautionary";
       break;
-    case kNeoModern:
+    case lpsrAccidentalStyleKind::kAccidentalStyleNeoModern:
       result = "neo-modern";
       break;
-    case kNeoModernCautionary:
+    case lpsrAccidentalStyleKind::kAccidentalStyleNeoModernCautionary:
       result = "neo-modern-cautionary";
       break;
-    case kNeoModernVoice:
+    case lpsrAccidentalStyleKind::kAccidentalStyleNeoModernVoice:
       result = "neo-modern-voice";
       break;
-    case kNeoModernVoiceCautionary:
+    case lpsrAccidentalStyleKind::kAccidentalStyleNeoModernVoiceCautionary:
       result = "neo-modern--voice-cautionary";
       break;
-    case kDodecaphonic:
+    case lpsrAccidentalStyleKind::kAccidentalStyleDodecaphonic:
       result = "dodecaphonic";
       break;
-    case kDodecaphonicNoRepeat:
+    case lpsrAccidentalStyleKind::kAccidentalStyleDodecaphonicNoRepeat:
       result = "dodecaphonic-no-repeat";
       break;
-    case kDodecaphonicFirst:
+    case lpsrAccidentalStyleKind::kAccidentalStyleDodecaphonicFirst:
       result = "dodecaphonic-first";
       break;
-    case kTeaching:
+    case lpsrAccidentalStyleKind::kAccidentalStyleTeaching:
       result = "teaching";
       break;
-    case kNoReset:
+    case lpsrAccidentalStyleKind::kAccidentalStyleNoReset:
       result = "no-reset";
       break;
-    case kForget:
+    case lpsrAccidentalStyleKind::kAccidentalStyleForget:
       result = "forget";
       break;
   } // switch
@@ -906,24 +906,24 @@ void initializeLpsrAccidentalStyleKindsMap ()
   // register the LilyPond accidental styles
   // --------------------------------------
 
-  gGlobalLpsrAccidentalStyleKindsMap ["default"] = kDefault;
-  gGlobalLpsrAccidentalStyleKindsMap ["voice"] = kVoice;
-  gGlobalLpsrAccidentalStyleKindsMap ["modern"] = kModern;
-  gGlobalLpsrAccidentalStyleKindsMap ["modern-cautionary"] = kModernCautionary;
-  gGlobalLpsrAccidentalStyleKindsMap ["modern-voice"] = kModernVoice;
-  gGlobalLpsrAccidentalStyleKindsMap ["modern-voice-cautionary"] = kModernVoiceCautionary;
-  gGlobalLpsrAccidentalStyleKindsMap ["piano"] = kPiano;
-  gGlobalLpsrAccidentalStyleKindsMap ["piano-cautionary"] = kPianoCautionary;
-  gGlobalLpsrAccidentalStyleKindsMap ["neo-modern"] = kNeoModern;
-  gGlobalLpsrAccidentalStyleKindsMap ["neo-modern-cautionary"] = kNeoModernCautionary;
-  gGlobalLpsrAccidentalStyleKindsMap ["neo-modern-voice"] = kNeoModernVoice;
-  gGlobalLpsrAccidentalStyleKindsMap ["neo-modern-voice-cautionary"] = kNeoModernVoiceCautionary;
-  gGlobalLpsrAccidentalStyleKindsMap ["dodecaphonic"] = kDodecaphonic;
-  gGlobalLpsrAccidentalStyleKindsMap ["dodecaphonic-no-repeat"] = kDodecaphonicNoRepeat;
-  gGlobalLpsrAccidentalStyleKindsMap ["dodecaphonic-first"] = kDodecaphonicFirst;
-  gGlobalLpsrAccidentalStyleKindsMap ["teaching"] = kTeaching;
-  gGlobalLpsrAccidentalStyleKindsMap ["no-reset"] = kNoReset;
-  gGlobalLpsrAccidentalStyleKindsMap ["forget"] = kForget;
+  gGlobalLpsrAccidentalStyleKindsMap ["default"] = lpsrAccidentalStyleKind::kAccidentalStyleDefault;
+  gGlobalLpsrAccidentalStyleKindsMap ["voice"] = lpsrAccidentalStyleKind::kVoice;
+  gGlobalLpsrAccidentalStyleKindsMap ["modern"] = lpsrAccidentalStyleKind::kAccidentalStyleModern;
+  gGlobalLpsrAccidentalStyleKindsMap ["modern-cautionary"] = lpsrAccidentalStyleKind::kAccidentalStyleModernCautionary;
+  gGlobalLpsrAccidentalStyleKindsMap ["modern-voice"] = lpsrAccidentalStyleKind::kAccidentalStyleModernVoice;
+  gGlobalLpsrAccidentalStyleKindsMap ["modern-voice-cautionary"] = lpsrAccidentalStyleKind::kAccidentalStyleModernVoiceCautionary;
+  gGlobalLpsrAccidentalStyleKindsMap ["piano"] = lpsrAccidentalStyleKind::kAccidentalStylePiano;
+  gGlobalLpsrAccidentalStyleKindsMap ["piano-cautionary"] = lpsrAccidentalStyleKind::kAccidentalStylePianoCautionary;
+  gGlobalLpsrAccidentalStyleKindsMap ["neo-modern"] = lpsrAccidentalStyleKind::kAccidentalStyleNeoModern;
+  gGlobalLpsrAccidentalStyleKindsMap ["neo-modern-cautionary"] = lpsrAccidentalStyleKind::kAccidentalStyleNeoModernCautionary;
+  gGlobalLpsrAccidentalStyleKindsMap ["neo-modern-voice"] = lpsrAccidentalStyleKind::kAccidentalStyleNeoModernVoice;
+  gGlobalLpsrAccidentalStyleKindsMap ["neo-modern-voice-cautionary"] = lpsrAccidentalStyleKind::kAccidentalStyleNeoModernVoiceCautionary;
+  gGlobalLpsrAccidentalStyleKindsMap ["dodecaphonic"] = lpsrAccidentalStyleKind::kAccidentalStyleDodecaphonic;
+  gGlobalLpsrAccidentalStyleKindsMap ["dodecaphonic-no-repeat"] = lpsrAccidentalStyleKind::kAccidentalStyleDodecaphonicNoRepeat;
+  gGlobalLpsrAccidentalStyleKindsMap ["dodecaphonic-first"] = lpsrAccidentalStyleKind::kAccidentalStyleDodecaphonicFirst;
+  gGlobalLpsrAccidentalStyleKindsMap ["teaching"] = lpsrAccidentalStyleKind::kAccidentalStyleTeaching;
+  gGlobalLpsrAccidentalStyleKindsMap ["no-reset"] = lpsrAccidentalStyleKind::kAccidentalStyleNoReset;
+  gGlobalLpsrAccidentalStyleKindsMap ["forget"] = lpsrAccidentalStyleKind::kAccidentalStyleForget;
 }
 
 string existingLpsrAccidentalStyleKinds (unsigned int namesListMaxLength)
@@ -980,11 +980,11 @@ map<string, lpsrChordsLanguageKind>
 
 void initializeLpsrChordsLanguageKindsMap ()
 {
-  gGlobalLpsrChordsLanguageKindsMap ["ignatzek"]   = kChordsIgnatzek; // default
-  gGlobalLpsrChordsLanguageKindsMap ["german"]     = kChordsGerman;
-  gGlobalLpsrChordsLanguageKindsMap ["semiGerman"] = kChordsSemiGerman;
-  gGlobalLpsrChordsLanguageKindsMap ["italian"]    = kChordsItalian;
-  gGlobalLpsrChordsLanguageKindsMap ["french"]     = kChordsFrench;
+  gGlobalLpsrChordsLanguageKindsMap ["ignatzek"]   = lpsrChordsLanguageKind::kChordsIgnatzek; // default
+  gGlobalLpsrChordsLanguageKindsMap ["german"]     = lpsrChordsLanguageKind::kChordsGerman;
+  gGlobalLpsrChordsLanguageKindsMap ["semiGerman"] = lpsrChordsLanguageKind::kChordsSemiGerman;
+  gGlobalLpsrChordsLanguageKindsMap ["italian"]    = lpsrChordsLanguageKind::kChordsItalian;
+  gGlobalLpsrChordsLanguageKindsMap ["french"]     = lpsrChordsLanguageKind::kChordsFrench;
 }
 
 string lpsrChordsLanguageKindAsString (
@@ -993,19 +993,19 @@ string lpsrChordsLanguageKindAsString (
   string result;
 
   switch (languageKind) {
-    case kChordsIgnatzek: // default value
+    case lpsrChordsLanguageKind::kChordsIgnatzek: // default value
       result = "ignatzek";
       break;
-    case kChordsGerman:
+    case lpsrChordsLanguageKind::kChordsGerman:
       result = "german";
       break;
-    case kChordsSemiGerman:
+    case lpsrChordsLanguageKind::kChordsSemiGerman:
       result = "semiGerman";
       break;
-    case kChordsItalian:
+    case lpsrChordsLanguageKind::kChordsItalian:
       result = "italian";
       break;
-    case kChordsFrench:
+    case lpsrChordsLanguageKind::kChordsFrench:
       result = "french";
       break;
   } // switch
@@ -1200,10 +1200,10 @@ string lpsrLyricsDurationsKindAsString (
   // no CamelCase here, these strings are used in the command line options
 
   switch (lyricsDurationsKind) {
-    case kLyricsDurationsImplicit:
+    case lpsrLyricsDurationsKind::kLyricsDurationsImplicit:
       result = "lyricsDurationsImplicit";
       break;
-    case kLyricsDurationsExplicit:
+    case lpsrLyricsDurationsKind::kLyricsDurationsExplicit:
       result = "lyricsDurationsExplicit";
       break;
   } // switch
@@ -1218,8 +1218,8 @@ void initializeLpsrLyricsDurationsKindsMap ()
 
   // no CamelCase here, these strings are used in the command line options
 
-  gGlobalLpsrLyricsDurationsKindsMap ["implicit"] = kLyricsDurationsImplicit;
-  gGlobalLpsrLyricsDurationsKindsMap ["explicit"] = kLyricsDurationsExplicit;
+  gGlobalLpsrLyricsDurationsKindsMap ["implicit"] = lpsrLyricsDurationsKind::kLyricsDurationsImplicit;
+  gGlobalLpsrLyricsDurationsKindsMap ["explicit"] = lpsrLyricsDurationsKind::kLyricsDurationsExplicit;
 }
 
 string existingLpsrLyricsDurationsKinds (unsigned int namesListMaxLength)

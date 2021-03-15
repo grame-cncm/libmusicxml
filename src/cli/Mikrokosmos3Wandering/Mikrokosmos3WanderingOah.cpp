@@ -62,7 +62,7 @@ R"(These options control the way Mikrokosmos3Wandering works.)",
 
   fUTFKind = kUTF8; // default value
 
-  fBrailleOutputKind = kBrailleOutputAscii; // default value
+  fBrailleOutputKind = bsrBrailleOutputKind::kBrailleOutputAscii; // default value
 
   fByteOrderingKind = kByteOrderingNone;
 

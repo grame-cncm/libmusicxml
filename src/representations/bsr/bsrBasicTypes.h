@@ -23,7 +23,7 @@ namespace MusicXML2
 
 // cell kinds
 //______________________________________________________________________________
-enum bsrCellKind {
+enum class bsrCellKind {
   kCellUnknown,
 
   // non 6dots values
@@ -108,45 +108,45 @@ string bsrCellKindAsString (bsrCellKind cellKind);
 // lower case letters
 //______________________________________________________________________________
 const bsrCellKind
-  kCellA = kDots1,
-  kCellB = kDots12,
-  kCellC = kDots14,
-  kCellD = kDots145,
-  kCellE = kDots15,
-  kCellF = kDots124,
-  kCellG = kDots1245,
-  kCellH = kDots125,
-  kCellI = kDots24,
-  kCellJ = kDots245,
+  kCellA = bsrCellKind::kDots1,
+  kCellB = bsrCellKind::kDots12,
+  kCellC = bsrCellKind::kDots14,
+  kCellD = bsrCellKind::kDots145,
+  kCellE = bsrCellKind::kDots15,
+  kCellF = bsrCellKind::kDots124,
+  kCellG = bsrCellKind::kDots1245,
+  kCellH = bsrCellKind::kDots125,
+  kCellI = bsrCellKind::kDots24,
+  kCellJ = bsrCellKind::kDots245,
 
-  kCellK = kDots13,
-  kCellL = kDots123,
-  kCellM = kDots134,
-  kCellN = kDots1345,
-  kCellO = kDots135,
-  kCellP = kDots1234,
-  kCellQ = kDots12345,
-  kCellR = kDots1235,
-  kCellS = kDots234,
-  kCellT = kDots2345,
+  kCellK = bsrCellKind::kDots13,
+  kCellL = bsrCellKind::kDots123,
+  kCellM = bsrCellKind::kDots134,
+  kCellN = bsrCellKind::kDots1345,
+  kCellO = bsrCellKind::kDots135,
+  kCellP = bsrCellKind::kDots1234,
+  kCellQ = bsrCellKind::kDots12345,
+  kCellR = bsrCellKind::kDots1235,
+  kCellS = bsrCellKind::kDots234,
+  kCellT = bsrCellKind::kDots2345,
 
-  kCellU = kDots136,
-  kCellV = kDots1236,
-  kCellW = kDots2456,
-  kCellX = kDots1346,
-  kCellY = kDots13456,
-  kCellZ = kDots1356;
+  kCellU = bsrCellKind::kDots136,
+  kCellV = bsrCellKind::kDots1236,
+  kCellW = bsrCellKind::kDots2456,
+  kCellX = bsrCellKind::kDots1346,
+  kCellY = bsrCellKind::kDots13456,
+  kCellZ = bsrCellKind::kDots1356;
 
 // capitals
 //______________________________________________________________________________
 const bsrCellKind
-  kCellCapitalsSign = kDots46;
+  kCellCapitalsSign = bsrCellKind::kDots46;
 //  kCellCapitalsSequenceSign, // { kCellCapitalsSign, kCellCapitalsSign };
 
 // decimal digits
 //______________________________________________________________________________
 const bsrCellKind
-  kCellNumberSign = kDots3456,
+  kCellNumberSign = bsrCellKind::kDots3456,
   kCell1 = kCellA,
   kCell2 = kCellB,
   kCell3 = kCellC,
@@ -161,47 +161,47 @@ const bsrCellKind
 // lower decimal digits
 //______________________________________________________________________________
 const bsrCellKind
-  kCellLower1 = kDots2,
-  kCellLower2 = kDots23,
-  kCellLower3 = kDots25,
-  kCellLower4 = kDots256,
-  kCellLower5 = kDots26,
-  kCellLower6 = kDots235,
-  kCellLower7 = kDots2356,
-  kCellLower8 = kDots236,
-  kCellLower9 = kDots35,
-  kCellLower0 = kDots356;
+  kCellLower1 = bsrCellKind::kDots2,
+  kCellLower2 = bsrCellKind::kDots23,
+  kCellLower3 = bsrCellKind::kDots25,
+  kCellLower4 = bsrCellKind::kDots256,
+  kCellLower5 = bsrCellKind::kDots26,
+  kCellLower6 = bsrCellKind::kDots235,
+  kCellLower7 = bsrCellKind::kDots2356,
+  kCellLower8 = bsrCellKind::kDots236,
+  kCellLower9 = bsrCellKind::kDots35,
+  kCellLower0 = bsrCellKind::kDots356;
 
 // alterations
 //______________________________________________________________________________
 const bsrCellKind
-  kCellFlat    = kDots126,
-  kCellNatural = kDots16,
-  kCellSharp   = kDots146;
+  kCellFlat    = bsrCellKind::kDots126,
+  kCellNatural = bsrCellKind::kDots16,
+  kCellSharp   = bsrCellKind::kDots146;
 
 // augmentation dots
 //______________________________________________________________________________
 const bsrCellKind
-  kCellAugmentationDot = kDots3;
+  kCellAugmentationDot = bsrCellKind::kDots3;
 
 // arithmetic operators
 //______________________________________________________________________________
 const bsrCellKind
-  kCell_ac_plus      = kDots235,
-  kCell_ac_minus     = kDots36,
-  kCell_ac_times     = kDots35,
-  kCell_ac_dividedBy = kDots25,
-  kCell_ac_equals    = kDots2356;
+  kCell_ac_plus      = bsrCellKind::kDots235,
+  kCell_ac_minus     = bsrCellKind::kDots36,
+  kCell_ac_times     = bsrCellKind::kDots35,
+  kCell_ac_dividedBy = bsrCellKind::kDots25,
+  kCell_ac_equals    = bsrCellKind::kDots2356;
 
 // words
 //______________________________________________________________________________
 const bsrCellKind
-  kCellWordSign        = kDots345,
+  kCellWordSign        = bsrCellKind::kDots345,
 
-  kCellWordApostrophe  = kDots6,
+  kCellWordApostrophe  = bsrCellKind::kDots6,
 
-  kCellParenthesis     = kDots2356,
-  kCellQuestionMark    = kDots26;
+  kCellParenthesis     = bsrCellKind::kDots2356,
+  kCellQuestionMark    = bsrCellKind::kDots26;
 
 // braille cells
 //______________________________________________________________________________
@@ -212,7 +212,7 @@ void brailleCellKind (bsrCellKind cellKind, ostream& os);
 
 // braille output kinds
 //______________________________________________________________________________
-enum bsrBrailleOutputKind {
+enum class bsrBrailleOutputKind {
   kBrailleOutputAscii,     // default value
   kBrailleOutputUTF8,
   kBrailleOutputUTF8Debug, // for... debugging!
@@ -231,7 +231,7 @@ void initializeBsrBrailleOutputKindsMap ();
 
 // chords languages
 //______________________________________________________________________________
-enum bsrTextsLanguageKind {
+enum class bsrTextsLanguageKind {
   kTextsEnglish, // BANA's default
   kTextsGerman, kTextsItalian, kTextsFrench
 };
@@ -733,93 +733,93 @@ char \X7F (   4567 )  # 127  ^?  delete
 /*
 enum bsrCellKind2 {
   // lower decimal digits
-  kCellLower1, // kDots2,
-  kCellLower2, // kDots23,
-  kCellLower3, // kDots25,
-  kCellLower4, // kDots256,
-  kCellLower5, // kDots26,
-  kCellLower6, // kDots235,
-  kCellLower7, // kDots2356,
-  kCellLower8, // kDots236,
-  kCellLower9, // kDots35,
-  kCellLower0, // kDots356;
+  kCellLower1, // bsrCellKind::kDots2,
+  kCellLower2, // bsrCellKind::kDots23,
+  kCellLower3, // bsrCellKind::kDots25,
+  kCellLower4, // bsrCellKind::kDots256,
+  kCellLower5, // bsrCellKind::kDots26,
+  kCellLower6, // bsrCellKind::kDots235,
+  kCellLower7, // bsrCellKind::kDots2356,
+  kCellLower8, // bsrCellKind::kDots236,
+  kCellLower9, // bsrCellKind::kDots35,
+  kCellLower0, // bsrCellKind::kDots356;
 
 
   // punctuation
-  kCellDot             , // kDots256,
-  kCellComma           , // kDots2,
-  kCellQuestionMark    , // kDots26,
-  kCellSemicolon       , // kDots23,
-  kCellColon           , // kDots25,
-  kCellExclamationMark , // kDots235,
-  kCellLeftParenthesis , // kDots236,
-  kCellRightParenthesis, // kDots356,
-  kCellDoubleQuote     , // kDots2356,
-  kCellDash            , // kDots36,
-  kCellQuote           , // kDots3;
+  kCellDot             , // bsrCellKind::kDots256,
+  kCellComma           , // bsrCellKind::kDots2,
+  kCellQuestionMark    , // bsrCellKind::kDots26,
+  kCellSemicolon       , // bsrCellKind::kDots23,
+  kCellColon           , // bsrCellKind::kDots25,
+  kCellExclamationMark , // bsrCellKind::kDots235,
+  kCellLeftParenthesis , // bsrCellKind::kDots236,
+  kCellRightParenthesis, // bsrCellKind::kDots356,
+  kCellDoubleQuote     , // bsrCellKind::kDots2356,
+  kCellDash            , // bsrCellKind::kDots36,
+  kCellQuote           , // bsrCellKind::kDots3;
 
   // other symbols
-  kCellSlash   , // kDots34,
-  kCellVerseEnd, // kDots345,
-  kCellItalics , // kDots456,
-  kCellAsterisk, // kDots35,
-  kCellExponent, // kDots4;
+  kCellSlash   , // bsrCellKind::kDots34,
+  kCellVerseEnd, // bsrCellKind::kDots345,
+  kCellItalics , // bsrCellKind::kDots456,
+  kCellAsterisk, // bsrCellKind::kDots35,
+  kCellExponent, // bsrCellKind::kDots4;
 
   // intervals
-  kCellSecond , // kDots34,
-  kCellThird  , // kDots346,
-  kCellFourth , // kDots3456,
-  kCellFifth  , // kDots35,
-  kCellSixth  , // kDots356,
-  kCellSeventh, // kDots25,
-  kCellEighth , // kDots36;
+  kCellSecond , // bsrCellKind::kDots34,
+  kCellThird  , // bsrCellKind::kDots346,
+  kCellFourth , // bsrCellKind::kDots3456,
+  kCellFifth  , // bsrCellKind::kDots35,
+  kCellSixth  , // bsrCellKind::kDots356,
+  kCellSeventh, // bsrCellKind::kDots25,
+  kCellEighth , // bsrCellKind::kDots36;
 
   // triplets
-  kCellTriplet , // kDots23;
+  kCellTriplet , // bsrCellKind::kDots23;
 
   // keyboard hands
-  kCellRightHand, // { kDots46,  kDots345 },
-  kCellLeftHand, //  { kDots456, kDots345 };
+  kCellRightHand, // { bsrCellKind::kDots46,  bsrCellKind::kDots345 },
+  kCellLeftHand, //  { bsrCellKind::kDots456, bsrCellKind::kDots345 };
 
   // bars
-  kCellFinalDoubleBar    , //     { kDots126, kDots13 },
-  kCellSectionalDoubleBar, // { kDots126, kDots13, kDots3 };
+  kCellFinalDoubleBar    , //     { bsrCellKind::kDots126, bsrCellKind::kDots13 },
+  kCellSectionalDoubleBar, // { bsrCellKind::kDots126, bsrCellKind::kDots13, bsrCellKind::kDots3 };
 
   // measure divisions
-  kCellMeasureDivisionSign, // { kDots46, kDots13 };
+  kCellMeasureDivisionSign, // { bsrCellKind::kDots46, bsrCellKind::kDots13 };
 
   // words
-  kCellWordSign      , // kDots345,
-  kCellWordApostrophe, // kDots6;
+  kCellWordSign      , // bsrCellKind::kDots345,
+  kCellWordApostrophe, // bsrCellKind::kDots6;
 
   // capitals
-  kCellCapitalsSign, //, // kDots46;
+  kCellCapitalsSign, //, // bsrCellKind::kDots46;
   kCellCapitalsSequenceSign, // { kCellCapitalsSign, kCellCapitalsSign };
 
   // parentheses
-  kCellLiteraryLeftParenthesis  , //{ kDots5, kDots126 },
-  kCellLiteraryRightParenthesis , //{ kDots5, kDots345 },
-  kCellMusicParentheses         , //{ kDots6, kDots3 },
-  kCellSpecialParentheses       , //{ kDots2356, kDots2356 };
+  kCellLiteraryLeftParenthesis  , //{ bsrCellKind::kDots5, bsrCellKind::kDots126 },
+  kCellLiteraryRightParenthesis , //{ bsrCellKind::kDots5, bsrCellKind::kDots345 },
+  kCellMusicParentheses         , //{ bsrCellKind::kDots6, bsrCellKind::kDots3 },
+  kCellSpecialParentheses       , //{ bsrCellKind::kDots2356, bsrCellKind::kDots2356 };
 
   // other symbols
-  kCellParagraph           , //{ kDots5, kDots1234 },
-  kCellAmpersand           , //{ kDots5, kDots123456 },
-  kCellUpsilon             , //{ kDots45, kDots13456 }, // better name JMI ???
-  kCellEuro                , //{ kDots45, kDots15 },
-  kCellDollar              , //{ kDots45, kDots234 },
-  kCellPound               , //{ kDots45, kDots123 },
-  kCellCopyright           , //{ kDots5, kDots14 },
-  kCellRegisteredTradeMark , //{ kDots5, kDots1235 },
-  kCellTradeMark           , //{ kDots5, kDots2345 },
-  kCellPercent             , //{ kDots5, kDots346 },
-  kCellPerthousand         , //{ kDots5, kDots346, kDots346 },
-  kCellPertenthousand      , //{ kDots5, kDots346, kDots346, kDots346 };
+  kCellParagraph           , //{ bsrCellKind::kDots5, bsrCellKind::kDots1234 },
+  kCellAmpersand           , //{ bsrCellKind::kDots5, bsrCellKind::kDots123456 },
+  kCellUpsilon             , //{ bsrCellKind::kDots45, bsrCellKind::kDots13456 }, // better name JMI ???
+  kCellEuro                , //{ bsrCellKind::kDots45, bsrCellKind::kDots15 },
+  kCellDollar              , //{ bsrCellKind::kDots45, bsrCellKind::kDots234 },
+  kCellPound               , //{ bsrCellKind::kDots45, bsrCellKind::kDots123 },
+  kCellCopyright           , //{ bsrCellKind::kDots5, bsrCellKind::kDots14 },
+  kCellRegisteredTradeMark , //{ bsrCellKind::kDots5, bsrCellKind::kDots1235 },
+  kCellTradeMark           , //{ bsrCellKind::kDots5, bsrCellKind::kDots2345 },
+  kCellPercent             , //{ bsrCellKind::kDots5, bsrCellKind::kDots346 },
+  kCellPerthousand         , //{ bsrCellKind::kDots5, bsrCellKind::kDots346, bsrCellKind::kDots346 },
+  kCellPertenthousand      , //{ bsrCellKind::kDots5, bsrCellKind::kDots346, bsrCellKind::kDots346, bsrCellKind::kDots346 };
 
   // fermatas
-  kCellFermataOnANote      , //{ kDots146, kDots126, kDots123 },
-  kCellFermataBetweenNotes , //{ kDots5,   kDots126, kDots123 },
-  kCellFermataOverABarline , //{ kDots456, kDots126, kDots123 };
+  kCellFermataOnANote      , //{ bsrCellKind::kDots146, bsrCellKind::kDots126, bsrCellKind::kDots123 },
+  kCellFermataBetweenNotes , //{ bsrCellKind::kDots5,   bsrCellKind::kDots126, bsrCellKind::kDots123 },
+  kCellFermataOverABarline , //{ bsrCellKind::kDots456, bsrCellKind::kDots126, bsrCellKind::kDots123 };
 };
 */
 

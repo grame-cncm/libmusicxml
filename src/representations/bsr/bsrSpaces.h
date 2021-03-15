@@ -10,7 +10,7 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 const bsrCellKind
-  kCellSpace = kDotsNone;
+  kCellSpace = bsrCellKind::kDotsNone;
 
 //______________________________________________________________________________
 class EXP bsrSpaces : public bsrLineContentsElement

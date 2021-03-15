@@ -57,27 +57,27 @@ bsr2brailleTranslator::bsr2brailleTranslator (
 #endif
 
   switch (gGlobalBrailleGenerationOahGroup->getBrailleOutputKind ()) {
-    case kBrailleOutputAscii:
+    case bsrBrailleOutputKind::kBrailleOutputAscii:
       fBrailleGenerator =
         bsrAsciiBrailleGenerator::create (
           fBrailleOutputStream);
       break;
 
-    case kBrailleOutputUTF8:
+    case bsrBrailleOutputKind::kBrailleOutputUTF8:
       fBrailleGenerator =
         bsrUTF8BrailleGenerator::create (
           gGlobalBrailleGenerationOahGroup->getByteOrderingKind (),
           fBrailleOutputStream);
       break;
 
-    case kBrailleOutputUTF8Debug:
+    case bsrBrailleOutputKind::kBrailleOutputUTF8Debug:
       fBrailleGenerator =
         bsrUTF8DebugBrailleGenerator::create (
           gGlobalBrailleGenerationOahGroup->getByteOrderingKind (),
           fBrailleOutputStream);
       break;
 
-    case kBrailleOutputUTF16:
+    case bsrBrailleOutputKind::kBrailleOutputUTF16:
       switch (gGlobalBrailleGenerationOahGroup->getByteOrderingKind ()) {
         case kByteOrderingNone:
           {
@@ -294,7 +294,7 @@ void bsr2brailleTranslator::visitEnd (S_bsrPage& elt)
 
   fBrailleGenerator->
     generateCodeForBrailleCell (
-      kCellEOP);
+      bsrCellKind::kCellEOP);
 }
 
 void bsr2brailleTranslator::visitStart (S_bsrPageElement& elt)
@@ -450,7 +450,7 @@ void bsr2brailleTranslator::visitEnd (S_bsrMusicHeading& elt)
 
   fBrailleGenerator->
     generateCodeForBrailleCell (
-      kCellEOL);
+      bsrCellKind::kCellEOL);
 }
 
 //________________________________________________________________________
@@ -557,7 +557,7 @@ void bsr2brailleTranslator::visitEnd (S_bsrLineContents& elt)
 
   fBrailleGenerator->
     generateCodeForBrailleCell (
-      kCellEOL);
+      bsrCellKind::kCellEOL);
 }
 
 //________________________________________________________________________

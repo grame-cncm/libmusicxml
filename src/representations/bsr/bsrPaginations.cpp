@@ -69,7 +69,7 @@ S_bsrCellsList bsrPagination::buildCellsList () const
     paginationSign =
       bsrCellsList::create (
         fInputLineNumber,
-        kDots5, kDots25 );
+        bsrCellKind::kDots5, bsrCellKind::kDots25 );
 
   // append it to result
   result->appendCellsListToCellsList (
