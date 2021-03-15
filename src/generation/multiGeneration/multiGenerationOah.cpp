@@ -418,6 +418,8 @@ multiGeneratorOahGroup::~multiGeneratorOahGroup ()
 
 void multiGeneratorOahGroup::initializeMultiGeneratorOahGroup ()
 {
+  initializeMultiGeneratorOutputKindsMap ();
+
   // generator output kind
   // --------------------------------------
 
