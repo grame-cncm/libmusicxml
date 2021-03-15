@@ -128,6 +128,8 @@ void msdlCompilerRegularHandler::createRegularHandlerGroups ()
 
   createInformationsRegularGroup ();
 
+  createMsdlRegularGroup ();
+
   createFilesRegularGroup ();
 
   createGenerateCodeRegularGroup ();
@@ -261,6 +263,37 @@ void msdlCompilerRegularHandler::createInformationsRegularGroup ()
   registerAtomInRegularSubgroup ("display-options-handler", subGroup);
   registerAtomInRegularSubgroup ("display-options-handler-summary", subGroup);
   registerAtomInRegularSubgroup ("display-options-handler-essentials", subGroup);
+}
+
+void msdlCompilerRegularHandler::createMsdlRegularGroup ()
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "MSDL group",
+        "hmsdl-group", "help-msdl-group",
+        "",
+        oahElementVisibilityKind::kElementVisibilityWhole);
+  appendGroupToRegulalHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "MSDL",
+        "hmsdl", "help-msdl",
+        "",
+        oahElementVisibilityKind::kElementVisibilityWhole,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms from the insider handler
+
+  registerAtomInRegularSubgroup ("msdl-keywords-input-language", subGroup);
 }
 
 void msdlCompilerRegularHandler::createOutputRegularGroup ()

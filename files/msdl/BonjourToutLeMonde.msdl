@@ -15,14 +15,15 @@ compositeur "A. N. Onyme"
 
 hauteurs francais  % par défaut: english
 
+
 % la partition
 % -----------------------------------------------
 
-partition bonjourToutLeMonde = "Bonjour tout le monde en MSDL" {
+% partition bonjourToutLeMonde = "Bonjour tout le monde en MSDL" {
 
   musique {
     |1 do2.. re''8        % à placer dans la mesure 1
     |||                   % double barre finale
   }
 
-} % bonjourToutLeMonde
+% } % bonjourToutLeMonde

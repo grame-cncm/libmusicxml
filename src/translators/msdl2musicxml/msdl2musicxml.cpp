@@ -125,7 +125,7 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalMsdl2xmlInsiderOahGroup->getQuitAfterPass2a ()) {
+  if (false && gGlobalMsdl2xmlInsiderOahGroup->getQuitAfterPass2a ()) { // JMI
     err <<
       endl <<
       "Quitting after pass 2a as requested" <<

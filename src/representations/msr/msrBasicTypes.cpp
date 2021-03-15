@@ -1412,7 +1412,7 @@ EXP rational rationalFromDurationKindAndDotsNumber (
         durationKind);
 
 #ifdef TRACING_IS_ENABLED
-  if (true) { // JMI
+  if (false) { // JMI
     gLogStream <<
       "=== rationalFromDurationKindAndDotsNumber()" <<
       ", (int) durationKind: " << (int) durationKind <<
@@ -1436,7 +1436,7 @@ EXP rational rationalFromDurationKindAndDotsNumber (
       increment.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-  if (true) { // JMI
+  if (false) { // JMI
     gLogStream <<
       "=== rationalFromDurationKindAndDotsNumber()" <<
       ", dots: " << dots <<

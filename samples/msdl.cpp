@@ -373,7 +373,7 @@ int main (int argc, char * argv[])
 
 // JMI	catchSignals ();
 
-//  setTraceOah (); // JMI TEMP
+  setTraceOah (); // JMI TEMP
 
   // the executable name
   // ------------------------------------------------------

@@ -601,22 +601,95 @@ string msdlCompilerInsiderHandler::fetchOutputFileNameFromTheOptions () const
   }
 #endif
 
+  string
+    inputSourceName =
+      gGlobalOahOahGroup->getInputSourceName ();
+
   string outputFileName;
 
   if (outputFileNameHasBeenSet) {
-    // '-o, -output-file-name' has been chosen
-    outputFileName =
-      outputFileNameStringAtom->
-        getStringVariable ();
+    if (autoOutputFileNameHasBeenSet) {
+      // '-o, -output-file-name' has been chosen
+      // '-aofn, -auto-output-file-name' has been chosen
+      stringstream s;
+
+      s <<
+        "options' " <<
+        outputFileNameStringAtom->fetchNames () <<
+        "' and '" <<
+        autoOutputFileNameAtom->fetchNames () <<
+        "' cannot be chosen simultaneously" <<
+        "\")";
+
+      oahError (s.str ());
+    }
+    else {
+      // '-o, -output-file-name' has been chosen
+      // '-aofn, -auto-output-file-name' has NOT been chosen
+      outputFileName =
+        outputFileNameStringAtom->
+          getStringVariable ();
+    }
   }
 
-  else if (autoOutputFileNameHasBeenSet) {
-     // '-aofn, -auto-output-file-name' has been chosen
+  else {
+    if (autoOutputFileNameHasBeenSet) {
+      // '-o, -output-file-name' has NOT been chosen
+      // '-aofn, -auto-output-file-name' has been chosen
+      // determine output file base name
+      if (inputSourceName == "-") {
+        outputFileName = "stdin";
+      }
 
-    // start with the executable name
-    outputFileName = fHandlerExecutableName;
+      else {
+        // determine output file name,
+        outputFileName =
+          baseName (inputSourceName);
 
-    // add the output file name suffix
+        size_t
+          posInString =
+            outputFileName.rfind ('.');
+
+        // remove file extension
+        if (posInString != string::npos) {
+          outputFileName.replace (
+            posInString,
+            outputFileName.size () - posInString,
+            "");
+        }
+      }
+
+#ifdef TRACING_IS_ENABLED
+      if (getTraceOah ()) {
+        gLogStream <<
+          "msdlCompilerInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 1 = \"" <<
+          outputFileName <<
+          "\"" <<
+          endl;
+      }
+#endif
+
+#ifdef TRACING_IS_ENABLED
+      if (getTraceOah ()) {
+        gLogStream <<
+          "msdlCompilerInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 2 = " <<
+          outputFileName <<
+          "\"" <<
+          endl;
+      }
+#endif
+    }
+
+    else {
+      // '-o, -output-file-name' has NOT been chosen
+      // '-aofn, -auto-output-file-name' has NOT been chosen
+      outputFileName = inputSourceName; // will augmented below
+    }
+  }
+
+  // complement the output file name if relevant,
+  // and add the output file name suffix
+  if (! outputFileNameHasBeenSet) {
     switch (fGeneratorOutputKind) {
       case multiGeneratorOutputKind::k_NoOutput:
         // should not occur
@@ -700,12 +773,6 @@ string msdlCompilerInsiderHandler::fetchOutputFileNameFromTheOptions () const
         outputFileName += ".midi";
         break;
     } // switch
-  }
-
-  else {
-    // neither outputFileNameHasBeenSet nor autoOutputFileNameHasBeenSet
-    // has been set:
-    // return empty outputFileName to indicate that output goes to stdout
   }
 
 #ifdef TRACING_IS_ENABLED
