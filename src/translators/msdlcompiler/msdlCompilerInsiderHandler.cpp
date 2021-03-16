@@ -254,7 +254,7 @@ R"(What msdlCompiler does:
           " output:" <<
           endl <<
 R"(
-        Pass 1:  generate an MSR from the MSDL input)";
+        Pass 1:  converts the MSDL input into a first MSR)";
 
         headPart = headPartStream.str ();
       }
@@ -270,7 +270,7 @@ R"(
     case multiGeneratorOutputKind::kGuidoOutput:
       specificPart =
 R"(
-        Pass 2:  converts the MSR into a second MSR;
+        Pass 2:  converts the first MSR into a second MSR;
         Pass 3:  converts the second MSR into an MusicXML tree;
         Pass 4:  converts the MusicXML tree to Guido code
                  and writes it to standard output.)";
@@ -279,22 +279,24 @@ R"(
     case multiGeneratorOutputKind::kLilyPondOutput:
       specificPart =
 R"(
-        Pass 2:  converts the MSR into a
+        Pass 2:  converts the first MSR into a second MSR;
+        Pass 3:  converts the second MSR into a
                  LilyPond Score Representation (LPSR);
-        Pass 3:  converts the LPSR to LilyPond code
+        Pass 4:  converts the LPSR to LilyPond code
                  and writes it to standard output.)";
       break;
 
     case multiGeneratorOutputKind::kBrailleOutput:
       specificPart =
 R"(
-        Pass 2a: converts the MSR into a
+        Pass 2:  converts the first MSR into a second MSR;
+        Pass 3a: converts the second MSR into a
                  Braille Score Representation (BSR)
                  containing one Braille page per MusicXML page;
-        Pass 2b: converts the BSRinto another BSR
+        Pass 3b: converts the BSRinto another BSR
                  with as many Braille pages as needed
                  to fit the line and page lengthes;
-        Pass 3:  converts the BSR to braille music text
+        Pass 4:  converts the BSR to braille music text
                  and writes it to standard output.)
 
     In this preliminary version, pass 2b merely clones the BSR it receives.)";
@@ -303,7 +305,7 @@ R"(
     case multiGeneratorOutputKind::kMusicXMLOutput:
       specificPart =
 R"(
-        Pass 2:  converts the MSR into a second MSR;
+        Pass 2:  converts the first MSR into a second MSR;
         Pass 3:  converts the second MSR into an MusicXML tree;
         Pass 4:  converts the MusicXML tree to MusicXML code
                  and writes it to standard output.)";
@@ -418,6 +420,10 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
   appendGroupToHandler (
     createGlobalMsrOahGroup ());
 
+  // create the msr2msr OAH group
+  appendGroupToHandler (
+    createGlobalMsr2msrOahGroup ());
+
   // create the groups needed according to the generated output kind
   /*
     CAUTION:
@@ -432,10 +438,6 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
       break;
 
     case multiGeneratorOutputKind::kGuidoOutput:
-      // create the msr2msr OAH group
-      appendGroupToHandler (
-        createGlobalMsr2msrOahGroup ());
-
       // create the msr2mxmlTree OAH group
       appendGroupToHandler (
         createGlobalMxmltreeGenerationOahGroup ());
@@ -503,10 +505,6 @@ void msdlCompilerInsiderHandler::createTheMsdlCompilerOptionGroups (
       break;
 
     case multiGeneratorOutputKind::kMusicXMLOutput:
-      // create the msr2msr OAH group
-      appendGroupToHandler (
-        createGlobalMsr2msrOahGroup ());
-
       // create the msr2mxmlTree OAH group
       appendGroupToHandler (
         createGlobalMxmltreeGenerationOahGroup ());
@@ -1083,12 +1081,17 @@ S_msdlCompilerInsiderOahGroup createGlobalmsdlCompilerInsiderOahGroup ()
     appendVersionToVersionInfoList (
       "Initial",
       "December 2020",
-      "First draft version");
+      "Draft version");
 
     appendVersionToVersionInfoList (
       "1.001",
       "March 2021",
       "First version, compiles HelloWorld.msdl");
+
+    appendVersionToVersionInfoList (
+      "1.002",
+      "March 2021",
+      "Added keywords octaves, tab");
   }
 
   // return the global OAH group

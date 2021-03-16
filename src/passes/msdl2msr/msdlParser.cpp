@@ -95,8 +95,8 @@ msdlParser::msdlParser (
       getMsrQuarterTonesPitchesLanguageKind ();
 
   // pitches octaves
-  fPitchesOctaveEntryKind =
-    msrOctaveEntryKind::kOctaveEntryRelative; // default value
+  fOctavesEntryKind =
+    msrOctaveEntryKind::kOctaveEntryAbsolute; // default value
 
   // input source name
   fInputSourceName = inputSourceName;
@@ -166,6 +166,10 @@ void msdlParser::initializeTokensHandling ()
     msdlTokenKindsSet::create ({
       msdlTokenKind::kTokenName});
 
+  fOctavesFIRST =
+    msdlTokenKindsSet::create ({
+      msdlTokenKind::kTokenOctaves});
+
   fOctaveIndicationFIRST =
     msdlTokenKindsSet::create ({
       msdlTokenKind::kTokenComma,
@@ -175,6 +179,15 @@ void msdlParser::initializeTokensHandling ()
     msdlTokenKindsSet::create ({
       msdlTokenKind::kTokenInteger,
       msdlTokenKind::kTokenName});
+
+  // Clef
+  fClefFIRST =
+    msdlTokenKindsSet::create ({
+      msdlTokenKind::kTokenClef});
+
+  fClefFOLLOW =
+    msdlTokenKindsSet::create ({
+      msdlTokenKind::kTokenRightBracket});
 
   // Measure
   fMeasureFIRST =
@@ -1889,6 +1902,100 @@ void msdlParser::Pitches (S_msdlTokenKindsSet stopperTokensSet)
       if (fTraceSyntax) {
         gLogStream <<
           "=== Pitches()" <<
+          ", fPitchesLanguageKind: \"" <<
+          msrQuarterTonesPitchesLanguageKindAsString (fPitchesLanguageKind) <<
+          "\"" <<
+          endl;
+      }
+#endif
+
+      fetchNextToken ();
+    }
+  }
+
+  --gIndenter;
+
+  if (stopperTokensSet->getTokenKindsSetSize ()) {
+    fMsdlTokensSetsStack.pop_front ();
+  }
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      endl <<
+      "<-- Pitches()" <<
+      ", fCurrentToken: " << currentTokenAsString () <<
+      endl <<
+      "=================================================================" <<
+      endl;
+  }
+#endif
+}
+
+// --------------------------------------------------------------------------
+//  msdlParser::Octaves
+// --------------------------------------------------------------------------
+
+void msdlParser::Octaves (S_msdlTokenKindsSet stopperTokensSet)
+{
+  if (stopperTokensSet->getTokenKindsSetSize ()) {
+    fMsdlTokensSetsStack.push_front (stopperTokensSet);
+  }
+
+#ifdef TRACING_IS_ENABLED
+  if (fTraceSyntax) {
+    gLogStream <<
+      endl <<
+      "=================================================================" <<
+      endl <<
+      "--> Pitches()" <<
+      ", fCurrentToken: " << currentTokenAsString () <<
+      endl;
+  }
+
+  ++gIndenter;
+
+  if (fTraceSyntaxErrorRecovery) {
+    displayTokenKindsSetsStack ("Octaves");
+  }
+#endif
+
+  if (
+    checkOptionalTokenKind (
+      __FILE__, __LINE__,
+      msdlTokenKind::kTokenOctaves,
+      "Octaves")
+  ) {
+//  if (fCurrentTokenKind == msdlTokenKind::kTokenOctaves) {
+    // consume the octaves token
+    fetchNextToken ();
+
+    if (checkMandatoryTokenKind (
+      __FILE__, __LINE__,
+      msdlTokenKind::kTokenName,
+      "Octaves")
+    ) {
+      // get the pitches language name
+      string pitchesLanguageName = fCurrentToken.getTokenDescription ().getString ();
+
+#ifdef TRACING_IS_ENABLED
+      if (fTraceSyntax) {
+        gLogStream <<
+          "=== Octaves()" <<
+          ", pitchesLanguageName: \"" << pitchesLanguageName << "\"" <<
+          endl;
+      }
+#endif
+
+      // set the pitches language name // also in the MSR identification ??? JMI
+      fPitchesLanguageKind =
+        msrQuarterTonesPitchesLanguageKindFromString (
+          pitchesLanguageName);
+
+#ifdef TRACING_IS_ENABLED
+      if (fTraceSyntax) {
+        gLogStream <<
+          "=== Octaves()" <<
           ", fPitchesLanguageKind: \"" <<
           msrQuarterTonesPitchesLanguageKindAsString (fPitchesLanguageKind) <<
           "\"" <<

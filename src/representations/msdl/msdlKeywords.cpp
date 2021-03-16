@@ -206,6 +206,7 @@ void initializeEnglishKeywordsNamesMap ()
   gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordOpus]      = "opus";
 
   gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordPitches]   = "pitches";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordOctaves]   = "octaves";
 
   gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordAnacrusis] = "anacrusis";
 
@@ -223,6 +224,7 @@ void initializeEnglishKeywordsNamesMap ()
   gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordTenor]     = "tenor";
   gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordBaryton]   = "baryton";
   gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordBass]      = "bass";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordTab]       = "tab";
 
   gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordKey]       = "key";
 
@@ -237,6 +239,7 @@ void initializeFrenchKeywordsNamesMap ()
   gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordOpus]      = "opus";
 
   gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordPitches]   = "hauteurs";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordOctaves]  = "octaves";
 
   gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordAnacrusis] = "anacrouse";
 
@@ -254,6 +257,7 @@ void initializeFrenchKeywordsNamesMap ()
   gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordTenor]     = "ténor";
   gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordBaryton]   = "baryton";
   gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordBass]      = "fa";
+  gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordTab]       = "tab";
 
   gGlobalFrenchKeywordsNamesMap [msdlKeywordKind::kKeywordKey]       = "armure";
 
@@ -268,6 +272,7 @@ void initializeItalianKeywordsNamesMap ()
   gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordOpus]      = "opus";
 
   gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordPitches]   = "pitches";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordOctaves]   = "octaves";
 
   gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordAnacrusis] = "anacrusis";
 
@@ -285,6 +290,7 @@ void initializeItalianKeywordsNamesMap ()
   gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordTenor]     = "tenor";
   gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordBaryton]   = "baryton";
   gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordBass]      = "bass";
+  gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordTab]       = "tab";
 
   gGlobalItalianKeywordsNamesMap [msdlKeywordKind::kKeywordKey]       = "key";
 
@@ -299,6 +305,7 @@ void initializeGermanKeywordsNamesMap ()
   gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordOpus]      = "opus";
 
   gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordPitches]   = "pitches";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordOctaves]   = "octaves";
 
   gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordAnacrusis] = "anacrusis";
 
@@ -316,6 +323,7 @@ void initializeGermanKeywordsNamesMap ()
   gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordTenor]     = "tenor";
   gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordBaryton]   = "baryton";
   gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordBass]      = "bass";
+  gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordTab]       = "tab";
 
   gGlobalGermanKeywordsNamesMap [msdlKeywordKind::kKeywordKey]       = "key";
 
@@ -330,6 +338,7 @@ void initializeSpanishKeywordsNamesMap ()
   gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordOpus]      = "opus";
 
   gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordPitches]   = "pitches";
+  gGlobalEnglishKeywordsNamesMap [msdlKeywordKind::kKeywordOctaves]   = "octaves";
 
   gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordAnacrusis] = "anacrusis";
 
@@ -347,6 +356,7 @@ void initializeSpanishKeywordsNamesMap ()
   gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordTenor]     = "tenor";
   gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordBaryton]   = "baryton";
   gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordBass]      = "bass";
+  gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordTab]       = "tab";
 
   gGlobalSpanishKeywordsNamesMap [msdlKeywordKind::kKeywordKey]       = "key";
 
@@ -361,6 +371,7 @@ void initializeDutchKeywordsNamesMap ()
   gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordOpus]      = "opus";
 
   gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordPitches]   = "pitches";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordOctaves]   = "octaves";
 
   gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordAnacrusis] = "anacrusis";
 
@@ -378,6 +389,7 @@ void initializeDutchKeywordsNamesMap ()
   gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordTenor]     = "tenor";
   gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordBaryton]   = "baryton";
   gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordBass]      = "bass";
+  gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordTab]       = "tab";
 
   gGlobalDutchKeywordsNamesMap [msdlKeywordKind::kKeywordKey]       = "key";
 
@@ -394,74 +406,80 @@ string msdlKeywordKindAsString (
 
   switch (keywordKind) {
     case msdlKeywordKind::k_NoKeywordKind:
-      result = "*noMsdlKeywordKind*";
+      result = "*noKeywordKind*";
       break;
 
     case msdlKeywordKind::kKeywordTitle:
-      result = "msdlKeywordTitle";
+      result = "keywordTitle";
       break;
     case msdlKeywordKind::kKeywordComposer:
-      result = "msdlKeywordComposer";
+      result = "keywordComposer";
       break;
     case msdlKeywordKind::kKeywordOpus:
-      result = "msdlKeywordOpus";
+      result = "keywordOpus";
       break;
 
     case msdlKeywordKind::kKeywordPitches:
-      result = "msdlKeywordPitches";
+      result = "keywordPitches";
+      break;
+    case msdlKeywordKind::kKeywordOctaves:
+      result = "keywordOctaves";
       break;
 
     case msdlKeywordKind::kKeywordBook:
-      result = "msdlKeywordBook";
+      result = "keywordBook";
       break;
     case msdlKeywordKind::kKeywordScore:
-      result = "msdlKeywordScore";
+      result = "keywordScore";
       break;
     case msdlKeywordKind::kKeywordPartGroup:
-      result = "msdlKeywordPartGroup";
+      result = "keywordPartGroup";
       break;
     case msdlKeywordKind::kKeywordPart:
-      result = "msdlKeywordPart";
+      result = "keywordPart";
       break;
     case msdlKeywordKind::kKeywordMusic:
-      result = "msdlKeywordMusic";
+      result = "keywordMusic";
       break;
     case msdlKeywordKind::kKeywordFragment:
-      result = "msdlKeywordFragment";
+      result = "keywordFragment";
       break;
 
     case msdlKeywordKind::kKeywordAnacrusis:
-      result = "msdlKeywordAnacrusis";
+      result = "keywordAnacrusis";
       break;
 
     case msdlKeywordKind::kKeywordClef:
-      result = "msdlKeywordClef";
+      result = "keywordClef";
       break;
     case msdlKeywordKind::kKeywordTreble:
-      result = "msdlKeywordTreble";
+      result = "keywordTreble";
       break;
     case msdlKeywordKind::kKeywordSoprano:
-      result = "msdlKeywordSoprano";
+      result = "keywordSoprano";
       break;
     case msdlKeywordKind::kKeywordAlto:
-      result = "msdlKeywordAlto";
+      result = "keywordAlto";
       break;
     case msdlKeywordKind::kKeywordTenor:
-      result = "msdlKeywordTenor";
+      result = "keywordTenor";
       break;
     case msdlKeywordKind::kKeywordBaryton:
-      result = "msdlKeywordBaryton";
+      result = "keywordBaryton";
       break;
     case msdlKeywordKind::kKeywordBass:
-      result = "msdlKeywordBass";
+      result = "keywordBass";
+      break;
+    case msdlKeywordKind::kKeywordTab:
+      result = "keywordTab";
       break;
 
     case msdlKeywordKind::kKeywordKey:
-      result = "msdlKeywordKey";
+      result = "keywordKey";
       break;
 
     case msdlKeywordKind::kKeywordTime:
-      result = "msdlKeywordTime";
+      result = "keywordTime";
       break;
   } // switch
 
@@ -564,6 +582,9 @@ msdlKeywordKind msdlKeywordKindFromTokenKind (
     case msdlTokenKind::kTokenPitches:
       result = msdlKeywordKind::kKeywordPitches;
       break;
+    case msdlTokenKind::kTokenOctaves:
+      result = msdlKeywordKind::kKeywordOctaves;
+      break;
 
     case msdlTokenKind::kTokenAnacrusis:
       result = msdlKeywordKind::kKeywordAnacrusis;
@@ -612,6 +633,9 @@ msdlKeywordKind msdlKeywordKindFromTokenKind (
       break;
     case msdlTokenKind::kTokenBass:
       result = msdlKeywordKind::kKeywordBass;
+      break;
+    case msdlTokenKind::kTokenTab:
+      result = msdlKeywordKind::kKeywordTab;
       break;
 
     case msdlTokenKind::kTokenTime:

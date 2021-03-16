@@ -26,6 +26,7 @@
 #include "oahOah.h"
 
 #include "msrOah.h"
+#include "msr2msrOah.h"
 #include "msr2bsrOah.h"
 #include "bsrOah.h"
 
@@ -37,6 +38,7 @@
 #include "msdl2brlInsiderHandler.h"
 #include "msdl2brlRegularHandler.h"
 
+#include "msr2msrInterface.h"
 #include "msr2bsrInterface.h"
 #include "bsr2bsrFinalizerInterface.h"
 #include "bsr2brailleTranslatorInterface.h"
@@ -66,15 +68,34 @@ xmlErr msdlStream2brailleWithHandler (
       enforceHandlerQuietness ();
   }
 
-  // the MSR score
+  // the first MSR score
   // ------------------------------------------------------
 
-  S_msrScore theMsrScore;
+  S_msrScore firstMsrScore;
 
-  // translating the MSDL input into an MSR score (pass 1)
+  // translating the MSDL input into a first MSR (pass 1)
   // ------------------------------------------------------
 
   try {
+    // start the clock
+    clock_t startClock = clock ();
+
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTracePasses ()) {
+      string separator =
+        "%--------------------------------------------------------------";
+      cerr <<
+        endl <<
+        separator <<
+        endl <<
+        gTab <<
+        "Pass 1: Creating a first MSR from the MSDL input" <<
+        endl <<
+        separator <<
+        endl;
+    }
+#endif
+
     // create the MSDL parser
     msdlParser
       parser (
@@ -86,10 +107,20 @@ xmlErr msdlStream2brailleWithHandler (
 
     // get the resulting score
     // JMI an msrBook should also be handled
-    theMsrScore = parser.getCurrentScore ();
+    firstMsrScore = parser.getCurrentScore ();
+
+    // register time spent
+    clock_t endClock = clock ();
+
+    timing::gGlobalTiming.appendTimingItem (
+      "Pass 1",
+      "Create the first MSR from the MSDL input",
+      timingItem::kMandatory,
+      startClock,
+      endClock);
 
     // sanity check
-    if (! theMsrScore) {
+    if (! firstMsrScore) {
       stringstream s;
 
       s <<
@@ -127,19 +158,42 @@ xmlErr msdlStream2brailleWithHandler (
     return kNoErr;
   }
 
+  // convert the first MSR into a second MSR (pass 2)
+  // ------------------------------------------------------
+
+  S_msrScore secondMsrScore;
+
+  try {
+    secondMsrScore =
+      convertMsrScoreToMsrScore (
+        firstMsrScore,
+        gGlobalMsrOahGroup,
+        gGlobalMsr2msrOahGroup,
+        "Pass 2",
+        "Convert the first MSR into a second MSR");
+  }
+  catch (msgMxmlTreeToMsrException& e) {
+    displayException (e, gOutputStream);
+    return kInvalidFile;
+  }
+  catch (std::exception& e) {
+    displayException (e, gOutputStream);
+    return kInvalidFile;
+  }
+
   // the first BSR score
   // ------------------------------------------------------
 
   S_bsrScore firstBsrScore;
 
   {
-    // create the first BSR from the MSR (pass 2)
+    // create the first BSR from the second MSR (pass 2)
     // ------------------------------------------------------
 
     try {
       firstBsrScore =
         convertMsrScoreToBsrScore (
-          theMsrScore,
+          secondMsrScore,
           gGlobalMsrOahGroup,
           gGlobalBsrOahGroup,
           "Pass 2",

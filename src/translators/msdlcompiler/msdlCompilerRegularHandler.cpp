@@ -294,6 +294,8 @@ void msdlCompilerRegularHandler::createMsdlRegularGroup ()
   // atoms from the insider handler
 
   registerAtomInRegularSubgroup ("msdl-keywords-input-language", subGroup);
+  registerAtomInRegularSubgroup ("display-keywords-in-language", subGroup);
+  registerAtomInRegularSubgroup ("display-tokens-in-language", subGroup);
 }
 
 void msdlCompilerRegularHandler::createOutputRegularGroup ()

@@ -1171,8 +1171,8 @@ void msdl2lyRegularHandler::createTablaturesRegularGroup ()
 
   // atoms
 
-  registerAtomInRegularSubgroup ("tabFullNotation", subGroup);
-  registerAtomInRegularSubgroup ("modernTab", subGroup);
+  registerAtomInRegularSubgroup ("tab-full-notation", subGroup);
+  registerAtomInRegularSubgroup ("modern-tab", subGroup);
 }
 
 void msdl2lyRegularHandler::createHarmoniesRegularGroup ()

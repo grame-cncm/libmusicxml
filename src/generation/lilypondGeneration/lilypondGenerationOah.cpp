@@ -958,10 +958,10 @@ ostream& operator<< (ostream& os, const S_lilypondTransposePartIDAtom& elt)
 
 //______________________________________________________________________________
 S_lilypondAbsoluteOctaveEntryAtom lilypondAbsoluteOctaveEntryAtom::create (
-  string               shortName,
-  string               longName,
-  string               description,
-  string               variableName,
+  string              shortName,
+  string              longName,
+  string              description,
+  string              variableName,
   msrOctaveEntryKind& msrOctaveEntryKindVariable)
 {
   lilypondAbsoluteOctaveEntryAtom* o = new
@@ -976,10 +976,10 @@ S_lilypondAbsoluteOctaveEntryAtom lilypondAbsoluteOctaveEntryAtom::create (
 }
 
 lilypondAbsoluteOctaveEntryAtom::lilypondAbsoluteOctaveEntryAtom (
-  string               shortName,
-  string               longName,
-  string               description,
-  string               variableName,
+  string              shortName,
+  string              longName,
+  string              description,
+  string              variableName,
   msrOctaveEntryKind& msrOctaveEntryKindVariable)
   : oahAtomStoringAValueInAVariable (
       shortName,
@@ -3581,7 +3581,7 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "mtab", "modernTab",
+        "mtab", "modern-tab",
 R"(Generate '\moderntab' instead of the default '\tab'.)",
         "modernTab",
         fModernTab));
@@ -3591,7 +3591,7 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "tfn", "tabFullNotation",
+        "tfn", "tab-full-notation",
 R"(Generate '\tabFullNotation' to obtain more complete tab notation,
 including note stems.)",
         "tabFullNotation",

@@ -148,7 +148,9 @@ class msdlParser : public smartable
     // pitches
     msrQuarterTonesPitchesLanguageKind
                           fPitchesLanguageKind;
-    msrOctaveEntryKind    fPitchesOctaveEntryKind;
+
+    // octaves
+    msrOctaveEntryKind    fOctavesEntryKind;
 
     // input source name
     string                fInputSourceName;
@@ -294,6 +296,10 @@ class msdlParser : public smartable
     S_msdlTokenKindsSet   fMeasureFIRST;
     S_msdlTokenKindsSet   fMeasureFOLLOW;
 
+    // Clef
+    S_msdlTokenKindsSet   fClefFIRST;
+    S_msdlTokenKindsSet   fClefFOLLOW;
+
     // Note
     S_msdlTokenKindsSet   fNoteFIRST;
     S_msdlTokenKindsSet   fNoteFOLLOW;
@@ -301,6 +307,10 @@ class msdlParser : public smartable
     // Pitch
     S_msdlTokenKindsSet   fPitchFIRST;
     S_msdlTokenKindsSet   fPitchFOLLOW;
+
+    // Octaves
+    S_msdlTokenKindsSet   fOctavesFIRST;
+    S_msdlTokenKindsSet   fOctavesFOLLOW;
 
     // OctaveIndication
     S_msdlTokenKindsSet   fOctaveIndicationFIRST;
@@ -337,6 +347,9 @@ class msdlParser : public smartable
     void                    PitchesLanguage (S_msdlTokenKindsSet stopperTokensSet);
 
     void                    PitchesOctaveEntry (S_msdlTokenKindsSet stopperTokensSet);
+
+    // octaves
+    void                  Octaves (S_msdlTokenKindsSet stopperTokensSet);
 
     // anacrusis
     void                  Anacrusis (S_msdlTokenKindsSet stopperTokensSet);

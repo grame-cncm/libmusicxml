@@ -181,7 +181,7 @@ if (GUIDO)
 endif()
 
 if (MSDL)
-	set (SRCFOLDERS ${SRCFOLDERS} representations/msdl representations/msdr passes/msdl2msr passes/msdl2msr translators/msdlcompiler translators/msdl2braille translators/msdl2guido translators/msdl2lilypond translators/msdl2musicxml cli/msdl)
+	set (SRCFOLDERS ${SRCFOLDERS} representations/msdl representations/msdr passes/msdl2msr passes/msdl2msr translators/msdlcompiler translators/msdl2braille translators/msdl2guido translators/msdl2lilypond translators/msdl2musicxml)
 endif()
 
 foreach(folder ${SRCFOLDERS})

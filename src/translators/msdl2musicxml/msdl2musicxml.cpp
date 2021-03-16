@@ -73,15 +73,34 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
       enforceHandlerQuietness ();
   }
 
-  // the MSR score
+  // the first MSR score
   // ------------------------------------------------------
 
   S_msrScore firstMsrScore;
 
-  // translating the MSDL input into an MSR score (pass 1)
+  // translating the MSDL input into a first MSR (pass 1)
   // ------------------------------------------------------
 
   try {
+    // start the clock
+    clock_t startClock = clock ();
+
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTracePasses ()) {
+      string separator =
+        "%--------------------------------------------------------------";
+      cerr <<
+        endl <<
+        separator <<
+        endl <<
+        gTab <<
+        "Pass 1: Creating a first MSR from the MSDL input" <<
+        endl <<
+        separator <<
+        endl;
+    }
+#endif
+
     // create the MSDL parser
     msdlParser
       parser (
@@ -94,6 +113,16 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
     // get the resulting score
     // JMI an msrBook should also be handled
     firstMsrScore = parser.getCurrentScore ();
+
+    // register time spent
+    clock_t endClock = clock ();
+
+    timing::gGlobalTiming.appendTimingItem (
+      "Pass 1",
+      "Create the first MSR from the MSDL input",
+      timingItem::kMandatory,
+      startClock,
+      endClock);
 
     // sanity check
     if (! firstMsrScore) {
@@ -134,7 +163,7 @@ EXP xmlErr msdlStream2musicxmlWithHandler (
     return kNoErr;
   }
 
-  // convert the MSR score into a second MSR (pass 2)
+  // convert the MSR into a second MSR (pass 2)
   // ------------------------------------------------------
 
   S_msrScore secondMsrScore;

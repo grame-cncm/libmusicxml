@@ -311,10 +311,10 @@ class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomStoringAValueInAVariab
     // ------------------------------------------------------
 
     static SMARTP<lilypondAbsoluteOctaveEntryAtom> create (
-                            string               shortName,
-                            string               longName,
-                            string               description,
-                            string               variableName,
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            string              variableName,
                             msrOctaveEntryKind& msrOctaveEntryKindVariable);
 
   protected:
@@ -323,10 +323,10 @@ class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomStoringAValueInAVariab
     // ------------------------------------------------------
 
                           lilypondAbsoluteOctaveEntryAtom (
-                            string               shortName,
-                            string               longName,
-                            string               description,
-                            string               variableName,
+                            string              shortName,
+                            string              longName,
+                            string              description,
+                            string              variableName,
                             msrOctaveEntryKind& msrOctaveEntryKindVariable);
 
     virtual               ~lilypondAbsoluteOctaveEntryAtom ();

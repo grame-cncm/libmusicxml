@@ -34,8 +34,8 @@ const char* versions::xml2xmlVersionStr()       { return "0.02"; }
 float   versions::xml2gmnVersion()              { return 0.02f; }
 const char* versions::xml2gmnVersionStr()       { return "0.02"; }
 
-float   versions::msdlVersion()                 { return 1.001f; }
-const char* versions::msdlVersionStr()          { return "1.001"; }
+float   versions::msdlVersion()                 { return 1.002f; }
+const char* versions::msdlVersionStr()          { return "1.002"; }
 
 /*
 float   versions::xml2bmmlVersion()             { return 0.01f; }

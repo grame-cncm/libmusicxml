@@ -1304,7 +1304,7 @@ void oahContactAtom::printContact (ostream& os) const
       regex_replace (
   R"(To contact the maintainers of EXECUTABLE_NAME:
     Send a mail to mailto:lilypond-user@gnu.org describing the problem
-    and error messages you obtain if relevant.)",
+    and any error messages you get if relevant.)",
         regex ("EXECUTABLE_NAME"),
         fHelpAtomWithoutValueExecutableName)) <<
     endl;

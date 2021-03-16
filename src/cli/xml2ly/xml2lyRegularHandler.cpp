@@ -1171,8 +1171,8 @@ void xml2lyRegularHandler::createTablaturesRegularGroup ()
 
   // atoms
 
-  registerAtomInRegularSubgroup ("tabFullNotation", subGroup);
-  registerAtomInRegularSubgroup ("modernTab", subGroup);
+  registerAtomInRegularSubgroup ("tab-full-notation", subGroup);
+  registerAtomInRegularSubgroup ("modern-tab", subGroup);
 }
 
 void xml2lyRegularHandler::createHarmoniesRegularGroup ()

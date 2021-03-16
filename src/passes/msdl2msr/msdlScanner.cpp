@@ -401,7 +401,7 @@ msdlTokenKind msdlScanner::fetchNextToken (
         fNextCharacterIsAvailable = false;
         break;
       case '\t' :
-        fCurrentTokenKind = msdlTokenKind::kTokenTab;
+        fCurrentTokenKind = msdlTokenKind::kTokenTabSeparator;
         fNextCharacterIsAvailable = false;
         break;
       case '\xD' :
@@ -620,7 +620,7 @@ msdlTokenKind msdlScanner::fetchNextToken (
       // ------------------------------------
 
       case msdlTokenKind::kTokenSpace:
-      case msdlTokenKind::kTokenTab:
+      case msdlTokenKind::kTokenTabSeparator:
       case msdlTokenKind::kTokenCarriageReturn:
       case msdlTokenKind::kTokenEndOfLine:
       case msdlTokenKind::kTokenParenthesizedComment:
@@ -991,6 +991,9 @@ void msdlScanner::acceptAName ()
     case msdlKeywordKind::kKeywordPitches:
       fCurrentTokenKind = msdlTokenKind::kTokenPitches;
       break;
+    case msdlKeywordKind::kKeywordOctaves:
+      fCurrentTokenKind = msdlTokenKind::kTokenOctaves;
+      break;
 
     case msdlKeywordKind::kKeywordAnacrusis:
       fCurrentTokenKind = msdlTokenKind::kTokenAnacrusis;
@@ -1035,6 +1038,9 @@ void msdlScanner::acceptAName ()
       break;
     case msdlKeywordKind::kKeywordBass:
       fCurrentTokenKind = msdlTokenKind::kTokenBass;
+      break;
+    case msdlKeywordKind::kKeywordTab:
+      fCurrentTokenKind = msdlTokenKind::kTokenTab;
       break;
 
     case msdlKeywordKind::kKeywordKey:

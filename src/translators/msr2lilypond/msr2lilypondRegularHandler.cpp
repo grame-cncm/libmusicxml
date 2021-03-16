@@ -1171,8 +1171,8 @@ void msr2lilypondRegularHandler::createTablaturesRegularGroup ()
 
   // atoms
 
-  registerAtomInRegularSubgroup ("tabFullNotation", subGroup);
-  registerAtomInRegularSubgroup ("modernTab", subGroup);
+  registerAtomInRegularSubgroup ("tab-full-notation", subGroup);
+  registerAtomInRegularSubgroup ("modern-tab", subGroup);
 }
 
 void msr2lilypondRegularHandler::createHarmoniesRegularGroup ()

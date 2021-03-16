@@ -890,7 +890,7 @@ void msr2msrOahGroup::initializeMsr2msrOahGroup ()
 
   // repeats
   // --------------------------------------
-  initializeRepeatsOptions ();
+//  initializeRepeatsOptions ();
 
   // notes
   // --------------------------------------

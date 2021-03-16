@@ -37,7 +37,6 @@
 #include "msdl2lyInsiderHandler.h"
 #include "msdl2lyRegularHandler.h"
 
-#include "msr2mxmlTreeInterface.h"
 #include "msr2lpsrInterface.h"
 #include "lpsr2lilypondInterface.h"
 
@@ -71,10 +70,29 @@ xmlErr msdlStream2lilypondWithHandler (
 
   S_msrScore theMsrScore;
 
-  // translating the MSDL input into an MSR score (pass 1)
+  // translating the MSDL input into an MSR (pass 1)
   // ------------------------------------------------------
 
   try {
+    // start the clock
+    clock_t startClock = clock ();
+
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTracePasses ()) {
+      string separator =
+        "%--------------------------------------------------------------";
+      cerr <<
+        endl <<
+        separator <<
+        endl <<
+        gTab <<
+        "Pass 1: Creating an MSR from the MSDL input" <<
+        endl <<
+        separator <<
+        endl;
+    }
+#endif
+
     // create the MSDL parser
     msdlParser
       parser (
@@ -87,6 +105,16 @@ xmlErr msdlStream2lilypondWithHandler (
     // get the resulting score
     // JMI an msrBook should also be handled
     theMsrScore = parser.getCurrentScore ();
+
+    // register time spent
+    clock_t endClock = clock ();
+
+    timing::gGlobalTiming.appendTimingItem (
+      "Pass 1",
+      "Create the first MSR from the MSDL input",
+      timingItem::kMandatory,
+      startClock,
+      endClock);
 
     // sanity check
     if (! theMsrScore) {

@@ -60,6 +60,7 @@ enum class msdlKeywordKind {
   kKeywordOpus,
 
 	kKeywordPitches,
+	kKeywordOctaves,
 
   kKeywordAnacrusis,
 
@@ -77,6 +78,7 @@ enum class msdlKeywordKind {
   kKeywordTenor,
   kKeywordBaryton,
   kKeywordBass,
+  kKeywordTab,
 
   kKeywordKey,
 

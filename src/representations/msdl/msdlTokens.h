@@ -40,7 +40,7 @@ enum class msdlTokenKind {
   // ------------------------------------
 
   kTokenSpace,
-  kTokenTab,
+  kTokenTabSeparator,
   kTokenCarriageReturn,
 
   kTokenEndOfLine,
@@ -107,6 +107,7 @@ enum class msdlTokenKind {
   kTokenOpus,
 
   kTokenPitches,
+  kTokenOctaves,
 
   kTokenAnacrusis,
 
@@ -124,6 +125,7 @@ enum class msdlTokenKind {
   kTokenTenor,
   kTokenBaryton,
   kTokenBass,
+  kTokenTab,
 
   kTokenKey,
 

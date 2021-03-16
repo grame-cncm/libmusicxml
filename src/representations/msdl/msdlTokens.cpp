@@ -60,7 +60,7 @@ string msdlTokenKindAsString (
     case msdlTokenKind::kTokenSpace:
       s << "tokenSpace";
       break;
-    case msdlTokenKind::kTokenTab:
+    case msdlTokenKind::kTokenTabSeparator:
       s << "tokenTab";
       break;
     case msdlTokenKind::kTokenCarriageReturn:
@@ -202,6 +202,9 @@ string msdlTokenKindAsString (
     case msdlTokenKind::kTokenPitches:
       s << "tokenPitches";
       break;
+    case msdlTokenKind::kTokenOctaves:
+      s << "tokenOctaves";
+      break;
 
     case msdlTokenKind::kTokenAnacrusis:
       s << "tokenAnacrusis";
@@ -250,6 +253,9 @@ string msdlTokenKindAsString (
       break;
     case msdlTokenKind::kTokenBass:
       s << "tokenBass";
+      break;
+    case msdlTokenKind::kTokenTab:
+      s << "tokenTab";
       break;
 
     case msdlTokenKind::kTokenTime:
@@ -320,7 +326,7 @@ string msdlTokenKindAsMsdlString (
     case msdlTokenKind::kTokenSpace:
       result = "SPACE";
       break;
-    case msdlTokenKind::kTokenTab:
+    case msdlTokenKind::kTokenTabSeparator:
       result = "TAB";
       break;
     case msdlTokenKind::kTokenCarriageReturn:
@@ -494,6 +500,9 @@ msdlTokenKind msdlTokenKindFromKeywordKind (
     case msdlKeywordKind::kKeywordPitches:
       result = msdlTokenKind::kTokenPitches;
       break;
+    case msdlKeywordKind::kKeywordOctaves:
+      result = msdlTokenKind::kTokenOctaves;
+      break;
 
     case msdlKeywordKind::kKeywordBook:
       result = msdlTokenKind::kTokenBook;
@@ -538,6 +547,9 @@ msdlTokenKind msdlTokenKindFromKeywordKind (
       break;
     case msdlKeywordKind::kKeywordBass:
       result = msdlTokenKind::kTokenBass;
+      break;
+    case msdlKeywordKind::kKeywordTab:
+      result = msdlTokenKind::kTokenTab;
       break;
 
     case msdlKeywordKind::kKeywordKey:
@@ -1435,7 +1447,7 @@ string msdlToken::asString () const
     case msdlTokenKind::kTokenSpace:
       s << "SPACE";
       break;
-    case msdlTokenKind::kTokenTab:
+    case msdlTokenKind::kTokenTabSeparator:
       s << "TAB";
       break;
     case msdlTokenKind::kTokenCarriageReturn:
@@ -1610,7 +1622,7 @@ string msdlToken::asMsdlString (
     case msdlTokenKind::kTokenSpace:
       s << " ";
       break;
-    case msdlTokenKind::kTokenTab:
+    case msdlTokenKind::kTokenTabSeparator:
       s << "TokenTab";
       break;
     case msdlTokenKind::kTokenCarriageReturn:
@@ -1791,7 +1803,7 @@ void msdlToken::print (ostream& os) const
     case msdlTokenKind::kTokenSpace:
       os << "SPACE";
       break;
-    case msdlTokenKind::kTokenTab:
+    case msdlTokenKind::kTokenTabSeparator:
       os << "TAB";
       break;
     case msdlTokenKind::kTokenCarriageReturn:

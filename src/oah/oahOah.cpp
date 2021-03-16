@@ -69,7 +69,7 @@ void insiderOahAtom::applyElement (ostream& os)
   }
 #endif
 
-  // do nothing, choosing the the insider OAH handler has been done in xml2xml.cpp
+  // do nothing, choosing the insider OAH handler has been done already
 }
 
 void insiderOahAtom::acceptIn (basevisitor* v)
@@ -197,7 +197,7 @@ void regularOahAtom::applyElement (ostream& os)
   }
 #endif
 
-  // do nothing, choosing the the regular OAH handler has been done in xml2xml.cpp
+  // do nothing, choosing the regular OAH handler has been done already
 }
 
 void regularOahAtom::acceptIn (basevisitor* v)
@@ -356,7 +356,10 @@ This unleashes the full set of display and trace options.)"));
     appendAtomToSubGroup (
       oahHelpAtom::create (
         "h", "help",
-R"(Display xml2xml's full help.)",
+        regex_replace (
+R"(Display EXECUTABLE_NAME's full help.)",
+          regex ("EXECUTABLE_NAME"),
+          executableName),
         executableName));
 
   // help options usage
@@ -365,7 +368,10 @@ R"(Display xml2xml's full help.)",
     appendAtomToSubGroup (
       oahOptionsUsageAtom::create (
         "hou", "help-options-usage",
-R"(Print options usage help.)",
+        regex_replace (
+R"(Display EXECUTABLE_NAME's options usage help.)",
+          regex ("EXECUTABLE_NAME"),
+          executableName),
         executableName));
 
   // help summary
@@ -374,7 +380,10 @@ R"(Print options usage help.)",
     appendAtomToSubGroup (
       oahHelpSummaryAtom::create (
         "hs", "help-summary",
-R"(Display a help summary and quit.)",
+        regex_replace (
+R"(Display EXECUTABLE_NAME's help summary and quit.)",
+          regex ("EXECUTABLE_NAME"),
+          executableName),
         executableName));
 
   // about
@@ -383,7 +392,10 @@ R"(Display a help summary and quit.)",
     appendAtomToSubGroup (
       oahAboutAtom::create (
         "a", "about",
-R"(Display information about xml2ly.)",
+        regex_replace (
+R"(Display information about EXECUTABLE_NAME.)",
+          regex ("EXECUTABLE_NAME"),
+          executableName),
         executableName));
 
   // version
@@ -392,7 +404,10 @@ R"(Display information about xml2ly.)",
     appendAtomToSubGroup (
       oahVersionAtom::create (
         "v", "version",
-R"(Display xml2ly's version number and history.)",
+        regex_replace (
+R"(Display EXECUTABLE_NAME's version number and history.)",
+          regex ("EXECUTABLE_NAME"),
+          executableName),
         executableName));
 
   // contact
@@ -401,7 +416,10 @@ R"(Display xml2ly's version number and history.)",
     appendAtomToSubGroup (
       oahContactAtom::create (
         "c", "contact",
-R"(Display information about how to contacct xml2ly maintainers.)",
+        regex_replace (
+R"(Display information about how to contact the maintainers of EXECUTABLE_NAME.)",
+          regex ("EXECUTABLE_NAME"),
+          executableName),
         executableName));
 
   // help about option name
