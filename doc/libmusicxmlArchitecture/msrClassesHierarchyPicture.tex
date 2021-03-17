@@ -1,0 +1,422 @@
+\begin{adjustwidth}{0cm}{0cm}
+\begin{figure}[ht]
+\caption {\msr classes hierarchy}
+\label{\msr classes hierarchy}
+\begin{center}
+
+
+%\tikzset{
+%  my loop/.style={->,to path={
+%    .. controls +(80:1) and +(100:1) .. (\tikztotarget) \tikztonodes}
+%    },
+%  my state/.style={circle,draw}
+%}
+
+
+% -------------------------------------------------------------------------
+\begin{tikzpicture}[scale=0.55] 
+% -------------------------------------------------------------------------
+
+% elements positions
+% ------------------------------------------------
+
+\tikzmath{
+  % the ordinates
+  \msrBookOrd         =  0;
+  \msrScoreOrd        = -1mm;
+  \msrPartGroupOrd    = -2mm;
+  \msrPartOrd         = -3mm;
+  \msrStaffOrd        = -4mm;
+  \msrVoiceOrd        = -5mm;
+  \msrSegmentOrd      = -6.75mm;
+  \msrMeasureOrd      = -8.25mm;
+  %
+  \leftColumnAbs        = -3.5mm;
+  \rightColumnAbs       = -\leftColumnAbs;
+  %
+  \msrStanzaOrd       	= \msrVoiceOrd - 0.75mm;
+  \msrSyllableOrd       = \msrVoiceOrd - 1.5mm;
+  %
+  \msrHarmonyOrd       	= \msrVoiceOrd - 2.5mm;
+  \msrFiguredBassOrd    = \msrVoiceOrd - 3.25mm;
+  %
+  \msrRepeatOrd       	= \msrVoiceOrd - 0.75mm;
+  \msrRestMeasuresOrd   = \msrVoiceOrd - 1.5mm;
+  \msrMeasuresRepeatOrd = \msrVoiceOrd - 2.25mm;
+  \msrBeatsRepeatOrd    = \msrVoiceOrd - 3mm;
+  %
+  \otherVoiceElementsOrd = \msrVoiceOrd - 3.75mm;
+  %
+  \msrTupletAbs         = - \rightColumnAbs * 0.6;
+  \msrTupletOrd         = \msrMeasureOrd - 1.5mm;
+  %
+  \msrGraceNotesGroupOrd = \msrMeasureOrd - 2.5mm;
+  %
+  \msrChordOrd          = \msrMeasureOrd - 3.5mm;
+  \msrChordAbs          = - \leftColumnAbs * 0.6;
+  %
+  \msrNoteOrd            = \msrMeasureOrd - 4.5mm;
+	%
+	\msrTupletToTupletExternalPointAbs = \msrTupletAbs - 1.75mm;
+  %
+  \msrSyllableToNoteExternalPointAbs = \leftColumnAbs - 1.5mm;
+  \msrSyllableToNoteExternalPointOrd = \msrNoteOrd - 0.5mm;
+  %
+  \msrHarmonyToNoteExternalPointAbs = \leftColumnAbs - 1mm;
+  \msrHarmonyToNoteExternalPointOrd = \msrNoteOrd + 0;
+  %
+  \msrFiguredBassToNoteExternalPointAbs = \leftColumnAbs - 0.5mm;
+  \msrFiguredBassToNoteExternalPointOrd = \msrNoteOrd + 0.5mm;
+  %
+}
+
+
+
+% The coordinates
+% ------------------------------------------------
+
+\coordinate (msrBook)      at (0,\msrBookOrd);
+\coordinate (msrScore)     at (0,\msrScoreOrd);
+\coordinate (msrPartGroup) at (0,\msrPartGroupOrd);
+\coordinate (msrPart)      at (0,\msrPartOrd);
+\coordinate (msrStaff)     at (0,\msrStaffOrd);
+\coordinate (msrVoice)     at (0,\msrVoiceOrd);
+\coordinate (msrSegment)   at (0,\msrSegmentOrd);
+\coordinate (msrMeasure)   at (0,\msrMeasureOrd);
+
+\coordinate (msrStanza)         at (\leftColumnAbs,\msrStanzaOrd);
+\coordinate (msrFiguredBass)    at (\leftColumnAbs,\msrFiguredBassOrd);
+
+\coordinate (msrHarmony)        at (\leftColumnAbs,\msrHarmonyOrd);
+\coordinate (msrSyllable)       at (\leftColumnAbs,\msrSyllableOrd);
+
+\coordinate (msrRepeat)         at (\rightColumnAbs,\msrRepeatOrd);
+\coordinate (msrRestMeasures)   at (\rightColumnAbs,\msrRestMeasuresOrd);
+\coordinate (msrMeasuresRepeat) at (\rightColumnAbs,\msrMeasuresRepeatOrd);
+\coordinate (msrBeatsRepeat)    at (\rightColumnAbs,\msrBeatsRepeatOrd);
+
+\coordinate (msrTuplet)              at (\msrTupletAbs,\msrTupletOrd);
+\coordinate (msrTupletToTupletExternalPoint) at (\msrTupletToTupletExternalPointAbs,\msrTupletOrd);
+
+\coordinate (msrChord)          at (\msrChordAbs,\msrChordOrd);
+
+\coordinate (msrGraceNotesGroup) at (0,\msrGraceNotesGroupOrd);
+
+\coordinate (msrNote)            at (0,\msrNoteOrd);
+
+\coordinate (otherVoiceElements) at (\rightColumnAbs,\otherVoiceElementsOrd);
+
+\coordinate (msrSyllableToNoteExternalPoint) at (\msrSyllableToNoteExternalPointAbs,\msrSyllableToNoteExternalPointOrd);
+
+\coordinate (msrHarmonyToNoteExternalPoint) at (\msrHarmonyToNoteExternalPointAbs,\msrHarmonyToNoteExternalPointOrd);
+
+\coordinate (msrFiguredBassToNoteExternalPoint) at (\msrFiguredBassToNoteExternalPointAbs,\msrFiguredBassToNoteExternalPointOrd);
+
+
+
+% The colors
+% ------------------------------------------------
+
+\def \RegularRectanglesBackgroundColor {yellow!7.5}
+\def \SpecialRectanglesBackgroundColor {green!7.5}
+\def \RepeatRectanglesBackgroundColor  {orange!10}
+\def \OtherVoiceElementsBackgroundColor{purple!10}
+
+\def \arcsColor {blue}
+\def \dashedArcsColor {gray!50}
+\def \loopsColor {red}
+
+
+
+% The sizes
+% ------------------------------------------------
+
+\def \bendAngle {60}
+
+\def \minimumRectangleHeight {10mm}
+\def \minimumRectangleWidth  {30mm}
+
+\def \separatorWidth {\minimumRectangleWidth}
+
+\def \roundedCorners {10pt}
+
+
+
+% Draw the nodes and arcs
+% ------------------------------------------------
+
+% msrBook
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrBook) at (msrBook) {{\bf msrBook}\\ \rule{\separatorWidth}{1pt}\\msrBookElement};
+
+\path [->, thick, \arcsColor] 
+(msrScore) 
+edge node {} 
+(msrBook);
+
+% msrScore
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrScore) at (msrScore) {{\bf msrScore}};
+
+\path [->, thick, \arcsColor] 
+(msrPartGroup) 
+edge node {} 
+(msrScore);
+
+% msrPartGroup
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrPartGroup) at (msrPartGroup) {{\bf msrPartGroup}\\ \rule{\separatorWidth}{1pt}\\msrPartGroupElement};
+
+\path [->, thick, \arcsColor] 
+(msrPart) 
+edge node {} 
+(msrPartGroup);
+
+% msrPart
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrPart) at (msrPart) {{\bf msrPart}};
+
+\path [->, thick, \arcsColor] 
+(msrStaff) 
+edge node {} 
+(msrPart);
+
+% msrStaff
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrStaff) at (msrStaff) {{\bf msrStaff}};
+
+\path [->, thick, \arcsColor] 
+(msrVoice) 
+edge node {} 
+(msrStaff);
+
+% msrVoice
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrVoice) at (msrVoice) {{\bf msrVoice}\\ \rule{\separatorWidth}{1pt}\\msrVoiceElement};
+
+\path [->, thick, \arcsColor] 
+(msrSegment) 
+edge node {} 
+(msrVoice);
+
+% msrSegment
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\RegularRectanglesBackgroundColor}]
+  (msrSegment) at (msrSegment) {{\bf msrSegment}};
+
+\path [->, thick, \arcsColor] 
+(msrMeasure) 
+edge node {} 
+(msrSegment);
+
+% msrMeasure
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrMeasure) at (msrMeasure) {{\bf msrMeasure}\\ \rule{\separatorWidth}{1pt}\\msrMeasureElement};
+
+
+
+% msrStanza
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrStanza) at (msrStanza) {{\bf msrStanza}};
+
+\path [->, above, bend left = 5, thick, \arcsColor] 
+(msrStanza) 
+edge [out=15, in=200] 
+(msrVoice);
+
+% msrSyllable
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\RegularRectanglesBackgroundColor}]
+  (msrSyllable) at (msrSyllable) {{\bf msrSyllable}};
+
+\path [->, thick, \arcsColor] 
+(msrSyllable) 
+edge node {} 
+(msrStanza);
+
+\path [->, thick, \arcsColor] 
+(msrSyllable) 
+edge [out=195, in=110] 
+(msrSyllableToNoteExternalPoint);
+
+\path [->, thick, \arcsColor] 
+(msrSyllableToNoteExternalPoint) 
+edge [out=285, in=310] 
+(msrNote);
+
+
+
+% msrHarmony
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrHarmony) at (msrHarmony) {{\bf msrHarmony}};
+
+%   \msrHarmonyOrd       	= \msrVoiceOrd - 3mm;
+%  \msrFiguredBassOrd    = \msrVoiceOrd - 4mm;
+
+\draw [->, thick, \arcsColor] 
+	(msrHarmony) 
+	[out=15, in=220] to 
+	(msrVoice);
+
+\path [->, thick, \arcsColor] 
+(msrHarmony) 
+edge [out=195, in=110] 
+(msrHarmonyToNoteExternalPoint);
+
+\path [->, thick, \arcsColor] 
+(msrHarmonyToNoteExternalPoint) 
+edge [out=290, in=240] 
+(msrNote);
+
+
+
+% msrFiguredBass
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrFiguredBass) at (msrFiguredBass) {{\bf msrFiguredBass}};
+
+\path [->, thick, \arcsColor] 
+(msrFiguredBass) 
+edge [out=15, in=230] 
+(msrVoice);
+
+\path [->, thick, \arcsColor] 
+(msrFiguredBass) 
+edge [out=210, in=110] 
+(msrFiguredBassToNoteExternalPoint);
+
+\path [->, thick, \arcsColor] 
+(msrFiguredBassToNoteExternalPoint) 
+edge [out=290, in=210] 
+(msrNote);
+
+
+
+% msrRepeat
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\RepeatRectanglesBackgroundColor}]
+  (msrRepeat) at (msrRepeat) {{\bf msrRepeat}};
+
+\path [->, thick, \arcsColor] 
+(msrRepeat) 
+edge [out=170, in=340] 
+(msrVoice);
+
+% msrRestMeasures
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\RepeatRectanglesBackgroundColor}]
+  (msrRestMeasures) at (msrRestMeasures) {{\bf msrRestMeasures}};
+
+\path [->, thick, \arcsColor] 
+(msrRestMeasures) 
+edge [out=166, in=330] 
+(msrVoice);
+
+% msrMeasuresRepeat
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\RepeatRectanglesBackgroundColor}]
+  (msrMeasuresRepeat) at (msrMeasuresRepeat) {{\bf msrMeasuresRepeat}};
+
+\path [->, thick, \arcsColor] 
+(msrMeasuresRepeat) 
+edge [out=166, in=320] 
+(msrVoice);
+
+% msrBeatsRepeat
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\RepeatRectanglesBackgroundColor}]
+  (msrBeatsRepeat) at (msrBeatsRepeat) {{\bf msrBeatsRepeat}};
+
+\path [->, thick, \arcsColor] 
+(msrBeatsRepeat) 
+edge [out=162, in=310] 
+(msrVoice);
+
+
+% otherVoiceElements
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\OtherVoiceElementsBackgroundColor}]
+  (otherVoiceElements) at (otherVoiceElements) {{\bf otherVoiceElements}};
+
+\path [->, thick, \arcsColor] 
+(otherVoiceElements) 
+edge [out=158, in=300] 
+(msrVoice);
+
+
+
+% msrTuplet
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrTuplet) at (msrTuplet) {{\bf msrTuplet}\\ \rule{\separatorWidth}{1pt}\\msrTupletElement};
+
+\draw [->, thick, \arcsColor] 
+(msrTuplet) 
+edge [out=40, in=210]
+(msrMeasure);
+
+\draw [->, thick, \arcsColor]
+(msrTuplet) 
+edge [out=130, in=90]
+(msrTupletToTupletExternalPoint);
+
+\draw [->, thick, \arcsColor]
+(msrTupletToTupletExternalPoint)
+edge [out=270, in=230]
+(msrTuplet);
+
+
+
+% msrGraceNotesGroup
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrGraceNotesGroup) at (msrGraceNotesGroup) {{\bf msrGraceNotesGroup}};
+
+\path [->, thick, \arcsColor] 
+(msrGraceNotesGroup) 
+edge [out=205, in=160]
+(msrNote);
+
+
+
+% msrChord
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrChord) at (msrChord) {{\bf msrChord}};
+
+\path [->, thick, \arcsColor] 
+(msrChord) 
+edge [out=135, in=330] 
+(msrGraceNotesGroup);
+
+\path [->, thick, \arcsColor] 
+(msrChord) 
+edge [out=95, in=0] 
+(msrTuplet);
+
+\path [->, thick, \arcsColor] 
+(msrChord) 
+edge [out=60, in=330] 
+(msrMeasure);
+
+
+
+% msrNote
+\node[align=center, style={rectangle, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\SpecialRectanglesBackgroundColor}]
+  (msrNote) at (msrNote) {{\bf msrNote}};
+
+\path [->, thick, \arcsColor] 
+(msrNote) 
+edge [out=180, in=290]
+(msrTuplet);
+
+\path [->, thick, \arcsColor] 
+(msrNote) 
+edge node {}
+(msrGraceNotesGroup);
+
+\path [->, thick, \arcsColor] 
+(msrNote) 
+edge [out=30, in=240]
+(msrChord);
+
+
+
+% -------------------------------------------------------------------------
+\end{tikzpicture}
+ % -------------------------------------------------------------------------
+ 
+\end{center}
+
+\end{figure}
+\end{adjustwidth}
+

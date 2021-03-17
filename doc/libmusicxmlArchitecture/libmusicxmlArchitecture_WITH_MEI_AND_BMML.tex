@@ -66,7 +66,7 @@ This document shows the architecture of the \lib\ library, to be found at
 The picture at figure \ref {Architecture}, page \pageref {Architecture}, shows how \lib\ is structured. The dimmed, dashed arrows indicate items not yet available. 
 The numbered arrows show the existing conversions between formats and representations.
 
-\include {libmusicxmlArchitecturePicture}
+\include {libmusicxmlArchitecturePicture_WITH_MEI_AND_BMML}
 
 %\newpage
 
@@ -101,6 +101,16 @@ Jianpu \lily\ & a text containg \lily\ commands and the use of \lilyJianpu\ (\ur
 \braille\ & a text containg 6-dot cells, as described in \url {http://www.brailleauthority.org/music/Music_Braille_Code_2015.pdf};
 \tabularnewline
 
+\bmml\ & a text containg elements such as {\tt <score>}, 
+  {\tt <score\_header>}, 
+    {\tt <part\_list>}, 
+      {\tt <part\_data>}, 
+   {\tt <score\_data>} -- under development.
+\tabularnewline
+
+\mei\ & a text containg elements such as {\tt <meiHead>}, {\tt <scoreDef>} and {\tt <multiRest>} -- under development.
+\tabularnewline
+
 %\midi\ & binary data containg markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>};
 %\tabularnewline
 
@@ -122,6 +132,12 @@ MSR & Music Score Representation, in terms of part groups, parts, staves, voices
 \tabularnewline
 
 mxmlelement tree & a tree representing the \mxml\ markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>};
+\tabularnewline
+
+bmmlelement tree & a tree representing the \bmml\ markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>};
+\tabularnewline
+
+meielement tree & a tree representing the \mei\ markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>};
 \tabularnewline
 
 LPSR & LilyPond Score Representation, i.e. MSR plus LilyPond-specific items such as {\tt $\backslash$score} blocks;
@@ -242,9 +258,34 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 \texttt{12} & converts a BSR representation into \braille\ text, and writes it to standard output;
 \tabularnewline
 
+\texttt{13} & reads \bmml\ data from a file or from standard input is '-' is supplied as the file name, and creates an bmmlelement tree containg the same data;
+\tabularnewline
+
+\texttt{\textcolor{gray}{14}} & converts an bmmlelement tree into \bmml\ data. This is a mere 'print()' operation;
+\tabularnewline
+
+\texttt{\textcolor{gray}{16}} & converts an bmmlelement tree into MSR data -- in design phase;
+\tabularnewline
+
+\texttt{\textcolor{gray}{17}} & converts MSR data into an bmmlelement tree -- in design phase.
+\tabularnewline
+
+
 \texttt{\textcolor{gray}{15}} & converts an MSR representation into an mxmlelement tree -- ongoing work;
 \tabularnewline
 
+
+\texttt{18} & reads \mei\ data from a file or from standard input is '-' is supplied as the file name, and creates an meielement tree containg the same data;
+\tabularnewline
+
+\texttt{\textcolor{gray}{19}} & converts an meielement tree into \mei\ data. This is a mere 'print()' operation;
+\tabularnewline
+
+\texttt{\textcolor{gray}{20}} & converts an meielement tree into MSR data -- in design phase;
+\tabularnewline
+
+\texttt{\textcolor{gray}{21}} & converts MSR data into an meielement tree -- in design phase.
+\tabularnewline
 
 \end{longtable}
 \end{center}
@@ -265,11 +306,19 @@ The other translators provided by \lib\ were added later and are in the form of 
 %
 \begin{longtable}[t]{l|ccccccc}
  & \multicolumn{6}{c}{Output format} \tabularnewline
-\raisebox{1em}{Input format} & \mxml & \guido & \lily & {Jianpu \lily} & \braille &  &  \tabularnewline[0.5ex] 
+\raisebox{1em}{Input format} & \mxml & \guido & \lily & {Jianpu \lily} & \braille & \bmml & \mei \tabularnewline[0.5ex] 
 \hline\\[-3.0ex]
 %
 
-\mxml\ & \xmlToXml & \xmlToGuido & \xmlToLy & \xmlToLy\ {\tt -jianpu} & \xmlToBrl &  & 
+\mxml\ & \xmlToXml & \xmlToGuido & \xmlToLy & \xmlToLy\ {\tt -jianpu} & \xmlToBrl & \textcolor{gray}{\xmlToBmml} & \textcolor{gray}{\xmlToMei}
+\tabularnewline
+
+
+\bmml\ & \textcolor{gray}{\bmmlToXml} & \textcolor{gray}{\bmmlToGuido} & \textcolor{gray}{\bmmlToLy} & \textcolor{gray}{\bmmlToLy\ {\tt -jianpu}} & \textcolor{gray}{\bmmlToBrl} & \textcolor{gray}{\bmmlToBmml} & \textcolor{gray}{\bmmlToMei}
+\tabularnewline
+
+
+\mei\ & \textcolor{gray}{\meiToXml} & \textcolor{gray}{\meiToGuido} & \textcolor{gray}{\meiToLy} & \textcolor{gray}{\meiToLy\ {\tt -jianpu}} & \textcolor{gray}{\meiToBrl} & \textcolor{gray}{\meiToBmml} & \textcolor{gray}{\meiToMei}
 \tabularnewline
 
 
@@ -317,6 +366,91 @@ The {\tt -loop} option is supplied to create \mxml\ data back from the \mxml\ da
 
 \tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 5 $\Rightarrow$ 9 $\Rightarrow$ 11 $\Rightarrow$ 12
 \tabularnewline
+
+
+
+\textcolor{gray}{\bmmlToGuido} & converts \bmml\ data to Guido code, using passes:
+
+\tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 15 $\Rightarrow$ 3
+\tabularnewline
+
+
+\textcolor{gray}{\bmmlToXml} & converts \bmml\ data to MusicXML code, using passes:
+
+\tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 15 $\Rightarrow$ 2
+\tabularnewline
+
+
+\textcolor{gray}{\bmmlToBmml} & converts \bmml\ data to MSR and back:
+
+\tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 16 $\Rightarrow$ 14
+\tabularnewline
+
+
+\textcolor{gray}{\bmmlToLy} & performs the 4 hops from \bmml\ to \lily\ to translate the former into the latter, using these passes:
+
+\tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 6 $\Rightarrow$ 8
+
+
+The {\tt -jianpu} option is supplied to create Jianpu (numbered) scores, in which the notes are represented by numbers instead of graphics;
+
+The {\tt -loop} option is supplied to create \bmml\ data back from the \mei\ data, as is done by \bmmlToBmml;
+\tabularnewline
+
+
+\textcolor{gray}{\bmmlToBrl} & performs the 5 hops from \bmml\ to \braille\ to translate the former into the latter (draft):
+
+\tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 9 $\Rightarrow$ 11  $\Rightarrow$ 12
+\tabularnewline
+
+
+
+\textcolor{gray}{\meiToGuido} & converts \mei\ data to Guido code, using passes:
+
+\tab\ 18 $\Rightarrow$ 20 $\Rightarrow$ 15 $\Rightarrow$ 3
+\tabularnewline
+
+
+\textcolor{gray}{\meiToXml} & converts \mei\ data to Guido code, using passes:
+
+\tab\ 18 $\Rightarrow$ 20 $\Rightarrow$ 15 $\Rightarrow$ 2
+\tabularnewline
+
+
+\textcolor{gray}{\meiToMei} & converts \mei\ data to MSR and back:
+
+\tab\ 18 $\Rightarrow$ 20 $\Rightarrow$ 21 $\Rightarrow$ 19
+\tabularnewline
+
+
+\textcolor{gray}{\meiToLy} & performs the 4 hops from \mei\ to \lily\ to translate the former into the latter, using these passes:
+
+\tab\ 18 $\Rightarrow$ 20 $\Rightarrow$ 6 $\Rightarrow$ 8
+
+
+The {\tt -jianpu} option is supplied to create Jianpu (numbered) scores, in which the notes are represented by numbers instead of graphics;
+
+The {\tt -loop} option is supplied to create \mei\ data back from the \mei\ data, as is done by \meiToMei;
+\tabularnewline
+
+
+\textcolor{gray}{\meiToBrl} & performs the 5 hops from \mei\ to \braille\ to translate the former into the latter (draft):
+
+\tab\ 18 $\Rightarrow$ 20 $\Rightarrow$ 9 $\Rightarrow$ 11  $\Rightarrow$ 12
+\tabularnewline
+
+
+\textcolor{gray}{\xmlToBmml} & performs the 4 hops from \mxml\ to \bmml\ to translate the former into the latter:
+
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 17 $\Rightarrow$ 14
+\tabularnewline
+
+
+\textcolor{gray}{\xmlToMei} & performs the 4 hops from \mxml\ to \mei\ to translate the former into the latter:
+
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 21 $\Rightarrow$ 19
+\tabularnewline
+
 
 \end{longtable}
 \end{center}
