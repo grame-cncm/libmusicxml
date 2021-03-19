@@ -25,7 +25,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 msrPartGroupElement::msrPartGroupElement (
   int inputLineNumber)
-    : msrMeasureElement (inputLineNumber)
+    : msrElement (inputLineNumber)
 {}
 
 msrPartGroupElement::~msrPartGroupElement ()

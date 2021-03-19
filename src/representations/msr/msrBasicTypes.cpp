@@ -2492,157 +2492,157 @@ int msrIntervalKindAsSemiTones (
   int result = INT_MIN;
 
   switch (intervalKind) {
-    case k_NoIntervalKind:
+    case msrIntervalKind::k_NoIntervalKind:
       break;
 
-    case kDiminishedUnisson:
+    case msrIntervalKind::kIntervalDiminishedUnisson:
       result = -1;
       break;
-    case kPerfectUnison:
+    case msrIntervalKind::kIntervalPerfectUnisson:
       result = 0;
       break;
-    case kAugmentedUnison:
+    case msrIntervalKind::kIntervalAugmentedUnisson:
       result = 1;
       break;
 
-    case kDiminishedSecond:
+    case msrIntervalKind::kIntervalDiminishedSecond:
       result = 0;
       break;
-    case kMinorSecond:
+    case msrIntervalKind::kIntervalMinorSecond:
       result = 1;
       break;
-    case kMajorSecond:
+    case msrIntervalKind::kIntervalMajorSecond:
       result = 2;
       break;
-    case kAugmentedSecond:
+    case msrIntervalKind::kIntervalAugmentedSecond:
       result = 4;
       break;
 
-    case kDiminishedThird:
+    case msrIntervalKind::kIntervalDiminishedThird:
       result = 2;
       break;
-    case kMinorThird:
+    case msrIntervalKind::kIntervalMinorThird:
       result = 3;
       break;
-    case kMajorThird:
+    case msrIntervalKind::kIntervalMajorThird:
       result = 4;
       break;
-    case kAugmentedThird:
+    case msrIntervalKind::kIntervalAugmentedThird:
       result = 5;
       break;
 
-    case kDiminishedFourth:
+    case msrIntervalKind::kIntervalDiminishedFourth:
       result = 4;
       break;
-    case kPerfectFourth:
+    case msrIntervalKind::kIntervalPerfectFourth:
       result = 5;
       break;
-    case kAugmentedFourth:
+    case msrIntervalKind::kIntervalAugmentedFourth:
       result = 6;
       break;
 
-    case kDiminishedFifth:
+    case msrIntervalKind::kIntervalDiminishedFifth:
       result = 6;
       break;
-    case kPerfectFifth:
+    case msrIntervalKind::kIntervalPerfectFifth:
       result = 7;
       break;
-    case kAugmentedFifth:
+    case msrIntervalKind::kIntervalAugmentedFifth:
       result = 8;
       break;
 
-    case kDiminishedSixth:
+    case msrIntervalKind::kIntervalDiminishedSixth:
       result = 7;
       break;
-    case kMinorSixth:
+    case msrIntervalKind::kIntervalMinorSixth:
       result = 8;
       break;
-    case kMajorSixth:
+    case msrIntervalKind::kIntervalMajorSixth:
       result = 9;
       break;
-    case kAugmentedSixth:
+    case msrIntervalKind::kIntervalAugmentedSixth:
       result = 10;
       break;
 
-    case kDiminishedSeventh:
+    case msrIntervalKind::kIntervalDiminishedSeventh:
       result = 9;
       break;
-    case kMinorSeventh:
+    case msrIntervalKind::kIntervalMinorSeventh:
       result = 10;
       break;
-    case kMajorSeventh:
+    case msrIntervalKind::kIntervalMajorSeventh:
       result = 11;
       break;
-    case kAugmentedSeventh:
+    case msrIntervalKind::kIntervalAugmentedSeventh:
       result = 12;
       break;
 
-    case kDiminishedOctave:
+    case msrIntervalKind::kIntervalDiminishedOctave:
       result = 11;
       break;
-    case kPerfectOctave:
+    case msrIntervalKind::kIntervalPerfectOctave:
       result = 12;
       break;
-    case kAugmentedOctave:
+    case msrIntervalKind::kIntervalAugmentedOctave:
       result = 13;
       break;
 
-    case kDiminishedNinth:
+    case msrIntervalKind::kIntervalDiminishedNinth:
       result = 12;
       break;
-    case kMinorNinth:
+    case msrIntervalKind::kIntervalMinorNinth:
       result = 13;
       break;
-    case kMajorNinth:
+    case msrIntervalKind::kIntervalMajorNinth:
       result = 14;
       break;
-    case kAugmentedNinth:
+    case msrIntervalKind::kIntervalAugmentedNinth:
       result = 15;
       break;
 
-    case kDiminishedTenth:
+    case msrIntervalKind::kIntervalDiminishedTenth:
       result = 14;
       break;
-    case kMinorTenth:
+    case msrIntervalKind::kIntervalMinorTenth:
       result = 15;
       break;
-    case kMajorTenth:
+    case msrIntervalKind::kIntervalMajorTenth:
       result = 16;
       break;
-    case kAugmentedTenth:
+    case msrIntervalKind::kIntervalAugmentedTenth:
       result = 17;
       break;
 
-    case kDiminishedEleventh:
+    case msrIntervalKind::kIntervalDiminishedEleventh:
       result = 16;
       break;
-    case kPerfectEleventh:
+    case msrIntervalKind::kIntervalPerfectEleventh:
       result = 17;
       break;
-    case kAugmentedEleventh:
+    case msrIntervalKind::kIntervalAugmentedEleventh:
       result = 18;
       break;
 
-    case kDiminishedTwelfth:
+    case msrIntervalKind::kIntervalDiminishedTwelfth:
       result = 18;
       break;
-    case kPerfectTwelfth:
+    case msrIntervalKind::kIntervalPerfectTwelfth:
       result = 19;
       break;
-    case kAugmentedTwelfth:
+    case msrIntervalKind::kIntervalAugmentedTwelfth:
       result = 20;
       break;
 
-    case kDiminishedThirteenth:
+    case msrIntervalKind::kIntervalDiminishedThirteenth:
       result = 19;
       break;
-    case kMinorThirteenth:
+    case msrIntervalKind::kIntervalMinorThirteenth:
       result = 20;
       break;
-    case kMajorThirteenth:
+    case msrIntervalKind::kIntervalMajorThirteenth:
       result = 21;
       break;
-    case kAugmentedThirteenth:
+    case msrIntervalKind::kIntervalAugmentedThirteenth:
       result = 22;
       break;
   } // switch
@@ -2664,158 +2664,158 @@ string msrIntervalKindAsString (
   string result;
 
   switch (intervalKind) {
-    case k_NoIntervalKind:
+    case msrIntervalKind::k_NoIntervalKind:
       result = "noInterval";
       break;
 
-    case kDiminishedUnisson:
+    case msrIntervalKind::kIntervalDiminishedUnisson:
       result = "diminishedUnisson";
       break;
-    case kPerfectUnison:
+    case msrIntervalKind::kIntervalPerfectUnisson:
       result = "perfectUnison";
       break;
-    case kAugmentedUnison:
+    case msrIntervalKind::kIntervalAugmentedUnisson:
       result = "augmentedUnison";
       break;
 
-    case kDiminishedSecond:
+    case msrIntervalKind::kIntervalDiminishedSecond:
       result = "diminishedSecond";
       break;
-    case kMinorSecond:
+    case msrIntervalKind::kIntervalMinorSecond:
       result = "minorSecond";
       break;
-    case kMajorSecond:
+    case msrIntervalKind::kIntervalMajorSecond:
       result = "majorSecond";
       break;
-    case kAugmentedSecond:
+    case msrIntervalKind::kIntervalAugmentedSecond:
       result = "augmentedSecond";
       break;
 
-    case kDiminishedThird:
+    case msrIntervalKind::kIntervalDiminishedThird:
       result = "diminishedThird";
       break;
-    case kMinorThird:
+    case msrIntervalKind::kIntervalMinorThird:
       result = "minorThird";
       break;
-    case kMajorThird:
+    case msrIntervalKind::kIntervalMajorThird:
       result = "majorThird";
       break;
-    case kAugmentedThird:
+    case msrIntervalKind::kIntervalAugmentedThird:
       result = "augmentedThird";
       break;
 
-    case kDiminishedFourth:
+    case msrIntervalKind::kIntervalDiminishedFourth:
       result = "diminishedFourth";
       break;
-    case kPerfectFourth:
+    case msrIntervalKind::kIntervalPerfectFourth:
       result = "perfectFourth";
       break;
-    case kAugmentedFourth:
+    case msrIntervalKind::kIntervalAugmentedFourth:
       result = "augmentedFourth";
       break;
 
-    case kDiminishedFifth:
+    case msrIntervalKind::kIntervalDiminishedFifth:
       result = "diminishedFifth";
       break;
-    case kPerfectFifth:
+    case msrIntervalKind::kIntervalPerfectFifth:
       result = "perfectFifth";
       break;
-    case kAugmentedFifth:
+    case msrIntervalKind::kIntervalAugmentedFifth:
       result = "augmentedFifth";
       break;
 
-    case kDiminishedSixth:
+    case msrIntervalKind::kIntervalDiminishedSixth:
       result = "diminishedSixth";
       break;
-    case kMinorSixth:
+    case msrIntervalKind::kIntervalMinorSixth:
       result = "minorSixth";
       break;
-    case kMajorSixth:
+    case msrIntervalKind::kIntervalMajorSixth:
       result = "majorSixth";
       break;
-    case kAugmentedSixth:
+    case msrIntervalKind::kIntervalAugmentedSixth:
       result = "augmentedSixth";
       break;
 
-    case kDiminishedSeventh:
+    case msrIntervalKind::kIntervalDiminishedSeventh:
       result = "diminishedSeventh";
       break;
-    case kMinorSeventh:
+    case msrIntervalKind::kIntervalMinorSeventh:
       result = "minorSeventh";
       break;
-    case kMajorSeventh:
+    case msrIntervalKind::kIntervalMajorSeventh:
       result = "majorSeventh";
       break;
-    case kAugmentedSeventh:
+    case msrIntervalKind::kIntervalAugmentedSeventh:
       result = "augmentedSeventh";
       break;
 
-    case kDiminishedOctave:
+    case msrIntervalKind::kIntervalDiminishedOctave:
       result = "diminishedOctave";
       break;
-    case kPerfectOctave:
+    case msrIntervalKind::kIntervalPerfectOctave:
       result = "perfectOctave";
       break;
-    case kAugmentedOctave:
+    case msrIntervalKind::kIntervalAugmentedOctave:
       result = "augmentedOctave";
       break;
 
-    case kDiminishedNinth:
+    case msrIntervalKind::kIntervalDiminishedNinth:
       result = "diminishedNinth";
       break;
-    case kMinorNinth:
+    case msrIntervalKind::kIntervalMinorNinth:
       result = "minorNinth";
       break;
-    case kMajorNinth:
+    case msrIntervalKind::kIntervalMajorNinth:
       result = "majorNinth";
       break;
-    case kAugmentedNinth:
+    case msrIntervalKind::kIntervalAugmentedNinth:
       result = "sugmentedNinth";
       break;
 
-    case kDiminishedTenth:
+    case msrIntervalKind::kIntervalDiminishedTenth:
       result = "diminishedTenth";
       break;
-    case kMinorTenth:
+    case msrIntervalKind::kIntervalMinorTenth:
       result = "minorTenth";
       break;
-    case kMajorTenth:
+    case msrIntervalKind::kIntervalMajorTenth:
       result = "majorTenth";
       break;
-    case kAugmentedTenth:
+    case msrIntervalKind::kIntervalAugmentedTenth:
       result = "augmentedTenth";
       break;
 
-    case kDiminishedEleventh:
+    case msrIntervalKind::kIntervalDiminishedEleventh:
       result = "diminishedEleventh";
       break;
-    case kPerfectEleventh:
+    case msrIntervalKind::kIntervalPerfectEleventh:
       result = "perfectEleventh";
       break;
-    case kAugmentedEleventh:
+    case msrIntervalKind::kIntervalAugmentedEleventh:
       result = "augmentedEleventh";
       break;
 
-    case kDiminishedTwelfth:
+    case msrIntervalKind::kIntervalDiminishedTwelfth:
       result = "diminishedTwelfth";
       break;
-    case kPerfectTwelfth:
+    case msrIntervalKind::kIntervalPerfectTwelfth:
       result = "perfectTwelfth";
       break;
-    case kAugmentedTwelfth:
+    case msrIntervalKind::kIntervalAugmentedTwelfth:
       result = "augmentedTwelfth";
       break;
 
-    case kDiminishedThirteenth:
+    case msrIntervalKind::kIntervalDiminishedThirteenth:
       result = "diminishedThirteenth";
       break;
-    case kMinorThirteenth:
+    case msrIntervalKind::kIntervalMinorThirteenth:
       result = "minorThirteenth";
       break;
-    case kMajorThirteenth:
+    case msrIntervalKind::kIntervalMajorThirteenth:
       result = "majorThirteenth";
       break;
-    case kAugmentedThirteenth:
+    case msrIntervalKind::kIntervalAugmentedThirteenth:
       result = "augmentedThirteenth";
       break;
   } // switch
@@ -2829,158 +2829,158 @@ string msrIntervalAsShortString (
   string result;
 
   switch (intervalKind) {
-    case k_NoIntervalKind:
+    case msrIntervalKind::k_NoIntervalKind:
       result = "noInterval";
       break;
 
-    case kDiminishedUnisson:
+    case msrIntervalKind::kIntervalDiminishedUnisson:
       result = "bu";
       break;
-    case kPerfectUnison:
+    case msrIntervalKind::kIntervalPerfectUnisson:
       result = "u";
       break;
-    case kAugmentedUnison:
+    case msrIntervalKind::kIntervalAugmentedUnisson:
       result = "#u";
       break;
 
-    case kDiminishedSecond:
+    case msrIntervalKind::kIntervalDiminishedSecond:
       result = "bb2";
       break;
-    case kMinorSecond:
+    case msrIntervalKind::kIntervalMinorSecond:
       result = "b2";
       break;
-    case kMajorSecond:
+    case msrIntervalKind::kIntervalMajorSecond:
       result = "2";
       break;
-    case kAugmentedSecond:
+    case msrIntervalKind::kIntervalAugmentedSecond:
       result = "#2";
       break;
 
-    case kDiminishedThird:
+    case msrIntervalKind::kIntervalDiminishedThird:
       result = "bb3";
       break;
-    case kMinorThird:
+    case msrIntervalKind::kIntervalMinorThird:
       result = "b3";
       break;
-    case kMajorThird:
+    case msrIntervalKind::kIntervalMajorThird:
       result = "3";
       break;
-    case kAugmentedThird:
+    case msrIntervalKind::kIntervalAugmentedThird:
       result = "#3";
       break;
 
-    case kDiminishedFourth:
+    case msrIntervalKind::kIntervalDiminishedFourth:
       result = "b4";
       break;
-    case kPerfectFourth:
+    case msrIntervalKind::kIntervalPerfectFourth:
       result = "4";
       break;
-    case kAugmentedFourth:
+    case msrIntervalKind::kIntervalAugmentedFourth:
       result = "#4";
       break;
 
-    case kDiminishedFifth:
+    case msrIntervalKind::kIntervalDiminishedFifth:
       result = "b5";
       break;
-    case kPerfectFifth:
+    case msrIntervalKind::kIntervalPerfectFifth:
       result = "5";
       break;
-    case kAugmentedFifth:
+    case msrIntervalKind::kIntervalAugmentedFifth:
       result = "#4";
       break;
 
-    case kDiminishedSixth:
+    case msrIntervalKind::kIntervalDiminishedSixth:
       result = "bb6";
       break;
-    case kMinorSixth:
+    case msrIntervalKind::kIntervalMinorSixth:
       result = "b6";
       break;
-    case kMajorSixth:
+    case msrIntervalKind::kIntervalMajorSixth:
       result = "6";
       break;
-    case kAugmentedSixth:
+    case msrIntervalKind::kIntervalAugmentedSixth:
       result = "#6";
       break;
 
-    case kDiminishedSeventh:
+    case msrIntervalKind::kIntervalDiminishedSeventh:
       result = "b7";
       break;
-    case kMinorSeventh:
+    case msrIntervalKind::kIntervalMinorSeventh:
       result = "7";
       break;
-    case kMajorSeventh:
+    case msrIntervalKind::kIntervalMajorSeventh:
       result = "∆7";
       break;
-    case kAugmentedSeventh:
+    case msrIntervalKind::kIntervalAugmentedSeventh:
       result = "∆∆7";
       break;
 
-    case kDiminishedOctave:
+    case msrIntervalKind::kIntervalDiminishedOctave:
       result = "b8";
       break;
-    case kPerfectOctave:
+    case msrIntervalKind::kIntervalPerfectOctave:
       result = "8";
       break;
-    case kAugmentedOctave:
+    case msrIntervalKind::kIntervalAugmentedOctave:
       result = "#8";
       break;
 
-    case kDiminishedNinth:
+    case msrIntervalKind::kIntervalDiminishedNinth:
       result = "bb9";
       break;
-    case kMinorNinth:
+    case msrIntervalKind::kIntervalMinorNinth:
       result = "b9";
       break;
-    case kMajorNinth:
+    case msrIntervalKind::kIntervalMajorNinth:
       result = "9";
       break;
-    case kAugmentedNinth:
+    case msrIntervalKind::kIntervalAugmentedNinth:
       result = "#9";
       break;
 
-    case kDiminishedTenth:
+    case msrIntervalKind::kIntervalDiminishedTenth:
       result = "bb10";
       break;
-    case kMinorTenth:
+    case msrIntervalKind::kIntervalMinorTenth:
       result = "b10";
       break;
-    case kMajorTenth:
+    case msrIntervalKind::kIntervalMajorTenth:
       result = "10";
       break;
-    case kAugmentedTenth:
+    case msrIntervalKind::kIntervalAugmentedTenth:
       result = "#10";
       break;
 
-    case kDiminishedEleventh:
+    case msrIntervalKind::kIntervalDiminishedEleventh:
       result = "b11";
       break;
-    case kPerfectEleventh:
+    case msrIntervalKind::kIntervalPerfectEleventh:
       result = "11";
       break;
-    case kAugmentedEleventh:
+    case msrIntervalKind::kIntervalAugmentedEleventh:
       result = "#11";
       break;
 
-    case kDiminishedTwelfth:
+    case msrIntervalKind::kIntervalDiminishedTwelfth:
       result = "b12";
       break;
-    case kPerfectTwelfth:
+    case msrIntervalKind::kIntervalPerfectTwelfth:
       result = "12";
       break;
-    case kAugmentedTwelfth:
+    case msrIntervalKind::kIntervalAugmentedTwelfth:
       result = "#12";
       break;
 
-    case kDiminishedThirteenth:
+    case msrIntervalKind::kIntervalDiminishedThirteenth:
       result = "bb13";
       break;
-    case kMinorThirteenth:
+    case msrIntervalKind::kIntervalMinorThirteenth:
       result = "b13";
       break;
-    case kMajorThirteenth:
+    case msrIntervalKind::kIntervalMajorThirteenth:
       result = "13";
       break;
-    case kAugmentedThirteenth:
+    case msrIntervalKind::kIntervalAugmentedThirteenth:
       result = "#13";
       break;
   } // switch
@@ -2991,161 +2991,161 @@ string msrIntervalAsShortString (
 msrIntervalKind invertIntervalKind (
   msrIntervalKind intervalKind)
 {
-  msrIntervalKind result = k_NoIntervalKind;
+  msrIntervalKind result = msrIntervalKind::k_NoIntervalKind;
 
   switch (intervalKind) {
-    case k_NoIntervalKind:
+    case msrIntervalKind::k_NoIntervalKind:
       break;
 
-    case kDiminishedUnisson:
-      result = kAugmentedUnison;
+    case msrIntervalKind::kIntervalDiminishedUnisson:
+      result = msrIntervalKind::kIntervalAugmentedUnisson;
       break;
-    case kPerfectUnison:
-      result = kPerfectUnison;
+    case msrIntervalKind::kIntervalPerfectUnisson:
+      result = msrIntervalKind::kIntervalPerfectUnisson;
       break;
-    case kAugmentedUnison:
-      result = kDiminishedOctave;
-      break;
-
-    case kDiminishedSecond:
-      result = kAugmentedSeventh;
-      break;
-    case kMinorSecond:
-      result = kMajorSeventh;
-      break;
-    case kMajorSecond:
-      result = kMinorSeventh;
-      break;
-    case kAugmentedSecond:
-      result = kDiminishedSeventh;
+    case msrIntervalKind::kIntervalAugmentedUnisson:
+      result = msrIntervalKind::kIntervalDiminishedOctave;
       break;
 
-    case kDiminishedThird:
-      result = kAugmentedSixth;
+    case msrIntervalKind::kIntervalDiminishedSecond:
+      result = msrIntervalKind::kIntervalAugmentedSeventh;
       break;
-    case kMinorThird:
-      result = kMajorSixth;
+    case msrIntervalKind::kIntervalMinorSecond:
+      result = msrIntervalKind::kIntervalMajorSeventh;
       break;
-    case kMajorThird:
-      result = kMinorSixth;
+    case msrIntervalKind::kIntervalMajorSecond:
+      result = msrIntervalKind::kIntervalMinorSeventh;
       break;
-    case kAugmentedThird:
-      result = kDiminishedSixth;
-      break;
-
-    case kDiminishedFourth:
-      result = kAugmentedFifth;
-      break;
-    case kPerfectFourth:
-      result = kPerfectFifth;
-      break;
-    case kAugmentedFourth:
-      result = kDiminishedFifth;
+    case msrIntervalKind::kIntervalAugmentedSecond:
+      result = msrIntervalKind::kIntervalDiminishedSeventh;
       break;
 
-    case kDiminishedFifth:
-      result = kAugmentedFourth;
+    case msrIntervalKind::kIntervalDiminishedThird:
+      result = msrIntervalKind::kIntervalAugmentedSixth;
       break;
-    case kPerfectFifth:
-      result = kPerfectFourth;
+    case msrIntervalKind::kIntervalMinorThird:
+      result = msrIntervalKind::kIntervalMajorSixth;
       break;
-    case kAugmentedFifth:
-      result = kDiminishedFourth;
+    case msrIntervalKind::kIntervalMajorThird:
+      result = msrIntervalKind::kIntervalMinorSixth;
       break;
-
-    case kDiminishedSixth:
-      result = kAugmentedThird;
-      break;
-    case kMinorSixth:
-      result = kMajorThird;
-      break;
-    case kMajorSixth:
-      result = kMinorThird;
-      break;
-    case kAugmentedSixth:
-      result = kDiminishedThird;
+    case msrIntervalKind::kIntervalAugmentedThird:
+      result = msrIntervalKind::kIntervalDiminishedSixth;
       break;
 
-    case kDiminishedSeventh:
-      result = kAugmentedSecond;
+    case msrIntervalKind::kIntervalDiminishedFourth:
+      result = msrIntervalKind::kIntervalAugmentedFifth;
       break;
-    case kMinorSeventh:
-      result = kMajorSecond;
+    case msrIntervalKind::kIntervalPerfectFourth:
+      result = msrIntervalKind::kIntervalPerfectFifth;
       break;
-    case kMajorSeventh:
-      result = kMinorSecond;
-      break;
-    case kAugmentedSeventh:
-      result = kDiminishedSecond;
+    case msrIntervalKind::kIntervalAugmentedFourth:
+      result = msrIntervalKind::kIntervalDiminishedFifth;
       break;
 
-    case kDiminishedOctave:
-      result = kAugmentedUnison;
+    case msrIntervalKind::kIntervalDiminishedFifth:
+      result = msrIntervalKind::kIntervalAugmentedFourth;
       break;
-    case kPerfectOctave:
-      result = kPerfectOctave;
+    case msrIntervalKind::kIntervalPerfectFifth:
+      result = msrIntervalKind::kIntervalPerfectFourth;
       break;
-    case kAugmentedOctave:
-      result = kDiminishedUnisson;
-      break;
-
-    case kDiminishedNinth:
-      result = kAugmentedSeventh;
-      break;
-    case kMinorNinth:
-      result = kMajorSeventh;
-      break;
-    case kMajorNinth:
-      result = kMinorSeventh;
-      break;
-    case kAugmentedNinth:
-      result = kDiminishedSeventh;
+    case msrIntervalKind::kIntervalAugmentedFifth:
+      result = msrIntervalKind::kIntervalDiminishedFourth;
       break;
 
-    case kDiminishedTenth:
-      result = kAugmentedSixth;
+    case msrIntervalKind::kIntervalDiminishedSixth:
+      result = msrIntervalKind::kIntervalAugmentedThird;
       break;
-    case kMinorTenth:
-      result = kMajorSixth;
+    case msrIntervalKind::kIntervalMinorSixth:
+      result = msrIntervalKind::kIntervalMajorThird;
       break;
-    case kMajorTenth:
-      result = kMinorSixth;
+    case msrIntervalKind::kIntervalMajorSixth:
+      result = msrIntervalKind::kIntervalMinorThird;
       break;
-    case kAugmentedTenth:
-      result = kDiminishedSixth;
-      break;
-
-    case kDiminishedEleventh:
-      result = kAugmentedFifth;
-      break;
-    case kPerfectEleventh:
-      result = kPerfectFifth;
-      break;
-    case kAugmentedEleventh:
-      result = kDiminishedFifth;
+    case msrIntervalKind::kIntervalAugmentedSixth:
+      result = msrIntervalKind::kIntervalDiminishedThird;
       break;
 
-    case kDiminishedTwelfth:
-      result = kAugmentedFourth;
+    case msrIntervalKind::kIntervalDiminishedSeventh:
+      result = msrIntervalKind::kIntervalAugmentedSecond;
       break;
-    case kPerfectTwelfth:
-      result = kPerfectFourth;
+    case msrIntervalKind::kIntervalMinorSeventh:
+      result = msrIntervalKind::kIntervalMajorSecond;
       break;
-    case kAugmentedTwelfth:
-      result = kDiminishedFourth;
+    case msrIntervalKind::kIntervalMajorSeventh:
+      result = msrIntervalKind::kIntervalMinorSecond;
+      break;
+    case msrIntervalKind::kIntervalAugmentedSeventh:
+      result = msrIntervalKind::kIntervalDiminishedSecond;
       break;
 
-    case kDiminishedThirteenth:
-      result = kAugmentedThird;
+    case msrIntervalKind::kIntervalDiminishedOctave:
+      result = msrIntervalKind::kIntervalAugmentedUnisson;
       break;
-    case kMinorThirteenth:
-      result = kMajorThird;
+    case msrIntervalKind::kIntervalPerfectOctave:
+      result = msrIntervalKind::kIntervalPerfectOctave;
       break;
-    case kMajorThirteenth:
-      result = kMinorThird;
+    case msrIntervalKind::kIntervalAugmentedOctave:
+      result = msrIntervalKind::kIntervalDiminishedUnisson;
       break;
-    case kAugmentedThirteenth:
-      result = kDiminishedThird;
+
+    case msrIntervalKind::kIntervalDiminishedNinth:
+      result = msrIntervalKind::kIntervalAugmentedSeventh;
+      break;
+    case msrIntervalKind::kIntervalMinorNinth:
+      result = msrIntervalKind::kIntervalMajorSeventh;
+      break;
+    case msrIntervalKind::kIntervalMajorNinth:
+      result = msrIntervalKind::kIntervalMinorSeventh;
+      break;
+    case msrIntervalKind::kIntervalAugmentedNinth:
+      result = msrIntervalKind::kIntervalDiminishedSeventh;
+      break;
+
+    case msrIntervalKind::kIntervalDiminishedTenth:
+      result = msrIntervalKind::kIntervalAugmentedSixth;
+      break;
+    case msrIntervalKind::kIntervalMinorTenth:
+      result = msrIntervalKind::kIntervalMajorSixth;
+      break;
+    case msrIntervalKind::kIntervalMajorTenth:
+      result = msrIntervalKind::kIntervalMinorSixth;
+      break;
+    case msrIntervalKind::kIntervalAugmentedTenth:
+      result = msrIntervalKind::kIntervalDiminishedSixth;
+      break;
+
+    case msrIntervalKind::kIntervalDiminishedEleventh:
+      result = msrIntervalKind::kIntervalAugmentedFifth;
+      break;
+    case msrIntervalKind::kIntervalPerfectEleventh:
+      result = msrIntervalKind::kIntervalPerfectFifth;
+      break;
+    case msrIntervalKind::kIntervalAugmentedEleventh:
+      result = msrIntervalKind::kIntervalDiminishedFifth;
+      break;
+
+    case msrIntervalKind::kIntervalDiminishedTwelfth:
+      result = msrIntervalKind::kIntervalAugmentedFourth;
+      break;
+    case msrIntervalKind::kIntervalPerfectTwelfth:
+      result = msrIntervalKind::kIntervalPerfectFourth;
+      break;
+    case msrIntervalKind::kIntervalAugmentedTwelfth:
+      result = msrIntervalKind::kIntervalDiminishedFourth;
+      break;
+
+    case msrIntervalKind::kIntervalDiminishedThirteenth:
+      result = msrIntervalKind::kIntervalAugmentedThird;
+      break;
+    case msrIntervalKind::kIntervalMinorThirteenth:
+      result = msrIntervalKind::kIntervalMajorThird;
+      break;
+    case msrIntervalKind::kIntervalMajorThirteenth:
+      result = msrIntervalKind::kIntervalMinorThird;
+      break;
+    case msrIntervalKind::kIntervalAugmentedThirteenth:
+      result = msrIntervalKind::kIntervalDiminishedThird;
       break;
   } // switch
 
@@ -3158,157 +3158,157 @@ int intervalKindAsSemitones (
   int result = INT_MIN;
 
   switch (intervalKind) {
-    case k_NoIntervalKind:
+    case msrIntervalKind::k_NoIntervalKind:
       break;
 
-    case kDiminishedUnisson:
+    case msrIntervalKind::kIntervalDiminishedUnisson:
       result = -1;
       break;
-    case kPerfectUnison:
+    case msrIntervalKind::kIntervalPerfectUnisson:
       result = 0;
       break;
-    case kAugmentedUnison:
+    case msrIntervalKind::kIntervalAugmentedUnisson:
       result = 1;
       break;
 
-    case kDiminishedSecond:
+    case msrIntervalKind::kIntervalDiminishedSecond:
       result = 0;
       break;
-    case kMinorSecond:
+    case msrIntervalKind::kIntervalMinorSecond:
       result = 1;
       break;
-    case kMajorSecond:
+    case msrIntervalKind::kIntervalMajorSecond:
       result = 2;
       break;
-    case kAugmentedSecond:
+    case msrIntervalKind::kIntervalAugmentedSecond:
       result = 3;
       break;
 
-    case kDiminishedThird:
+    case msrIntervalKind::kIntervalDiminishedThird:
       result = 2;
       break;
-    case kMinorThird:
+    case msrIntervalKind::kIntervalMinorThird:
       result = 3;
       break;
-    case kMajorThird:
+    case msrIntervalKind::kIntervalMajorThird:
       result = 4;
       break;
-    case kAugmentedThird:
+    case msrIntervalKind::kIntervalAugmentedThird:
       result = 5;
       break;
 
-    case kDiminishedFourth:
+    case msrIntervalKind::kIntervalDiminishedFourth:
       result = 4;
       break;
-    case kPerfectFourth:
+    case msrIntervalKind::kIntervalPerfectFourth:
       result = 5;
       break;
-    case kAugmentedFourth:
+    case msrIntervalKind::kIntervalAugmentedFourth:
       result = 6;
       break;
 
-    case kDiminishedFifth:
+    case msrIntervalKind::kIntervalDiminishedFifth:
       result = 7;
       break;
-    case kPerfectFifth:
+    case msrIntervalKind::kIntervalPerfectFifth:
       result = 7;
       break;
-    case kAugmentedFifth:
+    case msrIntervalKind::kIntervalAugmentedFifth:
       result = 8;
       break;
 
-    case kDiminishedSixth:
+    case msrIntervalKind::kIntervalDiminishedSixth:
       result = 7;
       break;
-    case kMinorSixth:
+    case msrIntervalKind::kIntervalMinorSixth:
       result = 8;
       break;
-    case kMajorSixth:
+    case msrIntervalKind::kIntervalMajorSixth:
       result = 9;
       break;
-    case kAugmentedSixth:
+    case msrIntervalKind::kIntervalAugmentedSixth:
       result = 10;
       break;
 
-    case kDiminishedSeventh:
+    case msrIntervalKind::kIntervalDiminishedSeventh:
       result = 9;
       break;
-    case kMinorSeventh:
+    case msrIntervalKind::kIntervalMinorSeventh:
       result = 10;
       break;
-    case kMajorSeventh:
+    case msrIntervalKind::kIntervalMajorSeventh:
       result = 11;
       break;
-    case kAugmentedSeventh:
+    case msrIntervalKind::kIntervalAugmentedSeventh:
       result = 12;
       break;
 
-    case kDiminishedOctave:
+    case msrIntervalKind::kIntervalDiminishedOctave:
       result = 11;
       break;
-    case kPerfectOctave:
+    case msrIntervalKind::kIntervalPerfectOctave:
       result = 12;
       break;
-    case kAugmentedOctave:
+    case msrIntervalKind::kIntervalAugmentedOctave:
       result = 13;
       break;
 
-    case kDiminishedNinth:
+    case msrIntervalKind::kIntervalDiminishedNinth:
       result = 12;
       break;
-    case kMinorNinth:
+    case msrIntervalKind::kIntervalMinorNinth:
       result = 13;
       break;
-    case kMajorNinth:
+    case msrIntervalKind::kIntervalMajorNinth:
       result = 14;
       break;
-    case kAugmentedNinth:
+    case msrIntervalKind::kIntervalAugmentedNinth:
       result = 15;
       break;
 
-    case kDiminishedTenth:
+    case msrIntervalKind::kIntervalDiminishedTenth:
       result = 14;
       break;
-    case kMinorTenth:
+    case msrIntervalKind::kIntervalMinorTenth:
       result = 15;
       break;
-    case kMajorTenth:
+    case msrIntervalKind::kIntervalMajorTenth:
       result = 16;
       break;
-    case kAugmentedTenth:
+    case msrIntervalKind::kIntervalAugmentedTenth:
       result = 17;
       break;
 
-    case kDiminishedEleventh:
+    case msrIntervalKind::kIntervalDiminishedEleventh:
       result = 16;
       break;
-    case kPerfectEleventh:
+    case msrIntervalKind::kIntervalPerfectEleventh:
       result = 17;
       break;
-    case kAugmentedEleventh:
+    case msrIntervalKind::kIntervalAugmentedEleventh:
       result = 18;
       break;
 
-    case kDiminishedTwelfth:
+    case msrIntervalKind::kIntervalDiminishedTwelfth:
       result = 18;
       break;
-    case kPerfectTwelfth:
+    case msrIntervalKind::kIntervalPerfectTwelfth:
       result = 19;
       break;
-    case kAugmentedTwelfth:
+    case msrIntervalKind::kIntervalAugmentedTwelfth:
       result = 20;
       break;
 
-    case kDiminishedThirteenth:
+    case msrIntervalKind::kIntervalDiminishedThirteenth:
       result = 19;
       break;
-    case kMinorThirteenth:
+    case msrIntervalKind::kIntervalMinorThirteenth:
       result = 20;
       break;
-    case kMajorThirteenth:
+    case msrIntervalKind::kIntervalMajorThirteenth:
       result = 21;
       break;
-    case kAugmentedThirteenth:
+    case msrIntervalKind::kIntervalAugmentedThirteenth:
       result = 22;
       break;
   } // switch
@@ -3332,7 +3332,7 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
 
     case msrSemiTonesPitchKind::kSTP_B_Sharp:
       switch (intervalKind) {
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           switch (alterationPreferenceKind) {
             case msrAlterationPreferenceKind::kAlterationPreferenceFlat:
               result = msrSemiTonesPitchKind::kSTP_C_Sharp;
@@ -3345,107 +3345,107 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
               break;
           } // switch
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           break;
-        case kAugmentedUnison:
-          break;
-
-        case kDiminishedSecond:
-          break;
-        case kMinorSecond:
-          break;
-        case kMajorSecond:
-          break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorSecond:
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorSecond:
           break;
-        case kAugmentedThird:
-          break;
-
-        case kDiminishedFourth:
-          break;
-        case kPerfectFourth:
-          break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedThird:
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalMinorThird:
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalMajorThird:
           break;
-
-        case kDiminishedSixth:
-          break;
-        case kMinorSixth:
-          break;
-        case kMajorSixth:
-          break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedThird:
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalPerfectFourth:
           break;
-        case kMajorSeventh:
-          break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectFifth:
           break;
-        case kAugmentedOctave:
-          break;
-
-        case kDiminishedNinth:
-          break;
-        case kMinorNinth:
-          break;
-        case kMajorNinth:
-          break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorSixth:
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorSixth:
           break;
-        case kAugmentedTenth:
-          break;
-
-        case kDiminishedEleventh:
-          break;
-        case kPerfectEleventh:
-          break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalMinorSeventh:
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalMajorSeventh:
+          break;
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalPerfectOctave:
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           break;
-        case kAugmentedThirteenth:
+
+        case msrIntervalKind::kIntervalDiminishedNinth:
+          break;
+        case msrIntervalKind::kIntervalMinorNinth:
+          break;
+        case msrIntervalKind::kIntervalMajorNinth:
+          break;
+        case msrIntervalKind::kIntervalAugmentedNinth:
+          break;
+
+        case msrIntervalKind::kIntervalDiminishedTenth:
+          break;
+        case msrIntervalKind::kIntervalMinorTenth:
+          break;
+        case msrIntervalKind::kIntervalMajorTenth:
+          break;
+        case msrIntervalKind::kIntervalAugmentedTenth:
+          break;
+
+        case msrIntervalKind::kIntervalDiminishedEleventh:
+          break;
+        case msrIntervalKind::kIntervalPerfectEleventh:
+          break;
+        case msrIntervalKind::kIntervalAugmentedEleventh:
+          break;
+
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
+          break;
+        case msrIntervalKind::kIntervalPerfectTwelfth:
+          break;
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
+          break;
+
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
+          break;
+        case msrIntervalKind::kIntervalMinorThirteenth:
+          break;
+        case msrIntervalKind::kIntervalMajorThirteenth:
+          break;
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           break;
       } // switch
       break;
@@ -3545,157 +3545,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_C_Flat:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_D_TripleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_A_TripleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_D_TripleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_A_TripleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
       } // switch
@@ -3703,157 +3703,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_C_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
       } // switch
@@ -3861,157 +3861,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_C_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
       } // switch
@@ -4019,157 +4019,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_D_Flat:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
       } // switch
@@ -4177,157 +4177,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_D_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
       } // switch
@@ -4335,157 +4335,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_D_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
       } // switch
@@ -4493,157 +4493,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_E_Flat:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
       } // switch
@@ -4651,157 +4651,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_E_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
       } // switch
@@ -4809,157 +4809,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_E_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_G_TripleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_D_TripleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_G_TripleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
       } // switch
@@ -4967,157 +4967,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_F_Flat:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_G_TripleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_A_TripleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_D_TripleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_G_TripleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_A_TripleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_D_TripleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
       } // switch
@@ -5125,157 +5125,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_F_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
       } // switch
@@ -5283,157 +5283,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_F_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_B_TripleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_B_TripleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
       } // switch
@@ -5441,157 +5441,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_G_Flat:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_A_TripleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_A_TripleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_TripleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
       } // switch
@@ -5599,157 +5599,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_G_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
       } // switch
@@ -5757,157 +5757,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_G_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
       } // switch
@@ -5915,157 +5915,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_A_Flat:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_B_TripleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_F_TripleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleleFlat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
       } // switch
@@ -6073,157 +6073,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_A_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
       } // switch
@@ -6231,157 +6231,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_A_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_G_TripleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
       } // switch
@@ -6389,157 +6389,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_B_Flat:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleFlat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_F_Flat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
       } // switch
@@ -6547,157 +6547,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_B_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_A_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_B_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_C_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_D_Flat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_E_Flat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_F_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
       } // switch
@@ -6705,157 +6705,157 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
 
     case msrSemiTonesPitchKind::kSTP_B_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrSemiTonesPitchKind::kSTP_D_TripleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrSemiTonesPitchKind::kSTP_G_TripleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrSemiTonesPitchKind::kSTP_A_Natural;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrSemiTonesPitchKind::kSTP_A_Sharp;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrSemiTonesPitchKind::kSTP_A_DoubleSharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrSemiTonesPitchKind::kSTP_A_TripleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrSemiTonesPitchKind::kSTP_B_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrSemiTonesPitchKind::kSTP_B_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrSemiTonesPitchKind::kSTP_B_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrSemiTonesPitchKind::kSTP_C_Natural;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrSemiTonesPitchKind::kSTP_C_Sharp;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrSemiTonesPitchKind::kSTP_C_DoubleSharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrSemiTonesPitchKind::kSTP_C_TripleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrSemiTonesPitchKind::kSTP_D_Natural;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrSemiTonesPitchKind::kSTP_D_Sharp;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrSemiTonesPitchKind::kSTP_D_DoubleSharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrSemiTonesPitchKind::kSTP_D_TripleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrSemiTonesPitchKind::kSTP_E_Natural;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrSemiTonesPitchKind::kSTP_E_Sharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrSemiTonesPitchKind::kSTP_E_DoubleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_F_Sharp;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrSemiTonesPitchKind::kSTP_F_DoubleSharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrSemiTonesPitchKind::kSTP_F_TripleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_Natural;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_Sharp;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_DoubleSharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrSemiTonesPitchKind::kSTP_G_TripleSharp;
           break;
       } // switch
@@ -6902,157 +6902,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_C_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
       } // switch
@@ -7060,157 +7060,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_C_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
       } // switch
@@ -7218,157 +7218,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_D_Flat:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_E_TripleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_E_TripleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
       } // switch
@@ -7376,157 +7376,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_D_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
       } // switch
@@ -7534,157 +7534,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_D_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_C_TripleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
       } // switch
@@ -7692,157 +7692,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_E_Flat:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
       } // switch
@@ -7850,157 +7850,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_E_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
       } // switch
@@ -8008,157 +8008,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_E_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_F_TripleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_G_TripleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_C_TripleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_D_TripleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_F_TripleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_G_TripleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_C_TripleSharp;
           break;
       } // switch
@@ -8169,157 +8169,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_F_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
       } // switch
@@ -8327,157 +8327,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_F_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_B_TripleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_B_TripleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
       } // switch
@@ -8485,157 +8485,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_G_Flat:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_A_TripleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_E_TripleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_A_TripleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_TripleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
       } // switch
@@ -8643,157 +8643,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_G_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
       } // switch
@@ -8801,157 +8801,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_G_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_F_TripleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
       } // switch
@@ -8959,157 +8959,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_A_Flat:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_B_TripleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_F_TripleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleFlat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
       } // switch
@@ -9117,157 +9117,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_A_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
       } // switch
@@ -9278,157 +9278,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_B_Flat:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleFlat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleFlat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleFlat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleFlat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleFlat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_F_Flat;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleFlat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
       } // switch
@@ -9436,157 +9436,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_B_Natural:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Flat;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_B_Flat;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_C_Flat;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Flat;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Flat;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_F_Natural;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Flat;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
       } // switch
@@ -9594,157 +9594,157 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case msrQuarterTonesPitchKind::kQTP_B_Sharp:
       switch (intervalKind) {
-        case k_NoIntervalKind:
+        case msrIntervalKind::k_NoIntervalKind:
           break;
 
-        case kDiminishedUnisson:
+        case msrIntervalKind::kIntervalDiminishedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kPerfectUnison:
+        case msrIntervalKind::kIntervalPerfectUnisson:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kAugmentedUnison:
+        case msrIntervalKind::kIntervalAugmentedUnisson:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
-        case kDiminishedSecond:
+        case msrIntervalKind::kIntervalDiminishedSecond:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kMinorSecond:
+        case msrIntervalKind::kIntervalMinorSecond:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kMajorSecond:
+        case msrIntervalKind::kIntervalMajorSecond:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
-        case kAugmentedSecond:
+        case msrIntervalKind::kIntervalAugmentedSecond:
           result = msrQuarterTonesPitchKind::kQTP_C_TripleSharp;
           break;
 
-        case kDiminishedThird:
+        case msrIntervalKind::kIntervalDiminishedThird:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kMinorThird:
+        case msrIntervalKind::kIntervalMinorThird:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kMajorThird:
+        case msrIntervalKind::kIntervalMajorThird:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
-        case kAugmentedThird:
+        case msrIntervalKind::kIntervalAugmentedThird:
           result = msrQuarterTonesPitchKind::kQTP_D_TripleSharp;
           break;
 
-        case kDiminishedFourth:
+        case msrIntervalKind::kIntervalDiminishedFourth:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kPerfectFourth:
+        case msrIntervalKind::kIntervalPerfectFourth:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
-        case kAugmentedFourth:
+        case msrIntervalKind::kIntervalAugmentedFourth:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
-        case kDiminishedFifth:
+        case msrIntervalKind::kIntervalDiminishedFifth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kPerfectFifth:
+        case msrIntervalKind::kIntervalPerfectFifth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
-        case kAugmentedFifth:
+        case msrIntervalKind::kIntervalAugmentedFifth:
           result = msrQuarterTonesPitchKind::kQTP_F_TripleSharp;
           break;
 
-        case kDiminishedSixth:
+        case msrIntervalKind::kIntervalDiminishedSixth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kMinorSixth:
+        case msrIntervalKind::kIntervalMinorSixth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kMajorSixth:
+        case msrIntervalKind::kIntervalMajorSixth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
-        case kAugmentedSixth:
+        case msrIntervalKind::kIntervalAugmentedSixth:
           result = msrQuarterTonesPitchKind::kQTP_G_TripleSharp;
           break;
 
-        case kDiminishedSeventh:
+        case msrIntervalKind::kIntervalDiminishedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Natural;
           break;
-        case kMinorSeventh:
+        case msrIntervalKind::kIntervalMinorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_A_Sharp;
           break;
-        case kMajorSeventh:
+        case msrIntervalKind::kIntervalMajorSeventh:
           result = msrQuarterTonesPitchKind::kQTP_A_DoubleSharp;
           break;
-        case kAugmentedSeventh:
+        case msrIntervalKind::kIntervalAugmentedSeventh:
           result = msrQuarterTonesPitchKind::kQTP_A_TripleSharp;
           break;
 
-        case kDiminishedOctave:
+        case msrIntervalKind::kIntervalDiminishedOctave:
           result = msrQuarterTonesPitchKind::kQTP_B_Natural;
           break;
-        case kPerfectOctave:
+        case msrIntervalKind::kIntervalPerfectOctave:
           result = msrQuarterTonesPitchKind::kQTP_B_Sharp;
           break;
-        case kAugmentedOctave:
+        case msrIntervalKind::kIntervalAugmentedOctave:
           result = msrQuarterTonesPitchKind::kQTP_B_DoubleSharp;
           break;
 
-        case kDiminishedNinth:
+        case msrIntervalKind::kIntervalDiminishedNinth:
           result = msrQuarterTonesPitchKind::kQTP_C_Natural;
           break;
-        case kMinorNinth:
+        case msrIntervalKind::kIntervalMinorNinth:
           result = msrQuarterTonesPitchKind::kQTP_C_Sharp;
           break;
-        case kMajorNinth:
+        case msrIntervalKind::kIntervalMajorNinth:
           result = msrQuarterTonesPitchKind::kQTP_C_DoubleSharp;
           break;
-        case kAugmentedNinth:
+        case msrIntervalKind::kIntervalAugmentedNinth:
           result = msrQuarterTonesPitchKind::kQTP_C_TripleSharp;
           break;
 
-        case kDiminishedTenth:
+        case msrIntervalKind::kIntervalDiminishedTenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Natural;
           break;
-        case kMinorTenth:
+        case msrIntervalKind::kIntervalMinorTenth:
           result = msrQuarterTonesPitchKind::kQTP_D_Sharp;
           break;
-        case kMajorTenth:
+        case msrIntervalKind::kIntervalMajorTenth:
           result = msrQuarterTonesPitchKind::kQTP_D_DoubleSharp;
           break;
-        case kAugmentedTenth:
+        case msrIntervalKind::kIntervalAugmentedTenth:
           result = msrQuarterTonesPitchKind::kQTP_D_TripleSharp;
           break;
 
-        case kDiminishedEleventh:
+        case msrIntervalKind::kIntervalDiminishedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Natural;
           break;
-        case kPerfectEleventh:
+        case msrIntervalKind::kIntervalPerfectEleventh:
           result = msrQuarterTonesPitchKind::kQTP_E_Sharp;
           break;
-        case kAugmentedEleventh:
+        case msrIntervalKind::kIntervalAugmentedEleventh:
           result = msrQuarterTonesPitchKind::kQTP_E_DoubleSharp;
           break;
 
-        case kDiminishedTwelfth:
+        case msrIntervalKind::kIntervalDiminishedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_F_Sharp;
           break;
-        case kPerfectTwelfth:
+        case msrIntervalKind::kIntervalPerfectTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_F_DoubleSharp;
           break;
-        case kAugmentedTwelfth:
+        case msrIntervalKind::kIntervalAugmentedTwelfth:
           result = msrQuarterTonesPitchKind::kQTP_F_TripleSharp;
           break;
 
-        case kDiminishedThirteenth:
+        case msrIntervalKind::kIntervalDiminishedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Natural;
           break;
-        case kMinorThirteenth:
+        case msrIntervalKind::kIntervalMinorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_Sharp;
           break;
-        case kMajorThirteenth:
+        case msrIntervalKind::kIntervalMajorThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_DoubleSharp;
           break;
-        case kAugmentedThirteenth:
+        case msrIntervalKind::kIntervalAugmentedThirteenth:
           result = msrQuarterTonesPitchKind::kQTP_G_TripleSharp;
           break;
       } // switch
@@ -9781,7 +9781,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
   msrSemiTonesPitchKind semiTonesPitch1,
   msrSemiTonesPitchKind semiTonesPitch2)
 {
-  msrIntervalKind result = k_NoIntervalKind;
+  msrIntervalKind result = msrIntervalKind::k_NoIntervalKind;
 
   msrSemiTonesPitchKind
     workSemiTonesPitch1 = semiTonesPitch1,
@@ -9808,31 +9808,31 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
 
  /*
-     kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
+     msrIntervalKind::kIntervalDiminishedUnisson, msrIntervalKind::kIntervalPerfectUnisson, msrIntervalKind::kIntervalAugmentedUnisson,
 
-  kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
+  msrIntervalKind::kIntervalDiminishedSecond, msrIntervalKind::kIntervalMinorSecond, msrIntervalKind::kIntervalMajorSecond, msrIntervalKind::kIntervalAugmentedSecond,
 
-  kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
+  msrIntervalKind::kIntervalDiminishedThird, msrIntervalKind::kIntervalMinorThird, msrIntervalKind::kIntervalMajorThird, msrIntervalKind::kIntervalAugmentedThird,
 
-  kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
+  msrIntervalKind::kIntervalDiminishedFourth, msrIntervalKind::kIntervalPerfectFourth, msrIntervalKind::kIntervalAugmentedFourth,
 
-  kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
+  msrIntervalKind::kIntervalDiminishedFifth, msrIntervalKind::kIntervalPerfectFifth, msrIntervalKind::kIntervalAugmentedFifth,
 
-  kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
+  msrIntervalKind::kIntervalDiminishedSixth, msrIntervalKind::kIntervalMinorSixth, msrIntervalKind::kIntervalMajorSixth, msrIntervalKind::kIntervalAugmentedSixth,
 
-  kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
+  msrIntervalKind::kIntervalDiminishedSeventh, msrIntervalKind::kIntervalMinorSeventh, msrIntervalKind::kIntervalMajorSeventh, msrIntervalKind::kIntervalAugmentedSeventh,
 
-  kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
+  msrIntervalKind::kIntervalDiminishedOctave, msrIntervalKind::kIntervalPerfectOctave, msrIntervalKind::kIntervalAugmentedOctave,
 
-  kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
+  msrIntervalKind::kIntervalDiminishedNinth, msrIntervalKind::kIntervalMinorNinth, msrIntervalKind::kIntervalMajorNinth, msrIntervalKind::kIntervalAugmentedNinth,
 
-  kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
+  msrIntervalKind::kIntervalDiminishedTenth, msrIntervalKind::kIntervalMinorTenth, msrIntervalKind::kIntervalMajorTenth, msrIntervalKind::kIntervalAugmentedTenth,
 
-  kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
+  msrIntervalKind::kIntervalDiminishedEleventh, msrIntervalKind::kIntervalPerfectEleventh, msrIntervalKind::kIntervalAugmentedEleventh,
 
-  kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
+  msrIntervalKind::kIntervalDiminishedTwelfth, msrIntervalKind::kIntervalPerfectTwelfth, msrIntervalKind::kIntervalAugmentedTwelfth,
 
-  kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
+  msrIntervalKind::kIntervalDiminishedThirteenth, msrIntervalKind::kIntervalMinorThirteenth, msrIntervalKind::kIntervalMajorThirteenth, msrIntervalKind::kIntervalAugmentedThirteenth };
 
 */
 
@@ -10048,31 +10048,31 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
 
  /*
-     kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
+     msrIntervalKind::kIntervalDiminishedUnisson, msrIntervalKind::kIntervalPerfectUnisson, msrIntervalKind::kIntervalAugmentedUnisson,
 
-  kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
+  msrIntervalKind::kIntervalDiminishedSecond, msrIntervalKind::kIntervalMinorSecond, msrIntervalKind::kIntervalMajorSecond, msrIntervalKind::kIntervalAugmentedSecond,
 
-  kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
+  msrIntervalKind::kIntervalDiminishedThird, msrIntervalKind::kIntervalMinorThird, msrIntervalKind::kIntervalMajorThird, msrIntervalKind::kIntervalAugmentedThird,
 
-  kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
+  msrIntervalKind::kIntervalDiminishedFourth, msrIntervalKind::kIntervalPerfectFourth, msrIntervalKind::kIntervalAugmentedFourth,
 
-  kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
+  msrIntervalKind::kIntervalDiminishedFifth, msrIntervalKind::kIntervalPerfectFifth, msrIntervalKind::kIntervalAugmentedFifth,
 
-  kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
+  msrIntervalKind::kIntervalDiminishedSixth, msrIntervalKind::kIntervalMinorSixth, msrIntervalKind::kIntervalMajorSixth, msrIntervalKind::kIntervalAugmentedSixth,
 
-  kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
+  msrIntervalKind::kIntervalDiminishedSeventh, msrIntervalKind::kIntervalMinorSeventh, msrIntervalKind::kIntervalMajorSeventh, msrIntervalKind::kIntervalAugmentedSeventh,
 
-  kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
+  msrIntervalKind::kIntervalDiminishedOctave, msrIntervalKind::kIntervalPerfectOctave, msrIntervalKind::kIntervalAugmentedOctave,
 
-  kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
+  msrIntervalKind::kIntervalDiminishedNinth, msrIntervalKind::kIntervalMinorNinth, msrIntervalKind::kIntervalMajorNinth, msrIntervalKind::kIntervalAugmentedNinth,
 
-  kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
+  msrIntervalKind::kIntervalDiminishedTenth, msrIntervalKind::kIntervalMinorTenth, msrIntervalKind::kIntervalMajorTenth, msrIntervalKind::kIntervalAugmentedTenth,
 
-  kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
+  msrIntervalKind::kIntervalDiminishedEleventh, msrIntervalKind::kIntervalPerfectEleventh, msrIntervalKind::kIntervalAugmentedEleventh,
 
-  kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
+  msrIntervalKind::kIntervalDiminishedTwelfth, msrIntervalKind::kIntervalPerfectTwelfth, msrIntervalKind::kIntervalAugmentedTwelfth,
 
-  kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
+  msrIntervalKind::kIntervalDiminishedThirteenth, msrIntervalKind::kIntervalMinorThirteenth, msrIntervalKind::kIntervalMajorThirteenth, msrIntervalKind::kIntervalAugmentedThirteenth };
 
 */
 
@@ -10175,13 +10175,13 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
         case msrSemiTonesPitchKind::kSTP_B_Natural:
           break;
         case msrSemiTonesPitchKind::kSTP_B_Sharp:
-          result = kAugmentedUnison;
+          result = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
         case msrSemiTonesPitchKind::kSTP_B_DoubleSharp:
-          result = kPerfectUnison;
+          result = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         case msrSemiTonesPitchKind::kSTP_B_TripleSharp:
-          result = kPerfectUnison;
+          result = msrIntervalKind::kIntervalPerfectUnisson;
           break;
       } // switch
       break;
@@ -10192,31 +10192,31 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
 
  /*
-     kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
+     msrIntervalKind::kIntervalDiminishedUnisson, msrIntervalKind::kIntervalPerfectUnisson, msrIntervalKind::kIntervalAugmentedUnisson,
 
-  kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
+  msrIntervalKind::kIntervalDiminishedSecond, msrIntervalKind::kIntervalMinorSecond, msrIntervalKind::kIntervalMajorSecond, msrIntervalKind::kIntervalAugmentedSecond,
 
-  kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
+  msrIntervalKind::kIntervalDiminishedThird, msrIntervalKind::kIntervalMinorThird, msrIntervalKind::kIntervalMajorThird, msrIntervalKind::kIntervalAugmentedThird,
 
-  kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
+  msrIntervalKind::kIntervalDiminishedFourth, msrIntervalKind::kIntervalPerfectFourth, msrIntervalKind::kIntervalAugmentedFourth,
 
-  kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
+  msrIntervalKind::kIntervalDiminishedFifth, msrIntervalKind::kIntervalPerfectFifth, msrIntervalKind::kIntervalAugmentedFifth,
 
-  kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
+  msrIntervalKind::kIntervalDiminishedSixth, msrIntervalKind::kIntervalMinorSixth, msrIntervalKind::kIntervalMajorSixth, msrIntervalKind::kIntervalAugmentedSixth,
 
-  kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
+  msrIntervalKind::kIntervalDiminishedSeventh, msrIntervalKind::kIntervalMinorSeventh, msrIntervalKind::kIntervalMajorSeventh, msrIntervalKind::kIntervalAugmentedSeventh,
 
-  kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
+  msrIntervalKind::kIntervalDiminishedOctave, msrIntervalKind::kIntervalPerfectOctave, msrIntervalKind::kIntervalAugmentedOctave,
 
-  kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
+  msrIntervalKind::kIntervalDiminishedNinth, msrIntervalKind::kIntervalMinorNinth, msrIntervalKind::kIntervalMajorNinth, msrIntervalKind::kIntervalAugmentedNinth,
 
-  kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
+  msrIntervalKind::kIntervalDiminishedTenth, msrIntervalKind::kIntervalMinorTenth, msrIntervalKind::kIntervalMajorTenth, msrIntervalKind::kIntervalAugmentedTenth,
 
-  kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
+  msrIntervalKind::kIntervalDiminishedEleventh, msrIntervalKind::kIntervalPerfectEleventh, msrIntervalKind::kIntervalAugmentedEleventh,
 
-  kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
+  msrIntervalKind::kIntervalDiminishedTwelfth, msrIntervalKind::kIntervalPerfectTwelfth, msrIntervalKind::kIntervalAugmentedTwelfth,
 
-  kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
+  msrIntervalKind::kIntervalDiminishedThirteenth, msrIntervalKind::kIntervalMinorThirteenth, msrIntervalKind::kIntervalMajorThirteenth, msrIntervalKind::kIntervalAugmentedThirteenth };
 
 */
 
@@ -10321,10 +10321,10 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
         case msrSemiTonesPitchKind::kSTP_B_Sharp:
           break;
         case msrSemiTonesPitchKind::kSTP_B_DoubleSharp:
-          result = kAugmentedUnison;
+          result = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
         case msrSemiTonesPitchKind::kSTP_B_TripleSharp:
-          result = kPerfectUnison;
+          result = msrIntervalKind::kIntervalPerfectUnisson;
           break;
       } // switch
       break;
@@ -10992,149 +10992,149 @@ string msrHarmonyKindAsString (
   string result;
 
   switch (harmonyKind) {
-    case k_NoHarmony:
+    case msrHarmonyKind::k_NoHarmony:
       result = "noHarmony";
       break;
 
     // MusicXML harmonies
 
-    case kMajorHarmony:
+    case msrHarmonyKind::kHarmonyMajor:
       result = "major";
       break;
-    case kMinorHarmony:
+    case msrHarmonyKind::kHarmonyMinor:
       result = "minor";
       break;
-    case kAugmentedHarmony:
+    case msrHarmonyKind::kHarmonyAugmented:
       result = "augmented";
       break;
-    case kDiminishedHarmony:
+    case msrHarmonyKind::kHarmonyDiminished:
       result = "diminished";
       break;
 
-    case kDominantHarmony:
+    case msrHarmonyKind::kHarmonyDominant:
       result = "dominant";
       break;
-    case kMajorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMajorSeventh:
       result = "majorSeventh";
       break;
-    case kMinorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorSeventh:
       result = "minorSeventh";
       break;
-    case kDiminishedSeventhHarmony:
+    case msrHarmonyKind::kHarmonyDiminishedSeventh:
       result = "diminishedSeventh";
       break;
-    case kAugmentedSeventhHarmony:
+    case msrHarmonyKind::kHarmonyAugmentedSeventh:
       result = "augmentedSeventh";
       break;
-    case kHalfDiminishedHarmony:
+    case msrHarmonyKind::kHarmonyHalfDiminished:
       result = "halfDiminished";
       break;
-    case kMinorMajorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorMajorSeventh:
       result = "minorMajorSeventhHarmony";
       break;
 
-    case kMajorSixthHarmony:
+    case msrHarmonyKind::kHarmonyMajorSixth:
       result = "majorSixth";
       break;
-    case kMinorSixthHarmony:
+    case msrHarmonyKind::kHarmonyMinorSixth:
       result = "minorSixth";
       break;
 
-    case kDominantNinthHarmony:
+    case msrHarmonyKind::kHarmonyDominantNinth:
       result = "dominantNinth";
       break;
-    case kMajorNinthHarmony:
+    case msrHarmonyKind::kHarmonyMajorNinth:
       result = "majorNinth";
       break;
-    case kMinorNinthHarmony:
+    case msrHarmonyKind::kHarmonyMinorNinth:
       result = "minorNinth";
       break;
 
-    case kDominantEleventhHarmony:
+    case msrHarmonyKind::kHarmonyDominantEleventh:
       result = "dominantEleventh";
       break;
-    case kMajorEleventhHarmony:
+    case msrHarmonyKind::kHarmonyMajorEleventh:
       result = "majorEleventh";
       break;
-    case kMinorEleventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorEleventh:
       result = "minorEleventh";
       break;
 
-    case kDominantThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyDominantThirteenth:
       result = "dominantThirteenth";
       break;
-    case kMajorThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyMajorThirteenth:
       result = "majorThirteenth";
       break;
-    case kMinorThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyMinorThirteenth:
       result = "minorThirteenth";
       break;
 
-    case kSuspendedSecondHarmony:
+    case msrHarmonyKind::kHarmonySuspendedSecond:
       result = "suspendedSecond";
       break;
-    case kSuspendedFourthHarmony:
+    case msrHarmonyKind::kHarmonySuspendedFourth:
       result = "suspendedFourth";
       break;
 
-    case kNeapolitanHarmony:
+    case msrHarmonyKind::kHarmonyNeapolitan:
       result = "neapolitan";
       break;
-    case kItalianHarmony:
+    case msrHarmonyKind::kHarmonyItalian:
       result = "italian";
       break;
-    case kFrenchHarmony:
+    case msrHarmonyKind::kHarmonyFrench:
       result = "french";
       break;
-    case kGermanHarmony:
+    case msrHarmonyKind::kHarmonyGerman:
       result = "german";
       break;
 
-    case kPedalHarmony:
+    case msrHarmonyKind::kHarmonyPedal:
       result = "pedal";
       break;
-    case kPowerHarmony:
+    case msrHarmonyKind::kHarmonyPower:
       result = "power";
       break;
-    case kTristanHarmony:
+    case msrHarmonyKind::kHarmonyTristan:
       result = "tristan";
       break;
 
     // jazz-specific Harmonies
 
-    case kMinorMajorNinth: // -maj9, minmaj9
+    case msrHarmonyKind::kHarmonyMinorMajorNinth: // -maj9, minmaj9
       result = "minorMajorNinth";
       break;
 
-    case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
+    case msrHarmonyKind::kHarmonyDominantSuspendedFourth: // 7sus4, domsus4
       result = "dominantSuspendedFourthHarmony";
       break;
-    case kDominantAugmentedFifthHarmony: // 7#5, domaug5
+    case msrHarmonyKind::kHarmonyDominantAugmentedFifth: // 7#5, domaug5
       result = "dominantAugmentedFifthHarmony";
       break;
-    case kDominantMinorNinthHarmony: // 7b9, dommin9
+    case msrHarmonyKind::kHarmonyDominantMinorNinth: // 7b9, dommin9
       result = "dominantMinorNinthHarmony";
       break;
-    case kDominantAugmentedNinthDiminishedFifthHarmony: // 7#9b5, domaug9dim5
+    case msrHarmonyKind::kHarmonyDominantAugmentedNinthDiminishedFifth: // 7#9b5, domaug9dim5
       result = "dominantAugmentedNinthDiminishedFifthHarmony";
       break;
-    case kDominantAugmentedNinthAugmentedFifthHarmony: // 7#9#5, domaug9aug5
+    case msrHarmonyKind::kIntervkDominantAugmentedNinthAugmentedFifthHarmonyalAugmentedThirteenth: // 7#9#5, domaug9aug5
       result = "dominantAugmentedNinthAugmentedFifthHarmony";
       break;
-    case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
+    case msrHarmonyKind::kHarmonyDominantAugmentedEleventh: // 7#11, domaug11
       result = "dominantAugmentedEleventhHarmony";
       break;
 
-    case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
+    case msrHarmonyKind::kHarmonyMajorSeventhAugmentedEleventh: // maj7#11, maj7aug11
       result = "majorSeventhAugmentedEleventhHarmony";
       break;
 
     // other
 
-    case kOtherHarmony:
+    case msrHarmonyKind::kHarmonyOther:
       result = "other";
       break;
-    case kNoneHarmony:
+    case msrHarmonyKind::kHarmonyNone:
       result = "none";
       break;
   } // switch
@@ -11148,149 +11148,149 @@ string msrHarmonyKindAsShortString (
   string result;
 
   switch (harmonyKind) {
-    case k_NoHarmony:
+    case msrHarmonyKind::k_NoHarmony:
       result = "noHarmony";
       break;
 
     // MusicXML harmonies
 
-    case kMajorHarmony:
+    case msrHarmonyKind::kHarmonyMajor:
       result = "M";
       break;
-    case kMinorHarmony:
+    case msrHarmonyKind::kHarmonyMinor:
       result = "m";
       break;
-    case kAugmentedHarmony:
+    case msrHarmonyKind::kHarmonyAugmented:
       result = "+";
       break;
-    case kDiminishedHarmony:
+    case msrHarmonyKind::kHarmonyDiminished:
       result = "dim";
       break;
 
-    case kDominantHarmony:
+    case msrHarmonyKind::kHarmonyDominant:
       result = "7";
       break;
-    case kMajorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMajorSeventh:
       result = "∆7";
       break;
-    case kMinorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorSeventh:
       result = "m7";
       break;
-    case kDiminishedSeventhHarmony:
+    case msrHarmonyKind::kHarmonyDiminishedSeventh:
       result = "7/5-";
       break;
-    case kAugmentedSeventhHarmony:
+    case msrHarmonyKind::kHarmonyAugmentedSeventh:
       result = "7/5+";
       break;
-    case kHalfDiminishedHarmony:
+    case msrHarmonyKind::kHarmonyHalfDiminished:
       result = "ø7";
       break;
-    case kMinorMajorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorMajorSeventh:
       result = "m∆7";
       break;
 
-    case kMajorSixthHarmony:
+    case msrHarmonyKind::kHarmonyMajorSixth:
       result = "6";
       break;
-    case kMinorSixthHarmony:
+    case msrHarmonyKind::kHarmonyMinorSixth:
       result = "m6";
       break;
 
-    case kDominantNinthHarmony:
+    case msrHarmonyKind::kHarmonyDominantNinth:
       result = "9";
       break;
-    case kMajorNinthHarmony:
+    case msrHarmonyKind::kHarmonyMajorNinth:
       result = "∆7/9";
       break;
-    case kMinorNinthHarmony:
+    case msrHarmonyKind::kHarmonyMinorNinth:
       result = "m∆7/9";
       break;
 
-    case kDominantEleventhHarmony:
+    case msrHarmonyKind::kHarmonyDominantEleventh:
       result = "11";
       break;
-    case kMajorEleventhHarmony:
+    case msrHarmonyKind::kHarmonyMajorEleventh:
       result = "∆7/11";
       break;
-    case kMinorEleventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorEleventh:
       result = "m∆7/11";
       break;
 
-    case kDominantThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyDominantThirteenth:
       result = "13";
       break;
-    case kMajorThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyMajorThirteenth:
       result = "∆7/13";
       break;
-    case kMinorThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyMinorThirteenth:
       result = "m∆7/13";
       break;
 
-    case kSuspendedSecondHarmony:
+    case msrHarmonyKind::kHarmonySuspendedSecond:
       result = "sus2";
       break;
-    case kSuspendedFourthHarmony:
+    case msrHarmonyKind::kHarmonySuspendedFourth:
       result = "sus4";
       break;
 
-    case kNeapolitanHarmony:
+    case msrHarmonyKind::kHarmonyNeapolitan:
       result = "Neapolitan";
       break;
-    case kItalianHarmony:
+    case msrHarmonyKind::kHarmonyItalian:
       result = "Italian";
       break;
-    case kFrenchHarmony:
+    case msrHarmonyKind::kHarmonyFrench:
       result = "French";
       break;
-    case kGermanHarmony:
+    case msrHarmonyKind::kHarmonyGerman:
       result = "German";
       break;
 
-    case kPedalHarmony:
+    case msrHarmonyKind::kHarmonyPedal:
       result = "Pedal";
       break;
-    case kPowerHarmony:
+    case msrHarmonyKind::kHarmonyPower:
       result = "Power";
       break;
-    case kTristanHarmony:
+    case msrHarmonyKind::kHarmonyTristan:
       result = "Tristan";
       break;
 
     // jazz-specific Harmonies
 
-    case kMinorMajorNinth: // -maj9, minmaj9
+    case msrHarmonyKind::kHarmonyMinorMajorNinth: // -maj9, minmaj9
       result = "m∆9";
       break;
 
-    case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
+    case msrHarmonyKind::kHarmonyDominantSuspendedFourth: // 7sus4, domsus4
       result = "7sus4";
       break;
-    case kDominantAugmentedFifthHarmony: // 7#5, domaug5
+    case msrHarmonyKind::kHarmonyDominantAugmentedFifth: // 7#5, domaug5
       result = "7#5";
       break;
-    case kDominantMinorNinthHarmony: // 7b9, dommin9
+    case msrHarmonyKind::kHarmonyDominantMinorNinth: // 7b9, dommin9
       result = "7b9";
       break;
-    case kDominantAugmentedNinthDiminishedFifthHarmony: // 7#9b5, domaug9dim5
+    case msrHarmonyKind::kHarmonyDominantAugmentedNinthDiminishedFifth: // 7#9b5, domaug9dim5
       result = "7#9b5";
       break;
-    case kDominantAugmentedNinthAugmentedFifthHarmony: // 7#9#5, domaug9aug5
+    case msrHarmonyKind::kIntervkDominantAugmentedNinthAugmentedFifthHarmonyalAugmentedThirteenth: // 7#9#5, domaug9aug5
       result = "7#9#5";
       break;
-    case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
+    case msrHarmonyKind::kHarmonyDominantAugmentedEleventh: // 7#11, domaug11
       result = "7#11";
       break;
 
-    case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
+    case msrHarmonyKind::kHarmonyMajorSeventhAugmentedEleventh: // maj7#11, maj7aug11
       result = "maj7#11";
       break;
 
     // other
 
-    case kOtherHarmony:
+    case msrHarmonyKind::kHarmonyOther:
       result = "Other";
       break;
-    case kNoneHarmony:
+    case msrHarmonyKind::kHarmonyNone:
       result = "None";
       break;
   } // switch
@@ -11304,149 +11304,149 @@ string msrHarmonyKindShortName (
   string result;
 
   switch (harmonyKind) {
-    case k_NoHarmony:
+    case msrHarmonyKind::k_NoHarmony:
       result = "noHarmony";
       break;
 
     // MusicXML harmonies
 
-    case kMajorHarmony:
+    case msrHarmonyKind::kHarmonyMajor:
       result = "maj";
       break;
-    case kMinorHarmony:
+    case msrHarmonyKind::kHarmonyMinor:
       result = "min";
       break;
-    case kAugmentedHarmony:
+    case msrHarmonyKind::kHarmonyAugmented:
       result = "aug";
       break;
-    case kDiminishedHarmony:
+    case msrHarmonyKind::kHarmonyDiminished:
       result = "dim";
       break;
 
-    case kDominantHarmony:
+    case msrHarmonyKind::kHarmonyDominant:
       result = "dom";
       break;
-    case kMajorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMajorSeventh:
       result = "maj";
       break;
-    case kMinorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorSeventh:
       result = "min7";
       break;
-    case kDiminishedSeventhHarmony:
+    case msrHarmonyKind::kHarmonyDiminishedSeventh:
       result = "dim7";
       break;
-    case kAugmentedSeventhHarmony:
+    case msrHarmonyKind::kHarmonyAugmentedSeventh:
       result = "aug7";
       break;
-    case kHalfDiminishedHarmony:
+    case msrHarmonyKind::kHarmonyHalfDiminished:
       result = "halfdim";
       break;
-    case kMinorMajorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorMajorSeventh:
       result = "minmaj7";
       break;
 
-    case kMajorSixthHarmony:
+    case msrHarmonyKind::kHarmonyMajorSixth:
       result = "maj6";
       break;
-    case kMinorSixthHarmony:
+    case msrHarmonyKind::kHarmonyMinorSixth:
       result = "min6";
       break;
 
-    case kDominantNinthHarmony:
+    case msrHarmonyKind::kHarmonyDominantNinth:
       result = "dom9";
       break;
-    case kMajorNinthHarmony:
+    case msrHarmonyKind::kHarmonyMajorNinth:
       result = "maj9";
       break;
-    case kMinorNinthHarmony:
+    case msrHarmonyKind::kHarmonyMinorNinth:
       result = "min9";
       break;
 
-    case kDominantEleventhHarmony:
+    case msrHarmonyKind::kHarmonyDominantEleventh:
       result = "dom11";
       break;
-    case kMajorEleventhHarmony:
+    case msrHarmonyKind::kHarmonyMajorEleventh:
       result = "maj11";
       break;
-    case kMinorEleventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorEleventh:
       result = "min11";
       break;
 
-    case kDominantThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyDominantThirteenth:
       result = "dom13";
       break;
-    case kMajorThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyMajorThirteenth:
       result = "maj13";
       break;
-    case kMinorThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyMinorThirteenth:
       result = "min13";
       break;
 
-    case kSuspendedSecondHarmony:
+    case msrHarmonyKind::kHarmonySuspendedSecond:
       result = "sus2";
       break;
-    case kSuspendedFourthHarmony:
+    case msrHarmonyKind::kHarmonySuspendedFourth:
       result = "sus4";
       break;
 
-    case kNeapolitanHarmony:
+    case msrHarmonyKind::kHarmonyNeapolitan:
       result = "neapolitan";
       break;
-    case kItalianHarmony:
+    case msrHarmonyKind::kHarmonyItalian:
       result = "ttalian";
       break;
-    case kFrenchHarmony:
+    case msrHarmonyKind::kHarmonyFrench:
       result = "french";
       break;
-    case kGermanHarmony:
+    case msrHarmonyKind::kHarmonyGerman:
       result = "german";
       break;
 
-    case kPedalHarmony:
+    case msrHarmonyKind::kHarmonyPedal:
       result = "pedal";
       break;
-    case kPowerHarmony:
+    case msrHarmonyKind::kHarmonyPower:
       result = "power";
       break;
-    case kTristanHarmony:
+    case msrHarmonyKind::kHarmonyTristan:
       result = "tristan";
       break;
 
     // jazz-specific Harmonies
 
-    case kMinorMajorNinth: // -maj9, minmaj9
+    case msrHarmonyKind::kHarmonyMinorMajorNinth: // -maj9, minmaj9
       result = "minmaj9";
       break;
 
-    case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
+    case msrHarmonyKind::kHarmonyDominantSuspendedFourth: // 7sus4, domsus4
       result = "domsus4";
       break;
-    case kDominantAugmentedFifthHarmony: // 7#5, domaug5
+    case msrHarmonyKind::kHarmonyDominantAugmentedFifth: // 7#5, domaug5
       result = "domaug5";
       break;
-    case kDominantMinorNinthHarmony: // 7b9, dommin9
+    case msrHarmonyKind::kHarmonyDominantMinorNinth: // 7b9, dommin9
       result = "dommin9";
       break;
-    case kDominantAugmentedNinthDiminishedFifthHarmony: // 7#9b5, domaug9dim5
+    case msrHarmonyKind::kHarmonyDominantAugmentedNinthDiminishedFifth: // 7#9b5, domaug9dim5
       result = "domaug9dim5";
       break;
-    case kDominantAugmentedNinthAugmentedFifthHarmony: // 7#9#5, domaug9aug5
+    case msrHarmonyKind::kIntervkDominantAugmentedNinthAugmentedFifthHarmonyalAugmentedThirteenth: // 7#9#5, domaug9aug5
       result = "domaug9aug5";
       break;
-    case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
+    case msrHarmonyKind::kHarmonyDominantAugmentedEleventh: // 7#11, domaug11
       result = "domaug11";
       break;
 
-    case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
+    case msrHarmonyKind::kHarmonyMajorSeventhAugmentedEleventh: // maj7#11, maj7aug11
       result = "maj7aug11";
       break;
 
     // other
 
-    case kOtherHarmony:
+    case msrHarmonyKind::kHarmonyOther:
       result = "other";
       break;
-    case kNoneHarmony:
+    case msrHarmonyKind::kHarmonyNone:
       result = "none";
       break;
   } // switch
@@ -11457,129 +11457,129 @@ string msrHarmonyKindShortName (
 msrHarmonyKind msrHarmonyKindFromString (
   const string& theString)
 {
-  msrHarmonyKind result = k_NoHarmony;
+  msrHarmonyKind result = msrHarmonyKind::k_NoHarmony;
 
   // MusicXML harmonies
 
   if (theString == "maj") {
-    result = kMajorHarmony;
+    result = msrHarmonyKind::kHarmonyMajor;
   }
   else if (theString == "min") {
-    result = kMinorHarmony;
+    result = msrHarmonyKind::kHarmonyMinor;
   }
   else if (theString == "aug") {
-    result = kAugmentedHarmony;
+    result = msrHarmonyKind::kHarmonyAugmented;
   }
   else if (theString == "dim") {
-    result = kDiminishedHarmony;
+    result = msrHarmonyKind::kHarmonyDiminished;
   }
   else if (theString == "dom") {
-    result = kDominantHarmony;
+    result = msrHarmonyKind::kHarmonyDominant;
   }
   else if (theString == "maj7") {
-    result = kMajorSeventhHarmony;
+    result = msrHarmonyKind::kHarmonyMajorSeventh;
   }
   else if (theString == "min7") {
-    result = kMinorSeventhHarmony;
+    result = msrHarmonyKind::kHarmonyMinorSeventh;
   }
   else if (theString == "dim7") {
-    result = kDiminishedSeventhHarmony;
+    result = msrHarmonyKind::kHarmonyDiminishedSeventh;
   }
   else if (theString == "aug7") {
-    result = kAugmentedSeventhHarmony;
+    result = msrHarmonyKind::kHarmonyAugmentedSeventh;
   }
   else if (theString == "halfdim") {
-    result = kHalfDiminishedHarmony;
+    result = msrHarmonyKind::kHarmonyHalfDiminished;
   }
   else if (theString == "minmaj7") {
-    result = kMinorMajorSeventhHarmony;
+    result = msrHarmonyKind::kHarmonyMinorMajorSeventh;
   }
   else if (theString == "maj6") {
-    result = kMajorSixthHarmony;
+    result = msrHarmonyKind::kHarmonyMajorSixth;
   }
   else if (theString == "min6") {
-    result = kMinorSixthHarmony;
+    result = msrHarmonyKind::kHarmonyMinorSixth;
   }
   else if (theString == "dom9") {
-    result = kDominantNinthHarmony;
+    result = msrHarmonyKind::kHarmonyDominantNinth;
   }
   else if (theString == "maj9") {
-    result = kMajorNinthHarmony;
+    result = msrHarmonyKind::kHarmonyMajorNinth;
   }
   else if (theString == "min9") {
-    result = kMinorNinthHarmony;
+    result = msrHarmonyKind::kHarmonyMinorNinth;
   }
   else if (theString == "dom11") {
-    result = kDominantEleventhHarmony;
+    result = msrHarmonyKind::kHarmonyDominantEleventh;
   }
   else if (theString == "maj11") {
-    result = kMajorEleventhHarmony;
+    result = msrHarmonyKind::kHarmonyMajorEleventh;
   }
   else if (theString == "min11") {
-    result = kMinorEleventhHarmony;
+    result = msrHarmonyKind::kHarmonyMinorEleventh;
   }
   else if (theString == "dom13") {
-    result = kDominantThirteenthHarmony;
+    result = msrHarmonyKind::kHarmonyDominantThirteenth;
   }
   else if (theString == "maj13") {
-    result = kMajorThirteenthHarmony;
+    result = msrHarmonyKind::kHarmonyMajorThirteenth;
   }
   else if (theString == "min13") {
-    result = kMinorThirteenthHarmony;
+    result = msrHarmonyKind::kHarmonyMinorThirteenth;
   }
   else if (theString == "sus2") {
-    result = kSuspendedSecondHarmony;
+    result = msrHarmonyKind::kHarmonySuspendedSecond;
   }
   else if (theString == "sus4") {
-    result = kSuspendedFourthHarmony;
+    result = msrHarmonyKind::kHarmonySuspendedFourth;
   }
   else if (theString == "neapolitan") {
-    result = kNeapolitanHarmony;
+    result = msrHarmonyKind::kHarmonyNeapolitan;
   }
   else if (theString == "italian") {
-    result = kItalianHarmony;
+    result = msrHarmonyKind::kHarmonyItalian;
   }
   else if (theString == "french") {
-    result = kFrenchHarmony;
+    result = msrHarmonyKind::kHarmonyFrench;
   }
   else if (theString == "german") {
-    result = kGermanHarmony;
+    result = msrHarmonyKind::kHarmonyGerman;
   }
   else if (theString == "pedal") {
-    result = kPedalHarmony;
+    result = msrHarmonyKind::kHarmonyPedal;
   }
   else if (theString == "power") {
-    result = kPowerHarmony;
+    result = msrHarmonyKind::kHarmonyPower;
   }
   else if (theString == "tristan") {
-    result = kTristanHarmony;
+    result = msrHarmonyKind::kHarmonyTristan;
   }
 
   // jazz-specific Harmonies
 
   else if (theString == "minmaj9") {
-    result = kMinorMajorNinth;                              // -maj9, minmaj9
+    result = msrHarmonyKind::kHarmonyMinorMajorNinth;                              // -maj9, minmaj9
   }
   else if (theString == "domsus4") {
-    result = kDominantSuspendedFourthHarmony;               // 7sus4, domsus4
+    result = msrHarmonyKind::kHarmonyDominantSuspendedFourth;               // 7sus4, domsus4
   }
   else if (theString == "domaug5") {
-    result = kDominantAugmentedFifthHarmony;                // 7#5, domaug5
+    result = msrHarmonyKind::kHarmonyDominantAugmentedFifth;                // 7#5, domaug5
   }
   else if (theString == "dommin9") {
-    result = kDominantMinorNinthHarmony;                    // 7b9, dommin9
+    result = msrHarmonyKind::kHarmonyDominantMinorNinth;                    // 7b9, dommin9
   }
   else if (theString == "domaug9dim5") {
-    result = kDominantAugmentedNinthDiminishedFifthHarmony; // 7#9b5, domaug9dim5
+    result = msrHarmonyKind::kHarmonyDominantAugmentedNinthDiminishedFifth; // 7#9b5, domaug9dim5
   }
   else if (theString == "domaug9aug5") {
-    result = kDominantAugmentedNinthAugmentedFifthHarmony;  // 7#9#5, domaug9aug5
+    result = msrHarmonyKind::kIntervkDominantAugmentedNinthAugmentedFifthHarmonyalAugmentedThirteenth;  // 7#9#5, domaug9aug5
   }
   else if (theString == "domaug11") {
-    result = kDominantAugmentedEleventhHarmony;             // 7#11, domaug11
+    result = msrHarmonyKind::kHarmonyDominantAugmentedEleventh;             // 7#11, domaug11
   }
   else if (theString == "maj7aug11") {
-    result = kMajorSeventhAugmentedEleventhHarmony;         // maj7#11, maj7aug11
+    result = msrHarmonyKind::kHarmonyMajorSeventhAugmentedEleventh;         // maj7#11, maj7aug11
   }
 
   return result;
@@ -11600,48 +11600,48 @@ void initializeHarmonyKinds ()
     // MusicXML harmonies
 
     gHarmonyKindsNamesList.push_back ("maj"); // JMI
-    gGlobalHarmonyKindsMap [gHarmonyKindsNamesList.back ()] = kMajorHarmony;
-    gGlobalHarmonyKindsMap ["min"] = kMinorHarmony;
-    gGlobalHarmonyKindsMap ["aug"] = kAugmentedHarmony;
-    gGlobalHarmonyKindsMap ["dim"] = kDiminishedHarmony;
-    gGlobalHarmonyKindsMap ["dom"] = kDominantHarmony;
-    gGlobalHarmonyKindsMap ["maj7"] = kMajorSeventhHarmony;
-    gGlobalHarmonyKindsMap ["min7"] = kMinorSeventhHarmony;
-    gGlobalHarmonyKindsMap ["dim7"] = kDiminishedSeventhHarmony;
-    gGlobalHarmonyKindsMap ["aug7"] = kAugmentedSeventhHarmony;
-    gGlobalHarmonyKindsMap ["halfdim"] = kHalfDiminishedHarmony;
-    gGlobalHarmonyKindsMap ["minmaj7"] = kMinorMajorSeventhHarmony;
-    gGlobalHarmonyKindsMap ["maj6"] = kMajorSixthHarmony;
-    gGlobalHarmonyKindsMap ["min6"] = kMinorSixthHarmony;
-    gGlobalHarmonyKindsMap ["dom9"] = kDominantNinthHarmony;
-    gGlobalHarmonyKindsMap ["maj9"] = kMajorNinthHarmony;
-    gGlobalHarmonyKindsMap ["min9"] = kMinorNinthHarmony;
-    gGlobalHarmonyKindsMap ["dom11"] = kDominantEleventhHarmony;
-    gGlobalHarmonyKindsMap ["maj11"] = kMajorEleventhHarmony;
-    gGlobalHarmonyKindsMap ["min11"] = kMinorEleventhHarmony;
-    gGlobalHarmonyKindsMap ["dom13"] = kDominantThirteenthHarmony;
-    gGlobalHarmonyKindsMap ["maj13"] = kMajorThirteenthHarmony;
-    gGlobalHarmonyKindsMap ["min13"] = kMinorThirteenthHarmony;
-    gGlobalHarmonyKindsMap ["sus2"] = kSuspendedSecondHarmony;
-    gGlobalHarmonyKindsMap ["sus4"] = kSuspendedFourthHarmony;
-    gGlobalHarmonyKindsMap ["neapolitan"] = kNeapolitanHarmony;
-    gGlobalHarmonyKindsMap ["italian"] = kItalianHarmony;
-    gGlobalHarmonyKindsMap ["french"] = kFrenchHarmony;
-    gGlobalHarmonyKindsMap ["german"] = kGermanHarmony;
-    gGlobalHarmonyKindsMap ["pedal"] = kPedalHarmony;
-    gGlobalHarmonyKindsMap ["power"] = kPowerHarmony;
-    gGlobalHarmonyKindsMap ["tristan"] = kTristanHarmony;
+    gGlobalHarmonyKindsMap [gHarmonyKindsNamesList.back ()] = msrHarmonyKind::kHarmonyMajor;
+    gGlobalHarmonyKindsMap ["min"] = msrHarmonyKind::kHarmonyMinor;
+    gGlobalHarmonyKindsMap ["aug"] = msrHarmonyKind::kHarmonyAugmented;
+    gGlobalHarmonyKindsMap ["dim"] = msrHarmonyKind::kHarmonyDiminished;
+    gGlobalHarmonyKindsMap ["dom"] = msrHarmonyKind::kHarmonyDominant;
+    gGlobalHarmonyKindsMap ["maj7"] = msrHarmonyKind::kHarmonyMajorSeventh;
+    gGlobalHarmonyKindsMap ["min7"] = msrHarmonyKind::kHarmonyMinorSeventh;
+    gGlobalHarmonyKindsMap ["dim7"] = msrHarmonyKind::kHarmonyDiminishedSeventh;
+    gGlobalHarmonyKindsMap ["aug7"] = msrHarmonyKind::kHarmonyAugmentedSeventh;
+    gGlobalHarmonyKindsMap ["halfdim"] = msrHarmonyKind::kHarmonyHalfDiminished;
+    gGlobalHarmonyKindsMap ["minmaj7"] = msrHarmonyKind::kHarmonyMinorMajorSeventh;
+    gGlobalHarmonyKindsMap ["maj6"] = msrHarmonyKind::kHarmonyMajorSixth;
+    gGlobalHarmonyKindsMap ["min6"] = msrHarmonyKind::kHarmonyMinorSixth;
+    gGlobalHarmonyKindsMap ["dom9"] = msrHarmonyKind::kHarmonyDominantNinth;
+    gGlobalHarmonyKindsMap ["maj9"] = msrHarmonyKind::kHarmonyMajorNinth;
+    gGlobalHarmonyKindsMap ["min9"] = msrHarmonyKind::kHarmonyMinorNinth;
+    gGlobalHarmonyKindsMap ["dom11"] = msrHarmonyKind::kHarmonyDominantEleventh;
+    gGlobalHarmonyKindsMap ["maj11"] = msrHarmonyKind::kHarmonyMajorEleventh;
+    gGlobalHarmonyKindsMap ["min11"] = msrHarmonyKind::kHarmonyMinorEleventh;
+    gGlobalHarmonyKindsMap ["dom13"] = msrHarmonyKind::kHarmonyDominantThirteenth;
+    gGlobalHarmonyKindsMap ["maj13"] = msrHarmonyKind::kHarmonyMajorThirteenth;
+    gGlobalHarmonyKindsMap ["min13"] = msrHarmonyKind::kHarmonyMinorThirteenth;
+    gGlobalHarmonyKindsMap ["sus2"] = msrHarmonyKind::kHarmonySuspendedSecond;
+    gGlobalHarmonyKindsMap ["sus4"] = msrHarmonyKind::kHarmonySuspendedFourth;
+    gGlobalHarmonyKindsMap ["neapolitan"] = msrHarmonyKind::kHarmonyNeapolitan;
+    gGlobalHarmonyKindsMap ["italian"] = msrHarmonyKind::kHarmonyItalian;
+    gGlobalHarmonyKindsMap ["french"] = msrHarmonyKind::kHarmonyFrench;
+    gGlobalHarmonyKindsMap ["german"] = msrHarmonyKind::kHarmonyGerman;
+    gGlobalHarmonyKindsMap ["pedal"] = msrHarmonyKind::kHarmonyPedal;
+    gGlobalHarmonyKindsMap ["power"] = msrHarmonyKind::kHarmonyPower;
+    gGlobalHarmonyKindsMap ["tristan"] = msrHarmonyKind::kHarmonyTristan;
 
     // jazz-specific Harmonies
 
-    gGlobalHarmonyKindsMap ["minmaj9"] = kMinorMajorNinth;
-    gGlobalHarmonyKindsMap ["domsus4"] = kDominantSuspendedFourthHarmony;
-    gGlobalHarmonyKindsMap ["domaug5"] = kDominantAugmentedFifthHarmony;
-    gGlobalHarmonyKindsMap ["dommin9"] = kDominantMinorNinthHarmony;
-    gGlobalHarmonyKindsMap ["domaug9dim5"] = kDominantAugmentedNinthDiminishedFifthHarmony;
-    gGlobalHarmonyKindsMap ["domaug9aug5"] = kDominantAugmentedNinthAugmentedFifthHarmony;
-    gGlobalHarmonyKindsMap ["domaug11"] = kDominantAugmentedEleventhHarmony;
-    gGlobalHarmonyKindsMap ["maj7aug11"] = kMajorSeventhAugmentedEleventhHarmony;
+    gGlobalHarmonyKindsMap ["minmaj9"] = msrHarmonyKind::kHarmonyMinorMajorNinth;
+    gGlobalHarmonyKindsMap ["domsus4"] = msrHarmonyKind::kHarmonyDominantSuspendedFourth;
+    gGlobalHarmonyKindsMap ["domaug5"] = msrHarmonyKind::kHarmonyDominantAugmentedFifth;
+    gGlobalHarmonyKindsMap ["dommin9"] = msrHarmonyKind::kHarmonyDominantMinorNinth;
+    gGlobalHarmonyKindsMap ["domaug9dim5"] = msrHarmonyKind::kHarmonyDominantAugmentedNinthDiminishedFifth;
+    gGlobalHarmonyKindsMap ["domaug9aug5"] = msrHarmonyKind::kIntervkDominantAugmentedNinthAugmentedFifthHarmonyalAugmentedThirteenth;
+    gGlobalHarmonyKindsMap ["domaug11"] = msrHarmonyKind::kHarmonyDominantAugmentedEleventh;
+    gGlobalHarmonyKindsMap ["maj7aug11"] = msrHarmonyKind::kHarmonyMajorSeventhAugmentedEleventh;
 
     pThisMethodHasBeenRun = true;
   }
@@ -11741,19 +11741,15 @@ void initializeHarmonyStructuresMap ()
   static bool pThisMethodHasBeenRun = false;
 
   if (! pThisMethodHasBeenRun) {
-    for (int i = k_NoHarmony; i <= kNoneHarmony; ++i) {
-      msrHarmonyKind
-        harmonyKind =
-          msrHarmonyKind (i);
-
+    for (auto e: EnumAll<msrHarmonyKind> ()) {
       // create the harmony structure
       S_msrHarmonyStructure
         harmonyStructure =
           msrHarmonyStructure::create (
-            harmonyKind);
+            e);
 
       // register it in the map
-      gGlobalHarmonyStructuresMap [harmonyKind] =
+      gGlobalHarmonyStructuresMap [e] =
         harmonyStructure;
     } // for
 
@@ -11770,21 +11766,16 @@ void printHarmonyStructuresMap ()
 
   ++gIndenter;
 
-  for (int i = k_NoHarmony; i <= kNoneHarmony; ++i) {
-    msrHarmonyKind
-      harmonyKind =
-        msrHarmonyKind (i);
-
+  for (auto e: EnumAll<msrHarmonyKind> ()) {
     gLogStream <<
-// JMI      "i:" << i << " " <<
-      msrHarmonyKindAsString (harmonyKind) << ":" <<
+      msrHarmonyKindAsString (e) << ":" <<
       endl;
 
     ++gIndenter;
 
     S_msrHarmonyStructure
       harmonyStructure =
-        gGlobalHarmonyStructuresMap [harmonyKind];
+        gGlobalHarmonyStructuresMap [e];
 
     if (harmonyStructure) {
       gLogStream <<
@@ -18220,10 +18211,12 @@ string msrHarmonyInterval::harmonyIntervalAsShortString () const
 void msrHarmonyInterval::normalizeInterval ()
 {
   // bring the interval below an octave
-  if (fHarmonyIntervalIntervalKind > kAugmentedSeventh) {
+  if (fHarmonyIntervalIntervalKind > msrIntervalKind::kIntervalAugmentedSeventh) {
     fHarmonyIntervalIntervalKind =
       msrIntervalKind (
-        fHarmonyIntervalIntervalKind - kAugmentedSeventh);
+        (int) fHarmonyIntervalIntervalKind
+          -
+        (int) msrIntervalKind::kIntervalAugmentedSeventh);
 
     fHarmonyIntervalRelativeOctave += 1;
   }
@@ -18235,10 +18228,12 @@ void msrHarmonyInterval::deNormalizeInterval ()
   if (
     fHarmonyIntervalRelativeOctave == 1
       &&
-    fHarmonyIntervalIntervalKind <= kAugmentedSeventh) {
+    fHarmonyIntervalIntervalKind <= msrIntervalKind::kIntervalAugmentedSeventh) {
     fHarmonyIntervalIntervalKind =
       msrIntervalKind (
-        fHarmonyIntervalIntervalKind + kAugmentedSeventh);
+        (int) fHarmonyIntervalIntervalKind
+          +
+        (int) msrIntervalKind::kIntervalAugmentedSeventh);
 
     fHarmonyIntervalRelativeOctave -= 1;
   }
@@ -18260,7 +18255,7 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
   }
 #endif
 
-  msrIntervalKind resultIntervalKind   = k_NoIntervalKind;
+  msrIntervalKind resultIntervalKind   = msrIntervalKind::k_NoIntervalKind;
 
   S_msrHarmonyInterval
     operand1 =
@@ -18348,137 +18343,42 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
 
   // compute resulting interval Kind
   switch (intervalKind1) {
-    case k_NoIntervalKind:
+    case msrIntervalKind::k_NoIntervalKind:
       break;
 
-    case kDiminishedUnisson:
+    case msrIntervalKind::kIntervalDiminishedUnisson:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kPerfectUnison:
+    case msrIntervalKind::kIntervalPerfectUnisson:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kAugmentedUnison:
+    case msrIntervalKind::kIntervalAugmentedUnisson:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-     // JMI     resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-
-    case kDiminishedSecond:
-      switch (intervalKind2) {
-        case kDiminishedUnisson:
-   // JMI       resultIntervalKind = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-  // JMI        resultIntervalKind = kDiminishedSecond;
-          break;
-        case kAugmentedUnison:
-    // JMI      resultIntervalKind = kAugmentedUnison;
-          break;
-        case kDiminishedSecond:
-          resultIntervalKind = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-    case kMinorSecond:
-      switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kPerfectUnison:
-          resultIntervalKind = kMinorSecond;
-          break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedSecond;
-          break;
-        case kDiminishedSecond:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kMinorSecond:
-          resultIntervalKind = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-    case kMajorSecond:
-      switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedSecond;
-          break;
-        case kPerfectUnison:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kAugmentedUnison:
-          resultIntervalKind = kMinorSecond;
-          break;
-        case kDiminishedSecond:
-          resultIntervalKind = kDiminishedSecond;
-          break;
-        case kMinorSecond:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kMajorSecond:
-          resultIntervalKind = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-    case kAugmentedSecond:
-      switch (intervalKind2) {
-        case kDiminishedUnisson:
-  // JMI        resultIntervalKind = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-     // JMI     resultIntervalKind = kAugmentedSecond;
-          break;
-        case kAugmentedUnison:
-  // JMI        resultIntervalKind = kMajorSecond;
-          break;
-        case kDiminishedSecond:
-          resultIntervalKind = kAugmentedSecond;
-          break;
-        case kMinorSecond:
-     // JMI     resultIntervalKind = kMajorSecond;
-          break;
-        case kMajorSecond:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kAugmentedSecond:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
@@ -18486,142 +18386,94 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
       break;
 
 
-    case kDiminishedThird:
+    case msrIntervalKind::kIntervalDiminishedSecond:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-   // JMI       resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kDiminishedThird;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalDiminishedSecond;
           break;
-        case kAugmentedUnison:
-     // JMI     resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kDiminishedSecond:
-          resultIntervalKind = kAugmentedSecond;
-          break;
-        case kMinorSecond:
-          resultIntervalKind = kMinorSecond;
-          break;
-        case kMajorSecond:
-          resultIntervalKind = kDiminishedSecond;
-          break;
-        case kAugmentedSecond:
-     // JMI     resultIntervalKind = kAugmentedUnison;
-          break;
-        case kDiminishedThird:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMinorThird:
+    case msrIntervalKind::kIntervalMinorSecond:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kMajorThird;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSecond;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedThird;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSecond;
           break;
-        case kDiminishedSecond:
-          resultIntervalKind = kAugmentedSecond;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSecond;
-          break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSecond;
-          break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kMinorThird:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMajorThird:
+    case msrIntervalKind::kIntervalMajorSecond:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedThird;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kMajorThird;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSecond;
           break;
-        case kDiminishedSecond:
-    // JMI      resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSecond;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kAugmentedSecond;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kAugmentedSecond:
-          resultIntervalKind = kMinorSecond;
-          break;
-        case kDiminishedThird:
-  // JMI        resultIntervalKind = kMajorSecond;
-          break;
-        case kMinorThird:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kMajorThird:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kAugmentedThird:
+    case msrIntervalKind::kIntervalAugmentedSecond:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-   // JMI       resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kAugmentedThird;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kMajorThird;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kDiminishedSecond:
-    //      resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kMinorSecond:
-   // JMI      resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kDiminishedSecond;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSecond;
-          break;
-        case kMinorThird:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kMajorThird:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kAugmentedThird:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
@@ -18629,304 +18481,142 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
       break;
 
 
-    case kDiminishedFourth:
+    case msrIntervalKind::kIntervalDiminishedThird:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kPerfectFourth;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kDiminishedFourth;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedThird;
           break;
-        case kAugmentedUnison:
-   // JMI       resultIntervalKind = kPerfectFourth;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kDiminishedSecond:
-          resultIntervalKind = kMajorThird;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSecond;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kAugmentedThird;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSecond;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSecond;
-          break;
-        case kMinorThird:
-          resultIntervalKind = kMinorSecond;
-          break;
-        case kMajorThird:
-          resultIntervalKind = kDiminishedSecond;
-          break;
-        case kAugmentedThird:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kDiminishedFourth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kPerfectFourth:
+    case msrIntervalKind::kIntervalMinorThird:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedFourth;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectFourth;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedFourth;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedThird;
           break;
-        case kDiminishedSecond:
-   // JMI       resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorThird;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSecond;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedThird;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSecond;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSecond;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kMajorThird:
-          resultIntervalKind = kMinorSecond;
-          break;
-        case kAugmentedThird:
-          resultIntervalKind = kDiminishedSecond;
-          break;
-        case kDiminishedFourth:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kPerfectFourth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kAugmentedFourth:
+    case msrIntervalKind::kIntervalMajorThird:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-   // JMI       resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedThird;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kAugmentedFourth;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kPerfectFourth;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedSecond:
-   // JMI       resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kAugmentedThird;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMajorThird;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSecond;
           break;
-        case kDiminishedThird:
-     // JMI     resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedThird:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kMinorThird:
-          resultIntervalKind = kAugmentedSecond;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorSecond;
-          break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
-          break;
-        case kPerfectFourth:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kAugmentedFourth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-
-    case kDiminishedFifth:
+    case msrIntervalKind::kIntervalAugmentedThird:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
- // JMI         resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kDiminishedFifth;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedThird;
           break;
-        case kAugmentedUnison:
-  // JMI        resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
           break;
-        case kDiminishedSecond:
-          resultIntervalKind = kAugmentedFourth;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+    //      resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kPerfectFourth;
+        case msrIntervalKind::kIntervalMinorSecond:
+   // JMI      resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kDiminishedFourth;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSecond;
           break;
-        case kAugmentedSecond:
-     // JMI     resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kMajorThird;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kMajorThird:
-          resultIntervalKind = kDiminishedThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kAugmentedThird:
-      // JMI    resultIntervalKind = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kPerfectFourth:
-          resultIntervalKind = kDiminishedSecond;
-          break;
-        case kAugmentedFourth:
-  // JMI        resultIntervalKind = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          resultIntervalKind = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-    case kPerfectFifth:
-      switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedFifth;
-          break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectFifth;
-          break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedFifth;
-          break;
-        case kDiminishedSecond:
-    // JMI      resultIntervalKind = kPerfectUnison;
-          break;
-        case kMinorSecond:
-          resultIntervalKind = kAugmentedFourth;
-          break;
-        case kMajorSecond:
-          resultIntervalKind = kPerfectFourth;
-          break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedFourth;
-          break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedThird;
-          break;
-        case kMinorThird:
-          resultIntervalKind = kMajorThird;
-          break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
-          break;
-        case kAugmentedThird:
-          resultIntervalKind = kDiminishedThird;
-          break;
-        case kDiminishedFourth:
-          resultIntervalKind = kAugmentedSecond;
-          break;
-        case kPerfectFourth:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorSecond;
-          break;
-        case kDiminishedFifth:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kPerfectFifth:
-          resultIntervalKind = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-    case kAugmentedFifth:
-      switch (intervalKind2) {
-        case kDiminishedUnisson:
-  // JMI        resultIntervalKind = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          resultIntervalKind = kAugmentedFifth;
-          break;
-        case kAugmentedUnison:
-          resultIntervalKind = kPerfectFifth;
-          break;
-        case kDiminishedSecond:
-          resultIntervalKind = kDiminishedFifth;
-          break;
-        case kMinorSecond:
-   // JMI       resultIntervalKind = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          resultIntervalKind = kAugmentedFifth;
-          break;
-        case kAugmentedSecond:
-          resultIntervalKind = kPerfectFifth;
-          break;
-        case kDiminishedThird:
-  // JMI        resultIntervalKind = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          resultIntervalKind = kAugmentedThird;
-          break;
-        case kMajorThird:
-          resultIntervalKind = kMajorThird;
-          break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
-          break;
-        case kDiminishedFourth:
- // JMI         resultIntervalKind = kMinorThird;
-          break;
-        case kPerfectFourth:
-          resultIntervalKind = kAugmentedSecond;
-          break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
-          break;
-        case kPerfectFifth:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
@@ -18934,262 +18624,138 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
       break;
 
 
-    case kDiminishedSixth:
+    case msrIntervalKind::kIntervalDiminishedFourth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kMinorSixth;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kDiminishedSixth;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFourth;
           break;
-        case kAugmentedUnison:
-   // JMI       resultIntervalKind = kMinorSixth;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
           break;
-        case kDiminishedSecond:
-          resultIntervalKind = kMajorSecond;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kAugmentedSecond;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorSecond:
-  // JMI        resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedThird;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kPerfectFourth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kMinorThird:
-          resultIntervalKind = kAugmentedFourth;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSecond;
           break;
-        case kMajorThird:
-    // JMI      resultIntervalKind = kDiminishedThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSecond;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMajorThird;
-          break;
-        case kPerfectFourth:
-          resultIntervalKind = kAugmentedThird;
-          break;
-        case kAugmentedFourth:
-     // JMI     resultIntervalKind = kMinorThird;
-          break;
-        case kDiminishedFifth:
-         resultIntervalKind = kMajorSecond;
-          break;
-        case kPerfectFifth:
-         resultIntervalKind = kAugmentedSecond;
-          break;
-        case kAugmentedFifth:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMinorSixth:
+    case msrIntervalKind::kIntervalPerfectFourth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kMajorSixth;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFourth;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kMinorSixth;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedSixth;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFourth;
           break;
-        case kDiminishedSecond:
-          resultIntervalKind = kAugmentedFifth;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kPerfectFifth;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kDiminishedFifth;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedSecond:
-   // JMI       resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedThird;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedFourth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kMinorThird:
-          resultIntervalKind = kPerfectFourth;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kMajorThird:
-          resultIntervalKind = kDiminishedFourth;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSecond;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSecond;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMajorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          resultIntervalKind = kDiminishedThird;
-          break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kPerfectFifth:
-          resultIntervalKind = kMinorSecond;
-          break;
-        case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kMinorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMajorSixth:
+    case msrIntervalKind::kIntervalAugmentedFourth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kMajorSixth;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFourth;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kMinorSixth;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
           break;
-        case kDiminishedSecond:
-          resultIntervalKind = kDiminishedSixth;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kAugmentedFifth;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedThird;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kPerfectFifth;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedFifth;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedThird:
-   // JMI       resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMinorThird:
-          resultIntervalKind = kAugmentedFourth;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kMajorThird:
-          resultIntervalKind = kPerfectFourth;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kDiminishedFourth;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSecond;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kAugmentedThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMajorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          resultIntervalKind = kAugmentedSecond;
-          break;
-        case kPerfectFifth:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kAugmentedFifth:
-          resultIntervalKind = kDiminishedSecond;
-          break;
-        case kDiminishedSixth:
-   // JMI       resultIntervalKind = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kMajorSixth:
-          resultIntervalKind = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-    case kAugmentedSixth:
-      switch (intervalKind2) {
-        case kDiminishedUnisson:
-   //       resultIntervalKind = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          resultIntervalKind = kAugmentedSixth;
-          break;
-        case kAugmentedUnison:
-          resultIntervalKind = kMajorSixth;
-          break;
-        case kDiminishedSecond:
-    // JMI      resultIntervalKind = kPerfectUnison;
-          break;
-        case kMinorSecond:
-    // JMI      resultIntervalKind = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          resultIntervalKind = kAugmentedFifth;
-          break;
-        case kAugmentedSecond:
-          resultIntervalKind = kPerfectFifth;
-          break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
-          break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
-          break;
-        case kAugmentedThird:
-          resultIntervalKind = kPerfectFourth;
-          break;
-        case kDiminishedFourth:
-     // JMI     resultIntervalKind = kDiminishedFifth;
-          break;
-        case kPerfectFourth:
-          resultIntervalKind = kAugmentedThird;
-          break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMajorThird;
-          break;
-        case kDiminishedFifth:
-    // JMI      resultIntervalKind = kMinorThird;
-          break;
-        case kPerfectFifth:
-          resultIntervalKind = kAugmentedSecond;
-          break;
-        case kAugmentedFifth:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kDiminishedSixth:
-    // JMI      resultIntervalKind = kPerfectUnison;
-          break;
-        case kMinorSixth:
-    // JMI      resultIntervalKind = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kAugmentedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
@@ -19197,310 +18763,739 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
       break;
 
 
-    case kDiminishedSeventh:
+    case msrIntervalKind::kIntervalDiminishedFifth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+ // JMI         resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFifth;
           break;
-        case kAugmentedUnison:
-     // JMI     resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kDiminishedSecond:
-          resultIntervalKind = kMajorSixth;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFourth;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMinorSixth;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kDiminishedSixth;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFourth;
           break;
-        case kAugmentedSecond:
-     // JMI     resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kPerfectFifth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
           break;
-        case kMinorThird:
-          resultIntervalKind = kDiminishedFifth;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-     //     resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+      // JMI    resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kPerfectFourth;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kDiminishedFourth;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSecond;
           break;
-        case kAugmentedFourth:
-     // JMI     resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMajorThird;
-          break;
-        case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          resultIntervalKind = kDiminishedThird;
-          break;
-        case kDiminishedSixth:
-    // JMI      resultIntervalKind = kPerfectUnison;
-          break;
-        case kMinorSixth:
-   // JMI       resultIntervalKind = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          resultIntervalKind = kAugmentedSecond;
-          break;
-        case kAugmentedSixth:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kDiminishedSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMinorSeventh:
+    case msrIntervalKind::kIntervalPerfectFifth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFifth;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFifth;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFifth;
           break;
-        case kDiminishedSecond:
-     // JMI     resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSixth;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFourth;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSixth;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSixth;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFourth;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedFifth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedThird;
           break;
-        case kMinorThird:
-          resultIntervalKind = kPerfectFifth;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kDiminishedFifth;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-  // JMI        resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kAugmentedFourth;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kPerfectFourth;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kDiminishedFourth;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSecond;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMajorThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          resultIntervalKind = kDiminishedThird;
-          break;
-        case kDiminishedSixth:
-          resultIntervalKind = kAugmentedSecond;
-          break;
-        case kMinorSixth:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kMajorSixth:
-          resultIntervalKind = kMinorSecond;
-          break;
-        case kAugmentedSixth:
-          resultIntervalKind = kDiminishedSecond;
-          break;
-        case kDiminishedSeventh:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kMinorSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMajorSeventh:
+    case msrIntervalKind::kIntervalAugmentedFifth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedSeventh;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFifth;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFifth;
           break;
-        case kDiminishedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFifth;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalMinorSecond:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMajorSixth;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFifth;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kMinorSixth;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFifth;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kAugmentedFifth;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kPerfectFifth;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kDiminishedFifth;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-  // JMI        resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+ // JMI         resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kAugmentedFourth;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kPerfectFourth;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kAugmentedThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kMajorThird;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kAugmentedFifth:
-          resultIntervalKind = kMinorThird;
-          break;
-        case kDiminishedSixth:
- // JMI         resultIntervalKind = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          resultIntervalKind = kAugmentedSecond;
-          break;
-        case kMajorSixth:
-          resultIntervalKind = kMajorSecond;
-          break;
-        case kAugmentedSixth:
-          resultIntervalKind = kMinorSecond;
-          break;
-        case kDiminishedSeventh:
-          resultIntervalKind = kDiminishedSecond;
-          break;
-        case kMinorSeventh:
-          resultIntervalKind = kAugmentedUnison;
-          break;
-        case kMajorSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kAugmentedSeventh:
+
+    case msrIntervalKind::kIntervalDiminishedSixth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
- // JMI         resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSixth;
           break;
-        case kPerfectUnison:
-    // JMI      resultIntervalKind = kAugmentedSeventh;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSixth;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kAugmentedSeventh;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalMinorSixth;
           break;
-        case kDiminishedSecond:
-    // JMI      resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kMinorSecond:
-     // JMI    resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalMajorSecond:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kMajorSixth;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
           break;
-        case kMinorThird:
-      // JMI    resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFourth;
           break;
-        case kMajorThird:
-          resultIntervalKind = kAugmentedFifth;
+        case msrIntervalKind::kIntervalMajorThird:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalDiminishedThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kPerfectFifth;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-    // JMI      resultIntervalKind = kDiminishedFifth;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
           break;
-        case kPerfectFourth:
-     // JMI     resultIntervalKind = kAugmentedFourth;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kAugmentedFourth;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-  // JMI        resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+         resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kAugmentedFourth;
+        case msrIntervalKind::kIntervalPerfectFifth:
+         resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
           break;
-        case kAugmentedFifth:
-          resultIntervalKind = kPerfectFourth;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kDiminishedSixth:
-  // JMI        resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSixth:
- // JMI         resultIntervalKind = kPerfectUnison;
+        default:
+          ;
+      } // switch
+      break;
+
+    case msrIntervalKind::kIntervalMinorSixth:
+      switch (intervalKind2) {
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSixth;
           break;
-        case kMajorSixth:
-          resultIntervalKind = kAugmentedSecond;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSixth;
           break;
-        case kAugmentedSixth:
-          resultIntervalKind = kMajorSecond;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSixth;
           break;
-        case kDiminishedSeventh:
-   // JMI       resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFifth;
           break;
-        case kMinorSeventh:
-    // JMI      resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFifth;
           break;
-        case kMajorSeventh:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFifth;
           break;
-        case kAugmentedSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
+          break;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFourth;
+          break;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
+          break;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFourth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
+          break;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedThird;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
+          break;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSecond;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
+          break;
+        case msrIntervalKind::kIntervalMinorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+
+    case msrIntervalKind::kIntervalMajorSixth:
+      switch (intervalKind2) {
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
+          break;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSixth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSixth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSixth;
+          break;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFifth;
+          break;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFifth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFifth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedThird:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
+          break;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFourth;
+          break;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFourth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedThird;
+          break;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
+          break;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSecond;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMinorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
+          break;
+        case msrIntervalKind::kIntervalMajorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+
+    case msrIntervalKind::kIntervalAugmentedSixth:
+      switch (intervalKind2) {
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+   //       resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
+          break;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSixth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMinorSecond:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
+          break;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFifth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFifth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
+          break;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalDiminishedFifth;
+          break;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedThird;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMinorSixth:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMajorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
+          break;
+        case msrIntervalKind::kIntervalAugmentedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+
+
+    case msrIntervalKind::kIntervalDiminishedSeventh:
+      switch (intervalKind2) {
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
+          break;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
+          break;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSixth;
+          break;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSixth;
+          break;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSixth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
+          break;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFifth;
+          break;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFifth;
+          break;
+        case msrIntervalKind::kIntervalMajorThird:
+     //     resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
+          break;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFourth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
+          break;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedThird;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMinorSixth:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMajorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
+          break;
+        case msrIntervalKind::kIntervalAugmentedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+
+    case msrIntervalKind::kIntervalMinorSeventh:
+      switch (intervalKind2) {
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
+          break;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
+          break;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSixth;
+          break;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSixth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSixth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFifth;
+          break;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFifth;
+          break;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFifth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedThird:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFourth;
+          break;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFourth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
+          break;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedThird;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
+          break;
+        case msrIntervalKind::kIntervalMinorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
+          break;
+        case msrIntervalKind::kIntervalMajorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSecond;
+          break;
+        case msrIntervalKind::kIntervalAugmentedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSecond;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
+          break;
+        case msrIntervalKind::kIntervalMinorSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+
+    case msrIntervalKind::kIntervalMajorSeventh:
+      switch (intervalKind2) {
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSeventh;
+          break;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
+          break;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
+          break;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
+          break;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSixth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSixth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
+          break;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFifth;
+          break;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFifth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedFifth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFourth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedThird;
+          break;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorThird;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+ // JMI         resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMinorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
+          break;
+        case msrIntervalKind::kIntervalMajorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
+          break;
+        case msrIntervalKind::kIntervalAugmentedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSecond;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSecond;
+          break;
+        case msrIntervalKind::kIntervalMinorSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
+          break;
+        case msrIntervalKind::kIntervalMajorSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+
+    case msrIntervalKind::kIntervalAugmentedSeventh:
+      switch (intervalKind2) {
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+ // JMI         resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
+          break;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalAugmentedSeventh;
+          break;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSeventh;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMinorSecond:
+     // JMI    resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
+          break;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSixth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
+          break;
+        case msrIntervalKind::kIntervalMinorThird:
+      // JMI    resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFifth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFifth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalDiminishedFifth;
+          break;
+        case msrIntervalKind::kIntervalPerfectFourth:
+     // JMI     resultIntervalKind = msrIntervalKind::kIntervalAugmentedFourth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFourth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
+          break;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedFourth;
+          break;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectFourth;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+  // JMI        resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMinorSixth:
+ // JMI         resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMajorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSecond;
+          break;
+        case msrIntervalKind::kIntervalAugmentedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSecond;
+          break;
+        case msrIntervalKind::kIntervalDiminishedSeventh:
+   // JMI       resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMinorSeventh:
+    // JMI      resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
+          break;
+        case msrIntervalKind::kIntervalMajorSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
+          break;
+        case msrIntervalKind::kIntervalAugmentedSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
@@ -19561,7 +19556,7 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
 S_msrHarmonyInterval msrHarmonyInterval::intervalSum (
   S_msrHarmonyInterval otherHarmonyInterval)
 {
-  msrIntervalKind resultIntervalKind   = k_NoIntervalKind;
+  msrIntervalKind resultIntervalKind   = msrIntervalKind::k_NoIntervalKind;
   int             resultRelativeOctave = 0;
 
   msrIntervalKind
@@ -19587,1090 +19582,1090 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalSum (
   }
 
   switch (intervalKind1) {
-    case k_NoIntervalKind:
+    case msrIntervalKind::k_NoIntervalKind:
       break;
 
-    case kDiminishedUnisson:
+    case msrIntervalKind::kIntervalDiminishedUnisson:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kPerfectUnison:
+    case msrIntervalKind::kIntervalPerfectUnisson:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kAugmentedUnison:
+    case msrIntervalKind::kIntervalAugmentedUnisson:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kDiminishedSecond:
+    case msrIntervalKind::kIntervalDiminishedSecond:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kDiminishedSecond:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMinorSecond:
+    case msrIntervalKind::kIntervalMinorSecond:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMajorSecond:
+    case msrIntervalKind::kIntervalMajorSecond:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kAugmentedSecond:
+    case msrIntervalKind::kIntervalAugmentedSecond:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kDiminishedThird:
+    case msrIntervalKind::kIntervalDiminishedThird:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMinorThird:
+    case msrIntervalKind::kIntervalMinorThird:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMajorThird:
+    case msrIntervalKind::kIntervalMajorThird:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kAugmentedThird:
+    case msrIntervalKind::kIntervalAugmentedThird:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kDiminishedFourth:
+    case msrIntervalKind::kIntervalDiminishedFourth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kPerfectFourth:
+    case msrIntervalKind::kIntervalPerfectFourth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kAugmentedFourth:
+    case msrIntervalKind::kIntervalAugmentedFourth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kDiminishedFifth:
+    case msrIntervalKind::kIntervalDiminishedFifth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kPerfectFifth:
+    case msrIntervalKind::kIntervalPerfectFifth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kAugmentedFifth:
+    case msrIntervalKind::kIntervalAugmentedFifth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kDiminishedSixth:
+    case msrIntervalKind::kIntervalDiminishedSixth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMinorSixth:
+    case msrIntervalKind::kIntervalMinorSixth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMajorSixth:
+    case msrIntervalKind::kIntervalMajorSixth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMajorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMajorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kAugmentedSixth:
+    case msrIntervalKind::kIntervalAugmentedSixth:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMajorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMajorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kDiminishedSeventh:
+    case msrIntervalKind::kIntervalDiminishedSeventh:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMajorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMajorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kDiminishedSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMinorSeventh:
+    case msrIntervalKind::kIntervalMinorSeventh:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMajorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMajorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kDiminishedSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kMajorSeventh:
+    case msrIntervalKind::kIntervalMajorSeventh:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMajorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMajorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kDiminishedSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMajorSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMajorSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
       } // switch
       break;
 
-    case kAugmentedSeventh:
+    case msrIntervalKind::kIntervalAugmentedSeventh:
       switch (intervalKind2) {
-        case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+        case msrIntervalKind::kIntervalDiminishedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedUnisson;
           break;
-        case kPerfectUnison:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalPerfectUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+        case msrIntervalKind::kIntervalAugmentedUnisson:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedOctave;
           break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+        case msrIntervalKind::kIntervalMinorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMajorSeventh;
           break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+        case msrIntervalKind::kIntervalMajorSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorSeventh;
           break;
-        case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+        case msrIntervalKind::kIntervalAugmentedSecond:
+          resultIntervalKind = msrIntervalKind::kIntervalDiminishedSeventh;
           break;
-        case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+        case msrIntervalKind::kIntervalDiminishedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalAugmentedSixth;
           break;
-        case kMinorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMinorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kMajorThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalMajorThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedThird:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalAugmentedFourth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalDiminishedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+        case msrIntervalKind::kIntervalPerfectFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalMinorThird;
           break;
-        case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedFifth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMajorSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMajorSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedSixth:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedSixth:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kDiminishedSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalDiminishedSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMinorSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMinorSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kMajorSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalMajorSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
-        case kAugmentedSeventh:
-          resultIntervalKind = kPerfectUnison;
+        case msrIntervalKind::kIntervalAugmentedSeventh:
+          resultIntervalKind = msrIntervalKind::kIntervalPerfectUnisson;
           break;
         default:
           ;
@@ -20860,523 +20855,523 @@ void msrHarmonyStructure::populateHarmonyStructure ()
 {
   // append harmony items to harmony intervals
   switch (fHarmonyStructureHarmonyKind) {
-    case k_NoHarmony:
+    case msrHarmonyKind::k_NoHarmony:
       break;
 
     // MusicXML harmonies
 
-    case kMajorHarmony:
+    case msrHarmonyKind::kHarmonyMajor:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
       }
       break;
 
-    case kMinorHarmony:
+    case msrHarmonyKind::kHarmonyMinor:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorThird)
+            msrIntervalKind::kIntervalMinorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
       }
       break;
 
-    case kAugmentedHarmony:
+    case msrHarmonyKind::kHarmonyAugmented:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedFifth)
+            msrIntervalKind::kIntervalAugmentedFifth)
           );
       }
       break;
 
-    case kDiminishedHarmony:
+    case msrHarmonyKind::kHarmonyDiminished:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorThird)
+            msrIntervalKind::kIntervalMinorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kDiminishedFifth)
+            msrIntervalKind::kIntervalDiminishedFifth)
           );
       }
       break;
 
-    case kDominantHarmony:
+    case msrHarmonyKind::kHarmonyDominant:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
       }
       break;
 
-    case kMajorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMajorSeventh:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorSeventh)
+            msrIntervalKind::kIntervalMajorSeventh)
           );
       }
       break;
 
-     case kMinorSeventhHarmony:
+     case msrHarmonyKind::kHarmonyMinorSeventh:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorThird)
+            msrIntervalKind::kIntervalMinorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
       }
       break;
 
-    case kDiminishedSeventhHarmony:
+    case msrHarmonyKind::kHarmonyDiminishedSeventh:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorThird)
+            msrIntervalKind::kIntervalMinorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kDiminishedFifth)
+            msrIntervalKind::kIntervalDiminishedFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kDiminishedSeventh)
+            msrIntervalKind::kIntervalDiminishedSeventh)
           );
       }
       break;
 
-    case kAugmentedSeventhHarmony:
+    case msrHarmonyKind::kHarmonyAugmentedSeventh:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedFifth)
+            msrIntervalKind::kIntervalAugmentedFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
       }
       break;
 
-    case kHalfDiminishedHarmony:
+    case msrHarmonyKind::kHarmonyHalfDiminished:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorThird)
+            msrIntervalKind::kIntervalMinorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kDiminishedFifth)
+            msrIntervalKind::kIntervalDiminishedFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
       }
       break;
 
-     case kMinorMajorSeventhHarmony:
+     case msrHarmonyKind::kHarmonyMinorMajorSeventh:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorThird)
+            msrIntervalKind::kIntervalMinorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorSeventh)
+            msrIntervalKind::kIntervalMajorSeventh)
           );
       }
       break;
 
-    case kMajorSixthHarmony:
+    case msrHarmonyKind::kHarmonyMajorSixth:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorSixth)
+            msrIntervalKind::kIntervalMajorSixth)
           );
       }
       break;
 
-    case kMinorSixthHarmony:
+    case msrHarmonyKind::kHarmonyMinorSixth:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorThird)
+            msrIntervalKind::kIntervalMinorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorSixth)
+            msrIntervalKind::kIntervalMajorSixth)
           );
       }
       break;
 
-    case kDominantNinthHarmony:
+    case msrHarmonyKind::kHarmonyDominantNinth:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorNinth)
+            msrIntervalKind::kIntervalMajorNinth)
           );
       }
       break;
 
-    case kMajorNinthHarmony:
+    case msrHarmonyKind::kHarmonyMajorNinth:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorSeventh)
+            msrIntervalKind::kIntervalMajorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorNinth)
+            msrIntervalKind::kIntervalMajorNinth)
           );
       }
       break;
 
-    case kMinorNinthHarmony:
+    case msrHarmonyKind::kHarmonyMinorNinth:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorThird)
+            msrIntervalKind::kIntervalMinorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorNinth)
+            msrIntervalKind::kIntervalMajorNinth)
           );
       }
       break;
 
-    case kDominantEleventhHarmony:
+    case msrHarmonyKind::kHarmonyDominantEleventh:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectEleventh)
+            msrIntervalKind::kIntervalPerfectEleventh)
           );
       }
       break;
 
-    case kMajorEleventhHarmony:
+    case msrHarmonyKind::kHarmonyMajorEleventh:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorSeventh)
+            msrIntervalKind::kIntervalMajorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectEleventh)
+            msrIntervalKind::kIntervalPerfectEleventh)
           );
       }
       break;
 
-    case kMinorEleventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorEleventh:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorThird)
+            msrIntervalKind::kIntervalMinorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectEleventh)
+            msrIntervalKind::kIntervalPerfectEleventh)
           );
       }
       break;
 
-    case kDominantThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyDominantThirteenth:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThirteenth)
+            msrIntervalKind::kIntervalMajorThirteenth)
           );
       }
       break;
 
-    case kMajorThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyMajorThirteenth:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorSeventh)
+            msrIntervalKind::kIntervalMajorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThirteenth)
+            msrIntervalKind::kIntervalMajorThirteenth)
           );
       }
       break;
 
-    case kMinorThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyMinorThirteenth:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorThird)
+            msrIntervalKind::kIntervalMinorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThirteenth)
+            msrIntervalKind::kIntervalMajorThirteenth)
           );
       }
       break;
 
-    case kSuspendedSecondHarmony:
+    case msrHarmonyKind::kHarmonySuspendedSecond:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorSecond)
+            msrIntervalKind::kIntervalMajorSecond)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
       }
       break;
 
-    case kSuspendedFourthHarmony:
+    case msrHarmonyKind::kHarmonySuspendedFourth:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFourth)
+            msrIntervalKind::kIntervalPerfectFourth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
       }
       break;
@@ -21397,319 +21392,319 @@ Tristan = C D# F# A#
 in all of them, the C and A# in theory want to fan out to B (the dominant).  This is, of course, in theory - Wagner’s use of the Tristan harmony, which he clearly named his opera after, has the A# moving down to A, or the 7th of the dominant (I’m transposing to fit w/ the example above).  Wagner obviously did not pay much attention during his sophomore music theory course…
 */
 
-    case kNeapolitanHarmony:
+    case msrHarmonyKind::kHarmonyNeapolitan:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorThird)
+            msrIntervalKind::kIntervalMinorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kDiminishedSixth)
+            msrIntervalKind::kIntervalDiminishedSixth)
           );
       }
       break;
 
-    case kItalianHarmony:
+    case msrHarmonyKind::kHarmonyItalian:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedSixth)
+            msrIntervalKind::kIntervalAugmentedSixth)
           );
       }
       break;
 
-    case kFrenchHarmony:
+    case msrHarmonyKind::kHarmonyFrench:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedFourth)
+            msrIntervalKind::kIntervalAugmentedFourth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedSixth)
+            msrIntervalKind::kIntervalAugmentedSixth)
           );
       }
       break;
 
-    case kGermanHarmony:
+    case msrHarmonyKind::kHarmonyGerman:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedSixth)
+            msrIntervalKind::kIntervalAugmentedSixth)
           );
       }
       break;
 
-    case kPedalHarmony:
+    case msrHarmonyKind::kHarmonyPedal:
       break;
 
-    case kPowerHarmony:
+    case msrHarmonyKind::kHarmonyPower:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
       }
       break;
 
-    case kTristanHarmony:
+    case msrHarmonyKind::kHarmonyTristan:
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedSecond)
+            msrIntervalKind::kIntervalAugmentedSecond)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedFourth)
+            msrIntervalKind::kIntervalAugmentedFourth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedSixth)
+            msrIntervalKind::kIntervalAugmentedSixth)
           );
       }
       break;
 
     // jazz-specific harmonies
 
-    case kMinorMajorNinth: // -maj9, minmaj9
+    case msrHarmonyKind::kHarmonyMinorMajorNinth: // -maj9, minmaj9
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorThird)
+            msrIntervalKind::kIntervalMinorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorSeventh)
+            msrIntervalKind::kIntervalMajorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorNinth)
+            msrIntervalKind::kIntervalMajorNinth)
           );
       }
       break;
 
-    case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
+    case msrHarmonyKind::kHarmonyDominantSuspendedFourth: // 7sus4, domsus4
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFourth)
+            msrIntervalKind::kIntervalPerfectFourth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
       }
       break;
 
-    case kDominantAugmentedFifthHarmony: // 7#5, domaug5
+    case msrHarmonyKind::kHarmonyDominantAugmentedFifth: // 7#5, domaug5
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFourth)
+            msrIntervalKind::kIntervalPerfectFourth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedFifth)
+            msrIntervalKind::kIntervalAugmentedFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
       }
       break;
 
-    case kDominantMinorNinthHarmony: // 7b9, dommin9
+    case msrHarmonyKind::kHarmonyDominantMinorNinth: // 7b9, dommin9
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorNinth)
+            msrIntervalKind::kIntervalMinorNinth)
           );
       }
       break;
 
-    case kDominantAugmentedNinthDiminishedFifthHarmony: // 7#9b5, domaug9dim5
+    case msrHarmonyKind::kHarmonyDominantAugmentedNinthDiminishedFifth: // 7#9b5, domaug9dim5
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kDiminishedFifth)
+            msrIntervalKind::kIntervalDiminishedFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedNinth)
+            msrIntervalKind::kIntervalAugmentedNinth)
           );
       }
       break;
 
-    case kDominantAugmentedNinthAugmentedFifthHarmony: // 7#9#5, domaug9aug5
+    case msrHarmonyKind::kIntervkDominantAugmentedNinthAugmentedFifthHarmonyalAugmentedThirteenth: // 7#9#5, domaug9aug5
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorThird)
+            msrIntervalKind::kIntervalMajorThird)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedFifth)
+            msrIntervalKind::kIntervalAugmentedFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedNinth)
+            msrIntervalKind::kIntervalAugmentedNinth)
           );
       }
       break;
 
-    case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
+    case msrHarmonyKind::kHarmonyDominantAugmentedEleventh: // 7#11, domaug11
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFourth)
+            msrIntervalKind::kIntervalPerfectFourth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMinorSeventh)
+            msrIntervalKind::kIntervalMinorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedEleventh)
+            msrIntervalKind::kIntervalAugmentedEleventh)
           );
       }
       break;
 
-    case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
+    case msrHarmonyKind::kHarmonyMajorSeventhAugmentedEleventh: // maj7#11, maj7aug11
       {
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectUnison)
+            msrIntervalKind::kIntervalPerfectUnisson)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFourth)
+            msrIntervalKind::kIntervalPerfectFourth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kPerfectFifth)
+            msrIntervalKind::kIntervalPerfectFifth)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kMajorSeventh)
+            msrIntervalKind::kIntervalMajorSeventh)
           );
         appendHarmonyIntervalToHarmonyStructure (
           msrHarmonyInterval::create (
-            kAugmentedEleventh)
+            msrIntervalKind::kIntervalAugmentedEleventh)
           );
       }
       break;
 
     // other
 
-    case kOtherHarmony:
+    case msrHarmonyKind::kHarmonyOther:
       break;
 
-    case kNoneHarmony:
+    case msrHarmonyKind::kHarmonyNone:
       break;
   } // switch
 
@@ -22017,15 +22012,12 @@ void msrHarmonyStructure::printAllHarmoniesStructures (ostream& os)
 
   ++gIndenter;
 
-  for (
-    msrHarmonyKind harmonyKind = kMajorHarmony;
-    harmonyKind <= kMajorSeventhAugmentedEleventhHarmony;
-    harmonyKind = msrHarmonyKind (harmonyKind + 1)) {
+  for (auto e: EnumTrueHarmonies<msrHarmonyKind> ()) {
     // create the harmony intervals
     S_msrHarmonyStructure
       harmonyStructure =
         msrHarmonyStructure::create (
-          harmonyKind);
+          e);
 
     // print it
     os <<
@@ -22391,13 +22383,9 @@ void msrHarmonyContents::printAllHarmoniesContents (
 
   ++gIndenter;
 
-  for (
-    msrHarmonyKind harmonyKind = kMajorHarmony;
-    harmonyKind <= kMajorSeventhAugmentedEleventhHarmony;
-    harmonyKind = msrHarmonyKind (harmonyKind + 1)
-  ) {
+  for (auto e: EnumTrueHarmonies<msrHarmonyKind> ()) {
     os <<
-      msrHarmonyKindAsString (harmonyKind) <<
+      msrHarmonyKindAsString (e) <<
       ":" <<
       endl;
 
@@ -22407,7 +22395,7 @@ void msrHarmonyContents::printAllHarmoniesContents (
     S_msrHarmonyStructure
       harmonyStructure =
         msrHarmonyStructure::create (
-          harmonyKind);
+          e);
 
     // fetch the intervals items for these intervals
     // with rootSemiTonesPitchKind as root
@@ -22465,9 +22453,9 @@ void msrHarmonyContents::printAllHarmoniesContents (
       } // for
     }
 
-  os << endl;
+    os << endl;
 
-  --gIndenter;
+    --gIndenter;
   } // for
 
   --gIndenter;
@@ -23016,8 +23004,8 @@ void printHarmonyAnalysis (
 
             // is this interval a triton?
             switch (innerIntervalKind) {
-              case kAugmentedFourth:
-              case kDiminishedFifth:
+              case msrIntervalKind::kIntervalAugmentedFourth:
+              case msrIntervalKind::kIntervalDiminishedFifth:
                 ++tritonsCounter;
                 break;
               default:

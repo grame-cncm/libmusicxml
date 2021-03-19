@@ -25,7 +25,7 @@ namespace MusicXML2
   hence class msrPartGroupElement
 */
 
-class EXP msrPartGroupElement : public msrMeasureElement
+class EXP msrPartGroupElement : public msrElement
 {
   public:
 

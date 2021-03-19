@@ -3822,7 +3822,7 @@ string lpsr2lilypondTranslator::harmonyAsLilypondString (
 
   // should '\powerChords' be generated?
   switch (harmony->getHarmonyKind ()) {
-    case kPowerHarmony:
+    case msrHarmonyKind::kHarmonyPower:
       if (! fPowerChordHaveAlreadyBeenGenerated) {
         s << "\\powerChords ";
         fPowerChordHaveAlreadyBeenGenerated = true;
@@ -3866,88 +3866,88 @@ string lpsr2lilypondTranslator::harmonyAsLilypondString (
 
   // generate harmony kind
   switch (harmony->getHarmonyKind ()) {
-    case k_NoHarmony:
+    case msrHarmonyKind::k_NoHarmony:
       s << "Harmony???";
       break;
 
     // MusicXML harmonies
 
-    case kMajorHarmony:
+    case msrHarmonyKind::kHarmonyMajor:
       s << ":5.3";
       break;
-    case kMinorHarmony:
+    case msrHarmonyKind::kHarmonyMinor:
       s << ":m";
       break;
-    case kAugmentedHarmony:
+    case msrHarmonyKind::kHarmonyAugmented:
       s << ":aug";
       break;
-    case kDiminishedHarmony:
+    case msrHarmonyKind::kHarmonyDiminished:
       s << ":dim";
       break;
 
-    case kDominantHarmony:
+    case msrHarmonyKind::kHarmonyDominant:
       s << ":7";
       break;
-    case kMajorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMajorSeventh:
       s << ":maj7";
       break;
-    case kMinorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorSeventh:
       s << ":m7";
       break;
-    case kDiminishedSeventhHarmony:
+    case msrHarmonyKind::kHarmonyDiminishedSeventh:
       s << ":dim7";
       break;
-    case kAugmentedSeventhHarmony:
+    case msrHarmonyKind::kHarmonyAugmentedSeventh:
       s << ":aug7";
       break;
-    case kHalfDiminishedHarmony:
+    case msrHarmonyKind::kHarmonyHalfDiminished:
       s << ":m7.5-";
       break;
-    case kMinorMajorSeventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorMajorSeventh:
       s << ":m7+";
       break;
 
-    case kMajorSixthHarmony:
+    case msrHarmonyKind::kHarmonyMajorSixth:
       s << ":6";
       break;
-    case kMinorSixthHarmony:
+    case msrHarmonyKind::kHarmonyMinorSixth:
       s << ":m6";
       break;
 
-    case kDominantNinthHarmony:
+    case msrHarmonyKind::kHarmonyDominantNinth:
       s << ":9";
       break;
-    case kMajorNinthHarmony:
+    case msrHarmonyKind::kHarmonyMajorNinth:
       s << ":maj7.9";
       break;
-    case kMinorNinthHarmony:
+    case msrHarmonyKind::kHarmonyMinorNinth:
       s << ":m7.9";
       break;
 
-    case kDominantEleventhHarmony:
+    case msrHarmonyKind::kHarmonyDominantEleventh:
       s << ":11";
       break;
-    case kMajorEleventhHarmony:
+    case msrHarmonyKind::kHarmonyMajorEleventh:
       s << ":maj7.11";
       break;
-    case kMinorEleventhHarmony:
+    case msrHarmonyKind::kHarmonyMinorEleventh:
       s << ":m7.11";
       break;
 
-    case kDominantThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyDominantThirteenth:
       s << ":13";
       break;
-    case kMajorThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyMajorThirteenth:
       s << ":maj7.13";
       break;
-    case kMinorThirteenthHarmony:
+    case msrHarmonyKind::kHarmonyMinorThirteenth:
       s << ":m7.13";
       break;
 
-    case kSuspendedSecondHarmony:
+    case msrHarmonyKind::kHarmonySuspendedSecond:
       s << ":sus2";
       break;
-    case kSuspendedFourthHarmony:
+    case msrHarmonyKind::kHarmonySuspendedFourth:
       s << ":sus4";
       break;
 
@@ -3966,65 +3966,65 @@ Tristan = C D# F# A#
 
 in all of them, the C and A# in theory want to fan out to B (the dominant).  This is, of course, in theory - Wagner’s use of the Tristan chord, which he clearly named his opera after, has the A# moving down to A, or the 7th of the dominant (I’m transposing to fit w/ the example above).  Wagner obviously did not pay much attention during his sophomore music theory course…
 */
-    case kNeapolitanHarmony:
+    case msrHarmonyKind::kHarmonyNeapolitan:
       s << ":3-.6-%{:Neapolitan%}";
       break;
-    case kItalianHarmony:
+    case msrHarmonyKind::kHarmonyItalian:
       s << ":3.6+%{:Italian%}";
       break;
-    case kFrenchHarmony:
+    case msrHarmonyKind::kHarmonyFrench:
       s << ":3.5+.6+%{:French%}";
       break;
-    case kGermanHarmony:
+    case msrHarmonyKind::kHarmonyGerman:
       s << ":3.5.6+%{:German%}";
       break;
 
-    case kPedalHarmony:
+    case msrHarmonyKind::kHarmonyPedal:
       s << "%{:Pedal%}";
       break;
-    case kPowerHarmony:
+    case msrHarmonyKind::kHarmonyPower:
       s << ":5 %{power%}";
       break;
-    case kTristanHarmony:
+    case msrHarmonyKind::kHarmonyTristan:
       s << ":2+.5+.6+%{:Tristan%}";
       break;
 
     // jazz-specific chords
 
-    case kMinorMajorNinth: // -maj9, minmaj9
+    case msrHarmonyKind::kHarmonyMinorMajorNinth: // -maj9, minmaj9
       s << ":m9";
       break;
 
-    case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
+    case msrHarmonyKind::kHarmonyDominantSuspendedFourth: // 7sus4, domsus4
       s << ":7sus4";
       break;
-    case kDominantAugmentedFifthHarmony: // 7#5, domaug5
+    case msrHarmonyKind::kHarmonyDominantAugmentedFifth: // 7#5, domaug5
       s << ":7.5+";
       break;
-    case kDominantMinorNinthHarmony: // 7b9, dommin9
+    case msrHarmonyKind::kHarmonyDominantMinorNinth: // 7b9, dommin9
       s << ":7.9-";
       break;
-    case kDominantAugmentedNinthDiminishedFifthHarmony: // 7#9b5, domaug9dim5
+    case msrHarmonyKind::kHarmonyDominantAugmentedNinthDiminishedFifth: // 7#9b5, domaug9dim5
       s << ":7.9+.5-";
       break;
-    case kDominantAugmentedNinthAugmentedFifthHarmony: // 7#9#5, domaug9aug5
+    case msrHarmonyKind::kIntervkDominantAugmentedNinthAugmentedFifthHarmonyalAugmentedThirteenth: // 7#9#5, domaug9aug5
       s << ":7.9+.5+";
       break;
-    case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
+    case msrHarmonyKind::kHarmonyDominantAugmentedEleventh: // 7#11, domaug11
       s << ":7.11+";
       break;
 
-    case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
+    case msrHarmonyKind::kHarmonyMajorSeventhAugmentedEleventh: // maj7#11, maj7aug11
       s << ":maj7.11+";
       break;
 
     // other
 
-    case kOtherHarmony:
+    case msrHarmonyKind::kHarmonyOther:
       s << "%{:Other%}";
       break;
 
-    case kNoneHarmony:
+    case msrHarmonyKind::kHarmonyNone:
       s << "%{:None%}";
       break;
   } // switch

@@ -18,7 +18,17 @@
 \usepackage{tikz}
 
 \usetikzlibrary{math}
-%\usetikzlibrary{arrows.meta}
+
+\usetikzlibrary{shapes.arrows}
+\usetikzlibrary{shapes.multipart}
+
+\usetikzlibrary{arrows}
+
+\usetikzlibrary{calc,intersections}
+
+\usetikzlibrary{decorations.pathreplacing,decorations.markings}
+
+\usepackage{bold-extra}
 
 \usepackage{changepage} % for adjustwidth
 
@@ -26,6 +36,11 @@
 % -------------------------------------------------------------------------
 \begin{document}
 % -------------------------------------------------------------------------
+
+% create an arrow
+\newcommand{\arrowIn}{
+\tikz \draw[-stealth] (-2pt,0) -- (2pt,0);
+}
 
 \def \tab {~~~}
 
@@ -101,6 +116,9 @@ Jianpu \lily\ & a text containg \lily\ commands and the use of \lilyJianpu\ (\ur
 \braille\ & a text containg 6-dot cells, as described in \url {http://www.brailleauthority.org/music/Music_Braille_Code_2015.pdf};
 \tabularnewline
 
+\msdl\ & a text describing a score in the \msdl\ language.
+\tabularnewline
+
 %\midi\ & binary data containg markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>};
 %\tabularnewline
 
@@ -146,7 +164,7 @@ MDSR & MIDI Score Representation, to be designed.
 \end{center}
 
 
-\newpage
+%\newpage
 
 % -------------------------------------------------------------------------
 \section{Basic tools}
@@ -186,7 +204,7 @@ For example:
 \end{itemize}
 
 
-\newpage
+%\newpage
 
 % -------------------------------------------------------------------------
 \section{Conversion passes}
@@ -215,36 +233,38 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 \texttt{4} & converts an mxmlelement tree into and MSR representation. \mxml\ represents how a score is to be drawn, while MSR represents the musical contents with great detail. This pass actually consists in two sub-passes: the first one builds an MSR skeleton containing empty voices and stanzas, and the second one the fills this with all the rest;
 \tabularnewline
 
-\texttt{5} & converts an MSR representation into another one, built from scratch. This allows the new representation to be different than the original one, for example to change the score after is has been scanned and exported as \mxml\ data, or to add skip (invisible) notes to avoid the \lily\ issue \#34. For simplicity and efficiency reasons, this pass is not present as such, but 'merges' within passes 6 and 9;
+\texttt{5} & converts an MSR representation into an LPSR representation, which contains an MSR component build from the original MSR (pass 5). The BSR contains \lily-specific representations such as {\tt $\backslash$layout}, {\tt $\backslash$paper}, and {\tt $\backslash$score} blocks;
 \tabularnewline
 
-\texttt{6} & converts an MSR representation into an LPSR representation, which contains an MSR component build from the original MSR (pass 5). The BSR contains \lily-specific representations such as {\tt $\backslash$layout}, {\tt $\backslash$paper}, and {\tt $\backslash$score} blocks;
+\texttt{6} & converts an LPSR representation into an MSR representation. There is nothing to do, since the former contains the latter as a component;
 \tabularnewline
 
-\texttt{7} & converts an LPSR representation into an MSR representation. There is nothing to do, since the former contains the latter as a component;
+\texttt{7} & converts an LPSR representation into \lily\ text code, and writes it to standard output;
 \tabularnewline
 
-\texttt{8} & converts an LPSR representation into \lily\ text code, and writes it to standard output;
+\texttt{7'} & converts an LPSR representation into \lily\ text code using \lilyJianpu, and writes it to standard output. This pass is run with {\tt xml2ly -jianpu};
 \tabularnewline
 
-\texttt{8'} & converts an LPSR representation into \lily\ text code using \lilyJianpu, and writes it to standard output. This pass is run with {\tt xml2ly -jianpu};
+\texttt{8} & converts an MSR representation into a BSR representation, which contains an MSR component build from the original MSR (pass 5). The BSR contains \braille-specific representations such as pages, lines and 6-dot cells. The lines and pages are virtual, i.e. not limited in length;
 \tabularnewline
 
-\texttt{9} & converts an MSR representation into a BSR representation, which contains an MSR component build from the original MSR (pass 5). The BSR contains \braille-specific representations such as pages, lines and 6-dot cells. The lines and pages are virtual, i.e. not limited in length;
+\texttt{9} & converts a BSR representation into an MSR representation. There is nothing to do, since the former contains the latter as a component;
 \tabularnewline
 
-\texttt{10} & converts a BSR representation into an MSR representation. There is nothing to do, since the former contains the latter as a component;
+\texttt{10} & converts a BSR representation into another one, to adapt the number of cells per line and lines per page from virtual to physical. Currently, the result is a mere clone;
 \tabularnewline
 
-\texttt{11} & converts a BSR representation into another one, to adapt the number of cells per line and lines per page from virtual to physical. Currently, the result is a mere clone;
+\texttt{11} & converts a BSR representation into \braille\ text, and writes it to standard output;
 \tabularnewline
 
-\texttt{12} & converts a BSR representation into \braille\ text, and writes it to standard output;
+\texttt{12} & converts an MSR representation into an mxmlelement tree;
 \tabularnewline
 
-\texttt{\textcolor{gray}{15}} & converts an MSR representation into an mxmlelement tree -- ongoing work;
+\texttt{13} & converts an MSR representation into another one, built from scratch. This allows the new representation to be different than the original one, for example to change the score after is has been scanned and exported as \mxml\ data, or to add skip (invisible) notes to avoid the \lily\ issue \#34. For simplicity and efficiency reasons, this pass is not present as such, but 'merges' within passes 6 and 9;
 \tabularnewline
 
+\texttt{14} & converts an \msdl\ score description into an MSR representation.
+\tabularnewline
 
 \end{longtable}
 \end{center}
@@ -256,30 +276,35 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 
 A translator is a sequence of two or more passes, each converting one representation into another, in a pipeline way. The first one provided by the library was {\tt xml2guido}.
 
-The other translators provided by \lib\ were added later and are in the form of functions. Executable command-line applications using them are also supplied. They are shown in the table below, in which the ones not yet planned or under development are dimmed:
+The other translators provided by \lib\ were added later and are in the form of functions. Executable command-line applications using them are also supplied. They are shown in the table below:
 %\begin{adjustwidth}{-0.5cm}{-0.5cm}
 \begin{center}
 \footnotesize
 \def \contentsWidth{0.6\textwidth}
 \def \arraystretch{1.3}
 %
-\begin{longtable}[t]{l|ccccccc}
- & \multicolumn{6}{c}{Output format} \tabularnewline
-\raisebox{1em}{Input format} & \mxml & \guido & \lily & {Jianpu \lily} & \braille &  &  \tabularnewline[0.5ex] 
+\begin{longtable}[t]{l|ll}
+ & \multicolumn{2}{c}{Input format} \tabularnewline
+\raisebox{1em}{Output format} & \mxml & \msdl   \tabularnewline[0.5ex] 
 \hline\\[-3.0ex]
 %
 
-\mxml\ & \xmlToXml & \xmlToGuido & \xmlToLy & \xmlToLy\ {\tt -jianpu} & \xmlToBrl &  & 
-\tabularnewline
+\mxml\ & \xmlToXml & {\tt msdl -musicxml} \tabularnewline
+
+\lily\ & \xmlToLy & {\tt msdl -lilypond} \tabularnewline
+
+Jianpu \lily\ & {\tt \xmlToLy -jianpu} & {\tt msdl -lilypond -jianpu} \tabularnewline
+
+\mxml\ & \xmlToXml & {\tt msdl -musicxml} \tabularnewline
 
 
-%\midi\ &  &  &  &  &  &  &
-%\tabularnewline
+\braille & \xmlToBrl & {\tt msdl -braille} \tabularnewline
 
 \end{longtable}
 \end{center}
 
-The executables available, planned or under development in \lib\ are:
+
+The executables available in \lib\ are:
 %\begin{adjustwidth}{-0.5cm}{-0.5cm}
 \begin{center}
 \footnotesize
@@ -297,25 +322,31 @@ The executables available, planned or under development in \lib\ are:
 \tabularnewline
 
 
-\xmlToXml & converts \mxml\ data to MSR and back. This is useful to modify the data to suit the user's needs, such as fixing score scanning software limitations or to enhance the data:
-
-\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 5 $\Rightarrow$ 15 $\Rightarrow$ 2
-\tabularnewline
-
-
 \xmlToLy & performs the 4 hops from \mxml\ to \lily\ to translate the former into the latter, using these passes:
 
-\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 6 $\Rightarrow$ 8
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 5 $\Rightarrow$ 7
 
-The {\tt -jianpu} option is supplied to create Jianpu (numbered) scores, in which the notes are represented by numbers instead of graphics;
+The {\tt -jianpu} option is supplied to create Jianpu (numbered) scores, in which the notes are represented by numbers instead of graphics, using passes:
 
-The {\tt -loop} option is supplied to create \mxml\ data back from the \mxml\ data, as is done by \xmlToXml;
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 5 $\Rightarrow$ 7'
 \tabularnewline
 
 
 \xmlToBrl & performs the 5 hops from \mxml\ to \braille\ to translate the former into the latter (draft);
 
-\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 5 $\Rightarrow$ 9 $\Rightarrow$ 11 $\Rightarrow$ 12
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 8 $\Rightarrow$ 10 $\Rightarrow$ 11
+\tabularnewline
+
+
+\xmlToXml & converts \mxml\ data to MSR and back. This is useful to modify the data to suit the user's needs, such as fixing score scanning software limitations or to enhance the data:
+
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 13 $\Rightarrow$ 12 $\Rightarrow$ 2
+\tabularnewline
+
+
+\xmlToGmn & converts \mxml\ data to Guido code, using passes:
+
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 13 $\Rightarrow$ 12 $\Rightarrow$ 3
 \tabularnewline
 
 \end{longtable}
@@ -328,8 +359,8 @@ The {\tt -loop} option is supplied to create \mxml\ data back from the \mxml\ da
 
 In order to demonstrate the use of the MSR API, {\tt Mikrokosmos3Wandering} creates an MSR graph representing Bartok's Mikrokosmos III Wandering score, and then produces Guido, LilyPond, braille or MusicXML to standard output, depending on the '{\tt -generated-code-kind}' option.
 
-MSDL (Music Score Description Language) is a language under evolution being created by this author. It is meant for use by musicians, i.e. non-programmers, to obtain scores from a rather high-level description.\\
-\lib supplies {\tt msdl}, a compiler translating MSDL into Guido, LilyPond, braille or MusicXML to standard output, depending on the '{\tt -generated-code-kind}' option.
+\msdl\ (Music Score Description Language) is a language under evolution being created by this author. It is meant for use by musicians, i.e. non-programmers, to obtain scores from a rather high-level description.\\
+\lib supplies {\tt msdl}, a compiler translating \msdl\ into Guido, LilyPond, braille or MusicXML to standard output, depending on the '{\tt -generated-code-kind}' option.
 
 
 % -------------------------------------------------------------------------
@@ -352,9 +383,91 @@ Each pass supplies a OAH group, containing its own options and help. The executa
 
 
 % -------------------------------------------------------------------------
-\section{The MSR classes hierarchy}
+\section{The MSR classes inheritance and use}
 % -------------------------------------------------------------------------
 
+The picture at figure \ref {\msr classes hierarchy}, page \pageref {\msr classes hierarchy}, show the hierarchy of the main MSR classes. The  arrows are colored to indicate there meaning:
+\begin{itemize}
+
+\item  \textcolor{red}{red}: a link from a class to its base class;
+
+\item  \textcolor{blue}{blue}: a link from a class to another that uses smart pointers to instances or instances the former.
+\end{itemize}
+
+When not shown for clarity, the common base class of all these classes is {\tt msrElement}.
+
+The {\tt otherMeasureElements} are: 
+
+\begin{itemize}
+\item part names:
+  \begin{itemize}
+  \item {\tt msrPartNameDisplay}
+  \item {\tt msrPartAbbreviationDisplay}
+  \end{itemize}
+
+\item bars:
+  \begin{itemize}
+  \item {\tt msrBarCheck}
+  \item {\tt msrBarNumberCheck}
+  \item {\tt msrBarline}
+  \item {\tt msrHiddenMeasureAndBarline}
+  \end{itemize}
+
+\item breaks:
+  \begin{itemize}
+  \item {\tt msrLineBreak}
+  \item {\tt msrPageBreak}
+  \end{itemize}
+
+\item notes:
+  \begin{itemize}
+  \item {\tt msrDoubleTremolo}
+  \item {\tt msrVoiceStaffChange}
+  \item {\tt msrOctaveShift}
+  \end{itemize}
+
+\item clefs, keys, times, tempo:
+  \begin{itemize}
+  \item {\tt msrClef}
+  \item {\tt msrKey}
+  \item {\tt msrTime}
+  \item {\tt msrTempo}
+  \end{itemize}
+
+\item instruments:
+  \begin{itemize}
+  \item {\tt msrStaffDetails}
+  \item {\tt msrScordatura}
+  \item {\tt msrAccordionRegistration}
+  \item {\tt msrHarpPedalsTuning}
+  \item {\tt msrPedal}
+  \item {\tt msrDamp}
+  \item {\tt msrDampAll}
+  \end{itemize}
+
+\item lyrics:
+  \begin{itemize}
+	\item {\tt msrSyllable}
+  \end{itemize}
+
+\item rehearsals, segno and coda:
+  \begin{itemize}
+  \item {\tt msrRehearsal}
+	\item {\tt msrSegno}
+  \item {\tt msrDalSegno}
+  \item {\tt msrCoda}
+ \end{itemize}
+
+\item others:
+  \begin{itemize}
+  \item {\tt msrPrintLayout}
+  \item {\tt msrEyeGlasses}
+  \item {\tt msrStaffLevelElement}
+  \item {\tt msrTranspose}
+  \item {\tt msrTupletElement}
+  \end{itemize}
+
+\end{itemize}
 
 \include {msrClassesHierarchyPicture}
 

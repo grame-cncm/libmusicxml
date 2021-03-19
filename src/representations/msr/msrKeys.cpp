@@ -267,7 +267,7 @@ msrKey::msrKey ( // for traditional keys
       fKeyTonicQuarterTonesPitchKind =
         noteAtIntervalFromQuarterTonesPitch (
           inputLineNumber,
-          kMajorSixth, // a minor third below actually
+          msrIntervalKind::kIntervalMajorSixth, // a minor third below actually
           fKeyTonicQuarterTonesPitchKind);
       break;
     case msrModeKind::kModeIonian:

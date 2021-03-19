@@ -436,34 +436,47 @@ string msrSlurTypeKindAsString (
 
 // intervals
 //______________________________________________________________________________
-enum msrIntervalKind {
+enum class msrIntervalKind {
   k_NoIntervalKind,
 
-  kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
+  kIntervalDiminishedUnisson, kIntervalPerfectUnisson,
+  kIntervalAugmentedUnisson,
 
-  kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
+  kIntervalDiminishedSecond, kIntervalMinorSecond,
+  kIntervalMajorSecond, kIntervalAugmentedSecond,
 
-  kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
+  kIntervalDiminishedThird, kIntervalMinorThird,
+  kIntervalMajorThird, kIntervalAugmentedThird,
 
-  kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
+  kIntervalDiminishedFourth, kIntervalPerfectFourth,
+  kIntervalAugmentedFourth,
 
-  kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
+  kIntervalDiminishedFifth, kIntervalPerfectFifth,
+  kIntervalAugmentedFifth,
 
-  kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
+  kIntervalDiminishedSixth, kIntervalMinorSixth,
+  kIntervalMajorSixth, kIntervalAugmentedSixth,
 
-  kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
+  kIntervalDiminishedSeventh, kIntervalMinorSeventh,
+  kIntervalMajorSeventh, kIntervalAugmentedSeventh,
 
-  kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
+  kIntervalDiminishedOctave, kIntervalPerfectOctave,
+  kIntervalAugmentedOctave,
 
-  kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
+  kIntervalDiminishedNinth, kIntervalMinorNinth,
+  kIntervalMajorNinth, kIntervalAugmentedNinth,
 
-  kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
+  kIntervalDiminishedTenth, kIntervalMinorTenth,
+  kIntervalMajorTenth, kIntervalAugmentedTenth,
 
-  kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
+  kIntervalDiminishedEleventh, kIntervalPerfectEleventh,
+  kIntervalAugmentedEleventh,
 
-  kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
+  kIntervalDiminishedTwelfth, kIntervalPerfectTwelfth,
+  kIntervalAugmentedTwelfth,
 
-  kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth
+  kIntervalDiminishedThirteenth, kIntervalMinorThirteenth,
+  kIntervalMajorThirteenth, kIntervalAugmentedThirteenth
 };
 
 EXP int msrIntervalKindAsSemiTones (
@@ -676,53 +689,62 @@ string msrRepeatEndingKindAsString (
 
 // harmonies
 //______________________________________________________________________________
-enum msrHarmonyKind {
+enum class msrHarmonyKind {
   k_NoHarmony,
 
   // MusicXML harmonies
 
-  kMajorHarmony, kMinorHarmony,
-  kAugmentedHarmony, kDiminishedHarmony,
+  kHarmonyMajor, kHarmonyMinor,
+  kHarmonyAugmented, kHarmonyDiminished,
 
-  kDominantHarmony,
-  kMajorSeventhHarmony, kMinorSeventhHarmony,
-  kDiminishedSeventhHarmony, kAugmentedSeventhHarmony,
-  kHalfDiminishedHarmony,
-  kMinorMajorSeventhHarmony,
+  kHarmonyDominant,
+  kHarmonyMajorSeventh, kHarmonyMinorSeventh,
+  kHarmonyDiminishedSeventh, kHarmonyAugmentedSeventh,
+  kHarmonyHalfDiminished,
+  kHarmonyMinorMajorSeventh,
 
-  kMajorSixthHarmony, kMinorSixthHarmony,
+  kHarmonyMajorSixth, kHarmonyMinorSixth,
 
-  kDominantNinthHarmony,
-  kMajorNinthHarmony, kMinorNinthHarmony,
+  kHarmonyDominantNinth,
+  kHarmonyMajorNinth, kHarmonyMinorNinth,
 
-  kDominantEleventhHarmony, kMajorEleventhHarmony, kMinorEleventhHarmony,
+  kHarmonyDominantEleventh, kHarmonyMajorEleventh, kHarmonyMinorEleventh,
 
-  kDominantThirteenthHarmony, kMajorThirteenthHarmony, kMinorThirteenthHarmony,
+  kHarmonyDominantThirteenth, kHarmonyMajorThirteenth, kHarmonyMinorThirteenth,
 
-  kSuspendedSecondHarmony, kSuspendedFourthHarmony,
+  kHarmonySuspendedSecond, kHarmonySuspendedFourth,
 
-  kNeapolitanHarmony, kItalianHarmony, kFrenchHarmony, kGermanHarmony,
+  kHarmonyNeapolitan, kHarmonyItalian, kHarmonyFrench, kHarmonyGerman,
 
-  kPedalHarmony, kPowerHarmony, kTristanHarmony,
+  kHarmonyPedal, kHarmonyPower, kHarmonyTristan,
 
   // jazz-specific harmonies
 
-  kMinorMajorNinth,                              // -maj9, minmaj9
+  kHarmonyMinorMajorNinth,                       // -maj9, minmaj9
 
-  kDominantSuspendedFourthHarmony,               // 7sus4, domsus4
-  kDominantAugmentedFifthHarmony,                // 7#5, domaug5
-  kDominantMinorNinthHarmony,                    // 7b9, dommin9
-  kDominantAugmentedNinthDiminishedFifthHarmony, // 7#9b5, domaug9dim5
-  kDominantAugmentedNinthAugmentedFifthHarmony,  // 7#9#5, domaug9aug5
-  kDominantAugmentedEleventhHarmony,             // 7#11, domaug11
+  kHarmonyDominantSuspendedFourth,               // 7sus4, domsus4
+  kHarmonyDominantAugmentedFifth,                // 7#5, domaug5
+  kHarmonyDominantMinorNinth,                    // 7b9, dommin9
+  kHarmonyDominantAugmentedNinthDiminishedFifth, // 7#9b5, domaug9dim5
+  kIntervkDominantAugmentedNinthAugmentedFifthHarmonyalAugmentedThirteenth,  // 7#9#5, domaug9aug5
+  kHarmonyDominantAugmentedEleventh,             // 7#11, domaug11
 
-  kMajorSeventhAugmentedEleventhHarmony,         // maj7#11, maj7aug11
+  kHarmonyMajorSeventhAugmentedEleventh,         // maj7#11, maj7aug11
 
   // other
 
-  kOtherHarmony,
+  kHarmonyOther,
 
-  kNoneHarmony
+  kHarmonyNone,
+
+  // aliases
+  // ------------------------------------
+
+  AllFirst = k_NoHarmony,
+  AllLast  = kHarmonyNone,
+
+  TrueHarmoniesFirst = kHarmonyMajor,
+  TrueHarmoniesLast  = kHarmonyMajorSeventhAugmentedEleventh
 };
 
 string msrHarmonyKindAsString (
@@ -750,6 +772,47 @@ EXP extern list<string>
   gHarmonyKindsNamesList;
 
 void initializeHarmonyKinds ();
+
+//________________________________________________________________________
+template< typename T >
+class EnumTrueHarmonies
+{
+  public:
+
+    class Iterator
+    {
+      public:
+
+        Iterator (int value)
+          : fIterationIndex (value)
+            {}
+
+        T operator* (void) const
+            { return (T) fIterationIndex; }
+
+        void operator++ (void)
+            {  ++fIterationIndex; }
+
+        bool operator != (Iterator rhs)
+            {  return fIterationIndex != rhs.fIterationIndex; }
+
+      private:
+
+        int fIterationIndex;
+     };
+};
+
+template< typename T >
+typename EnumTrueHarmonies<T>::Iterator begin (EnumTrueHarmonies<T>)
+{
+  return typename EnumTrueHarmonies<T>::Iterator ((int)T::TrueHarmoniesFirst);
+}
+
+template< typename T >
+typename EnumTrueHarmonies<T>::Iterator end (EnumTrueHarmonies<T>)
+{
+  return typename EnumTrueHarmonies<T>::Iterator (((int)T::TrueHarmoniesLast) + 1);
+}
 
 // quarter tones pitches languages
 //______________________________________________________________________________
