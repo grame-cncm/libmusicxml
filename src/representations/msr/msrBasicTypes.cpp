@@ -1234,7 +1234,7 @@ msrDurationKind msrDurationKindFromMusicXMLString (
     result = msrDurationKind::kMaxima;
   }
   else if (durationString == "long") {
-    result = msrDurationKind::kLong;
+    result = msrDurationKind::kLonga;
   }
   else if (durationString == "breve") {
     result = msrDurationKind::kBreve;
@@ -1346,7 +1346,7 @@ msrDurationKind msrDurationKindFromString (
     result = msrDurationKind::kMaxima;
   }
   else if (durationString == "long") {
-    result = msrDurationKind::kLong;
+    result = msrDurationKind::kLonga;
   }
   else if (durationString == "breve") {
     result = msrDurationKind::kBreve;
@@ -1498,7 +1498,7 @@ rational msrDurationKindAsWholeNotes (msrDurationKind durationKind)
     case msrDurationKind::kBreve:
       result = rational (2, 1);
       break;
-    case msrDurationKind::kLong:
+    case msrDurationKind::kLonga:
       result = rational (4, 1);
       break;
     case msrDurationKind::kMaxima:
@@ -1559,7 +1559,7 @@ msrDurationKind wholeNotesAsDurationKind (rational wholeNotes)
         result = msrDurationKind::kBreve;
         break;
       case 4:
-        result = msrDurationKind::kLong;
+        result = msrDurationKind::kLonga;
         break;
       case 8:
         result = msrDurationKind::kMaxima;
@@ -1617,7 +1617,7 @@ string msrDurationKindAsMusicXMLType (msrDurationKind durationKind)
     case msrDurationKind::kBreve:
       result = "breve";
       break;
-    case msrDurationKind::kLong:
+    case msrDurationKind::kLonga:
       result = "long";
       break;
     case msrDurationKind::kMaxima:
@@ -1673,7 +1673,7 @@ string msrDurationKindAsString (msrDurationKind durationKind)
     case msrDurationKind::kBreve:
       result = "Breve";
       break;
-    case msrDurationKind::kLong:
+    case msrDurationKind::kLonga:
       result = "Long";
       break;
     case msrDurationKind::kMaxima:

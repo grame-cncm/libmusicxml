@@ -975,7 +975,7 @@ void msrTime::print (ostream& os) const
 {
   os <<
     "Time" <<
-    ", line"  << fInputLineNumber <<
+    ", line "  << fInputLineNumber <<
     endl;
 
   ++gIndenter;

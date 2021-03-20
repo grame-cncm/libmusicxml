@@ -1980,7 +1980,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
       case msrDurationKind::kBreve:
         noteValueKind = bsrNote::kNoteValueRestBreve;
         break;
-      case msrDurationKind::kLong:
+      case msrDurationKind::kLonga:
         break;
       case msrDurationKind::kMaxima:
         break;
@@ -2031,7 +2031,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
           case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueABreve;
             break;
-          case msrDurationKind::kLong:
+          case msrDurationKind::kLonga:
             break;
           case msrDurationKind::kMaxima:
             break;
@@ -2077,7 +2077,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
           case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueBBreve;
             break;
-          case msrDurationKind::kLong:
+          case msrDurationKind::kLonga:
             break;
           case msrDurationKind::kMaxima:
             break;
@@ -2123,7 +2123,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
           case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueCBreve;
             break;
-          case msrDurationKind::kLong:
+          case msrDurationKind::kLonga:
             break;
           case msrDurationKind::kMaxima:
             break;
@@ -2169,7 +2169,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
           case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueDBreve;
             break;
-          case msrDurationKind::kLong:
+          case msrDurationKind::kLonga:
             break;
           case msrDurationKind::kMaxima:
             break;
@@ -2215,7 +2215,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
           case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueEBreve;
             break;
-          case msrDurationKind::kLong:
+          case msrDurationKind::kLonga:
             break;
           case msrDurationKind::kMaxima:
             break;
@@ -2261,7 +2261,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
           case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueFBreve;
             break;
-          case msrDurationKind::kLong:
+          case msrDurationKind::kLonga:
             break;
           case msrDurationKind::kMaxima:
             break;
@@ -2307,7 +2307,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
           case msrDurationKind::kBreve:
             noteValueKind = bsrNote::kNoteValueGBreve;
             break;
-          case msrDurationKind::kLong:
+          case msrDurationKind::kLonga:
             break;
           case msrDurationKind::kMaxima:
             break;

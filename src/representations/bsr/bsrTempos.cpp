@@ -188,7 +188,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
             case msrDurationKind::kBreve:
               noteValueKind = bsrNote::kNoteValueCBreve;
               break;
-            case msrDurationKind::kLong:
+            case msrDurationKind::kLonga:
               break;
             case msrDurationKind::kMaxima:
               break;

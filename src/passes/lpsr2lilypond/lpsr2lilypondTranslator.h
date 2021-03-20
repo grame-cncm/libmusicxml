@@ -790,6 +790,9 @@ class EXP lpsr2lilypondTranslator :
                             int      inputLineNumber,
                             rational wholeNotes);
 
+    string                msrDurationKindAsLilypondString (
+                            msrDurationKind durationKind);
+
     // notes
 
     msrPrintObjectKind    fCurrentNotePrinObjectKind;

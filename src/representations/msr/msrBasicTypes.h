@@ -929,7 +929,7 @@ enum class msrDurationKind {
   k_NoDuration,
 
   // from longest to shortest for the algorithms
-  kMaxima, kLong, kBreve, kWhole, kHalf,
+  kMaxima, kLonga, kBreve, kWhole, kHalf,
   kQuarter,
   kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th
 };

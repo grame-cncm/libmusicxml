@@ -32,6 +32,7 @@
 #include "msr2msrOah.h"
 #include "mxmltreeGenerationOah.h"
 #include "mxmlTree2msrOah.h"
+#include "guidoGenerationOah.h"
 
 #include "version.h"
 
@@ -204,6 +205,10 @@ void xml2gmnInsiderHandler::createTheXml2gmnOptionGroups (
   // create the msr2mxmlTree OAH group
   appendGroupToHandler (
     createGlobalMxmltreeGenerationOahGroup ());
+
+  // create the mxmlTree2guido OAH group
+  appendGroupToHandler (
+    createGlobalGuidoGenerationOahGroup ());
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group

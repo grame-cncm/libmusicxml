@@ -1,8 +1,6 @@
-
 % libmusicxml2 architecture overview
 % Grame, 2021
 
-%\documentclass[border=20pt]{standalone}
 \documentclass[12pt,a4paper]{article}
 
 % -------------------------------------------------------------------------
@@ -14,6 +12,8 @@
 \subimport{../}{CommonLaTeXSettings}
 
 \usepackage{longtable}
+
+\usepackage{bold-extra}
 
 \usepackage{tikz}
 
@@ -27,8 +27,6 @@
 \usetikzlibrary{calc,intersections}
 
 \usetikzlibrary{decorations.pathreplacing,decorations.markings}
-
-\usepackage{bold-extra}
 
 \usepackage{changepage} % for adjustwidth
 
@@ -45,16 +43,22 @@
 \def \tab {~~~}
 
 
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% preamble
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
 \title{
-\lib\ architecture overview \\[5pt]
-{\normalsize 
-  \xmlToGuido\ v2.3, \xmlToLy\ v0.9, \xmlToBrl\ v0.01\\
-  \today
-}
+  \lib\ architecture overview \\[5pt]
+  {\normalsize 
+    \xmlToGuido\ v2.3, \xmlToLy\ v0.9, \xmlToBrl\ v0.01, \xmlToXml\ v0.02, \msdl compiler\ v1.001\\
+    \today
+  }
 }
 
 \author{
-Jacques Menu 
+	Jacques Menu 
 }
 
 %\date {(as of \normalsize \today)}
@@ -63,15 +67,18 @@ Jacques Menu
 \maketitle
 \thispagestyle{fancy} % right after \maketitle to apply it to the first page too
 
-{
-	\small
-	\tableofcontents
-}
-
+\abstract {
 This document shows the architecture of the \lib\ library, to be found at 
 \url {https://github.com/grame-cncm/libmusicxml/tree/lilypond}.
 
 \lib\ is written in C++11 and provides a set of music scores representations and translators between various textual music scores formats. Building it only requires a C++11 compiler and {\tt cmake}.
+}
+
+%\lstlistoflistings
+
+\tableofcontents
+
+\listoffigures
 
 
 % -------------------------------------------------------------------------
@@ -81,9 +88,7 @@ This document shows the architecture of the \lib\ library, to be found at
 The picture at figure \ref {Architecture}, page \pageref {Architecture}, shows how \lib\ is structured. The dimmed, dashed arrows indicate items not yet available. 
 The numbered arrows show the existing conversions between formats and representations.
 
-\include {libmusicxmlArchitecturePicture}
-
-%\newpage
+\subimport{../}{libmusicxmlArchitecturePicture}
 
 
 % -------------------------------------------------------------------------
@@ -469,7 +474,7 @@ The {\tt otherMeasureElements} are:
 
 \end{itemize}
 
-\include {msrClassesHierarchyPicture}
+\subimport{../}{msrClassesHierarchyPicture}
 
 
 

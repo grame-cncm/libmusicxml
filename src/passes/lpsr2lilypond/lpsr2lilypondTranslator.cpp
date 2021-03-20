@@ -1011,6 +1011,64 @@ string lpsr2lilypondTranslator::durationAsLilypondString (
   return result;
 }
 
+string lpsr2lilypondTranslator::msrDurationKindAsLilypondString (
+  msrDurationKind durationKind)
+{
+
+  string result;
+
+  switch (durationKind) {
+    case msrDurationKind::k_NoDuration:
+      result = "noDuration";
+      break;
+
+    case msrDurationKind::k1024th:
+      result = "1024";
+      break;
+    case msrDurationKind::k512th:
+      result = "512";
+      break;
+    case msrDurationKind::k256th:
+      result = "256";
+      break;
+    case msrDurationKind::k128th:
+      result = "128";
+      break;
+    case msrDurationKind::k64th:
+      result = "64";
+      break;
+    case msrDurationKind::k32nd:
+      result = "32";
+      break;
+    case msrDurationKind::k16th:
+      result = "16";
+      break;
+    case msrDurationKind::kEighth:
+      result = "8";
+      break;
+    case msrDurationKind::kQuarter:
+      result = "4";
+      break;
+    case msrDurationKind::kHalf:
+      result = "2";
+      break;
+    case msrDurationKind::kWhole:
+      result = "1";
+      break;
+    case msrDurationKind::kBreve:
+      result = "\\breve";
+      break;
+    case msrDurationKind::kLonga:
+      result = "\\longa";
+      break;
+    case msrDurationKind::kMaxima:
+      result = "\\maxima";
+      break;
+  } // switch
+
+  return result;
+}
+
 //________________________________________________________________________
 string lpsr2lilypondTranslator::pitchedRestAsLilypondString (
   S_msrNote note)
@@ -1616,10 +1674,11 @@ void lpsr2lilypondTranslator::generateCodeForNote (
   int inputLineNumber =
     note->getInputLineNumber ();
 
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (false && gGlobalTraceOahGroup->getTraceNotes ()) { // JMI
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for note " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -1720,6 +1779,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteRegularInMeasure (
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteRegularInMeasure " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -1793,6 +1853,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteRestInMeasure (S_msrNote note)
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteRestInMeasure " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -1921,6 +1982,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteSkipInMeasure (S_msrNote note)
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteSkipInMeasure " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -1961,6 +2023,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteUnpitchedInMeasure (S_msrNote n
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteUnpitchedInMeasure " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -2025,6 +2088,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteRegularInChord (S_msrNote note)
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteRegularInChord " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -2096,6 +2160,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteRegularInTuplet (S_msrNote note
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteRegularInTuplet " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -2158,6 +2223,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteRestInTuplet (S_msrNote note)
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteRestInTuplet " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -2214,6 +2280,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteUnpitchedInTuplet (S_msrNote no
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteUnpitchedInTuplet " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -2265,6 +2332,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteRegularInGraceNotesGroup (S_msr
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteRegularInGraceNotesGroup " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -2281,7 +2349,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteRegularInGraceNotesGroup (S_msr
 
   // generate the grace note's graphic duration
   fLilypondCodeStream <<
-    msrDurationKindAsString (
+    msrDurationKindAsLilypondString (
       note->
         getNoteGraphicDurationKind ());
 
@@ -2327,6 +2395,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteSkipInGraceNotesGroup (S_msrNot
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteSkipInGraceNotesGroup " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -2373,6 +2442,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteInChordInGraceNotesGroup (S_msr
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteInChordInGraceNotesGroup " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -2431,6 +2501,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteInTupletInGraceNotesGroup (S_ms
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteInTupletInGraceNotesGroup " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -2501,6 +2572,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteInDoubleTremolo (S_msrNote note
     stringstream s;
 
     s <<
+      endl <<
       "% --> generating code for noteInDoubleTremolo " <<
       note->asString () <<
       ", line " << inputLineNumber <<
@@ -9196,6 +9268,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
     elt->getStaffToChangeTo ()->getStaffName () <<
     "\"";
 
+  // generate the input line number as comment if relevant
   if (
     gGlobalLilypondGenerationOahGroup->getInputLineNumbers ()
       ||
@@ -9255,6 +9328,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrHarmony& elt)
       harmonyAsLilypondString (elt) <<
       ' ';
 
+    // generate the input line number as comment if relevant
     if (
       gGlobalLilypondGenerationOahGroup->getInputLineNumbers ()
         ||
@@ -9347,6 +9421,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrFiguredBass& elt)
       figuredBassAsLilypondString (elt) <<
       ' ';
 
+    // generate the input line number as comment if relevant
     if (
       gGlobalLilypondGenerationOahGroup->getInputLineNumbers ()
         ||
@@ -10671,6 +10746,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
       } // switch
 
+    // generate the input line number as comment if relevant
     if (
       gGlobalLilypondGenerationOahGroup->getInputLineNumbers ()
         ||
@@ -13552,6 +13628,7 @@ void lpsr2lilypondTranslator::generateGraceNotesGroup (
           // generate the note itself
           generateCodeForNote (note);
 
+          // generate the input line number as comment if relevant
           if ( // JMI
             gGlobalLilypondGenerationOahGroup->getInputLineNumbers ()
               ||
@@ -13938,6 +14015,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
   }
 #endif
 
+  // register the note as on-going note
+  fOnGoingNotesStack.push (elt); // will be popped in visitEnd (S_msrNote&)
+
   // is this note to be ignored?
   bool noteIsToBeIgnored = false;
 
@@ -14148,16 +14228,18 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
   // is this note to be ignored?
   if (noteIsToBeIgnored) {
 #ifdef TRACING_IS_ENABLED
-    stringstream s;
+    if (gGlobalTraceOahGroup->getTraceNotes ()) {
+      stringstream s;
 
-    s <<
-      "% ==> Start visiting notes is ignored inside grace notes groups " << // JMI BLARK
-      elt->asShortString ();
+      s <<
+        "% ==> Start visiting notes is ignored inside grace notes groups " << // JMI BLARK
+        elt->asShortString ();
 
-    msrInternalWarning (
-      gGlobalOahOahGroup->getInputSourceName (),
-      inputLineNumber,
-      s.str ());
+      msrInternalWarning (
+        gGlobalOahOahGroup->getInputSourceName (),
+        inputLineNumber,
+        s.str ());
+    }
 #endif
 
     return;
@@ -14185,9 +14267,6 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     fLilypondCodeStream << s.str ();
   }
 #endif
-
-  // register the note as on-going note
-  fOnGoingNotesStack.push (elt); // will be popped in visitEnd (S_msrNote&)
 
   // get the note's grace notes group after
   S_msrGraceNotesGroup
@@ -14416,6 +14495,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
   }
 */
 
+  // generate the input line number as comment if relevant
   if (
     gGlobalLilypondGenerationOahGroup->getInputLineNumbers ()
       ||
@@ -15085,16 +15165,18 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
 
   if (noteIsToBeIgnored) {
 #ifdef TRACING_IS_ENABLED
-    stringstream s;
+    if (gGlobalTraceOahGroup->getTraceNotes ()) {
+      stringstream s;
 
-    s <<
-      "% ==> End visiting notes is ignored inside grace notes groups " << // JMI BLARK
-      elt->asShortString ();
+      s <<
+        "% ==> End visiting notes is ignored inside grace notes groups " << // JMI BLARK
+        elt->asShortString ();
 
-    msrInternalWarning (
-      gGlobalOahOahGroup->getInputSourceName (),
-      inputLineNumber,
-      s.str ());
+      msrInternalWarning (
+        gGlobalOahOahGroup->getInputSourceName (),
+        inputLineNumber,
+        s.str ());
+    }
 #endif
 
     return;
@@ -17131,16 +17213,18 @@ void lpsr2lilypondTranslator::visitStart (S_msrChord& elt)
     int chordInputLineNumber =
       elt->getInputLineNumber ();
 
-    stringstream s;
+    if (gGlobalTraceOahGroup->getTraceNotes ()) {
+      stringstream s;
 
-    s <<
-      "% ==> Start visiting grace chords is ignored inside grace notes groups " <<
-      elt->asShortString ();
+      s <<
+        "% ==> Start visiting grace chords is ignored inside grace notes groups " <<
+        elt->asShortString ();
 
-    msrInternalWarning (
-      gGlobalOahOahGroup->getInputSourceName (),
-      chordInputLineNumber,
-      s.str ());
+      msrInternalWarning (
+        gGlobalOahOahGroup->getInputSourceName (),
+        chordInputLineNumber,
+        s.str ());
+    }
 
     return;
   }
@@ -17175,10 +17259,12 @@ void lpsr2lilypondTranslator::visitEnd (S_msrChord& elt)
   }
 
   if (fOnGoingGraceNotesGroup) {
-    msrInternalWarning (
-      gGlobalOahOahGroup->getInputSourceName (),
-      inputLineNumber,
-      "% ==> End visiting grace chords is ignored inside grace notes groups");
+    if (gGlobalTraceOahGroup->getTraceNotes ()) {
+      msrInternalWarning (
+        gGlobalOahOahGroup->getInputSourceName (),
+        inputLineNumber,
+        "% ==> End visiting grace chords is ignored inside grace notes groups");
+    }
 
     return;
   }
@@ -17822,7 +17908,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrBarline& elt)
           if (gGlobalLilypondGenerationOahGroup->getInputLineNumbers ()) {
             // generate the input line number as a comment
             fLilypondCodeStream <<
-              "%{line " << note->getInputLineNumber () << "%} ";
+              "%{ line " << note->getInputLineNumber () << " %} ";
           }
           fLilypondCodeStream << endl;
           break;
