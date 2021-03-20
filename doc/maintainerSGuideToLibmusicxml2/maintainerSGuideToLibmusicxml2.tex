@@ -1,0 +1,339 @@
+% libmusicxml2 maintainer's guide
+% Grame, 2021
+
+\documentclass[12pt,a4paper]{article}
+
+
+% -------------------------------------------------------------------------
+% import common LaTeX settings
+% -------------------------------------------------------------------------
+
+\usepackage{import}
+
+\subimport{../}{CommonLaTeXSettings}
+
+\usepackage{longtable}
+
+\usepackage{bold-extra}
+
+\usepackage{tikz}
+
+\usetikzlibrary{math}
+
+\usetikzlibrary{shapes.arrows}
+\usetikzlibrary{shapes.multipart}
+
+\usetikzlibrary{arrows}
+
+\usetikzlibrary{calc,intersections}
+
+\usetikzlibrary{decorations.pathreplacing,decorations.markings}
+\usepackage{changepage} % for adjustwidth
+
+
+% -------------------------------------------------------------------------
+\begin{document}
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% preamble
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+\title{
+	Maintainer's guide to \lib\ \\[5pt]
+}
+
+\author{
+	Jacques Menu 
+}
+
+%\date {(as of \normalsize \today)}
+\date {}
+
+\maketitle
+\thispagestyle{fancy} % right after \maketitle to apply it to the first page too
+
+\abstract {
+This document presents the design principles and architecture os \xmlToLy, as well as information needed to maintain it. It is part of the \lib\ documentation, to be found at \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/doc}. \xmlToBrl\ is mentioned but not described in detail.
+
+
+In the \lib\ library, the source code specific to \xmlToLy\ can be found at \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/src/lilypond} and \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/src/interface}.
+
+All the examples mentioned can be downloaded from \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/files/samples/musicxml}. They are grouped by subject in subdirectories, such as \mxmlfile{basic/HelloWorld.xml}.
+}
+
+%\lstlistoflistings
+
+\tableofcontents
+
+\listoffigures
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Acknowledgements}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+Many thanks to Dominique Fober, the designer and maintainer of the \lib\ library!
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Prerequisites}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+In order to maintain \lib, one needs to do the following:
+\begin{itemize}
+\item obtain a working knowledge of C++ programming. The code base of \lib\ uses classes, simple inheritance, and templates;
+
+%%%%%%%%\item study \mxml, starting maybe from \docpdf{introductionToMusicXML}{IntroductionToMusicXML.tex}. A deep knowledge of that matter comes with experience;
+
+\item study the architecture of \lib, which can be seen in figure \ref {Architecture}, page \pageref {Architecture}, and is presented in more detail in \url{https://github.com/grame-cncm/libmusicxml/blob/lilypond/doc/libmusicxmlArchitecture/libmusicxmlArchitecture.pdf}
+\end{itemize}
+
+\subimport{../}{libmusicxmlArchitecturePicture}
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Programming style and conventions}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{Source code layout}
+% -------------------------------------------------------------------------
+
+The following text-editing conventions are used:
+\begin{itemize}
+\item tabs are not used before the first non-space character in a line, two spaces are used instead;
+
+\item the code is not tightly packed: declarations in classes have the members' names aligned vertically, with many spaces before them if needed, and empty lines are used to separate successive activities in methods.
+\end{itemize}
+
+% -------------------------------------------------------------------------
+\subsection{Code base structure and file naming conventions}
+% -------------------------------------------------------------------------
+
+The {\tt src} folder has the following structure:
+
+\begin{itemize}
+
+\item {\tt cli} : tools for the command line
+
+  \begin{itemize}
+  \item {\tt Mikrokosmos3Wandering}
+  \item {\tt xml2brl}
+  \item {\tt xml2gmn}
+  \item {\tt xml2ly}
+  \item {\tt xml2xml}
+  \end{itemize}
+
+\item {\tt elements} : creation of the C++ classes from the DTD's
+
+\item {\tt factory} : \mxmlt\ data creation and sorting
+
+\item {\tt files} : \mxml\ files reading
+
+\item {\tt generation} : support for various output kinds
+
+  \begin{itemize}
+  \item {\tt brailleGeneration}
+  \item {\tt guidoGeneration}
+  \item {\tt lilypondGeneration}
+  \item {\tt msrGeneration}
+  \item {\tt multiGeneration}
+  \item {\tt mxmltreeGeneration}
+  \end{itemize}
+
+\item {\tt guido} : Guido support and tools
+
+\item {\tt interface} : API functions to interface for \lib\ and the various executables
+
+\item {\tt lib} : basic types used by \lib\
+
+\item {\tt manpage} : man page generation from the OAH '{\tt data}'
+%
+\item {\tt midisharelight-master}
+
+\item {\tt oah} : object-oriented Options And Help support
+
+\item {\tt operations} : support for transposition and \mxml\ queries
+
+\item {\tt parser} : the MusicXML parser, based on {\tt flex} and {\tt bison}
+
+\item {\tt passes} : code for single-pass converters
+
+  \begin{itemize}
+  \item {\tt bsr2braille}
+  \item {\tt bsr2bsr}
+  \item {\tt lpsr2lilypond}
+  \item {\tt msr2bsr}
+  \item {\tt msr2lpsr}
+  \item {\tt msr2msr}
+  \item {\tt msr2mxmltree}
+  \item {\tt mxml2mxmltree}
+  \item {\tt mxmltree2guido}
+  \item {\tt mxmltree2msr}
+  \item {\tt mxmltree2mxml}
+  \end{itemize}
+
+\item {\tt representations} : the various internal representations used by \lib\
+
+  \begin{itemize}
+  \item {\tt bsr}
+  \item {lpsr}
+  \item {\tt msdl}
+  \item {\tt msdr}
+  \item {\tt msr}
+  \item {\tt msrapi}
+  \item {\tt mxmltree}
+  \end{itemize}
+
+\item {\tt translators} : the multi-pass translator combining those in {\tt passes}
+
+  \begin{itemize}
+  \item {\tt msdl2braille}
+  \item {\tt msdl2guido}
+  \item {\tt msdl2lilypond}
+  \item {\tt msdl2musicxml}
+  \item {\tt msdlcompiler}
+  \item {\tt msr2braille}
+  \item {\tt msr2guido}
+  \item {\tt msr2lilypond}
+  \item {\tt msr2musicxml}
+  \item {\tt musicxml2braille}
+  \item {\tt musicxml2guido}
+  \item {\tt musicxml2lilypond}
+  \item {\tt musicxml2musicxml}
+  \end{itemize}
+
+\item {\tt utilities} : various utilities, include indented output streams, and version history support
+
+\item {\tt visitors} : two-phase visitors support and example visitors code
+
+\item {\tt wae} : multilingual Warnings And Errors support, including exceptions handling
+
+\end{itemize}
+
+The name '{\tt lilypond}' was chosen by Dominique long before work started on \\xmlTobrl.
+
+There's a single '{\tt lilypond}' folder to contain MSR, LPSR, BSR, \xmlToLy\ and \xmlToBrl, even though BSR and braille music are a distinct branch. This has been preferred by Dominique as the manager of \lib.
+
+
+% -------------------------------------------------------------------------
+\subsection{File naming conventions}
+% -------------------------------------------------------------------------
+
+Most file names start with an identification of the context they belong to, such as '{\tt oah}', '{\tt mxmlTree}', '{\tt msr}', '{\tt lpsr}', '{\tt lilypond}', '{\tt bsr}', '{\tt braille}', '{\tt xml2ly}' and '{\tt xml2brl}'.
+
+The '{\tt *Oah.*}' files handle the options and help for the corresponding context, such as '{\tt xml2lyOah.h/.cpp}'.
+
+The '{\tt traceOah.h/.cpp}', '{\tt musicXMLOah.h/.cpp}', '{\tt extra}' and '{\tt general}' context are about the corresponding help groups.
+
+There are a couple of 'globlal' files not related to any particular context: '{\tt utilities.h/.cpp}', '{\tt messagesHandling.h/.cpp}' and '{\tt version.h/.cpp}'.
+
+
+% -------------------------------------------------------------------------
+\subsection{Defensive programming}
+% -------------------------------------------------------------------------
+
+The code base of \xmlToLy\ is {\it defensive programming} oriented, which means that:
+\begin{itemize}
+\item identifiers are explicit and long if needed -- only very local ones are short, such as iteration loops indexes;
+
+\item the code is organized in sections, with an initial comment documenting what the code does;
+
+\item '{\tt msgAssert()}' is used to do sanity checks, such as detect a null pointer prior to using it.
+\end{itemize}
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{The two-phase visitors pattern}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{Basic mechanism}
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{An example}
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Overview of \xmlToLy\ }
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{Why \xmlToLy?}
+% -------------------------------------------------------------------------
+
+\mxml\ ({\it Music eXtended Markup Language}) is a specification language meant to represent music scores by texts, readable both by humans and computers. It has been designed by the W3C Music Notation Community Group (\url{https://www.w3.org/community/music-notation/}) to help sharing music score files between applications, through export and import mechanisms.
+
+The homepage to \mxml\ is \url{https://www.musicxml.com}.
+
+\mxml\ data contains very detailed information about the music score, and it is quite verbose by nature. This makes creating such data by hand quite difficult, and this is done by applications actually.
+
+The \mxml\ data is not systematically checked for correctness. Checks are done, however, to ensure it won't crash due to missing values.
+
+
+% -------------------------------------------------------------------------
+\subsection{What \xmlToLy\ does}
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Passes organization}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Translating \mxml\ data to an \mxmlt}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Translating an \mxmlt\ to an MSR}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Translating an an MSR to a LPSR}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Translating an an LPSR to a LilyPond code}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% postamble
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+\end{document}
+% -------------------------------------------------------------------------
