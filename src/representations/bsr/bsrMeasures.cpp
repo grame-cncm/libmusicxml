@@ -118,7 +118,7 @@ void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceBarlines () || gGlobalTraceOahGroup->getTraceMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceBarLines () || gGlobalTraceOahGroup->getTraceMeasures ()) {
     gLogStream <<
       "Appending barline " <<
       barline->asShortString () <<

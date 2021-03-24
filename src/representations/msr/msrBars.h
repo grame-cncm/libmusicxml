@@ -358,6 +358,15 @@ class EXP msrBarline : public msrMeasureElement
     msrBarlineHasCodaKind getBarlineHasCodaKind () const
                               { return fBarlineHasCodaKind; }
 
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    bool                  barLineIsAFinalBar () const;
+
+    bool                  barLineIsADoubleBar () const;
+
   private:
 
     // private services

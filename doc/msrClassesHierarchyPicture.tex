@@ -1,8 +1,18 @@
-\begin{adjustwidth}{0 cm}{0 cm}
+\begin{adjustwidth}{0.5 cm}{0.5 cm}
 \begin{figure}[ht]
-\caption {\msr classes hierarchy}
+
+%\floatbox[{\capbeside\thisfloatsetup{capbesideposition={left,top},capbesidewidth=4cm}}]{figure}[\FBwidth]
+
+\caption {\msr\ classes hierarchy}
+
+%\begin{sidecaption}[fortoc]{title}[label]
+%the body of the float
+%\end{sidecaption}
+
 \label{\msr classes hierarchy}
+
 \tt
+
 \begin{center}
 
 
@@ -11,7 +21,7 @@
 
 \def \bendAngle {60}
 
-\def \minimumRectangleHeight {10 mm}
+\def \minimumRectangleHeight {8.5 mm}
 \def \minimumRectangleWidth  {30 mm}
 
 \def \separatorWidth {\minimumRectangleWidth}
@@ -22,7 +32,7 @@
 % -------------------------------------------------------------------------
 \begin{tikzpicture}[	
 	%
-	scale=0.475,
+	scale=0.45,
 	%
 	>=open triangle 45,
 	%
@@ -44,64 +54,71 @@
   %
   % the ordinates
   \msrBookOrd             =  0 mm;
-  \msrBookElementOrd      = -1 mm;
+  \msrBookElementOrd      = \msrBookOrd -1 mm;
   %
   \msrScoreOrd            = -2 mm;
   %
   \msrPartGroupOrd        = -3 mm;
-  \msrPartGroupElementOrd = -4 mm;
+  \msrPartGroupElementOrd = \msrPartGroupOrd - 1 mm;
   %
   \msrPartOrd             = -5 mm;
   %
   \msrStaffOrd            = -6 mm;
   %
   \msrVoiceOrd            = -7 mm;
-  \msrVoiceElementOrd     = -8 mm;
+  \msrVoiceElementOrd     = \msrVoiceOrd - 1 mm;
   %
   \msrSegmentOrd          = -10 mm;
   %
   \msrMeasureOrd          = -11 mm;
-  \msrMeasureElementOrd   = -12 mm;
+  \msrMeasureElementOrd   = \msrMeasureOrd - 1 mm;
   %
   \msrStanzaOrd       	= \msrVoiceOrd - 0.75 mm;
-  \msrSyllableOrd       = \msrVoiceOrd - 1.75 mm;
+  \msrSyllableOrd       = \msrStanzaOrd - 1 mm;
   %
   \msrHarmonyOrd       	= \msrMeasureElementOrd - 0.5 mm;
   \msrFiguredBassOrd    = \msrMeasureElementOrd - 1.5 mm;
   %
   \msrRepeatOrd       	= \msrVoiceElementOrd - 0.75 mm;
-  \msrRestMeasuresOrd   = \msrVoiceElementOrd - 1.5 mm;
-  \msrMeasuresRepeatOrd = \msrVoiceElementOrd - 2.25 mm;
-  \msrBeatsRepeatOrd    = \msrVoiceElementOrd - 3 mm;
+  \msrRestMeasuresOrd   = \msrRepeatOrd - 0.75 mm;
+  \msrMeasuresRepeatOrd = \msrRestMeasuresOrd - 0.75 mm;
+  \msrBeatsRepeatOrd    = \msrMeasuresRepeatOrd - 0.75 mm;
   %
-  \otherMeasureElementsOrd = \msrMeasureElementOrd - 1 mm;
+  \otherMeasureElementsOrd  = \msrMeasureElementOrd - 1 mm;
+  %
+  \msrDoubleTremoloOrd      = \msrMeasureElementOrd - 2 mm;
   %
   \msrTupletAbs         = - \rightColumnAbs * 0.6;
-  \msrTupletOrd         = \msrMeasureElementOrd - 2.5 mm;
-  \msrTupletElementOrd  = \msrMeasureElementOrd - 3.5 mm;
+%  \msrTupletAbs         = -0 mm;
+  \msrTupletOrd         = \msrMeasureElementOrd - 2.75 mm;
+%  \msrTupletOrd         = \msrMeasureElementOrd - 2 mm;
+  \msrTupletElementOrd  = \msrTupletOrd - 1 mm;
   %
-  \msrGraceNotesGroupOrd = \msrMeasureElementOrd - 4.5 mm;
+  \msrGraceNotesGroupOrd = \msrMeasureElementOrd - 5 mm;
   %
-  \msrChordOrd          = \msrMeasureElementOrd - 5.5 mm;
+  \msrChordOrd          = \msrMeasureElementOrd - 6 mm;
   \msrChordAbs          = - \leftColumnAbs * 0.6;
   %
-  \msrNoteOrd            = \msrMeasureElementOrd - 6.5 mm;
+  \msrNoteOrd            = \msrMeasureElementOrd - 7 mm;
 	%
 	\msrTupletToTupletExternalPointAbs = \msrTupletAbs - 1.75 mm;
   %
-  \msrSyllableToNoteExternalPointAbs = \leftColumnAbs - 1 mm;
+  \msrSyllableToNoteExternalPointAbs = \leftColumnAbs - 1.5 mm;
   \msrSyllableToNoteExternalPointOrd = \msrNoteOrd - 0.5 mm;
   %
-  \msrHarmonyToNoteExternalPointAbs = \leftColumnAbs - 0.5 mm;
+  \msrHarmonyToNoteExternalPointAbs = \leftColumnAbs - 1 mm;
   \msrHarmonyToNoteExternalPointOrd = \msrNoteOrd + 0;
   %
-  \msrFiguredBassToNoteExternalPointAbs = \leftColumnAbs - 0 mm;
+  \msrFiguredBassToNoteExternalPointAbs = \leftColumnAbs - 0.5 mm;
   \msrFiguredBassToNoteExternalPointOrd = \msrNoteOrd + 0.5 mm;
   %
 	\msrPartGroupToPartGroupExternalPointAbs = \msrPartGroupOrd - 0.25 mm;
 	%
-	\msrNoteToMeasureExternalPointAbs = \msrChordAbs + 1.5 mm;
-	\msrNoteToMeasureExternalPointOrd = \msrChordOrd + 0.125 mm;
+%	\msrNoteToMeasureExternalPointAbs = \msrChordAbs + 1.5 mm;
+%	\msrNoteToMeasureExternalPointOrd = \msrChordOrd + 0.125 mm;
+	%
+	\msrNoteToTupletElementExternalPointAbs = \msrChordAbs + 1.5 mm;
+	\msrNoteToTupletElementExternalPointOrd = \msrChordOrd + 0.125 mm;
 	%
 }
 
@@ -167,6 +184,8 @@
 
 \coordinate (otherMeasureElements) at (\rightColumnAbs,\otherMeasureElementsOrd);
 
+\coordinate (msrDoubleTremolo)     at (\rightColumnAbs,\msrDoubleTremoloOrd);
+
 \coordinate (msrSyllableToNoteExternalPoint)       at (\msrSyllableToNoteExternalPointAbs,\msrSyllableToNoteExternalPointOrd);
 
 \coordinate (msrHarmonyToNoteExternalPoint)        at (\msrHarmonyToNoteExternalPointAbs,\msrHarmonyToNoteExternalPointOrd);
@@ -177,14 +196,19 @@
 
 \coordinate (msrPartGroupToPartGroupExternalPoint) at (\msrPartGroupToPartGroupExternalPointAbs,\msrPartGroupOrd);
 
-\coordinate (msrNoteToMeasureExternalPoint)        at (\msrNoteToMeasureExternalPointAbs,\msrNoteToMeasureExternalPointOrd);
+\coordinate (msrNoteToTupletElementExternalPoint)  at (\msrNoteToTupletElementExternalPointAbs,\msrNoteToTupletElementExternalPointOrd);
 
+%\coordinate (msrNoteToMeasureExternalPoint)        at (\msrNoteToMeasureExternalPointAbs,\msrNoteToMeasureExternalPointOrd);
+
+
+%\node [draw= none] (caption) at (- 15 cm, 0) {\caption {\msr\ classes hierarchy}};
 
 
 % Draw the nodes and arcs
 % ------------------------------------------------
 
 % msrNote
+% ------------------------------------------------
 % right now, otherwise the inward arrows tip go to the center of the msrNote node,
 % because the former are drawn before the latter
 \node [fill=\PrimaryRectanglesBackgroundColor]
@@ -192,6 +216,7 @@
 
 
 % msrBook and msrBookElement
+% ------------------------------------------------
 % before the downward links
 \node [fill=\PrimaryRectanglesBackgroundColor]
   (msrBook) at (msrBook) {\texttt {\textbf{msrBook}}};
@@ -212,6 +237,7 @@
 
 
 % msrScore
+% ------------------------------------------------
 \node [fill=\PrimaryRectanglesBackgroundColor]
   (msrScore) at (msrScore) {\texttt {\textbf{msrScore}}};
 
@@ -222,6 +248,7 @@
 
 
 % msrPartGroupElement and msrPartGroup
+% ------------------------------------------------
 % before the downward links
 \node [fill=\PrimaryRectanglesBackgroundColor]
   (msrPartGroup) at (msrPartGroup) {\texttt {\textbf{msrPartGroup}}};
@@ -241,11 +268,12 @@
 
 \draw [->, thick, \baseClassArcsColor] 
 	(msrPartGroup) .. 
-	controls +(150:7.5 cm) and +(210:7.5 cm) ..
+	controls +(160:7.5 cm) and +(200:7.5 cm) ..
   (msrPartGroupElement);
 
 
 % msrPart
+% ------------------------------------------------
 \node[fill=\PrimaryRectanglesBackgroundColor]
   (msrPart) at (msrPart) {\texttt {\textbf{msrPart}}};
 
@@ -261,6 +289,7 @@
 
 
 % msrStaff
+% ------------------------------------------------
 \node [fill=\PrimaryRectanglesBackgroundColor]
   (msrStaff) at (msrStaff) {\texttt {\textbf{msrStaff}}};
 
@@ -271,10 +300,11 @@
 
 
 % msrVoice and msrVoiceElement
+% ------------------------------------------------
 \node [fill=\PrimaryRectanglesBackgroundColor]
-  (msrVoice) at (msrVoice) {\texttt {msrVoice}};
+  (msrVoice) at (msrVoice) {\texttt {\textbf {msrVoice}}};
 
-\node [fill=\PrimaryRectanglesBackgroundColor]
+\node [fill=\ElementsRectanglesBackgroundColor]
   (msrVoiceElement) at (msrVoiceElement) {\texttt {msrVoiceElement}};
 
 \path [->, thick, \usedByClassArcsColor] 
@@ -289,6 +319,7 @@
 
 
 % msrSegment
+% ------------------------------------------------
 \node [fill=\SecondaryRectanglesBackgroundColor]
   (msrSegment) at (msrSegment) {\texttt {msrSegment}};
 
@@ -299,8 +330,9 @@
 
 
 % msrMeasure and msrMeasureElement
+% ------------------------------------------------
 \node [fill=\PrimaryRectanglesBackgroundColor]
-  (msrMeasure) at (msrMeasure) {\texttt {msrMeasure}};
+  (msrMeasure) at (msrMeasure) {\texttt {\textbf {msrMeasure}}};
 
 \node [fill=\ElementsRectanglesBackgroundColor]
   (msrMeasureElement) at (msrMeasureElement) {\texttt {msrMeasureElement}};
@@ -313,6 +345,7 @@
 
 
 % msrStanza
+% ------------------------------------------------
 \node [fill=\PrimaryRectanglesBackgroundColor]
   (msrStanza) at (msrStanza) {\texttt {\textbf{msrStanza}}};
 
@@ -322,6 +355,7 @@
   (msrVoice);
 
 % msrSyllable
+% ------------------------------------------------
 \node [fill=\SecondaryRectanglesBackgroundColor]
   (msrSyllable) at (msrSyllable) {\texttt {msrSyllable}};
 
@@ -342,47 +376,8 @@
 
 
 
-% msrHarmony
-\node [fill=\PrimaryRectanglesBackgroundColor]
-  (msrHarmony) at (msrHarmony) {\texttt {\textbf{msrHarmony}}};
-
-\draw [->, thick, \baseClassArcsColor] 
-	(msrHarmony) .. 
-	controls +(5:7 cm) and +(190:6 cm) ..
-  (msrMeasureElement);
-
-\draw [->, thick, \usedByClassArcsColor] 
-	(msrHarmony) .. 
-	controls +(195:7 cm) and +(130:3 cm) ..
-  (msrHarmonyToNoteExternalPoint);
-
-\draw [->, thick, \usedByClassArcsColor] 
-	(msrHarmonyToNoteExternalPoint) .. 
-	controls +(310:5 cm) and +(230:4.5 cm) ..
-  (msrNote);
-
-
-% msrFiguredBass
-\node [fill=\PrimaryRectanglesBackgroundColor]
-  (msrFiguredBass) at (msrFiguredBass) {\texttt {\textbf{msrFiguredBass}}};
-
-\draw [->, thick, \baseClassArcsColor] 
-	(msrFiguredBass) .. 
-	controls +(15:6 cm) and +(220:5 cm) ..
-  (msrMeasureElement);
-
-\draw [->, thick, \usedByClassArcsColor] 
-	(msrFiguredBass) .. 
-	controls +(210:4 cm) and +(130:3 cm) ..
-  (msrFiguredBassToNoteExternalPoint);
-
-\draw [->, thick, \usedByClassArcsColor] 
-	(msrFiguredBassToNoteExternalPoint) .. 
-	controls +(310:6 cm) and +(210:3 cm) ..
-  (msrNote);
-
-
 % msrRepeat
+% ------------------------------------------------
 \node [fill=\RepeatRectanglesBackgroundColor]
   (msrRepeat) at (msrRepeat) {\texttt {\textbf{msrRepeat}}};
 
@@ -392,6 +387,7 @@
   (msrVoiceElement);
 
 % msrRestMeasures
+% ------------------------------------------------
 \node [fill=\RepeatRectanglesBackgroundColor]
   (msrRestMeasures) at (msrRestMeasures) {\texttt {\textbf{msrRestMeasures}}};
 
@@ -401,6 +397,7 @@
   (msrVoiceElement);
 
 % msrMeasuresRepeat
+% ------------------------------------------------
 \node [fill=\RepeatRectanglesBackgroundColor]
     (msrMeasuresRepeat) at (msrMeasuresRepeat) {\texttt {\textbf{msrMeasuresRepeat}}};
 
@@ -410,6 +407,7 @@
   (msrVoiceElement);
 
 % msrBeatsRepeat
+% ------------------------------------------------
 \node [fill=\RepeatRectanglesBackgroundColor]
   (msrBeatsRepeat) at (msrBeatsRepeat) {\texttt {\textbf{msrBeatsRepeat}}};
 
@@ -419,29 +417,95 @@
   (msrVoiceElement);
 
 
+
+% msrHarmony
+% ------------------------------------------------
+\node [fill=\PrimaryRectanglesBackgroundColor]
+  (msrHarmony) at (msrHarmony) {\texttt {\textbf{msrHarmony}}};
+
+\draw [->, thick, \baseClassArcsColor] 
+	(msrHarmony) .. 
+	controls +(5:7 cm) and +(190:6.5 cm) ..
+  (msrMeasureElement);
+
+\draw [->, thick, \usedByClassArcsColor] 
+	(msrHarmony) .. 
+	controls +(195:7 cm) and +(130:4 cm) ..
+  (msrHarmonyToNoteExternalPoint);
+
+\draw [->, thick, \usedByClassArcsColor] 
+	(msrHarmonyToNoteExternalPoint) .. 
+	controls +(310:5 cm) and +(230:4.5 cm) ..
+  (msrNote);
+
+
+
+% msrFiguredBass
+% ------------------------------------------------
+\node [fill=\PrimaryRectanglesBackgroundColor]
+  (msrFiguredBass) at (msrFiguredBass) {\texttt {\textbf{msrFiguredBass}}};
+
+\draw [->, thick, \baseClassArcsColor] 
+	(msrFiguredBass) .. 
+	controls +(15:6 cm) and +(210:5 cm) ..
+  (msrMeasureElement);
+
+\draw [->, thick, \usedByClassArcsColor] 
+	(msrFiguredBass) .. 
+	controls +(210:5 cm) and +(130:3 cm) ..
+  (msrFiguredBassToNoteExternalPoint);
+
+\draw [->, thick, \usedByClassArcsColor] 
+	(msrFiguredBassToNoteExternalPoint) .. 
+	controls +(310:6 cm) and +(210:3 cm) ..
+  (msrNote);
+
+
+
 % otherMeasureElements
+% ------------------------------------------------
 \node [fill=\ElementsRectanglesBackgroundColor]
-  (otherMeasureElements) at (otherMeasureElements) {\texttt {otherMeasureElements}};
+  (otherMeasureElements) at (otherMeasureElements) {\texttt {\textit {otherMeasureElements}}};
 
 \draw [->, thick, \baseClassArcsColor] 
 	(otherMeasureElements) .. 
-	controls +(170:6 cm) and +(335:3) ..
+	controls +(175:6 cm) and +(335:5) ..
   (msrMeasureElement);
 
 
 
+% msrDoubleTremolo
+% ------------------------------------------------
+\node [fill=\PrimaryRectanglesBackgroundColor]
+  (msrDoubleTremolo) at (msrDoubleTremolo) {\texttt {\textbf {msrDoubleTremolo}}};
+
+\draw [->, thick, \baseClassArcsColor] 
+	(msrDoubleTremolo) .. 
+	controls +(170:6 cm) and +(320:3) ..
+  (msrMeasureElement);
+
+
+
+% msrGraceNotesGroup
+% ------------------------------------------------
+\node [fill=\PrimaryRectanglesBackgroundColor]
+  (msrGraceNotesGroup) at (msrGraceNotesGroup) {\texttt {\textbf{msrGraceNotesGroup}}};
+
+\draw [->, thick, \usedByClassArcsColor] 
+	(msrGraceNotesGroup) .. 
+	controls +(195:4.5 cm) and +(160:4) ..
+  (msrNote);
+
+
+
 % msrTuplet and msrTupletElement
+% ------------------------------------------------
 % before the downward links
 \node [fill=\PrimaryRectanglesBackgroundColor]
   (msrTuplet) at (msrTuplet) {\texttt {\textbf{msrTuplet}}};
 
 \node [fill=\ElementsRectanglesBackgroundColor]
   (msrTupletElement) at (msrTupletElement) {\texttt {msrTupletElement}};
-
-\draw [->, thick, \baseClassArcsColor] 
-	(msrTuplet) .. 
-	controls +(150:7.5 cm) and +(210:7.5 cm) ..
-  (msrTupletElement);
 
 \draw [->, thick, \usedByClassArcsColor] 
 	(msrTupletElement)
@@ -453,60 +517,72 @@
 	controls +(20:5 cm) and +(270:5 cm) ..
   (msrMeasureElement);
 
-
-
-% msrGraceNotesGroup
-\node [fill=\PrimaryRectanglesBackgroundColor]
-  (msrGraceNotesGroup) at (msrGraceNotesGroup) {\texttt {\textbf{msrGraceNotesGroup}}};
+\draw [->, thick, \baseClassArcsColor] 
+	(msrTuplet) .. 
+	controls +(195:6.0 cm) and +(200:6.0 cm) ..
+  (msrTupletElement);
 
 \draw [->, thick, \usedByClassArcsColor] 
-	(msrGraceNotesGroup) .. 
-	controls +(195:4.5 cm) and +(160:4) ..
-  (msrNote);
+	(msrTuplet) .. 
+	controls +(185:7 cm) and +(190:15 cm) ..
+  (msrGraceNotesGroup);
 
 
 
 % msrChord
+% ------------------------------------------------
 \node [fill=\PrimaryRectanglesBackgroundColor]
   (msrChord) at (msrChord) {\texttt {\textbf{msrChord}}};
 
 \draw [->, thick, \baseClassArcsColor] 
 	(msrChord) .. 
-	controls +(50:0.5 cm) and +(355:17 cm) ..
+	controls +(90:6 cm) and +(345:11 cm) ..
   (msrTupletElement);
 
 \draw [->, thick, \usedByClassArcsColor] 
 	(msrChord) .. 
-	controls +(130:2.5 cm) and +(300:3) ..
+	controls +(130:2.5 cm) and +(315:3) ..
   (msrGraceNotesGroup);
 
 
 
 % msrNote
-\draw [->, thick, \baseClassArcsColor] 
-	(msrNote) .. 
-	controls +(180:6 cm) and +(270:1.375 cm) ..
-  (msrTupletElement);
-
+% ------------------------------------------------
 \draw [->, thick, \usedByClassArcsColor] 
 	(msrNote)
 	edge node [draw=none] {} 
   (msrGraceNotesGroup);
 
-\draw [->, thick, \baseClassArcsColor] 
-	(msrNote) .. 
-	controls +(5:8 cm) and +(270:3 cm) ..
-  (msrNoteToMeasureExternalPoint);
-
-\draw [->, thick, \baseClassArcsColor] 
-	(msrNoteToMeasureExternalPoint) .. 
-	controls +(90:3 cm) and +(320:2 cm) ..
-  (msrMeasureElement);
-
 \draw [->, thick, \usedByClassArcsColor] 
 	(msrNote) .. 
 	controls +(20:4 cm) and +(220:3 cm) ..
   (msrChord);
+
+\draw [->, thick, \baseClassArcsColor] 
+	(msrNote) .. 
+	controls +(5:6.5 cm) and +(270:3 cm) ..
+  (msrNoteToTupletElementExternalPoint);
+
+\draw [->, thick, \baseClassArcsColor] 
+	(msrNoteToTupletElementExternalPoint) .. 
+	controls +(90:3 cm) and +(355:16 cm) ..
+  (msrTupletElement);
+
+%\draw [->, thick, \baseClassArcsColor] 
+%	(msrNote) .. 
+%	controls +(5:6.5 cm) and +(270:3 cm) ..
+%  (msrNoteToMeasureExternalPoint);
+%
+%\draw [->, thick, \baseClassArcsColor] 
+%	(msrNoteToMeasureExternalPoint) .. 
+%	controls +(90:3 cm) and +(320:2 cm) ..
+%  (msrMeasureElement);
+
+\draw [->, thick, \usedByClassArcsColor] 
+	(msrNote) .. 
+	controls +(355:18 cm) and +(315:3 cm) ..
+  (msrDoubleTremolo);
+
 
 % -------------------------------------------------------------------------
 \end{tikzpicture}
@@ -516,65 +592,4 @@
 
 \end{figure}
 \end{adjustwidth}
-
-% msrPartGroup
-%\node[align=center, style={rectangle split, rectangle split parts=2, rounded corners=\roundedCorners, minimum height=\minimumRectangleHeight, minimum width=\minimumRectangleWidth, draw=black, fill=\PrimaryRectanglesBackgroundColor}]
-%  (msrPartGroup) at (msrPartGroup) {
-%  	{\texttt {\textbf{msrPartGroup}}}
-%		\nodepart{second}
-%		msrPartGroup
-%	};
-
-% -------------------------------------------------------------------------
-
-%\tikzset{
-%  % style to apply some styles to each segment of a path
-%  on each segment/.style={
-%    decorate,
-%    decoration={
-%      show path construction,
-%      moveto code={},
-%      lineto code={
-%        \path [#1]
-%        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
-%      },
-%      curveto code={
-%        \path [#1] (\tikzinputsegmentfirst)
-%        .. controls
-%        (\tikzinputsegmentsupporta) and (\tikzinputsegmentsupportb)
-%        ..
-%        (\tikzinputsegmentlast);
-%      },
-%      closepath code={
-%        \path [#1]
-%        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
-%      },
-%    },
-%  },
-%  % style to add an arrow in the middle of a path
-%  mid arrow/.style={postaction={decorate,decoration={
-%        markings,
-%        mark=at position .5 with {\arrow[#1]{stealth}}
-%      }}},
-%}
-
-% the nodes style
-% ------------------------------------------------
-%tikzstyle{every node}=[
-%	style={
-%  	rectangle split, rectangle split parts=2, 
-%  	rounded corners=\roundedCorners, 
-%  	minimum height=\minimumRectangleHeight, 
-%  	minimum width=\minimumRectangleWidth, 
-%  	draw=black
-%		}
-%  ]
-  
-%\tikzset{
-%  my loop/.style={->,to path={
-%    .. controls +(80:1) and +(100:1) .. (\tikztotarget) \tikztonodes}
-%    },
-%  my state/.style={circle,draw}
-%}
-
 

@@ -9135,7 +9135,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+  if (gGlobalTraceOahGroup->getTraceBarLines ()) {
     gLogStream <<
       "Prepending barline '" <<
       barline->asString () <<
@@ -9156,7 +9156,7 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+  if (gGlobalTraceOahGroup->getTraceBarLines ()) {
     gLogStream <<
       "Appending barline " <<
       barline->asString () <<

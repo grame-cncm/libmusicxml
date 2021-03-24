@@ -411,7 +411,7 @@ void msrBarline::setBarlineCategory (
   msrBarlineCategoryKind barlineCategoryKind)
 {
 #ifdef TRACING_IS_ENABLED
-        if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+        if (gGlobalTraceOahGroup->getTraceBarLines ()) {
           gLogStream <<
             "Setting barline category of " <<
             this->asString () <<
@@ -423,6 +423,34 @@ void msrBarline::setBarlineCategory (
 #endif
 
   fBarlineCategoryKind = barlineCategoryKind;
+}
+
+bool msrBarline::barLineIsAFinalBar () const
+{
+  return
+    fLocationKind == kBarlineLocationRight
+      &&
+    fStyleKind == kBarlineStyleLightHeavy
+      &&
+    fRepeatDirectionKind == kBarlineRepeatDirectionNone
+      &&
+    fEndingTypeKind == kBarlineEndingNone
+      &&
+    fBarlineCategoryKind == kBarlineCategoryStandalone;
+}
+
+bool msrBarline::barLineIsADoubleBar () const
+{
+  return
+    fLocationKind == kBarlineLocationRight
+      &&
+    fStyleKind == kBarlineStyleLightLight
+      &&
+    fRepeatDirectionKind == kBarlineRepeatDirectionNone
+      &&
+    fEndingTypeKind == kBarlineEndingNone
+      &&
+    fBarlineCategoryKind == kBarlineCategoryStandalone;
 }
 
 void msrBarline::acceptIn (basevisitor* v)

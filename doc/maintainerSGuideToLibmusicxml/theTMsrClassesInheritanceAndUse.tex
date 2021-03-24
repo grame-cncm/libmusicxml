@@ -1,0 +1,91 @@
+The picture at figure \ref {\msr classes hierarchy}, page \pageref {\msr classes hierarchy}, shows the hierarchy of the main MSR classes. The  colors are used as follows:
+\begin{itemize}
+
+\item  \textcolor{green}{green}: a score element that is expected to be found in a score representation, such as {\tt msrStaff and {\tt msrChord}};
+
+\item  \textcolor{pink}{pink}: a element needed in MSR to structure the representation, such as {\tt msrSegment} and {\tt msrSyllable};
+
+\item  \textcolor{yellow}{yellow}: a base class with name {\tt msr*Element} for elements that can be used in another class, such as {\tt msrVoiceElement};
+
+\item  \textcolor{red}{red}: a link from a class to its base class. For example, {\tt msrPart} is derived from {\tt msrPartGroupElement};
+
+\item  \textcolor{blue}{blue}: a link from a class to another that uses smart pointers to one or more instances the former. For example, an {\tt msrTuplet} may be an element of an {\tt msrGraceNotesGroup}.
+\end{itemize}
+
+When not shown for clarity, the common base class of all these classes is {\tt msrElement}, that contains an integer input line number.
+
+The {\tt otherMeasureElements} classes are: 
+
+\begin{itemize}
+\item part names:
+  \begin{itemize}
+  \item {\tt msrPartNameDisplay}
+  \item {\tt msrPartAbbreviationDisplay}
+  \end{itemize}
+
+\item bars:
+  \begin{itemize}
+  \item {\tt msrBarCheck}
+  \item {\tt msrBarNumberCheck}
+  \item {\tt msrBarline}
+  \item {\tt msrHiddenMeasureAndBarline}
+  \end{itemize}
+
+\item breaks:
+  \begin{itemize}
+  \item {\tt msrLineBreak}
+  \item {\tt msrPageBreak}
+  \end{itemize}
+
+\item notes:
+  \begin{itemize}
+  \item {\tt msrVoiceStaffChange}
+  \item {\tt msrOctaveShift}
+  \end{itemize}
+
+\item clefs, keys, times, tempo:
+  \begin{itemize}
+  \item {\tt msrClef}
+  \item {\tt msrKey}
+  \item {\tt msrTime}
+  \item {\tt msrTempo}
+  \end{itemize}
+
+\item instruments:
+  \begin{itemize}
+  \item {\tt msrStaffDetails}
+  \item {\tt msrScordatura}
+  \item {\tt msrAccordionRegistration}
+  \item {\tt msrHarpPedalsTuning}
+  \item {\tt msrPedal}
+  \item {\tt msrDamp}
+  \item {\tt msrDampAll}
+  \end{itemize}
+
+\item lyrics:
+  \begin{itemize}
+	\item {\tt msrSyllable}
+  \end{itemize}
+
+\item rehearsals, segno and coda:
+  \begin{itemize}
+  \item {\tt msrRehearsal}
+	\item {\tt msrSegno}
+  \item {\tt msrDalSegno}
+  \item {\tt msrCoda}
+ \end{itemize}
+
+\item others:
+  \begin{itemize}
+  \item {\tt msrPrintLayout}
+  \item {\tt msrEyeGlasses}
+  \item {\tt msrStaffLevelElement}
+  \item {\tt msrTranspose}
+  \item {\tt msrTupletElement}
+  \end{itemize}
+
+\end{itemize}
+
+\subimport{../}{msrClassesHierarchyPicture}
+
+

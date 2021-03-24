@@ -274,13 +274,13 @@ class EXP traceOahGroup : public oahGroup
     bool                  getTracePageBreaks () const
                               { return fTracePageBreaks; }
     // barlines
-    void                  setTraceBarlines ()
-                              { fTraceBarlines = true; }
-    bool                  getTraceBarlines () const
-                              { return fTraceBarlines; }
+    void                  setTraceBarLines ()
+                              { fTraceBarLines = true; }
+    bool                  getTraceBarLines () const
+                              { return fTraceBarLines; }
     // barlines details
-    bool                  getTraceBarlinesDetails () const
-                              { return fTraceBarlinesDetails; }
+    bool                  getTraceBarLinesDetails () const
+                              { return fTraceBarLinesDetails; }
 
 
     // bar checks
@@ -765,9 +765,9 @@ class EXP traceOahGroup : public oahGroup
     // page breaks
     bool                  fTracePageBreaks;
     // barlines
-    bool                  fTraceBarlines;
+    bool                  fTraceBarLines;
     // barlines details
-    bool                  fTraceBarlinesDetails;
+    bool                  fTraceBarLinesDetails;
 
 
     // bar checks

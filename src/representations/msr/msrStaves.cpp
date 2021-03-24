@@ -2199,7 +2199,7 @@ void msrStaff::appendRepeatEndingCloneToStaff (
 void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+  if (gGlobalTraceOahGroup->getTraceBarLines ()) {
     gLogStream <<
       "Appending barline " << barline->asString () <<
       " to staff " <<

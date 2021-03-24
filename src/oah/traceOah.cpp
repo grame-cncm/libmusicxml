@@ -380,42 +380,42 @@ R"(Page breaks)",
 
   // barlines
 
-  fTraceBarlines = false;
+  fTraceBarLines = false;
 
   S_oahTwoBooleansAtom
-    traceBarlinesAtom =
+    traceBarLinesAtom =
       oahTwoBooleansAtom::create (
-        "tblines", "trace-barlines",
+        "tbarlines", "trace-barlines",
 R"(Barlines)",
-        "traceBarlines",
-        fTraceBarlines,
+        "traceBarLines",
+        fTraceBarLines,
         fTracePasses);
   subGroup->
     appendAtomToSubGroup (
-      traceBarlinesAtom);
+      traceBarLinesAtom);
   breaksAndBarlinesMultiplexBooleansAtom->
     addBooleanAtom (
-      traceBarlinesAtom);
+      traceBarLinesAtom);
 
   // barlines details
 
-  fTraceBarlinesDetails = false;
+  fTraceBarLinesDetails = false;
 
   S_oahThreeBooleansAtom
-    traceBarlinesDetailsAtom =
+    traceBarLinesDetailsAtom =
       oahThreeBooleansAtom::create (
         "tblinesd", "trace-barlines-details",
 R"(Barlines details)",
-        "traceBarlinesDetails",
-        fTraceBarlinesDetails,
-        fTraceBarlines,
+        "traceBarLinesDetails",
+        fTraceBarLinesDetails,
+        fTraceBarLines,
         fTracePasses);
   subGroup->
     appendAtomToSubGroup (
-      traceBarlinesDetailsAtom);
+      traceBarLinesDetailsAtom);
   breaksAndBarlinesMultiplexBooleansAtom->
     addBooleanAtom (
-      traceBarlinesDetailsAtom);
+      traceBarLinesDetailsAtom);
 
   // bar checks
 
@@ -428,7 +428,7 @@ R"(Barlines details)",
 R"(Bar checks)",
         "traceBarChecks",
         fTraceBarChecks,
-        fTraceBarlines,
+        fTraceBarLines,
         fTracePasses);
   subGroup->
     appendAtomToSubGroup (
@@ -448,7 +448,7 @@ R"(Bar checks)",
 R"(Bar number checks)",
         "traceBarNumberChecks",
         fTraceBarNumberChecks,
-        fTraceBarlines,
+        fTraceBarLines,
         fTracePasses);
   subGroup->
     appendAtomToSubGroup (
@@ -2653,11 +2653,11 @@ void traceOahGroup::printAtomWithVariableOptionsValues (
     endl <<
 
     // barlines
-    setw (valueFieldWidth) << "traceBarlines" << " : " <<
-    booleanAsString (fTraceBarlines) <<
+    setw (valueFieldWidth) << "traceBarLines" << " : " <<
+    booleanAsString (fTraceBarLines) <<
     endl <<
-    setw (valueFieldWidth) << "traceBarlinesDetails" << " : " <<
-    booleanAsString (fTraceBarlinesDetails) <<
+    setw (valueFieldWidth) << "traceBarLinesDetails" << " : " <<
+    booleanAsString (fTraceBarLinesDetails) <<
     endl <<
 
     // bar checks
@@ -3099,11 +3099,11 @@ void traceOahGroup::printTraceOahValues (unsigned int fieldWidth)
     endl <<
 
     // barlines
-    setw (fieldWidth) << "traceBarlines" << " : " <<
-    booleanAsString (fTraceBarlines) <<
+    setw (fieldWidth) << "traceBarLines" << " : " <<
+    booleanAsString (fTraceBarLines) <<
     endl <<
-    setw (fieldWidth) << "traceBarlinesDetails" << " : " <<
-    booleanAsString (fTraceBarlinesDetails) <<
+    setw (fieldWidth) << "traceBarLinesDetails" << " : " <<
+    booleanAsString (fTraceBarLinesDetails) <<
     endl <<
 
     // bar checks

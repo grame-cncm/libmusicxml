@@ -413,9 +413,12 @@ void mxmlTree2msrTranslator::initializeNoteData ()
 
   fCurrentNoteOctave = msrOctaveKind::k_NoOctave;
 
-  fCurrentNoteQuarterTonesDisplayPitchKind = msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
-  fCurrentDisplayDiatonicPitchKind = msrDiatonicPitchKind::k_NoDiatonicPitch;
-  fCurrentDisplayOctave = msrOctaveKind::k_NoOctave;
+  fCurrentNoteQuarterTonesDisplayPitchKind =
+    msrQuarterTonesPitchKind::k_NoQuarterTonesPitch;
+  fCurrentDisplayDiatonicPitchKind =
+    msrDiatonicPitchKind::k_NoDiatonicPitch;
+  fCurrentDisplayOctave =
+    msrOctaveKind::k_NoOctave;
 
   // rests
 
@@ -818,10 +821,6 @@ void mxmlTree2msrTranslator::visitEnd ( S_scaling& elt)
     gLogStream <<
       "There are " << fCurrentTenths <<
       " tenths for " <<  fCurrentMillimeters <<
-      /*
-      " millimeters, hence the global staff size is " <<
-      fMsrScore->getScaling ()->fetchGlobalStaffSize () <<
-      */
       endl;
   }
 #endif
@@ -9218,7 +9217,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatWingedKind);
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+  if (gGlobalTraceOahGroup->getTraceBarLines ()) {
     gLogStream <<
       "Creating barline in part " <<
       fCurrentPart->getPartCombinedName () << ":" <<
@@ -9388,7 +9387,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_barline& elt )
 
         // append the bar line to the current part
   #ifdef TRACING_IS_ENABLED
-        if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+        if (gGlobalTraceOahGroup->getTraceBarLines ()) {
           gLogStream <<
             "Appending a standalone barline to part " <<
             fCurrentPart->getPartCombinedName () << ":" <<

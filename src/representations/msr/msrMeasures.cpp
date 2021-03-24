@@ -810,7 +810,7 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
     gLogStream <<
       "Appending element " <<
       elem->asShortString () <<
@@ -846,7 +846,7 @@ void msrMeasure::insertElementInMeasureBeforeIterator (
   S_msrMeasureElement                 elem)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
     gLogStream <<
       "Inserting element " <<
       elem->asShortString () <<
@@ -886,13 +886,18 @@ void msrMeasure::insertElementInMeasureBeforeIterator (
     elem->getMeasureElementSoundingWholeNotes ());
 }
 
-void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
+void msrMeasure::appendElementAtTheEndOfMeasure (
+  S_msrMeasureElement elem)
 {
   int inputLineNumber =
     elem->getInputLineNumber ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (
+    gGlobalTraceOahGroup->getTraceMeasures ()
+      ||
+    gGlobalTraceOahGroup->getTraceBarLines ()
+  ) {
     gLogStream <<
       "Appending element " <<
       elem->asShortString () <<
@@ -908,108 +913,139 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
       fCurrentMeasureWholeNotesDuration <<
       ", line " << inputLineNumber <<
       endl;
+
+    typedef list<S_msrMeasureElement>::iterator iter_type;
+
+    gLogStream <<
+      endl <<
+      "==> appendPaddingNoteAtTheEndOfMeasure(), fMeasureElementsList:" <<
+      endl;
+    ++gIndenter;
+    for (
+      iter_type it = fMeasureElementsList.begin ();
+      it != fMeasureElementsList.end ();
+      ++it
+    ) {
+      gLogStream << ' ' << *it << endl;
+    } // for
+    gLogStream << endl;
+    --gIndenter;
   }
 
-  if (gGlobalTraceOahGroup->getTraceMeasuresDetails () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
     displayMeasure (
       inputLineNumber,
-      "appendElementAtTheEndOfMeasure() 1");
+      "appendPaddingNoteAtTheEndOfMeasure() 1");
   }
 #endif
 
   if (! fMeasureElementsList.size ()) {
-    fMeasureElementsList.push_back (elem);
-  }
-
-  else {
-    // append elem to the measure elements lists,
-    // but place it before barlines if any,
-    // to avoid the latter appearing too early in harmony and figured bass measures,
-    list<S_msrMeasureElement>::reverse_iterator
-      iBegin = fMeasureElementsList.rbegin (),
-      iEnd   = fMeasureElementsList.rend (),
-      i      = iBegin;
-    for ( ; ; ) {
-      S_msrMeasureElement
-        measureElement = (*i);
-
-      // sanity check
-      msgAssert (
-        __FILE__, __LINE__,
-        measureElement != nullptr,
-        "measureElement is null");
-
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceMeasures ()) {
-        gLogStream <<
-          "Reverse iteration on measure element:" <<
-          endl;
-        ++gIndenter;
-        gLogStream <<
-          measureElement;
-        --gIndenter;
-      }
-#endif
-
-      if (
-          // barline?
-          S_msrBarline
-            barline =
-              dynamic_cast<msrBarline*>(&(*measureElement))
-      ) {
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTraceBarlines ()) {
-          gLogStream <<
-            "Element is a barline actually" <<
-            endl;
-        }
-#endif
-      }
-      else {
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) { // JMI ???
-          gLogStream <<
-            "Element is no barline" <<
-            endl;
-        }
-#endif
-        break;
-      }
-
-      if (++i == iEnd) break;
-    } // for
-
-    // get iterator base
-    list<S_msrMeasureElement>::iterator
-      reverseIteratorBase =
-        (i).base ();
-
-    // insert elem in the measure elements list before (*i)
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (
+      gGlobalTraceOahGroup->getTraceMeasures ()
+        ||
+      gGlobalTraceOahGroup->getTraceBarLines ()
+    ) {
       gLogStream <<
-        "Inserting measure element " <<
-        elem->asString ();
-
-      if (reverseIteratorBase == fMeasureElementsList.end ()) {
-        gLogStream <<
-          " at the end of the measure";
-      }
-      else {
-        gLogStream <<
-          " before " <<
-          (*reverseIteratorBase)->asString ();
-      }
-
-      gLogStream <<
+        "fMeasureElementsList is empty " <<
+        ", inserting elem at the end" <<
         endl;
     }
 #endif
 
-    insertElementInMeasureBeforeIterator (
-      inputLineNumber,
-      reverseIteratorBase,
-      elem);
+    appendElementToMeasure (elem);
+  }
+
+  else {
+    S_msrMeasureElement
+      lastMeasureElement =
+        fMeasureElementsList.back ();
+
+#ifdef TRACING_IS_ENABLED
+    if (
+      gGlobalTraceOahGroup->getTraceMeasures ()
+        ||
+      gGlobalTraceOahGroup->getTraceBarLines ()
+    ) {
+      gLogStream <<
+        "fMeasureElementsList is NOT empty " <<
+        ", lastMeasureElement: " <<
+        lastMeasureElement <<
+        endl;
+    }
+#endif
+
+    if (
+        // barline?
+        S_msrBarline
+          barline =
+            dynamic_cast<msrBarline*>(&(*lastMeasureElement))
+    ) {
+      if (barline->barLineIsAFinalBar ()) {
+#ifdef TRACING_IS_ENABLED
+        if (
+          gGlobalTraceOahGroup->getTraceMeasures ()
+            ||
+          gGlobalTraceOahGroup->getTraceBarLines ()
+        ) {
+          gLogStream <<
+            "last measure element " <<
+            lastMeasureElement->asString () <<
+            " is a final barline, inserting elem before it" <<
+            endl;
+        }
+#endif
+
+        // fetch iterator to list end
+        list<S_msrMeasureElement>::iterator it =
+            fMeasureElementsList.end ();
+
+        // fetch iterator to list last element
+        --it;
+
+        // insert elem before it in list
+        insertElementInMeasureBeforeIterator (
+          inputLineNumber,
+          it,
+          elem);
+      }
+
+      else {
+#ifdef TRACING_IS_ENABLED
+        if (
+          gGlobalTraceOahGroup->getTraceMeasures ()
+            ||
+          gGlobalTraceOahGroup->getTraceBarLines ()
+        ) {
+          gLogStream <<
+            "last measure element " <<
+            lastMeasureElement->asString () <<
+            " is a barline, but not a final one, inserting elem after it" <<
+            endl;
+        }
+#endif
+
+        appendElementToMeasure (elem);
+      }
+    }
+
+    else {
+#ifdef TRACING_IS_ENABLED
+      if (
+        gGlobalTraceOahGroup->getTraceMeasures ()
+          ||
+        gGlobalTraceOahGroup->getTraceBarLines ()
+      ) {
+        gLogStream <<
+          "last measure element " <<
+          lastMeasureElement->asString () <<
+          " is no barline, inserting elem after it" <<
+          endl;
+      }
+#endif
+
+      appendElementToMeasure (elem);
+    }
   }
 
   // account for elem's duration in current measure whole notes
@@ -1018,10 +1054,33 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
     elem->getMeasureElementSoundingWholeNotes ());
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasuresDetails () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (
+    gGlobalTraceOahGroup->getTraceMeasures ()
+      ||
+    gGlobalTraceOahGroup->getTraceBarLines ()
+  ) {
+    typedef list<S_msrMeasureElement>::iterator iter_type;
+
+    gLogStream <<
+      endl <<
+      "<== appendPaddingNoteAtTheEndOfMeasure(), fMeasureElementsList:" <<
+      endl;
+    ++gIndenter;
+    for (
+      iter_type it = fMeasureElementsList.begin ();
+      it != fMeasureElementsList.end ();
+      ++it
+    ) {
+      gLogStream << ' ' << *it << endl;
+    } // for
+    gLogStream << endl;
+    --gIndenter;
+  }
+
+  if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
     displayMeasure (
       inputLineNumber,
-      "appendElementAtTheEndOfMeasure() 2");
+      "appendPaddingNoteAtTheEndOfMeasure() 2");
   }
 #endif
 }
@@ -1032,7 +1091,7 @@ void msrMeasure::insertElementAtPositionInMeasure (
   S_msrMeasureElement elem)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
     gLogStream <<
       "Inserting element " <<
       elem->asShortString () <<
@@ -1229,7 +1288,7 @@ void msrMeasure::setCurrentMeasureWholeNotesDuration (
   rationalisedCurrentMeasureWholeNotesDuration.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceWholeNotes () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
     gLogStream <<
       "Setting current whole notes of measure " <<
       this->asShortString () <<
@@ -1280,7 +1339,7 @@ void msrMeasure::incrementCurrentMeasureWholeNotesDuration (
   newMeasureWholeNotesDuration.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceWholeNotes () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
     gLogStream <<
       "Incrementing current whole notes of measure " <<
       this->asShortString ()<<
@@ -1508,7 +1567,7 @@ void msrMeasure::insertHiddenMeasureAndBarlineInMeasureClone (
   rational positionInMeasure)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceDalSegnos () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceDalSegnos ()) {
     gLogStream <<
       "Inserting hidden measure and barline at position " <<
       positionInMeasure <<
@@ -1751,7 +1810,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
         getSegmentVoiceUpLink ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+  if (gGlobalTraceOahGroup->getTraceBarLines ()) {
     gLogStream <<
       "Appending barline " <<
       barline->asShortString () <<
@@ -2009,7 +2068,7 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
         getSegmentVoiceUpLink ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
     gLogStream <<
       "Appending note or padding '" << note->asShortString () <<
       "' to measure " <<
@@ -2141,7 +2200,11 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
   int inputLineNumber =
     note->getInputLineNumber ();
 
-  if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (
+    gGlobalTraceOahGroup->getTraceMeasures ()
+      ||
+    gGlobalTraceOahGroup->getTraceBarLines ()
+  ) {
     gLogStream <<
       "Appending padding note " << note->asShortString () <<
       " at the end of measure " <<
@@ -2162,9 +2225,7 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
   note->
     setNoteDirectMeasureUpLink (this);
 
-  // append the note to the measure elements list
-// JMI  // only now to make it possible to remove it afterwards
-  // if it happens to be the first note of a chord
+  // append the note at the end of the measure
   appendElementAtTheEndOfMeasure (note);
 
   // fetch note sounding whole notes as string
@@ -2869,7 +2930,7 @@ void msrMeasure::appendPaddingSkipNoteToMeasure (
   rational forwardStepLength)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
     gLogStream <<
       "Appending padding skip note" <<
       ", forwardStepLength: " <<
@@ -3246,7 +3307,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     endl;
   }
 
-  if (gGlobalTraceOahGroup->getTraceMeasuresDetails () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
     displayMeasure (
       inputLineNumber,
       "determineMeasureKindAndPuristNumber() 1");
@@ -3395,7 +3456,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
               stringstream s;
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasuresDetails () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
               displayMeasure (
                 inputLineNumber,
                 "determineMeasureKindAndPuristNumber() 6 kMeasuresRepeatContextKindUnknown");
@@ -3535,7 +3596,7 @@ void msrMeasure::padUpToPositionInMeasure (
         getSegmentVoiceUpLink ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
     gLogStream <<
       "Padding up to position '" <<
       positionInMeasureToPadUpTo <<
@@ -3551,7 +3612,7 @@ void msrMeasure::padUpToPositionInMeasure (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasuresDetails () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionInMeasure() 1");
@@ -3568,7 +3629,7 @@ void msrMeasure::padUpToPositionInMeasure (
     missingDuration.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceMeasures ()) {
       gLogStream <<
        "Creating a padding note '" <<
        ", missingDuration: " << missingDuration <<
@@ -3632,7 +3693,7 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
         getSegmentVoiceUpLink ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
     gLogStream <<
       "Padding up to position '" <<
       positionInMeasureToPadUpTo <<
@@ -3648,7 +3709,7 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasuresDetails () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionAtTheEndOfTheMeasure() 1");
@@ -3665,7 +3726,7 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
     missingDuration.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceMeasures ()) {
       gLogStream <<
         "Creating a padding note '" <<
         ", missingDuration: " << missingDuration <<
@@ -3688,7 +3749,7 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
           measureVoice);
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceMeasures ()) {
       gLogStream <<
        "Appending padding note " << paddingNote->asString () <<
        " (" << missingDuration << " whole notes)" <<
@@ -3711,7 +3772,7 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
   }
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasuresDetails () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionAtTheEndOfTheMeasure() 2");
@@ -4072,7 +4133,7 @@ void msrMeasure::handleFirstHarmonyInHarmonyMeasure (
 */
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "handleFirstHarmonyInHarmonyMeasure() 5" <<
       ", previousHarmony is null, positionInMeasureToPadUpTo: " <<
@@ -4093,7 +4154,7 @@ void msrMeasure::handleFirstHarmonyInHarmonyMeasure (
 
     // insert skipNote before currentHarmony in the measure's elements list
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       gLogStream <<
         "Inserting first padding note " <<
         skipNote->asString () <<
@@ -4113,7 +4174,7 @@ void msrMeasure::handleFirstHarmonyInHarmonyMeasure (
       skipNote);
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       displayMeasure (
         inputLineNumber,
         "handleFirstHarmonyInHarmonyMeasure() 6");
@@ -4160,7 +4221,7 @@ void msrMeasure::handleSubsequentHarmonyInHarmonyMeasure (
   positionsInMeasureDelta.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "handleSubsequentHarmonyInHarmonyMeasure() 7" <<
       ", previousHarmony: ";
@@ -4206,7 +4267,7 @@ void msrMeasure::handleSubsequentHarmonyInHarmonyMeasure (
 
     // insert skipNote before currentHarmony in the measure's elements list
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       gLogStream <<
         "Inserting subsequent padding note " <<
         skipNote->asString () <<
@@ -4250,7 +4311,7 @@ void msrMeasure::handleSubsequentHarmonyInHarmonyMeasure (
     reducedSoundingWholeNotes.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       gLogStream <<
         "Reducing the sounding whole notes of harmony FOO " <<
         previousHarmony->asString () <<
@@ -4321,7 +4382,7 @@ void msrMeasure::postHandleCurrentHarmonyInHarmonyMeasure (
         getHarmonyNoteUpLink ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "postHandleCurrentHarmonyInHarmonyMeasure() 8888 " <<
       "currentHarmonyNoteUpLink:" <<
@@ -4343,7 +4404,7 @@ void msrMeasure::postHandleCurrentHarmonyInHarmonyMeasure (
   measureOverflowWholeNotes.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "postHandleCurrentHarmonyInHarmonyMeasure() 9" <<
       ", currentHarmony: ";
@@ -4403,7 +4464,7 @@ void msrMeasure::postHandleCurrentHarmonyInHarmonyMeasure (
     reducedSoundingWholeNotes.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       gLogStream <<
         "Reducing the sounding whole notes of harmony FII " <<
         currentHarmony->asString () <<
@@ -4471,7 +4532,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
   if (fMeasureElementsList.size ()) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       displayMeasure (
         inputLineNumber,
         "handleHarmoniesInHarmonyMeasureFinalization() 1");
@@ -4501,7 +4562,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
       msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure);
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       displayMeasure (
         inputLineNumber,
         "handleHarmoniesInHarmonyMeasureFinalization() 2");
@@ -4540,7 +4601,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
         // handle the currentHarmony
 #ifdef TRACING_IS_ENABLED
-        if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+        if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
           gLogStream <<
             "handleHarmoniesInHarmonyMeasureFinalization() 3" <<
             ", currentHarmony: ";
@@ -4571,7 +4632,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             currentHarmonyNoteUpLink->
               getMeasureElementPositionInMeasure ();
 
-        if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+        if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
           gLogStream <<
             "handleHarmoniesInHarmonyMeasureFinalization() 4" <<
             ", previousHarmony: ";
@@ -4634,7 +4695,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
     */
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       displayMeasure (
         inputLineNumber,
         "handleHarmoniesInHarmonyMeasureFinalization() 5");
@@ -4674,7 +4735,7 @@ void msrMeasure::handleFirstFiguredBassInFiguredBassMeasure (
 */
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "handleFirstFiguredBassInFiguredBassMeasure() 5" <<
       ", previousFiguredBass is null, positionInMeasureToPadUpTo: " <<
@@ -4695,7 +4756,7 @@ void msrMeasure::handleFirstFiguredBassInFiguredBassMeasure (
 
     // insert skipNote before currentFiguredBass in the measure's elements list
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       gLogStream <<
         "Inserting first padding note " <<
         skipNote->asString () <<
@@ -4715,7 +4776,7 @@ void msrMeasure::handleFirstFiguredBassInFiguredBassMeasure (
       skipNote);
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       displayMeasure (
         inputLineNumber,
         "handleFirstFiguredBassInFiguredBassMeasure() 6");
@@ -4762,7 +4823,7 @@ void msrMeasure::handleSubsequentFiguredBassInFiguredBassMeasure (
   positionsInMeasureDelta.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "handleSubsequentFiguredBassInFiguredBassMeasure() 7" <<
       ", previousFiguredBass: ";
@@ -4808,7 +4869,7 @@ void msrMeasure::handleSubsequentFiguredBassInFiguredBassMeasure (
 
     // insert skipNote before currentFiguredBass in the measure's elements list
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       gLogStream <<
         "Inserting subsequent padding note " <<
         skipNote->asString () <<
@@ -4852,7 +4913,7 @@ void msrMeasure::handleSubsequentFiguredBassInFiguredBassMeasure (
     reducedSoundingWholeNotes.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       gLogStream <<
         "Reducing the sounding whole notes of figured bass FOO " <<
         previousFiguredBass->asString () <<
@@ -4924,7 +4985,7 @@ void msrMeasure::postHandleCurrentFiguredBassInFiguredBassMeasure (
         getFiguredBassNoteUpLink ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "postHandleCurrentFiguredBassInFiguredBassMeasure() 8888 " <<
       "currentFiguredBassNoteUpLink:" <<
@@ -4946,7 +5007,7 @@ void msrMeasure::postHandleCurrentFiguredBassInFiguredBassMeasure (
   measureOverflowWholeNotes.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
     gLogStream <<
       "postHandleCurrentFiguredBassInFiguredBassMeasure() 9" <<
       ", currentFiguredBass: ";
@@ -5006,7 +5067,7 @@ void msrMeasure::postHandleCurrentFiguredBassInFiguredBassMeasure (
     reducedSoundingWholeNotes.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       gLogStream <<
         "Reducing the sounding whole notes of figured bass FII " <<
         currentFiguredBass->asString () <<
@@ -5075,7 +5136,7 @@ void msrMeasure::handleFiguredBassesInFiguredBassMeasureFinalization (
 
   if (fMeasureElementsList.size ()) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       displayMeasure (
         inputLineNumber,
         "handleHarmoniesInFiguredBassMeasureFinalization() 1");
@@ -5105,7 +5166,7 @@ void msrMeasure::handleFiguredBassesInFiguredBassMeasureFinalization (
       msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure);
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       displayMeasure (
         inputLineNumber,
         "handleHarmoniesInFiguredBassMeasureFinalization() 2");
@@ -5144,7 +5205,7 @@ void msrMeasure::handleFiguredBassesInFiguredBassMeasureFinalization (
 
         // handle the currentFiguredBass
 #ifdef TRACING_IS_ENABLED
-        if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+        if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
           gLogStream <<
             "handleHarmoniesInFiguredBassMeasureFinalization() 3" <<
             ", currentFiguredBass: ";
@@ -5175,7 +5236,7 @@ void msrMeasure::handleFiguredBassesInFiguredBassMeasureFinalization (
             currentFiguredBassNoteUpLink->
               getMeasureElementPositionInMeasure ();
 
-        if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+        if (gGlobalTraceOahGroup->getTraceHarmonies () ) {
           gLogStream <<
             "handleHarmoniesInFiguredBassMeasureFinalization() 4" <<
             ", previousFiguredBass: ";
@@ -5238,7 +5299,7 @@ void msrMeasure::handleFiguredBassesInFiguredBassMeasureFinalization (
     */
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceHarmonies () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
       displayMeasure (
         inputLineNumber,
         "handleHarmoniesInFiguredBassMeasureFinalization() 5");
@@ -6778,4 +6839,281 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
 
 
 }
+
+/* JMI
+    typedef list<S_msrMeasureElement>::iterator iter_type;
+
+    reverse_iterator<iter_type> rev_end   (fMeasureElementsList.begin());
+    reverse_iterator<iter_type> rev_begin ();
+
+    gLogStream <<
+      endl <<
+      "==> fMeasureElementsList:" <<
+      endl;
+    ++gIndenter;
+    for (iter_type it = rev_end.base (); it != rev_begin.base (); ++it) {
+      gLogStream << ' ' << *it << endl;
+    } // for
+    gLogStream << endl;
+    --gIndenter;
+
+
+    list<S_msrMeasureElement>::reverse_iterator
+      iBegin = fMeasureElementsList.rbegin (),
+      iEnd   = fMeasureElementsList.rend (),
+      i      = iBegin;
+
+    S_msrMeasureElement barLineMeasureElementBeforeWhichToInsert;
+    list<S_msrMeasureElement>::reverse_iterator
+      iteratorBeforeWhichToInsert;
+
+//    for (iter_type i = rev_end.base (); i != rev_begin.base (); ++i) {
+    for (
+      list<S_msrMeasureElement>::reverse_iterator i = iBegin;
+      i != iEnd;
+      ++i
+    ) {
+      if (
+          // barline?
+          S_msrBarline
+            barline =
+              dynamic_cast<msrBarline*>(&(*(*i)))
+      ) {
+#ifdef TRACING_IS_ENABLED
+        if (
+          gGlobalTraceOahGroup->getTraceMeasures ()
+            ||
+          gGlobalTraceOahGroup->getTraceBarLines ()
+        ) {
+          gLogStream <<
+            "Measure element " <<
+            (*i)->asString () <<
+            " is a barline" <<
+            endl;
+#endif
+
+          barLineMeasureElementBeforeWhichToInsert = (*i);
+          iteratorBeforeWhichToInsert = i;
+        }
+
+        // break; ??? JMI
+      }
+
+      else {
+#ifdef TRACING_IS_ENABLED
+        if (
+          gGlobalTraceOahGroup->getTraceMeasures ()
+            ||
+          gGlobalTraceOahGroup->getTraceBarLines ()
+        ) { // JMI ???
+          gLogStream <<
+            "Measure element " <<
+            (*i)->asString () <<
+            " is no barline" <<
+            endl;
+        }
+#endif
+      }
+    } // for
+
+    if (barLineMeasureElementBeforeWhichToInsert) {
+      // insert elem before the left-most barline iterator
+#ifdef TRACING_IS_ENABLED
+        if (
+          gGlobalTraceOahGroup->getTraceMeasures ()
+            ||
+          gGlobalTraceOahGroup->getTraceBarLines ()
+        ) { // JMI ???
+          gLogStream <<
+            "==> barLineMeasureElementBeforeWhichToInsert: " <<
+            barLineMeasureElementBeforeWhichToInsert->asString () <<
+            endl <<
+            "==> iteratorBeforeWhichToInsert: " <<
+            (*iteratorBeforeWhichToInsert)->asString () <<
+            endl;
+        }
+#endif
+
+      insertElementInMeasureBeforeIterator (
+        inputLineNumber,
+        iteratorBeforeWhichToInsert,
+        elem);
+
+      fMeasureElementsList.insert (
+        iteratorBeforeWhichToInsert, elem);
+    }
+    else {
+      // insert elem at the end of the measure
+      appendElementToMeasure (elem);
+    }
+
+
+    gLogStream <<
+      endl <<
+      "==> fMeasureElementsList:" <<
+      endl;
+    ++gIndenter;
+    for (iter_type it = rev_end.base (); it != rev_begin.base (); ++it) {
+      gLogStream << ' ' << *it << endl;
+    } // for
+    gLogStream << endl;
+    --gIndenter;
+
+
+  if (! fMeasureElementsList.size ()) {
+    fMeasureElementsList.push_back (elem);
+  }
+
+  else {
+    // append elem to the measure elements lists,
+    // but place it before barlines if any,
+    // to prevent the latter from appearing too early
+    // in harmony and figured bass measures
+    list<S_msrMeasureElement>::reverse_iterator
+      iBegin = fMeasureElementsList.rbegin (),
+      iEnd   = fMeasureElementsList.rend (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      S_msrMeasureElement
+        measureElement = (*i);
+
+      // sanity check
+      msgAssert (
+        __FILE__, __LINE__,
+        measureElement != nullptr,
+        "measureElement is null");
+
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+        gLogStream <<
+          "Reverse iteration on measure element: " <<
+          measureElement->asString () <<
+          endl;
+      }
+#endif
+
+      if (
+          // barline?
+          S_msrBarline
+            barline =
+              dynamic_cast<msrBarline*>(&(*measureElement))
+      ) {
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTraceBarLines ()) {
+          gLogStream <<
+            "Measure element " <<
+            measureElement->asString () <<
+            " is a barline actually" <<
+            endl;
+        }
+#endif
+      }
+
+      else {
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalTraceOahGroup->getTraceMeasures ()) { // JMI ???
+          gLogStream <<
+            "Measure element " <<
+            measureElement->asString () <<
+            " is no barline" <<
+            endl;
+        }
+#endif
+        break;
+      }
+
+      if (++i == iEnd) break;
+    } // for
+
+    // get iterator base
+    list<S_msrMeasureElement>::iterator
+      reverseIteratorBase =
+        (i).base ();
+
+
+    // insert elem in the measure elements list before (*i)
+#ifdef TRACING_IS_ENABLED
+    if (
+      gGlobalTraceOahGroup->getTraceMeasures ()
+        ||
+      gGlobalTraceOahGroup->getTracePositionsInMeasures ()
+    ) {
+      gLogStream <<
+        "Inserting measure element " <<
+        elem->asString () <<
+        " at the end of measure '" <<
+        fMeasureElementMeasureNumber <<
+        endl;
+    }
+#endif
+      if (reverseIteratorBase == fMeasureElementsList.end ()) {
+        gLogStream <<
+
+        insertElementInMeasureBeforeIterator (
+          inputLineNumber,
+          reverseIteratorBase,
+          elem);
+      }
+      else {
+        gLogStream <<
+          "Inserting measure element " <<
+          elem->asString () <<
+          " before " <<
+          (*reverseIteratorBase)->asString ();
+
+        appendElementToMeasure (elem);
+      }
+
+      gLogStream <<
+        endl;
+*/
+
+/* JMI
+void msrMeasure::insertElementInMeasureBeforeReverseIterator (
+  int                                 inputLineNumber,
+  list<S_msrMeasureElement>::reverse_iterator iter,
+  S_msrMeasureElement                 elem)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
+      "Inserting element " <<
+      elem->asShortString () <<
+      " before iterator " <<
+      (*iter)->asShortString () <<
+      " in measure " <<
+      asShortString () <<
+      " in voice \"" <<
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ()
+          ->getVoiceName () <<
+      "\", currentMeasureWholeNotesDuration = " <<
+      fCurrentMeasureWholeNotesDuration <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // set elem's measure number
+  elem->
+    setMeasureElementMeasureNumber (
+      fMeasureElementMeasureNumber);
+
+  // set elem's position in measure
+  elem->
+    setMeasureElementPositionInMeasure (
+      fCurrentMeasureWholeNotesDuration,
+      "insertElementInMeasureBeforeIterator()");
+
+  // insert elem in the measure elements list before (*iter)
+  fMeasureElementsList.insert (
+    iter, elem);
+
+  // account for elem's duration in current measure whole notes
+  incrementCurrentMeasureWholeNotesDuration (
+    inputLineNumber,
+    elem->getMeasureElementSoundingWholeNotes ());
+}
+*/
 

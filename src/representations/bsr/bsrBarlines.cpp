@@ -56,7 +56,7 @@ bsrBarline::bsrBarline (
   fBarlineCellsList = buildCellsList ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+  if (gGlobalTraceOahGroup->getTraceBarLines ()) {
     gLogStream <<
       "Creating bsrBarline '" <<
       asString () <<

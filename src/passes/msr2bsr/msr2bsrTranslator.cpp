@@ -643,7 +643,7 @@ void msr2bsrTranslator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+  if (gGlobalTraceOahGroup->getTraceBarLines ()) {
     gLogStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (

@@ -4,8 +4,26 @@
 \label{Architecture}
 \begin{center}
 
+% The sizes
+% ------------------------------------------------
+
+\def \bendAngle {60}
+
+\def \minimumRectangleHeight {10 mm}
+\def \minimumRectangleWidth  {30 mm}
+
+\def \separatorWidth {\minimumRectangleWidth}
+
+\def \roundedCorners {10pt}
+
+
 % -------------------------------------------------------------------------
-\begin{tikzpicture}[scale=0.42] % allow upside down ???
+\begin{tikzpicture}[
+	%
+	scale=0.42,
+	%
+	>=open triangle 45,
+	]
 % -------------------------------------------------------------------------
 
 % elements positions
@@ -278,7 +296,7 @@
   (UpperSpace) at (UpperSpace) {~};
 
 % MusicXML
-\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\MusicXMLColor}]
+\node[align=center,style={rectangle, minimum size=\minimumSquareSize,fill=\MusicXMLColor}]
   (MusicXML)
   at (MusicXML) {{\bf MusicXML}\\(text)};
 

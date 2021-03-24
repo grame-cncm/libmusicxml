@@ -450,7 +450,8 @@ class EXP msrMeasure : public msrElement
     void                  accountForTupletMemberNoteDurationInMeasure (
                             S_msrNote note);
 
-    void                  appendPaddingNoteAtTheEndOfMeasure (S_msrNote note);
+    void                  appendPaddingNoteAtTheEndOfMeasure (
+                            S_msrNote paddingNote);
 
     void                  appendNoteToMeasureClone (S_msrNote note);
 
@@ -825,6 +826,11 @@ class EXP msrMeasure : public msrElement
     void                  insertElementInMeasureBeforeIterator (
                             int                                 inputLineNumber,
                             list<S_msrMeasureElement>::iterator iter,
+                            S_msrMeasureElement                 elem);
+
+    void                  insertElementInMeasureBeforeReverseIterator (
+                            int                                 inputLineNumber,
+                            list<S_msrMeasureElement>::reverse_iterator iter,
                             S_msrMeasureElement                 elem);
 
     void                  appendElementAtTheEndOfMeasure (

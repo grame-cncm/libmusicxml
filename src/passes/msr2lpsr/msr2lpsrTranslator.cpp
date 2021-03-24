@@ -5295,7 +5295,6 @@ void msr2lpsrTranslator::visitStart (S_msrStem& elt)
       setNoteStem (elt);
   }
   else if (fOnGoingChord) {
-  if (false) // JMI
     fCurrentChordClone->
       appendStemToChord (elt);
   }
@@ -6548,7 +6547,7 @@ void msr2lpsrTranslator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+  if (gGlobalTraceOahGroup->getTraceBarLines ()) {
     gLogStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (

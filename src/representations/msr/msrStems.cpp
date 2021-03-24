@@ -125,10 +125,11 @@ string msrStem::asString () const
   stringstream s;
 
   s <<
-    "Stem" <<
+    "[Stem" <<
     ", stemKind: " <<
     stemKindAsString (fStemKind) <<
-    ", line " << fInputLineNumber;
+    ", line " << fInputLineNumber <<
+    "]";
 
   return s.str ();
 }

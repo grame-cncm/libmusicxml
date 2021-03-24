@@ -178,10 +178,12 @@ if (false) // JMI
 
   // inhibit the browsing of chords in grace notes groups,
   // since they are handled at the note level
-if (true) // JMI
+  /* JMI
+if (false) // JMI
   fVisitedLpsrScore->
     getMsrScore ()->
       setInhibitChordsInGraceNotesGroupsBrowsing ();
+*/
 
   // inhibit the browsing of tuplets in grace notes groups,
   // since they are handled at the note level
@@ -1455,6 +1457,18 @@ string lpsr2lilypondTranslator::stemAsLilypondString (
 void lpsr2lilypondTranslator::generateStemIfNeededAndUpdateCurrentStemKind (
   S_msrStem stem)
 {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceStems ()) {
+    gLogStream <<
+      "--> generateStemIfNeededAndUpdateCurrentStemKind" <<
+      ", stem = " <<
+      stem->asShortString () <<
+      ", fCurrentStemKind = " <<
+      msrStem::stemKindAsString (fCurrentStemKind) <<
+      endl;
+  }
+#endif
+
   if (stem) {
     msrStem::msrStemKind
       stemKind =
@@ -1462,15 +1476,22 @@ void lpsr2lilypondTranslator::generateStemIfNeededAndUpdateCurrentStemKind (
 
     // should a stem direction command be generated?
     if (stemKind != fCurrentStemKind) { // JMI ??? msrStem::kStemNeutral) {
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceStems ()) {
+        gLogStream <<
+          "--> fCurrentStemKind switches from " <<
+          msrStem::stemKindAsString (fCurrentStemKind) <<
+          " to " <<
+          msrStem::stemKindAsString (stemKind) <<
+          endl;
+      }
+#endif
+
       fLilypondCodeStream <<
         stemAsLilypondString (stemKind);
 
       fCurrentStemKind = stemKind;
     }
-  }
-
-  else {
-//    fCurrentStemKind = msrStem::kStemNeutral;  // JMI
   }
 }
 
@@ -1647,7 +1668,9 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeNote (S_msrNote note)
       noteStem =
         note->getNoteStem ();
 
-    generateStemIfNeededAndUpdateCurrentStemKind (noteStem);
+    if (noteStem) {
+      generateStemIfNeededAndUpdateCurrentStemKind (noteStem);
+    }
   }
 
   // generate the note slur direction if any,
@@ -13614,6 +13637,12 @@ void lpsr2lilypondTranslator::generateGraceNotesGroup (
     for ( ; ; ) {
       S_msrElement element = (*i);
 
+      // sanity check
+      msgAssert (
+        __FILE__, __LINE__,
+        element != nullptr,
+        "element is null");
+
       elementNumber += 1;
 
       if (
@@ -16488,11 +16517,25 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeChordContents (
       chord->getChordStems ();
 
   if (chordStems.size ()) {
-    list<S_msrStem>::const_iterator
-      iBegin = chordStems.begin ();
-
     // only the first stem is used, since they all have the same kind
-    S_msrStem firstChordStem = (*iBegin);
+    S_msrStem firstChordStem = chordStems.front ();
+
+    // sanity check
+    msgAssert (
+      __FILE__, __LINE__,
+      firstChordStem != nullptr,
+      "firstChordStem is null");
+
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceStems ()) {
+      fLilypondCodeStream <<
+        "% --> generateCodeRightBeforeChordContents() for chord " <<
+        chord->asShortString () <<
+        ", firstChordStem: " << firstChordStem <<
+        ", line " << chord->getInputLineNumber () <<
+        endl;
+    }
+#endif
 
     generateStemIfNeededAndUpdateCurrentStemKind (firstChordStem);
 

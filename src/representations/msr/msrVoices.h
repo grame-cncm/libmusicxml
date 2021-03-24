@@ -1104,7 +1104,7 @@ class EXP msrVoice : public msrElement
     list<S_msrVoiceElement>
                           fInitialVoiceElementsList;
 
-   // segments
+    // segments
 
     // fVoiceLastSegment contains the music
     // not yet stored in fVoiceInitialElementsList,

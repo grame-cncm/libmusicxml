@@ -33,6 +33,57 @@
 
 
 % -------------------------------------------------------------------------
+% general purpose
+% -------------------------------------------------------------------------
+
+\usepackage{underscore}
+
+\usepackage{longtable}
+
+\usepackage{bold-extra}
+
+
+% -------------------------------------------------------------------------
+% layout
+% -------------------------------------------------------------------------
+
+% create an arrow
+\newcommand{\arrowIn}{
+\tikz \draw[-stealth] (-2pt,0) -- (2pt,0);
+}
+
+
+\global\def \tab {~~~}
+
+
+\newcommand{\sep}{\vspace{1.5ex}}
+
+\newcommand{\page}{\pagebreak}
+
+\newcommand{\etc}{... ... ...}
+
+\usepackage{changepage} % for adjustwidth
+
+
+% -------------------------------------------------------------------------
+% tikz
+% -------------------------------------------------------------------------
+
+\usepackage{tikz}
+
+\usetikzlibrary{math}
+
+\usetikzlibrary{shapes.arrows}
+\usetikzlibrary{shapes.multipart}
+
+\usetikzlibrary{arrows}
+
+\usetikzlibrary{calc,intersections}
+
+\usetikzlibrary{decorations.pathreplacing,decorations.markings}
+
+
+% -------------------------------------------------------------------------
 % geometry
 % -------------------------------------------------------------------------
 
@@ -44,6 +95,7 @@
 	left=1.5cm,right=1.5cm%
 	]%
 	{geometry}
+
 
 % -------------------------------------------------------------------------
 % colors
@@ -135,6 +187,7 @@
 
 \lstloadlanguages{[11]C++}
 
+
 % -------------------------------------------------------------------------
 % fonts
 % -------------------------------------------------------------------------
@@ -186,15 +239,6 @@
 \newcommand{\mylink}[1]{%Arguments: label
 \hyperlink{#1}{section~\ref{#1}, page~\pageref{#1}}%
 }
-
-% -------------------------------------------------------------------------
-% layout
-% -------------------------------------------------------------------------
-
-\newcommand{\sep}{\vspace{1.5ex}}
-
-\newcommand{\page}{\pagebreak}
-
 
 % -------------------------------------------------------------------------
 % names
