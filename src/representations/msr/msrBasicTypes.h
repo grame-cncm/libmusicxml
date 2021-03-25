@@ -1806,7 +1806,7 @@ class EXP msrMoment
     // constants
     // ------------------------------------------------------
 
-    #define K_NO_POSITION rational (-22, 1)
+    #define K_NO_POSITION rational (-99, 1)
 
     #define K_NO_MOMENT   msrMoment (K_NO_POSITION, K_NO_POSITION)
 

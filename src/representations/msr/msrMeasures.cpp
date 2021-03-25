@@ -32,7 +32,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-int msrMeasure::gMeasureDebugNumber = 0;
+int msrMeasure::gGlobalMeasureDebugNumber = 0;
 
 S_msrMeasure msrMeasure::create (
   int          inputLineNumber,
@@ -73,7 +73,7 @@ msrMeasure::msrMeasure (
   fNextMeasureNumber = "";
 
   // set debug number
-  fMeasureDebugNumber = ++gMeasureDebugNumber;
+  fMeasureDebugNumber = ++gGlobalMeasureDebugNumber;
 
   // do other initializations
   initializeMeasure ();
@@ -838,6 +838,13 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
       "appendElementToMeasure()");
 
   fMeasureElementsList.push_back (elem);
+
+  // take elem's sounding whole notes into account JMI ???
+if (false) // JMI
+  incrementCurrentMeasureWholeNotesDuration (
+    inputLineNumber,
+    elem->
+      getMeasureElementSoundingWholeNotes ());
 }
 
 void msrMeasure::insertElementInMeasureBeforeIterator (
@@ -900,9 +907,9 @@ void msrMeasure::appendElementAtTheEndOfMeasure (
   ) {
     gLogStream <<
       "Appending element " <<
-      elem->asShortString () <<
+      elem->asString () <<
       " at the end of measure " <<
-      asShortString () <<
+      asString () <<
       " in voice \"" <<
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ()
@@ -954,6 +961,13 @@ void msrMeasure::appendElementAtTheEndOfMeasure (
 #endif
 
     appendElementToMeasure (elem);
+
+    // take elem's sounding whole notes duration into account
+    // could be done elsewhere ??? JMI
+    incrementCurrentMeasureWholeNotesDuration (
+      inputLineNumber,
+      elem->
+        getMeasureElementSoundingWholeNotes ());
   }
 
   else {
@@ -1004,10 +1018,14 @@ void msrMeasure::appendElementAtTheEndOfMeasure (
         --it;
 
         // insert elem before it in list
+        // (will increment this measure's whole notes duration)
         insertElementInMeasureBeforeIterator (
           inputLineNumber,
           it,
           elem);
+
+        // register this measure as regular in case it was empty
+        // should be done elsewhere JMI ???
       }
 
       else {
@@ -1047,11 +1065,6 @@ void msrMeasure::appendElementAtTheEndOfMeasure (
       appendElementToMeasure (elem);
     }
   }
-
-  // account for elem's duration in current measure whole notes
-  incrementCurrentMeasureWholeNotesDuration (
-    inputLineNumber,
-    elem->getMeasureElementSoundingWholeNotes ());
 
 #ifdef TRACING_IS_ENABLED
   if (
@@ -1326,7 +1339,7 @@ void msrMeasure::incrementCurrentMeasureWholeNotesDuration (
   rational delta)
 {
   // sanity check
-  if (false) // JMI
+if (false) // JMI
   msgAssert (
     __FILE__, __LINE__,
     delta.getNumerator () != 0,
@@ -1373,6 +1386,10 @@ void msrMeasure::incrementCurrentMeasureWholeNotesDuration (
   }
 #endif
 
+  if (newMeasureWholeNotesDuration == rational (2, 1)) { // JMI
+    abort ();
+  }
+
   // set new measure whole notes duration
   fCurrentMeasureWholeNotesDuration =
     newMeasureWholeNotesDuration;
@@ -1407,6 +1424,97 @@ void msrMeasure::setMeasureKind (
         endl;
     }
 #endif
+
+  switch (measureKind) {
+    case msrMeasureKind::kMeasureKindUnknown:
+      break;
+    case msrMeasureKind::kMeasureKindRegular:
+      break;
+    case msrMeasureKind::kMeasureKindAnacrusis:
+      break;
+    case msrMeasureKind::kMeasureKindIncompleteStandalone:
+      break;
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatCommonPart:
+      break;
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatHookedEnding:
+      break;
+    case msrMeasureKind::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+      break;
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+      break;
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+      break;
+    case msrMeasureKind::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+      break;
+
+    case msrMeasureKind::kMeasureKindOvercomplete:
+#ifdef TRACING_IS_ENABLED
+      if (true || gGlobalTraceOahGroup->getTraceMeasures ()) {
+        gLogStream <<
+          "!!! Setting measure kind of measure " <<
+          this->asShortString ()<<
+          " to '" <<
+          msrMeasureKindAsString (measureKind) <<
+          "' in segment " <<
+          fMeasureSegmentUpLink->asString () <<
+          " in voice \"" <<
+          fMeasureSegmentUpLink->
+            getSegmentVoiceUpLink ()->
+              getVoiceName () <<
+          "\"" <<
+          ", line " << fInputLineNumber <<
+          endl;
+
+        gLogStream <<
+          endl <<
+          "--> this measure:" <<
+          endl;
+        ++gIndenter;
+        this->print (gLogStream);
+        gLogStream << endl;
+        --gIndenter;
+
+//        abort (); // JMI
+      }
+#endif
+      break;
+
+    case msrMeasureKind::kMeasureKindCadenza:
+      break;
+
+    case msrMeasureKind::kMeasureKindMusicallyEmpty:
+#ifdef TRACING_IS_ENABLED
+      if (true || gGlobalTraceOahGroup->getTraceMeasures ()) {
+        gLogStream <<
+          "!!! Setting measure kind of measure " <<
+          this->asShortString ()<<
+          " to '" <<
+          msrMeasureKindAsString (measureKind) <<
+          "' in segment " <<
+          fMeasureSegmentUpLink->asString () <<
+          " in voice \"" <<
+          fMeasureSegmentUpLink->
+            getSegmentVoiceUpLink ()->
+              getVoiceName () <<
+          "\"" <<
+          ", line " << fInputLineNumber <<
+          endl;
+
+        gLogStream <<
+          endl <<
+          "--> this measure:" <<
+          endl;
+        ++gIndenter;
+        this->print (gLogStream);
+        gLogStream << endl;
+        --gIndenter;
+
+        abort (); // JMI
+      }
+#endif
+
+      break;
+  } // switch
 
   fMeasureKind = measureKind;
 }
@@ -2076,7 +2184,8 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
       " in voice \"" <<
        voice->getVoiceName () <<
       "\"" <<
-      ", currentMeasureWholeNotesDuration: " << fCurrentMeasureWholeNotesDuration <<
+      ", currentMeasureWholeNotesDuration: " <<
+      fCurrentMeasureWholeNotesDuration <<
       ", noteSoundingWholeNotes: " << noteSoundingWholeNotes <<
       ", line " << inputLineNumber <<
       endl;
@@ -2206,9 +2315,9 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
     gGlobalTraceOahGroup->getTraceBarLines ()
   ) {
     gLogStream <<
-      "Appending padding note " << note->asShortString () <<
+      "Appending padding note " << note->asString () <<
       " at the end of measure " <<
-      this->asShortString () <<
+      this->asString () <<
       " in voice \"" <<
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ()->
@@ -3479,7 +3588,8 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
             }
 
             // set it's measure kind
-            setMeasureKind (msrMeasureKind::kMeasureKindIncompleteStandalone); // JMI
+            setMeasureKind (
+              msrMeasureKind::kMeasureKindIncompleteStandalone); // JMI
             break;
 
           case msrMeasure::kMeasuresRepeatContextKindNone:
@@ -3491,7 +3601,8 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
               case msrMeasure::kMeasureEndRegularKindYes:
                 // set it's measure kind
-                setMeasureKind (msrMeasureKind::kMeasureKindIncompleteStandalone);
+                setMeasureKind (
+                  msrMeasureKind::kMeasureKindIncompleteStandalone);
 
                 // don't increment the voice current measure purist number,
                 // this has already been done for the 'first part' of the measure
@@ -3499,7 +3610,8 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
               case msrMeasure::kMeasureEndRegularKindNo:
                 // set it's measure kind
-                setMeasureKind (msrMeasureKind::kMeasureKindIncompleteStandalone);
+                setMeasureKind (
+                  msrMeasureKind::kMeasureKindIncompleteStandalone);
                 break;
             } // switch
             break;
@@ -3631,7 +3743,8 @@ void msrMeasure::padUpToPositionInMeasure (
 #ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceMeasures ()) {
       gLogStream <<
-       "Creating a padding note '" <<
+       "Creating a padding note for measure debug number " <<
+       fMeasureDebugNumber <<
        ", missingDuration: " << missingDuration <<
        " in voice \"" << measureVoice->getVoiceName () <<
        "\", measure: " <<
@@ -3695,10 +3808,12 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasures ()) {
     gLogStream <<
-      "Padding up to position '" <<
+      "Padding up from position " <<
+      fCurrentMeasureWholeNotesDuration <<
+      " to position '" <<
       positionInMeasureToPadUpTo <<
       "' at the end of measure " <<
-      this->asShortString () <<
+      this->asString () <<
       " in segment " <<
       fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
       " in voice \"" <<
@@ -3728,10 +3843,10 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
 #ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceMeasures ()) {
       gLogStream <<
-        "Creating a padding note '" <<
+        "Creating a padding note" <<
         ", missingDuration: " << missingDuration <<
         " at the end of measure " <<
-        this->asShortString () <<
+        this->asString () <<
         " in voice \"" << measureVoice->getVoiceName () << "\",  " <<
         ", currentMeasureWholeNotesDuration: " <<
         fCurrentMeasureWholeNotesDuration <<
@@ -3818,7 +3933,7 @@ void msrMeasure::finalizeRegularMeasure (
   }
 
   rational
-    measureWholeNotesDuration =
+    measureWholeNotesDurationFromPartMeasuresVector =
       regularPart->
         getPartMeasuresWholeNotesDurationsVector () [
            fMeasureOrdinalNumberInVoice - 1 ];
@@ -3833,7 +3948,8 @@ void msrMeasure::finalizeRegularMeasure (
       "' in regular voice \"" <<
       voice->getVoiceName () <<
       "\" (" << context << ")" <<
-      ", measureWholeNotesDuration: " << measureWholeNotesDuration <<
+      ", measureWholeNotesDurationFromPartMeasuresVector: " <<
+      measureWholeNotesDurationFromPartMeasuresVector <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -3851,7 +3967,7 @@ void msrMeasure::finalizeRegularMeasure (
 
   padUpToPositionAtTheEndOfTheMeasure (
     inputLineNumber,
-    measureWholeNotesDuration);
+    measureWholeNotesDurationFromPartMeasuresVector);
 
   // register this measures's length in the part
   S_msrPart
@@ -5374,7 +5490,7 @@ void msrMeasure::finalizeHarmonyMeasure (
 
   // the measureWholeNotesDuration has to be computed
   rational
-    measureWholeNotesDuration =
+    measureWholeNotesDurationFromPartMeasuresVector =
       harmonyPart->
         getPartMeasuresWholeNotesDurationsVector () [
            fMeasureOrdinalNumberInVoice - 1 ];
@@ -5384,10 +5500,10 @@ void msrMeasure::finalizeHarmonyMeasure (
     inputLineNumber,
     context);
 
-  // pad the measure up to measureWholeNotesDuration
+  // pad the measure up to measureWholeNotesDurationFromPartMeasuresVector
   padUpToPositionAtTheEndOfTheMeasure (
     inputLineNumber,
-    measureWholeNotesDuration);
+    measureWholeNotesDurationFromPartMeasuresVector);
 
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
@@ -5734,7 +5850,7 @@ void msrMeasure::finalizeMeasure (
     if (gGlobalTraceOahGroup->getTraceMeasures ()) {
       gLogStream <<
         "Finalizing measure " <<
-        this->asShortString () <<
+        this->asString () <<
         " in segment '" <<
         fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
         "' in voice \"" <<
@@ -5827,7 +5943,7 @@ void msrMeasure::finalizeMeasureClone (
   if (gGlobalTraceOahGroup->getTraceMeasures ()) {
     gLogStream <<
       "Finalizing measure clone " <<
-      this->asShortString () <<
+      this->asString () <<
       " in segment '" <<
       fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
       "' in voice \"" <<
@@ -6029,7 +6145,7 @@ void msrMeasure::finalizeMeasure_BIS (
     if (gGlobalTraceOahGroup->getTraceMeasures ()) {
       gLogStream <<
         "Finalizing measure " <<
-        this->asShortString () <<
+        this->asString () <<
         " in segment '" <<
         fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
         "' in voice \"" <<
@@ -6354,8 +6470,10 @@ string msrMeasure::asString () const
     fMeasurePuristNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
-    ", currentMeasureWholeNotesDuration: " << fCurrentMeasureWholeNotesDuration <<
-    ", fullMeasureWholeNotesDuration: " << fFullMeasureWholeNotesDuration <<
+    ", currentMeasureWholeNotesDuration: " <<
+    fCurrentMeasureWholeNotesDuration <<
+    ", fullMeasureWholeNotesDuration: " <<
+    fFullMeasureWholeNotesDuration <<
     ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
@@ -6839,281 +6957,3 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
 
 
 }
-
-/* JMI
-    typedef list<S_msrMeasureElement>::iterator iter_type;
-
-    reverse_iterator<iter_type> rev_end   (fMeasureElementsList.begin());
-    reverse_iterator<iter_type> rev_begin ();
-
-    gLogStream <<
-      endl <<
-      "==> fMeasureElementsList:" <<
-      endl;
-    ++gIndenter;
-    for (iter_type it = rev_end.base (); it != rev_begin.base (); ++it) {
-      gLogStream << ' ' << *it << endl;
-    } // for
-    gLogStream << endl;
-    --gIndenter;
-
-
-    list<S_msrMeasureElement>::reverse_iterator
-      iBegin = fMeasureElementsList.rbegin (),
-      iEnd   = fMeasureElementsList.rend (),
-      i      = iBegin;
-
-    S_msrMeasureElement barLineMeasureElementBeforeWhichToInsert;
-    list<S_msrMeasureElement>::reverse_iterator
-      iteratorBeforeWhichToInsert;
-
-//    for (iter_type i = rev_end.base (); i != rev_begin.base (); ++i) {
-    for (
-      list<S_msrMeasureElement>::reverse_iterator i = iBegin;
-      i != iEnd;
-      ++i
-    ) {
-      if (
-          // barline?
-          S_msrBarline
-            barline =
-              dynamic_cast<msrBarline*>(&(*(*i)))
-      ) {
-#ifdef TRACING_IS_ENABLED
-        if (
-          gGlobalTraceOahGroup->getTraceMeasures ()
-            ||
-          gGlobalTraceOahGroup->getTraceBarLines ()
-        ) {
-          gLogStream <<
-            "Measure element " <<
-            (*i)->asString () <<
-            " is a barline" <<
-            endl;
-#endif
-
-          barLineMeasureElementBeforeWhichToInsert = (*i);
-          iteratorBeforeWhichToInsert = i;
-        }
-
-        // break; ??? JMI
-      }
-
-      else {
-#ifdef TRACING_IS_ENABLED
-        if (
-          gGlobalTraceOahGroup->getTraceMeasures ()
-            ||
-          gGlobalTraceOahGroup->getTraceBarLines ()
-        ) { // JMI ???
-          gLogStream <<
-            "Measure element " <<
-            (*i)->asString () <<
-            " is no barline" <<
-            endl;
-        }
-#endif
-      }
-    } // for
-
-    if (barLineMeasureElementBeforeWhichToInsert) {
-      // insert elem before the left-most barline iterator
-#ifdef TRACING_IS_ENABLED
-        if (
-          gGlobalTraceOahGroup->getTraceMeasures ()
-            ||
-          gGlobalTraceOahGroup->getTraceBarLines ()
-        ) { // JMI ???
-          gLogStream <<
-            "==> barLineMeasureElementBeforeWhichToInsert: " <<
-            barLineMeasureElementBeforeWhichToInsert->asString () <<
-            endl <<
-            "==> iteratorBeforeWhichToInsert: " <<
-            (*iteratorBeforeWhichToInsert)->asString () <<
-            endl;
-        }
-#endif
-
-      insertElementInMeasureBeforeIterator (
-        inputLineNumber,
-        iteratorBeforeWhichToInsert,
-        elem);
-
-      fMeasureElementsList.insert (
-        iteratorBeforeWhichToInsert, elem);
-    }
-    else {
-      // insert elem at the end of the measure
-      appendElementToMeasure (elem);
-    }
-
-
-    gLogStream <<
-      endl <<
-      "==> fMeasureElementsList:" <<
-      endl;
-    ++gIndenter;
-    for (iter_type it = rev_end.base (); it != rev_begin.base (); ++it) {
-      gLogStream << ' ' << *it << endl;
-    } // for
-    gLogStream << endl;
-    --gIndenter;
-
-
-  if (! fMeasureElementsList.size ()) {
-    fMeasureElementsList.push_back (elem);
-  }
-
-  else {
-    // append elem to the measure elements lists,
-    // but place it before barlines if any,
-    // to prevent the latter from appearing too early
-    // in harmony and figured bass measures
-    list<S_msrMeasureElement>::reverse_iterator
-      iBegin = fMeasureElementsList.rbegin (),
-      iEnd   = fMeasureElementsList.rend (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      S_msrMeasureElement
-        measureElement = (*i);
-
-      // sanity check
-      msgAssert (
-        __FILE__, __LINE__,
-        measureElement != nullptr,
-        "measureElement is null");
-
-#ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceMeasures ()) {
-        gLogStream <<
-          "Reverse iteration on measure element: " <<
-          measureElement->asString () <<
-          endl;
-      }
-#endif
-
-      if (
-          // barline?
-          S_msrBarline
-            barline =
-              dynamic_cast<msrBarline*>(&(*measureElement))
-      ) {
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTraceBarLines ()) {
-          gLogStream <<
-            "Measure element " <<
-            measureElement->asString () <<
-            " is a barline actually" <<
-            endl;
-        }
-#endif
-      }
-
-      else {
-#ifdef TRACING_IS_ENABLED
-        if (gGlobalTraceOahGroup->getTraceMeasures ()) { // JMI ???
-          gLogStream <<
-            "Measure element " <<
-            measureElement->asString () <<
-            " is no barline" <<
-            endl;
-        }
-#endif
-        break;
-      }
-
-      if (++i == iEnd) break;
-    } // for
-
-    // get iterator base
-    list<S_msrMeasureElement>::iterator
-      reverseIteratorBase =
-        (i).base ();
-
-
-    // insert elem in the measure elements list before (*i)
-#ifdef TRACING_IS_ENABLED
-    if (
-      gGlobalTraceOahGroup->getTraceMeasures ()
-        ||
-      gGlobalTraceOahGroup->getTracePositionsInMeasures ()
-    ) {
-      gLogStream <<
-        "Inserting measure element " <<
-        elem->asString () <<
-        " at the end of measure '" <<
-        fMeasureElementMeasureNumber <<
-        endl;
-    }
-#endif
-      if (reverseIteratorBase == fMeasureElementsList.end ()) {
-        gLogStream <<
-
-        insertElementInMeasureBeforeIterator (
-          inputLineNumber,
-          reverseIteratorBase,
-          elem);
-      }
-      else {
-        gLogStream <<
-          "Inserting measure element " <<
-          elem->asString () <<
-          " before " <<
-          (*reverseIteratorBase)->asString ();
-
-        appendElementToMeasure (elem);
-      }
-
-      gLogStream <<
-        endl;
-*/
-
-/* JMI
-void msrMeasure::insertElementInMeasureBeforeReverseIterator (
-  int                                 inputLineNumber,
-  list<S_msrMeasureElement>::reverse_iterator iter,
-  S_msrMeasureElement                 elem)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
-    gLogStream <<
-      "Inserting element " <<
-      elem->asShortString () <<
-      " before iterator " <<
-      (*iter)->asShortString () <<
-      " in measure " <<
-      asShortString () <<
-      " in voice \"" <<
-      fMeasureSegmentUpLink->
-        getSegmentVoiceUpLink ()
-          ->getVoiceName () <<
-      "\", currentMeasureWholeNotesDuration = " <<
-      fCurrentMeasureWholeNotesDuration <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  // set elem's measure number
-  elem->
-    setMeasureElementMeasureNumber (
-      fMeasureElementMeasureNumber);
-
-  // set elem's position in measure
-  elem->
-    setMeasureElementPositionInMeasure (
-      fCurrentMeasureWholeNotesDuration,
-      "insertElementInMeasureBeforeIterator()");
-
-  // insert elem in the measure elements list before (*iter)
-  fMeasureElementsList.insert (
-    iter, elem);
-
-  // account for elem's duration in current measure whole notes
-  incrementCurrentMeasureWholeNotesDuration (
-    inputLineNumber,
-    elem->getMeasureElementSoundingWholeNotes ());
-}
-*/
-

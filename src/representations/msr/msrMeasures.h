@@ -690,7 +690,7 @@ class EXP msrMeasure : public msrElement
 
     // debug number, unique for every msrMeasure instance
 
-    static int            gMeasureDebugNumber;
+    static int            gGlobalMeasureDebugNumber;
     int                   fMeasureDebugNumber;
 
     // first measure in voice?

@@ -699,7 +699,7 @@ void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
             currentValue <<
             ", now registering it with a duration of " <<
             wholeNotesDuration <<
-            "in part " << getPartCombinedName () <<
+            " in part " << getPartCombinedName () <<
             endl;
         }
 #endif

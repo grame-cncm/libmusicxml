@@ -128,7 +128,7 @@ string wholeNotesAsLilypondString (
   // this algorithm is inspired by musicxml2ly
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
     gLogStream <<
       "--> wholeNotesAsLilypondString() 1 -------------------------------------" <<
       ", wholeNotes: " << wholeNotes <<
@@ -142,7 +142,7 @@ string wholeNotesAsLilypondString (
     denominator  = wholeNotes.getDenominator ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
     gLogStream <<
       "--> numerator:   " << numerator <<
       endl <<
@@ -548,7 +548,7 @@ string wholeNotesAsLilypondString (
   string result = s.str ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
     gLogStream <<
       "--> wholeNotesAsLilypondString() 2 -------------------------------------" <<
      ", result: \"" << result << "\"" <<

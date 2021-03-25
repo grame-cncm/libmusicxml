@@ -1787,7 +1787,7 @@ string wholeNotesAsMsrString (
   int&     dotsNumber)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
     gLogStream <<
       "--> wholeNotesAsMsrString() 1 -------------------------------------" <<
       ", wholeNotes: " << wholeNotes <<
@@ -1801,7 +1801,7 @@ string wholeNotesAsMsrString (
     denominator  = wholeNotes.getDenominator ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
     gLogStream <<
       "--> numerator:   " << numerator <<
       endl <<
@@ -2168,7 +2168,7 @@ string wholeNotesAsMsrString (
   string result = s.str ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
     gLogStream <<
       "--> wholeNotesAsMsrString() 2 -------------------------------------" <<
      ", result: \"" << result << "\"" <<
