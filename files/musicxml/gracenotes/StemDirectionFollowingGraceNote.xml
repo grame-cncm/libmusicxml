@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.0">
+	<movement-title>test</movement-title>
+	<identification>
+		<encoding>
+			<software>soundnotation</software>
+			<software>Dolet 6.6</software>
+			<encoding-date>2020-07-13</encoding-date>
+			<supports element="accidental" type="yes"/>
+			<supports element="transpose" type="no"/>
+			<supports attribute="new-page" element="print" type="yes" value="yes"/>
+			<supports attribute="new-system" element="print" type="yes" value="yes"/>
+		</encoding>
+	</identification>
+	<defaults>
+		<scaling>
+			<millimeters>5.9</millimeters>
+			<tenths>40</tenths>
+		</scaling>
+		<page-layout>
+			<page-height>2014</page-height>
+			<page-width>1424</page-width>
+			<page-margins type="both">
+				<left-margin>74.1282</left-margin>
+				<right-margin>74.1282</right-margin>
+				<top-margin>84.3528</top-margin>
+				<bottom-margin>84.3528</bottom-margin>
+			</page-margins>
+		</page-layout>
+		<system-layout>
+			<system-margins>
+				<left-margin>21.875</left-margin>
+				<right-margin>0</right-margin>
+			</system-margins>
+			<system-distance>92.5</system-distance>
+			<top-system-distance>72.8125</top-system-distance>
+		</system-layout>
+		<staff-layout>
+			<staff-distance>55</staff-distance>
+		</staff-layout>
+		<?DoletSibelius StaffJustificationPercentage=65?>
+		<appearance>
+			<line-width type="beam">5</line-width>
+			<line-width type="heavy barline">5</line-width>
+			<line-width type="leger">1.5625</line-width>
+			<line-width type="light barline">1.5625</line-width>
+			<line-width type="slur middle">2.1875</line-width>
+			<line-width type="slur tip">0.625</line-width>
+			<line-width type="staff">0.9375</line-width>
+			<line-width type="stem">0.9375</line-width>
+			<line-width type="tie middle">2.1875</line-width>
+			<line-width type="tie tip">0.625</line-width>
+			<note-size type="grace">60</note-size>
+			<note-size type="cue">75</note-size>
+		</appearance>
+		<music-font font-family="Opus Std,music"/>
+		<word-font font-family="Times New Roman"/>
+	</defaults>
+	<part-list>
+		<score-part id="P1">
+			<part-name>Piano</part-name>
+			<score-instrument id="P1-I1">
+				<instrument-name>Piano</instrument-name>
+				<instrument-abbreviation>Pno.</instrument-abbreviation>
+				<instrument-sound>keyboard.piano.grand</instrument-sound>
+			</score-instrument>
+			<midi-instrument id="P1-I1">
+				<volume>79</volume>
+				<pan>-18</pan>
+			</midi-instrument>
+		</score-part>
+	</part-list>
+<!--=========================================================-->
+	<part id="P1">
+		<measure number="1">
+			<print>
+				<system-layout>
+					<system-margins>
+						<left-margin>75.625</left-margin>
+						<right-margin>0</right-margin>
+					</system-margins>
+					<top-system-distance>217.8125</top-system-distance>
+				</system-layout>
+				<staff-layout>
+					<?DoletSibelius JustifyAllStaves=false?>
+					<?DoletSibelius ExtraSpacesAbove=3?>
+				</staff-layout>
+			</print>
+			<attributes>
+				<divisions>768</divisions>
+				<key>
+					<fifths>2</fifths>
+					<mode>major</mode>
+				</key>
+				<time>
+					<beats>4</beats>
+					<beat-type>4</beat-type>
+				</time>
+				<staves>2</staves>
+				<clef number="1">
+					<sign>G</sign>
+					<line>2</line>
+				</clef>
+				<clef number="2">
+					<sign>F</sign>
+					<line>4</line>
+				</clef>
+			</attributes>
+			<direction placement="above" directive="yes">
+				<direction-type>
+					<metronome parentheses="yes">
+						<beat-unit>quarter</beat-unit>
+						<per-minute>105</per-minute>
+					</metronome>
+				</direction-type>
+				<staff>1</staff>
+				<sound tempo="105"/>
+			</direction>
+			<note>
+				<pitch>
+					<step>A</step>
+					<octave>4</octave>
+				</pitch>
+				<duration>384</duration>
+				<voice>1</voice>
+				<type>eighth</type>
+				<stem>down</stem>
+				<staff>1</staff>
+				<beam number="1">begin</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>D</step>
+					<octave>5</octave>
+				</pitch>
+				<duration>384</duration>
+				<voice>1</voice>
+				<type>eighth</type>
+				<stem>down</stem>
+				<staff>1</staff>
+				<beam number="1">continue</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>D</step>
+					<octave>5</octave>
+				</pitch>
+				<duration>384</duration>
+				<voice>1</voice>
+				<type>eighth</type>
+				<stem>down</stem>
+				<staff>1</staff>
+				<beam number="1">continue</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>D</step>
+					<octave>5</octave>
+				</pitch>
+				<duration>384</duration>
+				<voice>1</voice>
+				<type>eighth</type>
+				<stem>down</stem>
+				<staff>1</staff>
+				<beam number="1">end</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>D</step>
+					<octave>5</octave>
+				</pitch>
+				<duration>384</duration>
+				<voice>1</voice>
+				<type>eighth</type>
+				<stem>down</stem>
+				<staff>1</staff>
+			</note>
+			<note>
+				<rest/>
+				<duration>384</duration>
+				<voice>1</voice>
+				<type>eighth</type>
+				<staff>1</staff>
+			</note>
+			<note>
+				<grace slash="yes"/>
+				<pitch>
+					<step>D</step>
+					<octave>5</octave>
+				</pitch>
+				<voice>1</voice>
+				<type>eighth</type>
+				<stem>up</stem>
+				<staff>1</staff>
+				<notations>
+					<slur type="start" number="1"/>
+				</notations>
+			</note>
+			<note>
+				<pitch>
+					<step>D</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>384</duration>
+				<voice>1</voice>
+				<type>eighth</type>
+				<stem>down</stem>
+				<staff>1</staff>
+				<notations>
+					<slur type="stop" number="1"/>
+					<articulations>
+						<staccato/>
+					</articulations>
+				</notations>
+			</note>
+			<note>
+				<rest/>
+				<duration>384</duration>
+				<voice>1</voice>
+				<type>eighth</type>
+				<staff>1</staff>
+			</note>
+			<backup>
+				<duration>3072</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>D</step>
+					<octave>2</octave>
+				</pitch>
+				<duration>768</duration>
+				<voice>5</voice>
+				<type>quarter</type>
+				<stem>up</stem>
+				<staff>2</staff>
+			</note>
+			<note>
+				<rest/>
+				<duration>768</duration>
+				<voice>5</voice>
+				<type>quarter</type>
+				<staff>2</staff>
+			</note>
+			<note>
+				<rest/>
+				<duration>768</duration>
+				<voice>5</voice>
+				<type>quarter</type>
+				<staff>2</staff>
+			</note>
+			<note>
+				<rest/>
+				<duration>768</duration>
+				<voice>5</voice>
+				<type>quarter</type>
+				<staff>2</staff>
+			</note>
+		</measure>
+	</part>
+<!--=========================================================-->
+</score-partwise>

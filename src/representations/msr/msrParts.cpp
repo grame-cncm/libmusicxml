@@ -1684,7 +1684,7 @@ S_msrVoice msrPart::createPartHarmonyVoice (
   return fPartHarmoniesVoice;
 }
 
-void msrPart::appendHarmonyToPart (
+void msrPart::appendHarmonyToPart ( // UNUSED JMI
   S_msrVoice   harmonySupplierVoice,
   S_msrHarmony harmony)
 {

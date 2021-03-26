@@ -91,10 +91,20 @@ msr2lpsrTranslator::msr2lpsrTranslator (
 
   // syllables
   fOnGoingSyllableExtend = false;
-};
+
+  // compute the header fields
+  computeHeaderFields ();
+}
 
 msr2lpsrTranslator::~msr2lpsrTranslator ()
 {}
+
+void msr2lpsrTranslator::computeHeaderFields ()
+{
+    string                fScoreTitle;
+    string                fScoreSubTitle;
+    string                fScoreSubSubTitle;
+}
 
 //________________________________________________________________________
 S_lpsrScore msr2lpsrTranslator::buildLpsrScoreFromMsrScore ()

@@ -831,6 +831,8 @@ S_msrNote msrNote::createNoteNewbornClone (
 
   newbornClone->fNoteAlphaRGBColor =
     fNoteAlphaRGBColor;
+  newbornClone->fNoteAlphaRGBColorHasBenSet =
+    fNoteAlphaRGBColorHasBenSet;
 
   // upLinks
   // ------------------------------------------------------

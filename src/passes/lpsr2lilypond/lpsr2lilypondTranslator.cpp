@@ -64,7 +64,7 @@ lpsrRepeatDescr::lpsrRepeatDescr (
 lpsrRepeatDescr::~lpsrRepeatDescr ()
 {}
 
-string lpsrRepeatDescr::repeatDescrAsString () const
+string lpsrRepeatDescr::repeatDescrAsString ()
 {
   stringstream s;
 
@@ -80,9 +80,9 @@ string lpsrRepeatDescr::repeatDescrAsString () const
   return s.str ();
 }
 
-void lpsrRepeatDescr::print (ostream& os) const
+void lpsrRepeatDescr::print (ostream& os)
 {
-  const unsigned int fieldWidth = 29;
+  unsigned int fieldWidth = 29;
 
   os << left <<
     setw (fieldWidth) <<
@@ -99,7 +99,7 @@ void lpsrRepeatDescr::print (ostream& os) const
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_lpsrRepeatDescr& elt)
+ostream& operator<< (ostream& os, S_lpsrRepeatDescr& elt)
 {
   elt->print (os);
   return os;
@@ -529,7 +529,7 @@ string lpsr2lilypondTranslator::lilypondOctaveInRelativeEntryMode (
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotesOctaveEntry ()) {
-    const unsigned int fieldWidth = 28;
+    unsigned int fieldWidth = 28;
 
     gLogStream << left <<
       "lilypondOctaveInRelativeEntryMode() 1" <<
@@ -856,7 +856,7 @@ stringstream s;
       noteAbsoluteDisplayOctave =
         note->getNoteDisplayOctaveKind ();
 
-    const unsigned int fieldWidth = 39;
+    unsigned int fieldWidth = 39;
 
     gLogStream << left <<
       "notePitchAsLilypondString() 1" <<
@@ -1000,7 +1000,8 @@ string lpsr2lilypondTranslator::durationAsLilypondString (
   }
   else {
     generateExplicitDuration =
-      gGlobalLilypondGenerationOahGroup->getAllDurations ();
+      gGlobalLilypondGenerationOahGroup->
+        getAllDurations ();
   }
 
   if (generateExplicitDuration) {
@@ -1016,7 +1017,6 @@ string lpsr2lilypondTranslator::durationAsLilypondString (
 string lpsr2lilypondTranslator::msrDurationKindAsLilypondString (
   msrDurationKind durationKind)
 {
-
   string result;
 
   switch (durationKind) {
@@ -1126,7 +1126,7 @@ string lpsr2lilypondTranslator::pitchedRestAsLilypondString (
       noteAbsoluteOctave =
         note->getNoteOctaveKind ();
 
-    const unsigned int fieldWidth = 28;
+    unsigned int fieldWidth = 28;
 
     gLogStream << left <<
       "pitchedRestAsLilypondString()" <<
@@ -1205,7 +1205,7 @@ void lpsr2lilypondTranslator::generateNoteHeadColor (
   // has the note alpha RGB color been set?
  if (note->getNoteAlphaRGBColorHasBenSet ()) {
     // get note alpha RGB color
-    msrAlphaRGBColor
+    const msrAlphaRGBColor&
       noteAlphaRGBColor =
         note->getNoteAlphaRGBColor ();
 
@@ -1251,7 +1251,7 @@ void lpsr2lilypondTranslator::generateNoteHeadColor (
 void lpsr2lilypondTranslator::generateNoteLigatures (
   S_msrNote note)
 {
-  list<S_msrLigature>
+  const list<S_msrLigature>&
     noteLigatures =
       note->getNoteLigatures ();
 
@@ -1313,7 +1313,7 @@ void lpsr2lilypondTranslator::generateNoteLigatures (
 #endif
 
             // compute ligature start edge height
-            const float edgeHeightAbsValue = 0.75;
+            float edgeHeightAbsValue = 0.75;
 
             float       ligatureStartEdgeHeight = 0.0;
 
@@ -1613,7 +1613,8 @@ void lpsr2lilypondTranslator::generateSegno (S_msrSegno segno)
     endl;
 }
 
-void lpsr2lilypondTranslator::generateCodeRightBeforeNote (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeRightBeforeNote (
+  S_msrNote note)
 {
   if (! fOnGoingChord) {
     // generate the note codas if any
@@ -1654,7 +1655,7 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeNote (S_msrNote note)
   generateNoteHeadColor (note);
 
   // generate the note ligatures if any
-  list<S_msrLigature>
+  const list<S_msrLigature>&
     noteLigatures =
       note->getNoteLigatures ();
 
@@ -1866,7 +1867,8 @@ void lpsr2lilypondTranslator::generateCodeForNoteRegularInMeasure (
   } // switch
 }
 
-void lpsr2lilypondTranslator::generateCodeForNoteRestInMeasure (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeForNoteRestInMeasure (
+  S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -1899,7 +1901,7 @@ void lpsr2lilypondTranslator::generateCodeForNoteRestInMeasure (S_msrNote note)
     // this note is the new relative octave reference
     // (the display quarter tone pitch and octave
     // have been copied to the note octave
-    // in the msrNote::msrNote () constructor,
+    // in the msrNote::msrNote ()ructor,
     // since the note octave is used in relative code generation)
     switch (gGlobalLilypondGenerationOahGroup->getOctaveEntryKind ()) {
       case msrOctaveEntryKind::kOctaveEntryRelative:
@@ -1995,7 +1997,8 @@ void lpsr2lilypondTranslator::generateCodeForNoteRestInMeasure (S_msrNote note)
   }
 }
 
-void lpsr2lilypondTranslator::generateCodeForNoteSkipInMeasure (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeForNoteSkipInMeasure (
+  S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -2036,7 +2039,8 @@ void lpsr2lilypondTranslator::generateCodeForNoteSkipInMeasure (S_msrNote note)
   // the preceding one is kept
 }
 
-void lpsr2lilypondTranslator::generateCodeForNoteUnpitchedInMeasure (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeForNoteUnpitchedInMeasure (
+  S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -2101,7 +2105,8 @@ void lpsr2lilypondTranslator::generateCodeForNoteUnpitchedInMeasure (S_msrNote n
   */
 }
 
-void lpsr2lilypondTranslator::generateCodeForNoteRegularInChord (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeForNoteRegularInChord (
+  S_msrNote note)
 {
 #ifdef TRACING_IS_ENABLED
   int inputLineNumber =
@@ -2173,7 +2178,8 @@ void lpsr2lilypondTranslator::generateCodeForNoteRegularInChord (S_msrNote note)
   } // switch
 }
 
-void lpsr2lilypondTranslator::generateCodeForNoteRegularInTuplet (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeForNoteRegularInTuplet (
+  S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -2236,7 +2242,8 @@ void lpsr2lilypondTranslator::generateCodeForNoteRegularInTuplet (S_msrNote note
   } // switch
 }
 
-void lpsr2lilypondTranslator::generateCodeForNoteRestInTuplet (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeForNoteRestInTuplet (
+  S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -2293,7 +2300,8 @@ void lpsr2lilypondTranslator::generateCodeForNoteRestInTuplet (S_msrNote note)
   // a rest is no relative octave reference,
 }
 
-void lpsr2lilypondTranslator::generateCodeForNoteUnpitchedInTuplet (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeForNoteUnpitchedInTuplet (
+  S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -2345,7 +2353,8 @@ void lpsr2lilypondTranslator::generateCodeForNoteUnpitchedInTuplet (S_msrNote no
   */
 }
 
-void lpsr2lilypondTranslator::generateCodeForNoteRegularInGraceNotesGroup (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeForNoteRegularInGraceNotesGroup (
+  S_msrNote note)
 {
 #ifdef TRACING_IS_ENABLED
   int inputLineNumber =
@@ -2408,7 +2417,8 @@ void lpsr2lilypondTranslator::generateCodeForNoteRegularInGraceNotesGroup (S_msr
   } // switch
 }
 
-void lpsr2lilypondTranslator::generateCodeForNoteSkipInGraceNotesGroup (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeForNoteSkipInGraceNotesGroup (
+  S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -2455,7 +2465,8 @@ void lpsr2lilypondTranslator::generateCodeForNoteSkipInGraceNotesGroup (S_msrNot
   // the preceding one is kept
 }
 
-void lpsr2lilypondTranslator::generateCodeForNoteInChordInGraceNotesGroup (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeForNoteInChordInGraceNotesGroup (
+  S_msrNote note)
 {
 #ifdef TRACING_IS_ENABLED
   int inputLineNumber =
@@ -2514,7 +2525,8 @@ void lpsr2lilypondTranslator::generateCodeForNoteInChordInGraceNotesGroup (S_msr
   } // switch
 }
 
-void lpsr2lilypondTranslator::generateCodeForNoteInTupletInGraceNotesGroup (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeForNoteInTupletInGraceNotesGroup (
+  S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -2585,7 +2597,8 @@ void lpsr2lilypondTranslator::generateCodeForNoteInTupletInGraceNotesGroup (S_ms
   } // switch
 }
 
-void lpsr2lilypondTranslator::generateCodeForNoteInDoubleTremolo (S_msrNote note)
+void lpsr2lilypondTranslator::generateCodeForNoteInDoubleTremolo (
+  S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -2649,6 +2662,149 @@ void lpsr2lilypondTranslator::generateCodeForNoteInDoubleTremolo (S_msrNote note
     case msrOctaveEntryKind::kOctaveEntryFixed:
       break;
   } // switch
+}
+
+void lpsr2lilypondTranslator::generateCodeForNoteWords (
+  const list<S_msrWords>& noteWords)
+{
+  if (noteWords.size ()) {
+    list<S_msrWords>::const_iterator i;
+    for (
+      i=noteWords.begin ();
+      i!=noteWords.end ();
+      ++i
+    ) {
+      msrPlacementKind
+        wordsPlacementKind =
+          (*i)->getWordsPlacementKind ();
+
+      string wordsContents =
+        (*i)->getWordsContents ();
+
+      msrFontStyleKind
+        wordsFontStyleKind =
+          (*i)->getWordsFontStyleKind ();
+
+      S_msrFontSize
+        wordsFontSize =
+          (*i)->getWordsFontSize ();
+
+      msrFontWeightKind
+        wordsFontWeightKind =
+          (*i)->getWordsFontWeightKind ();
+
+      string markup;
+
+      {
+        // create markup apart to have its length available
+        stringstream s;
+
+        switch (wordsPlacementKind) {
+          case msrPlacementKind::k_NoPlacement:
+            s << "^";
+            break;
+          case msrPlacementKind::kPlacementAbove:
+            s << "^";
+            break;
+          case msrPlacementKind::kPlacementBelow:
+            s << "_";
+            break;
+        } // switch
+
+        s <<
+          "\\markup" << " { ";
+
+        switch (wordsFontStyleKind) {
+          case msrFontStyleKind::kFontStyleNone:
+            break;
+          case msrFontStyleKind::kFontStyleNormal:
+            // LilyPond produces 'normal style' text by default
+            break;
+          case msrFontStyleKind::KFontStyleItalic:
+            s <<
+              "\\italic ";
+            break;
+        } // switch
+
+        switch (wordsFontWeightKind) {
+          case msrFontWeightKind::kFontWeightNone:
+            break;
+          case msrFontWeightKind::kFontWeightNormal:
+            // LilyPond produces 'normal weight' text by default
+            break;
+          case msrFontWeightKind::kFontWeightBold:
+            s <<
+              "\\bold ";
+            break;
+        } // switch
+
+        switch (wordsFontSize->getFontSizeKind ()) {
+          case msrFontSizeKind::kFontSizeNone:
+            break;
+          case msrFontSizeKind::kFontSizeXXSmall:
+            s <<
+              "\\tiny ";
+            break;
+          case msrFontSizeKind::kFontSizeXSmall:
+            s <<
+              "\\smaller ";
+            break;
+          case msrFontSizeKind::kFontSizeSmall:
+            s <<
+              "\\small ";
+            break;
+          case msrFontSizeKind::kFontSizeMedium:
+            s <<
+              "\\normalsize ";
+            break;
+          case msrFontSizeKind::kFontSizeLarge:
+            s <<
+              "\\large ";
+            break;
+          case msrFontSizeKind::kFontSizeXLarge:
+            s <<
+              "\\larger ";
+            break;
+          case msrFontSizeKind::kFontSizeXXLarge:
+            s <<
+              "\\huge ";
+            break;
+          case msrFontSizeKind::kFontSizeNumeric:
+          /* JMI
+            s <<
+              "%{ " <<
+              wordsFontSize->getFontNumericSize () <<
+              " points %} ";
+              */
+            break;
+        } // switch
+
+        // does wordsContents contains end of lines?
+        size_t endOfLineFound = wordsContents.find ("\n");
+
+        if (endOfLineFound == string::npos) {
+          s <<
+   // JMI         doubleQuoteStringIfNonAlpha (wordsContents) <<
+            "\"" << wordsContents << "\"";
+          }
+        else {
+          s <<
+            gIndenter.indentMultiLineString (
+              generateAColumnForMarkup (
+                wordsContents,
+                markupColumnKindLeftAligned));
+        }
+
+        s <<
+          " } ";
+
+        markup = s.str ();
+      }
+
+      fLilypondCodeStream <<
+        markup;
+    } // for
+  }
 }
 
 void lpsr2lilypondTranslator::generateCodeRightAfterNote (
@@ -4125,7 +4281,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
   } // switch
 
   // generate harmony degrees if any
-  list<S_msrHarmonyDegree>
+  const list<S_msrHarmonyDegree>&
     harmonyDegreesList =
       harmony->getHarmonyDegreesList ();
 
@@ -4417,8 +4573,8 @@ string lpsr2lilypondTranslator::figuredBassAsLilypondString (
 
 //________________________________________________________________________
 bool compareFrameNotesByDecreasingStringNumber (
-  const S_msrFrameNote& first,
-  const S_msrFrameNote& second)
+  S_msrFrameNote& first,
+  S_msrFrameNote& second)
 {
   return
     first->getFrameNoteStringNumber ()
@@ -4436,7 +4592,7 @@ string lpsr2lilypondTranslator::frameAsLilypondString (
 
   stringstream s;
 
-  list<S_msrFrameNote>
+  list<S_msrFrameNote> // not const&, it will be sorted below
     frameFrameNotesList =
       frame->getFrameFrameNotesList ();
 
@@ -5848,7 +6004,7 @@ void lpsr2lilypondTranslator::generatePaper (
       paper->getPageLayout ();
 
   // default length unit
-  const msrLengthUnitKind
+  msrLengthUnitKind
     defaultLengthUnit = msrLengthUnitKind::kUnitMillimeter; // JMI
 
   fLilypondCodeStream <<
@@ -7361,7 +7517,6 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPartBlock& elt)
 
     ++gIndenter;
 
-/* JMI
     if (partName.size ()) {
       fLilypondCodeStream <<
         "instrumentName = \"" <<
@@ -7375,7 +7530,6 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPartBlock& elt)
        nameAsLilypondString (partAbbreviation) <<
         endl;
     }
-*/
 
     if (gGlobalLilypondGenerationOahGroup->getConnectArpeggios ()) {
       fLilypondCodeStream <<
@@ -8894,7 +9048,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrStaffTuning& elt)
 #endif
 
 /* JMI
-  list<S_msrStaffTuning>
+  const list<S_msrStaffTuning>&
     staffTuningsList =
       staff->getStaffTuningsList ();
 
@@ -9976,7 +10130,7 @@ else
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
-          const unsigned int fieldWidth = 27;
+          unsigned int fieldWidth = 27;
 
           fLilypondCodeStream << left <<
             "% Setting the current measure whole notes for measure " <<
@@ -13324,7 +13478,8 @@ void lpsr2lilypondTranslator::visitEnd (S_msrWedge& elt)
 }
 
 //________________________________________________________________________
-void lpsr2lilypondTranslator::generateNoteBeams (S_msrNote note)
+void lpsr2lilypondTranslator::generateNoteBeams (
+  S_msrNote note)
 {
   const list<S_msrBeam>&
     noteBeams =
@@ -13409,7 +13564,8 @@ void lpsr2lilypondTranslator::generateNoteBeams (S_msrNote note)
 }
 
 //________________________________________________________________________
-void lpsr2lilypondTranslator::generateNoteSlurDirection (S_msrNote note)
+void lpsr2lilypondTranslator::generateNoteSlurDirection (
+  S_msrNote note)
 {
   const list<S_msrSlur>&
     noteSlurs =
@@ -13451,7 +13607,8 @@ void lpsr2lilypondTranslator::generateNoteSlurDirection (S_msrNote note)
 }
 
 //________________________________________________________________________
-void lpsr2lilypondTranslator::generateNoteSlurs (S_msrNote note)
+void lpsr2lilypondTranslator::generateNoteSlurs (
+  S_msrNote note)
 {
   const list<S_msrSlur>&
     noteSlurs =
@@ -13488,10 +13645,10 @@ void lpsr2lilypondTranslator::generateNoteSlurs (S_msrNote note)
           break;
 
         case msrSlurTypeKind::kSlurTypeRegularStart:
- #ifdef TRACING_IS_ENABLED
+#ifdef TRACING_IS_ENABLED
           if (gGlobalTraceOahGroup->getTraceSlurs ()) {
             gLogStream <<
-              "Generating LilyPond code for slur " <<
+              "Generating LilyPond code for slur regular start " <<
               slur->asShortString () <<
               " in note " <<
               note->asShortString () <<
@@ -13509,6 +13666,17 @@ void lpsr2lilypondTranslator::generateNoteSlurs (S_msrNote note)
           break;
 
         case msrSlurTypeKind::kSlurTypePhrasingStart:
+#ifdef TRACING_IS_ENABLED
+          if (gGlobalTraceOahGroup->getTraceSlurs ()) {
+            gLogStream <<
+              "Generating LilyPond code for slur phrasing start " <<
+              slur->asShortString () <<
+              " in note " <<
+              note->asShortString () <<
+              endl;
+          }
+#endif
+
           fLilypondCodeStream << "\\( ";
 
           if (gGlobalLilypondGenerationOahGroup->getInputLineNumbers ()) {
@@ -13519,9 +13687,21 @@ void lpsr2lilypondTranslator::generateNoteSlurs (S_msrNote note)
           break;
 
         case msrSlurTypeKind::kSlurTypeContinue:
+          // nothing to do
           break;
 
         case msrSlurTypeKind::kSlurTypeRegularStop:
+#ifdef TRACING_IS_ENABLED
+          if (gGlobalTraceOahGroup->getTraceSlurs ()) {
+            gLogStream <<
+              "Generating LilyPond code for slur regular stop " <<
+              slur->asShortString () <<
+              " in note " <<
+              note->asShortString () <<
+              endl;
+          }
+#endif
+
           fLilypondCodeStream << ") ";
 
           if (gGlobalLilypondGenerationOahGroup->getInputLineNumbers ()) {
@@ -13541,6 +13721,17 @@ void lpsr2lilypondTranslator::generateNoteSlurs (S_msrNote note)
           break;
 
         case msrSlurTypeKind::kSlurTypePhrasingStop:
+#ifdef TRACING_IS_ENABLED
+          if (gGlobalTraceOahGroup->getTraceSlurs ()) {
+            gLogStream <<
+              "Generating LilyPond code for slur phrasing stop " <<
+              slur->asShortString () <<
+              " in note " <<
+              note->asShortString () <<
+              endl;
+          }
+#endif
+
           fLilypondCodeStream << "\\) ";
 
           if (gGlobalLilypondGenerationOahGroup->getInputLineNumbers ()) {
@@ -13575,7 +13766,7 @@ void lpsr2lilypondTranslator::generateGraceNotesGroup (
   }
 #endif
 
-  bool doGenerateASlurIfPresent = true;
+  bool doGenerateASlurIfPresent = false;
 
   switch (graceNotesGroup->getGraceNotesGroupKind ()) {
     case msrGraceNotesGroup::kGraceNotesGroupBefore:
@@ -13583,11 +13774,11 @@ void lpsr2lilypondTranslator::generateGraceNotesGroup (
         if (graceNotesGroup->getGraceNotesGroupIsTied ()) {
           fLilypondCodeStream <<
             "\\acciaccatura";
-          doGenerateASlurIfPresent = false;
         }
         else {
           fLilypondCodeStream <<
             "\\slashedGrace";
+          doGenerateASlurIfPresent = true;
         }
       }
 
@@ -13595,11 +13786,11 @@ void lpsr2lilypondTranslator::generateGraceNotesGroup (
         if (graceNotesGroup->getGraceNotesGroupIsTied ()) {
           fLilypondCodeStream <<
             "\\appoggiatura";
-          doGenerateASlurIfPresent = false;
         }
         else {
           fLilypondCodeStream <<
             "\\grace";
+          doGenerateASlurIfPresent = true;
         }
       }
       break;
@@ -13648,14 +13839,14 @@ void lpsr2lilypondTranslator::generateGraceNotesGroup (
       if (
         // note?
         S_msrNote
-          note =
+          graceNotesGroupNote =
             dynamic_cast<msrNote*>(&(*element))
         ) {
           // generate things before the note
-          generateCodeRightBeforeNote (note);
+          generateCodeRightBeforeNote (graceNotesGroupNote);
 
-          // generate the note itself
-          generateCodeForNote (note);
+          // generate the graceNotesGroupNote itself
+          generateCodeForNote (graceNotesGroupNote);
 
           // generate the input line number as comment if relevant
           if ( // JMI
@@ -13664,16 +13855,16 @@ void lpsr2lilypondTranslator::generateGraceNotesGroup (
             gGlobalLilypondGenerationOahGroup->getGeneratePositionsInMeasures ()
           ) {
             generateInputLineNumberAndOrPositionInMeasureAsAComment (
-              note);
+              graceNotesGroupNote);
           }
 
-          // generate things after the note
-          generateCodeRightAfterNote (note);
+          // generate things after the graceNotesGroupNote
+          generateCodeRightAfterNote (graceNotesGroupNote);
 
-          // generate the note beams if any,
-          // unless the note is chord member
-          if (! note->getNoteBelongsToAChord ()) {
-            generateNoteBeams (note);
+          // generate the graceNotesGroupNote beams if any,
+          // unless the graceNotesGroupNote is chord member
+          if (! graceNotesGroupNote->getNoteBelongsToAChord ()) {
+            generateNoteBeams (graceNotesGroupNote);
           }
 
           if (graceNotesGroup->getGraceNotesGroupIsBeamed ()) {
@@ -13685,15 +13876,18 @@ void lpsr2lilypondTranslator::generateGraceNotesGroup (
             }
           }
 
-          // generate the note slurs if any,
-          // unless the note is chord member
+          // generate the graceNotesGroupNote slurs if any,
+          // unless the graceNotesGroupNote is chord member
           // or LilyPond will take care of that
+
+          // see gracenotes/SlurredNoteWithGraceNotes.xml for
+          // extraneous '( ' JMI
           if (
-            ! note->getNoteBelongsToAChord ()
+            ! graceNotesGroupNote->getNoteBelongsToAChord ()
               &&
             doGenerateASlurIfPresent
           ) {
-            generateNoteSlurs (note);
+            generateNoteSlurs (graceNotesGroupNote);
           }
         }
 
@@ -14535,7 +14729,8 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
   }
 }
 
-void lpsr2lilypondTranslator::generateNoteScordaturas (S_msrNote note)
+void lpsr2lilypondTranslator::generateNoteScordaturas (
+  S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -14632,7 +14827,8 @@ void lpsr2lilypondTranslator::generateNoteScordaturas (S_msrNote note)
   }
 }
 
-void lpsr2lilypondTranslator::generateNoteSlashes (S_msrNote note)
+void lpsr2lilypondTranslator::generateNoteSlashes (
+  S_msrNote note)
 {
   const list<S_msrSlash>&
     noteSlashes =
@@ -14707,7 +14903,8 @@ void lpsr2lilypondTranslator::generateNoteSlashes (S_msrNote note)
   }
 }
 
-void lpsr2lilypondTranslator::generateNoteWedges (S_msrNote note)
+void lpsr2lilypondTranslator::generateNoteWedges (
+  S_msrNote note)
 {
   const list<S_msrWedge>&
     noteWedges =
@@ -14759,7 +14956,8 @@ void lpsr2lilypondTranslator::generateNoteWedges (S_msrNote note)
   }
 }
 
-void lpsr2lilypondTranslator::generateNoteSlurLineTypes (S_msrNote note)
+void lpsr2lilypondTranslator::generateNoteSlurLineTypes (
+  S_msrNote note)
 {
   const list<S_msrSlur>&
     noteSlurs =
@@ -14810,7 +15008,8 @@ void lpsr2lilypondTranslator::generateNoteSlurLineTypes (S_msrNote note)
   }
 }
 
-void lpsr2lilypondTranslator::generateNoteGlissandoStyles (S_msrNote note)
+void lpsr2lilypondTranslator::generateNoteGlissandoStyles (
+  S_msrNote note)
 {
   const list<S_msrGlissando>&
     noteGlissandos =
@@ -14862,7 +15061,8 @@ void lpsr2lilypondTranslator::generateNoteGlissandoStyles (S_msrNote note)
   }
 }
 
-void lpsr2lilypondTranslator::generateNoteGlissandosWithText (S_msrNote note)
+void lpsr2lilypondTranslator::generateNoteGlissandosWithText (
+  S_msrNote note)
 {
   const list<S_msrGlissando>&
     noteGlissandos =
@@ -14908,7 +15108,8 @@ void lpsr2lilypondTranslator::generateNoteGlissandosWithText (S_msrNote note)
   }
 }
 
-void lpsr2lilypondTranslator::generateNoteSlideLineStyles (S_msrNote note)
+void lpsr2lilypondTranslator::generateNoteSlideLineStyles (
+  S_msrNote note)
 {
   const list<S_msrSlide>&
     noteSlides =
@@ -14961,7 +15162,8 @@ void lpsr2lilypondTranslator::generateNoteSlideLineStyles (S_msrNote note)
   }
 }
 
-void lpsr2lilypondTranslator::generateNoteSlidesWithText (S_msrNote note)
+void lpsr2lilypondTranslator::generateNoteSlidesWithText (
+  S_msrNote note)
 {
   const list<S_msrSlide>&
     noteSlides =
@@ -15007,7 +15209,8 @@ void lpsr2lilypondTranslator::generateNoteSlidesWithText (S_msrNote note)
   }
 }
 
-void lpsr2lilypondTranslator::generateNoteTechnicalsWithStrings (S_msrNote note)
+void lpsr2lilypondTranslator::generateNoteTechnicalsWithStrings (
+  S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -15240,142 +15443,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
         elt->getNoteWords ();
 
     if (noteWords.size ()) {
-      list<S_msrWords>::const_iterator i;
-      for (
-        i=noteWords.begin ();
-        i!=noteWords.end ();
-        ++i
-      ) {
-        msrPlacementKind
-          wordsPlacementKind =
-            (*i)->getWordsPlacementKind ();
-
-        string wordsContents =
-          (*i)->getWordsContents ();
-
-        msrFontStyleKind
-          wordsFontStyleKind =
-            (*i)->getWordsFontStyleKind ();
-
-        S_msrFontSize
-          wordsFontSize =
-            (*i)->getWordsFontSize ();
-
-        msrFontWeightKind
-          wordsFontWeightKind =
-            (*i)->getWordsFontWeightKind ();
-
-        string markup;
-
-        {
-          // create markup apart to have its length available
-          stringstream s;
-
-          switch (wordsPlacementKind) {
-            case msrPlacementKind::k_NoPlacement:
-              s << "^";
-              break;
-            case msrPlacementKind::kPlacementAbove:
-              s << "^";
-              break;
-            case msrPlacementKind::kPlacementBelow:
-              s << "_";
-              break;
-          } // switch
-
-          s <<
-            "\\markup" << " { ";
-
-          switch (wordsFontStyleKind) {
-            case msrFontStyleKind::kFontStyleNone:
-              break;
-            case msrFontStyleKind::kFontStyleNormal:
-              // LilyPond produces 'normal style' text by default
-              break;
-            case msrFontStyleKind::KFontStyleItalic:
-              s <<
-                "\\italic ";
-              break;
-          } // switch
-
-          switch (wordsFontWeightKind) {
-            case msrFontWeightKind::kFontWeightNone:
-              break;
-            case msrFontWeightKind::kFontWeightNormal:
-              // LilyPond produces 'normal weight' text by default
-              break;
-            case msrFontWeightKind::kFontWeightBold:
-              s <<
-                "\\bold ";
-              break;
-          } // switch
-
-          switch (wordsFontSize->getFontSizeKind ()) {
-            case msrFontSizeKind::kFontSizeNone:
-              break;
-            case msrFontSizeKind::kFontSizeXXSmall:
-              s <<
-                "\\tiny ";
-              break;
-            case msrFontSizeKind::kFontSizeXSmall:
-              s <<
-                "\\smaller ";
-              break;
-            case msrFontSizeKind::kFontSizeSmall:
-              s <<
-                "\\small ";
-              break;
-            case msrFontSizeKind::kFontSizeMedium:
-              s <<
-                "\\normalsize ";
-              break;
-            case msrFontSizeKind::kFontSizeLarge:
-              s <<
-                "\\large ";
-              break;
-            case msrFontSizeKind::kFontSizeXLarge:
-              s <<
-                "\\larger ";
-              break;
-            case msrFontSizeKind::kFontSizeXXLarge:
-              s <<
-                "\\huge ";
-              break;
-            case msrFontSizeKind::kFontSizeNumeric:
-            /* JMI
-              s <<
-                "%{ " <<
-                wordsFontSize->getFontNumericSize () <<
-                " points %} ";
-                */
-              break;
-          } // switch
-
-          // does wordsContents contains end of lines?
-          size_t endOfLineFound = wordsContents.find ("\n");
-
-          if (endOfLineFound == string::npos) {
-            s <<
-     // JMI         doubleQuoteStringIfNonAlpha (wordsContents) <<
-              "\"" << wordsContents << "\"";
-            }
-          else {
-            s <<
-              gIndenter.indentMultiLineString (
-                generateAColumnForMarkup (
-                  wordsContents,
-                  markupColumnKindLeftAligned));
-          }
-
-          s <<
-            " } ";
-
-          markup = s.str ();
-        }
-
-        fLilypondCodeStream <<
-          markup;
-      } // for
+      generateCodeForNoteWords (noteWords);
     }
   }
 
@@ -15606,7 +15674,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   // generate the note ornaments if any
-  list<S_msrOrnament>
+  const list<S_msrOrnament>&
     noteOrnaments =
       elt->getNoteOrnaments ();
 
@@ -16406,7 +16474,7 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeChordContents (
   }
 
   // get the chord ligatures
-  list<S_msrLigature>
+  const list<S_msrLigature>&
     chordLigatures =
       chord->getChordLigatures ();
 
@@ -16437,7 +16505,7 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeChordContents (
   // don't take the chord into account for line breaking ??? JMI
 
   // get the chord articulations
-  list<S_msrArticulation>
+  const list<S_msrArticulation>&
     chordArticulations =
       chord->getChordArticulations ();
 
@@ -16724,7 +16792,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     ' ';
 
   // get the chord articulations
-  list<S_msrArticulation>
+  const list<S_msrArticulation>&
     chordArticulations =
       chord->getChordArticulations ();
 
@@ -16744,7 +16812,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
   }
 
   // generate the chord technicals if any
-  list<S_msrTechnical>
+  const list<S_msrTechnical>&
     chordTechnicals =
       chord->getChordTechnicals ();
 
@@ -16762,7 +16830,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
   }
 
   // generate the chord technicals with integer if any
-  list<S_msrTechnicalWithInteger>
+  const list<S_msrTechnicalWithInteger>&
     chordTechnicalWithIntegers =
       chord->getChordTechnicalWithIntegers ();
 
@@ -16780,7 +16848,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
   }
 
   // generate the chord technicals with float if any
-  list<S_msrTechnicalWithFloat>
+  const list<S_msrTechnicalWithFloat>&
     chordTechnicalWithFloats =
       chord->getChordTechnicalWithFloats ();
 
@@ -16798,7 +16866,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
   }
 
   // generate the chord technicals with string if any
-  list<S_msrTechnicalWithString>
+  const list<S_msrTechnicalWithString>&
     chordTechnicalWithStrings =
       chord->getChordTechnicalWithStrings ();
 
@@ -16816,7 +16884,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
   }
 
   // generate the chord ornaments if any
-  list<S_msrOrnament>
+  const list<S_msrOrnament>&
     chordOrnaments =
       chord->getChordOrnaments ();
 
@@ -16847,7 +16915,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
   }
 
   // generate the chord dynamics if any
-  list<S_msrDynamics>
+  const list<S_msrDynamics>&
     chordDynamics =
       chord->getChordDynamics ();
 
@@ -16879,7 +16947,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
   }
 
   // generate the chord other dynamics if any
-  list<S_msrOtherDynamics>
+  const list<S_msrOtherDynamics>&
     chordOtherDynamics =
       chord->getChordOtherDynamics ();
 
@@ -16913,7 +16981,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
   }
 
   // generate the chord words if any
-  list<S_msrWords>
+  const list<S_msrWords>&
     chordWords =
       chord->getChordWords ();
 
@@ -16952,7 +17020,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
   }
 
   // generate the chord beams links if any
-  list<S_msrChordBeamLink>
+  const list<S_msrChordBeamLink>&
     chordBeamLinks =
       chord->getChordBeamLinks ();
 
@@ -16997,7 +17065,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
   }
 
   // generate the chord slur links if any
-  list<S_msrChordSlurLink>
+  const list<S_msrChordSlurLink>&
     chordSlurLinks =
       chord->getChordSlurLinks ();
 
@@ -17036,7 +17104,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
 /* Don't print the chord ties, rely only on its notes's ties // JMI
   // thus using LilyPond's partially tied chords // JMI
   // generate the chord ties if any
-  list<S_msrTie>
+  const list<S_msrTie>&
     chordTies =
       chord->getChordTies ();
 
@@ -17070,7 +17138,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
 */
 
   // get the chord ligatures
-  list<S_msrLigature>
+  const list<S_msrLigature>&
     chordLigatures =
       chord->getChordLigatures ();
 
@@ -17098,7 +17166,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
   }
 
   // generate the chord wedges if any
-  list<S_msrWedge>
+  const list<S_msrWedge>&
     chordWedges =
       chord->getChordWedges ();
 
@@ -18875,7 +18943,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
       "% measures repeat, line " << elt->getInputLineNumber () << ":" <<
       endl;
 
-    const unsigned int fieldWidth = 24;
+    unsigned int fieldWidth = 24;
 
     fLilypondCodeStream << left <<
       setw (fieldWidth) <<

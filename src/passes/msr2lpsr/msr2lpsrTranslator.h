@@ -560,6 +560,11 @@ class EXP msr2lpsrTranslator :
     bool                      fOnGoingIdentification;
     S_msrIdentification       fCurrentIdentification;
 
+    string                    fScoreTitle;
+    string                    fScoreSubTitle;
+    string                    fScoreSubSubTitle;
+
+    void                      computeHeaderFields ();
 
     // header
     // ------------------------------------------------------

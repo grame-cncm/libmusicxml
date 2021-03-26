@@ -995,7 +995,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (
           barline =
             dynamic_cast<msrBarline*>(&(*lastMeasureElement))
     ) {
-      if (barline->barLineIsAFinalBar ()) {
+      if (true || barline->barLineIsAFinalBar ()) { // JMI
 #ifdef TRACING_IS_ENABLED
         if (
           gGlobalTraceOahGroup->getTraceMeasures ()
@@ -1386,10 +1386,6 @@ if (false) // JMI
   }
 #endif
 
-  if (newMeasureWholeNotesDuration == rational (2, 1)) { // JMI
-    abort ();
-  }
-
   // set new measure whole notes duration
   fCurrentMeasureWholeNotesDuration =
     newMeasureWholeNotesDuration;
@@ -1449,7 +1445,7 @@ void msrMeasure::setMeasureKind (
 
     case msrMeasureKind::kMeasureKindOvercomplete:
 #ifdef TRACING_IS_ENABLED
-      if (true || gGlobalTraceOahGroup->getTraceMeasures ()) {
+      if (gGlobalTraceOahGroup->getTraceMeasures ()) {
         gLogStream <<
           "!!! Setting measure kind of measure " <<
           this->asShortString ()<<
@@ -1484,9 +1480,9 @@ void msrMeasure::setMeasureKind (
 
     case msrMeasureKind::kMeasureKindMusicallyEmpty:
 #ifdef TRACING_IS_ENABLED
-      if (true || gGlobalTraceOahGroup->getTraceMeasures ()) {
+      if (gGlobalTraceOahGroup->getTraceMeasures ()) {
         gLogStream <<
-          "!!! Setting measure kind of measure " <<
+          "??? Setting measure kind of measure " <<
           this->asShortString ()<<
           " to '" <<
           msrMeasureKindAsString (measureKind) <<
@@ -1509,7 +1505,7 @@ void msrMeasure::setMeasureKind (
         gLogStream << endl;
         --gIndenter;
 
-        abort (); // JMI
+//        abort (); // JMI
       }
 #endif
 
@@ -2165,11 +2161,6 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
       note->
         getNoteSoundingWholeNotes ();
 
-  string
-    soundingWholeNotesAsMsrString =
-      note->
-        noteSoundingWholeNotesAsMsrString ();
-
   S_msrVoice
     voice =
       fMeasureSegmentUpLink->
@@ -2337,11 +2328,11 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
   // append the note at the end of the measure
   appendElementAtTheEndOfMeasure (note);
 
-  // fetch note sounding whole notes as string
-  string
-    soundingWholeNotesAsMsrString =
-      note->
-        noteSoundingWholeNotesAsMsrString ();
+  // account for note duration in measure whole notes
+if (false) // JMI kMeasureKindMusicallyEmpty issue, see basic/EmptyMeasureInAVoice.xml
+  incrementCurrentMeasureWholeNotesDuration (
+    inputLineNumber,
+    note->getNoteSoundingWholeNotes ());
 
   // register note as the last one in this measure
   fMeasureLastHandledNote = note;
@@ -6049,39 +6040,21 @@ void msrMeasure::finalizeMeasureClone (
         displayMeasure (
           inputLineNumber,
           "finalizeMeasureClone() 3 - originalMeasure");
-    }
-#endif
 
-    stringstream s;
-
-    s <<
-      "*********>> measure clone '" <<
-      fMeasureElementMeasureNumber <<
-      "': measure kind '" <<
-      msrMeasureKindAsString (
-        fMeasureKind) <<
-      "' differs from original measure measure kind '" <<
-      msrMeasureKindAsString (
-        originalMeasureMeasureKind) <<
-      "' in voice \"" <<
-      voiceClone->getVoiceName () <<
-      "', line " << inputLineNumber;
-
- //   msrInternalError ( // JMI
-    msrInternalWarning (
-      gGlobalOahOahGroup->getInputSourceName (),
-      inputLineNumber,
- //      __FILE__, __LINE__,
-      s.str ());
-
-    if (fFullMeasureWholeNotesDuration.getNumerator () == 0) { // JMI
       stringstream s;
 
       s <<
         "*********>> measure clone '" <<
         fMeasureElementMeasureNumber <<
-        "' full measure whole notes is 0" <<
-        ", line " << inputLineNumber;
+        "': measure kind '" <<
+        msrMeasureKindAsString (
+          fMeasureKind) <<
+        "' differs from original measure measure kind '" <<
+        msrMeasureKindAsString (
+          originalMeasureMeasureKind) <<
+        "' in voice \"" <<
+        voiceClone->getVoiceName () <<
+        "', line " << inputLineNumber;
 
    //   msrInternalError ( // JMI
       msrInternalWarning (
@@ -6089,7 +6062,25 @@ void msrMeasure::finalizeMeasureClone (
         inputLineNumber,
    //      __FILE__, __LINE__,
         s.str ());
+
+      if (fFullMeasureWholeNotesDuration.getNumerator () == 0) { // JMI
+        stringstream s;
+
+        s <<
+          "*********>> measure clone '" <<
+          fMeasureElementMeasureNumber <<
+          "' full measure whole notes is 0" <<
+          ", line " << inputLineNumber;
+
+     //   msrInternalError ( // JMI
+        msrInternalWarning (
+          gGlobalOahOahGroup->getInputSourceName (),
+          inputLineNumber,
+     //      __FILE__, __LINE__,
+          s.str ());
+      }
     }
+#endif
   }
 
   // register finalization

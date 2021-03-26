@@ -3023,10 +3023,11 @@ void msrStaff::print (ostream& os) const
   // print the staff all voices map
   os << left <<
     setw (fieldWidth) <<
-    "staffVoiceNumbersToAllVoicesMap" << " : " <<
-    endl;
+    "staffVoiceNumbersToAllVoicesMap" << " : ";
 
   if (fStaffVoiceNumbersToAllVoicesMap.size ()) {
+    os << endl;
+
     ++gIndenter;
 
     map<int, S_msrVoice>::const_iterator
@@ -3075,10 +3076,11 @@ void msrStaff::print (ostream& os) const
   // print the staff regular voices map
   os << left <<
     setw (fieldWidth) <<
-    "staffVoiceNumbersToRegularVoicesMap" << " : " <<
-    endl;
+    "staffVoiceNumbersToRegularVoicesMap" << " : ";
 
   if (fStaffVoiceNumbersToRegularVoicesMap.size ()) {
+    os << endl;
+
     ++gIndenter;
 
     map<int, S_msrVoice>::const_iterator
@@ -3130,10 +3132,11 @@ void msrStaff::print (ostream& os) const
   // print the regular voices list
   os << left <<
     setw (fieldWidth) <<
-    "staffRegularVoicesList" << " : " <<
-    endl;
+    "staffRegularVoicesList" << " : ";
 
   if (fStaffRegularVoicesList.size ()) {
+    os << endl;
+
     ++gIndenter;
 
     list<S_msrVoice>::const_iterator

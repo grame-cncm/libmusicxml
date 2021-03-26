@@ -40,7 +40,7 @@ struct lpsrRepeatDescr : public smartable
 
   protected:
 
-    // constructors/destructor
+    //ructors/destructor
     // ------------------------------------------------------
 
                           lpsrRepeatDescr (
@@ -54,22 +54,22 @@ struct lpsrRepeatDescr : public smartable
     // set and get
     // ------------------------------------------------------
 
-    S_msrRepeat           getRepeat () const
+    S_msrRepeat           getRepeat ()
                               { return fRepeat; }
 
-    int                   getRepeatEndingsNumber () const
+    int                   getRepeatEndingsNumber ()
                               { return fRepeatEndingsNumber; }
 
     void                  incrementRepeatEndingsCounter ()
                               { ++fRepeatEndingsCounter; }
 
-    int                   getRepeatEndingsCounter () const
+    int                   getRepeatEndingsCounter ()
                               { return fRepeatEndingsCounter; }
 
     void                  setEndOfRepeatHasBeenGenerated ()
                               { fEndOfRepeatHasBeenGenerated = true; }
 
-    bool                  getEndOfRepeatHasBeenGenerated () const
+    bool                  getEndOfRepeatHasBeenGenerated ()
                               { return fEndOfRepeatHasBeenGenerated; }
 
   public:
@@ -77,12 +77,12 @@ struct lpsrRepeatDescr : public smartable
     // public services
     // ------------------------------------------------------
 
-    string                repeatDescrAsString () const;
+    string                repeatDescrAsString ();
 
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os);
 
   private:
 
@@ -97,7 +97,7 @@ struct lpsrRepeatDescr : public smartable
     bool                  fEndOfRepeatHasBeenGenerated;
 };
 typedef SMARTP<lpsrRepeatDescr> S_lpsrRepeatDescr;
-EXP ostream& operator<< (ostream& os, const S_lpsrRepeatDescr& elt);
+EXP ostream& operator<< (ostream& os, S_lpsrRepeatDescr& elt);
 
 //________________________________________________________________________
 class EXP lpsr2lilypondTranslator :
@@ -737,7 +737,9 @@ class EXP lpsr2lilypondTranslator :
     virtual void visitStart (S_msrMidiTempo& elt);
     virtual void visitEnd   (S_msrMidiTempo& elt);
 
-    // own functions
+  private:
+
+    // private fields and methods
     // ------------------------------------------------------
 
     // names
@@ -803,64 +805,100 @@ class EXP lpsr2lilypondTranslator :
     string                lilypondOctaveInFixedEntryMode (
                             S_msrNote note);
 
-    string                notePitchAsLilypondString (S_msrNote note);
+    string                notePitchAsLilypondString (
+                            S_msrNote note);
 
-    string                pitchedRestAsLilypondString (S_msrNote note);
+    string                pitchedRestAsLilypondString (
+                            S_msrNote note);
 
-    void                  generateNoteBeams (S_msrNote note);
+    void                  generateNoteBeams (
+                            S_msrNote note);
 
-    void                  generateNoteSlurDirection (S_msrNote note);
-    void                  generateNoteSlurs (S_msrNote note);
+    void                  generateNoteSlurDirection (
+                            S_msrNote note);
+    void                  generateNoteSlurs (
+                            S_msrNote note);
 
-    void                  generateNoteHeadColor (S_msrNote note);
-    void                  generateNoteLigatures (S_msrNote note);
-    void                  generateNoteHead (S_msrNote note);
+    void                  generateNoteHeadColor (
+                            S_msrNote note);
+    void                  generateNoteLigatures (
+                            S_msrNote note);
+    void                  generateNoteHead (
+                            S_msrNote note);
 
     void                  generateSegno (S_msrSegno segno);
     void                  generateCoda (S_msrCoda coda);
 
-    void                  generateCodeRightBeforeNote (S_msrNote note);
+    void                  generateCodeRightBeforeNote (
+                            S_msrNote note);
 
-    void                  generateCodeForNote (S_msrNote note);
+    void                  generateCodeForNote (
+                            S_msrNote note);
 
-    void                  generateCodeForNoteRegularInMeasure (S_msrNote note);
+    void                  generateCodeForNoteRegularInMeasure (
+                            S_msrNote note);
 
-    void                  generateCodeForNoteRestInMeasure (S_msrNote note);
-    void                  generateCodeForNoteSkipInMeasure (S_msrNote note);
-    void                  generateCodeForNoteUnpitchedInMeasure (S_msrNote note);
+    void                  generateCodeForNoteRestInMeasure (
+                            S_msrNote note);
+    void                  generateCodeForNoteSkipInMeasure (
+                            S_msrNote note);
+    void                  generateCodeForNoteUnpitchedInMeasure (
+                            S_msrNote note);
 
-    void                  generateCodeForNoteRegularInChord (S_msrNote note);
+    void                  generateCodeForNoteRegularInChord (
+                            S_msrNote note);
 
-    void                  generateCodeForNoteRegularInTuplet (S_msrNote note);
-    void                  generateCodeForNoteRestInTuplet (S_msrNote note);
-    void                  generateCodeForNoteUnpitchedInTuplet (S_msrNote note);
+    void                  generateCodeForNoteRegularInTuplet (
+                            S_msrNote note);
+    void                  generateCodeForNoteRestInTuplet (
+                            S_msrNote note);
+    void                  generateCodeForNoteUnpitchedInTuplet (
+                            S_msrNote note);
 
-    void                  generateCodeForNoteRegularInGraceNotesGroup (S_msrNote note);
-    void                  generateCodeForNoteSkipInGraceNotesGroup (S_msrNote note);
+    void                  generateCodeForNoteRegularInGraceNotesGroup (
+                            S_msrNote note);
+    void                  generateCodeForNoteSkipInGraceNotesGroup (
+                            S_msrNote note);
 
-    void                  generateCodeForNoteInChordInGraceNotesGroup (S_msrNote note);
+    void                  generateCodeForNoteInChordInGraceNotesGroup (
+                            S_msrNote note);
 
-    void                  generateCodeForNoteInTupletInGraceNotesGroup (S_msrNote note);
+    void                  generateCodeForNoteInTupletInGraceNotesGroup (
+                            S_msrNote note);
 
-    void                  generateCodeForNoteInDoubleTremolo (S_msrNote note);
+    void                  generateCodeForNoteInDoubleTremolo (
+                            S_msrNote note);
 
-    void                  generateNoteScordaturas (S_msrNote note);
+    void                  generateNoteScordaturas (
+                            S_msrNote note);
 
-    void                  generateNoteSlashes (S_msrNote note);
+    void                  generateNoteSlashes (
+                            S_msrNote note);
 
-    void                  generateNoteWedges (S_msrNote note);
+    void                  generateNoteWedges (
+                            S_msrNote note);
 
-    void                  generateNoteSlurLineTypes (S_msrNote note);
+    void                  generateNoteSlurLineTypes (
+                            S_msrNote note);
 
-    void                  generateNoteGlissandoStyles (S_msrNote note);
-    void                  generateNoteGlissandosWithText (S_msrNote note);
+    void                  generateNoteGlissandoStyles (
+                            S_msrNote note);
+    void                  generateNoteGlissandosWithText (
+                            S_msrNote note);
 
-    void                  generateNoteSlideLineStyles (S_msrNote note);
-    void                  generateNoteSlidesWithText (S_msrNote note);
+    void                  generateNoteSlideLineStyles (
+                            S_msrNote note);
+    void                  generateNoteSlidesWithText (
+                            S_msrNote note);
 
-    void                  generateNoteTechnicalsWithStrings (S_msrNote note);
+    void                  generateNoteTechnicalsWithStrings (
+                            S_msrNote note);
 
-    void                  generateCodeRightAfterNote (S_msrNote note);
+    void                  generateCodeForNoteWords (
+                            const list<S_msrWords>& noteWords);
+
+    void                  generateCodeRightAfterNote (
+                            S_msrNote note);
 
     // stems
 
@@ -910,8 +948,10 @@ class EXP lpsr2lilypondTranslator :
     msrPlacementKind      fCurrentSpannerPlacementKind;
 
     void                  generateBeforeNoteSpannersIfAny (
+
                             S_msrNote note);
     void                  generateAfterNoteSpannersIfAny (
+
                             S_msrNote note);
 
     void                  generateCodeForSpannerBeforeNote (
@@ -994,6 +1034,16 @@ class EXP lpsr2lilypondTranslator :
     // LilyPond version
     // ------------------------------------------------------
     void                  generateLilypondVersion ();
+
+    // identification
+    // ------------------------------------------------------
+    /* JMI
+    string                fScoreTitle;
+    string                fScoreSubTitle;
+    string                fScoreSubSubTitle;
+
+    void                  computeHeaderFields ();
+*/
 
     // global staff size
     // ------------------------------------------------------
