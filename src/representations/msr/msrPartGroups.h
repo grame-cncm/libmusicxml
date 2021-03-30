@@ -242,8 +242,8 @@ class EXP msrPartGroup : public msrPartGroupElement
     // elements
 
     const list<S_msrPartGroupElement>&
-                          getPartGroupElements () const
-                              { return fPartGroupElements; }
+                          getPartGroupElementsList () const
+                              { return fPartGroupElementsList; }
 
   public:
 
@@ -301,7 +301,7 @@ class EXP msrPartGroup : public msrPartGroupElement
                                     fPartGroupSymbolKind);
                               }
 
-    void                  printPartGroupParts (
+    void                  printPartGroupElementsList (
                             int      inputLineNumber,
                             ostream& os);
 
@@ -375,7 +375,7 @@ class EXP msrPartGroup : public msrPartGroupElement
 
     // allowing for both parts and (sub-)part groups as elements
     list<S_msrPartGroupElement>
-                          fPartGroupElements;
+                          fPartGroupElementsList;
 
     // voices
 

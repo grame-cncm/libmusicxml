@@ -172,10 +172,7 @@ class EXP msrPart : public msrPartGroupElement
 
     void                  setPartInstrumentName (
                             string partInstrumentName)
-                              {
-                                fPartInstrumentName =
-                                  partInstrumentName;
-                              }
+                              { fPartInstrumentName = partInstrumentName; }
 
     string                getPartInstrumentName () const
                               { return fPartInstrumentName; }
@@ -194,20 +191,14 @@ class EXP msrPart : public msrPartGroupElement
 
     void                  setPartHarmoniesStaff (
                             S_msrStaff harmoniesStaff)
-                              {
-                                fPartHarmoniesStaff =
-                                  harmoniesStaff;
-                              }
+                              { fPartHarmoniesStaff = harmoniesStaff; }
 
     S_msrStaff            getPartHarmoniesStaff () const
                               { return fPartHarmoniesStaff; }
 
     void                  setPartHarmoniesVoice (
                             S_msrVoice harmoniesVoice)
-                              {
-                                fPartHarmoniesVoice =
-                                  harmoniesVoice;
-                              }
+                              { fPartHarmoniesVoice = harmoniesVoice; }
 
     S_msrVoice            getPartHarmoniesVoice () const
                               { return fPartHarmoniesVoice; }
@@ -216,20 +207,14 @@ class EXP msrPart : public msrPartGroupElement
 
     void                  setPartFiguredBassStaff (
                             S_msrStaff figuredBassStaff)
-                              {
-                                fPartFiguredBassStaff =
-                                  figuredBassStaff;
-                              }
+                              { fPartFiguredBassStaff = figuredBassStaff; }
 
     S_msrStaff            getPartFiguredBassStaff () const
                               { return fPartFiguredBassStaff; }
 
     void                  setPartFiguredBassVoice (
                             S_msrVoice figuredBassVoice)
-                              {
-                                fPartFiguredBassVoice =
-                                  figuredBassVoice;
-                              }
+                              { fPartFiguredBassVoice = figuredBassVoice; }
 
     S_msrVoice            getPartFiguredBassVoice () const
                               { return fPartFiguredBassVoice; }
@@ -237,8 +222,8 @@ class EXP msrPart : public msrPartGroupElement
     // staves map
 
     const map<int, S_msrStaff>&
-                          getPartStavesMap () const
-                              { return fPartStavesMap; }
+                          getPartStaveNumbersToAllStavesMap () const
+                              { return fPartStaveNumbersToAllStavesMap; }
 
     // staff position in measure
 
@@ -522,7 +507,7 @@ class EXP msrPart : public msrPartGroupElement
     string                asString () const override;
 
     void                  printPartMeasuresWholeNotesDurationsVector (
-                            ostream&      os,
+                            ostream&     os,
                             unsigned int fieldWidth) const;
 
     void                  print (ostream& os) const override;
@@ -608,7 +593,7 @@ class EXP msrPart : public msrPartGroupElement
 
     // the registered staves map
 
-    map<int, S_msrStaff>  fPartStavesMap;
+    map<int, S_msrStaff>  fPartStaveNumbersToAllStavesMap;
 
     // counter
 
@@ -679,7 +664,7 @@ class EXP msrPart : public msrPartGroupElement
     // ------------------------------------------------------
 
     // harmonies
-
+/* JMI
     void                  setPartHarmonyVoiceForwardLink (
                             S_msrVoice voice)
                               { fPartHarmonyVoiceForwardLink = voice; }
@@ -693,6 +678,7 @@ class EXP msrPart : public msrPartGroupElement
 
     S_msrVoice            getHarmonyVoicePartBackwardLink () const
                               { return fHarmonyVoicePartBackwardLink; }
+*/
 
     // figured bass
 
@@ -723,9 +709,11 @@ class EXP msrPart : public msrPartGroupElement
 
     rational              fPartCurrentPositionInMeasure;
 
+/* JMI
     // two-way links
     S_msrVoice            fPartHarmonyVoiceForwardLink;
     S_msrVoice            fHarmonyVoicePartBackwardLink;
+    */
 
     S_msrVoice            fPartFiguredBassVoiceForwardLink;
     S_msrVoice            fFiguredBassVoicePartBackwardLink;

@@ -10352,8 +10352,7 @@ void msrVoice::print (ostream& os) const
     fCurrentPositionInVoice <<
     endl <<
     setw (fieldWidth) << "currentMomentInVoice" << " : " <<
-    fCurrentMomentInVoice <<
-    endl;
+    fCurrentMomentInVoice;
 
   os << left <<
     setw (fieldWidth) << "musicHasBeenInsertedInVoice" << " : " <<

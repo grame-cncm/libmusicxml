@@ -837,7 +837,7 @@ void msrStaff::registerVoiceByItsNumber (
   fStaffVoiceNumbersToAllVoicesMap [voiceNumber] = voice;
 
   // register it in all voices list
-// JMI  registerVoiceInStaffAllVoicesList (voice);
+// JMI  registerVoiceInStaffAllVoicesList (voice); NO, that would lead it to be registered several times
 
   // sort the all voices list if necessary
   switch (voice->getVoiceKind ()) {
@@ -990,15 +990,57 @@ void msrStaff::registerRegularVoiceByItsNumber (
 }
 
 void msrStaff::registerHarmonyVoiceByItsNumber (
-  S_msrVoice harmonyVoice,
-  int        voiceNumber)
+  int        inputLineNumber,
+  S_msrVoice voice)
 {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "Registering harmony voice " <<
+      voice->asString () <<
+     " by its number in staff \"" << getStaffName () <<
+      "\" in part " <<
+      fStaffPartUpLink->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // register the harmony voice by its number
+  registerVoiceByItsNumber (
+    inputLineNumber,
+    voice);
+
+  // register it in the part uplink
+  fStaffPartUpLink->
+    registerVoiceInPartAllVoicesList (voice);
 }
 
 void msrStaff::registerFiguredBassVoiceByItsNumber (
-  S_msrVoice figuredBassVoice,
-  int        voiceNumber)
+  int        inputLineNumber,
+  S_msrVoice voice)
 {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "Registering figured bass voice " <<
+      voice->asString () <<
+     " by its number in staff \"" << getStaffName () <<
+      "\" in part " <<
+      fStaffPartUpLink->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // register the figured bass voice by its number
+  registerVoiceByItsNumber (
+    inputLineNumber,
+    voice);
+
+  // register it in the part uplink
+  fStaffPartUpLink->
+    registerVoiceInPartAllVoicesList (voice);
 }
 
 S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
@@ -1269,15 +1311,15 @@ void msrStaff::registerVoiceInStaff (
     case msrVoiceKind::kVoiceHarmony:
       // register harmony voice in staff by its number
       registerHarmonyVoiceByItsNumber (
-        voice,
-        voiceNumber);
+        inputLineNumber,
+        voice);
       break;
 
     case msrVoiceKind::kVoiceFiguredBass:
       // register figured bass voice in staff by its number
       registerFiguredBassVoiceByItsNumber (
-        voice,
-        voiceNumber);
+        inputLineNumber,
+        voice);
       break;
   } // switch
 
@@ -1344,9 +1386,9 @@ void msrStaff::registerPartLevelVoiceInStaff (
   if (gGlobalTraceOahGroup->getTraceVoices ()) {
     gLogStream <<
       "Registering voice \"" << voice->getVoiceName () <<
-      "\" as relative voice " <<
+      "\" as part level voice " <<
       fStaffRegularVoicesCounter <<
-      " of staff \"" << getStaffName () <<
+      " in staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
 // JMI       " in part " << fStaffPartUpLink->getPartCombinedName () <<
       endl;
@@ -1372,15 +1414,15 @@ void msrStaff::registerPartLevelVoiceInStaff (
     case msrVoiceKind::kVoiceHarmony:
       // register harmony voice in staff by its number
       registerHarmonyVoiceByItsNumber (
-        voice,
-        voiceNumber);
+        inputLineNumber,
+        voice);
       break;
 
     case msrVoiceKind::kVoiceFiguredBass:
       // register figured bass voice in staff by its number
       registerFiguredBassVoiceByItsNumber (
-        voice,
-        voiceNumber);
+        inputLineNumber,
+        voice);
       break;
   } // switch
 
@@ -1476,15 +1518,15 @@ void msrStaff::registerVoiceInStaffClone (
     case msrVoiceKind::kVoiceHarmony:
       // register harmony voice in staff clone by its number
       registerHarmonyVoiceByItsNumber (
-        voice,
-        voiceNumber);
+        inputLineNumber,
+        voice);
       break;
 
     case msrVoiceKind::kVoiceFiguredBass:
       // register figured bass voice in staff clone by its number
       registerFiguredBassVoiceByItsNumber (
-        voice,
-        voiceNumber);
+        inputLineNumber,
+        voice);
       break;
   } // switch
 
@@ -2879,14 +2921,36 @@ if (false) { // JMI TEMP
   }
 }
 
+/* JMI
   if (fStaffAllVoicesList.size ()) {
     for (
       list<S_msrVoice>::const_iterator i = fStaffAllVoicesList.begin ();
       i != fStaffAllVoicesList.end ();
       ++i
     ) {
-        msrBrowser<msrVoice> browser (v);
-        browser.browse (*(*i));
+      msrBrowser<msrVoice> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
+
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
+      "% <== msrStaff::browseData ()" <<
+      endl;
+  }
+*/
+
+  if (fStaffVoiceNumbersToAllVoicesMap.size ()) {
+    for (
+      map<int, S_msrVoice>::const_iterator i =
+        fStaffVoiceNumbersToAllVoicesMap.begin ();
+      i != fStaffVoiceNumbersToAllVoicesMap.end ();
+      ++i
+    ) {
+      S_msrVoice voice = (*i).second;
+
+      msrBrowser<msrVoice> browser (v);
+      browser.browse (*voice);
     } // for
   }
 
@@ -2917,7 +2981,7 @@ void msrStaff::print (ostream& os) const
 
   ++gIndenter;
 
-  const unsigned int fieldWidth = 28;
+  const unsigned int fieldWidth = 38;
 
   os << left <<
     setw (fieldWidth) <<
@@ -2952,8 +3016,7 @@ void msrStaff::print (ostream& os) const
         "'";
     }
     else {
-      os <<
-        "none";
+      os << "none";
     }
 
     os << endl;
@@ -3405,9 +3468,9 @@ void msrStaff::printSummary (ostream& os) const
 
     --gIndenter;
   }
-*/
 
   os << endl;
+*/
 
   --gIndenter;
 }

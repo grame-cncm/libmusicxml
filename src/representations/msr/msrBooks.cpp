@@ -876,7 +876,7 @@ void msrBook::printShort (ostream& os) const
 void msrBook::printSummary (ostream& os) const
 {
   os <<
-    "MSR component" << // JMI summary ???
+    "MSR book summary" <<
     endl << endl;
 
   ++gIndenter;

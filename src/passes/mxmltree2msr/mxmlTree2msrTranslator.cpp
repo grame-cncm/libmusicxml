@@ -2271,7 +2271,7 @@ void mxmlTree2msrTranslator::visitStart (S_part& elt)
   map<int, S_msrStaff>
     partStavesMap =
       fCurrentPart->
-        getPartStavesMap ();
+        getPartStaveNumbersToAllStavesMap ();
 
   // repeats
   fCurrentRepeatStartMeasureNumber = "";
@@ -20677,31 +20677,30 @@ void mxmlTree2msrTranslator::handlePendingHarmonies (
       appendHarmonyToNoteHarmoniesList (
         harmony);
 
-/* JMI BLARK
-    // get the harmony voice for the current voice
+    // get the part harmonies voice
     S_msrVoice
-      voiceHarmonyVoice =
-        voiceToInsertInto->
-          getRegularVoiceHarmonyVoiceForwardLink ();
+      partHarmonyVoice =
+        fCurrentPart->
+          getPartHarmoniesVoice ();
 
     // sanity check
     msgAssert (
       __FILE__, __LINE__,
-      voiceHarmonyVoice != nullptr,
-      "voiceHarmonyVoice is null");
+      partHarmonyVoice != nullptr,
+      "partHarmonyVoice is null");
 
     // set the harmony's voice upLink
     // only now that we know which harmony voice will contain it
     harmony->
       setHarmonyVoiceUpLink (
-        voiceHarmonyVoice);
+        partHarmonyVoice);
 
-    // append the harmony to the harmony voice for the current voice
-    voiceHarmonyVoice->
+/* JMI
+    // append the harmony to the part harmonies voice
+    partHarmonyVoice->
       appendHarmonyToVoice (
         harmony);
 */
-
     // don't append the harmony to the part harmony voice // BLARK
     // before the note itself has been appended to the voice
 
@@ -23776,7 +23775,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_harmony& elt )
     // append pending harmony degrees if any to the harmony
     if (! fCurrentHarmonyDegreesList.size ()) {
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
+      if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
         msrMusicXMLWarning (
           gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,

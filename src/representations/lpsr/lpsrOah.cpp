@@ -840,9 +840,21 @@ R"()",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dlpsr", "display-lpsr",
-R"(Write the contents of the LPSR data to standard error.)",
+R"(Write the contents of the LPSR data with a summary of it MSR component to standard error.)",
         "displayLpsr",
         fDisplayLpsr));
+
+  // display LPSR full
+
+  fDisplayLpsrFull = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "dlpsrf", "display-lpsr-full",
+R"(Write the contents of the LPSR data with its full MSR component to standard error.)",
+        "displayLpsrFull",
+        fDisplayLpsrFull));
 
   // display LPSR short
 
@@ -1605,6 +1617,7 @@ void lpsrOahGroup::enforceGroupQuietness ()
 #endif
 
   fDisplayLpsr = false;
+  fDisplayLpsrFull = false;
   fDisplayLpsrShort = false;
 }
 
@@ -1731,6 +1744,9 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
   gLogStream << left <<
     setw (fieldWidth) << "displayLpsr" << " : " <<
     booleanAsString (fDisplayLpsr) <<
+    endl <<
+    setw (fieldWidth) << "displayLpsrFull" << " : " <<
+    booleanAsString (fDisplayLpsrFull) <<
     endl <<
     setw (fieldWidth) << "displayLpsrShort" << " : " <<
     booleanAsString (fDisplayLpsrShort) <<

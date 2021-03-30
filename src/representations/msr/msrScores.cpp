@@ -25,6 +25,10 @@
 
 #include "msrOah.h"
 
+#ifdef TRACING_IS_ENABLED
+  #include "lpsrOah.h"
+#endif
+
 
 using namespace std;
 
@@ -783,9 +787,21 @@ void msrScore::printShort (ostream& os) const
 
 void msrScore::printSummary (ostream& os) const
 {
-  os <<
-    "MSR component" << // JMI summary ???
-    endl << endl;
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getDisplayLpsr ()) {
+    os << "MSR score summary";
+  }
+  else if (gGlobalLpsrOahGroup->getDisplayLpsr ()) { // JMI
+    os << "MSR full score";
+  }
+  else {
+    os << "MSR score";
+  }
+#else
+  os << "MSR score";
+#endif
+
+  os << endl << endl;
 
   ++gIndenter;
 
@@ -844,13 +860,13 @@ void msrScore::printSummary (ostream& os) const
   // it is the only element in fPartGroupsList JMI single variable
   if (partGroupsListSize) {
     os <<
-      "Parts and part groups structure:" <<
+      "Part groups list:" <<
       endl;
 
     ++gIndenter;
 
     fPartGroupsList.front () ->
-      printPartGroupParts (
+      printPartGroupElementsList (
         fInputLineNumber,
         os);
 

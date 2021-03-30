@@ -455,13 +455,17 @@ class EXP msrNote : public msrTupletElement
     bool                  getNoteIsAGraceNote () const
                               {
                                 return
-                                  fNoteKind == msrNoteKind::kNoteRegularInGraceNotesGroup
+                                  fNoteKind ==
+                                    msrNoteKind::kNoteRegularInGraceNotesGroup
                                     ||
-                                  fNoteKind == msrNoteKind::kNoteSkipInGraceNotesGroup
+                                  fNoteKind ==
+                                    msrNoteKind::kNoteSkipInGraceNotesGroup
                                     ||
-                                  fNoteKind == msrNoteKind::kNoteInChordInGraceNotesGroup
+                                  fNoteKind ==
+                                    msrNoteKind::kNoteInChordInGraceNotesGroup
                                     ||
-                                  fNoteKind == msrNoteKind::kNoteInTupletInGraceNotesGroup;
+                                  fNoteKind ==
+                                    msrNoteKind::kNoteInTupletInGraceNotesGroup;
                               }
 
     // harmonies

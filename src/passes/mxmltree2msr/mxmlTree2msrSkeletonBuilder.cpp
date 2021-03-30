@@ -258,7 +258,7 @@ void mxmlTree2msrSkeletonBuilder::showAllPartGroupDescrsMap (
         ++gIndenter;
 
         partGroup->
-          printPartGroupParts (
+          printPartGroupElementsList (
             inputLineNumber,
             gLogStream);
 
@@ -313,7 +313,7 @@ void mxmlTree2msrSkeletonBuilder::showStartedPartGroupDescrsMap (
         ++gIndenter;
 
         partGroup->
-          printPartGroupParts (
+          printPartGroupElementsList (
             inputLineNumber,
             gLogStream);
 
@@ -2580,7 +2580,7 @@ void mxmlTree2msrSkeletonBuilder::visitEnd (S_part_list& elt)
     ++gIndenter;
 
     fImplicitPartGroup->
-      printPartGroupParts (
+      printPartGroupElementsList (
         inputLineNumber,
         gLogStream);
 

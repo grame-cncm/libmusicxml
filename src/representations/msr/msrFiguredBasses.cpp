@@ -644,7 +644,7 @@ string msrFiguredBass::asString () const
       i      = iBegin;
 
     for ( ; ; ) {
-      s << (*i);
+      s << (*i)->asString ();
       if (++i == iEnd) break;
       s << " ";
     } // for

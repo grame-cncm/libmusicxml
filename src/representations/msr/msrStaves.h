@@ -517,12 +517,12 @@ class EXP msrStaff : public msrElement
                             int        voiceNumber);
 
     void                  registerHarmonyVoiceByItsNumber (
-                            S_msrVoice harmonyVoice,
-                            int        voiceNumber);
+                            int        inputLineNumber,
+                            S_msrVoice voice);
 
     void                  registerFiguredBassVoiceByItsNumber (
-                            S_msrVoice figuredBassVoice,
-                            int        voiceNumber);
+                            int        inputLineNumber,
+                            S_msrVoice voice);
 
     void                  registerPartLevelVoiceInStaff ( // JMI rename for harmonies and figured bass ???
                             int        inputLineNumber,

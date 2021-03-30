@@ -448,7 +448,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
 #endif
 
   fPartGroupPartsMap [partID] = part;
-  fPartGroupElements.push_back (part);
+  fPartGroupElementsList.push_back (part);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTracePartGroupsDetails ()) {
@@ -474,15 +474,15 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
     --gIndenter;
 
     gLogStream <<
-      "After appendPartToPartGroupByItsID, fPartGroupElements contains:" <<
+      "After appendPartToPartGroupByItsID, fPartGroupElementsList contains:" <<
       endl;
 
     ++gIndenter;
 
-    if (fPartGroupElements.size ()) {
+    if (fPartGroupElementsList.size ()) {
       list<S_msrPartGroupElement>::const_iterator
-        iBegin = fPartGroupElements.begin (),
-        iEnd   = fPartGroupElements.end (),
+        iBegin = fPartGroupElementsList.begin (),
+        iEnd   = fPartGroupElementsList.end (),
         i      = iBegin;
 
       for ( ; ; ) {
@@ -516,7 +516,7 @@ void msrPartGroup::appendPartToPartGroup (S_msrPart part)
 
   // register part into this part group's data
   fPartGroupPartsMap [part->getPartID ()] = part;
-  fPartGroupElements.push_back (part);
+  fPartGroupElementsList.push_back (part);
 
   // set part's partgroup upLink
   part->setPartPartGroupUpLink (this);
@@ -540,8 +540,8 @@ void msrPartGroup::removePartFromPartGroup (
   ++gIndenter;
 
   for (
-    list<S_msrPartGroupElement>::iterator i = fPartGroupElements.begin ();
-    i != fPartGroupElements.end ();
+    list<S_msrPartGroupElement>::iterator i = fPartGroupElementsList.begin ();
+    i != fPartGroupElementsList.end ();
     ++i
   ) {
     S_msrElement
@@ -562,7 +562,7 @@ void msrPartGroup::removePartFromPartGroup (
     ) {
       // this is a part
       if (part == partToBeRemoved) {
-        i = fPartGroupElements.erase (i);
+        i = fPartGroupElementsList.erase (i);
         break;
       }
     }
@@ -598,7 +598,7 @@ void msrPartGroup::prependSubPartGroupToPartGroup (
 #endif
 
   // register it in this part group
-  fPartGroupElements.push_front (partGroup);
+  fPartGroupElementsList.push_front (partGroup);
 }
 
 void msrPartGroup::appendSubPartGroupToPartGroup (
@@ -613,17 +613,17 @@ void msrPartGroup::appendSubPartGroupToPartGroup (
 #endif
 
   // register it in this part group
-  fPartGroupElements.push_back (partGroup);
+  fPartGroupElementsList.push_back (partGroup);
 }
 
-void msrPartGroup::printPartGroupParts (
+void msrPartGroup::printPartGroupElementsList (
   int      inputLineNumber,
   ostream& os)
 {
-  if (fPartGroupElements.size ()) {
+  if (fPartGroupElementsList.size ()) {
     list<S_msrPartGroupElement>::const_iterator
-      iBegin = fPartGroupElements.begin (),
-      iEnd   = fPartGroupElements.end (),
+      iBegin = fPartGroupElementsList.begin (),
+      iEnd   = fPartGroupElementsList.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -644,7 +644,7 @@ void msrPartGroup::printPartGroupParts (
         ++gIndenter;
 
         nestedPartGroup->
-          printPartGroupParts (
+          printPartGroupElementsList (
             inputLineNumber,
             os);
 
@@ -699,12 +699,13 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTracePartGroupsDetails ()) {
     gLogStream <<
-      "fetchPartFromPartGroupByItsPartID(" << partID << "), fPartGroupElements contains:" <<
+      "fetchPartFromPartGroupByItsPartID(" << partID <<
+      "), fPartGroupElementsList contains:" <<
       endl;
 
     ++gIndenter;
 
-    printPartGroupParts (
+    printPartGroupElementsList (
       inputLineNumber,
       gLogStream);
 
@@ -717,8 +718,9 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
 #endif
 
   for (
-    list<S_msrPartGroupElement>::const_iterator i = fPartGroupElements.begin ();
-    i != fPartGroupElements.end ();
+    list<S_msrPartGroupElement>::const_iterator i =
+      fPartGroupElementsList.begin ();
+    i != fPartGroupElementsList.end ();
     ++i
   ) {
     S_msrPartGroupElement
@@ -779,8 +781,9 @@ void msrPartGroup::collectPartGroupPartsList (
   list<S_msrPart>& partsList)
 {
   for (
-    list<S_msrPartGroupElement>::const_iterator i = fPartGroupElements.begin ();
-    i != fPartGroupElements.end ();
+    list<S_msrPartGroupElement>::const_iterator i =
+      fPartGroupElementsList.begin ();
+    i != fPartGroupElementsList.end ();
     ++i
   ) {
     S_msrElement
@@ -888,8 +891,9 @@ void msrPartGroup::browseData (basevisitor* v)
   }
 
   for (
-    list<S_msrPartGroupElement>::const_iterator i = fPartGroupElements.begin ();
-    i != fPartGroupElements.end ();
+    list<S_msrPartGroupElement>::const_iterator i =
+      fPartGroupElementsList.begin ();
+    i != fPartGroupElementsList.end ();
     ++i
   ) {
     // browse the part element
@@ -1091,9 +1095,9 @@ void msrPartGroup::print (ostream& os) const
   unsigned int partGroupAllVoicesListSize =
     fPartGroupAllVoicesList.size ();
 
-  os <<
+  os << left <<
     setw (fieldWidth) <<
-    "PartGroupAllVoicesList";
+    "partGroupAllVoicesList" << " : ";
   if (partGroupAllVoicesListSize) {
     os << endl;
     ++gIndenter;
@@ -1109,22 +1113,20 @@ void msrPartGroup::print (ostream& os) const
       if (++i == iEnd) break;
       // os << endl;
     } // for
-    os << endl;
+//    os << endl;
 
     --gIndenter;
   }
   else {
-    os <<
-      " : " << "none" <<
-      endl;
+    os << "none" << endl;
   }
 
   // print the part group elements if any
-  if (fPartGroupElements.size ()) {
+  if (fPartGroupElementsList.size ()) {
     os << endl;
     list<S_msrPartGroupElement>::const_iterator
-      iBegin = fPartGroupElements.begin (),
-      iEnd   = fPartGroupElements.end (),
+      iBegin = fPartGroupElementsList.begin (),
+      iEnd   = fPartGroupElementsList.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -1223,7 +1225,7 @@ void msrPartGroup::printShort (ostream& os) const
 
   os <<
     setw (fieldWidth) <<
-    "PartGroupAllVoicesList";
+    "partGroupAllVoicesList";
   if (partGroupAllVoicesListSize) {
     os << endl;
     ++gIndenter;
@@ -1251,11 +1253,11 @@ void msrPartGroup::printShort (ostream& os) const
 */
 
   // print the part group elements if any
-  if (fPartGroupElements.size ()) {
+  if (fPartGroupElementsList.size ()) {
     os << endl;
     list<S_msrPartGroupElement>::const_iterator
-      iBegin = fPartGroupElements.begin (),
-      iEnd   = fPartGroupElements.end (),
+      iBegin = fPartGroupElementsList.begin (),
+      iEnd   = fPartGroupElementsList.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -1316,11 +1318,11 @@ void msrPartGroup::printSummary (ostream& os) const
       fPartGroupBarlineKind) <<
     endl;
 
-  if (fPartGroupElements.size ()) {
+  if (fPartGroupElementsList.size ()) {
     os << endl;
     list<S_msrPartGroupElement>::const_iterator
-      iBegin = fPartGroupElements.begin (),
-      iEnd   = fPartGroupElements.end (),
+      iBegin = fPartGroupElementsList.begin (),
+      iEnd   = fPartGroupElementsList.end (),
       i      = iBegin;
 
     ++gIndenter;

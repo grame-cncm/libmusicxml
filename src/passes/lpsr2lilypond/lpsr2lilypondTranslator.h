@@ -1014,7 +1014,7 @@ class EXP lpsr2lilypondTranslator :
 
     string                figureAsLilypondString (
                             S_msrFigure figure);
-  string                  figuredBassAsLilypondString (
+    string                figuredBassAsLilypondString (
                             S_msrFiguredBass figuredBass);
 
     S_msrFiguredBass      fCurrentFiguredBass;

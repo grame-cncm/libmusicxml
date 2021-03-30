@@ -5839,7 +5839,7 @@ void msr2msrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
   map<int, S_msrStaff>
     partStavesMap =
       partClone->
-        getPartStavesMap ();
+        getPartStaveNumbersToAllStavesMap ();
 
   for (
     map<int, S_msrStaff>::const_iterator i=partStavesMap.begin ();

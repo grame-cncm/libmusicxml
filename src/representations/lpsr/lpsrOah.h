@@ -354,6 +354,11 @@ class EXP lpsrOahGroup : public oahGroup
     bool                  getDisplayLpsr () const
                               { return fDisplayLpsr; }
 
+    void                  setDisplayLpsrFull ()
+                              { fDisplayLpsrFull = true; }
+    bool                  getDisplayLpsrFull () const
+                              { return fDisplayLpsrFull; }
+
     void                  setDisplayLpsrShort ()
                               { fDisplayLpsrShort = true; }
     bool                  getDisplayLpsrShort () const
@@ -605,6 +610,7 @@ class EXP lpsrOahGroup : public oahGroup
     // --------------------------------------
 
     bool                  fDisplayLpsr;
+    bool                  fDisplayLpsrFull;
     bool                  fDisplayLpsrShort;
 
     // paper

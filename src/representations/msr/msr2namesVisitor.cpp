@@ -138,7 +138,7 @@ void msr2namesVisitor::visitStart (S_msrPartGroup& elt)
 
   ++fPartGroupsCounter;
 
-  unsigned int partGroupElementsSize = elt->getPartGroupElements ().size ();
+  unsigned int partGroupElementsSize = elt->getPartGroupElementsList ().size ();
 
   gLogStream <<
     "PartGroup" << " " << elt->getPartGroupCombinedName () <<
@@ -197,7 +197,7 @@ void msr2namesVisitor::visitStart (S_msrPart& elt)
 
   ++fPartsCounter;
 
-  unsigned int partStavesMapSize = elt->getPartStavesMap ().size ();
+  unsigned int partStavesMapSize = elt->getPartStaveNumbersToAllStavesMap ().size ();
 
   gLogStream <<
     "Part " << elt->getPartCombinedName () <<

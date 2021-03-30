@@ -942,22 +942,30 @@ class EXP lilypondGenerationOahGroup : public oahGroup
     // Lilypond informations
     string                getDedication () const
                               { return fDedication; }
+
     string                getPiece () const
                               { return fPiece; }
     string                getOpus () const
                               { return fOpus; }
+    bool                  getOpusInTitle () const
+                              { return fOpusInTitle; }
+
     string                getTitle () const
                               { return fTitle; }
     string                getSubTitle () const
                               { return fSubTitle; }
     string                getSubSubTitle () const
                               { return fSubSubTitle; }
+
     string                getInstrument () const
                               { return fInstrument; }
+
     string                getMeter () const
                               { return fMeter; }
+
     string                getTagline () const
                               { return fTagline; }
+
     string                getCopyright () const
                               { return fCopyright; }
 
@@ -1545,14 +1553,21 @@ class EXP lilypondGenerationOahGroup : public oahGroup
 
     // LilyPond informations
     string                fDedication;
+
     string                fPiece;
     string                fOpus;
+    bool                  fOpusInTitle;
+
     string                fTitle;
     string                fSubTitle;
     string                fSubSubTitle;
+
     string                fInstrument;
+
     string                fMeter;
+
     string                fTagline;
+
     string                fCopyright;
 
     // book block

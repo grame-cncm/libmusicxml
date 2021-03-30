@@ -27,11 +27,11 @@
 #include "generalOah.h"
 
 #include "mxmlTreeOah.h"
+#include "mxmlTree2msrOah.h" // ill-homed option??? JMI
 #include "msrOah.h"
 #include "msr2lpsrOah.h"
 #include "lpsrOah.h"
 #include "lilypondGenerationOah.h"
-
 
 using namespace std;
 
@@ -91,19 +91,412 @@ msr2lpsrTranslator::msr2lpsrTranslator (
 
   // syllables
   fOnGoingSyllableExtend = false;
-
-  // compute the header fields
-  computeHeaderFields ();
 }
 
 msr2lpsrTranslator::~msr2lpsrTranslator ()
 {}
 
-void msr2lpsrTranslator::computeHeaderFields ()
+//________________________________________________________________________
+void msr2lpsrTranslator::computeLilypondScoreHeaderFields ()
 {
-    string                fScoreTitle;
-    string                fScoreSubTitle;
-    string                fScoreSubSubTitle;
+  /*
+    the values given through options have precedence
+    over those found in the header
+  */
+
+  // title
+  computeLilypondScoreHeaderTitleAndSubTitle ();
+
+  list<pair<string, string> > nameValuePairsList; // JMI TEMP
+
+  // dedication
+  string
+    dedicationFromOption =
+      gGlobalLilypondGenerationOahGroup->getDedication ();
+
+  if (dedicationFromOption.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "dedication",
+          dedicationFromOption));
+  }
+  else {
+    string
+      lilypondDedication =
+        fCurrentLpsrScoreHeader->
+          getLilypondDedication ();
+
+    if (lilypondDedication.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "dedication",
+          lilypondDedication));
+    }
+
+    else {
+      if (
+        gGlobalLilypondGenerationOahGroup->
+          getGenerateCommentedOutVariables ()
+      ) {
+        nameValuePairsList.push_back (
+          make_pair (
+            "% dedication",
+            ""));
+      }
+    }
+  }
+
+  // piece
+  string
+    pieceFromOption =
+      gGlobalLilypondGenerationOahGroup->getPiece ();
+
+  if (pieceFromOption.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "piece",
+          pieceFromOption));
+  }
+  else {
+    string
+      lilypondPiece =
+        fCurrentLpsrScoreHeader->getLilypondPiece ();
+
+    if (lilypondPiece.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "piece",
+          lilypondPiece));
+    }
+
+    else {
+      if (gGlobalLilypondGenerationOahGroup->getGenerateCommentedOutVariables ()) {
+        nameValuePairsList.push_back (
+          make_pair (
+            "% piece",
+            ""));
+      }
+    }
+  }
+
+  // opus
+  string
+    opusFromOption =
+      gGlobalLilypondGenerationOahGroup->getOpus ();
+
+  if (opusFromOption.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "opus",
+          opusFromOption));
+  }
+  else {
+    string
+      lilypondOpus =
+        fCurrentLpsrScoreHeader->getLilypondOpus ();
+
+    if (lilypondOpus.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "opus",
+          lilypondOpus));
+    }
+
+    else {
+      if (gGlobalLilypondGenerationOahGroup->getGenerateCommentedOutVariables ()) {
+        nameValuePairsList.push_back (
+          make_pair (
+            "% opus",
+            ""));
+      }
+    }
+  }
+
+  // subtitle
+  string
+    subtitleFromOption =
+      gGlobalLilypondGenerationOahGroup->getSubTitle ();
+
+  if (subtitleFromOption.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "subtitle",
+          subtitleFromOption));
+  }
+  else {
+    string
+      lilypondSubTitle =
+        fCurrentLpsrScoreHeader->getLilypondSubTitle ();
+
+    if (lilypondSubTitle.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "subtitle",
+          lilypondSubTitle));
+    }
+
+    else {
+      if (gGlobalLilypondGenerationOahGroup->getGenerateCommentedOutVariables ()) {
+        nameValuePairsList.push_back (
+          make_pair (
+            "% subtitle",
+            ""));
+      }
+    }
+  }
+
+  // subSubtitle
+  string
+    subSubtitleFromOption =
+      gGlobalLilypondGenerationOahGroup->getSubTitle ();
+
+  if (subSubtitleFromOption.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "subsubtitle",
+          subSubtitleFromOption));
+  }
+  else {
+    string
+      lilypondSubTitle =
+        fCurrentLpsrScoreHeader->getLilypondSubTitle ();
+
+    if (lilypondSubTitle.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "subsubtitle",
+          lilypondSubTitle));
+    }
+
+    else {
+      if (gGlobalLilypondGenerationOahGroup->getGenerateCommentedOutVariables ()) {
+        nameValuePairsList.push_back (
+          make_pair (
+            "% subsubtitle",
+            ""));
+      }
+    }
+  }
+
+  // instrument
+  string
+    instrumentFromOption =
+      gGlobalLilypondGenerationOahGroup->getInstrument ();
+
+  if (instrumentFromOption.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "instrument",
+          instrumentFromOption));
+  }
+  else {
+    string
+      lilypondInstrument =
+        fCurrentLpsrScoreHeader->getLilypondInstrument ();
+
+    if (lilypondInstrument.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "instrument",
+          lilypondInstrument));
+    }
+
+    else {
+      if (gGlobalLilypondGenerationOahGroup->getGenerateCommentedOutVariables ()) {
+        nameValuePairsList.push_back (
+          make_pair (
+            "% instrument",
+            ""));
+      }
+    }
+  }
+
+  // meter
+  string
+    meterFromOption =
+      gGlobalLilypondGenerationOahGroup->getMeter ();
+
+  if (meterFromOption.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "meter",
+          meterFromOption));
+  }
+  else {
+    string
+      lilypondMeter =
+        fCurrentLpsrScoreHeader->getLilypondMeter ();
+
+    if (lilypondMeter.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "meter",
+          lilypondMeter));
+    }
+
+    else {
+      if (gGlobalLilypondGenerationOahGroup->getGenerateCommentedOutVariables ()) {
+        nameValuePairsList.push_back (
+          make_pair (
+            "% meter",
+            ""));
+      }
+    }
+  }
+
+  // copyright
+  string
+    copyrightFromOption =
+      gGlobalLilypondGenerationOahGroup->getCopyright ();
+
+  if (copyrightFromOption.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "copyright",
+          copyrightFromOption));
+  }
+  else {
+    string
+      lilypondCopyright =
+        fCurrentLpsrScoreHeader->getLilypondCopyright ();
+
+    if (lilypondCopyright.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "copyright",
+          lilypondCopyright));
+    }
+
+    else {
+      if (gGlobalLilypondGenerationOahGroup->getGenerateCommentedOutVariables ()) {
+        nameValuePairsList.push_back (
+          make_pair (
+            "% copyright",
+            ""));
+      }
+    }
+  }
+
+  // tagline
+  string
+    taglineFromOption =
+      gGlobalLilypondGenerationOahGroup->getTagline ();
+
+  if (taglineFromOption.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "tagline",
+          taglineFromOption));
+  }
+  else {
+    string
+      lilypondTagline =
+        fCurrentLpsrScoreHeader->getLilypondTagline ();
+
+    if (lilypondTagline.size ()) {
+      nameValuePairsList.push_back (
+        make_pair (
+          "tagline",
+          lilypondTagline));
+    }
+
+    else {
+      if (gGlobalLilypondGenerationOahGroup->getGenerateCommentedOutVariables ()) {
+        nameValuePairsList.push_back (
+          make_pair (
+            "% tagline",
+            ""));
+      }
+    }
+  }
+}
+
+void msr2lpsrTranslator::computeLilypondScoreHeaderTitleAndSubTitle ()
+{
+  string titleLabel = "title"; // superflous ??? JMI
+  string titleValue;
+  string subTitleValue;
+
+  // should the title be used as filename?
+  if (
+    gGlobalMxmlTree2msrOahGroup->getUseFilenameAsWorkTitle ()
+  ) { // ill-homed option??? JMI
+    titleValue = gGlobalOahOahGroup->getInputSourceName ();
+  }
+
+  else {
+    string
+      titleFromOption =
+        gGlobalLilypondGenerationOahGroup->getTitle ();
+
+    // has the title been supplied in an option?
+    if (titleFromOption.size ()) {
+      titleValue = titleFromOption;
+    }
+
+    else {
+      string
+        lilypondTitle =
+          fCurrentLpsrScoreHeader->getLilypondTitle ();
+
+      // is the title contained in the score header?
+      if (lilypondTitle.size ()) {
+        titleValue = lilypondTitle;
+      }
+
+      else {
+        string
+          workTitle =
+            fCurrentIdentification->
+              getWorkTitle (),
+          movementTitle =
+            fCurrentIdentification->
+              getMovementTitle ();
+
+        fWorkTitleKnown     = workTitle.size () != 0;
+        fMovementTitleKnown = movementTitle.size () != 0;
+
+        // have a work title or a movement title
+        // been specified in the input?
+        if (fWorkTitleKnown || fMovementTitleKnown) {
+          if (fWorkTitleKnown && fMovementTitleKnown) {
+            // use the work title as the LilyPond title
+            titleValue = workTitle;
+
+            // use the movement title as the LilyPond subtitle
+            subTitleValue = movementTitle;
+          }
+
+          else if (fWorkTitleKnown) {
+            // use the work title as the LilyPond title
+            titleValue = workTitle;
+          }
+
+          else {
+            // here only fMovementTitleKnown is true
+            // use the movement title as the LilyPond title
+            // good heuristics??? JMI
+            titleValue = movementTitle;
+          }
+        }
+
+        else if (
+          gGlobalLilypondGenerationOahGroup->getGenerateCommentedOutVariables ()
+        ) {
+           titleLabel = "% title";
+        }
+      }
+    }
+  }
+
+  // set the score header title
+  fCurrentLpsrScoreHeader->
+    setLilypondTitle (titleValue);
+
+  if (subTitleValue.size ()) {
+    fCurrentLpsrScoreHeader->
+      setLilypondTitle (subTitleValue);
+  }
 }
 
 //________________________________________________________________________
@@ -130,6 +523,11 @@ S_lpsrScore msr2lpsrTranslator::buildLpsrScoreFromMsrScore ()
   fCurrentLpsrBookBlock =
     lpsrBookBlock::create (
       K_NO_INPUT_LINE_NUMBER);
+
+  // set its header to that of the visited LPSR score JMI ???
+  fCurrentLpsrBookBlock->
+    setBookBlockHeader (
+      fCurrentLpsrScoreHeader);
 
   // append it to the current book blocks list
   fResultingLpsrScore->
@@ -571,7 +969,7 @@ void msr2lpsrTranslator::visitStart (S_msrScore& elt)
 
   // fetch score header IDENTIFICATIONL JMI
   fCurrentLpsrScoreHeader =
-    fResultingLpsrScore-> getScoreHeader();
+    fResultingLpsrScore->getScoreHeader();
 
   // are the rests to be merged?
   if (gGlobalLilypondGenerationOahGroup->getMergeRests ()) {
@@ -687,10 +1085,13 @@ void msr2lpsrTranslator::visitStart (S_msrIdentification& elt)
     setIdentification (
       fCurrentIdentification);
 
-  // use it to populate the header
+  // use it to populate the header // JMI
   populateHeaderFromIdentification (
     fCurrentLpsrScoreHeader,
     fCurrentIdentification);
+
+  // compute the header fields // JMI
+  computeLilypondScoreHeaderFields ();
 
   fOnGoingIdentification = true;
 }
@@ -1557,6 +1958,10 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
           addStaffToPartCloneByItsNumber (
             fCurrentStaffClone);
 
+        // register it as the part harmony staff
+        fCurrentPartClone->
+          setPartHarmoniesStaff (fCurrentStaffClone);
+
         fOnGoingStaff = true;
       }
       break;
@@ -1668,18 +2073,6 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
 
     case msrVoiceKind::kVoiceHarmony:
       {
-        /* JMI
-        // create the harmony staff and voice if not yet done
-        fCurrentPartClone->
-          createPartHarmonyStaffAndVoiceIfNotYetDone (
-            inputLineNumber);
-
-        // fetch harmony voice
-        fCurrentVoiceClone =
-          fCurrentPartClone->
-            getPartHarmonyVoice ();
-*/
-
         // create a voice clone
         fCurrentVoiceClone =
           fCurrentVoiceOriginal->
@@ -1694,7 +2087,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
 
         if (
           fCurrentVoiceOriginal->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
-          ) {
+        ) {
           // append the voice clone to the LPSR score elements list
           fResultingLpsrScore ->
             appendVoiceToLpsrScoreElementsList (
@@ -6669,7 +7062,7 @@ void msr2lpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
   map<int, S_msrStaff>
     partStavesMap =
       partClone->
-        getPartStavesMap ();
+        getPartStaveNumbersToAllStavesMap ();
 
   for (
     map<int, S_msrStaff>::const_iterator i=partStavesMap.begin ();
@@ -6835,67 +7228,6 @@ void msr2lpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
 */
 
 /*
-  if (fWorkTitleKnown && fMovementTitleKnown) {
-    string
-      workTitle =
-        fCurrentIdentification->
-          getWorkTitle (),
-      movementTitle =
-        fCurrentIdentification->
-          getMovementTitle ();
-
-    if (
-      workTitle.size () == 0
-        &&
-      movementTitle.size () > 0
-    ) {
-      // use the movement title as the work title
-      fCurrentIdentification->
-        setWorkTitle (
-          inputLineNumber,
-          movementTitle);
-
-      fCurrentLpsrScoreHeader->
-        setWorkTitle (
-          movementTitle);
-
-      // forget the movement title
-      fCurrentIdentification->
-        setMovementTitle (
-          inputLineNumber,
-          "");
-
-      fCurrentLpsrScoreHeader->
-        setMovementTitle (
-          "");
-    }
-  }
-
-  else if (! fWorkTitleKnown && fMovementTitleKnown) {
-    string
-      movementTitle =
-        fCurrentIdentification->
-          getMovementTitle ();
-
-    // use the movement title as the work title
-    fCurrentIdentification->
-      setWorkTitle (
-        inputLineNumber,
-        movementTitle);
-
-    fCurrentLpsrScoreHeader->
-      setWorkTitle (movementTitle);
-
-    // forget the movement title
-    fCurrentIdentification->
-      setMovementTitle (
-        inputLineNumber,
-        "");
-
-    fCurrentLpsrScoreHeader->
-      setMovementTitle ("");
-  }
-
   if (fWorkNumberKnown && fMovementNumberKnown) {
     string
       workNumber =

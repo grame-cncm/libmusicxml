@@ -2736,6 +2736,17 @@ R"(Set 'opus' to STRING in the LilyPond code \header.)",
     addStringAtom (
       opusAtom);
 
+  S_oahBooleanAtom
+    opusInTitleAtom =
+      oahBooleanAtom::create (
+        "oit", "opus-in-title",
+R"(Place the opus number in the LilyPond code \header title field.)",
+        "opusInTitle",
+        fOpusInTitle);
+  subGroup->
+    appendAtomToSubGroup (
+      opusInTitleAtom);
+
   S_oahStringAtom
     titleAtom =
       oahStringAtom::create (

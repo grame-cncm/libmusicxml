@@ -228,6 +228,8 @@ void msr2lilypondRegularHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("display-msr-skeleton", subGroup);
   registerAtomInRegularSubgroup ("display-msr", subGroup);
   registerAtomInRegularSubgroup ("display-lpsr", subGroup);
+  registerAtomInRegularSubgroup ("display-lpsr-full", subGroup);
+  registerAtomInRegularSubgroup ("display-lpsr-short", subGroup);
 
 #ifdef TRACING_IS_ENABLED
   registerAtomInRegularSubgroup (K_TRACE_OAH_LONG_OPTION_NAME, subGroup);

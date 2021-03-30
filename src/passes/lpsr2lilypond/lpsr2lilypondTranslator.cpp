@@ -222,10 +222,11 @@ if (false) // JMI
 
   // octaves entry
   // ------------------------------------------------------
-  /* initialize reference is:
-        mobile in relative mode
-        unused in absolute mode
-        fixed  in fixed mode
+  /*
+    the octaves entry reference note is:
+      mobile in relative mode
+      unused in absolute mode
+      fixed  in fixed mode
   */
   switch (gGlobalLilypondGenerationOahGroup->getOctaveEntryKind ()) {
     case msrOctaveEntryKind::kOctaveEntryRelative:
@@ -247,7 +248,8 @@ if (false) // JMI
       fCurrentOctaveEntryReference =
         msrNote::createNoteFromSemiTonesPitchAndOctave (
           K_NO_INPUT_LINE_NUMBER,
-          gGlobalLilypondGenerationOahGroup->getFixedOctaveEntrySemiTonesPitchAndOctave ());
+          gGlobalLilypondGenerationOahGroup->
+            getFixedOctaveEntrySemiTonesPitchAndOctave ());
       break;
   } // switch
 
@@ -5297,6 +5299,16 @@ void lpsr2lilypondTranslator::generateHeader (S_lpsrHeader header)
     }
   } // for
 
+  fieldWidth = 20;
+
+  // title
+  string title = header->getLilypondTitle ();
+
+  fLilypondCodeStream << left <<
+    setw (fieldWidth) <<
+    "title" << " = " << "\"" << title << "\"" <<
+    endl;
+
   // generate the name-value pairs
   for (
     list<pair<string, string> >::const_iterator i =
@@ -7482,7 +7494,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPartBlock& elt)
   fNumberOfStaffBlocksElements =
     elt->getPartBlockElementsList ().size ();
 
-  if (part->getPartStavesMap ().size () > 1) {
+  if (part->getPartStaveNumbersToAllStavesMap ().size () > 1) {
     // don't generate code for a part with only one stave
 
     string
@@ -7571,7 +7583,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
   }
 #endif
 
-  if (part->getPartStavesMap ().size () > 1) {
+  if (part->getPartStaveNumbersToAllStavesMap ().size () > 1) {
     // don't generate code for a part with only one stave
     if (gGlobalLilypondGenerationOahGroup->getLilypondComments ()) {
       fLilypondCodeStream << left <<
@@ -7671,7 +7683,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   // don't generate instrument names in the staves
   // if the containing part contains several of them
-  if (staffPartUpLink->getPartStavesMap ().size () == 1) {
+  if (staffPartUpLink->getPartStaveNumbersToAllStavesMap ().size () == 1) {
     // get the part upLink name to be used
     string partName =
       staffPartUpLink->
@@ -9148,7 +9160,8 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
           fLilypondCodeStream <<
             "\\relative";
           if (
-            gGlobalLilypondGenerationOahGroup->getRelativeOctaveEntrySemiTonesPitchAndOctave ()
+            gGlobalLilypondGenerationOahGroup->
+              getRelativeOctaveEntrySemiTonesPitchAndOctave ()
 //      JMI         !=
 //            gGlobalLilypondGenerationOahGroup->getSemiTonesPitchAndOctaveDefaultValue ()
           ) {
@@ -9156,8 +9169,10 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
             fLilypondCodeStream <<
               " " <<
               msrSemiTonesPitchAndOctaveAsLilypondString (
-                gGlobalLpsrOahGroup->getLpsrQuarterTonesPitchesLanguageKind (),
-                gGlobalLilypondGenerationOahGroup->getRelativeOctaveEntrySemiTonesPitchAndOctave ());
+                gGlobalLpsrOahGroup->
+                  getLpsrQuarterTonesPitchesLanguageKind (),
+                gGlobalLilypondGenerationOahGroup->
+                  getRelativeOctaveEntrySemiTonesPitchAndOctave ());
           }
           break;
 
@@ -9170,8 +9185,10 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
           fLilypondCodeStream <<
             "\\fixed " <<
             msrSemiTonesPitchAndOctaveAsLilypondString (
-              gGlobalLpsrOahGroup->getLpsrQuarterTonesPitchesLanguageKind (),
-              gGlobalLilypondGenerationOahGroup->getFixedOctaveEntrySemiTonesPitchAndOctave ());
+              gGlobalLpsrOahGroup->
+                getLpsrQuarterTonesPitchesLanguageKind (),
+              gGlobalLilypondGenerationOahGroup->
+                getFixedOctaveEntrySemiTonesPitchAndOctave ());
           break;
       } // switch
 

@@ -2687,7 +2687,7 @@ if (false) // JMI
 
   // should a <staves /> element be createMxmld?
   int partStavesNumber =
-    fCurrentMSRPart->getPartStavesMap ().size ();
+    fCurrentMSRPart->getPartStaveNumbersToAllStavesMap ().size ();
   if (partStavesNumber > 1) {
     // create a staves element
     fStavesElement =

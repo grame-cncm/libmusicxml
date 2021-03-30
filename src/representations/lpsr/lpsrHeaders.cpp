@@ -194,8 +194,7 @@ void lpsrHeader::print (ostream& os) const
     os << endl;
     ++gIndenter;
     os <<
-      fHeaderIdentification <<
-      endl;
+      fHeaderIdentification;
     --gIndenter;
   }
   else {
