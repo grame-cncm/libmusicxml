@@ -159,6 +159,12 @@ S_bsrCellsList bsrDynamics::buildCellsList () const
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellZ));
       break;
+    case msrDynamicsKind::kDynamicsPF: // JMI
+      result->
+        appendCellsListToCellsList (
+          bsrCellsList::create (
+            fInputLineNumber, kCellF, kCellZ));
+      break;
     case msrDynamicsKind::kDynamicsRF:
       result->
         appendCellsListToCellsList (
@@ -197,6 +203,18 @@ S_bsrCellsList bsrDynamics::buildCellsList () const
             fInputLineNumber, kCellS, kCellF, kCellP, kCellP));
       break;
     case msrDynamicsKind::kDynamicsSFFZ:
+      result->
+        appendCellsListToCellsList (
+          bsrCellsList::create (
+            fInputLineNumber, kCellS, kCellF, kCellF, kCellZ));
+      break;
+    case msrDynamicsKind::kDynamicsSFZP: // JMI
+      result->
+        appendCellsListToCellsList (
+          bsrCellsList::create (
+            fInputLineNumber, kCellS, kCellF, kCellF, kCellZ));
+      break;
+    case msrDynamicsKind::kDynamicsN: // JMI
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (

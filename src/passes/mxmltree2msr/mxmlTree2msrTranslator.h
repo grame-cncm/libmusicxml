@@ -392,6 +392,7 @@ class EXP mxmlTree2msrTranslator :
   public visitor<S_mp>,
   public visitor<S_fp>,
   public visitor<S_fz>,
+  public visitor<S_pf>, // 3.1
 
   public visitor<S_rf>,
   public visitor<S_sf>,
@@ -401,6 +402,9 @@ class EXP mxmlTree2msrTranslator :
   public visitor<S_sfp>,
   public visitor<S_sfpp>,
   public visitor<S_sffz>,
+  public visitor<S_sfzp>, // 3.1
+
+  public visitor<S_n>, // niente, 3.1
 
   public visitor<S_other_dynamics>,
 
@@ -929,6 +933,7 @@ class EXP mxmlTree2msrTranslator :
     virtual void visitStart ( S_mp& elt);
     virtual void visitStart ( S_fp& elt);
     virtual void visitStart ( S_fz& elt);
+    virtual void visitStart ( S_pf& elt);
 
     virtual void visitStart ( S_rf& elt);
     virtual void visitStart ( S_sf& elt);
@@ -938,6 +943,9 @@ class EXP mxmlTree2msrTranslator :
     virtual void visitStart ( S_sfp& elt);
     virtual void visitStart ( S_sfpp& elt);
     virtual void visitStart ( S_sffz& elt);
+    virtual void visitStart ( S_sfzp& elt);
+
+    virtual void visitStart ( S_n& elt);
 
     virtual void visitStart ( S_other_dynamics& elt);
 

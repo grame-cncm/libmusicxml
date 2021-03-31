@@ -4656,6 +4656,9 @@ void msr2mxmlTreeTranslator:: appendNoteDynamics (
         case msrDynamicsKind::kDynamicsFZ:
           subElementID = k_fz;
           break;
+        case msrDynamicsKind::kDynamicsPF:
+          subElementID = k_pf;
+          break;
         case msrDynamicsKind::kDynamicsRF:
           subElementID = k_rf;
           break;
@@ -4677,6 +4680,12 @@ void msr2mxmlTreeTranslator:: appendNoteDynamics (
           break;
         case msrDynamicsKind::kDynamicsSFFZ:
           subElementID = k_sffz;
+          break;
+        case msrDynamicsKind::kDynamicsSFZP:
+          subElementID = k_sfzp;
+          break;
+        case msrDynamicsKind::kDynamicsN:
+          subElementID = k_n;
           break;
         case msrDynamicsKind::k_NoDynamics:
           ; // should not occur
@@ -8742,6 +8751,8 @@ void msr2mxmlTreeTranslator::visitStart (S_msrDynamics& elt)
       case msrDynamicsKind::kDynamicsRF:
       case msrDynamicsKind::kDynamicsSFPP:
       case msrDynamicsKind::kDynamicsSFFZ:
+      case msrDynamicsKind::kDynamicsSFZP:
+      case msrDynamicsKind::kDynamicsN:
       case msrDynamicsKind::k_NoDynamics:
         knownToLilyPondNatively = false;
 

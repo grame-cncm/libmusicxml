@@ -14346,6 +14346,7 @@ void mxmlTree2msrTranslator::visitStart( S_fp& elt)
     fPendingDynamicsList.push_back(dynamics);
   }
 }
+
 void mxmlTree2msrTranslator::visitStart( S_fz& elt)
 {
   int inputLineNumber =
@@ -14382,6 +14383,48 @@ void mxmlTree2msrTranslator::visitStart( S_fz& elt)
         msrDynamics::create (
           inputLineNumber,
           msrDynamicsKind::kDynamicsFZ,
+          placementKind);
+
+    fPendingDynamicsList.push_back(dynamics);
+  }
+}
+
+void mxmlTree2msrTranslator::visitStart( S_pf& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTreeVisitors ()) {
+    gLogStream <<
+      "--> Start visiting S_pf" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
+
+  // should the placement be forced to 'below'?
+  if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
+    placementKind = msrPlacementKind::kPlacementBelow;
+  }
+
+  // create the dynamics
+  if (! gGlobalMxmlTree2msrOahGroup->getOmitDynamics ()) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamicsKind::kDynamicsPF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14676,6 +14719,90 @@ void mxmlTree2msrTranslator::visitStart( S_sffz& elt)
         msrDynamics::create (
           inputLineNumber,
           msrDynamicsKind::kDynamicsSFFZ,
+          placementKind);
+
+    fPendingDynamicsList.push_back(dynamics);
+  }
+}
+
+void mxmlTree2msrTranslator::visitStart( S_sfzp& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTreeVisitors ()) {
+    gLogStream <<
+      "--> Start visiting S_sfzp" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
+
+  // should the placement be forced to 'below'?
+  if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
+    placementKind = msrPlacementKind::kPlacementBelow;
+  }
+
+  // create the dynamics
+  if (! gGlobalMxmlTree2msrOahGroup->getOmitDynamics ()) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamicsKind::kDynamicsSFZP,
+          placementKind);
+
+    fPendingDynamicsList.push_back(dynamics);
+  }
+}
+
+void mxmlTree2msrTranslator::visitStart( S_n& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTreeVisitors ()) {
+    gLogStream <<
+      "--> Start visiting S_n" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
+
+  // should the placement be forced to 'below'?
+  if (gGlobalMxmlTree2msrOahGroup->getAllDynamicsBelow ()) {
+    placementKind = msrPlacementKind::kPlacementBelow;
+  }
+
+  // create the dynamics
+  if (! gGlobalMxmlTree2msrOahGroup->getOmitDynamics ()) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamicsKind::kDynamicsN,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);

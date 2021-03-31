@@ -17836,6 +17836,9 @@ msrDynamicsKind dynamicsFromString (string theString)
   else if (theString == "fz") {
     result = msrDynamicsKind::kDynamicsFZ;
   }
+  else if (theString == "pf") {
+    result = msrDynamicsKind::kDynamicsPF;
+  }
   else if (theString == "rf") {
     result = msrDynamicsKind::kDynamicsRF;
   }
@@ -17857,6 +17860,12 @@ msrDynamicsKind dynamicsFromString (string theString)
   }
   else if (theString == "sffz") {
     result = msrDynamicsKind::kDynamicsSFFZ;
+  }
+  else if (theString == "sfzp") {
+    result = msrDynamicsKind::kDynamicsSFZP;
+  }
+  else if (theString == "n") {
+    result = msrDynamicsKind::kDynamicsN;
   }
 
   return result;
@@ -17922,6 +17931,9 @@ string msrDynamicsKindAsString (
     case msrDynamicsKind::kDynamicsFZ:
       result = "fz";
       break;
+    case msrDynamicsKind::kDynamicsPF:
+      result = "pf";
+      break;
     case msrDynamicsKind::kDynamicsRF:
       result = "rf";
       break;
@@ -17943,6 +17955,12 @@ string msrDynamicsKindAsString (
       break;
     case msrDynamicsKind::kDynamicsSFFZ:
       result = "sffz";
+      break;
+    case msrDynamicsKind::kDynamicsSFZP:
+      result = "sfzp";
+      break;
+    case msrDynamicsKind::kDynamicsN:
+      result = "n";
       break;
   } // switch
 

@@ -4102,6 +4102,8 @@ void msr2lpsrTranslator::visitStart (S_msrDynamics& elt)
       case msrDynamicsKind::kDynamicsRF:
       case msrDynamicsKind::kDynamicsSFPP:
       case msrDynamicsKind::kDynamicsSFFZ:
+      case msrDynamicsKind::kDynamicsSFZP:
+      case msrDynamicsKind::kDynamicsN:
       case msrDynamicsKind::k_NoDynamics:
         knownToLilyPondNatively = false;
 

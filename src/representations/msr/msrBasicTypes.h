@@ -1711,9 +1711,11 @@ enum class msrDynamicsKind {
   kDynamicsP, kDynamicsPP, kDynamicsPPP, kDynamicsPPPP,
   kDynamicsPPPPP, kDynamicsPPPPPP,
 
-  kDynamicsMF, kDynamicsMP, kDynamicsFP, kDynamicsFZ, kDynamicsRF,
+  kDynamicsMF, kDynamicsMP, kDynamicsFP, kDynamicsFZ, kDynamicsPF, kDynamicsRF,
   kDynamicsSF, kDynamicsRFZ, kDynamicsSFZ, kDynamicsSFP,
-  kDynamicsSFPP, kDynamicsSFFZ
+  kDynamicsSFPP, kDynamicsSFFZ, kDynamicsSFZP,
+
+  kDynamicsN // niente
 };
 
 string msrDynamicsKindAsString (
