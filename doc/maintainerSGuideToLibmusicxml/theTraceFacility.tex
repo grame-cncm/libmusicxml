@@ -1,0 +1,72 @@
+\lib\ is instrumented with an optionnal, full-fledged trace facility, with numerous options to display what is going on when using the library.
+One can build the library with or without trace, which applies to the whole code base.
+
+% -------------------------------------------------------------------------
+\subsection{Activating the trace}
+% -------------------------------------------------------------------------
+
+Tracing is controlled by {\tt TRACING_IS_ENABLED}, defined or nor in {\tt src/oah/enableTracingIfDesired.h}:
+
+\begin{lstlisting}[language=C++]
+#ifndef ___enableTracingIfDesired___
+#define ___enableTracingIfDesired___
+
+#ifndef TRACING_IS_ENABLED
+  // comment the following definition if no tracing is desired
+  #define TRACING_IS_ENABLED
+#endif
+
+#endif
+\end{lstlisting}
+
+This file should be included when the trace facility is used:
+\begin{lstlisting}[language=C++]
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
+  #include "traceOah.h"
+#endif
+\end{lstlisting}
+
+The files {\tt src/oah/traceOah.h/.cpp} contain the options to the trace facility itself.
+They provide 
+
+For example, {\tt xml2ly -insider -help-trace} produces:
+\begin{lstlisting}[language=C++]
+menu@macbookprojm > xml2ly -insider -help-trace
+--- Help for group "OAH Trace" ---
+  OAH Trace (-ht, -help-trace) (use this option to show this group)
+    There are trace options transversal to the successive passes,
+      showing what's going on in the various translation activities.
+      They're provided as a help to the maintainers, as well as for the curious.
+      The options in this group can be quite verbose, use them with small input data!
+      All of them imply '-tpasses, -trace-passes'.
+  --------------------------
+    Options handling trace    (-htoh, -help-trace-options-handling):
+      -toah, -trace-oah
+            Write a trace of options and help handling to standard error.
+            This option should best appear early.
+      -toahd, -trace-oah-details
+            Write a trace of options and help handling with more details to standard error.
+            This option should best appear early.
+    Score to voices           (-htstv, -help-trace-score-to-voices):
+      -t<SHORT_NAME>, -trace-<LONG_NAME>
+            Trace SHORT_NAME/LONG_NAME in books to voices.
+      The 10 known SHORT_NAMEs are:
+        book, scores, pgroups, pgroupsd, parts, staves, st, schanges,
+        .
+      The 10 known LONG_NAMEs are:
+        -books, -scores, -part-groups, -part-groups-details,
+        -parts, -staves, -staff-details, -staff-changes, -voices and
+        -voices-details.
+... ... ...
+\end{lstlisting}
+
+
+% -------------------------------------------------------------------------
+\subsection{Trace categories}
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{Using the trace in practise}
+% -------------------------------------------------------------------------
+

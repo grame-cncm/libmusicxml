@@ -1,0 +1,23 @@
+Dominique Fober created \lib\ long before this author had the need for a library to read \mxml\ data, in order to convert it to \lily.
+
+The {\tt *.cpp} files in {\tt samples} were examples of the use of the library. Among them, {\tt xml2guido} has been used since in various contexts.
+The diagram in figure \ref {Architecture}, page \pageref {Architecture}, was created afterwards, and it would then have consisted of only \mxml, \mxmlt\ and \guido, with passes 1, 2 and 3.
+
+When tackling the conversion of \mxml\ to \lily, this author created MSR as the central internal representation for music score. It is meant to capture the musical contents of score in fine-grain detail, to meet the needs of creating \lily\ code first, and braille music later.
+The only change made to the existing \mxml\ tree representation has been to add an input line number to {\tt xmlElement}.
+
+The conversion from MSR to BSR music was two-pass from the beginning, first creating a BSR representation with unlimited line and page lenghs, and then constraining that in a second BSR would take the numbers of cell per line and lines per page into account.
+This was frozen in autumn 1999 due to the lack of interest from the numerous persons and bodies that this author contacted about {\tt xml2brl}.
+The current status is the braille output is that the cells per line and lines per page values are ignored.
+
+The creation of \mxml\ code from MSR data was then added to close a loop with \mxml2xml, with the idea that it would make \lib\ a kind of swiss knife for textual representations of music scores.
+
+Having implemented a number of computer languages in the past, this author was then tempted to design MSDL, which stands for Music Scores Description Language. The word {\it description} has been prefered to {\it programming}, because not all musicians have programming skills.
+The basic aim of MSDL is to provide a musician-oriented way to describe a score that can be converted to various target textual forms.
+
+{\tt samples/Mikrokosmos3Wandering.cpp} has been written to check that the MSR API was rich enough to go this way. The API was enriched along the way.
+
+Having MSR, LPSR and BSR available, as well as the capability to generate \mxml, \lily\, \guido and \braille, made writing a first draft of the MSDL compiler, with version number 1.001, rather easy. The initial output target languages were \mxml, \lily, \mxml\ and \braille.
+
+This document contains technical information about the internal working of the code added to \lib\ by this author as their contribution to this great piece of software.
+

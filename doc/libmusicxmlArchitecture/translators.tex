@@ -1,0 +1,89 @@
+A translator is a sequence of two or more passes, each converting one representation into another, in a pipeline way. The first one provided by the library was {\tt xml2guido}.
+
+The other translators provided by \lib\ were added later and are in the form of functions. Executable command-line applications using them are also supplied. They are shown in the table below:
+%\begin{adjustwidth}{-0.5cm}{-0.5cm}
+\begin{center}
+\footnotesize
+\def \contentsWidth{0.6\textwidth}
+\def \arraystretch{1.3}
+%
+\begin{longtable}[t]{l|ll}
+ & \multicolumn{2}{c}{Input format} \tabularnewline
+\raisebox{1em}{Output format} & \mxml & \msdl   \tabularnewline[0.5ex] 
+\hline\\[-3.0ex]
+%
+
+\mxml\ & \xmlToXml & {\tt msdl -musicxml} \tabularnewline
+
+\lily\ & \xmlToLy & {\tt msdl -lilypond} \tabularnewline
+
+Jianpu \lily\ & {\tt \xmlToLy -jianpu} & {\tt msdl -lilypond -jianpu} \tabularnewline
+
+\mxml\ & \xmlToXml & {\tt msdl -musicxml} \tabularnewline
+
+
+\braille & \xmlToBrl & {\tt msdl -braille} \tabularnewline
+
+\end{longtable}
+\end{center}
+
+
+The executables available in \lib\ are:
+%\begin{adjustwidth}{-0.5cm}{-0.5cm}
+\begin{center}
+\footnotesize
+\def \contentsWidth{0.7\textwidth}
+\def \arraystretch{1.3}
+%
+\begin{longtable}[t]{lp{\contentsWidth}}
+{Translator} & {Description} \tabularnewline[0.5ex]
+\hline\\[-3.0ex]
+%
+
+\xmlToGuido & converts \mxml\ data to Guido code, using passes:
+
+\tab\ 1 $\Rightarrow$ 3
+\tabularnewline
+
+
+\xmlToLy & performs the 4 hops from \mxml\ to \lily\ to translate the former into the latter, using these passes:
+
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 5 $\Rightarrow$ 7
+
+The {\tt -jianpu} option is supplied to create Jianpu (numbered) scores, in which the notes are represented by numbers instead of graphics, using passes:
+
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 5 $\Rightarrow$ 7'
+\tabularnewline
+
+
+\xmlToBrl & performs the 5 hops from \mxml\ to \braille\ to translate the former into the latter (draft);
+
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 8 $\Rightarrow$ 10 $\Rightarrow$ 11
+\tabularnewline
+
+
+\xmlToXml & converts \mxml\ data to MSR and back. This is useful to modify the data to suit the user's needs, such as fixing score scanning software limitations or to enhance the data:
+
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 13 $\Rightarrow$ 12 $\Rightarrow$ 2
+\tabularnewline
+
+
+\xmlToGmn & converts \mxml\ data to Guido code, using passes:
+
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 13 $\Rightarrow$ 12 $\Rightarrow$ 3
+\tabularnewline
+
+\end{longtable}
+\end{center}
+
+
+%\newpage
+
+
+
+In order to demonstrate the use of the MSR API, {\tt Mikrokosmos3Wandering} creates an MSR graph representing Bartok's Mikrokosmos III Wandering score, and then produces Guido, LilyPond, braille or MusicXML to standard output, depending on the '{\tt -generated-code-kind}' option.
+
+\msdl\ (Music Score Description Language) is a language under evolution being created by this author. It is meant for use by musicians, i.e. non-programmers, to obtain scores from a rather high-level description.\\
+\lib supplies {\tt msdl}, a compiler translating \msdl\ into Guido, LilyPond, braille or MusicXML to standard output, depending on the '{\tt -generated-code-kind}' option.
+
+

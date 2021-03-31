@@ -1,10 +1,3 @@
-OAH is a powerful way of representating the options together with the corresponding help. The classical {\tt getopt*()} family of functions are not up to the task because:
-\begin{itemize}
-\item there is a great number of options in \formats;
-\item attaching the help to the options in a clean, neat way was highly desirable;
-\item more important still, the re-use of options whenever conversion passes are combined into translators could only be achieved with an object oriented handling of the options and help.
-\end{itemize}
-
 % -------------------------------------------------------------------------
 \subsection{OAH basics}
 % -------------------------------------------------------------------------
@@ -51,6 +44,7 @@ OAH is a powerful way of representating the options together with the correspond
     and an upLink to the containing oahSubGroup.
 
 \end{itemize}
+
 
 % -------------------------------------------------------------------------
 \subsection{Features}
@@ -99,7 +93,7 @@ OAH is a powerful way of representating the options together with the correspond
 
 
 % -------------------------------------------------------------------------
-\subsection{Options and help handling}
+\subsection{Handling}
 % -------------------------------------------------------------------------
 
 \begin{itemize}
@@ -131,65 +125,3 @@ OAH is a powerful way of representating the options together with the correspond
 
 \end{itemize}
 
-% -------------------------------------------------------------------------
-\subsection{An option and help example}
-% -------------------------------------------------------------------------
-
-Option {\tt -beam-all-grace-notes} controls whether beams should be added to grace notes. Here is how it is implemented and used.
-
-First, we must determine to which internal representation or conversion pass it applied to. In this case, that is the conversion pass of an {\tt mxmlTree} to \msr.
-Thus we have in {\tt passes/mxmltree2msr/mxmlTree2msrOah.cppmxmlTree2msrOah.h}:
-\begin{lstlisting}[language=C++]
-class EXP mxmlTree2msrOahGroup : public oahGroup
-
-    bool                  fBeamAllGraceNotes;
-
-    bool                  getBeamAllGraceNotes () const
-                              { return fBeamAllGraceNotes; }
-\end{lstlisting}
-
-In {\tt passes/mxmltree2msr/mxmlTree2msrOah.cpp}, the option is created this way:
-\begin{lstlisting}[language=C++]
-void mxmlTree2msrOahGroup::initializeNotesOptions ()
-
-  // beam all grace notes
-  // --------------------------------------
-
-  fBeamAllGraceNotes = false;
-
-  S_oahBooleanAtom
-    beamAllGraceNotesAtom =
-      oahBooleanAtom::create (
-        "beamagn", "beam-all-grace-notes",
-R"(Add a beam to all grace notes)",
-        "beamAllGraceNotes",
-        fBeamAllGraceNotes);
-  subGroup->
-    appendAtomToSubGroup (
-      beamAllGraceNotesAtom);
-\end{lstlisting}
-
-And that's it. 
-
-The option value is checked in {\tt passes/mxmltree2msr/mxmlTree2msrTranslator.cpp}:
-\begin{lstlisting}[language=C++]
-void mxmlTree2msrTranslator::visitStart ( S_grace& elt )
-
-  // should all grace notes be beamed?
-  if (gGlobalMxmlTree2msrOahGroup->getBeamAllGraceNotes ()) {
-    fCurrentGraceIsBeamed = true;
-  }
-
-void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
-  S_msrNote newNote)
-
-      // create grace notes group
-      fPendingGraceNotesGroup =
-        msrGraceNotesGroup::create (
-          inputLineNumber,
-          msrGraceNotesGroup::kGraceNotesGroupBefore, // default value
-          fCurrentGraceIsSlashed,
-          fCurrentGraceIsBeamed,
-          fCurrentMeasureNumber);
-
-\end{lstlisting}

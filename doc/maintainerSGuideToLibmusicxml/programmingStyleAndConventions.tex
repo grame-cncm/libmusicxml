@@ -1,0 +1,156 @@
+% -------------------------------------------------------------------------
+\subsection{File naming conventions}
+% -------------------------------------------------------------------------
+
+Most file names start with an identification of the context they belong to, such as '{\tt oah}', '{\tt mxmlTree}', '{\tt msr}', '{\tt lpsr}', '{\tt lilypond}', '{\tt bsr}', '{\tt braille}', '{\tt xml2ly}' and '{\tt xml2brl}'.
+
+The '{\tt *Oah.*}' files handle the options and help for the corresponding context, such as '{\tt xml2lyOah.h/.cpp}'.
+
+The '{\tt traceOah.h/.cpp}', '{\tt musicXMLOah.h/.cpp}', '{\tt extra}' and '{\tt general}' context are about the corresponding help groups.
+
+There are a couple of 'globlal' files not related to any particular context: '{\tt utilities.h/.cpp}', '{\tt messagesHandling.h/.cpp}' and '{\tt version.h/.cpp}'.
+
+
+% -------------------------------------------------------------------------
+\subsection{Source code layout}
+% -------------------------------------------------------------------------
+
+The following text-editing conventions are used:
+\begin{itemize}
+\item tabs are not used before the first non-space character in a line, two spaces are used instead;
+
+\item the code is not tightly packed: declarations in classes have the members' names aligned vertically, with many spaces before them if needed, and empty lines are used to separate successive activities in methods.
+\end{itemize}
+
+
+% -------------------------------------------------------------------------
+\subsection{Defensive programming}
+% -------------------------------------------------------------------------
+
+The code base of \xmlToLy\ is {\it defensive programming} oriented, which means that:
+\begin{itemize}
+\item identifiers are explicit and long if needed -- only very local ones are short, such as iteration loops indexes;
+
+\item the code is organized in sections, with an initial comment documenting what the code does;
+
+\item C++11's {\tt auto} declaration is only seldom used. Writing the explicit types in a large code base helps the maintainer mastering the code;
+
+\item '{\tt msgAssert()}' is used to do sanity checks, such as detect a null pointer prior to using it.
+\end{itemize}
+
+
+% -------------------------------------------------------------------------
+\subsection{JMI comments}
+% -------------------------------------------------------------------------
+
+Comments containg {\tt JMI} indicates that the code may have to be reconsidered in the future, should a problem arise. They are removed when it becomes obvious that the code is fine. JMI was the acronym for the author's activity as a software contractor long time ago.
+
+
+% -------------------------------------------------------------------------
+\subsection{Code base structure}
+% -------------------------------------------------------------------------
+
+The {\tt src} folder has the following structure:
+
+\begin{itemize}
+
+\item {\tt cli} : tools for the command line
+
+  \begin{itemize}
+  \item {\tt Mikrokosmos3Wandering}
+  \item {\tt xml2brl}
+  \item {\tt xml2gmn}
+  \item {\tt xml2ly}
+  \item {\tt xml2xml}
+  \end{itemize}
+
+\item {\tt elements} : creation of the C++ classes from the DTD's
+
+\item {\tt factory} : \mxmlt\ data creation and sorting
+
+\item {\tt files} : \mxml\ files reading
+
+\item {\tt generation} : support for various output kinds
+
+  \begin{itemize}
+  \item {\tt brailleGeneration}
+  \item {\tt guidoGeneration}
+  \item {\tt lilypondGeneration}
+  \item {\tt msrGeneration}
+  \item {\tt multiGeneration}
+  \item {\tt mxmltreeGeneration}
+  \end{itemize}
+
+\item {\tt guido} : Guido support and tools
+
+\item {\tt interface} : API functions to interface for \lib\ and the various executables
+
+\item {\tt lib} : basic types used by \lib\
+
+\item {\tt manpage} : man page generation from the OAH '{\tt data}'
+%
+\item {\tt midisharelight-master}
+
+\item {\tt oah} : object-oriented Options And Help support
+
+\item {\tt operations} : support for transposition and \mxml\ queries
+
+\item {\tt parser} : the MusicXML parser, based on {\tt flex} and {\tt bison}
+
+\item {\tt passes} : code for single-pass converters
+
+  \begin{itemize}
+  \item {\tt bsr2braille}
+  \item {\tt bsr2bsr}
+  \item {\tt lpsr2lilypond}
+  \item {\tt msr2bsr}
+  \item {\tt msr2lpsr}
+  \item {\tt msr2msr}
+  \item {\tt msr2mxmltree}
+  \item {\tt mxml2mxmltree}
+  \item {\tt mxmltree2guido}
+  \item {\tt mxmltree2msr}
+  \item {\tt mxmltree2mxml}
+  \end{itemize}
+
+\item {\tt representations} : the various internal representations used by \lib\
+
+  \begin{itemize}
+  \item {\tt bsr}
+  \item {lpsr}
+  \item {\tt msdl}
+  \item {\tt msdr}
+  \item {\tt msr}
+  \item {\tt msrapi}
+  \item {\tt mxmltree}
+  \end{itemize}
+
+\item {\tt translators} : the multi-pass translator combining those in {\tt passes}
+
+  \begin{itemize}
+  \item {\tt msdl2braille}
+  \item {\tt msdl2guido}
+  \item {\tt msdl2lilypond}
+  \item {\tt msdl2musicxml}
+  \item {\tt msdlcompiler}
+  \item {\tt msr2braille}
+  \item {\tt msr2guido}
+  \item {\tt msr2lilypond}
+  \item {\tt msr2musicxml}
+  \item {\tt musicxml2braille}
+  \item {\tt musicxml2guido}
+  \item {\tt musicxml2lilypond}
+  \item {\tt musicxml2musicxml}
+  \end{itemize}
+
+\item {\tt utilities} : various utilities, include indented output streams, and version history support
+
+\item {\tt visitors} : two-phase visitors support and example visitors code
+
+\item {\tt wae} : multilingual Warnings And Errors support, including exceptions handling
+
+\end{itemize}
+
+The name '{\tt lilypond}' was chosen by Dominique long before work started on \\xmlTobrl.
+
+There's a single '{\tt lilypond}' folder to contain MSR, LPSR, BSR, \xmlToLy\ and \xmlToBrl, even though BSR and braille music are a distinct branch. This has been preferred by Dominique as the manager of \lib.

@@ -1,0 +1,9 @@
+Having many executables with many options makes options and help handling a challenge.\\
+This is why \lib\ uses it own OAH (Options And Help) object oriented infrastructure.
+
+This library provides OAH (Options And Help), a full-fledged object-oriented options and help management infrastructure.
+
+OAH organizes the options and the corresponding help in a hierarchy of groups, sub-groups and so-called atoms. OAH is introspective, thus help can be obtained for every group, sub-group or atom at will.
+
+Each pass supplies a OAH group, containing its own options and help. The executable translators then aggregate the OAH groups of the passes they are composed of to offer their options and help to the user.
+

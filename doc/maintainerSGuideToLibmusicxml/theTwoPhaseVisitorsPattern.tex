@@ -1,0 +1,158 @@
+\lib\ uses a two-phase visitors pattern to traverse data structures such an {\tt xmlElement tree} or an MSR description, handling each node in the structure in a systematic way. This is in contrast to a programmed top-down traversal.
+Such data structures traversals is actually data driven: a visitor can decide to 'see' only selected node types.
+
+% -------------------------------------------------------------------------
+\subsection{Basic mechanism}
+% -------------------------------------------------------------------------
+
+Visiting a node in a data structure is done in this order:
+\begin{itemize}
+\item first phase: visit the node for the fist time, top-down;
+\item visit the node contents, using the same two-phase visitors pattern;
+\item second phase: visit the node for the second time, bottom-up.
+\end{itemize}
+
+The first can be used to prepare data needed for the node contents visit, for example.
+Then the second phase can used such data, if relevant, as well as data created by the node contents visit, do consolidate the whole.
+
+% -------------------------------------------------------------------------
+\subsection{A first example}
+% -------------------------------------------------------------------------
+
+In {\tt samples/countnotes.cpp}, counting the notes in \mxml\ data needs only see {\tt S_note} nodes. Class {\tt countnotes} thus inherits only from a visitor for this type of node, and all the other node types are simply ignored.
+
+The {\tt countnotes::visitStart()} method only has to increment the notes count.
+
+\begin{lstlisting}[language=C++,caption={{\tt samples/countnotes.cpp}}]
+class countnotes : 
+	public visitor<S_note>
+{
+	public:
+		int	fCount;
+
+		countnotes() : fCount (0)	{}
+				 
+		virtual ~countnotes () {}
+		
+		void visitStart ( S_note& elt )		{ fCount++; }
+};
+\end{lstlisting}
+
+% -------------------------------------------------------------------------
+\subsection{A more complex example}
+% -------------------------------------------------------------------------
+
+Let's look at the {\tt <scaling/>} \mxml\ element:
+\begin{lstlisting}[language=C++]
+		<scaling>
+			<millimeters>7</millimeters>
+			<tenths>40</tenths>
+		</scaling>
+\end{lstlisting}
+
+It contains a {\tt <millimeter/>} and a {\tt <tenth/>} element. The latter two don't contain any other elements, so {\tt visitStart()} is enough for them.
+
+There is nothing to do on the visit start upon {\tt <scaling/>}, so there is no such method.
+On the visit end upon {\tt <scaling/>}, though, the values grabbed from the {\tt <millimeter/>} and {\tt <tenth/>} elements are used to create the {\tt msrScaling} description.
+
+Should a visit start method have been written, the execution order would have been:
+\begin{lstlisting}[language=C++]
+  mxmlTree2msrTranslator::visitStart ( S_scaling& elt)
+  	mxmlTree2msrTranslator::visitStart ( S_millimeters& elt )
+		mxmlTree2msrTranslator::visitStart ( S_tenths& elt )
+  mxmlTree2msrTranslator::visitEnd ( S_scaling& elt)
+\end{lstlisting}
+
+or, depending on the order in which the subelements of {\tt <scaling/>} are visited:
+\begin{lstlisting}[language=C++]
+  mxmlTree2msrTranslator::visitStart ( S_scaling& elt)
+		mxmlTree2msrTranslator::visitStart ( S_tenths& elt )
+  	mxmlTree2msrTranslator::visitStart ( S_millimeters& elt )
+  mxmlTree2msrTranslator::visitEnd ( S_scaling& elt)
+\end{lstlisting}
+
+In {\tt src/passes/mxmltree2msr/mxmlTree2msrTranslator.cpp}, visiting a {\tt <scaling/>} element is handled this way:
+\begin{lstlisting}[language=C++,caption={Visiting {\tt <scaling/>}}]
+void mxmlTree2msrTranslator::visitStart ( S_millimeters& elt )
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTreeVisitors ()) {
+    gLogStream <<
+      "--> Start visiting S_millimeters" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  fCurrentMillimeters = (float)(*elt);
+}
+
+void mxmlTree2msrTranslator::visitStart ( S_tenths& elt )
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTreeVisitors ()) {
+    gLogStream <<
+      "--> Start visiting S_tenths" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  fCurrentTenths = (float)(*elt);
+}
+
+void mxmlTree2msrTranslator::visitEnd ( S_scaling& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTreeVisitors ()) {
+    gLogStream <<
+      "--> End visiting S_scaling" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // create a scaling
+  S_msrScaling
+    scaling =
+      msrScaling::create (
+        inputLineNumber,
+        fCurrentMillimeters,
+        fCurrentTenths);
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGeometry ()) {
+    gLogStream <<
+      "There are " << fCurrentTenths <<
+      " tenths for " <<  fCurrentMillimeters <<
+      endl;
+  }
+#endif
+
+  // set the MSR score's scaling
+  fMsrScore->
+    setScaling (scaling);
+}
+\end{lstlisting}
+
+The order of the visit of a node's subnodes is programmed in {\tt browseData()} methods, such as:
+\begin{lstlisting}[language=C++,caption={{\tt msrDoubleTremolo::browseData (basevisitor* v)}}]
+void msrDoubleTremolo::browseData (basevisitor* v)
+{
+  if (fDoubleTremoloFirstElement) {
+    // browse the first element
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*fDoubleTremoloFirstElement);
+  }
+
+  if (fDoubleTremoloSecondElement) {
+    // browse the second element
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*fDoubleTremoloSecondElement);
+  }
+}
+\end{lstlisting}
+
