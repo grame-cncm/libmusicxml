@@ -1,0 +1,677 @@
+\begin{adjustwidth}{0cm}{0cm}
+\begin{figure}[ht]
+\caption {\formats\ architecture}
+\label{Architecture}
+\begin{center}
+
+% The sizes
+% ------------------------------------------------
+
+\def \bendAngle {60}
+
+\def \minimumRectangleHeight {10 mm}
+\def \minimumRectangleWidth  {30 mm}
+
+\def \separatorWidth {\minimumRectangleWidth}
+
+\def \roundedCorners {10pt}
+
+
+% -------------------------------------------------------------------------
+\begin{tikzpicture}[
+	%
+	scale=0.42,
+	%
+	>=open triangle 45,
+	]
+% -------------------------------------------------------------------------
+
+% elements positions
+% ------------------------------------------------
+
+\tikzmath{
+	% internal diameter
+	\interalDiameter = 9;
+	%
+	% external diameter
+	\externalDiameter = 18;
+	%
+	% the sectors
+	\sectorsNumber = 20; % 4 times as many radiuses are used, for fine placement
+	\sectorAngle   = 360 / \sectorsNumber;
+	\origingAngle  = 90;
+	%
+  % MSR
+  \MSRAbs = 0;
+  \MSROrd = 0;
+  %
+  % UpperSpace
+  \UpperSpaceAbs = 0;
+  \UpperSpaceOrd = \externalDiameter * 1.1;
+	%
+  % MusicXMLTree
+  \MusicXMLTreeAngle = \origingAngle + 0 * \sectorAngle;
+  \MusicXMLTreeAbs = \interalDiameter*cos(\MusicXMLTreeAngle);
+  \MusicXMLTreeOrd = \interalDiameter*sin(\MusicXMLTreeAngle);
+  %
+  % MusicXML
+  \MusicXMLAngle = \MusicXMLTreeAngle;
+  \MusicXMLAbs = \externalDiameter*cos(\MusicXMLAngle);
+  \MusicXMLOrd = \externalDiameter*sin(\MusicXMLAngle);
+  %
+  % Guido
+  \GuidoAngle = \origingAngle + 2 * \sectorAngle;
+  \GuidoAbs = \externalDiameter*cos(\GuidoAngle);
+  \GuidoOrd = \externalDiameter*sin(\GuidoAngle);
+  %
+  % MDSR
+  \MDSRAngle = \origingAngle + 4 * \sectorAngle;
+  \MDSRAbs = \interalDiameter*cos(\MDSRAngle);
+  \MDSROrd = \interalDiameter*sin(\MDSRAngle);
+  %
+  % MIDI
+  \MIDIAngle = \MDSRAngle;
+  \MIDIAbs      = \externalDiameter*cos(\MIDIAngle);
+  \MIDIOrd      = \externalDiameter*sin(\MIDIAngle);
+  %
+  % LPSR
+  \LPSRAngle = \origingAngle + 10 * \sectorAngle;
+  \LPSRAbs      = \interalDiameter*cos(\LPSRAngle);
+  \LPSROrd      = \interalDiameter*sin(\LPSRAngle);
+  %
+  % LilyPond
+%  \LilyPondAngle = \LPSRAngle + 17.5;
+  \LilyPondAngle = \origingAngle + 9 * \sectorAngle;
+  \LilyPondAbs   = \externalDiameter*cos(\LilyPondAngle);
+  \LilyPondOrd   = \externalDiameter*sin(\LilyPondAngle);
+  %
+  % Jianpu LilyPond
+%  \JianpuLilyPondAngle = \LPSRAngle - 17.5;
+  \JianpuLilyPondAngle = \origingAngle + 11 * \sectorAngle;
+  \JianpuLilyPondAbs   = \externalDiameter*cos(\JianpuLilyPondAngle);
+  \JianpuLilyPondOrd   = \externalDiameter*sin(\JianpuLilyPondAngle);
+  %
+  % BSR
+  \BSRAngle = \origingAngle + 14 * \sectorAngle;
+  \BSRAbs      = \interalDiameter*cos(\BSRAngle);
+  \BSROrd      = \interalDiameter*sin(\BSRAngle);
+  %
+  % BrailleMusic
+  \BrailleMusicAngle = \BSRAngle;
+  \BrailleMusicAbs   = \externalDiameter*cos(\BrailleMusicAngle);
+  \BrailleMusicOrd   = \externalDiameter*sin(\BrailleMusicAngle);
+  %
+  % MSDL
+  \MSDLAngle = \origingAngle + 17 * \sectorAngle;
+  \MSDLAbs   = \externalDiameter*cos(\MSDLAngle);
+  \MSDLOrd   = \externalDiameter*sin(\MSDLAngle);
+  %
+  %
+  %
+  % RandomMusic
+  \RandomMusicStartAbs = -1.55;
+  \RandomMusicStartOrd = \MusicXMLTreeOrd + 0.35;
+  \RandomMusicInterAbs = \MusicXMLTreeAbs - 0.10;
+  \RandomMusicInterOrd = \MusicXMLTreeOrd - 0.10;
+  \RandomMusicEndAbs   = \MusicXMLAbs - 0.20;
+  \RandomMusicEndOrd   = \MusicXMLOrd - 0.15;
+  %
+  % textOutput
+  \textOutputAngle = 135;
+  \textOutputRadius = 1.6;
+  \textOutputAbs = cos(\textOutputAngle) * \textOutputRadius;
+  \textOutputOrd = sin(\textOutputAngle) * \textOutputRadius;
+  %
+  % tools
+  \toolsStartAbs = \MusicXMLAbs - 0.125;
+  \toolsStartOrd = \MusicXMLOrd - 0.15;
+  \toolsInterAbs = \MusicXMLTreeAbs - 0.05;
+  \toolsInterOrd = \MusicXMLTreeOrd - 0.1;
+  \toolsEndAbs   = \textOutputAbs + 0.15;
+  \toolsEndOrd   = \textOutputOrd + 0.0;
+  %
+  % xmlToGuido
+  \xmlToGuidoInterangle = (\MusicXMLTreeAngle + \GuidoAngle) / 2;
+  \xmlToGuidoInterRadius = 0.6;
+  \xmlToGuidoStartAbs = \MusicXMLAbs + 0.15;
+  \xmlToGuidoStartOrd = \MusicXMLOrd - 0.15;
+  \xmlToGuidoInterAbs = cos(\xmlToGuidoInterangle) * \xmlToGuidoInterRadius;
+  \xmlToGuidoInterOrd = sin(\xmlToGuidoInterangle) * \xmlToGuidoInterRadius;
+  \xmlToGuidoEndAbs   = \GuidoAbs - 0.15;
+  \xmlToGuidoEndOrd   = \GuidoOrd - 0.15;
+  %
+  % xml2ly
+  \xmlToLyInterIAngle  = mod((\MusicXMLTreeAngle + \LPSRAngle) * 2 / 3, 360);
+  \xmlToLyInterIIAngle = mod((\MusicXMLTreeAngle + \LPSRAngle) * 1 / 3, 360);
+  \xmlToLyInterRadius = 0.10;
+  \xmlToLyStartAbs = \MusicXMLAbs + 0.05;
+  \xmlToLyStartOrd = \MusicXMLOrd - 0.15;
+  \xmlToLyInterIAbs = cos(\xmlToLyInterIAngle) * \xmlToLyInterRadius;
+  \xmlToLyInterIOrd = sin(\xmlToLyInterIAngle) * \xmlToLyInterRadius;
+  \xmlToLyInterIIAbs = cos(\xmlToLyInterIIAngle) * \xmlToLyInterRadius;
+  \xmlToLyInterIIOrd = sin(\xmlToLyInterIIAngle) * \xmlToLyInterRadius;
+  \xmlToLyEndAbs   = \LilyPondAbs - 0.045;
+  \xmlToLyEndOrd   = \LilyPondOrd + 0.15;
+  %
+  % xml2brl
+  \xmlToBrlInterIAngle  = mod((\MusicXMLTreeAngle + \LPSRAngle) * 2 / 3, 360);
+  \xmlToBrlInterIIAngle = mod((\MusicXMLTreeAngle + \LPSRAngle) * 1 / 3, 360);
+  \xmlToBrlInterRadius = 0.2;
+  \xmlToBrlStartAbs = \MusicXMLAbs + 0.10;
+  \xmlToBrlStartOrd = \MusicXMLOrd - 0.15;
+  \xmlToBrlInterIAbs = cos(\xmlToBrlInterIAngle) * \xmlToBrlInterRadius;
+  \xmlToBrlInterIOrd = sin(\xmlToBrlInterIAngle) * \xmlToBrlInterRadius;
+  \xmlToBrlInterIIAbs = cos(\xmlToBrlInterIIAngle) * \xmlToBrlInterRadius;
+  \xmlToBrlInterIIOrd = sin(\xmlToBrlInterIIAngle) * \xmlToBrlInterRadius;
+  \xmlToBrlEndAbs   = \BrailleMusicAbs - 0.05;
+  \xmlToBrlEndOrd   = \BrailleMusicOrd + 0.15;
+  %
+  %
+  %
+  % toBeWrittenCommon
+  \toBeWrittenCommonStartAbs = -1.15;
+  \toBeWrittenCommonStartOrd = \MDSROrd + 0.65;
+  \toBeWrittenCommonEndAbs = \toBeWrittenCommonStartAbs + 0.65;
+  \toBeWrittenCommonEndOrd = \toBeWrittenCommonStartOrd - 0.225;
+  %
+  % toBeWrittenToMusicXML
+  \toBeWrittenToMusicXMLInterIAngle  = mod((\MusicXMLTreeAngle + \MDSRAngle) * -0.1, 360);
+  \toBeWrittenToMusicXMLInterIIAngle = mod((\MusicXMLTreeAngle + \MDSRAngle) * 0.375, 360);
+  \toBeWrittenToMusicXMLInterRadius = -0.20;
+  \toBeWrittenToMusicXMLStartAbs = \toBeWrittenCommonEndAbs;
+  \toBeWrittenToMusicXMLStartOrd = \toBeWrittenCommonEndOrd;
+  \toBeWrittenToMusicXMLInterIAbs = cos(\toBeWrittenToMusicXMLInterIAngle) * \toBeWrittenToMusicXMLInterRadius;
+  \toBeWrittenToMusicXMLInterIOrd = sin(\toBeWrittenToMusicXMLInterIAngle) * \toBeWrittenToMusicXMLInterRadius;
+  \toBeWrittenToMusicXMLInterIIAbs = cos(\toBeWrittenToMusicXMLInterIIAngle) * \toBeWrittenToMusicXMLInterRadius;
+  \toBeWrittenToMusicXMLInterIIOrd = sin(\toBeWrittenToMusicXMLInterIIAngle) * \toBeWrittenToMusicXMLInterRadius;
+  \toBeWrittenToMusicXMLEndAbs   = \MusicXMLAbs - 0.05;
+  \toBeWrittenToMusicXMLEndOrd   = \MusicXMLOrd - 0.15;
+	%
+  % toBeWrittenToLilyPond
+  \toBeWrittenToLilyPondInterIAngle  = mod((\LPSRAngle + \MDSRAngle) * -0.1, 360);
+  \toBeWrittenToLilyPondInterIIAngle = mod((\LPSRAngle + \MDSRAngle) * 0.375, 360);
+  \toBeWrittenToLilyPondInterRadius = 0.30;
+  \toBeWrittenToLilyPondStartAbs = \toBeWrittenCommonEndAbs5;
+  \toBeWrittenToLilyPondStartOrd = \toBeWrittenCommonEndOrd;
+  \toBeWrittenToLilyPondInterIAbs = cos(\toBeWrittenToLilyPondInterIAngle) * \toBeWrittenToLilyPondInterRadius;
+  \toBeWrittenToLilyPondInterIOrd = sin(\toBeWrittenToLilyPondInterIAngle) * \toBeWrittenToLilyPondInterRadius;
+  \toBeWrittenToLilyPondInterIIAbs = cos(\toBeWrittenToLilyPondInterIIAngle) * \toBeWrittenToLilyPondInterRadius;
+  \toBeWrittenToLilyPondInterIIOrd = sin(\toBeWrittenToLilyPondInterIIAngle) * \toBeWrittenToLilyPondInterRadius;
+  \toBeWrittenToLilyPondEndAbs   = \LilyPondAbs - 0.15;
+  \toBeWrittenToLilyPondEndOrd   = \LilyPondOrd - 0.15;
+	%
+  % toBeWrittenToBrailleMusic
+  \toBeWrittenToBrailleMusicInterIAngle  = mod((\LPSRAngle + \MDSRAngle) * -0.1, 360);
+  \toBeWrittenToBrailleMusicInterIIAngle = mod((\LPSRAngle + \MDSRAngle) * 0.375, 360);
+  \toBeWrittenToBrailleMusicInterRadius = 0.30;
+  \toBeWrittenToBrailleMusicStartAbs = \toBeWrittenCommonEndAbs5;
+  \toBeWrittenToBrailleMusicStartOrd = \toBeWrittenCommonEndOrd;
+  \toBeWrittenToBrailleMusicInterIAbs = cos(\toBeWrittenToBrailleMusicInterIAngle) * \toBeWrittenToBrailleMusicInterRadius;
+  \toBeWrittenToBrailleMusicInterIOrd = sin(\toBeWrittenToBrailleMusicInterIAngle) * \toBeWrittenToBrailleMusicInterRadius;
+  \toBeWrittenToBrailleMusicInterIIAbs = cos(\toBeWrittenToBrailleMusicInterIIAngle) * \toBeWrittenToBrailleMusicInterRadius;
+  \toBeWrittenToBrailleMusicInterIIOrd = sin(\toBeWrittenToBrailleMusicInterIIAngle) * \toBeWrittenToBrailleMusicInterRadius;
+  \toBeWrittenToBrailleMusicEndAbs   = \BrailleMusicAbs - 0.15;
+  \toBeWrittenToBrailleMusicEndOrd   = \BrailleMusicOrd - 0.15;
+  %
+%  % title
+%  \titleAbs = -1.2;
+%  \titleOrd = 3.0;
+%  %
+%  % table
+%  \tableOrd = -2.8;
+%  %
+%  % bottom line
+%  \bottomLineOrd = -3.5;
+%  %
+%  % legend
+%  \legendAbs = -2.3;
+%  \legendOrd = -3.4;
+%  %
+%  % date
+%  \dateAbs = 0.25;
+%  \dateOrd = \bottomLineOrd-0.2;
+}
+
+
+\footnotesize
+
+
+% The coordinates
+% ------------------------------------------------
+
+\coordinate (MSR) at (\MSRAbs,\MSROrd);
+
+\coordinate (UpperSpace) at (\UpperSpaceAbs,\UpperSpaceOrd);
+
+\coordinate (MusicXMLTree) at (\MusicXMLTreeAbs,\MusicXMLTreeOrd);
+\coordinate (MusicXML) at (\MusicXMLAbs,\MusicXMLOrd);
+
+\coordinate (Guido) at (\GuidoAbs,\GuidoOrd);
+
+\coordinate (LPSR) at (\LPSRAbs, \LPSROrd);
+\coordinate (LilyPond) at (\LilyPondAbs, \LilyPondOrd);
+\coordinate (JianpuLilyPond) at (\JianpuLilyPondAbs, \JianpuLilyPondOrd);
+
+\coordinate (BrailleMusic) at (\BrailleMusicAbs, \BrailleMusicOrd);
+\coordinate (BSR) at (\BSRAbs, \BSROrd);
+
+\coordinate (MSDL) at (\MSDLAbs, \MSDLOrd);
+
+\coordinate (MIDI) at (\MIDIAbs, \MIDIOrd);
+\coordinate (MDSR) at (\MDSRAbs, \MDSROrd);
+
+\coordinate (textOutput) at (\textOutputAbs, \textOutputOrd);
+
+
+% Draw the elements
+% ------------------------------------------------
+
+\def \minimumCircleSize {85}
+\def \minimumSquareSize {75}
+
+\def \MusicXMLColor {red!15.5}
+
+\def \GuidoColor {brown!20}
+
+\def \LilyPondColor {orange!20}
+
+\def \BrailleMusicColor {purple!7.5}
+
+\def \MSDLColor {purple!7.5}
+
+\def \BMMLColor {blue!7.5}
+
+\def \MEIColor {blue!7.5}
+
+\def \MIDIColor {black!3.75}
+
+\def \roundedCorners {10pt}
+
+% MSR
+\node[align=center,style={circle,minimum size=100,fill=green!20}]
+  (MSR) at (MSR) {{\bf MSR}\\(graph)};
+
+% UpperSpace
+\node[align=center,style={rectangle,minimum height=50,fill=white}]
+  (UpperSpace) at (UpperSpace) {~};
+
+% MusicXML
+\node[align=center,style={rectangle, minimum size=\minimumSquareSize,fill=\MusicXMLColor}]
+  (MusicXML)
+  at (MusicXML) {{\bf MusicXML}\\(text)};
+
+% MusicXMLTree
+\node[align=center,style={circle,minimum size=\minimumCircleSize,fill=\MusicXMLColor}]
+  (MusicXMLTree)
+  at (MusicXMLTree) {{\bf mxmlElement}\\{\bf tree}};
+  
+% Guido
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\GuidoColor}]
+  (Guido) at (Guido) {{\bf Guido}\\(text)};
+ 
+% LilyPond
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\LilyPondColor}]
+  (LilyPond)
+  at (LilyPond) {{\bf LilyPond}\\(text)};
+\node[align=center,style={circle,minimum size=\minimumCircleSize,fill=\LilyPondColor}]
+  (LPSR)
+  at (LPSR) {{\bf LPSR}\\(graph)};
+
+% Jianpu LilyPond
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\LilyPondColor}]
+  (JianpuLilyPond)
+  at (JianpuLilyPond) {
+    \parbox [c] {1.8cm} {
+    	\centering {\bf Jianpu}
+			\\
+			\centering {\bf LilyPond}
+			\\
+			\centering {(text)}
+    }
+  };
+\node[align=center,style={circle,minimum size=\minimumSquareSize,fill=\LilyPondColor}]
+  (LPSR)
+  at (LPSR) {{\bf LPSR}\\(graph)};
+
+% BrailleMusic
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\BrailleMusicColor}]
+  (BrailleMusic)
+  at (BrailleMusic) {{\bf Braille music}\\(text)};
+\node[align=center,style={circle,minimum size=\minimumCircleSize,fill=\BrailleMusicColor}]
+  (BSR)
+  at (BSR) {{\bf BSR}\\(graph)};
+
+% MSDL
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\MSDLColor}]
+  (MSDL)
+  at (MSDL) {{\bf MSDL}\\(text)};
+\node[align=center,style={circle,minimum size=\minimumCircleSize,fill=\MSDLColor}]
+  (BSR)
+  at (BSR) {{\bf BSR}\\(graph)};
+
+% MIDI
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\MIDIColor}]
+  (MIDI)
+  at (MIDI) {{\bf MIDI}\\(binary)};
+  
+% MDSR
+\node[align=center,style={circle,minimum size=\minimumCircleSize,fill=\MIDIColor,text=gray!\minimumCircleSize}]
+  (MDSR)
+  at (MDSR) {{\bf MDSR}\\(?)};
+
+%% textOutput
+%\node[align=center]
+%  (textOutput)
+%  at (textOutput) {\includegraphics[scale=0.15]{TextOutputIcon.png}};
+
+
+% Draw the arcs between the elements
+% ------------------------------------------------
+
+\def \bendAngle {20}
+
+\def \arcsColor {blue}
+\def \dashedArcsColor {gray!50}
+\def \loopsColor {red}
+
+% MusicXML <-> MusicXMLTree
+\path [->, sloped, bend right=\bendAngle, below, thick, \arcsColor] 
+(MusicXML) 
+edge node {\rotatebox{-90}{1}} 
+(MusicXMLTree);
+
+\path [->, sloped, bend right=\bendAngle, below, thick, \arcsColor] 
+(MusicXMLTree) 
+edge node {\rotatebox{90}{2}} 
+(MusicXML);
+
+% MusicXMLTree -> Guido
+\path [->, sloped, above, thick, \arcsColor] 
+(MusicXMLTree) 
+edge node {\rotatebox{30}{3}} 
+(Guido);
+
+% MusicXMLTree <-> MSR
+\path [->, sloped, bend right=\bendAngle, above, thick, \arcsColor] 
+(MusicXMLTree) 
+edge node {\rotatebox{-82}{4}} 
+(MSR);
+
+\path [->, sloped, bend right=\bendAngle, above, thick, \arcsColor] 
+(MSR) 
+edge node {\rotatebox{82.5}{12}} 
+(MusicXMLTree);
+
+% MSR -> MSR
+\path [->, sloped, below, thick, \loopsColor]
+(MSR) 
+edge [out=205, in=225, loop] node {\rotatebox{55}{13}} 
+(MSR);
+
+% MSR <-> LPSR
+\path [->, sloped, bend right=\bendAngle, below, thick, \arcsColor] 
+(MSR) 
+edge node {\rotatebox{80}{5}} 
+(LPSR);
+
+\path [->, sloped, bend right=\bendAngle, below, thick, \arcsColor] 
+(LPSR) 
+edge node {\rotatebox{-80}{6}} 
+(MSR);
+
+% LPSR -> LilyPond
+\path [->, sloped, below, thick, \arcsColor] 
+(LPSR) 
+edge node {\rotatebox{-55}{7}} 
+(LilyPond);
+
+% LPSR -> JianpuLilyPond
+\path [->, sloped, below, thick, \arcsColor] 
+(LPSR) 
+edge node {\rotatebox{55}{7'}} 
+(JianpuLilyPond);
+
+% MSR <-> BSR
+\path [->, sloped, bend right=\bendAngle, below, thick, \arcsColor] 
+(MSR) 
+edge node {\rotatebox{10}{8}} 
+(BSR);
+
+\path [->, sloped, bend right=\bendAngle, above, thick, \arcsColor] 
+(BSR) 
+edge node {\rotatebox{20}{9}} 
+(MSR);
+
+% BSR -> BSR
+\path [->, sloped, below, thick, \loopsColor]
+(BSR) 
+edge [out=-110, in=-90, loop] node {\rotatebox{10}{10}} 
+(BSR);
+
+% BSR -> BrailleMusic
+\path [->, sloped, above, thick, \arcsColor] 
+(BSR) 
+edge node {\rotatebox{17.5}{11}} 
+(BrailleMusic);
+
+% MIDI <-> MDSR
+\path [->, sloped, bend right=\bendAngle, below, thick, loosely dashed, color=\dashedArcsColor]
+(MIDI) 
+edge node {\rotatebox{-30}{}} 
+(MDSR);
+
+\path [->, sloped, bend right=\bendAngle, below, thick, loosely dashed, color=\dashedArcsColor]
+(MDSR) 
+edge node {\rotatebox{-30}{}} 
+(MIDI);
+
+% MDSR <-> MSR
+\path [->, sloped, bend right=\bendAngle, below, thick, loosely dashed, color=\dashedArcsColor]
+(MDSR) 
+edge node {\rotatebox{-30}{}} 
+(MSR);
+
+\path [->, sloped, bend right=\bendAngle, below, thick, loosely dashed, color=\dashedArcsColor]
+(MSR) 
+edge node {\rotatebox{-40}{}} 
+(MDSR);
+
+% MSDL -> MSR
+\path [->, sloped, below, thick, color=\arcsColor]
+(MSDL) 
+edge node {\rotatebox{-35}{14}} 
+(MSR);
+
+
+%% Draw the tools
+%% ------------------------------------------------
+%
+%\filldraw [gray!30] 
+%  (\toolsStartAbs, \toolsStartOrd) circle [radius=0pt]
+%  (\toolsInterAbs,\toolsInterOrd) circle [radius=0pt] 
+%  (\toolsEndAbs,\toolsEndOrd) circle [radius=0pt];
+%  
+%\draw [->,thick,red,-{Stealth[length=\roundedCorners]},anchor=center]
+%  (\toolsStartAbs, \toolsStartOrd)
+%  ..
+%  node[above,pos=0.85,sloped] {tools}
+%  controls (\toolsInterAbs,\toolsInterOrd)
+%  .. 
+%  (\toolsEndAbs,\toolsEndOrd);
+
+
+%% Draw RandomMusic
+%% ------------------------------------------------
+%
+%\filldraw [gray!30] 
+%  (\RandomMusicStartAbs, \RandomMusicStartOrd) circle [radius=1pt]
+%  (\RandomMusicInterAbs,\RandomMusicInterOrd) circle [radius=0pt] 
+%  (\RandomMusicEndAbs,\RandomMusicEndOrd) circle [radius=0pt];
+%  
+%\draw [->,thick,red,-{Stealth[length=\roundedCorners]},anchor=center]
+%  (\RandomMusicStartAbs, \RandomMusicStartOrd)
+%  ..
+%  node[above,pos=0.175,sloped] {\texttt{RandomMusic}}
+%  controls (\RandomMusicInterAbs,\RandomMusicInterOrd)
+%  .. 
+%  (\RandomMusicEndAbs,\RandomMusicEndOrd);
+
+
+%% Draw xml2guido
+%% ------------------------------------------------
+%
+%\filldraw [gray!30] 
+%(\xmlToGuidoStartAbs, \xmlToGuidoStartOrd) circle [radius=0pt]
+%(\xmlToGuidoInterAbs,\xmlToGuidoInterOrd) circle [radius=0pt] 
+%(\xmlToGuidoEndAbs,\xmlToGuidoEndOrd) circle [radius=0pt];
+%
+%\draw [->,thick,red,-{Stealth[length=\roundedCorners]},anchor=center]
+%(\xmlToGuidoStartAbs, \xmlToGuidoStartOrd)
+%..
+%node[above,pos=0.815,sloped] {\texttt{xml2guido}}
+%controls (\xmlToGuidoInterAbs,\xmlToGuidoInterOrd)
+%.. 
+%(\xmlToGuidoEndAbs,\xmlToGuidoEndOrd);
+%
+%
+%% Draw xml2guido
+%% ------------------------------------------------
+%
+%\filldraw [gray!30] 
+%(\xmlToGuidoStartAbs, \xmlToGuidoStartOrd) circle [radius=0pt]
+%(\xmlToGuidoInterAbs,\xmlToGuidoInterOrd) circle [radius=0pt] 
+%(\xmlToGuidoEndAbs,\xmlToGuidoEndOrd) circle [radius=0pt];
+%
+%\draw [->,thick,red,-{Stealth[length=\roundedCorners]},anchor=center]
+%(\xmlToGuidoStartAbs, \xmlToGuidoStartOrd)
+%..
+%node[above,pos=0.815,sloped] {\texttt{xml2guido}}
+%controls (\xmlToGuidoInterAbs,\xmlToGuidoInterOrd)
+%.. 
+%(\xmlToGuidoEndAbs,\xmlToGuidoEndOrd);
+%
+%
+%% Draw xml2ly
+%% ------------------------------------------------
+%
+%\filldraw [gray!30] 
+%(\xmlToLyStartAbs,\xmlToLyStartOrd) circle [radius=0pt]
+%(\xmlToLyInterIAbs,\xmlToLyInterIOrd) circle [radius=0pt] 
+%(\xmlToLyInterIIAbs,\xmlToLyInterIIOrd) circle [radius=0pt] 
+%(\xmlToLyEndAbs,\xmlToLyEndOrd) circle [radius=0pt];
+%
+%\draw [->,thick,red,-{Stealth[length=\roundedCorners]},anchor=center]
+%(\xmlToLyStartAbs, \xmlToLyStartOrd)
+%..
+%node[above,pos=0.685,sloped] {\texttt{xml2ly}}
+%controls 
+%  (\xmlToLyInterIAbs,\xmlToLyInterIOrd)
+%  and
+%  (\xmlToLyInterIIAbs,\xmlToLyInterIIOrd)
+%.. 
+%(\xmlToLyEndAbs,\xmlToLyEndOrd);
+%
+%
+%% Draw xml2brl 
+%% ------------------------------------------------
+%
+%\filldraw [gray!30] 
+%(\xmlToBrlStartAbs,\xmlToBrlStartOrd) circle [radius=0pt]
+%(\xmlToBrlInterIAbs,\xmlToBrlInterIOrd) circle [radius=0pt] 
+%(\xmlToBrlInterIIAbs,\xmlToBrlInterIIOrd) circle [radius=0pt] 
+%(\xmlToBrlEndAbs,\xmlToBrlEndOrd) circle [radius=0pt];
+%
+%\draw [->,thick,red,-{Stealth[length=\roundedCorners]},anchor=center]
+%(\xmlToBrlStartAbs, \xmlToBrlStartOrd)
+%..
+%node[above,pos=0.685,sloped] {\xmlToBrl}
+%controls 
+%  (\xmlToBrlInterIAbs,\xmlToBrlInterIOrd)
+%  and
+%  (\xmlToBrlInterIIAbs,\xmlToBrlInterIIOrd)
+%.. 
+%(\xmlToBrlEndAbs,\xmlToBrlEndOrd);
+
+
+%% Draw toBeWrittenCommon  
+%% ------------------------------------------------
+%
+%\filldraw [gray!30] 
+%  (\toBeWrittenCommonStartAbs,\toBeWrittenCommonStartOrd) circle [radius=1pt];
+%
+%\draw [-,thick,red,loosely dashed,color=gray!50,anchor=center]
+%  (\toBeWrittenCommonStartAbs, \toBeWrittenCommonStartOrd)
+%  --
+%  (\toBeWrittenCommonEndAbs,\toBeWrittenCommonEndOrd)
+%  node [sloped,midway,above] {\texttt{toBeWritten}};
+
+
+%% Draw toBeWrittenToMusicXML  
+%% ------------------------------------------------
+%
+%\filldraw [gray!30] 
+%  (\toBeWrittenToMusicXMLStartAbs,\toBeWrittenToMusicXMLStartOrd) circle [radius=0pt]
+%  (\toBeWrittenToMusicXMLInterIAbs,\toBeWrittenToMusicXMLInterIOrd) circle [radius=0pt] 
+%  (\toBeWrittenToMusicXMLInterIIAbs,\toBeWrittenToMusicXMLInterIIOrd) circle [radius=0pt] 
+%  (\toBeWrittenToMusicXMLEndAbs,\toBeWrittenToMusicXMLEndOrd) circle [radius=0pt];
+%  
+%\draw [-,thick,red,-{Stealth[length=\roundedCorners]},loosely dashed,color=gray!50,anchor=center]
+%  (\toBeWrittenToMusicXMLStartAbs, \toBeWrittenToMusicXMLStartOrd)
+%  ..
+% % node[above,pos=0.10,sloped] {toBeWritten}
+%  controls 
+%    (\toBeWrittenToMusicXMLInterIAbs,\toBeWrittenToMusicXMLInterIOrd)
+%    and
+%    (\toBeWrittenToMusicXMLInterIIAbs,\toBeWrittenToMusicXMLInterIIOrd)
+%  .. 
+%  (\toBeWrittenToMusicXMLEndAbs,\toBeWrittenToMusicXMLEndOrd);
+  
+  
+%% Draw toBeWrittenToLilyPond 
+%% ------------------------------------------------
+%
+%\filldraw [gray!30] 
+%  (\toBeWrittenToLilyPondStartAbs,\toBeWrittenToLilyPondStartOrd) circle [radius=0pt]
+%  (\toBeWrittenToLilyPondInterIAbs,\toBeWrittenToLilyPondInterIOrd) circle [radius=0pt] 
+%  (\toBeWrittenToLilyPondInterIIAbs,\toBeWrittenToLilyPondInterIIOrd) circle [radius=0pt] 
+%  (\toBeWrittenToLilyPondEndAbs,\toBeWrittenToLilyPondEndOrd) circle [radius=0pt];
+%  
+%\draw [-,thick,red,-{Stealth[length=\roundedCorners]},loosely dashed,color=gray!50,anchor=center]
+%  (\toBeWrittenToLilyPondStartAbs, \toBeWrittenToLilyPondStartOrd)
+%  ..
+%  controls 
+%    (\toBeWrittenToLilyPondInterIAbs,\toBeWrittenToLilyPondInterIOrd)
+%    and
+%    (\toBeWrittenToLilyPondInterIIAbs,\toBeWrittenToLilyPondInterIIOrd)
+%  .. 
+%  (\toBeWrittenToLilyPondEndAbs,\toBeWrittenToLilyPondEndOrd);
+  
+  
+%% Draw toBeWrittenToBrailleMusic 
+%% ------------------------------------------------
+%
+%\filldraw [gray!30] 
+%  (\toBeWrittenToBrailleMusicStartAbs,\toBeWrittenToBrailleMusicStartOrd) circle [radius=0pt]
+%  (\toBeWrittenToBrailleMusicInterIAbs,\toBeWrittenToBrailleMusicInterIOrd) circle [radius=0pt] 
+%  (\toBeWrittenToBrailleMusicInterIIAbs,\toBeWrittenToBrailleMusicInterIIOrd) circle [radius=0pt] 
+%  (\toBeWrittenToBrailleMusicEndAbs,\toBeWrittenToBrailleMusicEndOrd) circle [radius=0pt];
+%  
+%\draw [-,thick,red,-{Stealth[length=\roundedCorners]},loosely dashed,color=gray!50,anchor=center]
+%  (\toBeWrittenToBrailleMusicStartAbs, \toBeWrittenToBrailleMusicStartOrd)
+%  ..
+%  controls 
+%    (\toBeWrittenToBrailleMusicInterIAbs,\toBeWrittenToBrailleMusicInterIOrd)
+%    and
+%    (\toBeWrittenToBrailleMusicInterIIAbs,\toBeWrittenToBrailleMusicInterIIOrd)
+%  .. 
+%  (\toBeWrittenToBrailleMusicEndAbs,\toBeWrittenToBrailleMusicEndOrd);
+  
+% -------------------------------------------------------------------------
+\end{tikzpicture}
+ % -------------------------------------------------------------------------
+ 
+\end{center}
+
+\end{figure}
+\end{adjustwidth}
+

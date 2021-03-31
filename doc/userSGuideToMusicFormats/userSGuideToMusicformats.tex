@@ -17,7 +17,7 @@
 %\noindent
 
 \title{
-User's guide to \lib\ \\[5pt]
+User's guide to \formats\ \\[5pt]
 }
 
 \author{
@@ -30,7 +30,7 @@ Jacques Menu
 \thispagestyle{fancy} % right after \maketitle to apply it to the first page too
 
 \abstract {
-This document presents the design principles behind \xmlToLy, as well as the way to use it. It is part of the \lib\ documentation, to be found at \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/doc}.
+This document presents the design principles behind \xmlToLy, as well as the way to use it. It is part of the \formats\ documentation, to be found at \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/doc}.
 
 All the examples mentioned can be downloaded from \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/files/samples/musicxml}. They are grouped by subject in subdirectories, such as \mxmlfile{basic/HelloWorld.xml}.
 }
@@ -81,9 +81,9 @@ Speed was not an explicit goal, but as it turns out, \xmlToLy\ is not bad in thi
 \subsection{What \xmlToLy\ does}
 % -------------------------------------------------------------------------
 
-The architecture of \lib\ s presented in figure \ref {Architecture}, page \pageref {Architecture}, i figure \ref{libmusicxmlArchitecture}.
+The architecture of \formats\ s presented in figure \ref {Architecture}, page \pageref {Architecture}, i figure \ref{musicformatsArchitecture}.
 It shows the place of \xmlToLy\ in the whole.
-\subimport{../}{libmusicxmlArchitecturePicture}
+\subimport{../}{musicformatsArchitecturePicture}
 
 \xmlToLy\ performs the 4 hops from \mxml\ to \lily\ to translate the former into the latter, using these passes:
 
