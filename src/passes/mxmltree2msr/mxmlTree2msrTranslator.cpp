@@ -7586,16 +7586,17 @@ void mxmlTree2msrTranslator::visitEnd ( S_lyric& elt )
   if (fCurrentSyllableKind == msrSyllable::kSyllableNone) {
 #ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceLyrics ()) {
-    // syllabic is not mandatory, thus:
-    stringstream s;
+      // syllabic is not mandatory, thus:
+      stringstream s;
 
-    s <<
-      "<lyric /> has no <syllabic/> component, using 'single' by default";
+      s <<
+        "<lyric /> has no <syllabic/> component, using 'single' by default";
 
-    msrMusicXMLWarning (
-      gGlobalOahOahGroup->getInputSourceName (),
-      inputLineNumber,
-      s.str ());
+      msrMusicXMLWarning (
+        gGlobalOahOahGroup->getInputSourceName (),
+        inputLineNumber,
+        s.str ());
+    }
 #endif
 
     fCurrentSyllableKind = msrSyllable::kSyllableSingle;
