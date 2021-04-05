@@ -8,24 +8,11 @@ MAKE   ?= make
 CMAKE  ?= cmake
 LIBDIR ?= libdir
 IOSDIR ?= iosdir
+MAKEFILE ?= Makefile
 
 VERSION = 3.20
-
 system	:= $(shell uname -s)
 system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
-ifeq ($(system), Darwin)
-	PREFIX ?= /usr/local
-	GENERATOR ?= -G Xcode
-	MAKEFILE = libmusicxml2.xcodeproj
-endif
-ifeq ($(system), MINGW)
-	MAKEFILE = Makefile
-endif
-
-ifeq ($(system), Linux)
-	MAKEFILE = Makefile
-endif
-
 
 CMAKEOPT ?= 
 TOOLS := xml2midi xmlread xml2guido xmlversion
@@ -84,7 +71,7 @@ wasm:
 
 #===============================================================
 minimal:
-	$(MAKE) cmake CMAKEOPT="-DGENTOOLS=off -DLILY=off -DGENSTATIC=off"
+	$(MAKE) cmake CMAKEOPT="-DGENTOOLS=off -DGENSTATIC=off"
 	$(CMAKE) --build $(LIBDIR) --config Release
 
 #===============================================================
