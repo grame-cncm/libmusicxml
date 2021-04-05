@@ -28,9 +28,6 @@ get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
 #######################################
 option ( FMWK   "Generates a framework on MacOS by default"	off )
-option ( GDB    "Activates ggdb3 option" off )
-option ( LILY   "Include lilypond part"	 on )
-option ( BRL    "Include braille part"	 off )
 option ( GENTOOLS   "Generates tools"	 on )
 option ( GENSTATIC  "Generates the static library"   on )
 
@@ -55,11 +52,7 @@ set (LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set (CMAKE_CXX_STANDARD 11)
 
 if(UNIX)
-  if (GDB)
-    add_definitions(-Wall -DGCC -ggdb3 -Wno-overloaded-virtual)
-  else()
-    add_definitions(-Wall -DGCC -O3 -Wno-overloaded-virtual)
-  endif()
+	add_definitions(-Wall -DGCC -O3 -Wno-overloaded-virtual)
 endif()
 
 
@@ -95,9 +88,6 @@ endif()
 set (SRCDIR  ${ROOT}/src)
 set (SAMPLEDIR ${ROOT}/samples)
 set (SRCFOLDERS  factory files elements guido lib operations parser visitors)
-if (LILY)
-	set (SRCFOLDERS  ${SRCFOLDERS}  interface lilypond)
-endif()
 
 foreach(folder ${SRCFOLDERS})
   set(SRC ${SRC} "${SRCDIR}/${folder}/*.cpp")          # add source files
@@ -107,12 +97,9 @@ foreach(folder ${SRCFOLDERS})
   set(HEADERS ${HEADERS} "${SRCDIR}/${folder}/*.h")    # add header files
 endforeach()
 
-if (NOT LILY)
-	message (STATUS "Lilypond part is not included, use -DLILY=yes to change")		
-	set(SRC ${SRC}  "${SRCDIR}/interface/libmusicxml.cpp" "${SRCDIR}/interface/musicxml2guido.cpp")
-	set(HEADERS $HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/musicxml2guido.h")
-	set (SRCFOLDERS  ${SRCFOLDERS}  interface)
-endif()
+set(SRC ${SRC}  "${SRCDIR}/interface/libmusicxml.cpp" "${SRCDIR}/interface/musicxml2guido.cpp")
+set(HEADERS $HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/musicxml2guido.h")
+set (SRCFOLDERS  ${SRCFOLDERS}  interface)
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
 file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS})
 
@@ -186,14 +173,6 @@ endif()
 # set sample targets
 set (SAMPLES xmlversion RandomMusic RandomChords xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (TOOLS  xml2guido xmlread xmltranspose xmlversion)
-if (LILY)
-	set (SAMPLES ${SAMPLES} xml2ly)
-	set (TOOLS  ${TOOLS} xml2ly)
-endif()
-if (BRL)
-	set (SAMPLES ${SAMPLES} xml2brl)
-	set (TOOLS  ${TOOLS} xml2brl)
-endif()
 
 if (APPLE)
   set (LINKTO ${staticlib})
