@@ -4,8 +4,8 @@ Welcome to the libmusicxml project
 [Grame](http://www.grame.fr) - Centre National de Création Musicale
 ----------------------------------------------------------------------
 
-Build status: [![Ubuntu](https://github.com/GRAME-CNCM/libmusicxml/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/GRAME-CNCM/libmusicxml/actions/workflows/ubuntu.yml)
-[![MacOS](https://github.com/GRAME-CNCM/libmusicxml/actions/workflows/macos.yml/badge.svg)](https://github.com/GRAME-CNCM/libmusicxml/actions/workflows/macos.yml)[![Windows](https://github.com/GRAME-CNCM/libmusicxml/actions/workflows/windows.yml/badge.svg)](https://github.com/GRAME-CNCM/libmusicxml/actions/workflows/windows.yml)
+Build status: [![Ubuntu](https://github.com/grame-cncm/libmusicxml/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/grame-cncm/libmusicxml/actions/workflows/ubuntu.yml)
+[![MacOS](https://github.com/grame-cncm/libmusicxml/actions/workflows/macos.yml/badge.svg)](https://github.com/grame-cncm/libmusicxml/actions/workflows/macos.yml)[![Windows](https://github.com/grame-cncm/libmusicxml/actions/workflows/windows.yml/badge.svg)](https://github.com/grame-cncm/libmusicxml/actions/workflows/windows.yml)
 ----
 
 
