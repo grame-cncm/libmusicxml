@@ -21,14 +21,5 @@ You must have the [emscripten](http://emscripten.org) compiler installed  and `e
 - from the build folder: run `make js`
 - from the javascript/build folder: run `make`
 
-##### Note for Linux platforms:
-The procedure to compile is close to the usual 'configure' 'make' 'make install' steps. Actually, you can simply do the following:
-    > cd /your_path_to_the_guidolib_project/build
-    > make
-    > sudo make install
-
-##### Note for Windows platforms:
-The CMake project description is "Visual Studio" oriented. Using MingW may require some adaptation of the CMakeLists.txt file. You can benefit of the standard command line tools (make) by installing [MSYS](http://www.mingw.org/wiki/MSYS) of [MSYS2](http://www.msys2.org/).
-
 ----------------------------
 In case of trouble, contact me: <fober@grame.fr>

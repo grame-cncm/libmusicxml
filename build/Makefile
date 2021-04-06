@@ -2,8 +2,6 @@
 # 
 #
 
-.PHONY : msys win32 win64 linux android
-
 MAKE   ?= make
 CMAKE  ?= cmake
 LIBDIR ?= libdir
@@ -11,8 +9,6 @@ IOSDIR ?= iosdir
 MAKEFILE ?= Makefile
 
 VERSION = 3.20
-system	:= $(shell uname -s)
-system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
 
 CMAKEOPT ?= 
 TOOLS := xml2midi xmlread xml2guido xmlversion
@@ -45,14 +41,10 @@ help :
 	@echo 
 	@echo "CMake options:"
 	@echo "   FMWK 		[MacOS only] Generates a framework on MacOS. Default is off"
-	@echo "   GDB 		Activates ggdb3 option. Default is off"
-	@echo "   LILY 		Include lilypond part. Default is on"
-	@echo "NOTE:  CMake options can be passed using CMAKEOPT, e.g."	
-	@echo "      'make cmake CMAKEOPT=-DLILY=off'"
 
 
 #===============================================================
-# building inscore and inscoreviewer
+# building the library
 #===============================================================
 libmusicxml: $(LIBDIR) $(LIBDIR)/$(MAKEFILE)
 	$(CMAKE) --build $(LIBDIR) --config Release
@@ -88,7 +80,7 @@ cmake : $(LIBDIR)
 # building the library for Android
 #===============================================================
 android :
-	ndk-build -C android -j 6
+	ndk-build -C android
 	cp android/libs/armeabi-v7a/libmusicxml2.so android/libmusicxml2.armeabi-v7a.so
 	cp android/libs/x86/libmusicxml2.so android/libmusicxml2.x86.so
 

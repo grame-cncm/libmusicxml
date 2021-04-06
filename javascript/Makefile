@@ -9,8 +9,6 @@
 # The TOTAL_MEMORY is the maximum memory allocated by emscripten. This value is specific (100663296) to be compliant with the asm.js and prevent warning at execution.
 # It can be increased if error occured.
 # 
-# Compilation option -Oz is discouraged, it provoke undefined results and assertion errors at runtime.
-#
 
 LILY    ?= no
 srcdir  := ../src
@@ -18,13 +16,9 @@ binddir := ./src
 npmdir  := ./npm
 
 folders := factory guido lib parser elements files interface operations	visitors
-ifeq ($(LILY), yes)
-	folders := $(folders) lilypond
-	sources := $(wildcard $(srcdir)/*/*.cpp )
-else
-	sources := $(wildcard $(srcdir)/factory/*.cpp  $(srcdir)/guido/*.cpp $(srcdir)/lib/*.cpp  $(srcdir)/parser/*.cpp  $(srcdir)/elements/*.cpp  $(srcdir)/files/*.cpp $(srcdir)/operations/*.cpp $(srcdir)/visitors/*.cpp )
-	sources := $(sources) $(srcdir)/interface/libmusicxml.cpp $(srcdir)/interface/musicxml2guido.cpp
-endif
+sources := $(wildcard $(srcdir)/factory/*.cpp  $(srcdir)/guido/*.cpp $(srcdir)/lib/*.cpp  $(srcdir)/parser/*.cpp  $(srcdir)/elements/*.cpp  $(srcdir)/files/*.cpp $(srcdir)/operations/*.cpp $(srcdir)/visitors/*.cpp )
+sources := $(sources) $(srcdir)/interface/libmusicxml.cpp $(srcdir)/interface/musicxml2guido.cpp
+
 subprojects :=  $(patsubst %, $(srcdir)/%, $(folders))
 bindsrc = $(wildcard $(binddir)/*.cpp) 
 objects = $(patsubst $(srcdir)%, obj%, $(patsubst %.cpp,%.o,$(sources)) $(patsubst $(binddir)%.cpp, obj/binding%.o,$(bindsrc)))
