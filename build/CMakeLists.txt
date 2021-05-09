@@ -68,6 +68,12 @@ if(APPLE)
 		set (CMAKE_CXX_FLAGS "-miphoneos-version-min=11.2")
 		set (libtype STATIC)
 		set (FMWK "false")
+	else()
+		set ( DEFS ${DEFS} -DMACOS)
+		set (CMAKE_C++_FLAGS -mmacosx-version-min=10.13)
+		set (CMAKE_LDFLAGS -mmacosx-version-min=10.13)
+		set (CMAKE_OSX_DEPLOYMENT_TARGET 10.13)
+		set (MACOSX_DEPLOYMENT_TARGET 10.13)
 	endif()
   # to debug:
   #add_definitions(-O0 -g) # JMI
