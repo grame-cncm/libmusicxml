@@ -313,7 +313,7 @@ bool xmlpart2guido::checkMeasureRange() {
 
         const string& implicit = elt->getAttributeValue ("implicit");
         if (implicit == "yes") fPendingBar = false;
-        if (fPendingBar) {
+        if (fPendingBar || fDoubleBar) {
             // before adding a bar, we need to check that there are no repeat begin at this location
             ctree<xmlelement>::iterator repeat = elt->find(k_repeat);
             if ((repeat == elt->end()) || (repeat->getAttributeValue("direction") != "forward")) {
@@ -2733,7 +2733,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         if ( (nv.fNotehead
               || ((timePos4measure != timePositions.end()) && fPendingBar==true ) )             // if we need to infer default-x but NOT on incomplete measures
             &&  fInGrace==false     // FIXME: Workaround for GUID-74
-             )  // Do not add dx noteFormat
+             )
         {
             Sguidoelement noteFormatTag = guidotag::create("noteFormat");
             
