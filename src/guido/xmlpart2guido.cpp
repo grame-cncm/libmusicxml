@@ -2731,8 +2731,9 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
         auto timePos4measure = timePositions.find(measureNum);
         if ( (nv.fNotehead
-              || ((timePos4measure != timePositions.end()) ) )             // if we need to infer default-x
-            &&  fInGrace==false  )      // FIXME: Workaround for GUID-74
+              || ((timePos4measure != timePositions.end()) && fPendingBar==true ) )             // if we need to infer default-x but NOT on incomplete measures
+            &&  fInGrace==false     // FIXME: Workaround for GUID-74
+             )  // Do not add dx noteFormat
         {
             Sguidoelement noteFormatTag = guidotag::create("noteFormat");
             
@@ -2749,7 +2750,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             }
             
             /// check for dx inference from default_x but avoid doing this for Chords as Guido handles this automatically!
-            if (timePos4measure != timePositions.end() && (isProcessingChord==false)) {
+            if (timePos4measure != timePositions.end() && (isProcessingChord==false) && fPendingBar==true) {
                 auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
                 if (voiceInTimePosition != timePos4measure->second.end()) {
                     auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
