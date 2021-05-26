@@ -1580,6 +1580,8 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                             //cerr<< "\t\t\t FOUND Slur stop line:"<< iterSlur->getInputLineNumber()<< " voice:"<<thisNoteVoice<<" number:"<<iterSlur->getAttributeIntValue("number", 0)<<endl;
 
                             return true;
+                        }else {
+                            return false;   // we found the same slur numbering with "stop" on another voice!
                         }
                     }
                 }
@@ -2452,6 +2454,11 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
     //______________________________________________________________________________
     void xmlpart2guido::checkCue (const notevisitor& nv)
     {
+        // only consider cues if the note is being printed
+        if (!nv.printObject()) {
+            return;
+        }
+        
         if (nv.isCue()) {
             if (!fInCue) {
                 fInCue = true;
@@ -2692,6 +2699,8 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
     {
         // Check for Tied Begin
         checkTiedBegin(nv.getTied());
+        
+        bool printObject = nv.printObject();
 
         // Fingering is tied to single notes (in chords)
         int hasFingerings = 0;  // 0 if none, greater otherwise!
@@ -2728,11 +2737,17 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         string name = noteName(nv);
         guidonoteduration dur = noteDuration(nv);
         
-        Sguidoelement note = guidonote::create(fTargetVoice, name, octave, dur, accident);
+        Sguidoelement note;
+        
+        if (printObject) {
+            note = guidonote::create(fTargetVoice, name, octave, dur, accident);
+        }else {
+            note = guidonote::create(fTargetVoice, "empty", 0, dur, "");
+        }
         
         /// Force Accidental if accidental XML tag is present
         bool forcedAccidental = false;
-        if (!nv.fCautionary.empty())
+        if (!nv.fCautionary.empty() && printObject)
         {
             Sguidoelement accForce = guidotag::create("acc");
             push(accForce);
@@ -2740,7 +2755,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         }
         
         /// MusicXML from Finale can skip the Cautionary and just enter Accidental for those inclued in the key!
-        if ((forcedAccidental==false) && (nv.fAccidental.empty() == false)) {
+        if ((forcedAccidental==false) && (nv.fAccidental.empty() == false) && printObject) {
             Sguidoelement accForce = guidotag::create("acc");
             push(accForce);
             forcedAccidental = true;
