@@ -560,6 +560,8 @@ bool xmlpart2guido::checkMeasureRange() {
                         
             if ((*iter)->getType() == k_direction_type) {
                 
+                string font_size;
+                
                 ctree<xmlelement>::literator directionTypeElements;
                 for (directionTypeElements = (*iter)->lbegin(); directionTypeElements != (*iter)->lend(); directionTypeElements++) {
                     int elementType = (*directionTypeElements)->getType();
@@ -575,6 +577,9 @@ bool xmlpart2guido::checkMeasureRange() {
                                 && (element->getAttributeFloatValue("font-size", 0.0) >= 12.0) ) {
                                 generateTempo = true;
                             }
+                            
+                            std::stringstream wordParameters;
+                            std::stringstream parameters;
                             
                             if (generateTempo) {
                                 tempoWording += element->getValue();
@@ -599,14 +604,19 @@ bool xmlpart2guido::checkMeasureRange() {
                                 }
                             }
                             
-                            std::stringstream wordParameters;
-                            std::stringstream parameters;
-                            
 //                            string font_family = element->getAttributeValue("font-family");
 //                            if (font_family.size())
 //                                parameters << ",font=\""+font_family+"\"";
                             
-                            string font_size = element->getAttributeValue("font-size");
+                            string thisFontSize = element->getAttributeValue("font-size");
+                            // for composite Words, we retain only the largest font-size
+                            if (!font_size.empty()) {
+                                float lastFS = std::stof(font_size);
+                                float thisFS = std::stof(thisFontSize);
+                                if (thisFS>lastFS) {
+                                    font_size = thisFontSize;
+                                }
+                            }
                             string font_weight = element->getAttributeValue("font-weight");
                             string font_style = element->getAttributeValue("font-style");
                             
@@ -625,7 +635,10 @@ bool xmlpart2guido::checkMeasureRange() {
                             if (generateTempo) {
                                 // Convert dy to Guido Tempo Tag origin which is +4hs from top of the staff
                                 float tempoDy = xml2guidovisitor::getYposition(element, -4, true);
-                                parameters << ", dy="<<tempoDy<<"hs";
+                                if (tempoDy > commonDy) {
+                                    commonDy = tempoDy;
+                                }
+                                parameters << ", dy="<<commonDy<<"hs";
                                 tempoTextParameters = parameters.str();
                                 break;
                             }
