@@ -2146,7 +2146,7 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         if (nv.fTrill)
         {
             Sguidoelement tag;
-            tag = guidotag::create("trill");
+            tag = guidotag::create("trillBegin");
             
             // parse accidental-mark as it'll be used by all
             string accidentalMark="";
@@ -2188,20 +2188,26 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
             else {
                 // if there is no wavy-line, then the Trill should be closed in this scope!
                 fSingleScopeTrill = true;
+                // remove the default wavy-line then:
+                tag->add(guidoparam::create("wavy=\"off\"", false));
             }
-            push(tag);
+            add(tag);
         }
     }
     
     void xmlpart2guido::checkWavyTrillEnd	 ( const notevisitor& nv )
     {
-        if (nv.fTrill) pop();
+        Sguidoelement tag;
+        tag = guidotag::create("trillEnd");
         
         if (nv.getWavylines().size() > 0)
         {
             std::vector<S_wavy_line>::const_iterator i;
             for (i = nv.getWavylines().begin(); i != nv.getWavylines().end(); i++) {
                 if ((*i)->getAttributeValue("type") == "stop") {
+                    if (fWavyTrillOpened) {
+                        add(tag);
+                    }
                     fWavyTrillOpened = false;
                 }
             }
@@ -2209,6 +2215,7 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         else
             if (fSingleScopeTrill) {
                 fSingleScopeTrill = false;
+                add(tag);
             }
     }
     
