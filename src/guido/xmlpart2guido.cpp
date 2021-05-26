@@ -577,7 +577,7 @@ bool xmlpart2guido::checkMeasureRange() {
                             }
                             
                             if (generateTempo) {
-                                tempoWording = element->getValue();
+                                tempoWording += element->getValue();
                             }
                             
                             string wordPrefix="";
