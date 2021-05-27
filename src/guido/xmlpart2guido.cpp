@@ -1443,6 +1443,8 @@ void xmlpart2guido::parseTime(ctree<xmlelement>::iterator &iter) {
                 string placement = (*i)->getAttributeValue("orientation");
                 if (placement == "under")
                     tag->add (guidoparam::create("curve=\"down\"", false));
+                if (placement == "over")
+                    tag->add (guidoparam::create("curve=\"up\"", false));
                 add(tag);
             }
         }
