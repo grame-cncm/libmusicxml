@@ -313,7 +313,7 @@ bool xmlpart2guido::checkMeasureRange() {
 
         const string& implicit = elt->getAttributeValue ("implicit");
         if (implicit == "yes") fPendingBar = false;
-        if (fPendingBar) {
+        if (fPendingBar || fDoubleBar) {
             // before adding a bar, we need to check that there are no repeat begin at this location
             ctree<xmlelement>::iterator repeat = elt->find(k_repeat);
             if ((repeat == elt->end()) || (repeat->getAttributeValue("direction") != "forward")) {
@@ -560,6 +560,8 @@ bool xmlpart2guido::checkMeasureRange() {
                         
             if ((*iter)->getType() == k_direction_type) {
                 
+                string font_size;
+                
                 ctree<xmlelement>::literator directionTypeElements;
                 for (directionTypeElements = (*iter)->lbegin(); directionTypeElements != (*iter)->lend(); directionTypeElements++) {
                     int elementType = (*directionTypeElements)->getType();
@@ -576,8 +578,11 @@ bool xmlpart2guido::checkMeasureRange() {
                                 generateTempo = true;
                             }
                             
+                            std::stringstream wordParameters;
+                            std::stringstream parameters;
+                            
                             if (generateTempo) {
-                                tempoWording = element->getValue();
+                                tempoWording += element->getValue();
                             }
                             
                             string wordPrefix="";
@@ -599,14 +604,19 @@ bool xmlpart2guido::checkMeasureRange() {
                                 }
                             }
                             
-                            std::stringstream wordParameters;
-                            std::stringstream parameters;
-                            
 //                            string font_family = element->getAttributeValue("font-family");
 //                            if (font_family.size())
 //                                parameters << ",font=\""+font_family+"\"";
                             
-                            string font_size = element->getAttributeValue("font-size");
+                            string thisFontSize = element->getAttributeValue("font-size");
+                            // for composite Words, we retain only the largest font-size
+                            if (!font_size.empty()) {
+                                float lastFS = std::stof(font_size);
+                                float thisFS = std::stof(thisFontSize);
+                                if (thisFS>lastFS) {
+                                    font_size = thisFontSize;
+                                }
+                            }
                             string font_weight = element->getAttributeValue("font-weight");
                             string font_style = element->getAttributeValue("font-style");
                             
@@ -625,7 +635,10 @@ bool xmlpart2guido::checkMeasureRange() {
                             if (generateTempo) {
                                 // Convert dy to Guido Tempo Tag origin which is +4hs from top of the staff
                                 float tempoDy = xml2guidovisitor::getYposition(element, -4, true);
-                                parameters << ", dy="<<tempoDy<<"hs";
+                                if (tempoDy > commonDy) {
+                                    commonDy = tempoDy;
+                                }
+                                parameters << ", dy="<<commonDy<<"hs";
                                 tempoTextParameters = parameters.str();
                                 break;
                             }
@@ -1430,6 +1443,8 @@ void xmlpart2guido::parseTime(ctree<xmlelement>::iterator &iter) {
                 string placement = (*i)->getAttributeValue("orientation");
                 if (placement == "under")
                     tag->add (guidoparam::create("curve=\"down\"", false));
+                if (placement == "over")
+                    tag->add (guidoparam::create("curve=\"up\"", false));
                 add(tag);
             }
         }
@@ -1567,6 +1582,8 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                             //cerr<< "\t\t\t FOUND Slur stop line:"<< iterSlur->getInputLineNumber()<< " voice:"<<thisNoteVoice<<" number:"<<iterSlur->getAttributeIntValue("number", 0)<<endl;
 
                             return true;
+                        }else {
+                            return false;   // we found the same slur numbering with "stop" on another voice!
                         }
                     }
                 }
@@ -2146,7 +2163,7 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         if (nv.fTrill)
         {
             Sguidoelement tag;
-            tag = guidotag::create("trill");
+            tag = guidotag::create("trillBegin");
             
             // parse accidental-mark as it'll be used by all
             string accidentalMark="";
@@ -2188,20 +2205,26 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
             else {
                 // if there is no wavy-line, then the Trill should be closed in this scope!
                 fSingleScopeTrill = true;
+                // remove the default wavy-line then:
+                tag->add(guidoparam::create("wavy=\"off\"", false));
             }
-            push(tag);
+            add(tag);
         }
     }
     
     void xmlpart2guido::checkWavyTrillEnd	 ( const notevisitor& nv )
     {
-        if (nv.fTrill) pop();
+        Sguidoelement tag;
+        tag = guidotag::create("trillEnd");
         
         if (nv.getWavylines().size() > 0)
         {
             std::vector<S_wavy_line>::const_iterator i;
             for (i = nv.getWavylines().begin(); i != nv.getWavylines().end(); i++) {
                 if ((*i)->getAttributeValue("type") == "stop") {
+                    if (fWavyTrillOpened) {
+                        add(tag);
+                    }
                     fWavyTrillOpened = false;
                 }
             }
@@ -2209,6 +2232,7 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         else
             if (fSingleScopeTrill) {
                 fSingleScopeTrill = false;
+                add(tag);
             }
     }
     
@@ -2432,6 +2456,11 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
     //______________________________________________________________________________
     void xmlpart2guido::checkCue (const notevisitor& nv)
     {
+        // only consider cues if the note is being printed
+        if (!nv.printObject()) {
+            return;
+        }
+        
         if (nv.isCue()) {
             if (!fInCue) {
                 fInCue = true;
@@ -2672,6 +2701,8 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
     {
         // Check for Tied Begin
         checkTiedBegin(nv.getTied());
+        
+        bool printObject = nv.printObject();
 
         // Fingering is tied to single notes (in chords)
         int hasFingerings = 0;  // 0 if none, greater otherwise!
@@ -2708,11 +2739,17 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         string name = noteName(nv);
         guidonoteduration dur = noteDuration(nv);
         
-        Sguidoelement note = guidonote::create(fTargetVoice, name, octave, dur, accident);
+        Sguidoelement note;
+        
+        if (printObject) {
+            note = guidonote::create(fTargetVoice, name, octave, dur, accident);
+        }else {
+            note = guidonote::create(fTargetVoice, "empty", 0, dur, "");
+        }
         
         /// Force Accidental if accidental XML tag is present
         bool forcedAccidental = false;
-        if (!nv.fCautionary.empty())
+        if (!nv.fCautionary.empty() && printObject)
         {
             Sguidoelement accForce = guidotag::create("acc");
             push(accForce);
@@ -2720,7 +2757,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         }
         
         /// MusicXML from Finale can skip the Cautionary and just enter Accidental for those inclued in the key!
-        if ((forcedAccidental==false) && (nv.fAccidental.empty() == false)) {
+        if ((forcedAccidental==false) && (nv.fAccidental.empty() == false) && printObject) {
             Sguidoelement accForce = guidotag::create("acc");
             push(accForce);
             forcedAccidental = true;
@@ -2731,8 +2768,9 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
         auto timePos4measure = timePositions.find(measureNum);
         if ( (nv.fNotehead
-              || ((timePos4measure != timePositions.end()) ) )             // if we need to infer default-x
-            &&  fInGrace==false  )      // FIXME: Workaround for GUID-74
+              || ((timePos4measure != timePositions.end()) && fPendingBar==true ) )             // if we need to infer default-x but NOT on incomplete measures
+            &&  fInGrace==false     // FIXME: Workaround for GUID-74
+             )
         {
             Sguidoelement noteFormatTag = guidotag::create("noteFormat");
             
@@ -2749,7 +2787,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             }
             
             /// check for dx inference from default_x but avoid doing this for Chords as Guido handles this automatically!
-            if (timePos4measure != timePositions.end() && (isProcessingChord==false)) {
+            if (timePos4measure != timePositions.end() && (isProcessingChord==false) && fPendingBar==true) {
                 auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
                 if (voiceInTimePosition != timePos4measure->second.end()) {
                     auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
