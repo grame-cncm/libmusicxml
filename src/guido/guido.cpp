@@ -200,12 +200,15 @@ void guidonote::set (unsigned short voice, string name, char octave, guidonotedu
 		if (!acc.empty())
 			s << acc;
 		if (name != "empty") {
-			if (!status)
-				s << (int)octave;
-			else if (status->fOctave != octave) {
-				s << (int)octave;
-				status->fOctave = octave;
-			}
+            // AC 2021: Not generating Octave will cause problems when parsing Partial XML
+            s << (int)octave;
+            status->fOctave = octave;
+//			if (!status)
+//				s << (int)octave;
+//			else if (status->fOctave != octave) {
+//				s << (int)octave;
+//				status->fOctave = octave;
+//			}
 		}
     }
     //// AC Note 20/02/2017: Not generating Durations, causes problems on multi-voice scores with Pickup measures!
