@@ -398,6 +398,11 @@ bool xmlpart2guido::checkMeasureRange() {
             
             sLayout = elt->find(k_staff_layout, sLayout++);
         }
+        
+        /// Report ending position for partial parsing
+        if ((fEndMeasure>0) && (fMeasNum == fEndMeasure+fEndMeasureOffset+1)) {
+            fEndPosition = fCurrentScorePosition;
+        }
     }
     
     //______________________________________________________________________________
@@ -423,10 +428,6 @@ bool xmlpart2guido::checkMeasureRange() {
             else if (barStyle->getValue() == "light-light")
                 fDoubleBar = true;
             
-        }
-        
-        if ((fEndMeasure>0)&&(fEndMeasure+1 == fMeasNum)) {
-            fEndPosition = fCurrentScorePosition;
         }
     }
     
