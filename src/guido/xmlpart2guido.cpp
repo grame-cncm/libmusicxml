@@ -581,6 +581,7 @@ bool xmlpart2guido::checkMeasureRange() {
                                 }
                                                         
                             xml2guidovisitor::addPosY(element, tag, 14.0, 1.0);
+                            xml2guidovisitor::addRelativeX(element, tag, -2);   // -2 offset estimating font width
                             
                             if (fCurrentOffset)
                                 addDelayed(tag, fCurrentOffset);
@@ -1055,7 +1056,7 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
         }
         
         const string& type = elt->getAttributeValue("type");
-        int size = elt->getAttributeIntValue("size", 0);
+        int size = elt->getAttributeIntValue("size", 8);
         
         switch (size) {
             case 8:		size = 1; break;

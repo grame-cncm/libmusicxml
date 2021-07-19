@@ -408,7 +408,10 @@ namespace MusicXML2
     }
 
 void xml2guidovisitor::addRelativeX(Sxmlelement elt, Sguidoelement& tag, float xoffset){
-    float posx = elt->getAttributeFloatValue("relative-x", 0);
+    float posx = elt->getAttributeFloatValue("relative-x", 0.0);
+    if (posx == 0.0) {
+        return;
+    }
     posx = (posx / 10) * 2;   // convert to half spaces
     posx += xoffset;
     
