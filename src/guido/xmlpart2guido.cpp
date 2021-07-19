@@ -569,6 +569,26 @@ bool xmlpart2guido::checkMeasureRange() {
                     auto element = (*directionTypeElements);
                     
                     switch (elementType) {
+                        case k_pedal:
+                        {
+                            // default-y for pedal is from the top line of the staff in XML, in Guido dy=0 is the C below the lowest line.
+                            std::string pedalType = element->getAttributeValue("type");
+                            if ( (pedalType== "start") || (pedalType == "sostenuto")) {
+                                tag = guidotag::create("pedalOn");
+                            }else
+                                if ( (pedalType== "stop") || (pedalType == "discontinue")) {
+                                    tag = guidotag::create("pedalOff");
+                                }
+                                                        
+                            xml2guidovisitor::addPosY(element, tag, 14.0, 1.0);
+                            
+                            if (fCurrentOffset)
+                                addDelayed(tag, fCurrentOffset);
+                            else {
+                                add(tag);
+                            }
+                        }
+                            break;
                         case k_words:
                         {
                             /// GUID-147: Detect Tempo Markups using specific substrings such as "Andante" etc.
