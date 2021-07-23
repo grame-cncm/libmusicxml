@@ -571,22 +571,54 @@ bool xmlpart2guido::checkMeasureRange() {
                     switch (elementType) {
                         case k_pedal:
                         {
+                            if (fCurrentOffset < 0) {
+                                continue;
+                                // FIXME: Handle negative offsets!
+                            }
+                            bool isPedalChange = false;
                             // default-y for pedal is from the top line of the staff in XML, in Guido dy=0 is the C below the lowest line.
                             std::string pedalType = element->getAttributeValue("type");
                             if ( (pedalType== "start") || (pedalType == "sostenuto")) {
                                 tag = guidotag::create("pedalOn");
+                                fPreviousPedalYPos = xml2guidovisitor::getYposition(element, 14.0, true);
                             }else
                                 if ( (pedalType== "stop") || (pedalType == "discontinue")) {
                                     tag = guidotag::create("pedalOff");
                                 }
-                                                        
-                            xml2guidovisitor::addPosY(element, tag, 14.0, 1.0);
-                            xml2guidovisitor::addRelativeX(element, tag, -2);   // -2 offset estimating font width
+                                else if ( (pedalType== "change")) {
+                                    tag = guidotag::create("pedalOff");
+                                    isPedalChange = true;
+                                }
+                            
+                            if (pedalType != "change") {
+                                xml2guidovisitor::addPosY(element, tag, 14.0, 1.0);
+                                xml2guidovisitor::addRelativeX(element, tag, -2);   // -2 offset estimating font width
+                            }else {
+                                if (fPreviousPedalYPos) {
+                                    stringstream s;
+                                    s << "dy=" << fPreviousPedalYPos << "hs, dx="<< -2<<"hs";
+                                    tag->add (guidoparam::create(s.str(), false));
+                                }
+                            }
                             
                             if (fCurrentOffset)
                                 addDelayed(tag, fCurrentOffset);
                             else {
                                 add(tag);
+                            }
+                            
+                            if (isPedalChange) {
+                                tag = guidotag::create("pedalOn");
+                                if (fPreviousPedalYPos) {
+                                    stringstream s;
+                                    s << "dy=" << fPreviousPedalYPos << "hs, dx="<< 0<<"hs";
+                                    tag->add (guidoparam::create(s.str(), false));
+                                }
+                                if (fCurrentOffset)
+                                    addDelayed(tag, fCurrentOffset);
+                                else {
+                                    add(tag);
+                                }
                             }
                         }
                             break;

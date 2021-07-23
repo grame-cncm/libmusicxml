@@ -272,6 +272,7 @@ private:
     
     Sguidoelement lastKey;  // Storage used for Partial Conversions
     Sguidoelement lastMeter;  // Storage used for Partial Conversions
+    double fPreviousPedalYPos;  // Used for musicxml pedal change
 };
 
 
