@@ -164,7 +164,7 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
     void checkTiedEnd	 ( const std::vector<S_tied>& tied );
     void checkVoiceTime	 ( const rational& currTime, const rational& voiceTime);
     int  checkRestFormat	 ( const notevisitor& nv );
-    int checkNoteFormatDx	 ( const notevisitor& nv , rational posInMeasure);
+    bool checkNoteFormat	 ( const notevisitor& nv , rational posInMeasure);
     void checkWavyTrillBegin	 ( const notevisitor& nv );
     void checkWavyTrillEnd	 ( const notevisitor& nv );
     void checkTextEnd();
@@ -248,7 +248,7 @@ public:
     /// Map for staffNum, measureNum, voice-Position and Clef
     std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
     /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
-    std::map< int, std::map< rational, std::vector<int> > > timePositions;
+    std::map< int, std::map< double, std::vector<int> > > timePositions;
     
     rational fStartPosition, fEndPosition;
     
@@ -273,6 +273,8 @@ private:
     Sguidoelement lastKey;  // Storage used for Partial Conversions
     Sguidoelement lastMeter;  // Storage used for Partial Conversions
     double fPreviousPedalYPos;  // Used for musicxml pedal change
+    
+    void addTimePosition(const notevisitor& nv);
 };
 
 

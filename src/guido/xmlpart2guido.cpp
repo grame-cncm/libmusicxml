@@ -588,6 +588,8 @@ bool xmlpart2guido::checkMeasureRange() {
                                 else if ( (pedalType== "change")) {
                                     tag = guidotag::create("pedalOff");
                                     isPedalChange = true;
+                                }else {
+                                    continue;
                                 }
                             
                             if (pedalType != "change") {
@@ -2818,49 +2820,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         }
         
         /// Add Note head of X offset for note if necessary
-        bool noteFormat = false;
-        int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
-        auto timePos4measure = timePositions.find(measureNum);
-        if ( (nv.fNotehead
-              || ((timePos4measure != timePositions.end()) && fPendingBar==true ) )             // if we need to infer default-x but NOT on incomplete measures
-            &&  fInGrace==false     // FIXME: Workaround for GUID-74
-             )
-        {
-            Sguidoelement noteFormatTag = guidotag::create("noteFormat");
-            
-            if (nv.fNotehead) {
-                std::string noteFormatType = nv.getNoteheadType();
-                
-                if (noteFormatType.size())
-                {
-                    stringstream s;
-                    s << "\"" << noteFormatType << "\"";
-                    noteFormatTag->add (guidoparam::create(s.str(), false));
-                    noteFormat = true;
-                }
-            }
-            
-            /// check for dx inference from default_x but avoid doing this for Chords as Guido handles this automatically!
-            if (timePos4measure != timePositions.end() && (isProcessingChord==false) && fPendingBar==true) {
-                auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
-                if (voiceInTimePosition != timePos4measure->second.end()) {
-                    auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
-                    if (nv.x_default != *minXPos) {
-                        int noteDx = ( (nv.x_default - *minXPos)/ 10 ) * 2;   // convert to half spaces
-                        
-                        stringstream s;
-                        s << "dx=" << noteDx ;
-                        noteFormatTag->add (guidoparam::create(s.str(), false));
-                        noteFormat = true;
-                    }
-                }
-            }
-            
-            if (noteFormat == true)
-            {
-                push(noteFormatTag);
-            }
-        }
+        bool noteFormat = checkNoteFormat(nv, posInMeasure);
                 
         add (note);
         
@@ -2882,17 +2842,32 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         
     }
     
-    int xmlpart2guido::checkNoteFormatDx	 ( const notevisitor& nv , rational posInMeasure)
+    bool xmlpart2guido::checkNoteFormat	 ( const notevisitor& nv , rational posInMeasure)
     {
+        bool noteFormat = false;
         int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
         auto timePos4measure = timePositions.find(measureNum);
-        
-        if ( timePos4measure != timePositions.end())
+        if ( (nv.fNotehead
+              || ((timePos4measure != timePositions.end()) && fPendingBar==false ) )             // if we need to infer default-x but NOT on incomplete measures
+            &&  fInGrace==false     // FIXME: Workaround for GUID-74
+             )
         {
             Sguidoelement noteFormatTag = guidotag::create("noteFormat");
             
-            /// check for dx inference from default_x but avoid doing this for Chords as Guido handles this automatically!
-            if (timePos4measure != timePositions.end() && (isProcessingChord==false)) {
+            if (nv.fNotehead) {
+                std::string noteFormatType = nv.getNoteheadType();
+                
+                if (noteFormatType.size())
+                {
+                    stringstream s;
+                    s << "\"" << noteFormatType << "\"";
+                    noteFormatTag->add (guidoparam::create(s.str(), false));
+                    noteFormat = true;
+                }
+            }
+            
+            /// check for dx inference from default_x but avoid doing this for Chords as Guido handles note head positions in chords automatically
+            if (timePos4measure != timePositions.end() && (isProcessingChord==false) && fPendingBar==false) {
                 auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
                 if (voiceInTimePosition != timePos4measure->second.end()) {
                     auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
@@ -2902,15 +2877,18 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
                         stringstream s;
                         s << "dx=" << noteDx ;
                         noteFormatTag->add (guidoparam::create(s.str(), false));
-                        push(noteFormatTag);
-                    }else
-                        return 0;
-                }else
-                    return 0;
+                        noteFormat = true;
+                    }
+                }
+            }
+            
+            if (noteFormat == true)
+            {
+                push(noteFormatTag);
             }
         }
         
-        return 1;
+        return noteFormat;
     }
     
     int xmlpart2guido::checkRestFormat	 ( const notevisitor& nv )
@@ -2990,31 +2968,8 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         
         bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
         if (!isGrace() ) {
-            ///Track all voice default-x parameters, as positions in measures
-            
-            if (true) {     // had fNotesOnly
-                auto timePos4measure = timePositions.find(fMeasNum);
-                if (notevisitor::x_default != -1) {
-                    if ( timePos4measure !=  timePositions.end())
-                    {
-                        
-                        if (timePos4measure->second.find(fCurrentVoicePosition) != timePos4measure->second.end())
-                        {
-                            // Exists.. push it to vector
-                            timePos4measure->second.find(fCurrentVoicePosition)->second.push_back(notevisitor::x_default);
-                        }else {
-                            // Doesn't exist.. insert with this element's x_default
-                            timePos4measure->second.insert(std::pair<rational, std::vector<int> >
-                                                           (fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)) );
-                        }
-                    }else {
-                        std::map<rational, std::vector<int> > inner;
-                        inner.insert(std::make_pair(fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)));
-                        timePositions.insert(std::make_pair(fMeasNum, inner));
-                    }
-                }
-            }
-            
+            addTimePosition(*this);
+
             moveMeasureTime (getDuration(), scanVoice);
             checkDelayed (getDuration());		// check for delayed elements (directions with offset)
         }
@@ -3106,6 +3061,30 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
     {
         fCurrentDivision = (long)(*elt);
     }
+
+///Track all voice default-x parameters, as positions in measures
+void xmlpart2guido::addTimePosition(const notevisitor& nv) {
+    auto timePos4measure = timePositions.find(fMeasNum);
+    double doubleVoicePosition = fCurrentVoicePosition.toDouble();
+    if (nv.x_default != -1) {
+        if ( timePos4measure !=  timePositions.end())
+        {
+            if (timePos4measure->second.find(doubleVoicePosition) != timePos4measure->second.end())
+            {
+                // Exists.. push it to vector
+                timePos4measure->second.find(doubleVoicePosition)->second.push_back(nv.x_default);
+            }else {
+                // Doesn't exist.. insert with this element's x_default
+                timePos4measure->second.insert(std::pair<rational, std::vector<int> >
+                                               (doubleVoicePosition, std::vector<int>(1, nv.x_default)) );
+            }
+        }else {
+            std::map<double, std::vector<int> > inner;
+            inner.insert(std::make_pair(doubleVoicePosition, std::vector<int>(1, nv.x_default)));
+            timePositions.insert(std::make_pair(fMeasNum, inner));
+        }
+    }
+}
     
     // MARK: Tag Add Methods using element parsing
     float xmlpart2guido::xPosFromTimePos(float default_x, float relative_x) {
