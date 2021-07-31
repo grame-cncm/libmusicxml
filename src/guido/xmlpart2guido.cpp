@@ -2820,7 +2820,9 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         }
         
         /// Add Note head of X offset for note if necessary
-        bool noteFormat = checkNoteFormat(nv, posInMeasure);
+        bool noteFormat = false;
+        if (nv.getType() != kRest)
+            noteFormat = checkNoteFormat(nv, posInMeasure);
                 
         add (note);
         
