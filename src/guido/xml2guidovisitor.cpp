@@ -210,6 +210,7 @@ namespace MusicXML2
         int targetStaff = 0xffff;	// initialized to a value we'll unlikely encounter
         bool notesOnly = false;
         rational currentTimeSign (0,1);
+        std::vector<int> processedDirections;
                 
         // browse the parts voice by voice: allows to describe voices that spans over several staves
         for (unsigned int i = 0; i < voices->size(); i++) {
@@ -294,6 +295,7 @@ namespace MusicXML2
             pv.generatePositions (fGeneratePositions);
             xml_tree_browser browser(&pv);
             pv.initialize(seq, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
+            pv.processedDirections = processedDirections;
             pv.timePositions = ps.timePositions;
             browser.browse(*elt);
             pop();
@@ -301,6 +303,7 @@ namespace MusicXML2
             previousStaffHasLyrics = pv.hasLyrics();
             fBeginPosition = pv.fStartPosition;
             fEndPosition = pv.fEndPosition;
+            processedDirections.insert(processedDirections.end(), pv.processedDirections.begin(), pv.processedDirections.end());
             
             if (pv.lastMeasureNumber() > fTotalMeasures) {
                 fTotalMeasures = pv.lastMeasureNumber();

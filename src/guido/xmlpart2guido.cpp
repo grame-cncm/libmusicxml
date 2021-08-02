@@ -91,6 +91,7 @@ namespace MusicXML2
         fTremoloInProgress = false;
         fShouldStopOctava = false;
         start (seq);
+        processedDirections.clear();
     }
     
     //________________________________________________________________________
@@ -439,11 +440,23 @@ bool xmlpart2guido::checkMeasureRange() {
             fSkipDirection = true;
         }
         // Parse Staff and Offset first
-        if (fNotesOnly || (elt->getIntValue(k_staff, 1) != fTargetStaff) ) {
+        if ((elt->getIntValue(k_staff, 1) != fTargetStaff) ) { //fNotesOnly ||
             fSkipDirection = true;
         }
-        else {
-            fCurrentOffset = elt->getLongValue(k_offset, 0);
+        // Skip if current voice has scanned in this measure
+        if (fCurrentVoicePosition > fCurrentMeasurePosition) {
+            fSkipDirection = true;
+        }
+        // Check if Direction has been processed and proceed
+        if (!fSkipDirection) {
+            int lineNumber = elt->getInputLineNumber();
+            auto it = std::find(processedDirections.begin(), processedDirections.end(), lineNumber);
+            if (it == processedDirections.end()) {
+                fCurrentOffset = elt->getLongValue(k_offset, 0);
+                processedDirections.push_back(lineNumber);
+            }else {
+                fSkipDirection = true;
+            }
         }
     }
     
@@ -835,17 +848,11 @@ bool xmlpart2guido::checkMeasureRange() {
                                 //xml2guidovisitor::addPosition(elt, tag, -4, -4);
                                 // FIXME: Researsal is a Direction and its x-pos is from the beginning of measure where in Guido it is from current graphical position!
                                 rational offset(fCurrentOffset, fCurrentDivision*4);
-                                float markDx = timePositions.getDxForElement(element, fCurrentMeasurePosition.toDouble(), fMeasNum, 0, offset.toDouble());
-                                cerr<<"<<< MARK "<< element->getValue()<<" m:"<<fMeasNum<<" vPos="<<fCurrentVoicePosition.toDouble()<<" mPos="<<fCurrentMeasurePosition.toDouble() <<" dx:"<<markDx<<endl;
-                                if (markDx != -999) {
+                                float markDx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, 0, offset.toDouble());
+                                if (markDx != -999 && markDx != 0) {
                                     stringstream s;
                                     s << "dx=" << markDx ;
                                     tag->add (guidoparam::create(s.str(), false));
-                                }else {
-                                    // Add a default -6 as rehearsal marks usually occur in the beginning of measure!
-                    //                stringstream s;
-                    //                s << "dx=" << -6.0 ;
-                    //                tag->add (guidoparam::create(s.str(), false));
                                 }
                                 xml2guidovisitor::addPosY(element, tag, -4, 1);
                                 

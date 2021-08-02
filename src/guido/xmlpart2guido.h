@@ -253,6 +253,9 @@ public:
     
     double totalPartDuration() { return fCurrentScorePosition.toDouble(); }
     
+    /// List of already processed Directions in other voices/staves to skip
+    std::vector<int> processedDirections;
+    
 private:
     bool fHasLyrics;
 
