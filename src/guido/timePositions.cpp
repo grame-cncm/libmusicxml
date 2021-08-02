@@ -10,12 +10,11 @@
 void MusicXMLTimePositions::addTimePosition(int measure, double positionInMeasure, const MusicXML2::notevisitor& nv) {
     auto timePos4measure = timePositions.find(measure);
     if (nv.x_default != -1) {
+        VoicedTimePosition inner = std::make_tuple(positionInMeasure, nv.x_default, nv.getVoice());
         if ( timePos4measure !=  timePositions.end())
         {
-            VoicedTimePosition inner = std::make_tuple(positionInMeasure, nv.x_default, nv.getVoice());
             timePos4measure->second.push_back(inner);
         }else {
-            VoicedTimePosition inner = std::make_tuple(positionInMeasure, nv.x_default, nv.getVoice());
             std::vector<VoicedTimePosition> innerVec(1, inner);
             timePositions.insert(std::make_pair(measure, innerVec));
         }

@@ -288,9 +288,7 @@ namespace MusicXML2
                     add (tag4);
                 }
             }
-            
-            ////
-            
+                        
             //// Browse XML and convert
             xmlpart2guido pv(fGenerateComments, fGenerateStem, fGenerateBars, fBeginMeasure, fEndMeasure, fEndMeasureOffset);
             pv.generatePositions (fGeneratePositions);

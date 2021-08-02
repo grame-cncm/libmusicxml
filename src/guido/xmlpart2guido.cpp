@@ -433,7 +433,7 @@ bool xmlpart2guido::checkMeasureRange() {
     //______________________________________________________________________________
     void xmlpart2guido::visitStart ( S_direction& elt )
     {
-        // Directions can have voice! Check:
+        // Directions can have voice (not encoded as of Finale v27). Check:
         int voiceNumber = elt->getIntValue(k_voice, -1);
         if (voiceNumber >0 && voiceNumber != fTargetVoice) {
             fSkipDirection = true;
@@ -444,54 +444,6 @@ bool xmlpart2guido::checkMeasureRange() {
         }
         else {
             fCurrentOffset = elt->getLongValue(k_offset, 0);
-        }
-    }
-    
-    void xmlpart2guido::visitStart ( S_rehearsal& elt )
-    {
-        if (fSkipDirection) return;
-        
-        string rehearsalValue = elt->getValue();
-        rehearsalValue = "\""+rehearsalValue+"\"";
-        
-        string enclosure = elt->getAttributeValue("enclosure");
-        string font_size = elt->getAttributeValue("font-size");
-        string font_weight = elt->getAttributeValue("font-weight");
-        string font_style = elt->getAttributeValue("font-style");
-        
-        if (rehearsalValue.size())
-        {
-            //// Using MARK tag:
-            Sguidoelement tag = guidotag::create("mark");
-            if (enclosure.size())
-            {
-                rehearsalValue += ", enclosure=\""+enclosure+"\"";
-            }else
-            {
-                // declare rectangle by default
-                rehearsalValue += ", enclosure=\"square\"";
-            }
-            if (font_size.size())
-                rehearsalValue += ", fsize="+font_size+"pt";
-            
-            tag->add (guidoparam::create(rehearsalValue.c_str(), false));
-            //xml2guidovisitor::addPosition(elt, tag, -4, -4);
-            // FIXME: Researsal is a Direction and its x-pos is from the beginning of measure where in Guido it is from current graphical position!
-            rational offset(fCurrentOffset, fCurrentDivision*4);
-            float markDx = timePositions.getDxForElement(elt, fCurrentVoicePosition.toDouble(), fMeasNum, fTargetVoice, offset.toDouble());
-            if (markDx != -999) {
-                stringstream s;
-                s << "dx=" << markDx ;
-                tag->add (guidoparam::create(s.str(), false));
-            }else {
-                // Add a default -6 as rehearsal marks usually occur in the beginning of measure!
-                stringstream s;
-                s << "dx=" << -6.0 ;
-                tag->add (guidoparam::create(s.str(), false));
-            }
-            xml2guidovisitor::addPosY(elt, tag, -4, 1);
-            
-            add (tag);
         }
     }
     
@@ -853,6 +805,54 @@ bool xmlpart2guido::checkMeasureRange() {
                             
                             generateTempo = false;
                         }
+                            
+                        case k_rehearsal:
+                        {
+                            string rehearsalValue = element->getValue();
+                            rehearsalValue = "\""+rehearsalValue+"\"";
+                            
+                            string enclosure = element->getAttributeValue("enclosure");
+                            string font_size = element->getAttributeValue("font-size");
+                            string font_weight = element->getAttributeValue("font-weight");
+                            string font_style = element->getAttributeValue("font-style");
+                            
+                            if (rehearsalValue.size())
+                            {
+                                //// Using MARK tag:
+                                Sguidoelement tag = guidotag::create("mark");
+                                if (enclosure.size())
+                                {
+                                    rehearsalValue += ", enclosure=\""+enclosure+"\"";
+                                }else
+                                {
+                                    // declare rectangle by default
+                                    rehearsalValue += ", enclosure=\"square\"";
+                                }
+                                if (font_size.size())
+                                    rehearsalValue += ", fsize="+font_size+"pt";
+                                
+                                tag->add (guidoparam::create(rehearsalValue.c_str(), false));
+                                //xml2guidovisitor::addPosition(elt, tag, -4, -4);
+                                // FIXME: Researsal is a Direction and its x-pos is from the beginning of measure where in Guido it is from current graphical position!
+                                rational offset(fCurrentOffset, fCurrentDivision*4);
+                                float markDx = timePositions.getDxForElement(element, fCurrentMeasurePosition.toDouble(), fMeasNum, 0, offset.toDouble());
+                                cerr<<"<<< MARK "<< element->getValue()<<" m:"<<fMeasNum<<" vPos="<<fCurrentVoicePosition.toDouble()<<" mPos="<<fCurrentMeasurePosition.toDouble() <<" dx:"<<markDx<<endl;
+                                if (markDx != -999) {
+                                    stringstream s;
+                                    s << "dx=" << markDx ;
+                                    tag->add (guidoparam::create(s.str(), false));
+                                }else {
+                                    // Add a default -6 as rehearsal marks usually occur in the beginning of measure!
+                    //                stringstream s;
+                    //                s << "dx=" << -6.0 ;
+                    //                tag->add (guidoparam::create(s.str(), false));
+                                }
+                                xml2guidovisitor::addPosY(element, tag, -4, 1);
+                                
+                                add (tag);
+                            }
+                        }
+                            break;
                             
                         default:
                             break;
@@ -2881,12 +2881,12 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         }
         float noteDx = timePositions.getDxForElement(nv.getSnote(), posInMeasure.toDouble(), measureNum, searchVoice, 0);
         // Do not infer default-x on incomplete measures, grace or Chords
-        if ( (noteDx != -999) && !fPendingBar && !isProcessingChord && !isGrace() )
+        if ( (noteDx != -999 && noteDx != 0) && !fPendingBar && !isProcessingChord && !isGrace() )
         {
-                        stringstream s;
-                        s << "dx=" << noteDx ;
-                        noteFormatTag->add (guidoparam::create(s.str(), false));
-                        noteFormat = true;
+            stringstream s;
+            s << "dx=" << noteDx ;
+            noteFormatTag->add (guidoparam::create(s.str(), false));
+            noteFormat = true;
         }
             
         if (noteFormat == true)

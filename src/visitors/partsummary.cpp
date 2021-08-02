@@ -63,6 +63,7 @@ void partsummary::visitStart ( S_staves& elt)
 void partsummary::visitEnd ( S_note& elt)
 {
 	notevisitor::visitEnd (elt);
+    if (inChord()) return;
     if (!isGrace() ) {
         timePositions.addTimePosition(fCurrentMeasureNumber, fCurrentMeasurePosition.toDouble(), *this);
         moveMeasureTime (getDuration());

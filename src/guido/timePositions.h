@@ -58,6 +58,19 @@ protected:
         
         return it;
     }
+    
+    TimePositionList::iterator findClosest(TimePositionList &timePos4measure, int voiceId, double position, int default_x) {
+//        cerr<<"Start Search for Position "<<position<<" voiceId:"<<voiceId<<endl;
+        auto it = std::find_if_not(timePos4measure.begin(), timePos4measure.end(), [voiceId, position, default_x] (const VoicedTimePosition& e) {
+            if ((voiceId > 0) && (std::get<2>(e) != voiceId) ) {
+                return false;
+            }
+//            cerr<<"\t TimePos elementPos="<<std::get<0>(e)<<endl;
+            return std::get<0>(e) < position;
+        });
+        
+        return it;
+    }
 
 private:
     /// A map for measure number (first) to a vector Voiced Time Positions
