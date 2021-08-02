@@ -123,7 +123,7 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
             fStack.top()->add(elt);
     }
     void addDelayed (Sguidoelement elt, long offset);	// adding elements to the delayed elements
-    void checkDelayed (long time);						// checks the delayed elements for ready elements
+    void checkDelayed (long time, bool before);						// checks the delayed elements for ready elements
     void push (Sguidoelement& elt)		{
         if (!checkMeasureRange()) return;
         add(elt); fStack.push(elt);

@@ -103,9 +103,6 @@ namespace MusicXML2
     // add an element to the list of delayed elements
     void xmlpart2guido::addDelayed (Sguidoelement elt, long offset)
     {
-        add(elt);
-        return;
-        
         if (offset > 0) {
             delayedElement de;
             de.delay = offset;
@@ -119,11 +116,16 @@ namespace MusicXML2
     // checks ready elements in the list of delayed elements
     // 'time' is the time elapsed since the last check, it is expressed in
     // <division> time units
-    void xmlpart2guido::checkDelayed (long time)
+    void xmlpart2guido::checkDelayed (long time, bool before)
     {
         vector<delayedElement>::iterator it = fDelayed.begin();
         while (it!=fDelayed.end()) {
             it->delay -= time;
+            if (before && (it->element->getName().find("End") != std::string::npos )) {
+                it++;
+                continue;
+            }
+            cerr<<"<<< checkDelayed "<< it->element->getName()<< " delay="<<it->delay <<endl;
             if (it->delay < 0) {
                 add (it->element);
                 it = fDelayed.erase(it);
@@ -2969,7 +2971,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             //addTimePosition(*this);
 
             moveMeasureTime (getDuration(), scanVoice);
-            checkDelayed (getDuration());		// check for delayed elements (directions with offset)
+            checkDelayed (getDuration(), true);		// check for delayed elements (directions with offset) and indicated before = true
         }
         if (!scanVoice) return;
         
@@ -3048,6 +3050,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         
         checkPostArticulation(*this);
         
+        checkDelayed (getDuration(), false);        // check for delayed elements (directions with offset) and indicated before = false
         
         fMeasureEmpty = false;
     }
