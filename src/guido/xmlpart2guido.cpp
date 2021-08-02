@@ -109,7 +109,6 @@ namespace MusicXML2
             de.element = elt;
             fDelayed.push_back(de);
         }
-        else add (elt);
     }
     
     //________________________________________________________________________
@@ -125,7 +124,6 @@ namespace MusicXML2
                 it++;
                 continue;
             }
-            cerr<<"<<< checkDelayed "<< it->element->getName()<< " delay="<<it->delay <<endl;
             if (it->delay < 0) {
                 add (it->element);
                 it = fDelayed.erase(it);
@@ -190,7 +188,7 @@ bool xmlpart2guido::checkMeasureRange() {
 }
     
     //______________________________________________________________________________
-    void xmlpart2guido::moveMeasureTime (int duration, bool moveVoiceToo, int x_default)
+    void xmlpart2guido::moveMeasureTime (int duration, bool moveVoiceToo)
     {
         rational r(duration, fCurrentDivision*4);
         r.rationalise();
@@ -202,7 +200,6 @@ bool xmlpart2guido::checkMeasureRange() {
             fCurrentVoicePosition += r;
             fCurrentVoicePosition.rationalise();
         }
-        //cerr<<"moveMeasureTime v:"<<fTargetVoice<<" s:"<<fTargetStaff<<" m:"<<fMeasNum <<"->";fCurrentMeasurePosition.print(cerr);cerr<<" ("<< moveVoiceToo<<") fCurrentVoicePosition->";fCurrentVoicePosition.print(cerr);cerr<<endl;
     }
     
     //______________________________________________________________________________
@@ -480,7 +477,8 @@ bool xmlpart2guido::checkMeasureRange() {
             tag->add (guidoparam::create(rehearsalValue.c_str(), false));
             //xml2guidovisitor::addPosition(elt, tag, -4, -4);
             // FIXME: Researsal is a Direction and its x-pos is from the beginning of measure where in Guido it is from current graphical position!
-            float markDx = timePositions.getDxForElement(elt, fCurrentVoicePosition.toDouble(), fMeasNum, fTargetVoice, fCurrentOffset);
+            rational offset(fCurrentOffset, fCurrentDivision*4);
+            float markDx = timePositions.getDxForElement(elt, fCurrentVoicePosition.toDouble(), fMeasNum, fTargetVoice, offset.toDouble());
             if (markDx != -999) {
                 stringstream s;
                 s << "dx=" << markDx ;
@@ -578,10 +576,6 @@ bool xmlpart2guido::checkMeasureRange() {
                     switch (elementType) {
                         case k_pedal:
                         {
-                            if (fCurrentOffset < 0) {
-                                continue;
-                                // FIXME: Handle negative offsets!
-                            }
                             bool isPedalChange = false;
                             // default-y for pedal is from the top line of the staff in XML, in Guido dy=0 is the C below the lowest line.
                             std::string pedalType = element->getAttributeValue("type");
@@ -605,12 +599,19 @@ bool xmlpart2guido::checkMeasureRange() {
                             }else {
                                 if (fPreviousPedalYPos) {
                                     stringstream s;
-                                    s << "dy=" << fPreviousPedalYPos << "hs, dx="<< -2<<"hs";
+                                    rational offset(fCurrentOffset, fCurrentDivision*4);
+                                    float dx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, 0, offset.toDouble());
+                                    if (dx==-999) {
+                                        return; // Return if no corresponding default-x event is found
+                                    }else {
+                                        dx-=2;
+                                    }
+                                    s << "dy=" << fPreviousPedalYPos << "hs, dx="<< dx<<"hs"; // dx was -2
                                     tag->add (guidoparam::create(s.str(), false));
                                 }
                             }
                             
-                            if (fCurrentOffset)
+                            if (fCurrentOffset > 0)
                                 addDelayed(tag, fCurrentOffset);
                             else {
                                 add(tag);
@@ -620,7 +621,12 @@ bool xmlpart2guido::checkMeasureRange() {
                                 tag = guidotag::create("pedalOn");
                                 if (fPreviousPedalYPos) {
                                     stringstream s;
-                                    s << "dy=" << fPreviousPedalYPos << "hs, dx="<< 0<<"hs";
+                                    rational offset(fCurrentOffset, fCurrentDivision*4);
+                                    float dx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, 0, offset.toDouble());
+                                    if (dx==-999) {
+                                        return;
+                                    }
+                                    s << "dy=" << fPreviousPedalYPos << "hs, dx="<< dx <<"hs";
                                     tag->add (guidoparam::create(s.str(), false));
                                 }
                                 if (fCurrentOffset)
@@ -758,7 +764,8 @@ bool xmlpart2guido::checkMeasureRange() {
                                 if ((*iter2)->getType() != k_other_dynamics) {
                                     tag = guidotag::create("intens");
                                     tag->add (guidoparam::create((*iter2)->getName()));
-                                    float intensDx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, fTargetVoice, fCurrentOffset);
+                                    rational offset(fCurrentOffset, fCurrentDivision*4);
+                                    float intensDx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, fTargetVoice, offset.toDouble());
                                     
                                     // add pending word parameters (for "before")
                                     if (!generateAfter) {
@@ -939,7 +946,6 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
         }
         if (fIgnoreWedgeWithOffset)
         {
-            cerr <<"\tIgnoring Wedge with Offset on measure "<<fMeasNum<<endl;
             return;         // FIXME: Ignoring Offset wedges à la Verovio
         }
         fCrescPending = number;
@@ -1061,7 +1067,7 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
         s << "dy=" << xml2guidovisitor::getYposition(elt, 13, true) << "hs";
         tag->add (guidoparam::create(s.str(), false));
         
-        if (fCurrentOffset) {
+        if (fCurrentOffset > 0) {
             addDelayed(tag, fCurrentOffset);
         }
         else {

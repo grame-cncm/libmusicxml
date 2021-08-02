@@ -23,34 +23,32 @@ void MusicXMLTimePositions::addTimePosition(int measure, double positionInMeasur
 }
 
 
-float MusicXMLTimePositions::getDxForElement(MusicXML2::xmlelement *element, double position, int onMeasure, int voiceId, long xmlOffset) {
+float MusicXMLTimePositions::getDxForElement(MusicXML2::xmlelement *element, double position, int onMeasure, int voiceId, double xmlOffset) {
     auto timePos4measure = timePositions.find(onMeasure);
     float default_x = element->getAttributeFloatValue("default-x", 0),
     relative_x = element->getAttributeFloatValue("relative-x", 0);
-    
-    float xpos = default_x + relative_x;
-    
+        
     // MusicXML DOC: If an element within a <direction> includes a default-x attribute, the <offset> value will be ignored when determining the appearance of that element.
     double finalPosition = position + (default_x == 0 ? (double)xmlOffset : 0.0);
 
     if (timePos4measure != timePositions.end()) {
-        auto it = std::find_if(timePos4measure->second.begin(), timePos4measure->second.end(), [voiceId, finalPosition] (const VoicedTimePosition& e) {
-            if ((voiceId > 0) && (std::get<2>(e) != voiceId) ) {
-                return false;
-            }
-            
-            return std::get<0>(e) == finalPosition;
-        });
+        auto it = find(timePos4measure->second, voiceId, finalPosition);
         if (it != timePos4measure->second.end()) {
             float minXPos = getDefaultX(*it);
-            if (xpos != minXPos) {
-                int finalDx = (relative_x/10)*2;
-                // apply default-x ONLY if it exists
-                if (default_x!=0)
-                    finalDx = ( (xpos - minXPos)/ 10 ) * 2;   // convert to half spaces
-                
-                return finalDx;
+            //if (xpos != minXPos) {
+            int finalDx = (relative_x/10)*2;
+            // apply default-x ONLY if it exists
+            if (default_x != 0) {
+                // Use default-x if it exists; convert to half spaces
+                finalDx += ( (default_x - minXPos)/ 10 ) * 2;
             }
+            else if (xmlOffset != 0) {
+                finalDx += ( (default_x - minXPos)/ 10 ) * 2;   // convert to half spaces
+            }else {
+                return -999;
+            }
+                
+            return finalDx;
         }
     }
     return -999;        // This is when the xpos can not be computed
