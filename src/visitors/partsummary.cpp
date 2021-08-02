@@ -63,9 +63,53 @@ void partsummary::visitStart ( S_staves& elt)
 void partsummary::visitEnd ( S_note& elt)
 {
 	notevisitor::visitEnd (elt);
+    if (!isGrace() ) {
+        timePositions.addTimePosition(fCurrentMeasureNumber, fCurrentMeasurePosition.toDouble(), *this);
+        moveMeasureTime (getDuration());
+    }
 	fStaves[notevisitor::getStaff()]++;
 	fVoices[notevisitor::getVoice()]++;
 	fStaffVoices[notevisitor::getStaff()][notevisitor::getVoice()]++;
+}
+
+void partsummary::visitStart ( S_measure& elt )
+{
+    fCurrentMeasurePosition.set(0, 1);
+    std::string measNum = elt->getAttributeValue("number");
+    try {
+        fCurrentMeasureNumber = std::stoi(measNum);
+    } catch(...) {
+        fCurrentMeasureNumber++;
+    }
+}
+
+void partsummary::visitStart ( S_divisions& elt )
+{
+    fCurrentDivision = (long)(*elt);
+}
+
+//______________________________________________________________________________
+void partsummary::visitStart ( S_backup& elt )
+{
+    int duration = elt->getIntValue(k_duration, 0);
+    if (duration) {
+        moveMeasureTime (-duration);
+    }
+}
+
+//______________________________________________________________________________
+void partsummary::visitStart ( S_forward& elt )
+{
+    int duration = elt->getIntValue(k_duration, 0);
+    moveMeasureTime(duration);
+}
+
+void partsummary::moveMeasureTime (int duration)
+{
+    rational r(duration, fCurrentDivision*4);
+    r.rationalise();
+    fCurrentMeasurePosition += r;
+    fCurrentMeasurePosition.rationalise();
 }
 
 //________________________________________________________________________

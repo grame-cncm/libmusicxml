@@ -434,8 +434,13 @@ bool xmlpart2guido::checkMeasureRange() {
     //______________________________________________________________________________
     void xmlpart2guido::visitStart ( S_direction& elt )
     {
+        // Directions can have voice! Check:
+        int voiceNumber = elt->getIntValue(k_voice, -1);
+        if (voiceNumber >0 && voiceNumber != fTargetVoice) {
+            fSkipDirection = true;
+        }
         // Parse Staff and Offset first
-        if (fNotesOnly || (elt->getIntValue(k_staff, 1) != fTargetStaff)) {
+        if (fNotesOnly || (elt->getIntValue(k_staff, 1) != fTargetStaff) ) {
             fSkipDirection = true;
         }
         else {
@@ -473,7 +478,7 @@ bool xmlpart2guido::checkMeasureRange() {
             tag->add (guidoparam::create(rehearsalValue.c_str(), false));
             //xml2guidovisitor::addPosition(elt, tag, -4, -4);
             // FIXME: Researsal is a Direction and its x-pos is from the beginning of measure where in Guido it is from current graphical position!
-            float markDx = xPosFromTimePos(elt->getAttributeFloatValue("default-x", 0), elt->getAttributeFloatValue("relative-x", 0));
+            float markDx = timePositions.getDxForElement(elt, fCurrentVoicePosition.toDouble(), fMeasNum, fTargetVoice, fCurrentOffset);
             if (markDx != -999) {
                 stringstream s;
                 s << "dx=" << markDx ;
@@ -751,7 +756,7 @@ bool xmlpart2guido::checkMeasureRange() {
                                 if ((*iter2)->getType() != k_other_dynamics) {
                                     tag = guidotag::create("intens");
                                     tag->add (guidoparam::create((*iter2)->getName()));
-                                    float intensDx = xPosFromTimePos(element->getAttributeFloatValue("default-x", 0), element->getAttributeFloatValue("relative-x", 0));
+                                    float intensDx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, fTargetVoice, fCurrentOffset);
                                     
                                     // add pending word parameters (for "before")
                                     if (!generateAfter) {
@@ -926,6 +931,15 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
     Sguidoelement tag;
     if (type == "crescendo") {
         tag = guidotag::create("crescBegin");
+        if (fCurrentOffset < 0) {
+            // FIXME: Impossible for now to handle Wedges with Direction Offset! Ignoring... .
+            fIgnoreWedgeWithOffset = true;
+        }
+        if (fIgnoreWedgeWithOffset)
+        {
+            cerr <<"\tIgnoring Wedge with Offset on measure "<<fMeasNum<<endl;
+            return;         // FIXME: Ignoring Offset wedges à la Verovio
+        }
         fCrescPending = number;
     }
     else if (type == "diminuendo") {
@@ -999,16 +1013,6 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
                 }
                 
                 //cerr<< "Measure:"<< fMeasNum <<" Wedge has "<< numberOfNotesInWedge<< " events!"<<endl;
-                
-                if (fCurrentOffset) {
-                    // FIXME: Impossible for now to handle Wedges with Direction Offset! Ignoring... .
-                    fIgnoreWedgeWithOffset = true;
-                }
-                if (fIgnoreWedgeWithOffset)
-                {
-                    //cerr <<"\tIgnoring Wedge with Offset on measure "<<fMeasNum<<endl;
-                    return;         // FIXME: Ignoring Offset wedges à la Verovio
-                }
                 
                 if (numberOfNotesInWedge > 1) {
                     /// fetch dx1 and dx2 value based on ending
@@ -2848,46 +2852,38 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
     {
         bool noteFormat = false;
         int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
-        auto timePos4measure = timePositions.find(measureNum);
-        if ( (nv.fNotehead
-              || ((timePos4measure != timePositions.end()) && fPendingBar==false ) )             // if we need to infer default-x but NOT on incomplete measures
-            &&  fInGrace==false     // FIXME: Workaround for GUID-74
-             )
-        {
-            Sguidoelement noteFormatTag = guidotag::create("noteFormat");
+        
+        Sguidoelement noteFormatTag = guidotag::create("noteFormat");
+        
+        if (nv.fNotehead) {
+            std::string noteFormatType = nv.getNoteheadType();
             
-            if (nv.fNotehead) {
-                std::string noteFormatType = nv.getNoteheadType();
-                
-                if (noteFormatType.size())
-                {
-                    stringstream s;
-                    s << "\"" << noteFormatType << "\"";
-                    noteFormatTag->add (guidoparam::create(s.str(), false));
-                    noteFormat = true;
-                }
+            if (noteFormatType.size())
+            {
+                stringstream s;
+                s << "\"" << noteFormatType << "\"";
+                noteFormatTag->add (guidoparam::create(s.str(), false));
+                noteFormat = true;
             }
-            
-            /// check for dx inference from default_x but avoid doing this for Chords as Guido handles note head positions in chords automatically
-            if (timePos4measure != timePositions.end() && (isProcessingChord==false) && fPendingBar==false) {
-                auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
-                if (voiceInTimePosition != timePos4measure->second.end()) {
-                    auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
-                    if (nv.x_default != *minXPos) {
-                        int noteDx = ( (nv.x_default - *minXPos)/ 10 ) * 2;   // convert to half spaces
-                        
+        }
+        
+        int searchVoice = 0;
+        if (fTargetVoice) {
+            searchVoice = fTargetVoice - 1;
+        }
+        float noteDx = timePositions.getDxForElement(nv.getSnote(), posInMeasure.toDouble(), measureNum, searchVoice, 0);
+        // Do not infer default-x on incomplete measures, grace or Chords
+        if ( (noteDx != -999) && !fPendingBar && !isProcessingChord && !isGrace() )
+        {
                         stringstream s;
                         s << "dx=" << noteDx ;
                         noteFormatTag->add (guidoparam::create(s.str(), false));
                         noteFormat = true;
-                    }
-                }
-            }
+        }
             
-            if (noteFormat == true)
-            {
-                push(noteFormatTag);
-            }
+        if (noteFormat == true)
+        {
+            push(noteFormatTag);
         }
         
         return noteFormat;
@@ -2970,7 +2966,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         
         bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
         if (!isGrace() ) {
-            addTimePosition(*this);
+            //addTimePosition(*this);
 
             moveMeasureTime (getDuration(), scanVoice);
             checkDelayed (getDuration());		// check for delayed elements (directions with offset)
@@ -3062,57 +3058,6 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
     void xmlpart2guido::visitStart ( S_divisions& elt )
     {
         fCurrentDivision = (long)(*elt);
-    }
-
-///Track all voice default-x parameters, as positions in measures
-void xmlpart2guido::addTimePosition(const notevisitor& nv) {
-    auto timePos4measure = timePositions.find(fMeasNum);
-    double doubleVoicePosition = fCurrentVoicePosition.toDouble();
-    if (nv.x_default != -1) {
-        if ( timePos4measure !=  timePositions.end())
-        {
-            if (timePos4measure->second.find(doubleVoicePosition) != timePos4measure->second.end())
-            {
-                // Exists.. push it to vector
-                timePos4measure->second.find(doubleVoicePosition)->second.push_back(nv.x_default);
-            }else {
-                // Doesn't exist.. insert with this element's x_default
-                timePos4measure->second.insert(std::pair<rational, std::vector<int> >
-                                               (doubleVoicePosition, std::vector<int>(1, nv.x_default)) );
-            }
-        }else {
-            std::map<double, std::vector<int> > inner;
-            inner.insert(std::make_pair(doubleVoicePosition, std::vector<int>(1, nv.x_default)));
-            timePositions.insert(std::make_pair(fMeasNum, inner));
-        }
-    }
-}
-    
-    // MARK: Tag Add Methods using element parsing
-    float xmlpart2guido::xPosFromTimePos(float default_x, float relative_x) {
-        auto timePos4measure = timePositions.find(fMeasNum);
-        
-        float xpos = default_x + relative_x;
-                
-        if ((xpos!=0.0)&&(timePos4measure != timePositions.end())) {
-            auto voiceInTimePosition = timePos4measure->second.find(fCurrentVoicePosition);
-            if (voiceInTimePosition != timePos4measure->second.end()) {
-                auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
-                if (xpos != *minXPos) {
-                    int finalDx = (relative_x/10)*2;
-                    // apply default-x ONLY if it exists
-                    if (default_x!=0)
-                        finalDx = ( (xpos - *minXPos)/ 10 ) * 2;   // convert to half spaces
-                    
-                    /// FIXME: Can't handle OFFSET with Guido! If positive, just add a small value for coherence!
-                    if (fCurrentOffset>0)
-                        finalDx +=3;
-                    
-                    return finalDx;
-                }
-            }
-        }
-        return -999;        // This is when the xpos can not be computed
     }
 
 bool xmlpart2guido::findNextNote(ctree<xmlelement>::iterator& elt, ctree<xmlelement>::iterator &nextnote) {

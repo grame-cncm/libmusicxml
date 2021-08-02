@@ -40,7 +40,6 @@ namespace MusicXML2
     fBeginMeasure(beginMeasure), fEndMeasure(endMeasure), fEndMeasureOffset(endMeasureOffset), fTotalMeasures(0)
     , fTotalDuration(0.0)
     {
-        timePositions.clear();
         fPartsAvailable = 0;
     }
     
@@ -211,9 +210,7 @@ namespace MusicXML2
         int targetStaff = 0xffff;	// initialized to a value we'll unlikely encounter
         bool notesOnly = false;
         rational currentTimeSign (0,1);
-        
-        //timePositions.clear();
-        
+                
         // browse the parts voice by voice: allows to describe voices that spans over several staves
         for (unsigned int i = 0; i < voices->size(); i++) {
             int targetVoice = (*voices)[i];
@@ -225,8 +222,6 @@ namespace MusicXML2
                 notesOnly = false;
                 targetStaff = mainstaff;
                 fCurrentStaffIndex++;
-                /// Clear timePositions so that we only track voices on a specific Staff
-                timePositions.clear();
             }
             
             Sguidoelement seq = guidoseq::create();
@@ -301,12 +296,11 @@ namespace MusicXML2
             pv.generatePositions (fGeneratePositions);
             xml_tree_browser browser(&pv);
             pv.initialize(seq, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
-            pv.timePositions = timePositions;
+            pv.timePositions = ps.timePositions;
             browser.browse(*elt);
             pop();
             currentTimeSign = pv.getTimeSign();
             previousStaffHasLyrics = pv.hasLyrics();
-            timePositions = pv.timePositions;
             fBeginPosition = pv.fStartPosition;
             fEndPosition = pv.fEndPosition;
             

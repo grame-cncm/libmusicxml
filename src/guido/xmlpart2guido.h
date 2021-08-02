@@ -94,15 +94,15 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
     
     S_measure	fCurrentMeasure;
     S_part      fCurrentPart;
-    
-    int     fStartMeasure, fEndMeasure, fEndMeasureOffset;          // Starting and Ending measures for Partial conversion. Default=0 meaning non-partial.
-    
+        
     bool	fNotesOnly;				// a flag to generate notes only (used for several voices on the same staff)
     bool	fSkipDirection;			// a flag to skip direction elements (for notes only mode or due to different staff)
     int		fCurrentStaffIndex;		// the index of the current guido staff
     int		fCurrentStaff;			// the staff we're currently generating events for (0 by default)
     int		fTargetStaff;			// the musicxml target staff (0 by default)
     int		fTargetVoice;			// the musicxml target voice (0 by default)
+    
+    int     fStartMeasure, fEndMeasure, fEndMeasureOffset;          // Starting and Ending measures for Partial conversion. Default=0 meaning non-partial.
     
     long	fCurrentDivision;		// the current measure division, expresses the time unit in division of the quarter note
     long	fCurrentOffset;			// the current direction offset: represents an element relative displacement in current division unit
@@ -232,9 +232,6 @@ protected:
     
     bool fIgnoreWedgeWithOffset;
     
-    // Internal Parsing facilities
-    float xPosFromTimePos(float default_x, float relative_x);           /// Infer X-Position from TimePosition
-    
 public:
     xmlpart2guido(bool generateComments, bool generateStem, bool generateBar = true, int startMeasure = 0, int endMeasure = 0, int endMeasureOffset = 0);
     virtual ~xmlpart2guido() {}
@@ -247,8 +244,8 @@ public:
     
     /// Map for staffNum, measureNum, voice-Position and Clef
     std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
-    /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
-    std::map< int, std::map< double, std::vector<int> > > timePositions;
+    /// Containing default-x positions on a fCurrentVoicePosition (double) of measure(int)
+    MusicXMLTimePositions timePositions;
     
     rational fStartPosition, fEndPosition;
     
@@ -273,8 +270,6 @@ private:
     Sguidoelement lastKey;  // Storage used for Partial Conversions
     Sguidoelement lastMeter;  // Storage used for Partial Conversions
     double fPreviousPedalYPos;  // Used for musicxml pedal change
-    
-    void addTimePosition(const notevisitor& nv);
 };
 
 
