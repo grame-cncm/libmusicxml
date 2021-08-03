@@ -46,7 +46,6 @@ namespace MusicXML2
         fHasLyrics = false;
         fNonStandardNoteHead = false;
         fLyricsManualSpacing = false;
-        fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
         fTremoloInProgress = false;
         fShouldStopOctava = false;
@@ -67,7 +66,6 @@ namespace MusicXML2
         fPendingPops = 0;
         fLyricsManualSpacing = false;
         fTextTagOpen = 0;
-        fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
         fTremoloInProgress = false;
         fShouldStopOctava = false;
@@ -86,7 +84,6 @@ namespace MusicXML2
         fCurrentStaffIndex = guidostaff;		// the current guido staff index
         fHasLyrics = false;
         fLyricsManualSpacing = false;
-        fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
         fTremoloInProgress = false;
         fShouldStopOctava = false;
@@ -463,7 +460,7 @@ bool xmlpart2guido::checkMeasureRange() {
     //______________________________________________________________________________
     void xmlpart2guido::visitEnd ( S_direction& elt )
     {
-        // !IMPORTANT: Avoid using default-x since it is measured from the beginning of the measure for S_direction!
+        // !IMPORTANT: Avoid using default-x directly and use timePositions methods instead for all horizontal positioning of Directions, since it is relative to the beginning of a measure.
         
         if (fSkipDirection) {
             // set back to false for next elements!
@@ -473,10 +470,8 @@ bool xmlpart2guido::checkMeasureRange() {
         
         /// Skip already visited Direction in case of grace notes (GUID-153)
         if ((!fDirectionEraserStack.empty())) {
-            //cerr<<"\t stack top="<<fDirectionEraserStack.front()<<endl;
             if (fDirectionEraserStack.front() == elt->getInputLineNumber()) {
                 fDirectionEraserStack.pop();
-                //cerr<<"\tS_direction Skipping"<<endl;
                 return;
             }
         }
@@ -845,8 +840,7 @@ bool xmlpart2guido::checkMeasureRange() {
                                     rehearsalValue += ", fsize="+font_size+"pt";
                                 
                                 tag->add (guidoparam::create(rehearsalValue.c_str(), false));
-                                //xml2guidovisitor::addPosition(elt, tag, -4, -4);
-                                // FIXME: Researsal is a Direction and its x-pos is from the beginning of measure where in Guido it is from current graphical position!
+
                                 rational offset(fCurrentOffset, fCurrentDivision*4);
                                 float markDx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, 0, offset.toDouble());
                                 if (markDx != -999 && markDx != 0) {
@@ -947,14 +941,6 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
     Sguidoelement tag;
     if (type == "crescendo") {
         tag = guidotag::create("crescBegin");
-        if (fCurrentOffset < 0) {
-            // FIXME: Impossible for now to handle Wedges with Direction Offset! Ignoring... .
-            fIgnoreWedgeWithOffset = true;
-        }
-        if (fIgnoreWedgeWithOffset)
-        {
-            return;         // FIXME: Ignoring Offset wedges à la Verovio
-        }
         fCrescPending = number;
     }
     else if (type == "diminuendo") {
@@ -962,10 +948,6 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
         fDiminPending = number;
     }
     else if (type == "stop") {
-        if (fIgnoreWedgeWithOffset) {
-            fIgnoreWedgeWithOffset = false;
-            return; // FIXME: Ignore Offset Wedge à la Verovio
-        }
                 
         if (fCrescPending == number) {
             tag = guidotag::create("crescEnd");
@@ -1072,8 +1054,14 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
         
         stringstream s;
         s << "dy=" << xml2guidovisitor::getYposition(elt, 13, true) << "hs";
-        tag->add (guidoparam::create(s.str(), false));
         
+        rational offset(fCurrentOffset, fCurrentDivision*4);
+        float markDx = timePositions.getDxForElement(elt, fCurrentVoicePosition.toDouble(), fMeasNum, 0, offset.toDouble());
+        if (markDx != -999 && markDx != 0) {
+            s << ", dx=" << markDx ;
+        }
+        tag->add (guidoparam::create(s.str(), false));
+
         if (fCurrentOffset > 0) {
             addDelayed(tag, fCurrentOffset);
         }
@@ -2573,8 +2561,6 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
     {
         if (nv.isGrace()) {
             if (!fInGrace) {
-                Sguidoelement tag = guidotag::create("grace");
-                push(tag);
                 /// GUID-153: Fetch directions after grace
                 ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), nv.getSnote());
                 nextnote.forward_up(); // forward one element
@@ -2604,6 +2590,8 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                     }
                 }
                 /// End-of Guid-153
+                Sguidoelement tag = guidotag::create("grace");
+                push(tag);
                 fInGrace = true;
             }
         }

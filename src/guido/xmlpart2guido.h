@@ -227,9 +227,7 @@ protected:
     rational durationInCue;
     
     std::map<int, float> fStaffDistance;
-    
-    bool fIgnoreWedgeWithOffset;
-    
+        
 public:
     xmlpart2guido(bool generateComments, bool generateStem, bool generateBar = true, int startMeasure = 0, int endMeasure = 0, int endMeasureOffset = 0);
     virtual ~xmlpart2guido() {}
