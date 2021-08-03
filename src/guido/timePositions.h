@@ -38,7 +38,7 @@ public:
     /// @return a float containing Guido dx value based on available default-x in measure
     float getDxForElement(MusicXML2::xmlelement *element, double position, std::string onMeasure, int voice, double xmlOffset);
     
-    int size() { return timePositions.size(); }
+    size_t size() { return timePositions.size(); }
     
 protected:
     

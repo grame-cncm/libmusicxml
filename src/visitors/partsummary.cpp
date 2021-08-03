@@ -100,7 +100,7 @@ void partsummary::visitStart ( S_forward& elt )
     moveMeasureTime(duration);
 }
 
-void partsummary::moveMeasureTime (int duration)
+void partsummary::moveMeasureTime (long duration)
 {
     rational r(duration, fCurrentDivision*4);
     r.rationalise();

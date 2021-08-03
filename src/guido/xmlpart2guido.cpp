@@ -188,7 +188,7 @@ bool xmlpart2guido::checkMeasureRange() {
 }
     
     //______________________________________________________________________________
-    void xmlpart2guido::moveMeasureTime (int duration, bool moveVoiceToo)
+    void xmlpart2guido::moveMeasureTime (long duration, bool moveVoiceToo)
     {
         rational r(duration, fCurrentDivision*4);
         r.rationalise();
@@ -2870,7 +2870,6 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
     bool xmlpart2guido::checkNoteFormat	 ( const notevisitor& nv , rational posInMeasure)
     {
         bool noteFormat = false;
-        int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
         
         Sguidoelement noteFormatTag = guidotag::create("noteFormat");
         

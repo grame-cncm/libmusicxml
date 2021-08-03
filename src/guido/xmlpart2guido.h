@@ -132,7 +132,7 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
         fStack.pop();
     }
     
-    void moveMeasureTime (int duration, bool moveVoiceToo=false);
+    void moveMeasureTime (long duration, bool moveVoiceToo=false);
     void reset ();
     void stackClean	();
     
