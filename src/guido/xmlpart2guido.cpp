@@ -117,8 +117,10 @@ namespace MusicXML2
     {
         vector<delayedElement>::iterator it = fDelayed.begin();
         while (it!=fDelayed.end()) {
-            it->delay -= time;
-            if (before && (it->element->getName().find("End") != std::string::npos )) {
+            if (before) {
+                it->delay -= time;
+            }
+            if (before && it->element->isEndTag()) {
                 it++;
                 continue;
             }
@@ -2788,7 +2790,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             
             float default_x = fingerings[0]->getAttributeFloatValue("default-x", 0);
             float dx = (default_x/10)*2;
-            if (dx != 0) {
+            if (dx != 0 && (default_x<20.0)) { // filter values > 20.0 as they might be erroneous offsets from FINALE!
                 dx-=2.0; // offset for note head
                 s << "dx="<<dx<<", ";
             }
@@ -2983,10 +2985,10 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         
         bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
         if (!isGrace() ) {
-            //addTimePosition(*this);
-
             moveMeasureTime (getDuration(), scanVoice);
-            checkDelayed (getDuration(), true);		// check for delayed elements (directions with offset) and indicated before = true
+            if (scanVoice) {
+                checkDelayed (getDuration(), true);
+            }
         }
         if (!scanVoice) return;
         
