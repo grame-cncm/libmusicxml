@@ -2791,7 +2791,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             float default_x = fingerings[0]->getAttributeFloatValue("default-x", 0);
             float dx = (default_x/10)*2;
             if (dx != 0 && (default_x<20.0)) { // filter values > 20.0 as they might be erroneous offsets from FINALE!
-                dx-=2.0; // offset for note head
+                dx-=1.0; // offset for note head
                 s << "dx="<<dx<<", ";
             }
             
