@@ -2775,17 +2775,29 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             Sguidoelement tag = guidotag::create("fingering");
             stringstream s;
 
-            /// Add Placement
-            std::string placement = fingerings[0]->getAttributeValue("placement");
-            if (placement.size() > 0) {
-                s << "position=\""<<placement<<"\"";
+            /// Add Placement only if default-y is unavailable
+            int default_y = fingerings[0]->getAttributeIntValue("default-y", 0);
+            if (default_y != 0) {
+                addPosYforNoteHead(nv, fingerings[0], tag, 2.0);
+            }else {
+                std::string placement = fingerings[0]->getAttributeValue("placement");
+                if (placement.size() > 0) {
+                    s << "position=\""<<placement<<"\", ";
+                }
             }
-
+            
+            int default_x = fingerings[0]->getAttributeIntValue("default-x", 0);
+            float dx = (default_x/10)*2;
+            if (dx != -999 & dx != 0) {
+                dx-=1; // offset for note head
+                s << "dx="<<dx<<", ";
+            }
+            
             // Add Fingering "Text"
             for (int i=0; i < fingerings.size(); i++) {
                 std::string fingeringText = fingerings[i]->getValue();
                 if (i==0) {
-                    s << ", text=\"" << fingeringText;
+                    s << "text=\"" << fingeringText;
                 }else {
                     s << "," << fingeringText;
                 }
