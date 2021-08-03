@@ -690,12 +690,14 @@ bool xmlpart2guido::checkMeasureRange() {
                                 }
                                 
                                 tag = guidotag::create("text");
+                                
+                                rational offset(fCurrentOffset, fCurrentDivision*4);
+                                float wordDx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, 0, offset.toDouble());
+                                if (wordDx != -999 && wordDx != 0) {
+                                    wordParameters << ", dx=" << wordDx;
+                                }
+
                                 tag->add (guidoparam::create(wordParameters.str(), false));
-                                
-                                // FIXME: XML x-pos is from beginning of measure, whereas nested Text in Guido from the notehead
-                                // Seems like we can add relative-x which is relative to its hanging position
-                                xml2guidovisitor::addRelativeX(element, tag, 0);
-                                
                                 // apply inherited Y-position
                                 if (commonDy != 0.0) {
                                     stringstream s;
@@ -751,7 +753,7 @@ bool xmlpart2guido::checkMeasureRange() {
                                         }
                                         
                                         /// Add Tag
-                                        if (fCurrentOffset)
+                                        if (fCurrentOffset > 0)
                                             addDelayed(tag, fCurrentOffset);
                                         else {
                                             add(tag);
