@@ -65,7 +65,8 @@ void partsummary::visitEnd ( S_note& elt)
 	notevisitor::visitEnd (elt);
     if (inChord()) return;
     if (!isGrace() ) {
-        timePositions.addTimePosition(fCurrentMeasureNumber, fCurrentMeasurePosition.toDouble(), *this);
+        std::string fCurrentMeasureNumber = elt->getAttributeValue("number");
+        timePositions.addTimePosition(fCurrentMeasureNumber, fCurrentMeasurePosition.toDouble(), *this); 
         moveMeasureTime (getDuration());
     }
 	fStaves[notevisitor::getStaff()]++;
@@ -76,12 +77,6 @@ void partsummary::visitEnd ( S_note& elt)
 void partsummary::visitStart ( S_measure& elt )
 {
     fCurrentMeasurePosition.set(0, 1);
-    std::string measNum = elt->getAttributeValue("number");
-    try {
-        fCurrentMeasureNumber = std::stoi(measNum);
-    } catch(...) {
-        fCurrentMeasureNumber++;
-    }
 }
 
 void partsummary::visitStart ( S_divisions& elt )

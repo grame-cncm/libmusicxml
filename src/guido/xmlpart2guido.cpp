@@ -560,7 +560,7 @@ bool xmlpart2guido::checkMeasureRange() {
                                 if (fPreviousPedalYPos) {
                                     stringstream s;
                                     rational offset(fCurrentOffset, fCurrentDivision*4);
-                                    float dx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, 0, offset.toDouble());
+                                    float dx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fCurrentMeasure->getAttributeValue("number"), 0, offset.toDouble());
                                     if (dx==-999) {
                                         return; // Return if no corresponding default-x event is found
                                     }else {
@@ -582,7 +582,7 @@ bool xmlpart2guido::checkMeasureRange() {
                                 if (fPreviousPedalYPos) {
                                     stringstream s;
                                     rational offset(fCurrentOffset, fCurrentDivision*4);
-                                    float dx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, 0, offset.toDouble());
+                                    float dx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fCurrentMeasure->getAttributeValue("number"), 0, offset.toDouble());
                                     if (dx==-999) {
                                         return;
                                     }
@@ -692,7 +692,7 @@ bool xmlpart2guido::checkMeasureRange() {
                                 tag = guidotag::create("text");
                                 
                                 rational offset(fCurrentOffset, fCurrentDivision*4);
-                                float wordDx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, 0, offset.toDouble());
+                                float wordDx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fCurrentMeasure->getAttributeValue("number"), 0, offset.toDouble());
                                 if (wordDx != -999 && wordDx != 0) {
                                     wordParameters << ", dx=" << wordDx;
                                 }
@@ -727,7 +727,7 @@ bool xmlpart2guido::checkMeasureRange() {
                                     tag = guidotag::create("intens");
                                     tag->add (guidoparam::create((*iter2)->getName()));
                                     rational offset(fCurrentOffset, fCurrentDivision*4);
-                                    float intensDx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, fTargetVoice, offset.toDouble());
+                                    float intensDx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fCurrentMeasure->getAttributeValue("number"), fTargetVoice, offset.toDouble());
                                     
                                     // add pending word parameters (for "before")
                                     if (!generateAfter) {
@@ -844,7 +844,7 @@ bool xmlpart2guido::checkMeasureRange() {
                                 tag->add (guidoparam::create(rehearsalValue.c_str(), false));
 
                                 rational offset(fCurrentOffset, fCurrentDivision*4);
-                                float markDx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fMeasNum, 0, offset.toDouble());
+                                float markDx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fCurrentMeasure->getAttributeValue("number"), 0, offset.toDouble());
                                 if (markDx != -999 && markDx != 0) {
                                     stringstream s;
                                     s << "dx=" << markDx ;
@@ -1058,7 +1058,7 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
         s << "dy=" << xml2guidovisitor::getYposition(elt, 13, true) << "hs";
         
         rational offset(fCurrentOffset, fCurrentDivision*4);
-        float markDx = timePositions.getDxForElement(elt, fCurrentVoicePosition.toDouble(), fMeasNum, 0, offset.toDouble());
+        float markDx = timePositions.getDxForElement(elt, fCurrentVoicePosition.toDouble(), fCurrentMeasure->getAttributeValue("number"), 0, offset.toDouble());
         if (markDx != -999 && markDx != 0) {
             s << ", dx=" << markDx ;
         }
@@ -2564,6 +2564,8 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         if (nv.isGrace()) {
             if (!fInGrace) {
                 /// GUID-153: Fetch directions after grace
+                Sguidoelement tag = guidotag::create("grace");
+                push(tag);
                 ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), nv.getSnote());
                 nextnote.forward_up(); // forward one element
                 while (nextnote != fCurrentMeasure->end()) {
@@ -2592,8 +2594,6 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                     }
                 }
                 /// End-of Guid-153
-                Sguidoelement tag = guidotag::create("grace");
-                push(tag);
                 fInGrace = true;
             }
         }
@@ -2786,10 +2786,10 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
                 }
             }
             
-            int default_x = fingerings[0]->getAttributeIntValue("default-x", 0);
+            float default_x = fingerings[0]->getAttributeFloatValue("default-x", 0);
             float dx = (default_x/10)*2;
-            if (dx != -999 & dx != 0) {
-                dx-=1; // offset for note head
+            if (dx != 0) {
+                dx-=2.0; // offset for note head
                 s << "dx="<<dx<<", ";
             }
             
@@ -2888,7 +2888,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         if (fTargetVoice) {
             searchVoice = fTargetVoice - 1;
         }
-        float noteDx = timePositions.getDxForElement(nv.getSnote(), posInMeasure.toDouble(), measureNum, searchVoice, 0);
+        float noteDx = timePositions.getDxForElement(nv.getSnote(), posInMeasure.toDouble(), fCurrentMeasure->getAttributeValue("number"), searchVoice, 0);
         // Do not infer default-x on incomplete measures, grace or Chords
         if ( (noteDx != -999 && noteDx != 0) && !fPendingBar && !isProcessingChord && !isGrace() )
         {

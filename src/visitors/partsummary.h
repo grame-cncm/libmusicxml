@@ -47,7 +47,7 @@ class EXP partsummary :
 	public visitor<S_print>
 {
 	public:
-				 partsummary() : fStavesCount(1), fCurrentMeasureNumber(0) {
+				 partsummary() : fStavesCount(1), fCurrentMeasure(0) {
                      fCurrentMeasurePosition.set(0, 1);
                  };
 		virtual	~partsummary() {};
@@ -106,7 +106,7 @@ class EXP partsummary :
     
     void moveMeasureTime (int duration);
     
-    int fCurrentMeasureNumber;
+    S_measure fCurrentMeasure;
 };
 
 /*! @} */

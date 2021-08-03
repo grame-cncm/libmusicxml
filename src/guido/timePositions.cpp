@@ -7,7 +7,7 @@
 
 #include "timePositions.h"
 
-void MusicXMLTimePositions::addTimePosition(int measure, double positionInMeasure, const MusicXML2::notevisitor& nv) {
+void MusicXMLTimePositions::addTimePosition(std::string measure, double positionInMeasure, const MusicXML2::notevisitor& nv) {
     auto timePos4measure = timePositions.find(measure);
     if (nv.x_default != -1) {
         VoicedTimePosition inner = std::make_tuple(positionInMeasure, nv.x_default, nv.getVoice());
@@ -22,7 +22,7 @@ void MusicXMLTimePositions::addTimePosition(int measure, double positionInMeasur
 }
 
 
-float MusicXMLTimePositions::getDxForElement(MusicXML2::xmlelement *element, double position, int onMeasure, int voiceId, double xmlOffset) {
+float MusicXMLTimePositions::getDxForElement(MusicXML2::xmlelement *element, double position, std::string onMeasure, int voiceId, double xmlOffset) {
     auto timePos4measure = timePositions.find(onMeasure);
     float default_x = element->getAttributeFloatValue("default-x", 0),
     relative_x = element->getAttributeFloatValue("relative-x", 0);
