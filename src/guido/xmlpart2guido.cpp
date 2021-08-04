@@ -817,6 +817,7 @@ bool xmlpart2guido::checkMeasureRange() {
                             
                             generateTempo = false;
                         }
+                            break;
                             
                         case k_rehearsal:
                         {
