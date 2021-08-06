@@ -48,6 +48,7 @@ namespace MusicXML2
         fLyricsManualSpacing = false;
         fTupletOpen = 0;
         fTremoloInProgress = false;
+        fCurrentOctavaShift = 0;
         fShouldStopOctava = false;
         staffClefMap.clear();
     }
@@ -68,6 +69,7 @@ namespace MusicXML2
         fTextTagOpen = 0;
         fTupletOpen = 0;
         fTremoloInProgress = false;
+        fCurrentOctavaShift = 0;
         fShouldStopOctava = false;
         fCurrentScorePosition.set(0, 1);
         measurePositionMap.clear();
@@ -86,6 +88,7 @@ namespace MusicXML2
         fLyricsManualSpacing = false;
         fTupletOpen = 0;
         fTremoloInProgress = false;
+        fCurrentOctavaShift = 0;
         fShouldStopOctava = false;
         start (seq);
         processedDirections.clear();
@@ -1119,6 +1122,8 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
             return;
         }
         
+        fCurrentOctavaShift = size;
+        
         Sguidoelement tag = guidotag::create("oct");
         if (tag) {
             tag->add (guidoparam::create(size, false));
@@ -1134,7 +1139,7 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
         tag->add (guidoparam::create(0, false));
         add(tag);
         
-        fShouldStopOctava = false;
+        fCurrentOctavaShift = 0;
     }
     
     //______________________________________________________________________________
@@ -2792,7 +2797,8 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             float default_x = fingerings[0]->getAttributeFloatValue("default-x", 0);
             float dx = (default_x/10)*2;
             if (dx != 0 && (default_x<20.0)) { // filter values > 20.0 as they might be erroneous offsets from FINALE!
-                dx-=1.0; // offset for note head
+                if (dx < 0.0)
+                    dx-=1.0; // offset for note head
                 s << "dx="<<dx<<", ";
             }
             
@@ -3099,7 +3105,7 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, S
     if (thisClef.empty()) {
         thisClef = "g";
     }
-    float noteHeadDy = nv.getNoteHeadDy(thisClef);
+    float noteHeadDy = nv.getNoteHeadDy(thisClef) + float(-1 * fCurrentOctavaShift * 7);
     float xmlY = xml2guidovisitor::getYposition(elt, 0, true);
     /// Notehead placement from top of the staff is (noteheaddy - 10) for G-Clef, and for F-Clef: (2.0 - noteheaddy)
     float noteDistanceFromStaffTop = 0.0;

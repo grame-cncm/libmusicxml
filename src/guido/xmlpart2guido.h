@@ -81,6 +81,7 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
     int fCrescPending, fDiminPending;   // XML Number of Crescendo or Diminuedo that have been opened (0 if none)
     
     int fTextTagOpen;
+    int fCurrentOctavaShift; // 0 if none
     int fTupletOpen;    // Number of opened Tuplets
     std::queue<int> fTiedOpen;      // Number of ongoing opened Tied
     
