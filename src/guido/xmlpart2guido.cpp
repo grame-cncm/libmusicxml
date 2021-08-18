@@ -402,8 +402,10 @@ bool xmlpart2guido::checkMeasureRange() {
         }
         
         /// Report ending position for partial parsing
-        if ((fEndMeasure>0) && (fMeasNum == fEndMeasure+fEndMeasureOffset+1)) {
-            fEndPosition = fCurrentScorePosition;
+        if ((fEndMeasure>0)) {
+            if (fMeasNum == fEndMeasure+1) {
+                fEndPosition = fCurrentScorePosition;
+            }
         }
     }
     

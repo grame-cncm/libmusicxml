@@ -47,7 +47,7 @@ class EXP partsummary :
 	public visitor<S_print>
 {
 	public:
-				 partsummary() : fStavesCount(1), fCurrentMeasure(0) {
+				 partsummary() : fStavesCount(1) {
                      fCurrentMeasurePosition.set(0, 1);
                  };
 		virtual	~partsummary() {};
@@ -104,9 +104,7 @@ class EXP partsummary :
     long    fCurrentDivision;        // the current measure division, expresses the time unit in division of the quarter note
     rational fCurrentMeasurePosition;// the current position in the measure
     
-    void moveMeasureTime (long duration);
-    
-    S_measure fCurrentMeasure;
+    void moveMeasureTime (long duration);    
 };
 
 /*! @} */
