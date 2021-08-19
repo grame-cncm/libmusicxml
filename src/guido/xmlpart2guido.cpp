@@ -433,6 +433,7 @@ bool xmlpart2guido::checkMeasureRange() {
                 fDoubleBar = true;
             
         }
+        checkOctavaEnd();
     }
     
     //______________________________________________________________________________
@@ -1115,21 +1116,26 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
             default:	return;
         }
         
-        if (type == "up")
-            size = -size;
-        else if (type == "stop")
+        if (type != "stop") {
+            if (type == "up")
+                size = -size;
+            fCurrentOctavaShift = size;
+            
+            Sguidoelement tag = guidotag::create("oct");
+            if (tag) {
+                tag->add (guidoparam::create(size, false));
+                add (tag);
+            }
+        }
+        else // Stop immediately
         {
             // in MusicXML, octava stop appears BEFORE the note it should be applied upon! We therefore keep this for the next note visit
-            fShouldStopOctava = true;
-            return;
-        }
-        
-        fCurrentOctavaShift = size;
-        
-        Sguidoelement tag = guidotag::create("oct");
-        if (tag) {
-            tag->add (guidoparam::create(size, false));
-            add (tag);
+            // Note: AS of Finale 26.3 order is parsed correctly!
+            //fShouldStopOctava = true;
+            Sguidoelement tag = guidotag::create("oct");
+            tag->add (guidoparam::create(0, false));
+            add(tag);
+            fCurrentOctavaShift = 0;
         }
     }
 
@@ -1140,7 +1146,7 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
         Sguidoelement tag = guidotag::create("oct");
         tag->add (guidoparam::create(0, false));
         add(tag);
-        
+        fShouldStopOctava = false;
         fCurrentOctavaShift = 0;
     }
     
