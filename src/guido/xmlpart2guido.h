@@ -168,7 +168,6 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
     void checkWavyTrillBegin	 ( const notevisitor& nv );
     void checkWavyTrillEnd	 ( const notevisitor& nv );
     void checkTextEnd();
-    void checkOctavaEnd();
     void newNote		 ( const notevisitor& nv, rational posInMeasure, const std::vector<Sxmlelement>& fingerings);
     void newChord   (const deque<notevisitor>& nvs, rational posInMeasure);
     

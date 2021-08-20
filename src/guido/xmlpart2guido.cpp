@@ -433,7 +433,6 @@ bool xmlpart2guido::checkMeasureRange() {
                 fDoubleBar = true;
             
         }
-        checkOctavaEnd();
     }
     
     //______________________________________________________________________________
@@ -1129,25 +1128,12 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
         }
         else // Stop immediately
         {
-            // in MusicXML, octava stop appears BEFORE the note it should be applied upon! We therefore keep this for the next note visit
-            // Note: AS of Finale 26.3 order is parsed correctly!
-            //fShouldStopOctava = true;
+            // Finale MusicXML Bug? octave-shift stop appears after the visual note. But it's effect on the "octave" seems to appear STILL on the next note!
+            fShouldStopOctava = true;
             Sguidoelement tag = guidotag::create("oct");
             tag->add (guidoparam::create(0, false));
             add(tag);
-            fCurrentOctavaShift = 0;
         }
-    }
-
-    void xmlpart2guido::checkOctavaEnd() {
-        if (!fShouldStopOctava) {
-            return;
-        }
-        Sguidoelement tag = guidotag::create("oct");
-        tag->add (guidoparam::create(0, false));
-        add(tag);
-        fShouldStopOctava = false;
-        fCurrentOctavaShift = 0;
     }
     
     //______________________________________________________________________________
@@ -2233,9 +2219,6 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         xml2guidovisitor::addPosY(note.fBreathMark, tag, -3, 1);
         add(tag);
     }
-    
-    checkOctavaEnd();
-        
 }
     
     //---------------------
@@ -2829,6 +2812,9 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         }
         
         int octave = nv.getOctave() - 3;			// octave offset between MusicXML and GUIDO is -3
+        if (fShouldStopOctava) {
+            octave -= fCurrentOctavaShift;
+        }
         string accident = alter2accident(nv.getAlter());
         string name = noteName(nv);
         guidonoteduration dur = noteDuration(nv);
@@ -3056,6 +3042,11 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             newChord(chord, thisNoteHeadPosition);
         }else {
             newNote (*this, thisNoteHeadPosition, this->getFingerings());
+        }
+        
+        if (fShouldStopOctava) {
+            fShouldStopOctava = false;
+            fCurrentOctavaShift = 0;
         }
         
         isProcessingChord = false;
