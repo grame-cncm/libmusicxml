@@ -2746,6 +2746,18 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         counter++;
     }
     
+    // IMPORTANT: For Guido, Fingerings should be sorted based on default-y: farthest first.
+    std::sort(belowFingerings.begin(), belowFingerings.end(), [](Sxmlelement a, Sxmlelement b) {
+        int posa = a->getAttributeIntValue("default-y", 0);
+        int posb = b->getAttributeIntValue("default-y", 0);
+        return posa < posb;
+    });
+    std::sort(aboveFingerings.begin(), aboveFingerings.end(), [](Sxmlelement a, Sxmlelement b) {
+        int posa = abs(a->getAttributeIntValue("default-y", 0));
+        int posb = abs(b->getAttributeIntValue("default-y", 0));
+        return posa < posb;
+    });
+    
     // Generate notes with correct fingering
     std::vector<Sxmlelement> emptyFingerings;
     for ( int index = 0; index < nvs.size(); index++) {
@@ -2775,9 +2787,20 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             stringstream s;
 
             /// Add Placement only if default-y is unavailable
-            int default_y = fingerings[0]->getAttributeIntValue("default-y", 0);
+            int default_y = 0;
+            // If there are multiple fingerings, choose the default-y with smallest fabs value
+            for (int i=0; i < fingerings.size(); i++) {
+                int val = fingerings[i]->getAttributeIntValue("default-y", 0);
+                if (default_y == 0) {
+                    default_y = val;
+                }
+                if ((val != 0)&&(abs(val)<abs(default_y))) {
+                    default_y = val;
+                }
+            }
             if (default_y != 0) {
-                addPosYforNoteHead(nv, fingerings[0], tag, 2.0);
+                float posy = (default_y / 10) * 2;  // convert to half space
+                addPosYforNoteHead(nv, posy, tag, 2.0);
             }else {
                 std::string placement = fingerings[0]->getAttributeValue("placement");
                 if (placement.size() > 0) {
@@ -3100,12 +3123,20 @@ bool xmlpart2guido::findNextNote(ctree<xmlelement>::iterator& elt, ctree<xmlelem
 }
 
 void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset) {
+    
+    float xmlY = xml2guidovisitor::getYposition(elt, 0, true);
+    addPosYforNoteHead(nv, xmlY, tag, offset);
+    
+    //cerr << "addPosYforNoteHead for "<< elt->getName()<<" line:"<< elt->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " noteDistanceFromStaffTop="<<noteDistanceFromStaffTop <<" ->pos="<<posy<<endl;
+
+}
+
+void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, float xmlY, Sguidoelement& tag, float offset) {
     std::string thisClef = getClef(fTargetStaff , fCurrentVoicePosition, fMeasNum);
     if (thisClef.empty()) {
         thisClef = "g";
     }
     float noteHeadDy = nv.getNoteHeadDy(thisClef) + float(-1 * fCurrentOctavaShift * 7);
-    float xmlY = xml2guidovisitor::getYposition(elt, 0, true);
     /// Notehead placement from top of the staff is (noteheaddy - 10) for G-Clef, and for F-Clef: (2.0 - noteheaddy)
     float noteDistanceFromStaffTop = 0.0;
     if (thisClef[0]=='g') {
@@ -3122,8 +3153,6 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, S
         tag->add (guidoparam::create(s.str(), false));
     }
     
-    //cerr << "addPosYforNoteHead for "<< elt->getName()<<" line:"<< elt->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " noteDistanceFromStaffTop="<<noteDistanceFromStaffTop <<" ->pos="<<posy<<endl;
-
 }
 
 float xmlpart2guido::getNoteDistanceFromStaffTop(const notevisitor& nv) {

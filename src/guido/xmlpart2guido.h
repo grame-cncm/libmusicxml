@@ -260,6 +260,8 @@ private:
     std::string getClef(int staffIndex, rational pos, int measureNum);
     
     void addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset);
+    void addPosYforNoteHead(const notevisitor& nv, float xmlY, Sguidoelement& tag, float offset);
+    
     
     bool checkMeasureRange();
     
