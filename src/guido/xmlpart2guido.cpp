@@ -622,7 +622,7 @@ bool xmlpart2guido::checkMeasureRange() {
                             }
                             
                             string wordPrefix="";
-                            // in case of composite Dynamics, detemrine whether text is Before or After
+                            // in case of composite Dynamics, determine whether text is Before or After
                             if (generateCompositeDynamic) {
                                 auto itol = std::find(branches.begin(), branches.end(), *iter);
                                 if (itol != branches.end()) {
@@ -681,6 +681,13 @@ bool xmlpart2guido::checkMeasureRange() {
                             
                             wordParameters << wordPrefix <<"\"" << element->getValue() << "\""<< parameters.str();
                             
+                            /// Take into account group positioning
+                            float posy = xml2guidovisitor::getYposition(element, 0, true);
+                            if (posy != 0.0) {
+                                // then apply and save
+                                commonDy += xml2guidovisitor::getYposition(element, 11.0, true);  // Should this be additive?
+                            }
+                            
                             if (generateCompositeDynamic) {
                                 if (tag) {
                                     // This should happen when WORD is After Dynamic
@@ -689,13 +696,6 @@ bool xmlpart2guido::checkMeasureRange() {
                                     wordParameterBuffer= wordParameters.str();
                                 }
                             }else {
-                                /// Take into account group positioning
-                                float posy = xml2guidovisitor::getYposition(element, 0, true);
-                                if (posy != 0.0) {
-                                    // then apply and save
-                                    commonDy += xml2guidovisitor::getYposition(element, 11.0, true);  // Should this be additive?
-                                }
-                                
                                 tag = guidotag::create("text");
                                 
                                 rational offset(fCurrentOffset, fCurrentDivision*4);
@@ -2799,6 +2799,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
                 }
             }
             if (default_y != 0) {
+                // Fingering default-y is from the top line of staff. In Guido, it is relative to note head
                 float posy = (default_y / 10) * 2;  // convert to half space
                 addPosYforNoteHead(nv, posy, tag, 2.0);
             }else {
@@ -2984,7 +2985,9 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             for (auto i = staffRange.first ; i != staffRange.second; i++ )
             {
                 // Get the measure number
-                if (((i->second).first <= measureNum) && ((i->second).second.first <= pos )){
+                if (((i->second).first < measureNum)){
+                    thisClef = (i->second).second.second;
+                }else if ( ((i->second).first == measureNum)  && ((i->second).second.first <= pos )) {
                     thisClef = (i->second).second.second;
                 }else
                     break;
@@ -3126,8 +3129,6 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, S
     
     float xmlY = xml2guidovisitor::getYposition(elt, 0, true);
     addPosYforNoteHead(nv, xmlY, tag, offset);
-    
-    //cerr << "addPosYforNoteHead for "<< elt->getName()<<" line:"<< elt->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " noteDistanceFromStaffTop="<<noteDistanceFromStaffTop <<" ->pos="<<posy<<endl;
 
 }
 
@@ -3152,6 +3153,14 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, float xmlY, Sguido
         s << "dy=" << posy << "hs";
         tag->add (guidoparam::create(s.str(), false));
     }
+    
+//    cerr <<"\t addPosYforNoteHead meas:"<<fMeasNum
+//    <<" note:"<<nv.getStep()<<nv.getOctave()
+//    <<" xmlY="<<xmlY
+//    <<" noteHeadDy="<<noteHeadDy
+//    <<" thisClef="<<thisClef
+//    <<" noteDistanceFromStaffTop="<<noteDistanceFromStaffTop
+//    <<" ->pos="<<posy<<endl;
     
 }
 
