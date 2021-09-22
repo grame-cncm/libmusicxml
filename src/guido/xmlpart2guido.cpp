@@ -675,6 +675,13 @@ bool xmlpart2guido::checkMeasureRange() {
                                     commonDy = tempoDy;
                                 }
                                 parameters << ", dy="<<commonDy<<"hs";
+                                
+                                // Determine horizontal position. For Tempo, we should always search from the BEGINNING of measure (hence position = 0.0)
+                                rational offset(fCurrentOffset, fCurrentDivision*4);
+                                float wordDx = timePositions.getDxRelativeToMeasureForElement(element, fCurrentMeasure->getAttributeValue("number"), 0, offset.toDouble());
+                                if (wordDx != -999 && wordDx != 0) {
+                                    parameters << ", dx=" << wordDx;
+                                }
                                 tempoTextParameters = parameters.str();
                                 break;
                             }
@@ -1680,7 +1687,9 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                     }
 
                 }else {
+#if DEBUG
                     cerr<< "XML2Guido SlurEnd, measure "<<fMeasNum<<" xmlLine "<<(*i)->getInputLineNumber() <<": Got Slur Stop with number:"<< (*i)->getAttributeIntValue("number", 0)  <<" without a Slur in Stack. Skipping!"<<endl;
+#endif
                     continue;
                 }
                 

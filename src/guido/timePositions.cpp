@@ -52,3 +52,35 @@ float MusicXMLTimePositions::getDxForElement(MusicXML2::xmlelement *element, dou
     }
     return -999;        // This is when the xpos can not be computed
 }
+
+float MusicXMLTimePositions::getDxRelativeToMeasureForElement(MusicXML2::xmlelement *element, std::string onMeasure, int voiceId, double xmlOffset) {
+    auto timePos4measure = timePositions.find(onMeasure);
+    float default_x = element->getAttributeFloatValue("default-x", 0),
+    relative_x = element->getAttributeFloatValue("relative-x", 0);
+        
+    // MusicXML DOC: If an element within a <direction> includes a default-x attribute, the <offset> value will be ignored when determining the appearance of that element.
+    double finalPosition = (default_x == 0 ? (double)xmlOffset : 0.0);
+    
+    if (timePos4measure != timePositions.end()) {
+        auto it = find(timePos4measure->second, voiceId, finalPosition);
+        if (it != timePos4measure->second.end()) {
+            float minXPos = getDefaultX(*it);
+            //if (xpos != minXPos) {
+            int finalDx = (relative_x/10)*2;
+            // apply default-x ONLY if it exists
+            if (default_x != 0) {
+                // Use default-x if it exists; convert to half spaces
+                finalDx += ( (default_x - minXPos)/ 10 ) * 2;
+            }
+            else if (xmlOffset != 0) {
+                finalDx += ( (default_x - minXPos)/ 10 ) * 2;   // convert to half spaces
+            }else {
+                finalDx -= (minXPos/10 * 2);
+            }
+                
+            return finalDx;
+        }
+    }
+    
+    return -999;        // This is when the xpos can not be computed
+}

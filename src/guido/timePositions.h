@@ -38,6 +38,10 @@ public:
     /// @return a float containing Guido dx value based on available default-x in measure
     float getDxForElement(MusicXML2::xmlelement *element, double position, std::string onMeasure, int voice, double xmlOffset);
     
+    /// Finds Guido Dx for XML Directions whose default horizontal position is from the Beginning of the Measure, such as Words and Tempo.
+    float getDxRelativeToMeasureForElement(MusicXML2::xmlelement *element, std::string onMeasure, int voice, double xmlOffset);
+    
+    
     size_t size() { return timePositions.size(); }
     
 protected:

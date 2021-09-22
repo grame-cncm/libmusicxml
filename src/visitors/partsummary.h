@@ -103,6 +103,7 @@ class EXP partsummary :
     
     long    fCurrentDivision;        // the current measure division, expresses the time unit in division of the quarter note
     rational fCurrentMeasurePosition;// the current position in the measure
+    S_measure fCurrentMeasure;
     
     void moveMeasureTime (long duration);    
 };

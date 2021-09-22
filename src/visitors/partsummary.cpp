@@ -65,7 +65,8 @@ void partsummary::visitEnd ( S_note& elt)
 	notevisitor::visitEnd (elt);
     if (inChord()) return;
     if (!isGrace() ) {
-        std::string fCurrentMeasureNumber = elt->getAttributeValue("number");
+        std::string fCurrentMeasureNumber = fCurrentMeasure->getAttributeValue("number");
+        
         timePositions.addTimePosition(fCurrentMeasureNumber, fCurrentMeasurePosition.toDouble(), *this); 
         moveMeasureTime (getDuration());
     }
@@ -77,6 +78,7 @@ void partsummary::visitEnd ( S_note& elt)
 void partsummary::visitStart ( S_measure& elt )
 {
     fCurrentMeasurePosition.set(0, 1);
+    fCurrentMeasure = elt;
 }
 
 void partsummary::visitStart ( S_divisions& elt )
