@@ -2716,59 +2716,10 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
     }
     
 void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasure) {
-    // Fingering treatment: Bring all fingerings together in two vectors for placement below/above. The "above" placement should be hooked to the highest pitch in the chord, and "below" to the lowest.
-    std::vector<Sxmlelement> belowFingerings;
-    std::vector<Sxmlelement> aboveFingerings;
-    int highestPitchIndex = 0, lowestPitchIndex = 0, counter =0;
-    float lowestPitch = 128, highestPitch = 0;
-    for (auto note: nvs) {
-        auto localFingerings = note.getFingerings();
-        for (auto fingering: localFingerings) {
-            std::string placement = fingering->getAttributeValue("placement");
-            if (placement == "below") {
-                belowFingerings.push_back(fingering);
-            }else {
-                aboveFingerings.push_back(fingering);
-            }
-        }
-        
-        float localPitch = note.getMidiPitch();
-        if (localPitch > highestPitch) {
-            highestPitch = localPitch;
-            highestPitchIndex = counter;
-        }
-        if (localPitch < lowestPitch) {
-            lowestPitch = localPitch;
-            lowestPitchIndex = counter;
-        }
-        
-        // increment index counter
-        counter++;
-    }
-    
-    // IMPORTANT: For Guido, Fingerings should be sorted based on default-y: farthest first.
-    std::sort(belowFingerings.begin(), belowFingerings.end(), [](Sxmlelement a, Sxmlelement b) {
-        int posa = a->getAttributeIntValue("default-y", 0);
-        int posb = b->getAttributeIntValue("default-y", 0);
-        return posa < posb;
-    });
-    std::sort(aboveFingerings.begin(), aboveFingerings.end(), [](Sxmlelement a, Sxmlelement b) {
-        int posa = abs(a->getAttributeIntValue("default-y", 0));
-        int posb = abs(b->getAttributeIntValue("default-y", 0));
-        return posa < posb;
-    });
-    
     // Generate notes with correct fingering
     std::vector<Sxmlelement> emptyFingerings;
     for ( int index = 0; index < nvs.size(); index++) {
-        if (index == lowestPitchIndex) {
-            newNote(nvs.at(index), posInMeasure, belowFingerings);
-            continue;
-        }else if (index == highestPitchIndex) {
-            newNote(nvs.at(index), posInMeasure, aboveFingerings);
-        }else {
-            newNote(nvs.at(index), posInMeasure, emptyFingerings);
-        }
+        newNote(nvs.at(index), posInMeasure, nvs.at(index).getFingerings());
     }
 }
 
@@ -2782,34 +2733,24 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
 
         // Fingering is tied to single notes (in chords)
         int hasFingerings = 0;  // 0 if none, greater otherwise!
-        if (fingerings.size()) {
+        
+        for (int i=0; i < fingerings.size(); i++) {
+            auto f = fingerings[i];
             Sguidoelement tag = guidotag::create("fingering");
             stringstream s;
-
-            /// Add Placement only if default-y is unavailable
-            int default_y = 0;
-            // If there are multiple fingerings, choose the default-y with smallest fabs value
-            for (int i=0; i < fingerings.size(); i++) {
-                int val = fingerings[i]->getAttributeIntValue("default-y", 0);
-                if (default_y == 0) {
-                    default_y = val;
-                }
-                if ((val != 0)&&(abs(val)<abs(default_y))) {
-                    default_y = val;
-                }
-            }
+            float default_y = (float)(f->getAttributeIntValue("default-y", 0));
             if (default_y != 0) {
                 // Fingering default-y is from the top line of staff. In Guido, it is relative to note head
                 float posy = (default_y / 10) * 2;  // convert to half space
-                addPosYforNoteHead(nv, posy, tag, 2.0);
+                addPosYforNoteHead(nv, posy, tag, 2.0 ); // offset to bypass note-head // posy > 0.0 ? 2.0 : 0.0
             }else {
-                std::string placement = fingerings[0]->getAttributeValue("placement");
+                std::string placement = f->getAttributeValue("placement");
                 if (placement.size() > 0) {
                     s << "position=\""<<placement<<"\", ";
                 }
             }
             
-            float default_x = fingerings[0]->getAttributeFloatValue("default-x", 0);
+            float default_x = f->getAttributeFloatValue("default-x", 0);
             float dx = (default_x/10)*2;
             if (dx != 0 && (default_x<20.0)) { // filter values > 20.0 as they might be erroneous offsets from FINALE!
                 if (dx < 0.0)
@@ -2817,19 +2758,9 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
                 s << "dx="<<dx<<", ";
             }
             
-            // Add Fingering "Text"
-            for (int i=0; i < fingerings.size(); i++) {
-                std::string fingeringText = fingerings[i]->getValue();
-                if (i==0) {
-                    s << "text=\"" << fingeringText;
-                }else {
-                    s << "," << fingeringText;
-                }
-                
-                if (i+1 == fingerings.size()) {
-                    s << "\"";
-                }
-            }
+            std::string fingeringText = f->getValue();
+            s << "text=\"" << fingeringText << "\"";
+            
             tag->add (guidoparam::create(s.str(), false));
             push(tag);
             hasFingerings++;
