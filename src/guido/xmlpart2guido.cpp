@@ -676,11 +676,16 @@ bool xmlpart2guido::checkMeasureRange() {
                                 }
                                 parameters << ", dy="<<commonDy<<"hs";
                                 
-                                // Determine horizontal position. For Tempo, we should always search from the BEGINNING of measure (hence position = 0.0)
-                                rational offset(fCurrentOffset, fCurrentDivision*4);
-                                float wordDx = timePositions.getDxRelativeToMeasureForElement(element, fCurrentMeasure->getAttributeValue("number"), 0, offset.toDouble());
-                                if (wordDx != -999 && wordDx != 0) {
-                                    parameters << ", dx=" << wordDx;
+                                // Determine horizontal position, if either offset, default-x or relative-x are present.
+                                float default_x = element->getAttributeFloatValue("default-x", 0.);
+                                float rel_x = element->getAttributeFloatValue("relative-x", 0.);
+                                if ( (fCurrentOffset != 0)||(default_x != 0.0)||(rel_x != 0.0)) {
+                                    // For Tempo, we should always search from the BEGINNING of measure (hence position = 0.0)
+                                    rational offset(fCurrentOffset, fCurrentDivision*4);
+                                    float wordDx = timePositions.getDxRelativeToMeasureForElement(element, fCurrentMeasure->getAttributeValue("number"), 0, offset.toDouble());
+                                    if (wordDx != -999 && wordDx != 0) {
+                                        parameters << ", dx=" << wordDx;
+                                    }
                                 }
                                 tempoTextParameters = parameters.str();
                                 break;
