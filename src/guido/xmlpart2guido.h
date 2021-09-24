@@ -262,6 +262,8 @@ private:
     void addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset);
     void addPosYforNoteHead(const notevisitor& nv, float xmlY, Sguidoelement& tag, float offset);
     
+    /// If default-y exist and defiined with regards to staff, convert it to dY based on note head position and add to tag parameters. Otherwise, use Placement if exists.
+    void addPositionOrPlacementToNote(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset);
     
     bool checkMeasureRange();
     

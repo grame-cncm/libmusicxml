@@ -483,6 +483,10 @@ bool xmlpart2guido::checkMeasureRange() {
             }
         }
         
+        if (elt->find(k_staff) != elt->end()) {
+            checkStaff(elt->getIntValue(k_staff, 1));
+        }
+        
         // Browse into all S_direction_type elements and parse, by preserving ordering AND grouped direction positions (if missing in proceedings calls)
         ctree<xmlelement>::literator iter = elt->lbegin();
         
@@ -2368,13 +2372,17 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         
         if (note.fBowUp || note.fBowDown) {
             tag = guidotag::create("bow");
-            stringstream s;
-            if (note.fBowUp) {
-                s << "\"up\"";
-            }else {
-                s << "\"down\"";
+            if (note.fBowDown) {
+                stringstream s;
+                s << "type=\"down\"";
+                tag->add (guidoparam::create(s.str(), false));
+                addPositionOrPlacementToNote(note, note.fBowDown, tag, -2.0);
+            } else {
+                stringstream s;
+                s << "type=\"up\"";
+                tag->add (guidoparam::create(s.str(), false));
+                addPositionOrPlacementToNote(note, note.fBowUp, tag, -2.0);
             }
-            tag->add (guidoparam::create(s.str(), false));
             push(tag);
             n++;
         }
@@ -3069,6 +3077,22 @@ bool xmlpart2guido::findNextNote(ctree<xmlelement>::iterator& elt, ctree<xmlelem
     }
     return false;
 }
+
+void xmlpart2guido::addPositionOrPlacementToNote(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset) {
+    float default_y = (float)(elt->getAttributeIntValue("default-y", 0));
+    if (default_y != 0) {
+        float posy = (default_y / 10) * 2;  // convert to half space
+        addPosYforNoteHead(nv, posy, tag, offset); // offset to bypass note-head // posy > 0.0 ? 2.0 : 0.0
+    }else {
+        std::string placement = elt->getAttributeValue("placement");
+        if (placement.size() > 0) {
+            stringstream s;
+            s << "position=\""<<placement<<"\"";
+            tag->add (guidoparam::create(s.str(), false));
+        }
+    }
+}
+
 
 void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset) {
     
