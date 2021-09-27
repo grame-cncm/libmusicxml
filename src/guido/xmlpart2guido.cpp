@@ -2376,12 +2376,22 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                 stringstream s;
                 s << "type=\"down\"";
                 tag->add (guidoparam::create(s.str(), false));
-                addPositionOrPlacementToNote(note, note.fBowDown, tag, -2.0);
+                float default_y = (float)(note.fBowDown->getAttributeIntValue("default-y", 0));
+                if (default_y != 0) {
+                    xml2guidovisitor::addPosY(note.fBowDown, tag, 0.0, 1.0);
+                }else {
+                    xml2guidovisitor::addPlacement(note.fBowDown, tag);
+                }
             } else {
                 stringstream s;
                 s << "type=\"up\"";
                 tag->add (guidoparam::create(s.str(), false));
-                addPositionOrPlacementToNote(note, note.fBowUp, tag, -2.0);
+                float default_y = (float)(note.fBowUp->getAttributeIntValue("default-y", 0));
+                if (default_y != 0) {
+                    xml2guidovisitor::addPosY(note.fBowUp, tag, 0.0, 1.0);
+                }else {
+                    xml2guidovisitor::addPlacement(note.fBowUp, tag);
+                }
             }
             push(tag);
             n++;
