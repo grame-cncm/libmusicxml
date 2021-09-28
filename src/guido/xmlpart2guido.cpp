@@ -2774,7 +2774,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             if (default_y != 0) {
                 // Fingering default-y is from the top line of staff. In Guido, it is relative to note head
                 float posy = (default_y / 10) * 2;  // convert to half space
-                addPosYforNoteHead(nv, posy, tag, 2.0 ); // offset to bypass note-head // posy > 0.0 ? 2.0 : 0.0
+                addPosYforNoteHead(nv, posy, tag, 0.0 ); 
             }else {
                 std::string placement = f->getAttributeValue("placement");
                 if (placement.size() > 0) {
@@ -2785,8 +2785,6 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             float default_x = f->getAttributeFloatValue("default-x", 0);
             float dx = (default_x/10)*2;
             if (dx != 0 && (default_x<20.0)) { // filter values > 20.0 as they might be erroneous offsets from FINALE!
-                if (dx < 0.0)
-                    dx-=1.0; // offset for note head
                 s << "dx="<<dx<<", ";
             }
             
