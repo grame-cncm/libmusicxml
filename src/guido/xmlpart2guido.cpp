@@ -2372,26 +2372,30 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         
         if (note.fBowUp || note.fBowDown) {
             tag = guidotag::create("bow");
+            // in MusicXML, bow default-y's origin is changed relative to the top line of the staff. Positive y is up and negative y is down.
+            // In Guido, vertical origin is from the top of staff IF the associated note head is BELOW the staff top and from the notehead otherwise!
             if (note.fBowDown) {
                 stringstream s;
                 s << "type=\"down\"";
                 tag->add (guidoparam::create(s.str(), false));
                 float default_y = (float)(note.fBowDown->getAttributeIntValue("default-y", 0));
                 if (default_y != 0) {
-                    xml2guidovisitor::addPosY(note.fBowDown, tag, 0.0, 1.0);
+                    addDyFromNoteOrStaff(note, note.fBowDown, tag);
                 }else {
                     xml2guidovisitor::addPlacement(note.fBowDown, tag);
                 }
+                xml2guidovisitor::addPosX(note.fBowDown, tag, 0.0);
             } else {
                 stringstream s;
                 s << "type=\"up\"";
                 tag->add (guidoparam::create(s.str(), false));
                 float default_y = (float)(note.fBowUp->getAttributeIntValue("default-y", 0));
                 if (default_y != 0) {
-                    xml2guidovisitor::addPosY(note.fBowUp, tag, 0.0, 1.0);
+                    addDyFromNoteOrStaff(note, note.fBowUp, tag);
                 }else {
                     xml2guidovisitor::addPlacement(note.fBowUp, tag);
                 }
+                xml2guidovisitor::addPosX(note.fBowUp, tag, 0.0);
             }
             push(tag);
             n++;
@@ -3101,6 +3105,27 @@ void xmlpart2guido::addPositionOrPlacementToNote(const notevisitor& nv, Sxmlelem
     }
 }
 
+void xmlpart2guido::addDyFromNoteOrStaff(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag) {
+    float default_y = (float)(elt->getAttributeIntValue("default-y", 0));
+
+    if (default_y != 0.0) {
+        float noteDistanceFromStaffTop = distanceFromStaffTopForNote(nv);
+        // negative distance means we are below the top staff line
+        if (noteDistanceFromStaffTop > 0.0) {
+            addPosYforNoteHead(nv, (default_y / 10.0) * 2.0, tag, 0.0);
+        }else {
+            xml2guidovisitor::addPosY(elt, tag, 0.0, 1.0);
+        }
+        
+//        cerr <<"\t addPosYforNoteHead meas:"<<fMeasNum
+//            <<" note:"<<nv.getStep()<<nv.getOctave()
+//            <<" default_y="<<default_y<<" "<< (default_y / 10) * 2
+//            <<" noteDistanceFromStaffTop="<<noteDistanceFromStaffTop
+//            <<" -> "<<tag
+//        <<endl;
+    }
+}
+
 
 void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset) {
     
@@ -3110,6 +3135,25 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, S
 }
 
 void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, float xmlY, Sguidoelement& tag, float offset) {
+    float noteDistanceFromStaffTop = distanceFromStaffTopForNote(nv);
+    float posy = xmlY - noteDistanceFromStaffTop + offset ;
+    if (posy) {
+        stringstream s;
+        s << "dy=" << posy << "hs";
+        tag->add (guidoparam::create(s.str(), false));
+    }
+    
+//    cerr <<"\t addPosYforNoteHead meas:"<<fMeasNum
+//    <<" note:"<<nv.getStep()<<nv.getOctave()
+//    <<" xmlY="<<xmlY
+//    <<" noteDistanceFromStaffTop="<<noteDistanceFromStaffTop
+//    <<" ->pos="<<posy
+//    << " "<<tag
+//    <<endl;
+    
+}
+
+float xmlpart2guido::distanceFromStaffTopForNote(const notevisitor& nv) {
     std::string thisClef = getClef(fTargetStaff , fCurrentVoicePosition, fMeasNum);
     if (thisClef.empty()) {
         thisClef = "g";
@@ -3124,22 +3168,10 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, float xmlY, Sguido
     }else if (thisClef[0]=='c') {
         noteDistanceFromStaffTop = (noteHeadDy - 10.0);
     }
-    float posy = xmlY - noteDistanceFromStaffTop + offset ;
-    if (posy) {
-        stringstream s;
-        s << "dy=" << posy << "hs";
-        tag->add (guidoparam::create(s.str(), false));
-    }
     
-//    cerr <<"\t addPosYforNoteHead meas:"<<fMeasNum
-//    <<" note:"<<nv.getStep()<<nv.getOctave()
-//    <<" xmlY="<<xmlY
-//    <<" noteHeadDy="<<noteHeadDy
-//    <<" thisClef="<<thisClef
-//    <<" noteDistanceFromStaffTop="<<noteDistanceFromStaffTop
-//    <<" ->pos="<<posy<<endl;
-    
+    return noteDistanceFromStaffTop;
 }
+
 
 float xmlpart2guido::getNoteDistanceFromStaffTop(const notevisitor& nv) {
     std::string thisClef = getClef(fTargetStaff , fCurrentVoicePosition, fMeasNum);
