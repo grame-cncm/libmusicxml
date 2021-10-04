@@ -2755,6 +2755,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
     // Generate notes with correct fingering
     std::vector<Sxmlelement> emptyFingerings;
     for ( int index = 0; index < nvs.size(); index++) {
+        checkStaff(nvs.at(index).getStaff());
         newNote(nvs.at(index), posInMeasure, nvs.at(index).getFingerings());
     }
 }
