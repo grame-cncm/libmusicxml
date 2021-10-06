@@ -1597,7 +1597,7 @@ void xmlpart2guido::parseTime(ctree<xmlelement>::iterator &iter) {
                 tagName << "slurBegin" << ":"<< lastSlurInternalNumber;
                 Sguidoelement tag = guidotag::create(tagName.str());
                 string placement = (*i)->getAttributeValue("placement");
-                string orientation = (*i)->getAttributeValue("placement");
+                string orientation = (*i)->getAttributeValue("orientation");
                 if ((placement == "below")||(orientation=="under"))
                     tag->add (guidoparam::create("curve=\"down\"", false));
                 if ((placement == "above")||(orientation=="over"))
