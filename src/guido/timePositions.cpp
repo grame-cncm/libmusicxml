@@ -10,7 +10,7 @@
 void MusicXMLTimePositions::addTimePosition(std::string measure, double positionInMeasure, const MusicXML2::notevisitor& nv) {
     auto timePos4measure = timePositions.find(measure);
     if (nv.x_default != -1) {
-        VoicedTimePosition inner = std::make_tuple(positionInMeasure, nv.x_default, nv.getVoice());
+        VoicedTimePosition inner = std::make_tuple(positionInMeasure, nv.x_default, nv.getVoice(), nv.getStaff());
         if ( timePos4measure !=  timePositions.end())
         {
             timePos4measure->second.push_back(inner);
@@ -22,7 +22,8 @@ void MusicXMLTimePositions::addTimePosition(std::string measure, double position
 }
 
 
-float MusicXMLTimePositions::getDxForElement(MusicXML2::xmlelement *element, double position, std::string onMeasure, int voiceId, double xmlOffset) {
+float MusicXMLTimePositions::getDxForElement(MusicXML2::xmlelement *element, double position,
+                                             std::string onMeasure, int voiceId, int staff, double xmlOffset) {
     auto timePos4measure = timePositions.find(onMeasure);
     float default_x = element->getAttributeFloatValue("default-x", 0),
     relative_x = element->getAttributeFloatValue("relative-x", 0);
@@ -35,7 +36,7 @@ float MusicXMLTimePositions::getDxForElement(MusicXML2::xmlelement *element, dou
     double finalPosition = position + (default_x == 0 ? (double)xmlOffset : 0.0);
 
     if (timePos4measure != timePositions.end()) {
-        auto it = find(timePos4measure->second, voiceId, finalPosition);
+        auto it = find(timePos4measure->second, voiceId, staff, finalPosition);
         if (it != timePos4measure->second.end()) {
             float minXPos = getDefaultX(*it);
             //if (xpos != minXPos) {
@@ -70,7 +71,7 @@ float MusicXMLTimePositions::getDxRelativeToMeasureForElement(MusicXML2::xmlelem
     double finalPosition = (default_x == 0 ? (double)xmlOffset : 0.0);
     
     if (timePos4measure != timePositions.end()) {
-        auto it = find(timePos4measure->second, voiceId, finalPosition);
+        auto it = find(timePos4measure->second, voiceId, 0, finalPosition);
         if (it != timePos4measure->second.end()) {
             float minXPos = getDefaultX(*it);
             //if (xpos != minXPos) {

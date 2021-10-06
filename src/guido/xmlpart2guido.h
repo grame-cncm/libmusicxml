@@ -61,7 +61,6 @@ public visitor<S_part>,
 public visitor<S_repeat>,
 public visitor<S_segno>,
 public visitor<S_sound>,
-public visitor<S_wedge>,
 public visitor<S_attributes>         // to get clef, division, staves, time and key in order!
 {
     // the guido elements stack
@@ -206,7 +205,6 @@ protected:
     virtual void visitStart( S_octave_shift& elt);
     virtual void visitStart( S_part& elt);
     virtual void visitStart( S_segno& elt);
-    virtual void visitStart( S_wedge& elt);
     virtual void visitStart( S_attributes& elt);
     
     virtual void visitEnd  ( S_direction& elt);
@@ -220,6 +218,8 @@ protected:
     virtual void visitEnd  ( S_part& elt);
 
     std::string parseMetronome ( metronomevisitor &mv );
+    
+    void parseWedge(MusicXML2::xmlelement *elt, int staff);
     
     bool findNextNote(ctree<xmlelement>::iterator& elt, ctree<xmlelement>::iterator &nextnote);
     float getNoteDistanceFromStaffTop(const notevisitor& nv);
