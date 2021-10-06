@@ -555,9 +555,17 @@ bool xmlpart2guido::checkMeasureRange() {
                             if ( (pedalType== "start") || (pedalType == "sostenuto")) {
                                 tag = guidotag::create("pedalOn");
                                 fPreviousPedalYPos = xml2guidovisitor::getYposition(element, 14.0, true);
+                                
+                                xml2guidovisitor::addPosY(element, tag, 14.0, 1.0);
                             }else
                                 if ( (pedalType== "stop") || (pedalType == "discontinue")) {
                                     tag = guidotag::create("pedalOff");
+                                    
+                                    if (element->getAttributeFloatValue("default-y", 0.0) != 0.0) {
+                                        xml2guidovisitor::addPosY(element, tag, 14.0, 1.0);
+                                    } else {
+                                        xml2guidovisitor::addPosY(element, tag, fPreviousPedalYPos, 1.0);
+                                    }
                                 }
                                 else if ( (pedalType== "change")) {
                                     tag = guidotag::create("pedalOff");
@@ -566,23 +574,26 @@ bool xmlpart2guido::checkMeasureRange() {
                                     continue;
                                 }
                             
-                            if (pedalType != "change") {
-                                xml2guidovisitor::addPosY(element, tag, 14.0, 1.0);
-                                xml2guidovisitor::addRelativeX(element, tag, -2);   // -2 offset estimating font width
+                            // Try to infer default-x position if available
+                            stringstream s;
+                            rational offset(fCurrentOffset, fCurrentDivision*4);
+                            float dx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fCurrentMeasure->getAttributeValue("number"), 0, directionStaff, offset.toDouble());
+                            if (dx==-999) {
+                                return; // Return if no corresponding default-x event is found
                             }else {
-                                if (fPreviousPedalYPos) {
-                                    stringstream s;
-                                    rational offset(fCurrentOffset, fCurrentDivision*4);
-                                    float dx = timePositions.getDxForElement(element, fCurrentVoicePosition.toDouble(), fCurrentMeasure->getAttributeValue("number"), 0, directionStaff, offset.toDouble());
-                                    if (dx==-999) {
-                                        return; // Return if no corresponding default-x event is found
-                                    }else {
-                                        dx-=2;
-                                    }
-                                    s << "dy=" << fPreviousPedalYPos << "hs, dx="<< dx<<"hs"; // dx was -2
-                                    tag->add (guidoparam::create(s.str(), false));
-                                }
+                                dx-=2; // -2 offset estimating font width
                             }
+                            
+                            if (pedalType == "change") {
+                                dx-=2; // to allow two tags
+                                if (fPreviousPedalYPos) {
+                                    s << "dy=" << fPreviousPedalYPos << "hs, dx="<< dx<<"hs"; // dx was -2
+                                }
+                            }else {
+                                s << "dx="<<dx;
+                            }
+
+                            tag->add (guidoparam::create(s.str(), false));
                             
                             if (fCurrentOffset > 0)
                                 addDelayed(tag, fCurrentOffset);
