@@ -2794,34 +2794,36 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         // Fingering is tied to single notes (in chords)
         int hasFingerings = 0;  // 0 if none, greater otherwise!
         
-        for (int i=0; i < fingerings.size(); i++) {
-            auto f = fingerings[i];
-            Sguidoelement tag = guidotag::create("fingering");
-            stringstream s;
-            float default_y = (float)(f->getAttributeIntValue("default-y", 0));
-            if (default_y != 0) {
-                // Fingering default-y is from the top line of staff. In Guido, it is relative to note head
-                float posy = (default_y / 10) * 2;  // convert to half space
-                addPosYforNoteHead(nv, posy, tag, 0.0 ); 
-            }else {
-                std::string placement = f->getAttributeValue("placement");
-                if (placement.size() > 0) {
-                    s << "position=\""<<placement<<"\", ";
+        if (printObject) {
+            for (int i=0; i < fingerings.size(); i++) {
+                auto f = fingerings[i];
+                Sguidoelement tag = guidotag::create("fingering");
+                stringstream s;
+                float default_y = (float)(f->getAttributeIntValue("default-y", 0));
+                if (default_y != 0) {
+                    // Fingering default-y is from the top line of staff. In Guido, it is relative to note head
+                    float posy = (default_y / 10) * 2;  // convert to half space
+                    addPosYforNoteHead(nv, posy, tag, 0.0 );
+                }else {
+                    std::string placement = f->getAttributeValue("placement");
+                    if (placement.size() > 0) {
+                        s << "position=\""<<placement<<"\", ";
+                    }
                 }
+                
+                float default_x = f->getAttributeFloatValue("default-x", 0);
+                float dx = (default_x/10)*2;
+                if (dx != 0 && (default_x<20.0)) { // filter values > 20.0 as they might be erroneous offsets from FINALE!
+                    s << "dx="<<dx<<", ";
+                }
+                
+                std::string fingeringText = f->getValue();
+                s << "text=\"" << fingeringText << "\"";
+                
+                tag->add (guidoparam::create(s.str(), false));
+                push(tag);
+                hasFingerings++;
             }
-            
-            float default_x = f->getAttributeFloatValue("default-x", 0);
-            float dx = (default_x/10)*2;
-            if (dx != 0 && (default_x<20.0)) { // filter values > 20.0 as they might be erroneous offsets from FINALE!
-                s << "dx="<<dx<<", ";
-            }
-            
-            std::string fingeringText = f->getValue();
-            s << "text=\"" << fingeringText << "\"";
-            
-            tag->add (guidoparam::create(s.str(), false));
-            push(tag);
-            hasFingerings++;
         }
         
         int octave = nv.getOctave() - 3;			// octave offset between MusicXML and GUIDO is -3
