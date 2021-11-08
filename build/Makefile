@@ -2,6 +2,8 @@
 # 
 #
 
+.PHONY: android
+
 MAKE   ?= make
 CMAKE  ?= cmake
 LIBDIR ?= libdir
