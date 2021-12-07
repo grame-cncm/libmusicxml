@@ -204,6 +204,39 @@ bool xmlpart2guido::checkMeasureRange() {
             fCurrentVoicePosition.rationalise();
         }
     }
+
+void xmlpart2guido::checkOctavaBegin() {
+    // Generate Octave-shifts on current measure and current time
+    std::string currMeasure = fCurrentMeasure->getAttributeValue("number");
+    bool found = octavas.count(currMeasure);
+    if (found) {
+        for (auto o = octavas[currMeasure].cbegin(); o != octavas[currMeasure].cend(); ) {
+            // o.second points to pair< time, type >
+            if ( o->first < fCurrentVoicePosition && o->second != 0) {
+                parseOctaveShift(o->second);
+                octavas[currMeasure].erase(o++);
+            }else {
+                ++o;
+            }
+        }
+    }
+}
+
+void xmlpart2guido::checkOctavaEnd() {
+    std::string currMeasure = fCurrentMeasure->getAttributeValue("number");
+    bool found = octavas.count(currMeasure);
+    if (found) {
+        for (auto o = octavas[currMeasure].cbegin(); o != octavas[currMeasure].cend(); ) {
+            // o.second points to pair< time, type >
+            if ( o->first <= fCurrentVoicePosition && o->second == 0) {
+                parseOctaveShift(o->second);
+                octavas[currMeasure].erase(o++);
+            }else {
+                ++o;
+            }
+        }
+    }
+}
     
     //______________________________________________________________________________
     // check the current position in the current voice:  when it lags behind
@@ -253,6 +286,9 @@ bool xmlpart2guido::checkMeasureRange() {
             Sguidoelement note = guidonote::create(fTargetVoice, "empty", 0, dur, "");
             add (note);
             fMeasureEmpty = false;
+            if (fCurrentOctavaShift) {
+                checkOctavaEnd();
+            }
         }
     }
     
@@ -439,11 +475,11 @@ bool xmlpart2guido::checkMeasureRange() {
     void xmlpart2guido::visitStart ( S_direction& elt )
     {
         // Directions can have voice (not encoded as of Finale v27). Check:
-        int voiceNumber = elt->getIntValue(k_voice, -1);
+        int voiceNumber = elt->getIntValue(k_voice, -1); // set default to -1 to skip if not available
         if (voiceNumber >0 && voiceNumber != fTargetVoice) {
             fSkipDirection = true;
         }
-        // Parse Staff and Offset first
+        // Skip if direction doesn't belong to target staff
         if ((elt->getIntValue(k_staff, 1) != fTargetStaff) ) { //fNotesOnly ||
             fSkipDirection = true;
         }
@@ -456,11 +492,14 @@ bool xmlpart2guido::checkMeasureRange() {
             int lineNumber = elt->getInputLineNumber();
             auto it = std::find(processedDirections.begin(), processedDirections.end(), lineNumber);
             if (it == processedDirections.end()) {
-                fCurrentOffset = elt->getLongValue(k_offset, 0);
                 processedDirections.push_back(lineNumber);
             }else {
                 fSkipDirection = true;
             }
+        }
+        
+        if (!fSkipDirection) {
+            fCurrentOffset = elt->getLongValue(k_offset, 0);
         }
     }
     
@@ -547,6 +586,11 @@ bool xmlpart2guido::checkMeasureRange() {
                     auto element = (*directionTypeElements);
                     
                     switch (elementType) {
+                        case k_octave_shift: {
+                            //parseOctaveShift(element, directionStaff);
+                            // IMPORTANT: DO NOT parse Octave-Shift during part visits! Now using a pre-calculated map.
+                        }
+                            break;
                         case k_pedal:
                         {
                             bool isPedalChange = false;
@@ -978,7 +1022,6 @@ bool xmlpart2guido::checkMeasureRange() {
     
 void xmlpart2guido::parseWedge(MusicXML2::xmlelement *elt, int staff)
 {
-    if (fSkipDirection) return;
     if (elt->getType() != k_wedge) {
         return;
     }
@@ -1139,40 +1182,48 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
 
     
     //______________________________________________________________________________
-    void xmlpart2guido::visitStart( S_octave_shift& elt)
-    {
-        if (fSkipDirection) {
-            return;
+    void xmlpart2guido::parseOctaveShift(int type) {
+        Sguidoelement tag = guidotag::create("oct");
+
+        if (type) {
+            tag->add (guidoparam::create(type, false));
+            fCurrentOctavaShift = type;
+        }else { // stop
+            fShouldStopOctava = true;
+            tag->add (guidoparam::create(0, false));
         }
         
+        // Try to infer default-x position if available
+        stringstream s;
+        rational offset(fCurrentOffset, fCurrentDivision*4);
+        
+        if (fCurrentOffset > 0) {
+            addDelayed(tag, fCurrentOffset);
+        }
+        else {
+            add(tag);
+        }
+    }
+    
+    void xmlpart2guido::parseOctaveShift(MusicXML2::xmlelement *elt, int staff)
+    {
         const string& type = elt->getAttributeValue("type");
         int size = elt->getAttributeIntValue("size", 8);
         
         switch (size) {
-            case 8:		size = 1; break;
-            case 15:	size = 2; break;
-            default:	return;
+            case 8:        size = 1; break;
+            case 15:    size = 2; break;
+            default:    return;
         }
-        
         if (type != "stop") {
             if (type == "up")
                 size = -size;
-            fCurrentOctavaShift = size;
-            
-            Sguidoelement tag = guidotag::create("oct");
-            if (tag) {
-                tag->add (guidoparam::create(size, false));
-                add (tag);
-            }
         }
-        else // Stop immediately
-        {
-            // Finale MusicXML Bug? octave-shift stop appears after the visual note. But it's effect on the "octave" seems to appear STILL on the next note!
-            fShouldStopOctava = true;
-            Sguidoelement tag = guidotag::create("oct");
-            tag->add (guidoparam::create(0, false));
-            add(tag);
+        else {
+            size = 0;
         }
+        
+        parseOctaveShift(size);
     }
     
     //______________________________________________________________________________
@@ -2901,13 +2952,11 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             }
         }
         
-        int searchVoice = 0;
-        if (fTargetVoice) {
-            searchVoice = fTargetVoice - 1;
-        }
-        float noteDx = timePositions.getDxForElement(nv.getSnote(), posInMeasure.toDouble(),
+        float noteDx = timePositions.getDxForElement(nv.getSnote(),
+                                                     posInMeasure.toDouble(),
                                                      fCurrentMeasure->getAttributeValue("number"),
-                                                     searchVoice, nv.getStaff(),
+                                                     nv.getVoice(),
+                                                     nv.getStaff(),
                                                      0);
         // Do not infer default-x on incomplete measures, grace or Chords
         if ( (noteDx != -999 && noteDx != 0) && !fPendingBar && !isProcessingChord && !isGrace() )
@@ -3012,6 +3061,8 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         }
         if (!scanVoice) return;
         
+        checkOctavaBegin();
+                
         if ((fTremoloInProgress)&&(fTremolo && (fTremolo->getAttributeValue("type")=="stop"))) {
             fTremoloInProgress = false;
             pop();
@@ -3094,6 +3145,8 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         
         checkDelayed (getDuration(), false);        // check for delayed elements (directions with offset) and indicated before = false
         
+        checkOctavaEnd();
+
         fMeasureEmpty = false;
     }
     

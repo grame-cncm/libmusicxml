@@ -67,8 +67,10 @@ void partsummary::visitEnd ( S_note& elt)
     if (!isGrace() ) {
         std::string fCurrentMeasureNumber = fCurrentMeasure->getAttributeValue("number");
         
-        timePositions.addTimePosition(fCurrentMeasureNumber, fCurrentMeasurePosition.toDouble(), *this); 
-        moveMeasureTime (getDuration());
+        timePositions.addTimePosition(fCurrentMeasureNumber,
+                                      getMeasureTime(getVoice()).toDouble(),
+                                      *this);
+        moveMeasureTime (getDuration(), getVoice());
     }
 	fStaves[notevisitor::getStaff()]++;
 	fVoices[notevisitor::getVoice()]++;
@@ -77,7 +79,10 @@ void partsummary::visitEnd ( S_note& elt)
 
 void partsummary::visitStart ( S_measure& elt )
 {
-    fCurrentMeasurePosition.set(0, 1);
+    for (auto&& voice: fCurrentVoicedMeasurePosition ) {
+        voice.second.set(0, 1);
+    }
+    
     fCurrentMeasure = elt;
 }
 
@@ -91,7 +96,12 @@ void partsummary::visitStart ( S_backup& elt )
 {
     int duration = elt->getIntValue(k_duration, 0);
     if (duration) {
-        moveMeasureTime (-duration);
+        for (auto&& voice: fCurrentVoicedMeasurePosition) {
+            // don't back up if a voice is already zeroed
+            if (getMeasureTime(voice.first) > rational()) {
+                moveMeasureTime(-duration, voice.first);
+            }
+        }
     }
 }
 
@@ -99,15 +109,79 @@ void partsummary::visitStart ( S_backup& elt )
 void partsummary::visitStart ( S_forward& elt )
 {
     int duration = elt->getIntValue(k_duration, 0);
-    moveMeasureTime(duration);
+    int voice = elt->getIntValue(k_voice, kUndefinedVoice);
+    moveMeasureTime(duration, voice);
 }
 
-void partsummary::moveMeasureTime (long duration)
+void partsummary::visitStart ( S_direction& elt )
+{
+    if (elt->find(k_octave_shift) == elt->end()) {
+        return;
+    }
+    int offset = elt->getLongValue(k_offset, 0);
+    
+    int voice = elt->getIntValue(k_voice, -1);
+    int staff = elt->getIntValue(k_staff, 1);
+    std::string fCurrentMeasureNumber = fCurrentMeasure->getAttributeValue("number");
+    
+    rational curTime = voice == -1 ? maxStaffTime(staff) : getMeasureTime(voice) ;
+    if (offset != 0) {
+        rational ratOffset(offset, fCurrentDivision*4);
+        curTime += ratOffset;
+        curTime.rationalise();
+    }
+    
+    const string& type = elt->find(k_octave_shift)->getAttributeValue("type");
+    int size = elt->find(k_octave_shift)->getAttributeIntValue("size", 8);
+    switch (size) {
+        case 8:        size = 1; break;
+        case 15:    size = 2; break;
+        case 22:    size = 3; break;
+        default:    return;
+    }
+    if (type != "stop") {
+        if (type == "up")
+            size = -size;
+    }
+    else {
+        size = 0;
+    }
+    
+    fOctavas[staff][fCurrentMeasureNumber][curTime] = size;
+//    cerr<<"PS added octava staff:"<<staff
+//    <<" measure:"<<fCurrentMeasureNumber<<" time:"<<curTime<<" "<<curTime.toDouble()
+//    <<" Type:"<<size<<endl;
+}
+
+void partsummary::moveMeasureTime (long duration, int voice)
 {
     rational r(duration, fCurrentDivision*4);
     r.rationalise();
-    fCurrentMeasurePosition += r;
-    fCurrentMeasurePosition.rationalise();
+    
+    bool found = fCurrentVoicedMeasurePosition.count(voice);
+    if (!found) {
+        fCurrentVoicedMeasurePosition[voice] = rational();
+    }
+    fCurrentVoicedMeasurePosition[voice] += r;
+    fCurrentVoicedMeasurePosition[voice].rationalise();
+}
+
+rational partsummary::getMeasureTime(int voice) {
+    bool found = fCurrentVoicedMeasurePosition.count(voice);
+    if (!found) {
+        fCurrentVoicedMeasurePosition[voice] = rational();
+    }
+    return fCurrentVoicedMeasurePosition[voice];
+}
+
+rational partsummary::maxStaffTime(int staff) {
+    rational maxtime = rational();
+    for (auto voice: fCurrentVoicedMeasurePosition) {
+        if (maxtime < voice.second) {
+            maxtime = voice.second;
+        }
+    }
+    return maxtime;
 }
 
 //________________________________________________________________________

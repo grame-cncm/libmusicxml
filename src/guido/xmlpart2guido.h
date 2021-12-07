@@ -56,7 +56,6 @@ public visitor<S_divisions>,
 public visitor<S_ending>,
 public visitor<S_forward>,
 public visitor<S_measure>,
-public visitor<S_octave_shift>,
 public visitor<S_part>,
 public visitor<S_repeat>,
 public visitor<S_segno>,
@@ -84,7 +83,6 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
     int fTupletOpen;    // Number of opened Tuplets
     std::queue<int> fTiedOpen;      // Number of ongoing opened Tied
     
-    std::queue<int> fDirectionEraserStack;        // To skip already visited Directions when looking ahead because of grace notes
     std::vector< std::pair<int, int> > fSlurStack; // first int: Internal num, 2nd int: XML num
     
     Sguidoelement fLyricOpened;
@@ -202,7 +200,6 @@ protected:
     virtual void visitStart( S_forward& elt);
     virtual void visitStart( S_measure& elt);
     virtual void visitStart( S_note& elt);
-    virtual void visitStart( S_octave_shift& elt);
     virtual void visitStart( S_part& elt);
     virtual void visitStart( S_segno& elt);
     virtual void visitStart( S_attributes& elt);
@@ -220,6 +217,11 @@ protected:
     std::string parseMetronome ( metronomevisitor &mv );
     
     void parseWedge(MusicXML2::xmlelement *elt, int staff);
+    
+    void parseOctaveShift(MusicXML2::xmlelement *elt, int staff);
+    /// creates an Octave Shift for Guido.
+    /// @param type 0 for stop, 8 for one-octave above, -8 for 1-oct below, 15 for two oct above, etc.
+    void parseOctaveShift(int type);
     
     bool findNextNote(ctree<xmlelement>::iterator& elt, ctree<xmlelement>::iterator &nextnote);
     float getNoteDistanceFromStaffTop(const notevisitor& nv);
@@ -254,6 +256,10 @@ public:
     /// List of already processed Directions in other voices/staves to skip
     std::vector<int> processedDirections;
     
+    // Octavas must be re-applied across voices in the same staff. This property tracks them.
+    /// Map containing octavas on a staff: measureNumberString, PositionInMeasure, Type (0 for stop)
+    std::map<std::string, std::map<rational, int>> octavas;
+
 private:
     bool fHasLyrics;
 
@@ -277,9 +283,15 @@ private:
     void parseTime(ctree<xmlelement>::iterator &iter);
     void parseKey(ctree<xmlelement>::iterator &iter);
     
+    void checkOctavaBegin();
+    void checkOctavaEnd();
+    
     Sguidoelement lastKey;  // Storage used for Partial Conversions
     Sguidoelement lastMeter;  // Storage used for Partial Conversions
     double fPreviousPedalYPos;  // Used for musicxml pedal change
+    
+    // To skip already visited Directions when looking ahead because of grace notes
+    std::queue<int> fDirectionEraserStack;
 };
 
 

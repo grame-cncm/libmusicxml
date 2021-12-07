@@ -44,11 +44,11 @@ class EXP partsummary :
     public visitor<S_divisions>,
     public visitor<S_backup>,
     public visitor<S_forward>,
-	public visitor<S_print>
+    public visitor<S_print>,
+    public visitor<S_direction>
 {
 	public:
 				 partsummary() : fStavesCount(1) {
-                     fCurrentMeasurePosition.set(0, 1);
                  };
 		virtual	~partsummary() {};
 		
@@ -80,6 +80,9 @@ class EXP partsummary :
     std::map<int, int> fStaffDistances;
     
     MusicXMLTimePositions timePositions;
+    
+    // staves, measures (by string name) and their position in measure, mapped to LINE NUMBER for all Octave-Shift elements
+    std::map<int, std::map<std::string, std::map<rational, int>>> fOctavas;
 		
 	protected:
 		virtual void visitStart ( S_part& elt);
@@ -90,6 +93,7 @@ class EXP partsummary :
     virtual void visitStart ( S_forward& elt );
     virtual void visitStart ( S_divisions& elt );
     virtual void visitStart ( S_measure& elt );
+    virtual void visitStart ( S_direction& elt );
 
 	private:
 		// count of staves (from the staves element)
@@ -101,11 +105,17 @@ class EXP partsummary :
 		// staves and corresponding voices + count of notes
 		std::map<int, std::map<int, int> >	fStaffVoices;
     
+    // Internal map for Voice-Position for on-going measure
+    std::map<int, rational>    fCurrentVoicedMeasurePosition;
+
+    
     long    fCurrentDivision;        // the current measure division, expresses the time unit in division of the quarter note
-    rational fCurrentMeasurePosition;// the current position in the measure
     S_measure fCurrentMeasure;
     
-    void moveMeasureTime (long duration);    
+    void moveMeasureTime (long duration, int voice);
+    
+    rational getMeasureTime(int voice);
+    rational maxStaffTime(int staff);
 };
 
 /*! @} */

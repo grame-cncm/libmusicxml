@@ -295,6 +295,7 @@ namespace MusicXML2
             pv.generatePositions (fGeneratePositions);
             xml_tree_browser browser(&pv);
             pv.initialize(seq, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
+            pv.octavas = ps.fOctavas[targetStaff];
             pv.processedDirections = processedDirections;
             pv.timePositions = ps.timePositions;
             browser.browse(*elt);
