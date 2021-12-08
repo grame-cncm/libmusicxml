@@ -292,6 +292,9 @@ private:
     
     // To skip already visited Directions when looking ahead because of grace notes
     std::queue<int> fDirectionEraserStack;
+    
+    /// find next note in current measure from the indicated xmlelement. Returns true if found.
+    bool findNextNote(MusicXML2::xmlelement *elt, MusicXML2::xmlelement *from);
 };
 
 

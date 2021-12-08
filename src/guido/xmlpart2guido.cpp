@@ -1417,6 +1417,10 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
             
             if ((staffnum != fTargetStaff) || fNotesOnly)
             {
+                // We should generate Empty at the boundary of Clef Change IF there's no Note event in the measure
+                if (!findNextNote(0, elt)) {
+                    checkVoiceTime (fCurrentMeasurePosition, fCurrentVoicePosition);
+                }
                 /// Search again for other clefs:
                 iter++;
                 iter = elt->find(k_clef, iter);
@@ -3170,6 +3174,23 @@ bool xmlpart2guido::findNextNote(ctree<xmlelement>::iterator& elt, ctree<xmlelem
         nextnotetmp++;
     }
     return false;
+}
+
+bool xmlpart2guido::findNextNote(MusicXML2::xmlelement *elt, MusicXML2::xmlelement *from) {
+    ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), from);
+    if (nextnote != fCurrentMeasure->end()) nextnote++;    // advance one step
+    while (nextnote != fCurrentMeasure->end()) {
+        // looking for the next note on the target staff
+        if ((nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice)) {
+            if (elt) {
+                elt = *nextnote;
+            }
+            return true;
+        }
+        nextnote++;
+    }
+    return false;
+
 }
 
 void xmlpart2guido::addPositionOrPlacementToNote(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset) {
