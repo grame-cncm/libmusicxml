@@ -252,6 +252,7 @@ void xmlpart2guido::checkOctavaEnd() {
             add (note);
             fCurrentVoicePosition += diff;
             fCurrentVoicePosition.rationalise();
+            checkOctavaBegin();
         }
         // difference can be negative due to S_backup and it is normal!
     }
@@ -1191,6 +1192,10 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
         }else { // stop
             fShouldStopOctava = true;
             tag->add (guidoparam::create(0, false));
+        }
+        
+        if (fNotesOnly) {
+            tag->add(guidoparam::create("hidden=\"on\"", false));
         }
         
         // Try to infer default-x position if available
@@ -3063,10 +3068,10 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
                 checkDelayed (getDuration(), true);
             }
         }
-        if (!scanVoice) return;
-        
         checkOctavaBegin();
-                
+
+        if (!scanVoice) return;
+                        
         if ((fTremoloInProgress)&&(fTremolo && (fTremolo->getAttributeValue("type")=="stop"))) {
             fTremoloInProgress = false;
             pop();
