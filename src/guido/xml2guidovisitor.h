@@ -114,9 +114,6 @@ protected:
     
     static int defaultStaffDistance;   // xml staff-distance value in defaults
     
-    /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
-    std::map< int, std::map< rational, std::vector<int> > > timePositions;
-    
     std::map<std::string, int> stavesInPart;
     std::map<std::string, std::set<std::string> > clefsInPart;
     std::string currentPart;
