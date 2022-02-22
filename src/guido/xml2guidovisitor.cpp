@@ -40,7 +40,6 @@ namespace MusicXML2
     fBeginMeasure(beginMeasure), fEndMeasure(endMeasure), fEndMeasureOffset(endMeasureOffset), fTotalMeasures(0)
     , fTotalDuration(0.0)
     {
-        timePositions.clear();
         fPartsAvailable = 0;
     }
     
@@ -211,9 +210,8 @@ namespace MusicXML2
         int targetStaff = 0xffff;	// initialized to a value we'll unlikely encounter
         bool notesOnly = false;
         rational currentTimeSign (0,1);
-        
-        //timePositions.clear();
-        
+        std::vector<int> processedDirections;
+                
         // browse the parts voice by voice: allows to describe voices that spans over several staves
         for (unsigned int i = 0; i < voices->size(); i++) {
             int targetVoice = (*voices)[i];
@@ -225,8 +223,6 @@ namespace MusicXML2
                 notesOnly = false;
                 targetStaff = mainstaff;
                 fCurrentStaffIndex++;
-                /// Clear timePositions so that we only track voices on a specific Staff
-                timePositions.clear();
             }
             
             Sguidoelement seq = guidoseq::create();
@@ -293,22 +289,22 @@ namespace MusicXML2
                     add (tag4);
                 }
             }
-            
-            ////
-            
+                        
             //// Browse XML and convert
             xmlpart2guido pv(fGenerateComments, fGenerateStem, fGenerateBars, fBeginMeasure, fEndMeasure, fEndMeasureOffset);
             pv.generatePositions (fGeneratePositions);
             xml_tree_browser browser(&pv);
             pv.initialize(seq, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
-            pv.timePositions = timePositions;
+            pv.octavas = ps.fOctavas[targetStaff];
+            pv.processedDirections = processedDirections;
+            pv.timePositions = ps.timePositions;
             browser.browse(*elt);
             pop();
             currentTimeSign = pv.getTimeSign();
             previousStaffHasLyrics = pv.hasLyrics();
-            timePositions = pv.timePositions;
             fBeginPosition = pv.fStartPosition;
             fEndPosition = pv.fEndPosition;
+            processedDirections.insert(processedDirections.end(), pv.processedDirections.begin(), pv.processedDirections.end());
             
             if (pv.lastMeasureNumber() > fTotalMeasures) {
                 fTotalMeasures = pv.lastMeasureNumber();
@@ -408,7 +404,10 @@ namespace MusicXML2
     }
 
 void xml2guidovisitor::addRelativeX(Sxmlelement elt, Sguidoelement& tag, float xoffset){
-    float posx = elt->getAttributeFloatValue("relative-x", 0);
+    float posx = elt->getAttributeFloatValue("relative-x", 0.0);
+    if (posx == 0.0) {
+        return;
+    }
     posx = (posx / 10) * 2;   // convert to half spaces
     posx += xoffset;
     

@@ -95,6 +95,15 @@ class EXP guidoelement : public smartable {
 		virtual bool isChord () const 		{ return false; }
 		virtual bool isTag () const 		{ return false; }
 		virtual bool isNote () const 		{ return false; }
+        virtual bool isRangeTag() const {
+            return fName.find("End") != std::string::npos || fName.find("Begin") != std::string::npos;
+        }
+        virtual bool isBeginTag() const {
+            return fName.find("Begin") != std::string::npos;
+        }
+        virtual bool isEndTag() const {
+            return fName.find("End") != std::string::npos;
+        }
 
 		int countNotes () const;
     

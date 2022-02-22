@@ -56,13 +56,10 @@ public visitor<S_divisions>,
 public visitor<S_ending>,
 public visitor<S_forward>,
 public visitor<S_measure>,
-public visitor<S_octave_shift>,
 public visitor<S_part>,
 public visitor<S_repeat>,
 public visitor<S_segno>,
 public visitor<S_sound>,
-public visitor<S_wedge>,
-public visitor<S_rehearsal>,     // for rehearsal Markup
 public visitor<S_attributes>         // to get clef, division, staves, time and key in order!
 {
     // the guido elements stack
@@ -82,10 +79,10 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
     int fCrescPending, fDiminPending;   // XML Number of Crescendo or Diminuedo that have been opened (0 if none)
     
     int fTextTagOpen;
+    int fCurrentOctavaShift; // 0 if none
     int fTupletOpen;    // Number of opened Tuplets
     std::queue<int> fTiedOpen;      // Number of ongoing opened Tied
     
-    std::queue<int> fDirectionEraserStack;        // To skip already visited Directions when looking ahead because of grace notes
     std::vector< std::pair<int, int> > fSlurStack; // first int: Internal num, 2nd int: XML num
     
     Sguidoelement fLyricOpened;
@@ -94,15 +91,15 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
     
     S_measure	fCurrentMeasure;
     S_part      fCurrentPart;
-    
-    int     fStartMeasure, fEndMeasure, fEndMeasureOffset;          // Starting and Ending measures for Partial conversion. Default=0 meaning non-partial.
-    
+        
     bool	fNotesOnly;				// a flag to generate notes only (used for several voices on the same staff)
     bool	fSkipDirection;			// a flag to skip direction elements (for notes only mode or due to different staff)
     int		fCurrentStaffIndex;		// the index of the current guido staff
     int		fCurrentStaff;			// the staff we're currently generating events for (0 by default)
     int		fTargetStaff;			// the musicxml target staff (0 by default)
     int		fTargetVoice;			// the musicxml target voice (0 by default)
+    
+    int     fStartMeasure, fEndMeasure, fEndMeasureOffset;          // Starting and Ending measures for Partial conversion. Default=0 meaning non-partial.
     
     long	fCurrentDivision;		// the current measure division, expresses the time unit in division of the quarter note
     long	fCurrentOffset;			// the current direction offset: represents an element relative displacement in current division unit
@@ -123,7 +120,7 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
             fStack.top()->add(elt);
     }
     void addDelayed (Sguidoelement elt, long offset);	// adding elements to the delayed elements
-    void checkDelayed (long time);						// checks the delayed elements for ready elements
+    void checkDelayed (long time, bool before);						// checks the delayed elements for ready elements
     void push (Sguidoelement& elt)		{
         if (!checkMeasureRange()) return;
         add(elt); fStack.push(elt);
@@ -133,7 +130,7 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
         fStack.pop();
     }
     
-    void moveMeasureTime (int duration, bool moveVoiceToo=false, int x_default = 0);
+    void moveMeasureTime (long duration, bool moveVoiceToo=false);
     void reset ();
     void stackClean	();
     
@@ -164,11 +161,10 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
     void checkTiedEnd	 ( const std::vector<S_tied>& tied );
     void checkVoiceTime	 ( const rational& currTime, const rational& voiceTime);
     int  checkRestFormat	 ( const notevisitor& nv );
-    int checkNoteFormatDx	 ( const notevisitor& nv , rational posInMeasure);
+    bool checkNoteFormat	 ( const notevisitor& nv , rational posInMeasure);
     void checkWavyTrillBegin	 ( const notevisitor& nv );
     void checkWavyTrillEnd	 ( const notevisitor& nv );
     void checkTextEnd();
-    void checkOctavaEnd();
     void newNote		 ( const notevisitor& nv, rational posInMeasure, const std::vector<Sxmlelement>& fingerings);
     void newChord   (const deque<notevisitor>& nvs, rational posInMeasure);
     
@@ -204,11 +200,8 @@ protected:
     virtual void visitStart( S_forward& elt);
     virtual void visitStart( S_measure& elt);
     virtual void visitStart( S_note& elt);
-    virtual void visitStart( S_octave_shift& elt);
     virtual void visitStart( S_part& elt);
     virtual void visitStart( S_segno& elt);
-    virtual void visitStart( S_wedge& elt);
-    virtual void visitStart( S_rehearsal& elt);
     virtual void visitStart( S_attributes& elt);
     
     virtual void visitEnd  ( S_direction& elt);
@@ -223,18 +216,20 @@ protected:
 
     std::string parseMetronome ( metronomevisitor &mv );
     
+    void parseWedge(MusicXML2::xmlelement *elt, int staff);
+    
+    void parseOctaveShift(MusicXML2::xmlelement *elt, int staff);
+    /// creates an Octave Shift for Guido.
+    /// @param type 0 for stop, 8 for one-octave above, -8 for 1-oct below, 15 for two oct above, etc.
+    void parseOctaveShift(int type);
+    
     bool findNextNote(ctree<xmlelement>::iterator& elt, ctree<xmlelement>::iterator &nextnote);
     float getNoteDistanceFromStaffTop(const notevisitor& nv);
     
     rational durationInCue;
     
     std::map<int, float> fStaffDistance;
-    
-    bool fIgnoreWedgeWithOffset;
-    
-    // Internal Parsing facilities
-    float xPosFromTimePos(float default_x, float relative_x);           /// Infer X-Position from TimePosition
-    
+        
 public:
     xmlpart2guido(bool generateComments, bool generateStem, bool generateBar = true, int startMeasure = 0, int endMeasure = 0, int endMeasureOffset = 0);
     virtual ~xmlpart2guido() {}
@@ -247,8 +242,8 @@ public:
     
     /// Map for staffNum, measureNum, voice-Position and Clef
     std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
-    /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
-    std::map< int, std::map< rational, std::vector<int> > > timePositions;
+    /// Containing default-x positions on a fCurrentVoicePosition (double) of measure(int)
+    MusicXMLTimePositions timePositions;
     
     rational fStartPosition, fEndPosition;
     
@@ -258,20 +253,48 @@ public:
     
     double totalPartDuration() { return fCurrentScorePosition.toDouble(); }
     
+    /// List of already processed Directions in other voices/staves to skip
+    std::vector<int> processedDirections;
+    
+    // Octavas must be re-applied across voices in the same staff. This property tracks them.
+    /// Map containing octavas on a staff: measureNumberString, PositionInMeasure, Type (0 for stop)
+    std::map<std::string, std::map<rational, int>> octavas;
+
 private:
     bool fHasLyrics;
 
     std::string getClef(int staffIndex, rational pos, int measureNum);
     
     void addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset);
+    void addPosYforNoteHead(const notevisitor& nv, float xmlY, Sguidoelement& tag, float offset);
+    
+    /// If default-y exist and defiined with regards to staff, convert it to dY based on note head position and add to tag parameters. Otherwise, use Placement if exists.
+    void addPositionOrPlacementToNote(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset);
+    
+    /// Adds `dy` to the tag : if associated note to the element is below the top staff, it uses distance to top staff (musicxml default-y), otherwise distance to notehead.
+    /// Used for Bow tags.
+    void addDyFromNoteOrStaff(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag);
+    
+    /// returns distance of the note from top-staff in HS
+    float distanceFromStaffTopForNote(const notevisitor& nv);
     
     bool checkMeasureRange();
     
     void parseTime(ctree<xmlelement>::iterator &iter);
     void parseKey(ctree<xmlelement>::iterator &iter);
     
+    void checkOctavaBegin();
+    void checkOctavaEnd();
+    
     Sguidoelement lastKey;  // Storage used for Partial Conversions
     Sguidoelement lastMeter;  // Storage used for Partial Conversions
+    double fPreviousPedalYPos;  // Used for musicxml pedal change
+    
+    // To skip already visited Directions when looking ahead because of grace notes
+    std::queue<int> fDirectionEraserStack;
+    
+    /// find next note in current measure from the indicated xmlelement. Returns true if found.
+    bool findNextNote(MusicXML2::xmlelement *elt, MusicXML2::xmlelement *from);
 };
 
 
