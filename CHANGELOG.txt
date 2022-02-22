@@ -2,6 +2,24 @@ MusicXML Library
 
 
 ----------------------------------------------------------------------------------------------------
+Version 3.20
+- xml2guido v.3.1: 
+	- Fix Accolade and barformat inference
+	- Removes default staffFormat distance inference as MusicXML is not consistent
+	- Adds Font-size and Sound element conditions to infer Tempo Markup
+	- Improves staff-Distance parsing
+	- Fixed Octava Parsing for Guido
+	- Adds support for Staccatissimo and SnapPizzicato
+	- Fixed y-pos inference from XML for Fermata and other articulations (Fingering etc.)
+	- Adds Guido Fingering Support on Chords
+	- Evade Slur generation for multi-voice slurs in XML
+	- Improved grouping detection for Guido Beaming (especially nested beams)
+	- Fixed ordering of grace notte tag creation
+	- Ability tto parse nested Ties with correct sequencing in Guido
+- xml2ly:
+
+
+----------------------------------------------------------------------------------------------------
 Version 3.19
 - fix parsing bug with comments after DOCTYPE
 

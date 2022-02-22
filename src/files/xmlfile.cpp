@@ -26,7 +26,7 @@ SXMLFile TXMLFile::create ()  { TXMLFile* o = new TXMLFile; assert(o!=0); return
 //______________________________________________________________________________
 TDocType::TDocType (const string start) : fStartElement(start), fPublic(true) 
 {
-	fPubLitteral = "-//Recordare//DTD MusicXML 2.0 Partwise//EN";
+	fPubLitteral = "-//Recordare//DTD MusicXML 3.1 Partwise//EN";
 	if (start == "score-partwise") {
 		fSysLitteral = "http://www.musicxml.org/dtds/partwise.dtd";
 	}

@@ -2,7 +2,7 @@
 # CMAKE libmusicxml2
 #######################################
 project(libmusicxml2)
-cmake_minimum_required(VERSION 2.4)
+cmake_minimum_required(VERSION 3.4.0)
 if(CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_CONFIGURATION_TYPES Debug Release)
 endif()
@@ -11,7 +11,7 @@ endif()
 # versions management
 set (XMLVERSION 3.1)
 
-set (VERSION 3.1.9)
+set (VERSION 3.2.0)
 macro (get_major_minor_patch version)
 	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\1"  VERSION_MAJOR ${version} )
 	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\2"  VERSION_MINOR ${version} )
@@ -19,25 +19,30 @@ macro (get_major_minor_patch version)
 endmacro()
 get_major_minor_patch( ${VERSION} )
 set (SOVERS ${VERSION_MAJOR})
-set (STRVERS "v.3.17")
-set (SSTRVERS "3.17")
+set (STRVERS "v.3.20")
+set (SSTRVERS "3.20")
 message (STATUS "Configuring version ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
 
 #######################################
-option ( FMWK 		 "Generates a framework on MacOS by default"	off )
-option ( UNIVERSAL "Generates universal binaries"	off )
-option ( GDB 		   "Activates ggdb3 option"	off )
-option ( LILY 		 "Include lilypond part"	on )
-option ( BRL 		   "Include braille part"	  off )
+option ( FMWK   "Generates a framework on MacOS by default"	off )
+option ( GENTOOLS   "Generates tools"	 on )
+option ( GENSTATIC  "Generates the static library"   on )
+
+if (GENTOOLS)
+	message (STATUS "Generate tools (force required static library generation)")
+	set (GENSTATIC on)
+endif()
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 set (DOCDIR ${ROOT}/doc)
-set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf ${DOCDIR}/userSGuideToXml2ly/userSGuideToXml2ly.pdf ${DOCDIR}/maintainerSGuideToXml2ly/MaintainerSGuideToXml2ly.pdf)
-set (SCHEMA   ${ROOT}/dtds/${XMLVERSION})
+set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf 
+			${DOCDIR}/userSGuideToXml2ly/userSGuideToXml2ly.pdf 
+			${DOCDIR}/maintainerSGuideToXml2ly/MaintainerSGuideToXml2ly.pdf)
+set (SCHEMA ${ROOT}/dtds/${XMLVERSION})
 
 set (BINDIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set (LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -47,11 +52,7 @@ set (LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set (CMAKE_CXX_STANDARD 11)
 
 if(UNIX)
-  if (GDB)
-    add_definitions(-Wall -DGCC -ggdb3 -Wno-overloaded-virtual)
-  else()
-    add_definitions(-Wall -DGCC -O3 -Wno-overloaded-virtual)
-  endif()
+	add_definitions(-Wall -DGCC -O3 -Wno-overloaded-virtual)
 endif()
 
 
@@ -66,7 +67,7 @@ if(APPLE)
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
 		#set (CMAKE_OSX_ARCHITECTURES "arm64 x86_64") # unsupported on iOS 11.4.0: armv7 armv7s
 		set (CMAKE_OSX_SYSROOT "iphoneos")
-		set(IOS_DEPLOYMENT_TARGET 13.0) 
+		set(IOS_DEPLOYMENT_TARGET 13.0)
 		#set (libtype STATIC)
 		set (FMWK "true")
 		set (CMAKE_MACOSX_RPATH 1)
@@ -94,9 +95,6 @@ endif()
 set (SRCDIR  ${ROOT}/src)
 set (SAMPLEDIR ${ROOT}/samples)
 set (SRCFOLDERS  factory files elements guido lib operations parser visitors)
-if (LILY)
-	set (SRCFOLDERS  ${SRCFOLDERS}  interface lilypond)
-endif()
 
 foreach(folder ${SRCFOLDERS})
   set(SRC ${SRC} "${SRCDIR}/${folder}/*.cpp")          # add source files
@@ -106,12 +104,9 @@ foreach(folder ${SRCFOLDERS})
   set(HEADERS ${HEADERS} "${SRCDIR}/${folder}/*.h")    # add header files
 endforeach()
 
-if (NOT LILY)
-	message (STATUS "Lilypond part is not included, use -DLILY=yes to change")		
-	set(SRC ${SRC}  "${SRCDIR}/interface/libmusicxml.cpp" "${SRCDIR}/interface/musicxml2guido.cpp")
-	set(HEADERS $HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/musicxml2guido.h")
-	set (SRCFOLDERS  ${SRCFOLDERS}  interface)
-endif()
+set(SRC ${SRC}  "${SRCDIR}/interface/libmusicxml.cpp" "${SRCDIR}/interface/musicxml2guido.cpp")
+set(HEADERS $HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/musicxml2guido.h")
+set (SRCFOLDERS  ${SRCFOLDERS}  interface)
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
 file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS} "${SRCDIR}/elements/*H" "${SRCDIR}/visitors/*H" "${SRCDIR}/files/*H" "${SRCDIR}/parser/reader.h" "${SRCDIR}/lib/*H" "${SRCDIR}/guido/*H")
 
@@ -142,6 +137,8 @@ if (NOT IOS)
 	set_target_properties (${target} PROPERTIES
 			VERSION ${VERSION}
 			SOVERSION ${SOVERS}
+			RUNTIME_OUTPUT_DIRECTORY  ${LIBDIR}
+			RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
 			ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
 			ARCHIVE_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
@@ -212,14 +209,6 @@ endif()
 # set sample targets
 set (SAMPLES xmlversion RandomMusic RandomChords xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (TOOLS  xml2guido xmlread xmltranspose xmlversion)
-if (LILY)
-	set (SAMPLES ${SAMPLES} xml2ly)
-	set (TOOLS  ${TOOLS} xml2ly)
-endif()
-if (BRL)
-	set (SAMPLES ${SAMPLES} xml2brl)
-	set (TOOLS  ${TOOLS} xml2brl)
-endif()
 
 if (APPLE)
   set (LINKTO ${staticlib})
@@ -228,7 +217,7 @@ else()
 endif()
 
 
-if(NOT IOS )
+if(NOT IOS AND GENTOOLS)
 foreach(sample ${SAMPLES})
 	add_executable( ${sample} ${SAMPLEDIR}/${sample}.cpp )
 	target_link_libraries( ${sample} ${LINKTO})
@@ -272,10 +261,11 @@ endif()
 
 if (NOT IOS)
 message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
-if (WIN32)
-	set (INSTALLED ${target})
-else()
-	set (INSTALLED ${target}  ${staticlib})
+set (INSTALLED ${target})
+if (NOT WIN32)
+if (GENSTATIC)
+	set (INSTALLED ${INSTALLED}  ${staticlib})
+endif()
 endif()
 install ( TARGETS ${INSTALLED}
 	RUNTIME DESTINATION ${BINDEST} 
@@ -285,11 +275,13 @@ install ( TARGETS ${INSTALLED}
     PUBLIC_HEADER DESTINATION include/libmusicxml
 )
 
+if (GENTOOLS)
 install ( TARGETS ${TOOLS}
     RUNTIME DESTINATION ${BINDEST}
     LIBRARY DESTINATION ${LIBDEST}
     ARCHIVE DESTINATION ${LIBDEST}
 )
+endif()
 
 ####################################
 # install misc files

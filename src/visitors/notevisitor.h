@@ -194,7 +194,7 @@ class EXP notevisitor :
 		virtual void visitStart( S_duration& elt )		{ if (fInNote) fDuration = (int)(*elt); }
         virtual void visitStart( S_fermata& elt )		{ fFermata = elt; }
 		virtual void visitStart( S_grace& elt )			{ fGrace = true; }
-		virtual void visitStart( S_instrument& elt )	{ if (fInNote) fInstrument = elt->getValue(); }
+		virtual void visitStart( S_instrument& elt )	{ if (fInNote) fInstrument = elt->getAttributeValue("id"); }
 		virtual void visitStart( S_note& elt );
 		virtual void visitStart( S_octave& elt )		{ if (fInNote) fOctave = (int)(*elt); }
 		virtual void visitStart( S_pitch& elt )			{ fType = kPitched; }
