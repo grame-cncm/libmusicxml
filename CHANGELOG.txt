@@ -2,6 +2,18 @@ MusicXML Library
 
 
 ----------------------------------------------------------------------------------------------------
+Version 3.21
+- xml2guido v.3.2: 
+	- Support for Pedal, non-wavy trills tags
+	- Major improvements to Octava, Xml Directions, Fingerings, Wedge, Slurs, Beaming and other 
+	  articulation parsing especially for multi-voice scores
+	- Improvements to horizontal positioning of elements following MusicXML TimePositions
+	- Support for Partial generation of Guido Scores from MusicXML
+	- Updates for latest GuidoLib Release
+    Note: iOS Builds now use frameworks as it has (re)become industry standard via XCFramework since 2021.
+
+
+----------------------------------------------------------------------------------------------------
 Version 3.20
 - xml2guido v.3.1: 
 	- Fix Accolade and barformat inference
@@ -16,7 +28,6 @@ Version 3.20
 	- Improved grouping detection for Guido Beaming (especially nested beams)
 	- Fixed ordering of grace notte tag creation
 	- Ability tto parse nested Ties with correct sequencing in Guido
-- xml2ly:
 
 
 ----------------------------------------------------------------------------------------------------
