@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <map>
 #include <tuple>
+#include <algorithm>
 
 #include "xml.h"
 #include "notevisitor.h"
