@@ -252,7 +252,10 @@ void xmlpart2guido::checkOctavaEnd() {
             add (note);
             fCurrentVoicePosition += diff;
             fCurrentVoicePosition.rationalise();
-            checkOctavaBegin();
+            if (fCurrentOctavaShift) {
+                checkOctavaEnd();
+            }else
+                checkOctavaBegin();
         }
         // difference can be negative due to S_backup and it is normal!
     }
@@ -289,7 +292,8 @@ void xmlpart2guido::checkOctavaEnd() {
             fMeasureEmpty = false;
             if (fCurrentOctavaShift) {
                 checkOctavaEnd();
-            }
+            }else
+                checkOctavaBegin();
         }
     }
     
@@ -3068,9 +3072,10 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
                 checkDelayed (getDuration(), true);
             }
         }
+        if (!scanVoice) return;
+        
         checkOctavaBegin();
 
-        if (!scanVoice) return;
                         
         if ((fTremoloInProgress)&&(fTremolo && (fTremolo->getAttributeValue("type")=="stop"))) {
             fTremoloInProgress = false;
