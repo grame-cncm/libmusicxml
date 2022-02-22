@@ -125,11 +125,13 @@ class EXP notevisitor :
 
         type	getType() const		{ return fType; }
         int		getTie() const		{ return fTie; }
-        int		getStaff() const	{ return fStaff; }
+        int		getStaff() const	{ return (fStaff == kUndefinedStaff ? 1: fStaff); }
         int		getVoice() const	{ return fVoice; }
         S_note	getSnote() const	{ return fThisSNote; }
         float getNoteHeadDy(string fCurClef) const;
         std::string getNoteheadType() const;
+    
+        bool printObject() const {return shouldPrint; }
 
 		/*!
 		\brief Compute the note MIDI pitch.
@@ -261,6 +263,8 @@ class EXP notevisitor :
         float fLyricsDy;
     
     S_note fThisSNote;
+    
+    bool shouldPrint;
 };
 
 EXP std::ostream& operator<< (std::ostream& os, const notevisitor& elt);
