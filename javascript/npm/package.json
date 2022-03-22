@@ -4,9 +4,9 @@
   "description": "A library to support the MusicXML format.",
   "main": "libmusicxml.js",
   "directories": {
-    "dist": "dist"
     "test": "test"
   },
+  "types": "libmusicxml.d.ts",
   "scripts": {
     "test": "cd test && node testApi.node.js"
   },
