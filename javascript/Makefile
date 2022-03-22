@@ -32,6 +32,8 @@ OPTIONS :=  -s ALLOW_MEMORY_GROWTH=0 -s TOTAL_MEMORY=134217728 -s DISABLE_EXCEPT
 
 target = $(library).js
 
+.PHONY: npm
+
 all :
 	make $(target)
 
