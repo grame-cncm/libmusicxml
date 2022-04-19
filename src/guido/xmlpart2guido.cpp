@@ -1195,6 +1195,8 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
             fCurrentOctavaShift = type;
         }else { // stop
             fShouldStopOctava = true;
+            //  Here the octave offset should take effect immediately, not the next time it is created
+            fCurrentOctavaShift = 0;
             tag->add (guidoparam::create(0, false));
         }
         
