@@ -49,7 +49,7 @@ set (LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 
 #######################################
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 17)
 
 if(UNIX)
 	add_definitions(-Wall -DGCC -O3 -Wno-overloaded-virtual)
@@ -313,23 +313,11 @@ install (
     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
 )
 
-
 ####################################
 # install VS redistributables
-if (WIN32)
-if (${CMAKE_GENERATOR} STREQUAL "Visual Studio 14 2015 Win64")
-	set (VS "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/redist/x64/Microsoft.VC140.CRT")
-elseif (${CMAKE_GENERATOR} STREQUAL "Visual Studio 15 2017 Win64")
-	set (VS "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Redist/MSVC/14.16.27012/x64/Microsoft.VC141.CRT")
-else()
-	set (VS "/unknown/visual/studio/version")
+if (MSVC)
+  include (InstallRequiredSystemLibraries)
 endif()
-install (
-    FILES  "${VS}/msvcp140.dll" "${VS}/vcruntime140.dll" DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-)
-endif()
-
 
 ####################################
 # cpack section
