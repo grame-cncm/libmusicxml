@@ -382,15 +382,17 @@ void xmlpart2guido::checkOctavaEnd() {
         }else if (fCurrentScorePosition.toFloat() != 0.0) {
             // Create a HIDDEN Bar in case of fPendingBar equal to false.
             // This is the case for "bar-style" equal to "none" or "implicit" measures
-            Sguidoelement tag = guidotag::create("bar");
-            stringstream parameters;
-            std::string measNum = elt->getAttributeValue("number");
-            if (!measNum.empty()) {
-                parameters << "measNum="<< measNum<<", ";
+            if(!fInhibitNextBar){
+                Sguidoelement tag = guidotag::create("bar");
+                stringstream parameters;
+                std::string measNum = elt->getAttributeValue("number");
+                if (!measNum.empty()) {
+                    parameters << "measNum="<< measNum<<", ";
+                }
+                parameters << "hidden=\"true\"";
+                tag->add(guidoparam::create(parameters.str(), false));
+                add(tag);
             }
-            parameters << "hidden=\"true\"";
-            tag->add(guidoparam::create(parameters.str(), false));
-            add(tag);
         }
 
         fCurrentMeasureLength.set  (0, 1);
