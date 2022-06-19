@@ -39,9 +39,7 @@ endif()
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 set (DOCDIR ${ROOT}/doc)
-set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf 
-			${DOCDIR}/userSGuideToXml2ly/userSGuideToXml2ly.pdf 
-			${DOCDIR}/maintainerSGuideToXml2ly/MaintainerSGuideToXml2ly.pdf)
+set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf)
 set (SCHEMA ${ROOT}/dtds/${XMLVERSION})
 
 set (BINDIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
