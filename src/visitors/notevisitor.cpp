@@ -86,6 +86,8 @@ void notevisitor::reset ()
     fBowDown = (void*)0;
     fHarmonic = (void*)0;
     fSnapPizzicato = (void*)0;
+    fStaccatissimo = (void*)0;
+    shouldPrint = true;
 }
 
 //________________________________________________________________________
@@ -224,6 +226,12 @@ void notevisitor::visitStart ( S_note& elt )
     
     fThisSNote = elt;
     x_default = elt->getAttributeIntValue("default-x", -1);
+    
+    if (elt->getAttributeValue("print-object")=="no") {
+        shouldPrint = false;
+    }else {
+        shouldPrint = true;
+    }
 }
 
 //________________________________________________________________________

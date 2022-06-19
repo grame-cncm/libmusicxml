@@ -82,7 +82,8 @@ class EXP notevisitor :
     public visitor<S_up_bow>,
     public visitor<S_down_bow>,
     public visitor<S_harmonic>,
-    public visitor<S_snap_pizzicato>
+    public visitor<S_snap_pizzicato>,
+    public visitor<S_staccatissimo>
 {
  public:
 		S_stem			fStem;
@@ -106,6 +107,7 @@ class EXP notevisitor :
         std::string fCautionary;
         S_harmonic fHarmonic;
         S_snap_pizzicato fSnapPizzicato;
+        S_staccatissimo fStaccatissimo;
         S_up_bow fBowUp;
         S_down_bow fBowDown;
 
@@ -123,11 +125,13 @@ class EXP notevisitor :
 
         type	getType() const		{ return fType; }
         int		getTie() const		{ return fTie; }
-        int		getStaff() const	{ return fStaff; }
+        int		getStaff() const	{ return (fStaff == kUndefinedStaff ? 1: fStaff); }
         int		getVoice() const	{ return fVoice; }
         S_note	getSnote() const	{ return fThisSNote; }
         float getNoteHeadDy(string fCurClef) const;
         std::string getNoteheadType() const;
+    
+        bool printObject() const {return shouldPrint; }
 
 		/*!
 		\brief Compute the note MIDI pitch.
@@ -190,7 +194,7 @@ class EXP notevisitor :
 		virtual void visitStart( S_duration& elt )		{ if (fInNote) fDuration = (int)(*elt); }
         virtual void visitStart( S_fermata& elt )		{ fFermata = elt; }
 		virtual void visitStart( S_grace& elt )			{ fGrace = true; }
-		virtual void visitStart( S_instrument& elt )	{ if (fInNote) fInstrument = elt->getValue(); }
+		virtual void visitStart( S_instrument& elt )	{ if (fInNote) fInstrument = elt->getAttributeValue("id"); }
 		virtual void visitStart( S_note& elt );
 		virtual void visitStart( S_octave& elt )		{ if (fInNote) fOctave = (int)(*elt); }
 		virtual void visitStart( S_pitch& elt )			{ fType = kPitched; }
@@ -231,6 +235,7 @@ class EXP notevisitor :
         virtual void visitStart( S_up_bow& elt)  {fBowUp = elt;}
         virtual void visitStart( S_harmonic& elt)  {fHarmonic = elt;}
         virtual void visitStart( S_snap_pizzicato& elt)  {fSnapPizzicato = elt;}
+        virtual void visitStart( S_staccatissimo& elt)  {fStaccatissimo = elt;}
 
 	private:
 		bool	fGrace, fCue, fChord;
@@ -258,6 +263,8 @@ class EXP notevisitor :
         float fLyricsDy;
     
     S_note fThisSNote;
+    
+    bool shouldPrint;
 };
 
 EXP std::ostream& operator<< (std::ostream& os, const notevisitor& elt);

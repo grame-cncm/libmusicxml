@@ -16,6 +16,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 #include "exports.h"
 #include "smartpointer.h"
@@ -94,9 +95,44 @@ class EXP guidoelement : public smartable {
 		virtual bool isChord () const 		{ return false; }
 		virtual bool isTag () const 		{ return false; }
 		virtual bool isNote () const 		{ return false; }
+        virtual bool isRangeTag() const {
+            return fName.find("End") != std::string::npos || fName.find("Begin") != std::string::npos;
+        }
+        virtual bool isBeginTag() const {
+            return fName.find("Begin") != std::string::npos;
+        }
+        virtual bool isEndTag() const {
+            return fName.find("End") != std::string::npos;
+        }
 
 		int countNotes () const;
-
+    
+        /// Get next subelement
+        const bool getNext(Sguidoelement &i, Sguidoelement &next_e) const {
+            std::vector<Sguidoelement>::const_iterator e = find(fElements.begin(), fElements.end(), i);
+            if (e != fElements.end()) {
+                auto next = std::next(e);
+                if (next != fElements.end()) {
+                    next_e = *next;
+                    return true;
+                }
+            }
+            return false;
+        }
+    
+        const bool getPrev(Sguidoelement &i, Sguidoelement &next_e) const {
+            std::vector<Sguidoelement>::const_reverse_iterator e = find(fElements.rbegin(), fElements.rend(), i);
+            if (e != fElements.rend()) {
+                auto next = std::next(e);
+                if (next != fElements.rend()) {
+                    next_e = *next;
+                    return true;
+                }
+            }
+            return false;
+        }
+    
+    
     protected:
 				 guidoelement(std::string name, std::string sep=" ");
 		virtual ~guidoelement();

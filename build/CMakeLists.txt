@@ -2,7 +2,7 @@
 # CMAKE libmusicxml2
 #######################################
 project(libmusicxml2)
-cmake_minimum_required(VERSION 2.4)
+cmake_minimum_required(VERSION 3.4.0)
 if(CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_CONFIGURATION_TYPES Debug Release)
 endif()
@@ -11,7 +11,7 @@ endif()
 # versions management
 set (XMLVERSION 3.1)
 
-set (VERSION 3.1.9)
+set (VERSION 3.2.1)
 macro (get_major_minor_patch version)
 	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\1"  VERSION_MAJOR ${version} )
 	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\2"  VERSION_MINOR ${version} )
@@ -19,39 +19,38 @@ macro (get_major_minor_patch version)
 endmacro()
 get_major_minor_patch( ${VERSION} )
 set (SOVERS ${VERSION_MAJOR})
-set (STRVERS "v.3.17")
-set (SSTRVERS "3.17")
+set (STRVERS "v.3.21")
+set (SSTRVERS "3.21")
 message (STATUS "Configuring version ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
 
 #######################################
-option ( FMWK 		 "Generates a framework on MacOS by default"	off )
-option ( UNIVERSAL "Generates universal binaries"	off )
-option ( GDB 		   "Activates ggdb3 option"	off )
-option ( LILY 		 "Include lilypond part"	on )
-option ( BRL 		   "Include braille part"	  off )
+option ( FMWK   "Generates a framework on MacOS by default"	off )
+option ( GENTOOLS   "Generates tools"	 on )
+option ( GENSTATIC  "Generates the static library"   on )
+
+if (GENTOOLS)
+	message (STATUS "Generate tools (force required static library generation)")
+	set (GENSTATIC on)
+endif()
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 set (DOCDIR ${ROOT}/doc)
-set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf ${DOCDIR}/userSGuideToXml2ly/userSGuideToXml2ly.pdf ${DOCDIR}/maintainerSGuideToXml2ly/MaintainerSGuideToXml2ly.pdf)
-set (SCHEMA   ${ROOT}/dtds/${XMLVERSION})
+set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf)
+set (SCHEMA ${ROOT}/dtds/${XMLVERSION})
 
 set (BINDIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set (LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 
 #######################################
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 17)
 
 if(UNIX)
-  if (GDB)
-    add_definitions(-Wall -DGCC -ggdb3 -Wno-overloaded-virtual)
-  else()
-    add_definitions(-Wall -DGCC -O3 -Wno-overloaded-virtual)
-  endif()
+	add_definitions(-Wall -DGCC -O3 -Wno-overloaded-virtual)
 endif()
 
 
@@ -59,14 +58,17 @@ endif()
 # mac os specific part
 #########################################
 if(APPLE)
+	set (CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
+	set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "gnu++14")
 	if ( IOS )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
-		set (CMAKE_OSX_ARCHITECTURES "arm64") # unsupported on iOS 11.4.0: armv7 armv7s
+		#set (CMAKE_OSX_ARCHITECTURES "arm64 x86_64") # unsupported on iOS 11.4.0: armv7 armv7s
 		set (CMAKE_OSX_SYSROOT "iphoneos")
-		set (CMAKE_CXX_FLAGS "-miphoneos-version-min=11.2")
-		set (libtype STATIC)
-		set (FMWK "false")
+		set(IOS_DEPLOYMENT_TARGET 13.0)
+		#set (libtype STATIC)
+		set (FMWK "true")
+		set (CMAKE_MACOSX_RPATH 1)
 	elseif( UNIVERSAL )
 		message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")		
 		set (CMAKE_OSX_ARCHITECTURES "x86_64")
@@ -91,9 +93,6 @@ endif()
 set (SRCDIR  ${ROOT}/src)
 set (SAMPLEDIR ${ROOT}/samples)
 set (SRCFOLDERS  factory files elements guido lib operations parser visitors)
-if (LILY)
-	set (SRCFOLDERS  ${SRCFOLDERS}  interface lilypond)
-endif()
 
 foreach(folder ${SRCFOLDERS})
   set(SRC ${SRC} "${SRCDIR}/${folder}/*.cpp")          # add source files
@@ -103,14 +102,11 @@ foreach(folder ${SRCFOLDERS})
   set(HEADERS ${HEADERS} "${SRCDIR}/${folder}/*.h")    # add header files
 endforeach()
 
-if (NOT LILY)
-	message (STATUS "Lilypond part is not included, use -DLILY=yes to change")		
-	set(SRC ${SRC}  "${SRCDIR}/interface/libmusicxml.cpp" "${SRCDIR}/interface/musicxml2guido.cpp")
-	set(HEADERS $HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/musicxml2guido.h")
-	set (SRCFOLDERS  ${SRCFOLDERS}  interface)
-endif()
+set(SRC ${SRC}  "${SRCDIR}/interface/libmusicxml.cpp" "${SRCDIR}/interface/musicxml2guido.cpp")
+set(HEADERS $HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/musicxml2guido.h")
+set (SRCFOLDERS  ${SRCFOLDERS}  interface)
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
-file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS})
+file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS} "${SRCDIR}/elements/*H" "${SRCDIR}/visitors/*H" "${SRCDIR}/files/*H" "${SRCDIR}/parser/reader.h" "${SRCDIR}/lib/*H" "${SRCDIR}/guido/*H")
 
 foreach(folder ${SRCFOLDERS})
   set(INCL ${INCL} "${SRCDIR}/${folder}")        # add include folders
@@ -127,18 +123,25 @@ set_source_files_properties (${COREH} PROPERTIES HEADER_FILE_ONLY TRUE)
 if(WIN32 OR MSYS)
   enable_language(RC)
   set(LIBCONTENT ${CORESRC} ${COREH} ${ROOT}/win32/libmusicxml/libmusicxml.rc)
+  if (MINGW)
+	set(target musicxml)
+  else()
+	set(target libmusicxml)
+  endif()
 else()
   set(LIBCONTENT ${CORESRC} ${COREH})
+  set(target libmusicxml)
 endif()
 
-set(target musicxml2)
 set(staticlib musicxml2static)
 
 if (NOT IOS)
-add_library(${target} SHARED ${LIBCONTENT})
-set_target_properties (${target} PROPERTIES
+	add_library(${target} SHARED ${LIBCONTENT})
+	set_target_properties (${target} PROPERTIES
 			VERSION ${VERSION}
 			SOVERSION ${SOVERS}
+			RUNTIME_OUTPUT_DIRECTORY  ${LIBDIR}
+			RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
 			ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
 			ARCHIVE_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
@@ -147,9 +150,36 @@ set_target_properties (${target} PROPERTIES
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
+elseif(IOS)
+	add_library(${target} SHARED ${LIBCONTENT})
+	set_target_properties (${target} PROPERTIES
+			VERSION ${VERSION}
+			SOVERSION ${SOVERS}
+			FRAMEWORK ${FMWK}
+	  		FRAMEWORK_VERSION C
+			OUTPUT_NAME libmusicxml
+			RUNTIME_OUTPUT_DIRECTORY  ${LIBDIR}
+			RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
+			ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
+			ARCHIVE_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
+			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
+			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
+			XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET ${IOS_DEPLOYMENT_TARGET}
+			PUBLIC_HEADER "${COREH}" 	
+			MACOSX_FRAMEWORK_IDENTIFIER "com.grame.libmusicxml"
+			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
+			MACOSX_FRAMEWORK_BUNDLE_VERSION ${VERSION}
+			INSTALL_NAME_DIR "$(LOCAL_LIBRARY_DIR)/Frameworks"
+   			BUILD_WITH_INSTALL_NAME_DIR YES
+			#XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@executable_path/Frameworks"
+			XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH YES 
+			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
+			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO" 
+			XCODE_ATTRIBUTE_DEFINES_MODULE YES
+		)
 endif()
 
-if (NOT WIN32)
+if (NOT WIN32) #AND NOT IOS
 add_library(${staticlib} STATIC ${LIBCONTENT})
 set_target_properties (${staticlib} PROPERTIES
 			VERSION ${VERSION}
@@ -169,7 +199,9 @@ if (FMWK AND APPLE AND NOT IOS)
 set_target_properties (${target} PROPERTIES
       OUTPUT_NAME libmusicxml2
       FRAMEWORK ${FMWK}
-      FRAMEWORK_VERSION ${VERSION}
+	  FRAMEWORK_VERSION C
+	  MACOSX_FRAMEWORK_IDENTIFIER "com.grame.libmusicxml"
+	  XCODE_ATTRIBUTE_DEFINES_MODULE YES
       MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
       MACOSX_FRAMEWORK_BUNDLE_VERSION ${SSTRVERS}
       MACOSX_FRAMEWORK_IDENTIFIER ${target}
@@ -179,15 +211,7 @@ endif()
 #######################################
 # set sample targets
 set (SAMPLES xmlversion RandomMusic RandomChords xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
-set (TOOLS  xml2guido xmlread xmltranspose xmlversion)
-if (LILY)
-	set (SAMPLES ${SAMPLES} xml2ly)
-	set (TOOLS  ${TOOLS} xml2ly)
-endif()
-if (BRL)
-	set (SAMPLES ${SAMPLES} xml2brl)
-	set (TOOLS  ${TOOLS} xml2brl)
-endif()
+set (TOOLS  xml2guido xmlread xml2midi xmltranspose xmlversion)
 
 if (APPLE)
   set (LINKTO ${staticlib})
@@ -196,7 +220,7 @@ else()
 endif()
 
 
-if(NOT IOS )
+if(NOT IOS AND GENTOOLS)
 foreach(sample ${SAMPLES})
 	add_executable( ${sample} ${SAMPLEDIR}/${sample}.cpp )
 	target_link_libraries( ${sample} ${LINKTO})
@@ -227,13 +251,24 @@ else ()
   set (BINDEST bin)
 endif ()
 
+if (IOS)
+	install ( TARGETS ${INSTALLED}
+		RUNTIME DESTINATION ${BINDEST} 
+	    LIBRARY DESTINATION ${LIBDEST} 
+	    ARCHIVE DESTINATION ${LIBDEST} 
+	    FRAMEWORK DESTINATION lib CONFIGURATIONS Release
+	    PUBLIC_HEADER DESTINATION include/libmusicxml
+#	    PRIVATE_HEADER DESTINATION PrivateHeaders
+	)
+endif()
 
 if (NOT IOS)
 message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
-if (WIN32)
-	set (INSTALLED ${target})
-else()
-	set (INSTALLED ${target}  ${staticlib})
+set (INSTALLED ${target})
+if (NOT WIN32)
+if (GENSTATIC)
+	set (INSTALLED ${INSTALLED}  ${staticlib})
+endif()
 endif()
 install ( TARGETS ${INSTALLED}
 	RUNTIME DESTINATION ${BINDEST} 
@@ -243,11 +278,13 @@ install ( TARGETS ${INSTALLED}
     PUBLIC_HEADER DESTINATION include/libmusicxml
 )
 
+if (GENTOOLS)
 install ( TARGETS ${TOOLS}
     RUNTIME DESTINATION ${BINDEST}
     LIBRARY DESTINATION ${LIBDEST}
     ARCHIVE DESTINATION ${LIBDEST}
 )
+endif()
 
 ####################################
 # install misc files
@@ -274,23 +311,11 @@ install (
     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
 )
 
-
 ####################################
 # install VS redistributables
-if (WIN32)
-if (${CMAKE_GENERATOR} STREQUAL "Visual Studio 14 2015 Win64")
-	set (VS "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/redist/x64/Microsoft.VC140.CRT")
-elseif (${CMAKE_GENERATOR} STREQUAL "Visual Studio 15 2017 Win64")
-	set (VS "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Redist/MSVC/14.16.27012/x64/Microsoft.VC141.CRT")
-else()
-	set (VS "/unknown/visual/studio/version")
+if (MSVC)
+  include (InstallRequiredSystemLibraries)
 endif()
-install (
-    FILES  "${VS}/msvcp140.dll" "${VS}/vcruntime140.dll" DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-)
-endif()
-
 
 ####################################
 # cpack section

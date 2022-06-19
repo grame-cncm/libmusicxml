@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "notevisitor.h"
+#include "timePositions.h"
 #include "smartlist.h"
 
 namespace MusicXML2
@@ -38,11 +39,17 @@ namespace MusicXML2
 class EXP partsummary : 
 	public notevisitor,
 	public visitor<S_part>,
+    public visitor<S_measure>,
     public visitor<S_staves>,
-	public visitor<S_print>
+    public visitor<S_divisions>,
+    public visitor<S_backup>,
+    public visitor<S_forward>,
+    public visitor<S_print>,
+    public visitor<S_direction>
 {
 	public:
-				 partsummary() : fStavesCount(1) {};
+				 partsummary() : fStavesCount(1) {
+                 };
 		virtual	~partsummary() {};
 		
 		//! returns the number of staves for the part
@@ -71,13 +78,23 @@ class EXP partsummary :
 		int getVoiceNotes (int staffid, int voiceid) const;
     // staff distance from S_print
     std::map<int, int> fStaffDistances;
+    
+    MusicXMLTimePositions timePositions;
+    
+    // staves, measures (by string name) and their position in measure, mapped to LINE NUMBER for all Octave-Shift elements
+    std::map<int, std::map<std::string, std::map<rational, int>>> fOctavas;
 		
 	protected:
 		virtual void visitStart ( S_part& elt);
         virtual void visitStart ( S_staves& elt);
 		virtual void visitStart ( S_print& elt);
 		virtual void visitEnd   ( S_note& elt);
-		
+    virtual void visitStart ( S_backup& elt );
+    virtual void visitStart ( S_forward& elt );
+    virtual void visitStart ( S_divisions& elt );
+    virtual void visitStart ( S_measure& elt );
+    virtual void visitStart ( S_direction& elt );
+
 	private:
 		// count of staves (from the staves element)
 		int		fStavesCount;
@@ -88,6 +105,17 @@ class EXP partsummary :
 		// staves and corresponding voices + count of notes
 		std::map<int, std::map<int, int> >	fStaffVoices;
     
+    // Internal map for Voice-Position for on-going measure
+    std::map<int, rational>    fCurrentVoicedMeasurePosition;
+
+    
+    long    fCurrentDivision;        // the current measure division, expresses the time unit in division of the quarter note
+    S_measure fCurrentMeasure;
+    
+    void moveMeasureTime (long duration, int voice);
+    
+    rational getMeasureTime(int voice);
+    rational maxStaffTime(int staff);
 };
 
 /*! @} */

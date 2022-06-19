@@ -181,7 +181,13 @@ char doctypeStart[MAXLEN];
 char doctypePub[MAXLEN];
 char doctypeSys[MAXLEN];
 
+namespace MusicXML2
+{
 reader * gReader;
+
+} // namespace MUSICXML2
+
+using namespace MusicXML2;
 
 static void init (reader * r) {
 	gReader = r;

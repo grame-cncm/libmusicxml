@@ -27,16 +27,20 @@
 
 using namespace std;
 
+
 namespace MusicXML2
 {
+    int xml2guidovisitor::defaultStaffDistance = 0;
     
     //______________________________________________________________________________
-    xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar, int partNum) :
+    xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar, int partNum, int beginMeasure, int endMeasure, int endMeasureOffset) :
     fGenerateComments(generateComments), fGenerateStem(generateStem),
     fGenerateBars(generateBar), fGeneratePositions(true),
-    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum), defaultStaffDistance(0), defaultGuidoStaffDistance(1)
+    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum),
+    fBeginMeasure(beginMeasure), fEndMeasure(endMeasure), fEndMeasureOffset(endMeasureOffset), fTotalMeasures(0)
+    , fTotalDuration(0.0)
     {
-        timePositions.clear();
+        fPartsAvailable = 0;
     }
     
     //______________________________________________________________________________
@@ -125,7 +129,6 @@ namespace MusicXML2
     
     void xml2guidovisitor::flushPartGroup (std::string partID)
     {
-        //cerr<< "Entering flushPartGroup with ID "<<partID<<endl;
         /// Add groupings (accolade and barformat)
         // search if this part ID exists in any grouping
         // Guido Limitation: One \accol tag per staff ONLY (for nested definitions)
@@ -135,19 +138,24 @@ namespace MusicXML2
         if (partGroupIt != NULL && partGroupIt->guidoRange.size()>0)
         {
             /// something was found. Generate Accolades and BarFormat if any
+            int rangeStart = fCurrentStaffIndex ;
+            int rangeEnd = rangeStart + (partGroupIt->guidoRangeStop - partGroupIt->guidoRangeStart);
+            std::stringstream rangeFixed;
+            rangeFixed << " range=\""<< rangeStart <<"-"<<rangeEnd<<"\"";
             
             if (partGroupIt->bracket)
             {
-                std::string accolParams = "id=1, range="+partGroupIt->guidoRange;
+                std::stringstream accolParams;
+                accolParams << "id=1, "<< rangeFixed.str();
                 
                 Sguidoelement tag3 = guidotag::create("accol");
-                tag3->add (guidoparam::create(accolParams, false));
+                tag3->add (guidoparam::create(accolParams.str(), false));
                 add (tag3);
             }
             
             if (partGroupIt->barlineGrouping)
             {
-                std::string barformatParams = "style= \"system\", range="+partGroupIt->guidoRange;
+                std::string barformatParams = "style= \"system\", "+rangeFixed.str();
                 
                 Sguidoelement tag4 = guidotag::create("barFormat");
                 tag4->add (guidoparam::create(barformatParams, false));
@@ -168,20 +176,7 @@ namespace MusicXML2
     
     void xml2guidovisitor::visitStart( S_defaults& elt)
     {
-        defaultStaffDistance = elt->getIntValue(k_staff_distance, 0);
-        
-        // Convert to HS
-        /// Guido's default staff-distance seems to be 10HS or 50 tenths
-        if (defaultStaffDistance > 0) {
-            float xmlDistance = defaultStaffDistance - 50.0;
-            float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
-            if (HalfSpaceDistance < 0.0) {
-                defaultGuidoStaffDistance = HalfSpaceDistance;
-            }else
-                defaultGuidoStaffDistance = 0;
-        }else {
-            defaultGuidoStaffDistance = 0;
-        }
+        xml2guidovisitor::defaultStaffDistance = elt->getIntValue(k_staff_distance, 0);
     }
     
     //______________________________________________________________________________
@@ -193,6 +188,10 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xml2guidovisitor::visitStart ( S_part& elt )
     {
+        currentPart = elt->getAttributeValue("id");
+        stavesInPart[currentPart] = 1;
+        fPartsAvailable++;
+        
         // Filter out score-part here
         if (fPartNum != 0) {
             std::stringstream s;
@@ -211,10 +210,8 @@ namespace MusicXML2
         int targetStaff = 0xffff;	// initialized to a value we'll unlikely encounter
         bool notesOnly = false;
         rational currentTimeSign (0,1);
-        
-        staffClefMap.clear();
-        //timePositions.clear();
-        
+        std::vector<int> processedDirections;
+                
         // browse the parts voice by voice: allows to describe voices that spans over several staves
         for (unsigned int i = 0; i < voices->size(); i++) {
             int targetVoice = (*voices)[i];
@@ -226,8 +223,6 @@ namespace MusicXML2
                 notesOnly = false;
                 targetStaff = mainstaff;
                 fCurrentStaffIndex++;
-                /// Clear timePositions so that we only track voices on a specific Staff
-                timePositions.clear();
             }
             
             Sguidoelement seq = guidoseq::create();
@@ -242,32 +237,12 @@ namespace MusicXML2
             tag = guidotag::create(autoHideTiedAccidentals);
             add(tag);
                         
-            //// Add staffFormat if needed
-            // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
+            /// Add staffFormat if needed
+            // We do not infer default staff distance from musicXML since no software seem to be able to control it!
             int stafflines = elt->getIntValue(k_staff_lines, 0);
-            
-            if ((previousStaffHasLyrics)||stafflines||defaultGuidoStaffDistance||ps.fStaffDistances.size())
+            if (stafflines)
             {
                 Sguidoelement tag2 = guidotag::create("staffFormat");
-                if (previousStaffHasLyrics)
-                {
-                    tag2->add (guidoparam::create("dy=-5", false));
-                }else if (ps.fStaffDistances.size()> size_t(targetStaff-1)) {
-                    
-                    if (ps.fStaffDistances[targetStaff-1] > 0) {
-                        float xmlDistance = ps.fStaffDistances[targetStaff-1] - 50.0;
-                        float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
-                    
-                        stringstream s;
-                        s << "dy="<< HalfSpaceDistance;
-                        tag2->add (guidoparam::create(s.str().c_str(), false));
-                    }
-                }else if (defaultGuidoStaffDistance) {
-                    stringstream s;
-                    s << "dy="<< defaultGuidoStaffDistance;
-                    tag2->add (guidoparam::create(s.str().c_str(), false));
-                }
-                
                 if (stafflines>0)
                 {
                     stringstream staffstyle;
@@ -276,7 +251,6 @@ namespace MusicXML2
                 }
                 add (tag2);
             }
-            ////
             
             flushHeader (fHeader);
             flushPartHeader (fPartHeaders[elt->getAttributeValue("id")]);
@@ -315,22 +289,31 @@ namespace MusicXML2
                     add (tag4);
                 }
             }
-            
-            ////
-            
+                        
             //// Browse XML and convert
-            xmlpart2guido pv(fGenerateComments, fGenerateStem, fGenerateBars);
+            xmlpart2guido pv(fGenerateComments, fGenerateStem, fGenerateBars, fBeginMeasure, fEndMeasure, fEndMeasureOffset);
             pv.generatePositions (fGeneratePositions);
             xml_tree_browser browser(&pv);
             pv.initialize(seq, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
-            pv.staffClefMap = staffClefMap;
-            pv.timePositions = timePositions;
+            pv.octavas = ps.fOctavas[targetStaff];
+            pv.processedDirections = processedDirections;
+            pv.timePositions = ps.timePositions;
             browser.browse(*elt);
             pop();
             currentTimeSign = pv.getTimeSign();
             previousStaffHasLyrics = pv.hasLyrics();
-            staffClefMap = pv.staffClefMap;
-            timePositions = pv.timePositions;
+            fBeginPosition = pv.fStartPosition;
+            fEndPosition = pv.fEndPosition;
+            processedDirections.insert(processedDirections.end(), pv.processedDirections.begin(), pv.processedDirections.end());
+            
+            if (pv.lastMeasureNumber() > fTotalMeasures) {
+                fTotalMeasures = pv.lastMeasureNumber();
+            }
+            measurePositionMap = pv.measurePositionMap;
+            
+            if (pv.totalPartDuration() > fTotalDuration) {
+                fTotalDuration = pv.totalPartDuration();
+            }
         }
     }
     
@@ -419,6 +402,20 @@ namespace MusicXML2
             tag->add (guidoparam::create(s.str(), false));
         }
     }
+
+void xml2guidovisitor::addRelativeX(Sxmlelement elt, Sguidoelement& tag, float xoffset){
+    float posx = elt->getAttributeFloatValue("relative-x", 0.0);
+    if (posx == 0.0) {
+        return;
+    }
+    posx = (posx / 10) * 2;   // convert to half spaces
+    posx += xoffset;
+    
+    stringstream s;
+    s << "dx=" << posx << "hs";
+    tag->add (guidoparam::create(s.str(), false));
+    
+}
     
     void xml2guidovisitor::addPlacement	( Sxmlelement elt, Sguidoelement& tag)
     {
@@ -468,6 +465,103 @@ namespace MusicXML2
             tag->add (guidoparam::create(s.str(), false));
         }
     }
+
+void xml2guidovisitor::visitStart ( S_staves& elt)
+{
+    stavesInPart[currentPart] = int(*elt);
+}
+
+void xml2guidovisitor::visitEnd ( S_clef& elt )
+{
+    std::string key;
+    if(clefvisitor::fSign == "G" && clefvisitor::fLine == 2 && clefvisitor::fOctaveChange == 0) {
+        key = "g2";
+    }else if(clefvisitor::fSign == "G" && clefvisitor::fLine == 2 && clefvisitor::fOctaveChange == -1) {
+        key = "g-8";
+    }else if(clefvisitor::fSign == "G" && clefvisitor::fLine == 2 && clefvisitor::fOctaveChange == 1) {
+        key = "g+8";
+    }else if(clefvisitor::fSign == "F" && clefvisitor::fLine == 4 && clefvisitor::fOctaveChange == 0) {
+        key = "f4";
+    }else if(clefvisitor::fSign == "F" && clefvisitor::fLine == 4 && clefvisitor::fOctaveChange == -1) {
+        key = "f-8";
+    }else if(clefvisitor::fSign == "F" && clefvisitor::fLine == 4 && clefvisitor::fOctaveChange == 1) {
+        key = "f+8";
+    }else if(clefvisitor::fSign == "C" && clefvisitor::fLine == 3 && clefvisitor::fOctaveChange == 0) {
+        key = "alto";
+    }else if(clefvisitor::fSign == "C" && clefvisitor::fLine == 4 && clefvisitor::fOctaveChange == 0) {
+        key = "tenor";
+    }else{
+        key = "unknown";
+    }
+    clefsInPart[currentPart].insert(key);
+}
+
+int  xml2guidovisitor::getTransposeInstrumentChromatic () {
+    // The chromatic element, representing the number of chromatic steps to add to the written pitch, is the one required element. The diatonic, octave-change, and double elements are optional elements.
+    return fChromatic + (transposevisitor::fOctaveChange * 12);
+}
+
+std::string xml2guidovisitor::getTransposeInstrumentName() {
+    switch (fChromatic) {
+        case -2:
+            return "Bb";
+            break;
+            
+        case -3:
+            return "A";
+            break;
+            
+        case -5:
+            return "G";
+            break;
+            
+        case 3:
+            return "Eb";
+            break;
+            
+        case 2:
+            return "D";
+            break;
+            
+        default:
+            return "C";
+            break;
+    }
+}
+
+int xml2guidovisitor::getStavesForFirstPart() {
+    return stavesInPart.begin()->second;
+}
+
+std::vector<std::string> xml2guidovisitor::getAllClefsOfFirstPart() {
+    std::set<string> clefsSet = clefsInPart.begin()->second;
+    std::vector<string> clefsVector(clefsSet.begin(), clefsSet.end());
+    return clefsVector;
+}
+
+
+int xml2guidovisitor::getTotalStaves() {
+    int totalStaves = 0;
+    for (auto&& e : stavesInPart) {
+        totalStaves += e.second;
+    }
+    return totalStaves;
+}
+
+int xml2guidovisitor::getTotalMeasures() {
+    return fTotalMeasures;
+}
+
+std::map<double, int> xml2guidovisitor::getMeasureMap() {
+    return measurePositionMap;
+}
     
+double xml2guidovisitor::getTotalDuration() {
+    return fTotalDuration;
+}
+
+int xml2guidovisitor::getPartsAvailable() {
+    return fPartsAvailable;
+}
 }
 

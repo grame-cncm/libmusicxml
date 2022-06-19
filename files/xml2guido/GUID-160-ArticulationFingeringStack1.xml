@@ -1,0 +1,1587 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.1">
+  <movement-title>Stack articulations II</movement-title>
+  <identification>
+    <rights>www.antescofo.com</rights>
+    <encoding>
+      <software>Finale v25 for Mac</software>
+      <encoding-date>2020-02-19</encoding-date>
+      <supports attribute="new-system" element="print" type="yes" value="yes"/>
+      <supports attribute="new-page" element="print" type="yes" value="yes"/>
+      <supports element="accidental" type="yes"/>
+      <supports element="beam" type="yes"/>
+      <supports element="stem" type="yes"/>
+    </encoding>
+  </identification>
+  <defaults>
+    <scaling>
+      <millimeters>6.4514</millimeters>
+      <tenths>40</tenths>
+    </scaling>
+    <page-layout>
+      <page-height>1842</page-height>
+      <page-width>1302</page-width>
+      <page-margins type="both">
+        <left-margin>93</left-margin>
+        <right-margin>93</right-margin>
+        <top-margin>93</top-margin>
+        <bottom-margin>93</bottom-margin>
+      </page-margins>
+    </page-layout>
+    <system-layout>
+      <system-margins>
+        <left-margin>0</left-margin>
+        <right-margin>0</right-margin>
+      </system-margins>
+      <system-distance>156</system-distance>
+      <top-system-distance>62</top-system-distance>
+    </system-layout>
+    <appearance>
+      <line-width type="stem">0.7487</line-width>
+      <line-width type="beam">5</line-width>
+      <line-width type="staff">0.7487</line-width>
+      <line-width type="light barline">0.7487</line-width>
+      <line-width type="heavy barline">5</line-width>
+      <line-width type="leger">0.7487</line-width>
+      <line-width type="ending">0.7487</line-width>
+      <line-width type="wedge">0.7487</line-width>
+      <line-width type="enclosure">0.7487</line-width>
+      <line-width type="tuplet bracket">0.7487</line-width>
+      <note-size type="grace">60</note-size>
+      <note-size type="cue">60</note-size>
+      <distance type="hyphen">120</distance>
+      <distance type="beam">8</distance>
+    </appearance>
+    <music-font font-family="Maestro,engraved" font-size="18.3"/>
+    <word-font font-family="Times New Roman" font-size="9.1"/>
+    <lyric-font font-family="Finale Lyrics" font-size="9.1"/>
+  </defaults>
+  <credit page="1">
+    <credit-type>rights</credit-type>
+    <credit-words default-x="651" default-y="62" font-size="12" font-style="italic" justify="center" valign="bottom">www.antescofo.com</credit-words>
+  </credit>
+  <part-list>
+    <score-part id="P1">
+      <part-name print-object="no">Violin</part-name>
+      <part-abbreviation print-object="no">Vn.</part-abbreviation>
+      <score-instrument id="P1-I1">
+        <instrument-name>ARIA Player</instrument-name>
+        <instrument-sound>strings.violin</instrument-sound>
+        <solo/>
+        <virtual-instrument/>
+      </score-instrument>
+      <midi-device>ARIA Player</midi-device>
+      <midi-instrument id="P1-I1">
+        <midi-channel>1</midi-channel>
+        <midi-program>1</midi-program>
+        <volume>80</volume>
+        <pan>-63</pan>
+      </midi-instrument>
+    </score-part>
+  </part-list>
+  <!--=========================================================-->
+  <part id="P1">
+    <measure number="1" width="618">
+      <print>
+        <system-layout>
+          <top-system-distance>248</top-system-distance>
+        </system-layout>
+        <measure-numbering>system</measure-numbering>
+      </print>
+      <attributes>
+        <divisions>4</divisions>
+        <key>
+          <fifths>3</fifths>
+          <mode>major</mode>
+        </key>
+        <time symbol="common">
+          <beats>4</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+      <sound tempo="120"/>
+      <note default-x="136">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="48.5">up</stem>
+        <notations>
+          <technical>
+            <fingering default-x="8" default-y="60" placement="above">1</fingering>
+          </technical>
+          <articulations>
+            <staccato default-x="3" default-y="-37" placement="below"/>
+          </articulations>
+        </notations>
+      </note>
+      <note default-x="136">
+        <chord/>
+        <pitch>
+          <step>A</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+      </note>
+      <note default-x="196">
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="18">up</stem>
+        <notations>
+          <articulations>
+            <accent default-x="0" default-y="-55" placement="below"/>
+          </articulations>
+          <technical>
+            <fingering default-x="8" default-y="23" placement="above">2</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="256">
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="23">up</stem>
+        <notations>
+          <articulations>
+            <staccato default-x="3" default-y="-27" placement="below"/>
+          </articulations>
+        </notations>
+      </note>
+      <note default-x="316">
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="29">up</stem>
+        <notations>
+          <articulations>
+            <staccato default-x="8" default-y="36" placement="above"/>
+            <tenuto default-x="6" default-y="43" placement="above"/>
+          </articulations>
+        </notations>
+      </note>
+      <note default-x="377">
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="34">up</stem>
+        <notations>
+          <technical>
+            <fingering default-x="4" default-y="65" placement="above">0</fingering>
+            <up-bow default-x="1" default-y="40" placement="above"/>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="437">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="38.5">up</stem>
+        <notations>
+          <ornaments>
+            <trill-mark default-x="6" default-y="55" placement="above"/>
+          </ornaments>
+          <technical>
+            <down-bow default-x="8" default-y="73" placement="above"/>
+            <fingering default-x="2" default-y="100" placement="above">5</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="497">
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="43.5">up</stem>
+        <notations>
+          <articulations>
+            <tenuto default-x="3" default-y="-5" placement="below"/>
+          </articulations>
+          <technical>
+            <up-bow default-x="8" default-y="53" placement="above"/>
+            <fingering default-x="11" default-y="89" placement="above">4</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="557">
+        <pitch>
+          <step>A</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="48.5">up</stem>
+        <notations>
+          <articulations>
+            <staccato default-x="2" default-y="-7" placement="below"/>
+          </articulations>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="2" width="498">
+      <note default-x="17">
+        <pitch>
+          <step>A</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="48.5">up</stem>
+        <notations>
+          <articulations>
+            <accent default-x="3" default-y="56" placement="above"/>
+          </articulations>
+          <ornaments>
+            <trill-mark default-x="3" default-y="82" placement="above"/>
+          </ornaments>
+        </notations>
+      </note>
+      <note default-x="76">
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="43.5">up</stem>
+        <notations>
+          <articulations>
+            <tenuto default-x="1" default-y="-5" placement="below"/>
+          </articulations>
+          <technical>
+            <fingering default-x="8" default-y="50" placement="above">1</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="136">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="38.5">up</stem>
+        <notations>
+          <technical>
+            <up-bow default-x="8" default-y="46" placement="above"/>
+            <fingering default-x="7" default-y="71" placement="above">1</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="197">
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="34">up</stem>
+        <notations>
+          <technical>
+            <fingering default-x="10" default-y="38" placement="above">0</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="257">
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="29">up</stem>
+        <notations>
+          <ornaments>
+            <inverted-mordent default-x="0" default-y="38" placement="above"/>
+          </ornaments>
+          <technical>
+            <down-bow default-x="8" default-y="55" placement="above"/>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="317">
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="23">up</stem>
+        <notations>
+          <articulations>
+            <staccato default-x="3" default-y="-27" placement="below"/>
+          </articulations>
+        </notations>
+      </note>
+      <note default-x="378">
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="18">up</stem>
+        <notations>
+          <articulations>
+            <tenuto default-x="2" default-y="-35" placement="below"/>
+          </articulations>
+          <ornaments>
+            <trill-mark default-x="5" default-y="28" placement="above"/>
+          </ornaments>
+        </notations>
+      </note>
+      <note default-x="438">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="13.5">up</stem>
+        <notations>
+          <technical>
+            <fingering default-x="8" default-y="24" placement="above">0</fingering>
+          </technical>
+          <fermata default-x="0" default-y="44" type="upright"/>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="3" width="1116">
+      <print new-system="yes">
+        <system-layout>
+          <system-distance>216</system-distance>
+        </system-layout>
+      </print>
+      <note default-x="103">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-38">down</stem>
+        <notations>
+          <articulations>
+            <staccato default-x="5" default-y="11" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="3" default-y="29" placement="above">0</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="230">
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-43">down</stem>
+        <notations>
+          <technical>
+            <up-bow default-x="2" default-y="5" placement="above"/>
+            <fingering default-x="2" default-y="30" placement="above">2</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="357">
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-48">down</stem>
+        <notations>
+          <articulations>
+            <tenuto default-x="0" default-y="5" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="2" default-y="22" placement="above">1</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="483">
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-53">down</stem>
+        <notations>
+          <articulations>
+            <staccato default-x="3" default-y="3" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="1" default-y="15" placement="above">0</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="610">
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-58.5">down</stem>
+        <notations>
+          <articulations>
+            <staccato default-x="3" default-y="-7" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="2" default-y="8" placement="above">2</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="736">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-63">down</stem>
+        <notations>
+          <articulations>
+            <tenuto default-x="0" default-y="-15" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="2" default-y="-7" placement="above">1</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="862">
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-68">down</stem>
+        <notations>
+          <ornaments>
+            <inverted-mordent default-x="-3" default-y="4" placement="above"/>
+          </ornaments>
+          <technical>
+            <fingering default-x="2" default-y="24" placement="above">4</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="989">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-73">down</stem>
+        <notations>
+          <fermata default-x="-4" default-y="25" type="upright"/>
+          <articulations>
+            <accent placement="above"/>
+            <tenuto placement="above"/>
+          </articulations>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="4" width="1116">
+      <print new-system="yes">
+        <system-layout>
+          <system-distance>216</system-distance>
+        </system-layout>
+      </print>
+      <note default-x="101">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="13">up</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <articulations>
+            <accent default-x="0" default-y="-56" placement="below"/>
+          </articulations>
+          <ornaments>
+            <mordent default-x="5" default-y="18" placement="above"/>
+          </ornaments>
+        </notations>
+      </note>
+      <note default-x="224">
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="12">up</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <articulations>
+            <tenuto default-x="2" default-y="-49" placement="below"/>
+          </articulations>
+          <technical>
+            <fingering default-x="7" default-y="18" placement="above">1</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="347">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="12">up</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <technical>
+            <up-bow default-x="8" default-y="18" placement="above"/>
+            <fingering default-x="8" default-y="43" placement="above">1</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="470">
+        <pitch>
+          <step>E</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="11">up</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <technical>
+            <fingering default-x="7" default-y="17" placement="above">0</fingering>
+          </technical>
+          <articulations>
+            <staccato default-x="1" default-y="-52" placement="below"/>
+          </articulations>
+        </notations>
+      </note>
+      <note default-x="593">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="11">up</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <ornaments>
+            <inverted-mordent default-x="0" default-y="19" placement="above"/>
+          </ornaments>
+          <technical>
+            <down-bow default-x="5" default-y="38" placement="above"/>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="716">
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="9.5">up</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <articulations>
+            <staccato default-x="3" default-y="-62" placement="below"/>
+          </articulations>
+          <technical>
+            <fingering default-x="7" default-y="15" placement="above">3</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="839">
+        <pitch>
+          <step>B</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="9">up</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <articulations>
+            <tenuto default-x="0" default-y="-70" placement="below"/>
+          </articulations>
+          <ornaments>
+            <trill-mark default-x="5" default-y="18" placement="above"/>
+          </ornaments>
+          <technical>
+            <fingering default-x="2" default-y="37" placement="above">5</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="962">
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem default-y="8.5">up</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">begin</beam>
+        <notations>
+          <technical>
+            <fingering default-x="8" default-y="17" placement="above">0</fingering>
+          </technical>
+          <articulations>
+            <staccato default-x="4" default-y="-72" placement="below"/>
+          </articulations>
+        </notations>
+      </note>
+      <note default-x="1038">
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem default-y="8">up</stem>
+        <beam number="1">end</beam>
+        <beam number="2">end</beam>
+        <notations>
+          <fermata default-x="-5" default-y="18" type="upright"/>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="5" width="1116">
+      <print new-system="yes">
+        <system-layout>
+          <system-distance>252</system-distance>
+        </system-layout>
+      </print>
+      <note default-x="103">
+        <pitch>
+          <step>A</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-33">down</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <articulations>
+            <staccato default-x="4" default-y="20" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="3" default-y="35" placement="above">2</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="230">
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-35">down</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <technical>
+            <up-bow default-x="2" default-y="15" placement="above"/>
+            <fingering default-x="2" default-y="39" placement="above">4</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="357">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-38">down</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <articulations>
+            <tenuto default-x="1" default-y="12" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="2" default-y="28" placement="above">2</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="483">
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-58">down</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <articulations>
+            <staccato default-x="3" default-y="-7" placement="below"/>
+          </articulations>
+          <technical>
+            <fingering default-x="3" default-y="15" placement="above">0</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="610">
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-59">down</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <articulations>
+            <staccato default-x="3" default-y="3" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="3" default-y="13" placement="above">2</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="736">
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-60.5">down</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <articulations>
+            <tenuto default-x="0" default-y="-5" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="2" default-y="5" placement="above">1</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="862">
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-61.5">down</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <ornaments>
+            <inverted-mordent default-x="-5" default-y="0" placement="above"/>
+          </ornaments>
+          <technical>
+            <fingering default-x="2" default-y="22" placement="above">0</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="989">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-62.5">down</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <fermata default-x="-4" default-y="25" type="upright"/>
+          <articulations>
+            <accent placement="above"/>
+            <tenuto placement="above"/>
+          </articulations>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="6" width="599">
+      <print new-system="yes">
+        <system-layout>
+          <system-distance>215</system-distance>
+        </system-layout>
+      </print>
+      <note default-x="101">
+        <pitch>
+          <step>E</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-78">down</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <technical>
+            <fingering default-x="3" default-y="3" placement="above">1</fingering>
+            <fingering default-x="5" default-y="21" placement="above">2</fingering>
+            <fingering default-x="5" default-y="37" placement="above">5</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="101">
+        <chord/>
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="101">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="163">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-76">down</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <technical>
+            <fingering default-x="3" default-y="5" placement="above">2</fingering>
+            <fingering default-x="3" default-y="23" placement="above">4</fingering>
+            <fingering default-x="4" default-y="39" placement="above">1</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="163">
+        <chord/>
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="163">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="225">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-74.5">down</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <technical>
+            <fingering default-x="4" default-y="28" placement="above">3</fingering>
+            <fingering default-x="4" default-y="45" placement="above">5</fingering>
+            <fingering default-x="2" default-y="10" placement="above">1</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="225">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="225">
+        <chord/>
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="287">
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-73">down</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <articulations>
+            <tenuto default-x="1" default-y="16" placement="above"/>
+            <strong-accent default-x="3" default-y="23" placement="above" type="up"/>
+          </articulations>
+        </notations>
+      </note>
+      <note default-x="287">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="287">
+        <chord/>
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="349">
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-48">down</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <articulations>
+            <staccato default-x="3" default-y="25" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="3" default-y="33" placement="above">5</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="349">
+        <chord/>
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="349">
+        <chord/>
+        <pitch>
+          <step>B</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="412">
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-46">down</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <articulations>
+            <accent default-x="-1" default-y="30" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="2" default-y="51" placement="above">1</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="412">
+        <chord/>
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="412">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>6</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="474">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-44.5">down</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <articulations>
+            <tenuto default-x="1" default-y="46" placement="above"/>
+          </articulations>
+          <technical>
+            <up-bow default-x="2" default-y="54" placement="above"/>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="474">
+        <chord/>
+        <pitch>
+          <step>B</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="474">
+        <chord/>
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>6</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="536">
+        <pitch>
+          <step>A</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-43">down</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <articulations>
+            <tenuto default-x="1" default-y="66" placement="above"/>
+          </articulations>
+        </notations>
+      </note>
+      <note default-x="536">
+        <chord/>
+        <pitch>
+          <step>E</step>
+          <octave>6</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="536">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>7</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="7" width="517">
+      <note default-x="16">
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-43">down</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <articulations>
+            <staccato default-x="3" default-y="60" placement="above"/>
+          </articulations>
+          <ornaments>
+            <inverted-mordent default-x="-4" default-y="65" placement="above"/>
+          </ornaments>
+        </notations>
+      </note>
+      <note default-x="16">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>6</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="16">
+        <chord/>
+        <pitch>
+          <step>B</step>
+          <octave>6</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="78">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-44.5">down</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <articulations>
+            <staccato default-x="3" default-y="45" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="3" default-y="53" placement="above">3</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="78">
+        <chord/>
+        <pitch>
+          <step>B</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="78">
+        <chord/>
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>6</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="139">
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-46">down</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <articulations>
+            <tenuto default-x="0" default-y="31" placement="above"/>
+            <accent default-x="-1" default-y="36" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="2" default-y="57" placement="above">0</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="139">
+        <chord/>
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="139">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>6</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="189">
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-48">down</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <articulations>
+            <tenuto default-x="13" default-y="16" placement="above"/>
+          </articulations>
+          <fermata default-x="5" default-y="25" type="upright"/>
+        </notations>
+      </note>
+      <note default-x="201">
+        <chord/>
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="201">
+        <chord/>
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="250">
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-78">down</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <arpeggiate default-x="-9"/>
+          <technical>
+            <fingering default-x="14" default-y="25" placement="above">2</fingering>
+            <fingering default-x="15" default-y="40" placement="above">3</fingering>
+            <fingering default-x="15" default-y="56" placement="above">5</fingering>
+            <down-bow default-x="13" default-y="71" placement="above"/>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="262">
+        <chord/>
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+        <notations>
+          <arpeggiate default-x="-9"/>
+        </notations>
+      </note>
+      <note default-x="262">
+        <chord/>
+        <pitch>
+          <step>B</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+        <notations>
+          <arpeggiate default-x="-9"/>
+        </notations>
+      </note>
+      <note default-x="323">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-79.5">down</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <technical>
+            <up-bow default-x="0" default-y="50" placement="above"/>
+            <fingering default-x="2" default-y="35" placement="above">4</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="323">
+        <chord/>
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="323">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>6</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="384">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-81">down</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <articulations>
+            <staccato default-x="3" default-y="15" placement="above"/>
+            <accent default-x="0" default-y="22" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="2" default-y="15" placement="above">5</fingering>
+            <fingering default-x="2" default-y="45" placement="above">2</fingering>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="384">
+        <chord/>
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="384">
+        <chord/>
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="446">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-83">down</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <articulations>
+            <tenuto default-x="0" default-y="-5" placement="above"/>
+          </articulations>
+          <technical>
+            <fingering default-x="2" default-y="7" placement="above">1</fingering>
+            <fingering default-x="3" default-y="23" placement="above">3</fingering>
+            <fingering default-x="3" default-y="40" placement="above">4</fingering>
+          </technical>
+          <fermata default-x="-6" default-y="57" type="upright"/>
+        </notations>
+      </note>
+      <note default-x="446">
+        <chord/>
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <note default-x="446">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+    </measure>
+  </part>
+  <!--=========================================================-->
+</score-partwise>
