@@ -213,7 +213,7 @@ endif()
 #######################################
 # set sample targets
 set (SAMPLES xmlversion RandomMusic RandomChords xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
-set (TOOLS  xml2guido xmlread xmltranspose xmlversion)
+set (TOOLS  xml2guido xmlread xml2midi xmltranspose xmlversion)
 
 if (APPLE)
   set (LINKTO ${staticlib})
