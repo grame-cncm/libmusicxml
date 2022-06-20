@@ -10,7 +10,7 @@ LIBDIR ?= libdir
 IOSDIR ?= iosdir
 MAKEFILE ?= Makefile
 
-VERSION = 3.21
+VERSION = 3.22
 
 CMAKEOPT ?= 
 TOOLS := xml2midi xmlread xml2guido xmlversion
