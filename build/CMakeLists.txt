@@ -32,7 +32,7 @@ option ( GENTOOLS   "Generates tools"	 on )
 option ( GENSTATIC  "Generates the static library"   on )
 
 if (GENTOOLS)
-	message (STATUS "Generate tools (force required static library generation)")
+	message (STATUS "Generate tools (forces static library generation)")
 	set (GENSTATIC on)
 endif()
 
@@ -103,10 +103,11 @@ foreach(folder ${SRCFOLDERS})
 endforeach()
 
 set(SRC ${SRC}  "${SRCDIR}/interface/libmusicxml.cpp" "${SRCDIR}/interface/musicxml2guido.cpp")
-set(HEADERS $HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/musicxml2guido.h")
+set(HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/exports.h")
 set (SRCFOLDERS  ${SRCFOLDERS}  interface)
+
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
-file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS} "${SRCDIR}/elements/*H" "${SRCDIR}/visitors/*H" "${SRCDIR}/files/*H" "${SRCDIR}/parser/reader.h" "${SRCDIR}/lib/*H" "${SRCDIR}/guido/*H")
+file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS} "${SRCDIR}/elements/*.h" "${SRCDIR}/visitors/*.h" "${SRCDIR}/files/*.h" "${SRCDIR}/parser/reader.h" "${SRCDIR}/lib/*.h" "${SRCDIR}/guido/*.h")
 
 foreach(folder ${SRCFOLDERS})
   set(INCL ${INCL} "${SRCDIR}/${folder}")        # add include folders
@@ -146,7 +147,7 @@ if (NOT IOS)
 			ARCHIVE_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
-			PUBLIC_HEADER "${COREH}"
+			PUBLIC_HEADER "${HEADERS}"
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
@@ -165,7 +166,7 @@ elseif(IOS)
 			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
 			XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET ${IOS_DEPLOYMENT_TARGET}
-			PUBLIC_HEADER "${COREH}" 	
+			PUBLIC_HEADER "${HEADERS}" 	
 			MACOSX_FRAMEWORK_IDENTIFIER "com.grame.libmusicxml"
 			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
 			MACOSX_FRAMEWORK_BUNDLE_VERSION ${VERSION}
@@ -188,7 +189,7 @@ set_target_properties (${staticlib} PROPERTIES
 			ARCHIVE_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
-			PUBLIC_HEADER "${COREH}"
+			PUBLIC_HEADER "${HEADERS}"
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 			OUTPUT_NAME musicxml2
