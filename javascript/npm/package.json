@@ -1,6 +1,6 @@
 {
   "name": "@grame/libmusicxml",
-  "version": "3.21.0",
+  "version": "3.22.0",
   "description": "A library to support the MusicXML format.",
   "main": "libmusicxml.js",
   "directories": {
