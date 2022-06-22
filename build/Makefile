@@ -10,7 +10,7 @@ LIBDIR ?= libdir
 IOSDIR ?= iosdir
 MAKEFILE ?= Makefile
 
-VERSION = 3.21
+VERSION = 3.22
 
 CMAKEOPT ?= 
 TOOLS := xml2midi xmlread xml2guido xmlversion
@@ -116,7 +116,7 @@ localinstall:
 PACKDIR := ../packages
 PACK := $(PACKDIR)/libmusicxml2-$(VERSION)
 package:
-	$(MAKE) $(NATIVEPACK)
+	cmake --build $(LIBDIR) --config Release --target package
 
 winpack:
 	$(MAKE) win64
@@ -124,8 +124,6 @@ winpack:
 	mv win64/libmusicxml-*.exe .
 
 macpack: $(PACKDIR)/README.html
-	$(MAKE) cmake CMAKEOPT="-DLILY=on -DBRL=on -DFMWK=off"
-	$(MAKE) macos
 	-[ -d $(PACK) ] && rm -rf $(PACK)
 	$(MAKE) install PREFIX=../$(PACK)
 	hdiutil create $(PACK).dmg -fs HFS+ -srcfolder $(PACK) -format UDBZ -ov

@@ -11,7 +11,7 @@ endif()
 # versions management
 set (XMLVERSION 3.1)
 
-set (VERSION 3.2.1)
+set (VERSION 3.2.2)
 macro (get_major_minor_patch version)
 	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\1"  VERSION_MAJOR ${version} )
 	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\2"  VERSION_MINOR ${version} )
@@ -32,16 +32,14 @@ option ( GENTOOLS   "Generates tools"	 on )
 option ( GENSTATIC  "Generates the static library"   on )
 
 if (GENTOOLS)
-	message (STATUS "Generate tools (force required static library generation)")
+	message (STATUS "Generate tools (forces static library generation)")
 	set (GENSTATIC on)
 endif()
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 set (DOCDIR ${ROOT}/doc)
-set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf 
-			${DOCDIR}/userSGuideToXml2ly/userSGuideToXml2ly.pdf 
-			${DOCDIR}/maintainerSGuideToXml2ly/MaintainerSGuideToXml2ly.pdf)
+set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf)
 set (SCHEMA ${ROOT}/dtds/${XMLVERSION})
 
 set (BINDIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
@@ -105,10 +103,11 @@ foreach(folder ${SRCFOLDERS})
 endforeach()
 
 set(SRC ${SRC}  "${SRCDIR}/interface/libmusicxml.cpp" "${SRCDIR}/interface/musicxml2guido.cpp")
-set(HEADERS $HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/musicxml2guido.h")
+set(HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/exports.h")
 set (SRCFOLDERS  ${SRCFOLDERS}  interface)
+
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
-file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS} "${SRCDIR}/elements/*H" "${SRCDIR}/visitors/*H" "${SRCDIR}/files/*H" "${SRCDIR}/parser/reader.h" "${SRCDIR}/lib/*H" "${SRCDIR}/guido/*H")
+file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS} "${SRCDIR}/elements/*.h" "${SRCDIR}/visitors/*.h" "${SRCDIR}/files/*.h" "${SRCDIR}/parser/reader.h" "${SRCDIR}/lib/*.h" "${SRCDIR}/guido/*.h")
 
 foreach(folder ${SRCFOLDERS})
   set(INCL ${INCL} "${SRCDIR}/${folder}")        # add include folders
@@ -148,7 +147,7 @@ if (NOT IOS)
 			ARCHIVE_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
-			PUBLIC_HEADER "${COREH}"
+			PUBLIC_HEADER "${HEADERS}"
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
@@ -167,7 +166,7 @@ elseif(IOS)
 			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
 			XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET ${IOS_DEPLOYMENT_TARGET}
-			PUBLIC_HEADER "${COREH}" 	
+			PUBLIC_HEADER "${HEADERS}" 	
 			MACOSX_FRAMEWORK_IDENTIFIER "com.grame.libmusicxml"
 			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
 			MACOSX_FRAMEWORK_BUNDLE_VERSION ${VERSION}
@@ -190,7 +189,7 @@ set_target_properties (${staticlib} PROPERTIES
 			ARCHIVE_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
-			PUBLIC_HEADER "${COREH}"
+			PUBLIC_HEADER "${HEADERS}"
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 			OUTPUT_NAME musicxml2
@@ -213,7 +212,7 @@ endif()
 #######################################
 # set sample targets
 set (SAMPLES xmlversion RandomMusic RandomChords xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
-set (TOOLS  xml2guido xmlread xmltranspose xmlversion)
+set (TOOLS  xml2guido xmlread xml2midi xmltranspose xmlversion)
 
 if (APPLE)
   set (LINKTO ${staticlib})

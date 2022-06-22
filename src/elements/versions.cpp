@@ -15,8 +15,8 @@
 namespace MusicXML2
 {
 //______________________________________________________________________________
-float   versions::libVersion()        { return 3.21f; }
-const char* versions::libVersionStr()     { return "3.21"; }
+float   versions::libVersion()        { return 3.22f; }
+const char* versions::libVersionStr()     { return "3.22"; }
 
 float   versions::xml2guidoVersion()    { return 3.2f; }
 const char* versions::xml2guidoVersionStr()   { return "3.2"; }
