@@ -37,8 +37,13 @@ float MusicXMLTimePositions::getDxForElement(MusicXML2::xmlelement *element, dou
 
     if (timePos4measure != timePositions.end()) {
         auto it = find(timePos4measure->second, voiceId, staff, finalPosition);
+        int lastVoiceId = voiceId - 1;
+        auto lastIt = find(timePos4measure->second, lastVoiceId, staff, position);
+
         if (it != timePos4measure->second.end()) {
             float minXPos = getDefaultX(*it);
+            float lastMinXPos = lastMinXPos = getDefaultX(*lastIt);
+
             //if (xpos != minXPos) {
             int finalDx = (relative_x/10)*2;
             // apply default-x ONLY if it exists
@@ -48,10 +53,13 @@ float MusicXMLTimePositions::getDxForElement(MusicXML2::xmlelement *element, dou
             }
             else if (xmlOffset != 0) {
                 finalDx += ( (default_x - minXPos)/ 10 ) * 2;   // convert to half spaces
-            }else {
-                return -999;
             }
-                
+            // Fix the multi-voice, the overlapping problem of two adjacent voices
+            if(lastMinXPos != 0 && finalDx == 0 && default_x > lastMinXPos ){
+                finalDx += (int)( (default_x - lastMinXPos)/ 10 ) * 2;
+                if(finalDx > 2)finalDx = 0;
+            }
+   
             return finalDx;
         }
     }
