@@ -12,7 +12,7 @@ MAKEFILE ?= Makefile
 
 VERSION = 3.22
 
-CMAKEOPT ?= 
+CMAKEOPTS ?= 
 TOOLS := xml2midi xmlread xml2guido xmlversion
 
 all :
@@ -35,7 +35,7 @@ help :
 	@echo "   package   create the libmusicxml-$(VERSION) package"
 	@echo 	
 	@echo "Options:"
-	@echo "   CMAKEOPT  cmake options passed to cmake by the 'cmake' target"
+	@echo "   CMAKEOPTS  cmake options passed to cmake by the 'cmake' target"
 	@echo "   GENERATOR the cmake generator. Currently '$(GENERATOR)'"
 	@echo "   LIBDIR      the generation folder. Currently '$(LIBDIR)'"
 	@echo "   MSVC      [Windows only] the windows generator. Currently '$(MSVC)'"
@@ -65,7 +65,7 @@ wasm:
 
 #===============================================================
 minimal:
-	$(MAKE) cmake CMAKEOPT="-DGENTOOLS=off -DGENSTATIC=off"
+	$(MAKE) cmake CMAKEOPTS="-DGENTOOLS=off -DGENSTATIC=off"
 	$(CMAKE) --build $(LIBDIR) --config Release
 
 #===============================================================
@@ -76,7 +76,7 @@ ios :
 
 #===============================================================
 cmake : $(LIBDIR)
-	cd $(LIBDIR) && $(CMAKE) .. $(CMAKEOPT)
+	cd $(LIBDIR) && $(CMAKE) .. $(CMAKEOPTS)
 
 #===============================================================
 # building the library for Android
