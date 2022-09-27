@@ -62,13 +62,12 @@ if(APPLE)
 	set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "gnu++14")
 	if ( IOS )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
-		set (CMAKE_OSX_DEPLOYMENT_TARGET "iOS")			# set to avoid using CMAKE_OSX_SYSROOT
-#		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")  
+		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")  
 		#set (CMAKE_OSX_ARCHITECTURES "arm64 x86_64") 	# unsupported on iOS 11.4.0: armv7 armv7s
 #		set (CMAKE_OSX_SYSROOT "iPhoneOS")				# don't know any generic way to address sysroot on ios
 		set(IOS_DEPLOYMENT_TARGET 13.0)
 		#set (libtype STATIC)
-		set (FMWK "true")
+		set (FMWK "false")
 		set (CMAKE_MACOSX_RPATH 1)
 	elseif( UNIVERSAL )
 		message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")		
@@ -153,13 +152,10 @@ if (NOT IOS)
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
 elseif(IOS)
-	add_library(${target} SHARED ${LIBCONTENT})
+	add_library(${target} STATIC ${LIBCONTENT})
 	set_target_properties (${target} PROPERTIES
 			VERSION ${VERSION}
-			SOVERSION ${SOVERS}
-			FRAMEWORK ${FMWK}
-	  		FRAMEWORK_VERSION C
-			OUTPUT_NAME libmusicxml
+			OUTPUT_NAME musicxml2
 			RUNTIME_OUTPUT_DIRECTORY  ${LIBDIR}
 			RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
 			ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
@@ -167,13 +163,6 @@ elseif(IOS)
 			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
 			XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET ${IOS_DEPLOYMENT_TARGET}
-			PUBLIC_HEADER "${HEADERS}" 	
-			MACOSX_FRAMEWORK_IDENTIFIER "com.grame.libmusicxml"
-			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
-			MACOSX_FRAMEWORK_BUNDLE_VERSION ${VERSION}
-			INSTALL_NAME_DIR "$(LOCAL_LIBRARY_DIR)/Frameworks"
-   			BUILD_WITH_INSTALL_NAME_DIR YES
-			#XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@executable_path/Frameworks"
 			XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH YES 
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO" 
@@ -181,7 +170,7 @@ elseif(IOS)
 		)
 endif()
 
-if (NOT WIN32) #AND NOT IOS
+if (NOT WIN32 AND NOT IOS)
 add_library(${staticlib} STATIC ${LIBCONTENT})
 set_target_properties (${staticlib} PROPERTIES
 			VERSION ${VERSION}
