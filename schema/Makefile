@@ -1,5 +1,6 @@
 
-schema 		?= 3.1/musicxml.xsd
+# schema 		?= 3.1/musicxml.xsd
+schema 		?= 4.0/schema/musicxml.xsd
 template	:= ../src/elements/templates
 
 ifeq ($(MEI), on)
