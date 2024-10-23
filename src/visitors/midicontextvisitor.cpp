@@ -175,6 +175,7 @@ void midicontextvisitor::playNote (const notevisitor& note)
 		if (vel == notevisitor::kUndefinedDynamics) vel = fCurrentDynamics;
 
 		int tie = note.getTie();
+		int midiPitch = (int)note.getMidiPitch();  // Use raw MIDI pitch as map key
 		long date = note.inChord() ? fLastPosition : fCurrentDate;
 		if (note.isGrace()) {		// grace notes
 			dur = fTPQ / 6;			// have no duration - set to an arbitrary value
@@ -186,13 +187,16 @@ void midicontextvisitor::playNote (const notevisitor& note)
 			fMidiWriter->newNote(date, chan, note.getMidiPitch(), vel, dur);
 		}
 		else if (tie & StartStop::start) {
-			fPendingDuration += dur;
+			// Start of tie or continutation of tie - accumulate duration for this specific pitch
+            fPendingDurations[midiPitch] += dur;
 			return;
 		}
 		else if (tie == StartStop::stop) {
-			dur += fPendingDuration;
+			if (fPendingDurations.count(midiPitch)) {  // check if we have a pending duration for this pitch
+                dur += fPendingDurations[midiPitch];  // add duration to pending duration for this pitch
+                fPendingDurations.erase(midiPitch);  // clear pending duration
+            }
 			fMidiWriter->newNote(date, chan, note.getMidiPitch(), vel, dur);
-			fPendingDuration = 0;
 		}
 	}
 	// finally adjust the current date
@@ -253,7 +257,8 @@ void midicontextvisitor::visitEnd ( S_transpose& elt )		{ fTranspose = fChromati
 //________________________________________________________________________
 void midicontextvisitor::visitStart ( S_part& elt )
 {
-    fCurrentDate = fLastPosition = fPendingDuration = 0;
+    fCurrentDate = fLastPosition = 0;
+	fPendingDurations.clear();
     fEndMeasureDate = fEndPartDate = 0;
     fTranspose = 0;
     fDivisions = 1;

@@ -153,7 +153,7 @@ class EXP midicontextvisitor :
  		long		fDivisions;			// current division
         long		fCurrentDate;		// current date
         long		fLastPosition;		// last time position (used for chord)
-		long		fPendingDuration;	// pending duration (used for tied notes)
+		std::map<int, long> fPendingDurations;  // map of pitch -> pending duration,(used for tied notes)
         long		fCurrentDynamics;	// current dynamics ie MIDI velocity
         long		fTranspose;			// current transpose value
 		long		fTPQ;				// ticks-per-quater value for date conversion
