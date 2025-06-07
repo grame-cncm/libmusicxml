@@ -1,8 +1,8 @@
+cmake_minimum_required(VERSION 3.5.0)
 #######################################
 # CMAKE libmusicxml2
 #######################################
 project(libmusicxml2)
-cmake_minimum_required(VERSION 3.4.0)
 if(CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_CONFIGURATION_TYPES Debug Release)
 endif()

@@ -29,7 +29,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-template <typename T> class EXP treeIterator : public std::iterator<std::input_iterator_tag, T>
+template <typename T> class EXP treeIterator //: public std::iterator<std::input_iterator_tag, T>
 {
 	protected:
 		typedef typename std::vector<T>::iterator nodes_iterator;
@@ -40,6 +40,12 @@ template <typename T> class EXP treeIterator : public std::iterator<std::input_i
 		nodes_iterator		fCurrentIterator;
 
 	public:
+    using iterator_category = std::forward_iterator_tag;
+    using value_type = int;
+    using difference_type = int;
+    using pointer = int*;
+    using reference = int&;
+
 				 treeIterator() {}
 				 treeIterator(const T& t, bool end=false) {
 					 fRootElement = t;
